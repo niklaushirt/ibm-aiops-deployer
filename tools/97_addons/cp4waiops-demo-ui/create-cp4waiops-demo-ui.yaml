@@ -1,0 +1,87 @@
+---
+apiVersion: v1                     
+kind: Namespace
+metadata:
+  name: ibmaiops-demo-ui
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmaiops-demo-ui
+  namespace: ibmaiops-demo-ui
+  labels:
+      app: ibmaiops-demo-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibmaiops-demo-ui
+  template:
+    metadata:
+      labels:
+        app: ibmaiops-demo-ui
+    spec:
+      containers:
+      - image: quay.io/niklaushirt/ibmaiops-demo-ui:2.0
+        imagePullPolicy: Always
+        name: ibmaiops-demo-ui
+        command:
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "50Mi"
+          limits:
+            cpu: "550m"
+            memory: "550Mi"
+          readinessProbe:                 
+            failureThreshold: 9           
+            httpGet:                      
+              path: /health          
+              port: 8000                  
+              scheme: HTTP           
+            initialDelaySeconds: 60       
+            periodSeconds: 10             
+            successThreshold: 1           
+            timeoutSeconds: 3
+        envFrom:
+        - configMapRef:
+            name:  ibmaiops-demo-ui-config
+        - configMapRef:
+            name:  ibmaiops-demo-ui-config-events
+        - configMapRef:
+            name:  ibmaiops-demo-ui-config-logs
+        - configMapRef:
+            name:  ibmaiops-demo-ui-config-metrics
+      serviceAccountName: ibmaiops-demo-ui-admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibmaiops-demo-ui-service
+  namespace: ibmaiops-demo-ui
+spec:
+  selector:
+    app: ibmaiops-demo-ui
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name:  ibmaiops-demo-ui
+  namespace: ibmaiops-demo-ui
+spec:
+  to:
+    kind: Service
+    name: ibmaiops-demo-ui-service
+    weight: 100
+  port:
+    targetPort: 8000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Allow
+  wildcardPolicy: None

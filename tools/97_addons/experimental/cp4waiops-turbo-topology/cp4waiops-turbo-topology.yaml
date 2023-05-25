@@ -1,0 +1,90 @@
+---
+apiVersion: v1                     
+kind: Namespace
+metadata:
+  name: ibmaiops-incident-pusher
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ibmaiops-incident-pusher-default-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: ibmaiops-incident-pusher
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ibmaiops-incident-pusher-pvc
+  namespace: ibmaiops-incident-pusher
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 32Mi
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmaiops-incident-pusher
+  namespace: ibmaiops-incident-pusher
+  labels:
+      app:  ibmaiops-incident-pusher
+spec:
+  serviceAccountName: ibmaiops-incident-pusher
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  ibmaiops-incident-pusher
+  template:
+    metadata:
+      labels:
+        app:  ibmaiops-incident-pusher
+    spec:
+      containers:
+      - image: quay.io/niklaushirt/ibmaiops-incident-pusher:0.8
+        imagePullPolicy: Always
+        name: gateway
+        command:
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "50Mi"
+          limits:
+            cpu: "550m"
+            memory: "550Mi"
+        volumeMounts:
+          - mountPath: /home/app/db
+            name: ibmaiops-incident-pusher-store
+        env:
+          - name: DEBUG_ME
+            value : "False"
+          - name: SEND_DISCORD
+            value : "True"
+          - name: SEND_MAIL
+            value : "False"
+          - name: DISCORD_WEBHOOK
+            value : "https://discord.com/api/webhooks/aaaaaa/dddddddddd"
+          - name: MAIL_USER
+            value : "toto"
+          - name: MAIL_PWD
+            value : "toto"
+          - name: MIN_RANK
+            value : "3"
+          - name: POLL_DELAY
+            value : "5"
+      volumes:
+        - persistentVolumeClaim:
+            claimName: ibmaiops-incident-pusher-pvc
+          name: ibmaiops-incident-pusher-store
+
+

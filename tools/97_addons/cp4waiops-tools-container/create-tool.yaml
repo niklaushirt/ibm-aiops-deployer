@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibmaiops-tools
+  namespace: default
+  labels:
+      app: ibmaiops-tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ibmaiops-tools
+  template:
+    metadata:
+      labels:
+        app: ibmaiops-tools
+    spec:
+      containers:
+      - image: quay.io/niklaushirt/ibmaiops-tools:2.0
+        imagePullPolicy: IfNotPresent
+        name: tools
+        command:
+        ports:
+        - containerPort: 22
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "50Mi"
+          limits:
+            cpu: "250m"
+            memory: "250Mi"
+        env:
+          - name: INSTALL_REPO
+            value : "https://github.com/niklaushirt/ibmaiops-deployer.git"
+
