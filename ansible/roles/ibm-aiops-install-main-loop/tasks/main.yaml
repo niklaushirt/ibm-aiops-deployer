@@ -53,29 +53,29 @@
     verbosity: 1
 
 # Get OpenShift cluster associated with this IBMAIOPS project
-- name: Get OpenShift definition to use for {{ current_ibm-aiops_cluster.project }}
+- name: Get OpenShift definition to use for {{ current_ibmaiops_cluster.project }}
   include_role: 
     name: get-openshift-cluster
   vars:
-    _p_openshift_cluster_name: "{{ current_ibm-aiops_cluster.openshift_cluster_name | default('') }}"
+    _p_openshift_cluster_name: "{{ current_ibmaiops_cluster.openshift_cluster_name | default('') }}"
 - name: 🟣  Show Openshift Config
   debug:
     var: _current_openshift_cluster
     verbosity: 1
 
 # Get default storage classes for current OpenShift cluster
-- name: Get OpenShift storage classes to use for {{ current_ibm-aiops_cluster.project }} and storage name {{ current_ibm-aiops_cluster.openshift_storage_name }}
+- name: Get OpenShift storage classes to use for {{ current_ibmaiops_cluster.project }} and storage name {{ current_ibmaiops_cluster.openshift_storage_name }}
   include_role: 
     name: get-openshift-storage
   vars:
     _p_openshift_cluster_name: "{{ _current_openshift_cluster.name }}"
-    _p_openshift_storage_name: "{{ current_ibm-aiops_cluster.openshift_storage_name | default('') }}"
+    _p_openshift_storage_name: "{{ current_ibmaiops_cluster.openshift_storage_name | default('') }}"
 
 # Loop over all instances
-- name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibm-aiops_cluster.project}}
+- name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibmaiops_cluster.project}}
   include_role:
     name: ibm-aiops-install-modules-loop
-  loop: "{{ current_ibm-aiops_cluster.instances}}"
+  loop: "{{ current_ibmaiops_cluster.instances}}"
   loop_control:
-    loop_var: current_ibm-aiops_feature
+    loop_var: current_ibmaiops_feature
 

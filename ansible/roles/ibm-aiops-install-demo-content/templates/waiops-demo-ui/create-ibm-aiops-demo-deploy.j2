@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ibm-aiops-demo-ui
-  namespace: {{current_ibm-aiops_cluster.project}}-demo-ui
+  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
   labels:
       app: ibm-aiops-demo-ui
 spec:
@@ -58,7 +58,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ibm-aiops-demo-ui-service
-  namespace: {{current_ibm-aiops_cluster.project}}-demo-ui
+  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
 spec:
   selector:
     app: ibm-aiops-demo-ui
@@ -71,7 +71,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name:  ibm-aiops-demo-ui
-  namespace: {{current_ibm-aiops_cluster.project}}-demo-ui
+  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
 spec:
   to:
     kind: Service

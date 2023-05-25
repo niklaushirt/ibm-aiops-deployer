@@ -2,7 +2,7 @@ apiVersion: consoleui.aiops.ibm.com/v1
 kind: InsightsUI
 metadata:
   name: insightsui-instance
-  namespace: {{ current_ibm-aiops_cluster.project }}
+  namespace: {{ current_ibmaiops_cluster.project }}
 spec:
   license:
     accept: true
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aiops-insights-ui-datarouting
-  namespace: {{ current_ibm-aiops_cluster.project }}
+  namespace: {{ current_ibmaiops_cluster.project }}
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

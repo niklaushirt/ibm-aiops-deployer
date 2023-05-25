@@ -35,7 +35,7 @@
 - name: 📝 Initialize Logging
   shell: |
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    mv ../install_{{current_ibm-aiops_feature.kind}}.log ../install_{{current_ibm-aiops_feature.kind}}.log$currentDate
-    echo "" > ../install_{{current_ibm-aiops_feature.kind}}.log
+    mv ../install_{{current_ibmaiops_feature.kind}}.log ../install_{{current_ibmaiops_feature.kind}}.log$currentDate
+    echo "" > ../install_{{current_ibmaiops_feature.kind}}.log
   ignore_errors: true
 

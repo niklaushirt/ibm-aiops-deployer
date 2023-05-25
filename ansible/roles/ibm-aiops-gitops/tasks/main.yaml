@@ -28,7 +28,7 @@
  
 
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibm-aiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -36,7 +36,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -45,18 +45,18 @@
 
 
 
-- name: 🟣 Installing {{current_ibm-aiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ibmaiops_feature.kind}} with the following configuration
   debug:
-    var: current_ibm-aiops_feature
+    var: current_ibmaiops_feature
 
 
 # - name:  🟣 Installation Parameters"
 #   debug:
 #     msg:
 #     - "** Installation Options ***********************************************************************"
-#     - " Storage Class File Override:      {{ current_ibm-aiops_feature.storage_class_file}}"
-#     - " Storage Class Block Override:     {{ current_ibm-aiops_feature.storage_class_block}}"
-#     - " Storage Class InfraManagement:    {{ current_ibm-aiops_feature.storage_class_file}}"
+#     - " Storage Class File Override:      {{ current_ibmaiops_feature.storage_class_file}}"
+#     - " Storage Class Block Override:     {{ current_ibmaiops_feature.storage_class_block}}"
+#     - " Storage Class InfraManagement:    {{ current_ibmaiops_feature.storage_class_file}}"
 #     - ""
 
 
@@ -102,7 +102,7 @@
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ibm-aiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
 
@@ -111,7 +111,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

@@ -10,8 +10,8 @@
   shell: |
     export MESSAGE="Create Seasonality an XinY Grouping Training Definition"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -25,7 +25,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibm-aiops_feature.kind}} - Create Seasonality an XinY Grouping Training Definition'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Seasonality an XinY Grouping Training Definition'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -40,7 +40,7 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Alert seasonality detection"
-    export FILE_NAME=create-analysis-SEASON{{current_ibm-aiops_feature.training_suffix | default("") }}.graphql
+    export FILE_NAME=create-analysis-SEASON{{current_ibmaiops_feature.training_suffix | default("") }}.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
     {{role_path}}/templates/training/scripts/execute-graphql.sh
 
@@ -66,7 +66,7 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Alert suppression XinY policies"
-    export FILE_NAME=create-analysis-XINY{{current_ibm-aiops_feature.training_suffix | default("") }}.graphql
+    export FILE_NAME=create-analysis-XINY{{current_ibmaiops_feature.training_suffix | default("") }}.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
     {{role_path}}/templates/training/scripts/execute-graphql.sh
 

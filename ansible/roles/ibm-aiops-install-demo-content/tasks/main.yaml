@@ -44,7 +44,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
  
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibm-aiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -52,7 +52,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -76,7 +76,7 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
-      text: 'Installing  {{current_ibm-aiops_feature.kind}} - {{global_config.environment_name | default("Demo")}} - '    
+      text: 'Installing  {{current_ibmaiops_feature.kind}} - {{global_config.environment_name | default("Demo")}} - '    
       link:
           href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs   
@@ -95,14 +95,14 @@
   debug:
     msg:
     - "***********************************************************************************************"
-    - " 🚀 Installing {{current_ibm-aiops_feature.kind}}"
+    - " 🚀 Installing {{current_ibmaiops_feature.kind}}"
     - "***********************************************************************************************"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 STORAGE"
-    - "     💾 Installation Options for SPECIFIC MODULE   {{ current_ibm-aiops_feature.kind}}"
-    - "        Storage Class File Override:              {{ current_ibm-aiops_feature.storage_class_file | default('no override') }}"
-    - "        Storage Class Block Override:             {{ current_ibm-aiops_feature.storage_class_block | default('no override') }}"
-    - "        Storage Class InfraManagement:            {{ current_ibm-aiops_feature.storage_class_file | default('no override') }}"
+    - "     💾 Installation Options for SPECIFIC MODULE   {{ current_ibmaiops_feature.kind}}"
+    - "        Storage Class File Override:              {{ current_ibmaiops_feature.storage_class_file | default('no override') }}"
+    - "        Storage Class Block Override:             {{ current_ibmaiops_feature.storage_class_block | default('no override') }}"
+    - "        Storage Class InfraManagement:            {{ current_ibmaiops_feature.storage_class_file | default('no override') }}"
     - ""
     - "     💾 Installation Options from GLOBAL"
     - "        Storage Class File Override:              {{ ocp_storage_class_file | default('not defined') }}"
@@ -115,66 +115,66 @@
     - "      📝 Create Welcome Cards in IBM AIOps:       {{ global_config.create_cards  | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 TRAINING"
-    - "     ✅ Create Training for Temp Grouping:        {{current_ibm-aiops_feature.training_create_training_temporal}}"
-    - "     🔽 Load Data for Log Anomaly:                {{current_ibm-aiops_feature.training_load_data_logs}}"
-    - "     ✅ Create Training for Log Anomaly:          {{current_ibm-aiops_feature.training_create_training_logs}}"
-    - "     🚀 Run Training for Log Anomaly:             {{current_ibm-aiops_feature.training_run_training_logs}}"
-    - "     🔽 Load Data for Metric Anomaly:             {{current_ibm-aiops_feature.training_load_data_logs}}"
-    - "     ✅ Create Training for Metric Anomaly:       {{current_ibm-aiops_feature.training_create_training_metrics}}"
-    - "     🚀 Run Training for Metric Anomaly:          {{current_ibm-aiops_feature.training_run_training_metrics}}"
-    - "     🔽 Load Data for Similar Incidents:          {{current_ibm-aiops_feature.training_load_data_logs}}"
-    - "     ✅ Create Training for Similar Incidents:    {{current_ibm-aiops_feature.training_create_training_snow}}"
-    - "     🚀 Run Training for Similar Incidents:       {{current_ibm-aiops_feature.training_run_training_snow}}"
-    - "     ✅ Create Training for Season/XinY:          {{current_ibm-aiops_feature.training_create_training_experimental | default('not defined') }}"
+    - "     ✅ Create Training for Temp Grouping:        {{current_ibmaiops_feature.training_create_training_temporal}}"
+    - "     🔽 Load Data for Log Anomaly:                {{current_ibmaiops_feature.training_load_data_logs}}"
+    - "     ✅ Create Training for Log Anomaly:          {{current_ibmaiops_feature.training_create_training_logs}}"
+    - "     🚀 Run Training for Log Anomaly:             {{current_ibmaiops_feature.training_run_training_logs}}"
+    - "     🔽 Load Data for Metric Anomaly:             {{current_ibmaiops_feature.training_load_data_logs}}"
+    - "     ✅ Create Training for Metric Anomaly:       {{current_ibmaiops_feature.training_create_training_metrics}}"
+    - "     🚀 Run Training for Metric Anomaly:          {{current_ibmaiops_feature.training_run_training_metrics}}"
+    - "     🔽 Load Data for Similar Incidents:          {{current_ibmaiops_feature.training_load_data_logs}}"
+    - "     ✅ Create Training for Similar Incidents:    {{current_ibmaiops_feature.training_create_training_snow}}"
+    - "     🚀 Run Training for Similar Incidents:       {{current_ibmaiops_feature.training_run_training_snow}}"
+    - "     ✅ Create Training for Season/XinY:          {{current_ibmaiops_feature.training_create_training_experimental | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 TOPOLOGY"
-    - "     🈸 Install Demo Applications:                {{current_ibm-aiops_feature.install_demoapps}}"
-    - "     🈸 RobotShop Color (classic/white):          {{current_ibm-aiops_feature.robotshop_color | default('not defined - defaults to classic') }}"
-    - "     🛠️ Create Demo overlay topology:             {{current_ibm-aiops_feature.install_custom_topology}}"
-    - "     🛠️ Create Demo K8s Observers:                {{current_ibm-aiops_feature.install_demoapps_observer}}"
-    - "     🛠️ Create Demo Templates:                    {{current_ibm-aiops_feature.create_topology_templates}}"
-    - "     🈸 Create Demo App:                          {{current_ibm-aiops_feature.create_topology_apps}}"
+    - "     🈸 Install Demo Applications:                {{current_ibmaiops_feature.install_demoapps}}"
+    - "     🈸 RobotShop Color (classic/white):          {{current_ibmaiops_feature.robotshop_color | default('not defined - defaults to classic') }}"
+    - "     🛠️ Create Demo overlay topology:             {{current_ibmaiops_feature.install_custom_topology}}"
+    - "     🛠️ Create Demo K8s Observers:                {{current_ibmaiops_feature.install_demoapps_observer}}"
+    - "     🛠️ Create Demo Templates:                    {{current_ibmaiops_feature.create_topology_templates}}"
+    - "     🈸 Create Demo App:                          {{current_ibmaiops_feature.create_topology_apps}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 RUNBOOKS"
-    - "     ✅ Install AWX:                              {{current_ibm-aiops_feature.install_awx}}"
-    - "     ✅ Load AWX Playbooks:                       {{current_ibm-aiops_feature.load_awx_playbooks}}"
-    - "     ✅ Integrate AWX and IBM AIOps:              {{current_ibm-aiops_feature.integrate_awx}}"
-    - "     ✅ Load IBM AIOps Runbooks:                  {{current_ibm-aiops_feature.load_runbooks}}"
-    - "     ✅ Create Runbook Policy:                    {{current_ibm-aiops_feature.create_runbook_policy}}"
+    - "     ✅ Install AWX:                              {{current_ibmaiops_feature.install_awx}}"
+    - "     ✅ Load AWX Playbooks:                       {{current_ibmaiops_feature.load_awx_playbooks}}"
+    - "     ✅ Integrate AWX and IBM AIOps:              {{current_ibmaiops_feature.integrate_awx}}"
+    - "     ✅ Load IBM AIOps Runbooks:                  {{current_ibmaiops_feature.load_runbooks}}"
+    - "     ✅ Create Runbook Policy:                    {{current_ibmaiops_feature.create_runbook_policy}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 DEMO UI"
-    - "     ✅ Install Demo UI:                          {{current_ibm-aiops_feature.install_demo_ui}}"
-    - "     🌏 Slack URL:                                {{current_ibm-aiops_feature.demoui_slack_url}}"
-    - "     👩‍💻 Slack User:                               {{current_ibm-aiops_feature.demoui_slack_user}}"
-    - "     🔐 Slack Password:                           {{current_ibm-aiops_feature.demoui_slack_pwd}}"
-    - "     👩‍💻 IBM AIOps Demo User:                      {{current_ibm-aiops_feature.demoui_user}}"
-    - "     🔐 IBM AIOps Demo Password (override):       {{current_ibm-aiops_feature.demoui_pwd | default('not defined')}}"
-    - "     ❗ Admin Mode:                               {{current_ibm-aiops_feature.demoui_admin_mode}}"
+    - "     ✅ Install Demo UI:                          {{current_ibmaiops_feature.install_demo_ui}}"
+    - "     🌏 Slack URL:                                {{current_ibmaiops_feature.demoui_slack_url}}"
+    - "     👩‍💻 Slack User:                               {{current_ibmaiops_feature.demoui_slack_user}}"
+    - "     🔐 Slack Password:                           {{current_ibmaiops_feature.demoui_slack_pwd}}"
+    - "     👩‍💻 IBM AIOps Demo User:                      {{current_ibmaiops_feature.demoui_user}}"
+    - "     🔐 IBM AIOps Demo Password (override):       {{current_ibmaiops_feature.demoui_pwd | default('not defined')}}"
+    - "     ❗ Admin Mode:                               {{current_ibmaiops_feature.demoui_admin_mode}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 OUTPUT"
-    - "     🔐 Pring Logins:                             {{current_ibm-aiops_feature.print_logins}}"
-    - "     🌏 Open Web UIs:                             {{current_ibm-aiops_feature.open_web_ui}}"
+    - "     🔐 Pring Logins:                             {{current_ibmaiops_feature.print_logins}}"
+    - "     🌏 Open Web UIs:                             {{current_ibmaiops_feature.open_web_ui}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 LDAP"
-    - "     ✅ LDAP Install:                             {{current_ibm-aiops_feature.install_ldap}}"
-    - "     🌏 LDAP Domain:                              {{current_ibm-aiops_feature.ldap_domain}}"
-    - "     🌏 LDAP Base:                                {{current_ibm-aiops_feature.ldap_base}}"
-    - "     🔐 LDAP Admin Password (global override):    {{current_ibm-aiops_feature.ldap_admin_password  | default('not defined')}}"
-    - "     🔐 LDAP Users Password (global override):    {{current_ibm-aiops_feature.ldap_user_password  | default('not defined')}}"
-    - "     🚀 LDAP Register:                            {{current_ibm-aiops_feature.ldap_register}}"
+    - "     ✅ LDAP Install:                             {{current_ibmaiops_feature.install_ldap}}"
+    - "     🌏 LDAP Domain:                              {{current_ibmaiops_feature.ldap_domain}}"
+    - "     🌏 LDAP Base:                                {{current_ibmaiops_feature.ldap_base}}"
+    - "     🔐 LDAP Admin Password (global override):    {{current_ibmaiops_feature.ldap_admin_password  | default('not defined')}}"
+    - "     🔐 LDAP Users Password (global override):    {{current_ibmaiops_feature.ldap_user_password  | default('not defined')}}"
+    - "     🚀 LDAP Register:                            {{current_ibmaiops_feature.ldap_register}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 MISC PARAMETERS"
-    - "     🌏 Create external routes:                   {{current_ibm-aiops_feature.create_external_routes}}"
-    - "     🛠️ Create a valid ingress cert:              {{current_ibm-aiops_feature.create_valid_ingress_certificate}}"
-    - "     🛠️ Create Policy for Incident Creation:      {{current_ibm-aiops_feature.create_incident_policy}}"
-    - "     🛠️ Create Kafka Log connection:              {{current_ibm-aiops_feature.create_log_connection}}"
-    - "     🛠️ Create Service Account:                   {{current_ibm-aiops_feature.create_account}}"
-    - "     🛠️ Create Webhook Probe:                     {{current_ibm-aiops_feature.install_webhook_probe  | default('not defined')}}"
+    - "     🌏 Create external routes:                   {{current_ibmaiops_feature.create_external_routes}}"
+    - "     🛠️ Create a valid ingress cert:              {{current_ibmaiops_feature.create_valid_ingress_certificate}}"
+    - "     🛠️ Create Policy for Incident Creation:      {{current_ibmaiops_feature.create_incident_policy}}"
+    - "     🛠️ Create Kafka Log connection:              {{current_ibmaiops_feature.create_log_connection}}"
+    - "     🛠️ Create Service Account:                   {{current_ibmaiops_feature.create_account}}"
+    - "     🛠️ Create Webhook Probe:                     {{current_ibmaiops_feature.install_webhook_probe  | default('not defined')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 CONFIG"
-    - "  {{ current_ibm-aiops_feature}}"
+    - "  {{ current_ibmaiops_feature}}"
     - "***********************************************************************************************"
     - "***********************************************************************************************"
 
@@ -185,7 +185,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 Delete lingering Pods before check for reinstall
   shell: |
-    oc delete pod $(oc get po -n {{ current_ibm-aiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibm-aiops_cluster.project }} --ignore-not-found
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
   register: kubectl_get_pods
   ignore_errors: true
 
@@ -213,17 +213,17 @@
 # Install OpenLDAP
 - name: 🟡🟡🟡  Install OpenLDAP
   include_tasks: 21_addons-ldap.yaml
-  when: current_ibm-aiops_feature.install_ldap == true
+  when: current_ibmaiops_feature.install_ldap == true
 
 # Create Service Account and USER
 - name: 🟡🟡🟡  Create the Admin Service Account
   include_tasks: 22_addons-user.yaml
-  when: current_ibm-aiops_feature.create_account == true
+  when: current_ibmaiops_feature.create_account == true
 
 # Create Demo Apps (Robot-Shop)
 - name: 🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
-  when: current_ibm-aiops_feature.install_demoapps == true
+  when: current_ibmaiops_feature.install_demoapps == true
 
 
 
@@ -234,7 +234,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡  Create Routes
   include_tasks: 30_ibm-aiops-create-routes.yaml
-  when: current_ibm-aiops_feature.create_external_routes == true
+  when: current_ibmaiops_feature.create_external_routes == true
 
 
 
@@ -245,15 +245,15 @@
 # Load data
 - name: 🟡🟡🟡  Load SNOW Training Data
   include_tasks: 51_ibm-aiops-training-load-snow.yaml
-  when: current_ibm-aiops_feature.training_load_data_snow == true
+  when: current_ibmaiops_feature.training_load_data_snow == true
 
 - name: 🟡🟡🟡  Load LOGS Training Data
   include_tasks: 52_ibm-aiops-training-load-logs.yaml
-  when: current_ibm-aiops_feature.training_load_data_logs == true
+  when: current_ibmaiops_feature.training_load_data_logs == true
 
 - name: 🟡🟡🟡  Load METRICS Training Data
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
-  when: current_ibm-aiops_feature.training_load_data_metrics == true
+  when: current_ibmaiops_feature.training_load_data_metrics == true
 
 
 
@@ -266,19 +266,19 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡  Create Topology Observers
   include_tasks: 41_ibm-aiops-create-observers.yaml
-  when: current_ibm-aiops_feature.install_demoapps_observer == true
+  when: current_ibmaiops_feature.install_demoapps_observer == true
 
 - name: 🟡🟡🟡  Load Topology Merge Rules
   include_tasks: 42_ibm-aiops-load-topology-merge.yaml
-  when: current_ibm-aiops_feature.install_custom_topology == true
+  when: current_ibmaiops_feature.install_custom_topology == true
 
 - name: 🟡🟡🟡  Create Application Overlay Topology
   include_tasks: 43_ibm-aiops-create-topology.yaml
-  when: current_ibm-aiops_feature.install_custom_topology == true
+  when: current_ibmaiops_feature.install_custom_topology == true
 
 - name: 🟡🟡🟡  Disable Topology Match Rules
   include_tasks: 44_ibm-aiops-disable-match-token-rule.yaml
-  when: current_ibm-aiops_feature.install_custom_topology == true
+  when: current_ibmaiops_feature.install_custom_topology == true
 
 
 
@@ -287,7 +287,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡  Install AWX
   include_tasks: 24_addons-awx.yaml   
-  when: current_ibm-aiops_feature.install_awx == true
+  when: current_ibmaiops_feature.install_awx == true
   
 
 
@@ -296,11 +296,11 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡  Create Application Topology Templates
   include_tasks: 45_ibm-aiops-create-aiops-application-templates.yaml
-  when: current_ibm-aiops_feature.create_topology_templates == true
+  when: current_ibmaiops_feature.create_topology_templates == true
 
 - name: 🟡🟡🟡  Create Application Topology Application
   include_tasks: 45_ibm-aiops-create-aiops-application.yaml
-  when: current_ibm-aiops_feature.create_topology_apps == true
+  when: current_ibmaiops_feature.create_topology_apps == true
 
 
 
@@ -311,11 +311,11 @@
 # Register LDAP Users
 - name: 🟡🟡🟡  Register LDAP Server with IBM AIOPS
   include_tasks: 25-post-ldap-register.yaml
-  when: current_ibm-aiops_feature.install_ldap == true and current_ibm-aiops_feature.ldap_register == true
+  when: current_ibmaiops_feature.install_ldap == true and current_ibmaiops_feature.ldap_register == true
 # Create valid certificate for Ingress (for Slack)
 - name: 🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
   include_tasks: 31_ibm-aiops-patch-ingress.yaml
-  when: current_ibm-aiops_feature.create_valid_ingress_certificate == true
+  when: current_ibmaiops_feature.create_valid_ingress_certificate == true
 
 
 
@@ -329,20 +329,20 @@
 # Create Runbooks    
 - name: 🟡🟡🟡  Wait for AWX to become ready
   include_tasks: 46_ibm-aiops-wait-awx.yaml
-  when: current_ibm-aiops_feature.install_awx == true
+  when: current_ibmaiops_feature.install_awx == true
 
 - name: 🟡🟡🟡  Load Demo Playbooks into AWX
   include_tasks: 48_ibm-aiops-load-awx-playbooks-for-demo.yaml
-  when: current_ibm-aiops_feature.load_awx_playbooks == true 
+  when: current_ibmaiops_feature.load_awx_playbooks == true 
 
 - name: 🟡🟡🟡  Create AWX Connection in IBM AIOPS
   include_tasks: 47_ibm-aiops-create-awx-connection.yaml
-  when: current_ibm-aiops_feature.integrate_awx == true
+  when: current_ibmaiops_feature.integrate_awx == true
 
 # Load Demo Runbooks into IBM AIOps
 - name: 🟡🟡🟡  Load Demo Runbooks into IBM AIOPS
   include_tasks: 49_ibm-aiops-load-runbooks-for-demo.yaml
-  when: current_ibm-aiops_feature.load_runbooks == true
+  when: current_ibmaiops_feature.load_runbooks == true
 
 
 
@@ -365,23 +365,23 @@
 
 - name: 🟡🟡🟡  Create Training Definition for Temporal Grouping
   include_tasks: 55_ibm-aiops-training-create-tg-configuration.yaml
-  when: current_ibm-aiops_feature.training_create_training_temporal and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_create_training_temporal and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Create Training  Definition for Metrics
   include_tasks: 56_ibm-aiops-training-create-metric-configuration.yaml
-  when: current_ibm-aiops_feature.training_create_training_metrics == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_create_training_metrics == true and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Create Training  Definition for SNOW 
   include_tasks: 57_ibm-aiops-training-create-snow-configuration.yaml
-  when: current_ibm-aiops_feature.training_create_training_snow == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_create_training_snow == true and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Create Training  Definition for Logs
   include_tasks: 58_ibm-aiops-training-create-logs-configuration.yaml
-  when: current_ibm-aiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Create Training  Definition for Seasonality and XinY
   include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
-  when: current_ibm-aiops_feature.training_create_training_experimental == true | default('false')
+  when: current_ibmaiops_feature.training_create_training_experimental == true | default('false')
 
 
 
@@ -391,11 +391,11 @@
 # Create Incident Creation and Runbook Policies
 - name: 🟡🟡🟡  Create Custom Incident Creation Policy
   include_tasks: 50_ibm-aiops-create-policies-stories.yaml
-  when: current_ibm-aiops_feature.create_incident_policy == true
+  when: current_ibmaiops_feature.create_incident_policy == true
 
 - name: 🟡🟡🟡  Create Custom Runbook Trigger Policy
   include_tasks: 50_ibm-aiops-create-policies-runbooks.yaml
-  when: current_ibm-aiops_feature.create_runbook_policy == true
+  when: current_ibmaiops_feature.create_runbook_policy == true
 
 
 
@@ -405,19 +405,19 @@
 # Train models
 - name: 🟡🟡🟡  Wait for Trainingdata to finish loading
   include_tasks: 60_ibm-aiops-training-load-wait.yaml
-  when: (current_ibm-aiops_feature.training_load_data_logs == true or current_ibm-aiops_feature.training_load_data_snow == true or current_ibm-aiops_feature.training_load_data_metrics == true) and TRAINING_EXISTS==false
+  when: (current_ibmaiops_feature.training_load_data_logs == true or current_ibmaiops_feature.training_load_data_snow == true or current_ibmaiops_feature.training_load_data_metrics == true) and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Run SNOW AI Model Training
   include_tasks: 61_ibm-aiops-training-run-snow.yaml
-  when: current_ibm-aiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Run LAD  AI Model Training
   include_tasks: 62_ibm-aiops-training-run-logs.yaml
-  when: current_ibm-aiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false
 
 - name: 🟡🟡🟡  Run METRICS  AI Model Training
   include_tasks: 63_ibm-aiops-training-run-metric.yaml
-  when: current_ibm-aiops_feature.training_run_training_metrics == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_run_training_metrics == true and TRAINING_EXISTS==false
       
 
 
@@ -427,7 +427,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡   Create Kafka ELK connection
   include_tasks: 65_ibm-aiops-create-kafka-connections.yaml
-  when: current_ibm-aiops_feature.create_log_connection == true
+  when: current_ibmaiops_feature.create_log_connection == true
 
 
 
@@ -437,11 +437,11 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡   Install the Turbonomic Probe
   include_tasks: 70_ibm-aiops-install-turbonomic-probe.yml
-  when: current_ibm-aiops_feature.install_webhook_probe | default('false') == true
+  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
 
 - name: 🟡🟡🟡   Install the Generic Webhook Probe
   include_tasks: 71_ibm-aiops-install-generic-probe.yml
-  when: current_ibm-aiops_feature.install_webhook_probe | default('false') == true
+  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
 
 
 
@@ -452,7 +452,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡  Install the Demo UI
   include_tasks: 26_ibm-aiops-demo-ui.yaml
-  when: current_ibm-aiops_feature.install_demo_ui == true
+  when: current_ibmaiops_feature.install_demo_ui == true
 
 
 
@@ -461,7 +461,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   ⚠️ HACK - Delete lingering Luigi Pods  (hack)
   shell: |
-    oc delete pod $(oc get po -n {{ current_ibm-aiops_cluster.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound -n {{ current_ibm-aiops_cluster.project }} --ignore-not-found
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
   register: kubectl_get_pods
   ignore_errors: true
 
@@ -487,7 +487,7 @@
 
 
 
-- name:  ✅ INSTALLATION MODULE DONE - {{current_ibm-aiops_feature.kind}}
+- name:  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
   debug: 
     msg:  
 
@@ -496,7 +496,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

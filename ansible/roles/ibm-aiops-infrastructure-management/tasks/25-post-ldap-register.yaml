@@ -19,8 +19,8 @@
   shell: |
     export MESSAGE="Integrate IBMAIOps with LDAP"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -34,7 +34,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibm-aiops_feature.kind}} - Integrate IBMAIOps with LDAP'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Integrate IBMAIOps with LDAP'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -48,7 +48,7 @@
 
 
 - name: 🚀 LDAPREGISTER - Set LDAP ADMIN Password from instance configuration
-  set_fact: current_ldap_admin_password={{current_ibm-aiops_feature.ldap_admin_password  | default('P4ssw0rd!')}}
+  set_fact: current_ldap_admin_password={{current_ibmaiops_feature.ldap_admin_password  | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -64,7 +64,7 @@
 
 
 - name: 🚀 LDAPREGISTER - Set LDAP USERS Password from instance configuration
-  set_fact: current_ldap_user_password={{current_ibm-aiops_feature.ldap_user_password  | default('P4ssw0rd!')}}
+  set_fact: current_ldap_user_password={{current_ibmaiops_feature.ldap_user_password  | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -129,7 +129,7 @@
   shell: |
     export MESSAGE="   Register OpenLDAP Server"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -143,7 +143,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibm-aiops_feature.kind}} - Register OpenLDAP Server'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Register OpenLDAP Server'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -154,7 +154,7 @@
   - name: 🚀 LDAPREGISTER -           📥 Register LDAP Server
     shell:         
       #echo 'cloudctl iam ldap-create "LDAP" --basedn "{{ LDAP_BASE }}" --server "ldap://openldap.default:389" --binddn "cn=admin,{{ LDAP_BASE }}" --binddn-password "{{ current_ldap_admin_password }}" -t "Custom" --group-filter "(&(cn=%v)(objectclass=groupOfUniqueNames))" --group-id-map "*:cn" --group-member-id-map "groupOfUniqueNames:uniqueMember" --user-filter "(&(uid=%v)(objectclass=Person))" --user-id-map "*:uid"'
-      cloudctl iam ldap-create "LDAP" --basedn {{ current_ibm-aiops_feature.ldap_base }} --server ldap://openldap.{{ current_ibm-aiops_feature.ldap_namespace }}:389 --binddn cn=admin,{{ current_ibm-aiops_feature.ldap_base }} --binddn-password {{ current_ldap_admin_password }} -t "Custom" --group-filter "(&(cn=%v)(objectclass=groupOfUniqueNames))" --group-id-map "*:cn" --group-member-id-map "groupOfUniqueNames:uniqueMember" --user-filter "(&(uid=%v)(objectclass=Person))" --user-id-map "*:uid"
+      cloudctl iam ldap-create "LDAP" --basedn {{ current_ibmaiops_feature.ldap_base }} --server ldap://openldap.{{ current_ibmaiops_feature.ldap_namespace }}:389 --binddn cn=admin,{{ current_ibmaiops_feature.ldap_base }} --binddn-password {{ current_ldap_admin_password }} -t "Custom" --group-filter "(&(cn=%v)(objectclass=groupOfUniqueNames))" --group-id-map "*:cn" --group-member-id-map "groupOfUniqueNames:uniqueMember" --user-filter "(&(uid=%v)(objectclass=Person))" --user-id-map "*:uid"
     ignore_errors: true
     register: LOGIN
   - name: 🟣  OUTPUT
@@ -200,7 +200,7 @@
   shell: |
     export MESSAGE="   Create Users and Groups"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -214,7 +214,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibm-aiops_feature.kind}} - Create Users and Groups'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Users and Groups'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
