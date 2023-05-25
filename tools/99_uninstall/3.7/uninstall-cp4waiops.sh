@@ -5,11 +5,11 @@
 #
 # This script can be used to uninstall the IBM IBM AIOps AI Manager v3.7 product and
 # cleanup resources created by the product.  Please configure what you want to uninstall
-# in the uninstall-ibmaiops.props file first before running this script.
+# in the uninstall-ibm-aiops.props file first before running this script.
 
-. ./uninstall-ibmaiops.props
-. ./uninstall-ibmaiops-helper.sh
-. ./uninstall-ibmaiops-resource-groups.props
+. ./uninstall-ibm-aiops.props
+. ./uninstall-ibm-aiops-helper.sh
+. ./uninstall-ibm-aiops-resource-groups.props
 
 HELP="false"
 SKIP_CONFIRM="false"
@@ -42,13 +42,13 @@ if [[ $SKIP_CONFIRM != "true" ]]; then
   log $INFO ""
   log $INFO "##### IMPORTANT ######"
   log $INFO ""
-  log $INFO "Please review and update the contents of uninstall-ibmaiops.props carefully to configure what you want to delete before proceeding."
-  log $INFO "CAUTION: Data loss is possible if uninstall-ibmaiops.props is not reviewed and configured carefully."
+  log $INFO "Please review and update the contents of uninstall-ibm-aiops.props carefully to configure what you want to delete before proceeding."
+  log $INFO "CAUTION: Data loss is possible if uninstall-ibm-aiops.props is not reviewed and configured carefully."
   log $INFO ""
   log $INFO "Cluster context: $(oc config current-context)"
   log $INFO ""
   display_script_properties
-  read -p "Please confirm you have reviewed and configured uninstall-ibmaiops.props and would like to proceed with uninstall. Y or y to continue: " -n 1 -r
+  read -p "Please confirm you have reviewed and configured uninstall-ibm-aiops.props and would like to proceed with uninstall. Y or y to continue: " -n 1 -r
   log " "
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     log $INFO "Cancelling uninstall of IBM Cloud Pak for AIOps."
@@ -121,7 +121,7 @@ if [[ ! -z "$IBMAIOPS_PROJECT"  ]]; then
       log $INFO "Deleting the CP4AIOps Dependent CRDs..."
       delete_crd_group "IBMAIOPS_DEPENDENT_CRDS"
    else
-      log $INFO "Skipping delete of Dependent CRDs based on configuration in uninstall-ibmaiops.props"
+      log $INFO "Skipping delete of Dependent CRDs based on configuration in uninstall-ibm-aiops.props"
    fi
    
    log $INFO "Deleting the misc resources in $IBMAIOPS_PROJECT "
@@ -313,7 +313,7 @@ if [[ ! -z "$IBMAIOPS_PROJECT"  ]]; then
 
    log "[SUCCESS]" "----Congratulations! IBM IBM AIOps AI Manager has been uninstalled!----"
    if [[ $ONLY_CLOUDPAK == "true" ]] || [[ $ONLY_CLOUDPAK == "false" && $IAF_PROJECT == $OPENSHIFT_OPERATORS ]]; then 
-   # If Cloud Pak Platform was removed, or IAF was installed at the cluster scope, ibmaiops project can be deleted
+   # If Cloud Pak Platform was removed, or IAF was installed at the cluster scope, ibm-aiops project can be deleted
       log "[SUCCESS]" "------ \033[1;36mYou can now delete the $IBMAIOPS_PROJECT project safely.\033[0m------"
    elif [[ $IBMAIOPS_PROJECT == $IAF_PROJECT ]]
    # When ONLY_CLOUDPAK is false (default value) -- if IAF and AIOps are namespaced installs (not in openshift-operators), warn against deleting the project as IAF will hang

@@ -10,7 +10,7 @@ This allows you to push generic JSON to IBMAIOps Events throught a Webhook into 
 You can access the Web UI via the external Route that you can determine like this:
 
 ```bash   
-oc get route -n ibmaiops ibmaiops-event-gateway  -o jsonpath={.spec.host}
+oc get route -n ibm-aiops ibm-aiops-event-gateway  -o jsonpath={.spec.host}
 ```
 
 You have to use the Token to access the UI.
@@ -165,6 +165,6 @@ The easiest way to deploy the webhook is by using the automated Ansible script.
 ```bash   
 ansible-playbook ./ansible/19_aimanager-event-webhook.yaml 
 
-oc get route -n ibmaiops ibmaiops-event-gateway  -o jsonpath={.spec.host}
+oc get route -n ibm-aiops ibm-aiops-event-gateway  -o jsonpath={.spec.host}
 ```
 

@@ -9,10 +9,10 @@ echo "--------------------------------------------------------------------------
 echo "    🗄️  Make local copy ../ARCHIVE/aiops-ansible-$gitCommitMessage"
 echo "--------------------------------------------------------------------------------------------------------------------------------"
 
-mkdir -p ../ARCHIVE/ibmaiops-deployer-$gitCommitMessage
+mkdir -p ../ARCHIVE/ibm-aiops-deployer-$gitCommitMessage
 
-cp -r * ../ARCHIVE/ibmaiops-deployer-$gitCommitMessage
-cp .gitignore ../ARCHIVE/ibmaiops-deployer-$gitCommitMessage
+cp -r * ../ARCHIVE/ibm-aiops-deployer-$gitCommitMessage
+cp .gitignore ../ARCHIVE/ibm-aiops-deployer-$gitCommitMessage
  
 
 echo "--------------------------------------------------------------------------------------------------------------------------------"
@@ -53,8 +53,8 @@ rm pull-secret-backup.yaml>/dev/null 2>/dev/null
 rm temp-ibm-entitlement-key.yaml>/dev/null 2>/dev/null
 rm temp-pull-secret.yaml>/dev/null 2>/dev/null
 
-rm -r ./tools/97_addons/ibmaiops-demo-ui/demoui/demoui/__pycache__
-rm -r ./tools/97_addons/ibmaiops-demo-ui/demoui/demouiapp/__pycache__
+rm -r ./tools/97_addons/ibm-aiops-demo-ui/demoui/demoui/__pycache__
+rm -r ./tools/97_addons/ibm-aiops-demo-ui/demoui/demouiapp/__pycache__
 
 echo "--------------------------------------------------------------------------------------------------------------------------------"
 echo "    🚀  Remove Keys"

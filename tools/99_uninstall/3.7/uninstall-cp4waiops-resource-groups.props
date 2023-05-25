@@ -2,10 +2,10 @@
 # Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
-# Supplementary file to uninstall-ibmaiops.sh script for uninstalling 
+# Supplementary file to uninstall-ibm-aiops.sh script for uninstalling 
 # IBM IBM AIOps AI Manager version 3.7
 
-# Below are the PVC's that would be deleted if DELETE_PVCS in uninstall-ibmaiops-props.props is set to true
+# Below are the PVC's that would be deleted if DELETE_PVCS in uninstall-ibm-aiops-props.props is set to true
 # 1. app.kubernetes.io/instance=aimanager : This PVC is for minio StatefulSet. Change risk model and all the training logs are in the minio pvc.
 # 2. app.kubernetes.io/instance=example-couchdbcluster: This PVC contains AI training schedules and history
 # 3. app.kubernetes.io/managed-by=ir-core-operator : This PVC contains information about current and recent events and stories 
@@ -88,9 +88,9 @@ IBMAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-internal-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-ss-cacert-kp"
                             "secret/aiops-ir-lifecycle-policy-grpc-clt-svc"
-                            "secret/ibmaiops-eventprocessor-eve-29ee-ep-client-cert-kp"
-                            "secret/ibmaiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
-                            "secret/ibmaiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-client-cert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
                             "secret/ir-ui-session-secret"
                             "secret/sre-tunnel-tunnel-api-cert"
                             "secret/sre-tunnel-tunnel-readiness-cert"
@@ -101,7 +101,7 @@ IBMAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
                             "secret/aiopsedgeca-cert-secret")
 
 
-IBMAIOPS_CONFIGMAPS_INTERNAL_LABELS=("app=ibmaiops-eventprocessor-eve-29ee-ep")
+IBMAIOPS_CONFIGMAPS_INTERNAL_LABELS=("app=ibm-aiops-eventprocessor-eve-29ee-ep")
 
 IBMAIOPS_CONFIGMAPS_INTERNAL=("configmap/64fae646.ibm.com"
             "configmap/9efbc0e4.aiops.ibm.com"
@@ -160,7 +160,7 @@ IBMAIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com"
                 "aiopsuis.consoleui.aiops.ibm.com"
                 "automationactions.connectors.aiops.ibm.com"
                 "bundlemanifests.connectors.aiops.ibm.com"
-                "bundlemanifests.ibmaiops.management.ibm.com"
+                "bundlemanifests.ibm-aiops.management.ibm.com"
                 "connectorcomponents.connectors.aiops.ibm.com"
                 "connectorconfigurations.connectors.aiops.ibm.com"
                 "connectorschemas.connectors.aiops.ibm.com"
@@ -263,7 +263,7 @@ CROSSPLANE_OBJECTS=("object.kubernetes.crossplane.io/kafka-iaf-system"
 CROSSPLANE_XRDS=("compositeresourcedefinition.apiextensions.ibm.crossplane.io/kafkacomposites.shim.bedrock.ibm.com"
                 "compositeresourcedefinition.apiextensions.ibm.crossplane.io/postgrescomposites.shim.bedrock.ibm.com")
 
-CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/ibmaiops-cartridge-kafka-auth-0"
+CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/ibm-aiops-cartridge-kafka-auth-0"
                         "kafkaclaim.shim.bedrock.ibm.com/iaf-system")
 
 BEDROCK_CRDS=(#Bedrock shim CRDS

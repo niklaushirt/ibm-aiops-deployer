@@ -38,7 +38,7 @@ COPY ./inventories ./inventories
 RUN chmod +x startup.sh
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
-ENV REPO_URL=https://github.com/niklaushirt/ibmaiops-eda.git
+ENV REPO_URL=https://github.com/niklaushirt/ibm-aiops-eda.git
 
 ENTRYPOINT /home/app/startup.sh
 

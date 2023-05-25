@@ -1,0 +1,68 @@
+
+
+
+# - name: Checking {{current_ibm-aiops_feature.kind}}
+#   debug:
+#     var: current_ibm-aiops_feature
+
+
+
+
+
+
+- name: 🟣  Show Current Feature
+  debug:
+    var: current_ibm-aiops_feature
+    verbosity: 1
+
+
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps
+  include_role:
+    name: ibm-aiops-install-instance
+  when: current_ibm-aiops_feature.kind=="IBMAIOps" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps Demo Content
+  include_role:
+    name: ibm-aiops-install-demo-content
+  when: current_ibm-aiops_feature.kind=="IBMAIOpsDemoContent" and current_ibm-aiops_feature.install==true
+
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Infrastructure Management
+  include_role:
+    name: ibm-aiops-infrastructure-management
+  when: current_ibm-aiops_feature.kind=="InfrastructureManagement" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - ELK Stack
+  include_role:
+    name: ibm-aiops-elk
+  when: current_ibm-aiops_feature.kind=="ELK" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic
+  include_role:
+    name: ibm-aiops-turbonomic
+  when: current_ibm-aiops_feature.kind=="Turbonomic" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - GitOps
+  include_role:
+    name: ibm-aiops-gitops
+  when: current_ibm-aiops_feature.kind=="GitOps" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Instana
+  include_role:
+    name: ibm-aiops-instana
+  when: current_ibm-aiops_feature.kind=="Instana" and current_ibm-aiops_feature.install==true
+
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic Demo Contnet
+  include_role:
+    name: ibm-aiops-turbonomic-demo-content
+  when: current_ibm-aiops_feature.kind=="TurbonomicDemoContent" and current_ibm-aiops_feature.install==true
+

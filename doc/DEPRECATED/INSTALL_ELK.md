@@ -14,7 +14,7 @@ You can easily install ELK into the same cluster as IBMAIOPS.
 1. Launch
 
 	```bash
-	ansible-playbook ./ansible/11_ibmaiops-elk-install.yaml
+	ansible-playbook ./ansible/11_ibm-aiops-elk-install.yaml
 	```
 2. Wait for the pods to come up
 3. Open Kibana

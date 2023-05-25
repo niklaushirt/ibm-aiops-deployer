@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ibmaiops-tools
+  name: ibm-aiops-tools
   namespace: default
   labels:
-      app: ibmaiops-tools
+      app: ibm-aiops-tools
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ibmaiops-tools
+      app: ibm-aiops-tools
   template:
     metadata:
       labels:
-        app: ibmaiops-tools
+        app: ibm-aiops-tools
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibmaiops-tools:2.0
+      - image: quay.io/niklaushirt/cp4waiops-tools:2.0
         imagePullPolicy: IfNotPresent
         name: tools
         command:
@@ -31,5 +31,5 @@ spec:
             memory: "250Mi"
         env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ibmaiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
 

@@ -71,7 +71,7 @@ This allows you to push generic JSON to IBMAIOps Events throught a Webhook into 
 
 Those Strings define how the message is being decoded.
 
-To adapt the mapping parameters to your needs, you have to modify in the `ibmaiops-event-gateway-config` ConfigMap in file `./tools/97_addons/webhook/create-cp4mcm-event-gateway.yaml`.
+To adapt the mapping parameters to your needs, you have to modify in the `ibm-aiops-event-gateway-config` ConfigMap in file `./tools/97_addons/webhook/create-cp4mcm-event-gateway.yaml`.
 
 
 The following paramters have to be mapped:
@@ -110,12 +110,12 @@ MANAGER_ELEMENT: 'KafkaWebhook'
 
 ### 20.2.2 Getting the Kafka Conncetion Parameters
 
-This gives you the Parameters for the Kafka Connection that you have to modify in the `ibmaiops-event-gateway-config` ConfigMap in file `./tools/97_addons/webhook/create-cp4mcm-event-gateway.yaml`.
+This gives you the Parameters for the Kafka Connection that you have to modify in the `ibm-aiops-event-gateway-config` ConfigMap in file `./tools/97_addons/webhook/create-cp4mcm-event-gateway.yaml`.
 
 ```bash
-export AIOPS_NAMESPACE=ibmaiops
+export AIOPS_NAMESPACE=ibm-aiops
 export KAFKA_SECRET=$(oc get secret -n {{ AIOPS_NAMESPACE }} |grep 'aiops-kafka-secret'|awk '{print$1}')
-export KAFKA_TOPIC=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v ibmaiopsibmaiops| grep ibmaiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
 export KAFKA_USER=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.username}} | base64 --decode)
 export KAFKA_PWD=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.password}} | base64 --decode)
 export KAFKA_BROKER=$(oc get routes iaf-system-kafka-0 -n $AIOPS_NAMESPACE -o=jsonpath='{.status.ingress[0].host}{"\n"}'):443
@@ -139,7 +139,7 @@ echo $CERT_ELEMENT
 ```bash
 oc apply -n default -f ./tools/97_addons/k8s-remote/create-cp4mcm-event-gateway.yaml
 
-oc get route -n ibmaiops ibmaiops-event-gateway  -o jsonpath={.spec.host}
+oc get route -n ibm-aiops ibm-aiops-event-gateway  -o jsonpath={.spec.host}
 
 ```
 
@@ -150,7 +150,7 @@ For the following example we will iterate over the `events` array and epush them
 
 
 ```bash
-curl -X "POST" "http://ibmaiops-event-gateway-ibmaiops.itzroks-270003bu3k-azsa8n-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud/webhook" \
+curl -X "POST" "http://ibm-aiops-event-gateway-ibm-aiops.itzroks-270003bu3k-azsa8n-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud/webhook" \
      -H 'Content-Type: application/json' \
      -H 'Cookie: 36c13f7095ac25e696d30d7857fd2483=e345512191b5598e33b76be85dd7d3b6' \
      -d $'{

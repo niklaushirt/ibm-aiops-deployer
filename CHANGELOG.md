@@ -283,7 +283,7 @@ Some specifics apply: please see the README file.
 
 Complete rewrite for future integration into CloudPak Deployer.
 The installation is now based on configuration files containing the features to be installed.
-For a complete example see ./ansible/configs/ibmaiops-roks-all-33.yaml 
+For a complete example see ./ansible/configs/ibm-aiops-roks-all-33.yaml 
 
 ### Major changes
 

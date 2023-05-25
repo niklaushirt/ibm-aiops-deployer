@@ -2,8 +2,8 @@
 export CONT_VERSION=2.0
 
 # Create the Image
-docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibmaiops-demo-ui:$CONT_VERSION --load .
-docker push quay.io/niklaushirt/ibmaiops-demo-ui:$CONT_VERSION
+docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load .
+docker push quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 
 
 
@@ -19,8 +19,8 @@ docker push quay.io/niklaushirt/ibmaiops-demo-ui:$CONT_VERSION
 export CONT_VERSION=1.20
 
 # Create the Image
-docker buildx build --platform linux/amd64 -t niklaushirt/ibmaiops-demo-ui:$CONT_VERSION --load .
-docker push niklaushirt/ibmaiops-demo-ui:$CONT_VERSION
+docker buildx build --platform linux/amd64 -t niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load .
+docker push niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 
 
 
@@ -29,9 +29,9 @@ docker push niklaushirt/ibmaiops-demo-ui:$CONT_VERSION
 
 # Run the Image
 
-docker build -t niklaushirt/ibmaiops-demo-ui-python:$CONT_VERSION  .
+docker build -t niklaushirt/ibm-aiops-demo-ui-python:$CONT_VERSION  .
 
-docker run -p 8080:8000 -e TOKEN=test niklaushirt/ibmaiops-demo-ui-python:$CONT_VERSION
+docker run -p 8080:8000 -e TOKEN=test niklaushirt/ibm-aiops-demo-ui-python:$CONT_VERSION
 
 # Deploy the Image
 oc apply -n default -f create-cp4mcm-event-gateway.yaml
@@ -46,11 +46,11 @@ exit 1
 export CONT_VERSION=0.97
 
 # Create the Image
-docker build -t niklaushirt/ibmaiops-demo-ui:$CONT_VERSION .
+docker build -t niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION .
 
 podman login docker.io -u niklaushirt   
-podman build -t niklaushirt/ibmaiops-demo-ui:$CONT_VERSION .
-podman push ^niklaushirt/ibmaiops-demo-ui:$CONT_VERSION
+podman build -t niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION .
+podman push ^niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 
 
 
@@ -59,5 +59,5 @@ podman machine start
 export CONT_VERSION=0.45
 
 # Create the Image
-podman buildx build --platform linux/amd64 -t niklaushirt/ibmaiops-demo-ui-python:$CONT_VERSION --load .
-docker push niklaushirt/ibmaiops-demo-ui-python:$CONT_VERSION
+podman buildx build --platform linux/amd64 -t niklaushirt/ibm-aiops-demo-ui-python:$CONT_VERSION --load .
+docker push niklaushirt/ibm-aiops-demo-ui-python:$CONT_VERSION

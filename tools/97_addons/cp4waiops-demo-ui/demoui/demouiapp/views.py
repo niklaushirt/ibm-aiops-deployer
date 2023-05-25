@@ -123,7 +123,7 @@ export TEMP_PATH=~/aiops-install
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export EVTMGR_NAMESPACE=$(oc get po -A|grep noi-operator |awk '{print$1}')
 
-: "${AIOPS_NAMESPACE:=ibmaiops}<BR>"
+: "${AIOPS_NAMESPACE:=ibm-aiops}<BR>"
 : "${EVTMGR_NAMESPACE:=noi}<BR>"
 
 CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
@@ -353,7 +353,7 @@ LOG_TIME_ZONE="-1"
 # GET CONNECTIONS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibmaiopsibmaiops| grep ibmaiops-cartridge-logs-elk| awk '{print $1;}'")
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
@@ -427,7 +427,7 @@ openshift_token = stream.read().strip()
 stream = os.popen("oc config view --minify|grep 'server:'| sed 's/.*server: .*\///'| head -1")
 #stream = os.popen("oc status|head -1|awk '{print$6}'")
 openshift_server = stream.read().strip()
-stream = os.popen("oc get deployment -n ibmaiops-demo-ui ibmaiops-demo-ui -ojson|jq -r '.spec.template.spec.containers[0].image'")
+stream = os.popen("oc get deployment -n ibm-aiops-demo-ui ibm-aiops-demo-ui -ojson|jq -r '.spec.template.spec.containers[0].image'")
 demo_image = stream.read().strip()
 
 
@@ -1294,7 +1294,7 @@ def clearAllREST(request):
         print('🌏 Mitigate Sockshop Catalog outage')
         os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog\\"}}}"')
 
-        stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibmaiopsibmaiops| grep ibmaiops-cartridge-logs-elk| awk '{print $1;}'")
+        stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
         KAFKA_TOPIC_LOGS = stream.read().strip()
 
 

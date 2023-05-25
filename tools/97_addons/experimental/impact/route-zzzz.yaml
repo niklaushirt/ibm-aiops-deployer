@@ -2,7 +2,7 @@
 apiVersion: route.openshift.io/v1
 metadata:
   name: zzzz
-  namespace: ibmaiops-evtmgr
+  namespace: ibm-aiops-evtmgr
   uid: 3b658f5a-eeb3-4348-bd4c-c2512857b2ac
   resourceVersion: '4137792'
   creationTimestamp: '2023-05-10T08:46:04Z'
@@ -58,7 +58,7 @@ metadata:
           'f:ingress': {}
       subresource: status
 spec:
-  host: zzzz-ibmaiops-evtmgr.apps.ocp-270003bu3k-w4q8.cloud.techzone.ibm.com
+  host: zzzz-ibm-aiops-evtmgr.apps.ocp-270003bu3k-w4q8.cloud.techzone.ibm.com
   to:
     kind: Service
     name: evtmanager-impactgui
@@ -71,7 +71,7 @@ spec:
   wildcardPolicy: None
 status:
   ingress:
-    - host: zzzz-ibmaiops-evtmgr.apps.ocp-270003bu3k-w4q8.cloud.techzone.ibm.com
+    - host: zzzz-ibm-aiops-evtmgr.apps.ocp-270003bu3k-w4q8.cloud.techzone.ibm.com
       routerName: default
       conditions:
         - type: Admitted

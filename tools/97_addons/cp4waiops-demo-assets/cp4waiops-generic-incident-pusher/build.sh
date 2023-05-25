@@ -3,14 +3,14 @@
 export CONT_VERSION=1.0
 
 # Create the Image
-docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibmaiops-generic-incident-pusher:$CONT_VERSION --load .
-docker push quay.io/niklaushirt/ibmaiops-generic-incident-pusher:$CONT_VERSION
+docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-generic-incident-pusher:$CONT_VERSION --load .
+docker push quay.io/niklaushirt/ibm-aiops-generic-incident-pusher:$CONT_VERSION
 
 # Run the Image
 
-docker build -t niklaushirt/ibmaiops-pagerduty-incident-pusher:$CONT_VERSION  .
+docker build -t niklaushirt/ibm-aiops-pagerduty-incident-pusher:$CONT_VERSION  .
 
-docker run -p 8080:8000 -e TOKEN=test niklaushirt/ibmaiops-pagerduty-incident-pusher:$CONT_VERSION
+docker run -p 8080:8000 -e TOKEN=test niklaushirt/ibm-aiops-pagerduty-incident-pusher:$CONT_VERSION
 
 # Deploy the Image
 oc apply -n default -f create-cp4mcm-event-gateway.yaml

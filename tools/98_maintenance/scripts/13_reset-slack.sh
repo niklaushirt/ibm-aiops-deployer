@@ -5,7 +5,7 @@ export SLACK_TOKEN=not_configured
 
 # SLACK CHANNELS TO EMPTY
 # Adapt to your needs
-export SLACK_REACTIVE="ibmaiops33"
+export SLACK_REACTIVE="ibm-aiops33"
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

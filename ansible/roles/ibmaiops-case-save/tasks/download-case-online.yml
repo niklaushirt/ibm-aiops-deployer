@@ -1,3 +1,0 @@
----
-- name: 📥 Download operator case files to {{ status_dir }}/ibmaiops/case
-  include_tasks: download-case-file.yml
