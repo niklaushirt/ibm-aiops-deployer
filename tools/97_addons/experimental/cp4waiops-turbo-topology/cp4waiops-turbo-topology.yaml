@@ -49,7 +49,7 @@ spec:
         app: ibm-aiops-incident-pusher
     spec:
       containers:
-      - image: quay.io/niklaushirt/ ibm-aiops-incident-pusher:0.8
+      - image: quay.io/niklaushirt/ibm-aiops-incident-pusher:0.8
         imagePullPolicy: Always
         name: gateway
         command:

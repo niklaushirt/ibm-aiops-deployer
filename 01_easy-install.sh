@@ -21,9 +21,9 @@ export AIOPS_VERSION=35
 
 export SHOW_MORE="false"
 export AIOPS_PODS_MIN=115
-export DOC_URL="https://github.com/niklaushirt/ ibm-aiops-deployer#-quickstart"
+export DOC_URL="https://github.com/niklaushirt/ibm-aiops-deployer#-quickstart"
 
-export INSTALL_REPO="https://github.com/niklaushirt/ ibm-aiops-deployer.git"
+export INSTALL_REPO="https://github.com/niklaushirt/ibm-aiops-deployer.git"
 
 
 
@@ -441,7 +441,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -517,7 +517,7 @@ menu_JOB_AI_ALL () {
       checkIBMAIOps
       checkToken
 
-      export CONFIG="./configs/ ibm-aiops-all-$AIOPS_VERSION.yaml"
+      export CONFIG="./configs/ibm-aiops-all-$AIOPS_VERSION.yaml"
       export JOB_NAME="aiops-easy-install-aimanager-all"
       installViaJob
 
@@ -572,7 +572,7 @@ menu_JOB_EVENT_ALL () {
       checkIBMAIOps
       checkToken
 
-      export CONFIG="./configs/ ibm-aiops-roks-eventmanager-all-$AIOPS_VERSION.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-eventmanager-all-$AIOPS_VERSION.yaml"
       export JOB_NAME="aiops-easy-install-eventmanager-all"
       installViaJob
 
@@ -629,7 +629,7 @@ menu_JOB_AI_ONLY () {
       checkIBMAIOps
       checkToken
 
-      export CONFIG="./configs/ ibm-aiops-$AIOPS_VERSION.yaml"
+      export CONFIG="./configs/ibm-aiops-$AIOPS_VERSION.yaml"
       export JOB_NAME="aiops-easy-install-aimanager-only"
       installViaJob
 
@@ -685,7 +685,7 @@ menu_JOB_EVENT_ONLY () {
       checkIBMAIOps
       checkToken
 
-      export CONFIG="./configs/ ibm-aiops-roks-eventmanager-$AIOPS_VERSION.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-eventmanager-$AIOPS_VERSION.yaml"
       export JOB_NAME="aiops-easy-install-eventmanager-only"
       installViaJob
 
@@ -744,7 +744,7 @@ menu_JOB_ALL () {
       checkIBMAIOps
       checkToken
 
-      export CONFIG="./configs/ ibm-aiops-roks-all-$AIOPS_VERSION.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-all-$AIOPS_VERSION.yaml"
       export JOB_NAME="aiops-easy-install-all"
       installViaJob
 
@@ -798,7 +798,7 @@ menu_JOB_TURBO () {
       echo "*****************************************************************************************************************************"
       echo ""
 
-      export CONFIG="./configs/ ibm-aiops-roks-turbonomic.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-turbonomic.yaml"
       export JOB_NAME="aiops-easy-install-turbonomic"
       installViaJob
 
@@ -861,11 +861,11 @@ menu_JOB_INSTANA () {
             echo ""
       else
 
-            cp ./Quick_Install/05_INSTALL_INSTANA.yaml /tmp/ ibm-aiops-roks-instana.yaml
-            sed -i -e "s/<YOUR_SALES_KEY>/$DO_SK/g" /tmp/ ibm-aiops-roks-instana.yaml
-            sed -i -e "s/<YOUR_AGENT_KEY>/$DO_AK/g" /tmp/ ibm-aiops-roks-instana.yaml
+            cp ./Quick_Install/05_INSTALL_INSTANA.yaml /tmp/ibm-aiops-roks-instana.yaml
+            sed -i -e "s/<YOUR_SALES_KEY>/$DO_SK/g" /tmp/ibm-aiops-roks-instana.yaml
+            sed -i -e "s/<YOUR_AGENT_KEY>/$DO_AK/g" /tmp/ibm-aiops-roks-instana.yaml
 
-            oc apply -n ibm-aiops-intallation -f /tmp/ ibm-aiops-roks-instana.yaml
+            oc apply -n ibm-aiops-intallation -f /tmp/ibm-aiops-roks-instana.yaml
 
             echo ""
             echo ""
@@ -913,7 +913,7 @@ menu_JOB_ELK () {
       echo "*****************************************************************************************************************************"
       echo ""
 
-      export CONFIG="./configs/ ibm-aiops-roks-elk.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-elk.yaml"
       export JOB_NAME="aiops-easy-install-elk"
       installViaJob
 
@@ -964,7 +964,7 @@ menu_JOB_TURBO_INT () {
       echo "*****************************************************************************************************************************"
       echo ""
 
-      export CONFIG="./configs/ ibm-aiops-roks-turbonomic.yaml"
+      export CONFIG="./configs/ibm-aiops-roks-turbonomic.yaml"
 
 
       echo ""

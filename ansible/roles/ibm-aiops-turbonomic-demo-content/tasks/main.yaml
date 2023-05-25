@@ -65,7 +65,7 @@
       location: {{global_config.position_final_ocp_notification | default("BannerBottom")}}
       text: 'Installing  {{current_ibmaiops_cluster.kind}} - '    
       link:
-          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs  
     EOF
   ignore_errors: true
@@ -125,7 +125,7 @@
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
       if [ "${OS}" == "darwin" ]; then
             echo "MAC"
-            LICENSE_FILE=$(pwd)"/roles/ ibm-aiops-turbonomic-demo-content/vars/lic.yaml"
+            LICENSE_FILE=$(pwd)"/roles/ibm-aiops-turbonomic-demo-content/vars/lic.yaml"
       else
             LICENSE_FILE="{{role_path}}/vars/lic.yaml"
       fi    
@@ -196,12 +196,12 @@
 
 # Initialize Logging
 - name: 📥 Init Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
 
   
 # Start block
 - name: 📥 Start Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
 
 
@@ -216,14 +216,14 @@
 
 # Update IBMAIOps Cards
 - name: 📥 Update IBMAIOps Cards
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
 
 
 
 
 - name: 📥 End Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 

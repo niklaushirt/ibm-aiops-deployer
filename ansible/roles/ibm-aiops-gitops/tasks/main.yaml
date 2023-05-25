@@ -69,11 +69,11 @@
 
 # Initialize Logging
 - name: 📥 Init Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
 
 # Start block
 - name: 📥 Start Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
 - name: 📥 Initialization
@@ -95,7 +95,7 @@
 
 
 - name: 📥 End Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 

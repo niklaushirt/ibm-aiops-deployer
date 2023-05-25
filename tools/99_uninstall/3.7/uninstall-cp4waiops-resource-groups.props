@@ -88,9 +88,9 @@ IBMAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-internal-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-ss-cacert-kp"
                             "secret/aiops-ir-lifecycle-policy-grpc-clt-svc"
-                            "secret/ ibm-aiops-eventprocessor-eve-29ee-ep-client-cert-kp"
-                            "secret/ ibm-aiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
-                            "secret/ ibm-aiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-client-cert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
+                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
                             "secret/ir-ui-session-secret"
                             "secret/sre-tunnel-tunnel-api-cert"
                             "secret/sre-tunnel-tunnel-readiness-cert"
@@ -263,7 +263,7 @@ CROSSPLANE_OBJECTS=("object.kubernetes.crossplane.io/kafka-iaf-system"
 CROSSPLANE_XRDS=("compositeresourcedefinition.apiextensions.ibm.crossplane.io/kafkacomposites.shim.bedrock.ibm.com"
                 "compositeresourcedefinition.apiextensions.ibm.crossplane.io/postgrescomposites.shim.bedrock.ibm.com")
 
-CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/ ibm-aiops-cartridge-kafka-auth-0"
+CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/ibm-aiops-cartridge-kafka-auth-0"
                         "kafkaclaim.shim.bedrock.ibm.com/iaf-system")
 
 BEDROCK_CRDS=(#Bedrock shim CRDS

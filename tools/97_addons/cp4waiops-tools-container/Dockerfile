@@ -37,7 +37,7 @@ RUN wget https://github.com/derailed/k9s/releases/download/v0.26.7/k9s_Linux_x86
 
 
 
-COPY startup.sh / ibm-aiops/startup.sh
-RUN chmod +x / ibm-aiops/startup.sh
+COPY startup.sh /ibm-aiops/startup.sh
+RUN chmod +x /ibm-aiops/startup.sh
 
-ENTRYPOINT / ibm-aiops/startup.sh
+ENTRYPOINT /ibm-aiops/startup.sh

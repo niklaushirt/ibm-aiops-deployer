@@ -120,13 +120,13 @@
 
 # Initialize Logging
 - name: 🟡🟡🟡 Initialize Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
     
 - name: 🟡🟡🟡 Initialization Checks
   include_tasks: 02_init_checks.yaml
 # Start block
 - name: 🟡🟡🟡 Start Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
 - name: 🟡🟡🟡 Initialization of the Installation
@@ -144,7 +144,7 @@
 
 # # Update IBMAIOps Cards
 # - name: 🟡🟡🟡 Update IBMAIOps Cards
-#   include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
+#   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # TEST
@@ -154,7 +154,7 @@
 
 
 - name: 🟡🟡🟡 Get Storage Classes
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
 - name: 🟡🟡🟡 Install IBMAIOps Prerequisites 
@@ -247,26 +247,26 @@
 
 # Update IBMAIOps Cards
 - name: 🟡🟡🟡 Update IBMAIOps Cards
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
   
 # Access and documentaiton
 - name: 🟡🟡🟡 Get all logins
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90_core-get-all-logins.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90_core-get-all-logins.yaml"
 
 
 
 - name: 🟡🟡🟡 Open IBMAIOps
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_open-aimanager.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_open-aimanager.yaml"
 
 
 - name: 🟡🟡🟡 Open Documentation
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_open-doc.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_open-doc.yaml"
 
 
 
 - name: 🟡🟡🟡 End Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 

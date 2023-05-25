@@ -34,7 +34,7 @@ spec:
         app: ibm-aiops-installer
     spec:
       containers:
-      - image: quay.io/niklaushirt/ ibm-aiops-installer:2.0
+      - image: quay.io/niklaushirt/ibm-aiops-installer:2.0
         imagePullPolicy: Always
         name: installer
         command:

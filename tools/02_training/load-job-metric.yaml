@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -33,7 +33,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading metric anomaly training files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export AWX_REPO=https://github.com/niklaushirt/ ibm-aiops-trainingdata.git
+              export AWX_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
               git clone $AWX_REPO
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"

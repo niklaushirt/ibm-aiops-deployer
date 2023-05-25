@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://github.com/niklaushirt/ ibm-aiops-eda.git
+git clone https://github.com/niklaushirt/ibm-aiops-eda.git
 cd ibm-aiops-eda/container/
 
 
@@ -20,12 +20,12 @@ ansible-rulebook --rulebook ./rulebooks/default-rulebook.yaml -i inventory.yaml 
 export CONT_VERSION=2.0
 
 # Build Production AMD64
-docker buildx build --platform linux/amd64 -t niklaushirt/ ibm-aiops-tools:$CONT_VERSION --load .
+docker buildx build --platform linux/amd64 -t niklaushirt/ibm-aiops-tools:$CONT_VERSION --load .
 
 
 
 
-docker push niklaushirt/ ibm-aiops-tools:$CONT_VERSION
+docker push niklaushirt/ibm-aiops-tools:$CONT_VERSION
 
 
 
@@ -38,7 +38,7 @@ ansible-rulebook --rulebook ./rulebooks/default-rulebook.yaml -i inventory.yaml 
 cd ..
 cd ..
 sudo rm -r ibm-aiops-eda
-git clone https://github.com/niklaushirt/ ibm-aiops-eda.git
+git clone https://github.com/niklaushirt/ibm-aiops-eda.git
 cd ibm-aiops-eda/BUILD/
 
 export CONT_VERSION=0.1

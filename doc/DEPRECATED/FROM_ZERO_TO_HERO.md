@@ -3,4 +3,4 @@
 
 ![K8s CNI](./pics/front.png)
 
-# Please check [here](https://niklaushirt.github.io/ ibm-aiops-training/)
+# Please check [here](https://niklaushirt.github.io/ibm-aiops-training/)

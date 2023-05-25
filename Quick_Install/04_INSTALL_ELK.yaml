@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -128,10 +128,10 @@ spec:
 
           env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ ibm-aiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
           - name: CONFIG
-            #value : "./configs/ ibm-aiops-all-34.yaml"
-            value : "./configs/ ibm-aiops-roks-elk.yaml"
+            #value : "./configs/ibm-aiops-all-34.yaml"
+            value : "./configs/ibm-aiops-roks-elk.yaml"
           - name: ENTITLED_REGISTRY_KEY
             value : "not_needed"
       restartPolicy: Never

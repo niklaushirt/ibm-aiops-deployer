@@ -22,7 +22,7 @@ To get a demo environment you have two possibilities:
 
 ### 1.2.1 Reserved preconfigured Instances
 
-To reserve a preconfigured demo environment, follow [this link](https://techzone.ibm.com/collection/ ibm-aiopsdemo#tab-1) to TechZone to create a reservation and to request access credentials. 
+To reserve a preconfigured demo environment, follow [this link](https://techzone.ibm.com/collection/ibm-aiopsdemo#tab-1) to TechZone to create a reservation and to request access credentials. 
 
 **❗Due to the nature of the product, IBM AIOps demo environments can be used effectively by a single user at a time. Because of that, provided environments are intended for enablement and practicing rather than for actual client demo!**
 
@@ -30,7 +30,7 @@ To reserve a preconfigured demo environment, follow [this link](https://techzone
 
 ### 1.2.2 Install your own environment
 
-You can easily provision your own instance of the demo environment, as described in [Provisioning you own instance of IBMAIOps demo](https://github.com/niklaushirt/ ibm-aiops-deployer#-1-quick-install).
+You can easily provision your own instance of the demo environment, as described in [Provisioning you own instance of IBMAIOps demo](https://github.com/niklaushirt/ibm-aiops-deployer#-1-quick-install).
 
 This takes about 15 minutes of your time and 2-3 hours for the installation to complete in the background.
 
@@ -134,7 +134,7 @@ You’ll see how:
 During the demonstration, we will be using the sample application called RobotShop, which serves as a proxy for any type of app. The application is built on a microservices architecture, and the services are running on Kubernetes cluster.
 
 >**🚀 <u>Action</u>**
->Use demo [introductory PowerPoint presentation](https://github.com/niklaushirt/ ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true), to illustrate the narration. Adapt your details on Slide 1 and 13
+>Use demo [introductory PowerPoint presentation](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true), to illustrate the narration. Adapt your details on Slide 1 and 13
 
 **📣 <u>Narration</u>**
 

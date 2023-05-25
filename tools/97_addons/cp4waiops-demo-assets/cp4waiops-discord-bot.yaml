@@ -41,7 +41,7 @@ spec:
         app: ibm-aiops-discord-bot
     spec:
       containers:
-      - image: quay.io/niklaushirt/ ibm-aiops-discord-bot:1.0
+      - image: quay.io/niklaushirt/ibm-aiops-discord-bot:1.0
         imagePullPolicy: Always
         name: ibm-aiops-discord-bot
         command:

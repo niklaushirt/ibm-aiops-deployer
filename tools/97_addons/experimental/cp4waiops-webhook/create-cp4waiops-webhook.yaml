@@ -60,7 +60,7 @@ spec:
         app:  aiops-event-gateway
     spec:
       containers:
-      - image: quay.io/niklaushirt/ ibm-aiops-webhook-python:0.4
+      - image: quay.io/niklaushirt/ibm-aiops-webhook-python:0.4
         imagePullPolicy: Always
         name: gateway
         command:

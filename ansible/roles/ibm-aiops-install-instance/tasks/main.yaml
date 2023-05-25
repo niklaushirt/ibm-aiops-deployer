@@ -72,7 +72,7 @@
       location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
       text: 'Installing  {{current_ibmaiops_cluster.kind}} - {{global_config.environment_name | default("Demo")}} - Version {{current_ibmaiops_cluster.subscription_channel}} - ' 
       link:
-          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs   
     EOF
   ignore_errors: true
@@ -126,13 +126,13 @@
 
 # Initialize Logging
 - name: 🟡🟡🟡 Initialize Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
     
 - name: 🟡🟡🟡 Initialization Checks
   include_tasks: 02_init_checks.yaml
 # Start block
 - name: 🟡🟡🟡 Start Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
 - name: 🟡🟡🟡 Initialization of the Installation
@@ -147,7 +147,7 @@
 
 # # Update IBM AIOps Cards
 # - name: 🟡🟡🟡 Update IBM AIOps Cards
-#   include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
+#   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # TEST
@@ -157,7 +157,7 @@
 
 
 - name: 🟡🟡🟡 Get Storage Classes
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
 - name: 🟡🟡🟡 Install IBM AIOps Prerequisites 
@@ -250,11 +250,11 @@
 
 # Update IBM AIOps Cards
 - name: 🟡🟡🟡 Update IBM AIOps Cards
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
 
 - name: 🟡🟡🟡 End Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 

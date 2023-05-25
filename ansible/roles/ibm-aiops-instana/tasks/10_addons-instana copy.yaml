@@ -363,14 +363,14 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operators
   shell: |
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/zookeeper-operator.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/kafka-operator.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/elasticsearch-operator.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/postgres-scc.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/postgres-operator.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/cassandra-operator.yaml
-    oc apply -f ./roles/ ibm-aiops-instana/templates/instana-datastores/clickhouse-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/zookeeper-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/kafka-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/elasticsearch-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/postgres-scc.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/postgres-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/cassandra-operator.yaml
+    oc apply -f ./roles/ibm-aiops-instana/templates/instana-datastores/clickhouse-operator.yaml
 
   ignore_errors: true
   register: output

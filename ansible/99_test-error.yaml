@@ -27,7 +27,7 @@
 - hosts: localhost
   #become: true
   #vars_files: {{ config_file }}
-  #vars_files: ./configs/ ibm-aiops-roks-all.yaml
+  #vars_files: ./configs/ibm-aiops-roks-all.yaml
 
   tasks:
   - name: 🚀 MAIN INSTALLATION LOOP - Install Module

@@ -78,7 +78,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -146,10 +146,10 @@ spec:
 
           env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ ibm-aiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
           - name: CONFIG
-            #value : "./configs/ ibm-aiops-all-34.yaml"
-            value : "./configs/ ibm-aiops-latest.yaml"
+            #value : "./configs/ibm-aiops-all-34.yaml"
+            value : "./configs/ibm-aiops-latest.yaml"
             # The pull token for cp.icr.com from https://myibm.ibm.com/products-services/containerlibrary
           - name: ENTITLED_REGISTRY_KEY
             value : "<REGISTRY_TOKEN>"

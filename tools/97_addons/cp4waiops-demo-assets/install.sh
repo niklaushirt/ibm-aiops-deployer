@@ -1,1 +1,1 @@
-oc apply -f ./tools/97_addons/ ibm-aiops-demo-assets/
+oc apply -f ./tools/97_addons/ibm-aiops-demo-assets/

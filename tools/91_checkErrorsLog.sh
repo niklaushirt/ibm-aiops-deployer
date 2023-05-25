@@ -21,7 +21,7 @@ spec:
     location: "BannerTop"
     text: "❌ FATAL ERROR: Please check the Installation Logs"
     link:
-        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
+        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
         text: Open Logs
 
 EOF
@@ -70,7 +70,7 @@ echo " 🟢🟢🟢 Logs are looking good."
 #     location: "BannerTop"
 #     text: "❗ There were some non-critical errors: Please check the Installation Logs"
 #     link:
-#         href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
+#         href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
 #         text: Open Logs
 # EOF
 # fi

@@ -150,7 +150,7 @@ For the following example we will iterate over the `events` array and epush them
 
 
 ```bash
-curl -X "POST" "http:// ibm-aiops-event-gateway- ibm-aiops.itzroks-270003bu3k-azsa8n-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud/webhook" \
+curl -X "POST" "http://ibm-aiops-event-gateway- ibm-aiops.itzroks-270003bu3k-azsa8n-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud/webhook" \
      -H 'Content-Type: application/json' \
      -H 'Cookie: 36c13f7095ac25e696d30d7857fd2483=e345512191b5598e33b76be85dd7d3b6' \
      -d $'{

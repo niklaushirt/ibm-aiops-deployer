@@ -190,7 +190,7 @@
 #     helm repo update
 #     helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.40.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
 #     # Security Context Constraints, needed if you are running on RedHat OpenShift
-#     kubectl apply -f .roles/ ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
+#     kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
 #   ignore_errors: true
 #   register: output
 #   args:

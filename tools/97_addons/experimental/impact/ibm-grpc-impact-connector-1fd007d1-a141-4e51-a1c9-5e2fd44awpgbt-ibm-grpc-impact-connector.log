@@ -13,7 +13,7 @@ Launching defaultServer (WebSphere Application Server 22.0.0.12/wlp-1.0.71.cl221
 
 [5/10/23, 8:54:30:165 UTC] 0000001e DropinMonitor A   CWWKZ0058I: Monitoring dropins for applications.
 [5/10/23, 8:54:31:247 UTC] 0000002a AppMessageHel I   CWWKZ0018I: Starting application ibm-aiops-grpc-impact-client.
-[5/10/23, 8:54:31:249 UTC] 0000002a WARDeployedAp I   CWWKZ0136I: The ibm-aiops-grpc-impact-client application is using the archive file at the /opt/ibm/wlp/usr/servers/defaultServer/apps/ ibm-aiops-grpc-impact-client.war location.
+[5/10/23, 8:54:31:249 UTC] 0000002a WARDeployedAp I   CWWKZ0136I: The ibm-aiops-grpc-impact-client application is using the archive file at the /opt/ibm/wlp/usr/servers/defaultServer/apps/ibm-aiops-grpc-impact-client.war location.
 [5/10/23, 8:54:31:649 UTC] 00000021 WSKeyStore    I   Successfully loaded default keystore: /opt/cert/keystore.p12 of type: PKCS12
 [5/10/23, 8:54:31:858 UTC] 00000028 WebGroup      I   SRVE0169I: Loading Web Module: health.
 [5/10/23, 8:54:31:936 UTC] 00000028 webcontainer  I com.ibm.ws.webcontainer.osgi.DynamicVirtualHost addWebApplication SRVE0250I: Web Module health has been bound to default_host.

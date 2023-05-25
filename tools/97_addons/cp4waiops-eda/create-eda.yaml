@@ -67,7 +67,7 @@ spec:
 
         env:
         - name: REPO_URL
-          value: https://github.com/niklaushirt/ ibm-aiops-eda.git
+          value: https://github.com/niklaushirt/ibm-aiops-eda.git
       serviceAccountName: eda-admin
       imagePullSecrets:
         - name: docker-secret

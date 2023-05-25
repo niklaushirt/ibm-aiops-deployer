@@ -11,4 +11,4 @@ create_topo_route: true
 create_external_routes: true
 
 # Link to documentation
-url_doc: https://github.com/niklaushirt/ ibm-aiops-deployer#3-ai-manager-configuration
+url_doc: https://github.com/niklaushirt/ibm-aiops-deployer#3-ai-manager-configuration

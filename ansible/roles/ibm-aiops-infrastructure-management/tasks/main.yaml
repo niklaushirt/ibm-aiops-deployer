@@ -100,18 +100,18 @@
 
 # Initialize Logging
 - name: 🟡🟡🟡  01_init-logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
     
 - name: 🟡🟡🟡  02_init_checks
   include_tasks: 02_init_checks.yaml
 # Start block
 - name: 🟡🟡🟡  90-log-start
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
   
 
 - name: 🟡🟡🟡  05_init-get-storage-class
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
       
 
 
@@ -155,7 +155,7 @@
 
 
 - name: 🟡🟡🟡  91-log-end
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 

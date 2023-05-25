@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -26,7 +26,7 @@ spec:
               #!/bin/bash
               set -x
 
-              export GIT_REPO=https://github.com/niklaushirt/ ibm-aiops-trainingdata.git
+              export GIT_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
               git clone $GIT_REPO
               cd ibm-aiops-trainingdata
               ./tools/01_demo/robotshop_incident_memory.sh

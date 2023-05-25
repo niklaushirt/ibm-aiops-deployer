@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -50,8 +50,8 @@ spec:
               echo ""
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
-              echo " 📥 Clone Repo https://github.com/niklaushirt/ ibm-aiops-deployer.git"
-              git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b ibm-aiops_stable
+              echo " 📥 Clone Repo https://github.com/niklaushirt/ibm-aiops-deployer.git"
+              git clone https://github.com/niklaushirt/ibm-aiops-deployer.git -b ibm-aiops_stable
 
               
               cd ibm-aiops-deployer
@@ -69,7 +69,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Starting Installation"
-              ansible-playbook ./ansible/00_ ibm-aiops-install.yaml -e "config_file_path=./configs/ ibm-aiops-practicum.yaml"
+              ansible-playbook ./ansible/00_ ibm-aiops-install.yaml -e "config_file_path=./configs/ibm-aiops-practicum.yaml"
               echo ""
               echo ""
               echo "*****************************************************************************************************************************"

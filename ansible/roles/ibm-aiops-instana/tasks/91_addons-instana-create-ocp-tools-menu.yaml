@@ -52,7 +52,7 @@
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/instana-icon.svg
+            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/instana-icon.svg
           section: IBMAIOps Addons
         href: >-
           https://$appURL

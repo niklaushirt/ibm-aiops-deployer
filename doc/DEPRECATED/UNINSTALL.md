@@ -2,7 +2,7 @@
 # 10 Uninstall
 ---------------------------------------------------------------
 
-❗ The scritps are coming from here [https://github.com/IBM/ ibm-aiops-samples.git](https://github.com/IBM/ ibm-aiops-samples.git)
+❗ The scritps are coming from here [https://github.com/IBM/ibm-aiops-samples.git](https://github.com/IBM/ibm-aiops-samples.git)
 
 If you run into problems check back if there have been some updates.
 

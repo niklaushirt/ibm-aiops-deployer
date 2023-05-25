@@ -61,7 +61,7 @@
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
       text: 'Installing  {{current_ibmaiops_cluster.kind}} - '  
       link:
-          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs    
     EOF
   ignore_errors: true
@@ -76,16 +76,16 @@
 
 # Initialize Logging
 - name: 📥 Init Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
 
  
 - name: 📥 Get Storage Class
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
 # Start block
 - name: 📥 Start Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
 
 
@@ -98,7 +98,7 @@
 
 
 - name: 📥 End Logging
-  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 - name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_cluster.kind}}
