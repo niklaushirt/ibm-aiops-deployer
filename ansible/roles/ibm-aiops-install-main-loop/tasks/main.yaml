@@ -63,6 +63,12 @@
     var: _current_openshift_cluster
     verbosity: 1
 
+- name: 🟣  Show AIOps Config
+  debug:
+    var: current_ibmaiops_cluster
+   # verbosity: 1
+
+
 # Get default storage classes for current OpenShift cluster
 - name: Get OpenShift storage classes to use for {{ current_ibmaiops_cluster.project }} and storage name {{ current_ibmaiops_cluster.openshift_storage_name }}
   include_role: 
