@@ -74,7 +74,7 @@
 
 
 
-- name: 🚀 DEMO-UI - Create IBMAIOPS Demo UI Configuration
+- name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops-demo-ui/create-ibmaiops-demo-cm.j2
@@ -93,7 +93,7 @@
   delay: 15
 
 
-- name: 🚀 DEMO-UI - Create IBMAIOPS Demo UI Deployment
+- name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Deployment
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops-demo-ui/create-ibmaiops-demo-deploy.j2

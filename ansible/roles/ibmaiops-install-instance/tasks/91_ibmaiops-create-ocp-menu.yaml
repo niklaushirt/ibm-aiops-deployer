@@ -56,7 +56,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBMAIOps
+        text: IBM AIOps
     EOF
   ignore_errors: true
 

@@ -8,14 +8,14 @@
     
 ## RUNBOOKS Duplicate
 
-- name: 🛰️  START - INSTALL IBMAIOPS RUNBOOKS
+- name: 🛰️  START - INSTALL IBM AIOPS RUNBOOKS
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
 
 - name: Log
   shell: |
-    export MESSAGE="Load IBMAIOps Runbooks"
+    export MESSAGE="Load IBM AIOps Runbooks"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
@@ -32,7 +32,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Load IBMAIOps Runbooks'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Load IBM AIOps Runbooks'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -101,7 +101,7 @@
                   ],
                   \"number\": 1,
                   \"title\": \"\",
-                  \"automationId\": \"AWX:job:IBMAIOPS Mitigate Robotshop Ratings Outage\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Mitigate Robotshop Ratings Outage\",
                   \"type\": \"automation\"
                 }
               ],
@@ -168,7 +168,7 @@
                   ],
                   \"number\": 1,
                   \"title\": \"\",
-                  \"automationId\": \"AWX:job:IBMAIOPS Create Robotshop Ratings Outage\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Create Robotshop Ratings Outage\",
                   \"type\": \"automation\"
                 }
               ],
@@ -236,7 +236,7 @@
                   ],
                   \"number\": 1,
                   \"title\": \"\",
-                  \"automationId\": \"AWX:job:IBMAIOPS Stop Robotshop Ratings\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Stop Robotshop Ratings\",
                   \"type\": \"automation\"
                 },
                 {
@@ -249,7 +249,7 @@
                   ],
                   \"number\": 2,
                   \"title\": \"\",
-                  \"automationId\": \"AWX:job:IBMAIOPS Start Robotshop Ratings\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Start Robotshop Ratings\",
                   \"type\": \"automation\"
                 }
               ],
@@ -301,7 +301,7 @@
 
     export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
         -H "Authorization: bearer $ZEN_TOKEN" \
-        -H 'Content-Type: application/json; charset=utf-8'|grep "IBMAIOPS Mitigate SockShop Switch Outage"|wc -l|tr -d ' ')
+        -H 'Content-Type: application/json; charset=utf-8'|grep "IBM AIOPS Mitigate SockShop Switch Outage"|wc -l|tr -d ' ')
 
     if [[ $result == "0" ]]; then
 
@@ -318,7 +318,7 @@
                   ],
                   \"number\": 1,
                   \"title\": \"\",
-                  \"automationId\": \"AWX:job:IBMAIOPS Mitigate SockShop Switch Outage\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Mitigate SockShop Switch Outage\",
                   \"type\": \"automation\"
                 }
               ],

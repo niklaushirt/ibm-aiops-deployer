@@ -76,7 +76,7 @@
   ignore_errors: true
 
 
-- name: 🚀 AWX - Create AWX Instance (while waiting for IBMAIOPS Installation to progress)
+- name: 🚀 AWX - Create AWX Instance (while waiting for IBM AIOPS Installation to progress)
   kubernetes.core.k8s:
     state: present
     namespace: awx

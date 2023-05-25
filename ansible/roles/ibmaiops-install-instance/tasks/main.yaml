@@ -23,7 +23,7 @@
 # Installs:
 #
 #  - AIOPS Operator
-#  - IBMAIOps
+#  - IBM AIOps
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
  
@@ -99,7 +99,7 @@
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 CONFIG"
     - "     ✅ Installation Name:                        {{current_ibmaiops_feature.aiops_name}}"
-    - "     🔎 IBMAIOps Size:                           {{current_ibmaiops_feature.aiops_size}}"
+    - "     🔎 IBM AIOps Size:                           {{current_ibmaiops_feature.aiops_size}}"
     - "     🔽 Custom Sizing File:                       {{current_ibmaiops_feature.custom_size_file | default('none')}}"
     - "     📣 Show Notifications:                       {{global_config.create_ocp_notifications | default('not defined')}}"
     - "     📣 Primary Notifications Position:           {{global_config.position_final_ocp_notification | default('not defined')}}"
@@ -145,8 +145,8 @@
 # - name: 🟡🟡🟡  Create Routes
 #   include_tasks: 30_ibmaiops-create-routes.yaml
 
-# # Update IBMAIOps Cards
-# - name: 🟡🟡🟡 Update IBMAIOps Cards
+# # Update IBM AIOps Cards
+# - name: 🟡🟡🟡 Update IBM AIOps Cards
 #   include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -160,12 +160,12 @@
   include_tasks: "{{role_path}}/../ibmaiops-global/tasks/05_init-get-storage-class.yaml"
 
 
-- name: 🟡🟡🟡 Install IBMAIOps Prerequisites 
+- name: 🟡🟡🟡 Install IBM AIOps Prerequisites 
   include_tasks: 06_ibmaiops-prerequisites.yaml
       
 
-# Install IBMAIOPS Operator
-- name: 🟡🟡🟡 IBMAIOps Custom Hook
+# Install IBM AIOPS Operator
+- name: 🟡🟡🟡 IBM AIOps Custom Hook
   include_tasks: 08_ibmaiops-custom-hook.yaml
 
 
@@ -173,7 +173,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CATALOG with YAML FILE
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: 🟡🟡🟡 Install IBMAIOps Catalog - Classic Way (skipped if CASE selected)
+- name: 🟡🟡🟡 Install IBM AIOps Catalog - Classic Way (skipped if CASE selected)
   include_tasks: 10_ibmaiops-catalog.yaml
   when: current_ibmaiops_feature.case_install==false
 
@@ -181,13 +181,13 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CATALOG with CASE FILE
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: 🟡🟡🟡 Install IBMAIOps Catalog - Save Case File (this can take some time - skipped if not selected)
+- name: 🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
     name: ibmaiops-case-save
   when: current_ibmaiops_feature.case_install==true
 
 
-- name: 🟡🟡🟡 Install IBMAIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
+- name: 🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
     name: ibmaiops-case-catalog-source
   when: current_ibmaiops_feature.case_install==true
@@ -195,9 +195,9 @@
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# INSTALL IBMAIOPS OPERATOR
+# INSTALL IBM AIOPS OPERATOR
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: 🟡🟡🟡 Install the IBMAIOps Operator
+- name: 🟡🟡🟡 Install the IBM AIOps Operator
   include_tasks: 11_ibmaiops-operator.yaml
 
 
@@ -205,17 +205,17 @@
 # INSTALL FEATURE FLAGS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Install  Feature Flags
-- name: 🟡🟡🟡  Install IBMAIOPS Feature Flags
+- name: 🟡🟡🟡  Install IBM AIOPS Feature Flags
   include_tasks: 12_ibmaiops-featureflags.yaml
   when: current_ibmaiops_feature.install_feature_flags == true | default('false')
 
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# INSTALL IBMAIOPS
+# INSTALL IBM AIOPS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# Install IBMAIOPS Instance
-- name: 🟡🟡🟡 Install the IBMAIOps Instance
+# Install IBM AIOPS Instance
+- name: 🟡🟡🟡 Install the IBM AIOps Instance
   include_tasks: 19_ibmaiops-install.yaml
       
 
@@ -233,23 +233,23 @@
       
 
 # Patching Topology Deployment
-- name: 🟡🟡🟡 Patch IBMAIOPS Topology
+- name: 🟡🟡🟡 Patch IBM AIOPS Topology
   include_tasks: 20_ibmaiops-patch-topology.yaml
 
 
-# Wait for IBMAIOPS being completely installed
-- name: 🟡🟡🟡 Wait for IBMAIOps to be ready
+# Wait for IBM AIOPS being completely installed
+- name: 🟡🟡🟡 Wait for IBM AIOps to be ready
   include_tasks: 99_ibmaiops-wait-ibmaiops.yaml
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Openshift WebConsole Menu Item
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🟡🟡🟡  Create IBMAIOps Openshift WebConsole Menu Item
+- name: 🟡🟡🟡  Create IBM AIOps Openshift WebConsole Menu Item
   include_tasks: 91_ibmaiops-create-ocp-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
-# Update IBMAIOps Cards
-- name: 🟡🟡🟡 Update IBMAIOps Cards
+# Update IBM AIOps Cards
+- name: 🟡🟡🟡 Update IBM AIOps Cards
   include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
 
 

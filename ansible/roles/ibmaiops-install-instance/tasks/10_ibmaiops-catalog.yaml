@@ -1,11 +1,11 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install IBMAIOPS PREREQUISITES
+# Install IBM AIOPS PREREQUISITES
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
-- name: 🛰️  START - IBMAIOPS CATALOG - ONLINE
+- name: 🛰️  START - IBM AIOPS CATALOG - ONLINE
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
@@ -39,7 +39,7 @@
 
 
 # Create IBM Operator Catalog
-- name:   🚀 IBMAIOPS CATALOG - Install IBM Operator Catalog - Online
+- name:   🚀 IBM AIOPS CATALOG - Install IBM Operator Catalog - Online
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/1_cat-ibm-catalog.j2

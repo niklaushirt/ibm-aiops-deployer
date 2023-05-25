@@ -18,13 +18,13 @@
 
 
 
-- name: ibmaiops-install-modules-loop 🌡   CHECK for - IBMAIOps
+- name: ibmaiops-install-modules-loop 🌡   CHECK for - IBM AIOps
   include_role:
     name: ibmaiops-install-instance
   when: current_ibmaiops_feature.kind=="IBMAIOps" and current_ibmaiops_feature.install==true
 
 
-- name: ibmaiops-install-modules-loop 🌡   CHECK for - IBMAIOps Demo Content
+- name: ibmaiops-install-modules-loop 🌡   CHECK for - IBM AIOps Demo Content
   include_role:
     name: ibmaiops-install-demo-content
   when: current_ibmaiops_feature.kind=="IBMAIOpsDemoContent" and current_ibmaiops_feature.install==true

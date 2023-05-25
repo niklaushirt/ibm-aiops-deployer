@@ -1,18 +1,18 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install IBMAIOPS PREREQUISITES
+# Install IBM AIOPS PREREQUISITES
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
-- name: 🛰️  START - IBMAIOPS OPERATORS
+- name: 🛰️  START - IBM AIOPS OPERATORS
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
 
 - name: Log
   shell: |
-    export MESSAGE="Installing IBMAIOPS Operator"
+    export MESSAGE="Installing IBM AIOPS Operator"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - IBMAIOPS Operator'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM AIOPS Operator'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -40,7 +40,7 @@
 
 
 # Create IBM AIOps Operator Group
-- name:   🚀 IBMAIOPS CATALOG - Install Operator Group
+- name:   🚀 IBM AIOPS CATALOG - Install Operator Group
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/2_opgroup-ibm-aiops.j2
@@ -50,7 +50,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for serviceaccount being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - 🕦 Wait for serviceaccount ibm-operator-catalog to become ready
+- name:   🚀 IBM AIOPS CATALOG - 🕦 Wait for serviceaccount ibm-operator-catalog to become ready
   shell: oc get -n openshift-marketplace serviceaccount ibm-operator-catalog --no-headers| grep -c ""
   register: kubectl_get_sa
   until: kubectl_get_sa.stdout == "1"
@@ -64,7 +64,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - Patch service account for pull secret
+- name:   🚀 IBM AIOPS CATALOG - Patch service account for pull secret
   shell: |
     oc patch -n openshift-marketplace serviceaccount ibm-operator-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
     oc patch -n openshift-marketplace serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
@@ -81,7 +81,7 @@
 
 
 
-# - name: IBMAIOPS OPERATOR -     🕦 Wait 120 seconds
+# - name: IBM AIOPS OPERATOR -     🕦 Wait 120 seconds
 #   shell: |
 #     sleep 120
 #   ignore_errors: true
@@ -91,7 +91,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Delete lingering Pods before check for reinstall
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - Delete lingering Pods before check for reinstall
+- name:   🚀 IBM AIOPS CATALOG - Delete lingering Pods before check for reinstall
   shell: |
     oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
   register: kubectl_get_pods
@@ -101,7 +101,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Operator to settle
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - Wait for Operator Catalog to settle
+- name:   🚀 IBM AIOPS CATALOG - Wait for Operator Catalog to settle
   shell: |
     # Wait for Operator to settle
     sleep 20
@@ -113,7 +113,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Delete lingering Pods before check for reinstall
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - Delete operator for pull secret
+- name:   🚀 IBM AIOPS CATALOG - Delete operator for pull secret
   shell: |
     oc delete pod $(oc get po -n openshift-marketplace|grep ImagePullBackOff|awk '{print$1}'):-notfound  --ignore-not-found -n openshift-marketplace
   register: kubectl_get_pods
@@ -124,7 +124,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Marketplace being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🕦 IBMAIOPS CATALOG - Wait for ibm-operator-catalog to become ready
+- name:   🕦 IBM AIOPS CATALOG - Wait for ibm-operator-catalog to become ready
   shell: oc get po -n openshift-marketplace |grep ibm-operator-catalog| grep '1/1' | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
@@ -136,14 +136,14 @@
 
 
 # Create IBM AIOps Subscription
-- name:   🚀 IBMAIOPS OPERATOR - Install Subscription - ONLINE
+- name:   🚀 IBM AIOPS OPERATOR - Install Subscription - ONLINE
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription.j2
   when: current_ibmaiops_feature.case_install==false
 
 # Create IBM AIOps Subscription
-- name:   🚀 IBMAIOPS OPERATOR - Install Subscription - CASE
+- name:   🚀 IBM AIOPS OPERATOR - Install Subscription - CASE
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription-case.j2
@@ -209,7 +209,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-- name:   🕦 IBMAIOPS OPERATOR - Wait for ibm-aiops-orchestrator Subscription to become ready
+- name:   🕦 IBM AIOPS OPERATOR - Wait for ibm-aiops-orchestrator Subscription to become ready
   shell: oc get csv -n {{ current_ibmaiops_cluster.project }}|grep ibm-aiops-orchestrator|grep "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
@@ -237,7 +237,7 @@
 
 
 
-- name:   🕦 IBMAIOPS OPERATOR - Wait for CSVs to become ready
+- name:   🕦 IBM AIOPS OPERATOR - Wait for CSVs to become ready
   shell: oc get csv -n {{ current_ibmaiops_cluster.project }}|grep -v "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -v ibm-secure-tunnel| grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
@@ -249,7 +249,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Freeze IBM Operator Catalog version (if enabled)
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBMAIOPS CATALOG - Freeze IBM Operator Catalog version
+- name:   🚀 IBM AIOPS CATALOG - Freeze IBM Operator Catalog version
   shell: |
     export FREEZE={{current_ibmaiops_feature.freeze_catalog | default("false") }}
     #echo "FREEZE:$FREEZE"

@@ -69,8 +69,8 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/execution_environments/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Execution Environment",
-      "description": "IBMAIOPS Execution Environment",
+      "name": "IBM AIOPS Execution Environment",
+      "description": "IBM AIOPS Execution Environment",
       "organization": null,
       "image": "'$RUNNER_IMAGE'",
       "credential": null,
@@ -79,7 +79,7 @@
 
     if [[ $result =~ " already exists" ]];
     then
-        export EXENV_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/execution_environments/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBMAIOPS Execution Environment")|.id')
+        export EXENV_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/execution_environments/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBM AIOPS Execution Environment")|.id')
     else
         export EXENV_ID=$(echo $result|jq ".id")
         sleep 60
@@ -106,8 +106,8 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-        "name": "IBMAIOPS Runbooks",
-        "description": "IBMAIOPS Runbooks",
+        "name": "IBM AIOPS Runbooks",
+        "description": "IBM AIOPS Runbooks",
         "local_path": "",
         "scm_type": "git",
         "scm_url": "'$AWX_REPO'",
@@ -127,7 +127,7 @@
 
     if [[ $result =~ " already exists" ]];
     then
-        export PROJECT_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBMAIOPS Runbooks")|.id')
+        export PROJECT_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBM AIOPS Runbooks")|.id')
     else
         export PROJECT_ID=$(echo $result|jq ".id")
     fi
@@ -173,7 +173,7 @@
 
     if [[ $result =~ " already exists" ]];
     then
-        export PROJECT_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBMAIOPS Runbooks")|.id')
+        export PROJECT_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBM AIOPS Runbooks")|.id')
     else
         export PROJECT_ID=$(echo $result|jq ".id")
     fi
@@ -188,7 +188,7 @@
 - name: 🚀 AWX - Wait for AWX Project
   shell: |
     #sleep 60
-    export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c -r '.results[]| select( .name == "IBMAIOPS Runbooks")|.status')
+    export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c -r '.results[]| select( .name == "IBM AIOPS Runbooks")|.status')
     echo "$STATUS"
   ignore_errors: true
   register: STATUS
@@ -209,8 +209,8 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/inventories/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Runbooks",
-      "description": "IBMAIOPS Runbooks",
+      "name": "IBM AIOPS Runbooks",
+      "description": "IBM AIOPS Runbooks",
       "organization": 1,
       "project": '{{AWX_PROJECT_ID}}',
       "kind": "",
@@ -220,7 +220,7 @@
 
     if [[ $result =~ " already exists" ]];
     then
-        export INVENTORY_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/inventories/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBMAIOPS Runbooks")|.id')
+        export INVENTORY_ID=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/inventories/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c '.results[]| select( .name == "IBM AIOPS Runbooks")|.id')
     else
         export INVENTORY_ID=$(echo $result|tr -d '\n'|jq ".id")
         sleep 15
@@ -243,7 +243,7 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/job_templates/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Mitigate Robotshop Ratings Outage",
+      "name": "IBM AIOPS Mitigate Robotshop Ratings Outage",
       "description": "Mitigate Robotshop Ratings Outage",
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
@@ -269,7 +269,7 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/job_templates/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Create Robotshop Ratings Outage",
+      "name": "IBM AIOPS Create Robotshop Ratings Outage",
       "description": "Create Robotshop Ratings Outage",
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
@@ -294,7 +294,7 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/job_templates/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Start Robotshop Ratings",
+      "name": "IBM AIOPS Start Robotshop Ratings",
       "description": "Start Robotshop Ratings",
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
@@ -320,7 +320,7 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/job_templates/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Stop Robotshop Ratings",
+      "name": "IBM AIOPS Stop Robotshop Ratings",
       "description": "Stop Robotshop Ratings",
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
@@ -346,7 +346,7 @@
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/job_templates/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
-      "name": "IBMAIOPS Mitigate SockShop Switch Outage",
+      "name": "IBM AIOPS Mitigate SockShop Switch Outage",
       "description": "Mitigate SockShop Switch Outage",
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},

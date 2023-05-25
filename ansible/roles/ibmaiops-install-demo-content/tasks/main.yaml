@@ -21,7 +21,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - OpenLDAP & Register with IBMAIOps
+#  - OpenLDAP & Register with IBM AIOps
 #  - RobotShop Demo App
 #  - Demo Service Account 
 #  - AWX (Open Source Ansible Tower) with preloaded Playbooks
@@ -34,7 +34,7 @@
 #    - Create K8s Observer
 #    - Create ASM merge rules
 #    - Load ASM merge Topology
-#    - Create IBMAIOps Application
+#    - Create IBM AIOps Application
 #  - Creates valid certificate for Ingress (Slack) 
 #  - External Routes (Flink, Topology, ...)
 #  - Disables ASM Service match rule 
@@ -112,7 +112,7 @@
     - "  🌏 GLOBAL CONFIG"
     - "      🔐 Global Password for all Instances:       {{ global_config.global_password  | default('not defined') }}"
     - "      📝 Create App Menu Items in OCP:            {{ global_config.create_ocp_items  | default('not defined') }}"
-    - "      📝 Create Welcome Cards in IBMAIOps:      {{ global_config.create_cards  | default('not defined') }}"
+    - "      📝 Create Welcome Cards in IBM AIOps:       {{ global_config.create_cards  | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 TRAINING"
     - "     ✅ Create Training for Temp Grouping:        {{current_ibmaiops_feature.training_create_training_temporal}}"
@@ -138,8 +138,8 @@
     - "  📥 RUNBOOKS"
     - "     ✅ Install AWX:                              {{current_ibmaiops_feature.install_awx}}"
     - "     ✅ Load AWX Playbooks:                       {{current_ibmaiops_feature.load_awx_playbooks}}"
-    - "     ✅ Integrate AWX and IBMAIOps:             {{current_ibmaiops_feature.integrate_awx}}"
-    - "     ✅ Load IBMAIOps Runbooks:                 {{current_ibmaiops_feature.load_runbooks}}"
+    - "     ✅ Integrate AWX and IBM AIOps:              {{current_ibmaiops_feature.integrate_awx}}"
+    - "     ✅ Load IBM AIOps Runbooks:                  {{current_ibmaiops_feature.load_runbooks}}"
     - "     ✅ Create Runbook Policy:                    {{current_ibmaiops_feature.create_runbook_policy}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 DEMO UI"
@@ -147,8 +147,8 @@
     - "     🌏 Slack URL:                                {{current_ibmaiops_feature.demoui_slack_url}}"
     - "     👩‍💻 Slack User:                               {{current_ibmaiops_feature.demoui_slack_user}}"
     - "     🔐 Slack Password:                           {{current_ibmaiops_feature.demoui_slack_pwd}}"
-    - "     👩‍💻 IBMAIOps Demo User:                     {{current_ibmaiops_feature.demoui_user}}"
-    - "     🔐 IBMAIOps Demo Password (override):      {{current_ibmaiops_feature.demoui_pwd | default('not defined')}}"
+    - "     👩‍💻 IBM AIOps Demo User:                      {{current_ibmaiops_feature.demoui_user}}"
+    - "     🔐 IBM AIOps Demo Password (override):       {{current_ibmaiops_feature.demoui_pwd | default('not defined')}}"
     - "     ❗ Admin Mode:                               {{current_ibmaiops_feature.demoui_admin_mode}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 OUTPUT"
@@ -166,7 +166,7 @@
     - "  📥 MISC PARAMETERS"
     - "     🌏 Create external routes:                   {{current_ibmaiops_feature.create_external_routes}}"
     - "     🛠️ Create a valid ingress cert:              {{current_ibmaiops_feature.create_valid_ingress_certificate}}"
-    - "     🛠️ Create Policy for Incident Creation:         {{current_ibmaiops_feature.create_incident_policy}}"
+    - "     🛠️ Create Policy for Incident Creation:      {{current_ibmaiops_feature.create_incident_policy}}"
     - "     🛠️ Create Kafka Log connection:              {{current_ibmaiops_feature.create_log_connection}}"
     - "     🛠️ Create Service Account:                   {{current_ibmaiops_feature.create_account}}"
     - "     🛠️ Create Webhook Probe:                     {{current_ibmaiops_feature.install_webhook_probe  | default('not defined')}}"
@@ -193,8 +193,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # CHECK FOR INSTALLATION READY
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# Check that IBMAIOPS has been completely installed
-# - name: 🟡🟡🟡  Wait for IBMAIOps to be Ready
+# Check that IBM AIOPS has been completely installed
+# - name: 🟡🟡🟡  Wait for IBM AIOps to be Ready
 #   include_tasks: 99_ibmaiops-wait-ibmaiops.yaml
 
 - name: 🟡🟡🟡  Start Logging
@@ -309,11 +309,11 @@
 # POSTINSTALL TASKS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Register LDAP Users
-- name: 🟡🟡🟡  Register LDAP Server with IBMAIOPS
+- name: 🟡🟡🟡  Register LDAP Server with IBM AIOPS
   include_tasks: 25-post-ldap-register.yaml
   when: current_ibmaiops_feature.install_ldap == true and current_ibmaiops_feature.ldap_register == true
 # Create valid certificate for Ingress (for Slack)
-- name: 🟡🟡🟡  Create a valid certificate for the IBMAIOPS Ingress
+- name: 🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
   include_tasks: 31_ibmaiops-patch-ingress.yaml
   when: current_ibmaiops_feature.create_valid_ingress_certificate == true
 
@@ -335,12 +335,12 @@
   include_tasks: 48_ibmaiops-load-awx-playbooks-for-demo.yaml
   when: current_ibmaiops_feature.load_awx_playbooks == true 
 
-- name: 🟡🟡🟡  Create AWX Connection in IBMAIOPS
+- name: 🟡🟡🟡  Create AWX Connection in IBM AIOPS
   include_tasks: 47_ibmaiops-create-awx-connection.yaml
   when: current_ibmaiops_feature.integrate_awx == true
 
-# Load Demo Runbooks into IBMAIOps
-- name: 🟡🟡🟡  Load Demo Runbooks into IBMAIOPS
+# Load Demo Runbooks into IBM AIOps
+- name: 🟡🟡🟡  Load Demo Runbooks into IBM AIOPS
   include_tasks: 49_ibmaiops-load-runbooks-for-demo.yaml
   when: current_ibmaiops_feature.load_runbooks == true
 
@@ -476,8 +476,8 @@
   include_tasks: 91_ibmaiops-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
-# Update IBMAIOps Cards
-- name: 🟡🟡🟡 Update IBMAIOps Cards
+# Update IBM AIOps Cards
+- name: 🟡🟡🟡 Update IBM AIOps Cards
   include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
 
 

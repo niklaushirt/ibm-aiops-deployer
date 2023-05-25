@@ -17,7 +17,7 @@
 
 - name: Log
   shell: |
-    export MESSAGE="Integrate IBMAIOps with LDAP"
+    export MESSAGE="Integrate IBM AIOps with LDAP"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
@@ -34,7 +34,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Integrate IBMAIOps with LDAP'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Integrate IBM AIOps with LDAP'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -221,7 +221,7 @@
 
 
 
-- name: 🚀 LDAPREGISTER - CREATE IBMAIOps Groups and Users
+- name: 🚀 LDAPREGISTER - CREATE IBM AIOps Groups and Users
   shell: |
     set -x
     

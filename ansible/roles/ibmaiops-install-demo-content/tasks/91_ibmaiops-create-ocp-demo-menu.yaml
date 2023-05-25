@@ -52,11 +52,11 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/demo-icon.svg
-          section: IBMAIOps Demo
+          section: IBM AIOps Demo
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBMAIOps Demo UI
+        text: IBM AIOps Demo UI
     EOF
   ignore_errors: true
 

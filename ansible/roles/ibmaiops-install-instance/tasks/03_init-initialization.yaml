@@ -67,10 +67,10 @@
 - name:   🚀 INITIALIZATION - Installation Parameters"
   debug:
     msg:
-    - "** IBMAIOPS IBMAIOps Parameters ***********************************************************************"
-    - " IBMAIOps Installation Name:      {{current_ibmaiops_feature.aiops_name}}"
-    - " IBMAIOps Namespace:              {{ current_ibmaiops_cluster.project }}"
-    - " IBMAIOps Installation Size:      {{current_ibmaiops_feature.aiops_size}}"
+    - "** IBM AIOps Parameters ***********************************************************************"
+    - " IBM AIOps Installation Name:      {{current_ibmaiops_feature.aiops_name}}"
+    - " IBM AIOps Namespace:              {{ current_ibmaiops_cluster.project }}"
+    - " IBM AIOps Installation Size:      {{current_ibmaiops_feature.aiops_size}}"
     - ""
     verbosity: 1
 

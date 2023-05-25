@@ -53,7 +53,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/stan1.svg
-          section: IBMAIOps Addons
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -77,7 +77,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation.svg
-          section: IBMAIOps Addons
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -100,7 +100,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ansible-icon.svg
-          section: IBMAIOps Addons
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -122,7 +122,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ldap-icon.svg
-          section: IBMAIOps Addons
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -145,11 +145,11 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
-          section: IBMAIOps Tools
+          section: IBM AIOps Tools
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBMAIOps Flink Connectors
+        text: IBM AIOps Flink Connectors
     EOF
   ignore_errors: true
 
@@ -168,11 +168,11 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
-          section: IBMAIOps Tools
+          section: IBM AIOps Tools
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBMAIOps Flink Policies
+        text: IBM AIOps Flink Policies
     EOF
   ignore_errors: true
 
@@ -190,10 +190,10 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
-          section: IBMAIOps Tools
+          section: IBM AIOps Tools
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBMAIOps Spark
+        text: IBM AIOps Spark
     EOF
   ignore_errors: true

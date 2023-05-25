@@ -205,7 +205,7 @@
 
 
 
-  - name: 🚀 ROUTES - Create external IBMAIOps API Route 
+  - name: 🚀 ROUTES - Create external IBM AIOps API Route 
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
       existing=$(oc get route ai-platform-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
