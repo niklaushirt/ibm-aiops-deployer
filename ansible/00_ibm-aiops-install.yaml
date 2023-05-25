@@ -97,7 +97,7 @@
   - name: ♻️  Deploy IBM AIOps Assets - Loop over Clusters
     include_role:
       name: ibm-aiops-install-main-loop
-    loop: "{{ all_config.ibm-aiops | default([]) }}"
+    loop: "{{ all_config.ibmaiops | default([]) }}"
     loop_control:
       loop_var: current_ibm-aiops_cluster
 
