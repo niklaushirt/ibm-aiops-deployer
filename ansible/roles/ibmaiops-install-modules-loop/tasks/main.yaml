@@ -18,51 +18,51 @@
 
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps
   include_role:
-    name:  ibm-aiops-install-instance
+    name: ibm-aiops-install-instance
   when: current_ ibm-aiops_feature.kind=="IBMAIOps" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps Demo Content
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - IBM AIOps Demo Content
   include_role:
-    name:  ibm-aiops-install-demo-content
+    name: ibm-aiops-install-demo-content
   when: current_ ibm-aiops_feature.kind=="IBMAIOpsDemoContent" and current_ ibm-aiops_feature.install==true
 
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - Infrastructure Management
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Infrastructure Management
   include_role:
-    name:  ibm-aiops-infrastructure-management
+    name: ibm-aiops-infrastructure-management
   when: current_ ibm-aiops_feature.kind=="InfrastructureManagement" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - ELK Stack
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - ELK Stack
   include_role:
-    name:  ibm-aiops-elk
+    name: ibm-aiops-elk
   when: current_ ibm-aiops_feature.kind=="ELK" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic
   include_role:
-    name:  ibm-aiops-turbonomic
+    name: ibm-aiops-turbonomic
   when: current_ ibm-aiops_feature.kind=="Turbonomic" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - GitOps
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - GitOps
   include_role:
-    name:  ibm-aiops-gitops
+    name: ibm-aiops-gitops
   when: current_ ibm-aiops_feature.kind=="GitOps" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - Instana
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Instana
   include_role:
-    name:  ibm-aiops-instana
+    name: ibm-aiops-instana
   when: current_ ibm-aiops_feature.kind=="Instana" and current_ ibm-aiops_feature.install==true
 
 
-- name:  ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic Demo Contnet
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - Turbonomic Demo Contnet
   include_role:
-    name:  ibm-aiops-turbonomic-demo-content
+    name: ibm-aiops-turbonomic-demo-content
   when: current_ ibm-aiops_feature.kind=="TurbonomicDemoContent" and current_ ibm-aiops_feature.install==true
 

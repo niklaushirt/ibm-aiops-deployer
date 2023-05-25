@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name:  ibm-aiops
+  environment_name: ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -47,12 +47,12 @@ openshift:
 
 
  ibm-aiops:
-- project:  ibm-aiops
+- project: ibm-aiops
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name:  ibm-aiops
+  - name: ibm-aiops
     kind: IBMAIOps
     install: true
     # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)

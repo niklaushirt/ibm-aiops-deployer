@@ -29,7 +29,7 @@
                         <p>You can access the Web UI via the external Route that you can determine like this:</p>
 
                         <div>
-                            <pre><code class="language-bash">oc get route -n  ibm-aiops  ibm-aiops-event-gateway  -o jsonpath={.spec.host}</code></pre>
+                            <pre><code class="language-bash">oc get route -n ibm-aiops ibm-aiops-event-gateway  -o jsonpath={.spec.host}</code></pre>
                         </div>
 
                         <p>You have to use the Token to access the UI.</p>
@@ -195,7 +195,7 @@ curl -X &quot;POST&quot; &quot;http://&lt;YOUR-CLUSTER&gt;/webhookIterate&quot; 
                             <pre><code class="language-bash">
     ansible-playbook ./ansible/19_aimanager-event-webhook.yaml 
 
-    oc get route -n  ibm-aiops  ibm-aiops-event-gateway  -o jsonpath={.spec.host}
+    oc get route -n ibm-aiops ibm-aiops-event-gateway  -o jsonpath={.spec.host}
                         </code></pre>
                         </div>
 

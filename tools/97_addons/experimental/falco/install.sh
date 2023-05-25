@@ -66,7 +66,7 @@ oc delete -n falco pods --all
 
 
 http:// ibm-aiops-falco-gateway- ibm-aiops.itzroks-270003bu3k-rt8vw8-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-gb.containers.appdomain.cloud/webhookSingle
-http://aiops-falco-gateway-service. ibm-aiops/webhookSingle:8000
+http://aiops-falco-gateway-service.ibm-aiops/webhookSingle:8000
 
 
 

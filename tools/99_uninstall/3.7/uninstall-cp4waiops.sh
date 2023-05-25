@@ -313,7 +313,7 @@ if [[ ! -z "$IBMAIOPS_PROJECT"  ]]; then
 
    log "[SUCCESS]" "----Congratulations! IBM IBM AIOps AI Manager has been uninstalled!----"
    if [[ $ONLY_CLOUDPAK == "true" ]] || [[ $ONLY_CLOUDPAK == "false" && $IAF_PROJECT == $OPENSHIFT_OPERATORS ]]; then 
-   # If Cloud Pak Platform was removed, or IAF was installed at the cluster scope,  ibm-aiops project can be deleted
+   # If Cloud Pak Platform was removed, or IAF was installed at the cluster scope, ibm-aiops project can be deleted
       log "[SUCCESS]" "------ \033[1;36mYou can now delete the $IBMAIOPS_PROJECT project safely.\033[0m------"
    elif [[ $IBMAIOPS_PROJECT == $IAF_PROJECT ]]
    # When ONLY_CLOUDPAK is false (default value) -- if IAF and AIOps are namespaced installs (not in openshift-operators), warn against deleting the project as IAF will hang

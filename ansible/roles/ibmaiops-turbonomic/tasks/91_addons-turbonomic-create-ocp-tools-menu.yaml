@@ -26,7 +26,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name:  ibm-aiops-notification
+      name: ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
@@ -48,7 +48,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-turbonomic
+        name: ibm-aiops-turbonomic
       spec:
         applicationMenu:
           imageURL: >-

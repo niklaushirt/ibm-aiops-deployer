@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  ibm-aiops-tools
+  name: ibm-aiops-tools
   namespace: default
   labels:
-      app:  ibm-aiops-tools
+      app: ibm-aiops-tools
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  ibm-aiops-tools
+      app: ibm-aiops-tools
   template:
     metadata:
       labels:
-        app:  ibm-aiops-tools
+        app: ibm-aiops-tools
     spec:
       containers:
       - image: quay.io/niklaushirt/ ibm-aiops-tools:2.0

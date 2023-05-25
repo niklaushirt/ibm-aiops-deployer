@@ -279,7 +279,7 @@ if [[ $AIOPS_PODS -gt $AIOPS_PODS_MIN ]]; then
       printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐥🐣🥚🥚🥚🥚🥚 - Getting LDAP Status                                           "
       export LDAP_NAMESPACE=$(oc get po -n openldap --ignore-not-found| grep ldap |awk '{print$1}')
       printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐣🥚🥚🥚🥚 - Getting Aiops Toolbox Status                                  "
-      export TOOLBOX_READY=$(oc get po -n default|grep  ibm-aiops-tools| grep 1/1 |awk '{print$1}')
+      export TOOLBOX_READY=$(oc get po -n default|grep ibm-aiops-tools| grep 1/1 |awk '{print$1}')
       printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐣🥚🥚🥚 - Getting ELK Status                                            "
       export ELK_NAMESPACE=$(oc get ns openshift-logging  --ignore-not-found|awk '{print$1}')
       printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐣🥚🥚 - Getting Istio Status                                          "
@@ -411,16 +411,16 @@ checkEventManager () {
 installViaJob() {
         
 
-cat <<EOF | oc apply -n  ibm-aiops-installer -f -
+cat <<EOF | oc apply -n ibm-aiops-installer -f -
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name:  ibm-aiops-installer
+  name: ibm-aiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name:  ibm-aiops-installer-admin
+  name: ibm-aiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -428,15 +428,15 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace:  ibm-aiops-installer
+    namespace: ibm-aiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: $JOB_NAME
-  namespace:  ibm-aiops-installer
+  namespace: ibm-aiops-installer
 spec:
-  serviceAccountname:  ibm-aiops-installer-admin
+  serviceAccountname: ibm-aiops-installer-admin
   template:
     spec:
       containers:
@@ -465,8 +465,8 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo $INSTALL_REPO"
-              git clone $INSTALL_REPO -b  ibm-aiops_stable
-              cd  ibm-aiops-deployer
+              git clone $INSTALL_REPO -b ibm-aiops_stable
+              cd ibm-aiops-deployer
               echo ""
               echo ""
 
@@ -543,8 +543,8 @@ menu_JOB_AI_ALL () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
       echo "*****************************************************************************************************************************"
@@ -598,8 +598,8 @@ menu_JOB_EVENT_ALL () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
  
@@ -655,8 +655,8 @@ menu_JOB_AI_ONLY () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
  
@@ -711,8 +711,8 @@ menu_JOB_EVENT_ONLY () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
  
@@ -770,8 +770,8 @@ menu_JOB_ALL () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
  
@@ -815,8 +815,8 @@ menu_JOB_TURBO () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
 
      else
             echo "    ⚠️  Skipping"
@@ -865,7 +865,7 @@ menu_JOB_INSTANA () {
             sed -i -e "s/<YOUR_SALES_KEY>/$DO_SK/g" /tmp/ ibm-aiops-roks-instana.yaml
             sed -i -e "s/<YOUR_AGENT_KEY>/$DO_AK/g" /tmp/ ibm-aiops-roks-instana.yaml
 
-            oc apply -n  ibm-aiops-intallation -f /tmp/ ibm-aiops-roks-instana.yaml
+            oc apply -n ibm-aiops-intallation -f /tmp/ ibm-aiops-roks-instana.yaml
 
             echo ""
             echo ""
@@ -880,8 +880,8 @@ menu_JOB_INSTANA () {
                   echo " Waiting 30 seconds for Job to settle"
                   sleep 30
 
-                  INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep aiops-easy-install-instana|awk '{print$1}')
-                  oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+                  INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep aiops-easy-install-instana|awk '{print$1}')
+                  oc logs -n ibm-aiops-installer -f $INSTALL_POD
 
             else
                   echo "    ⚠️  Skipping"
@@ -939,8 +939,8 @@ menu_JOB_ELK () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep $JOB_NAME|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
       echo "*****************************************************************************************************************************"
@@ -989,8 +989,8 @@ menu_JOB_TURBO_INT () {
             echo " Waiting 30 seconds for Job to settle"
             sleep 30
 
-            INSTALL_POD=$(oc get po -n  ibm-aiops-installer|grep aiops-easy-install|awk '{print$1}')
-            oc logs -n  ibm-aiops-installer -f $INSTALL_POD
+            INSTALL_POD=$(oc get po -n ibm-aiops-installer|grep aiops-easy-install|awk '{print$1}')
+            oc logs -n ibm-aiops-installer -f $INSTALL_POD
       fi
    
 

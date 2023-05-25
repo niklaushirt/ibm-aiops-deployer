@@ -7,14 +7,14 @@ echo "**************************************************************************
 echo " ❌ FATAL ERROR: Please check the Installation Logs"
 echo "*****************************************************************************************************************************"
 OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-INSTALL_POD=$(oc get po -n  ibm-aiops-installer -l app= ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app= ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
 oc delete ConsoleNotification --all
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
 metadata:
-    name:  ibm-aiops-notification-main
+    name: ibm-aiops-notification-main
 spec:
     backgroundColor: '#9a0000'
     color: '#fff'
@@ -29,12 +29,12 @@ else
 oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
-export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
 metadata:
-    name:  ibm-aiops-notification-main
+    name: ibm-aiops-notification-main
 spec:
     backgroundColor: '#009a00'
     color: '#fff'
@@ -57,13 +57,13 @@ echo " 🟢🟢🟢 Logs are looking good."
 # if [ $num_failed -gt 0 ];
 # then
 # OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-# INSTALL_POD=$(oc get po -n  ibm-aiops-installer -l app= ibm-aiops-installer --no-headers|grep "Running"|awk '{print$1}')
+# INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app= ibm-aiops-installer --no-headers|grep "Running"|awk '{print$1}')
 
 # cat <<EOF | oc apply -f -
 # apiVersion: console.openshift.io/v1
 # kind: ConsoleNotification
 # metadata:
-#     name:  ibm-aiops-notification-log
+#     name: ibm-aiops-notification-log
 # spec:
 #     backgroundColor: '#ffd500'
 #     color: '#000'

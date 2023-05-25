@@ -39,7 +39,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: actionscript-pod-service
-  namespace:  ibm-aiops-installer
+  namespace: ibm-aiops-installer
 spec:
   selector:
     app: actionscript-pod

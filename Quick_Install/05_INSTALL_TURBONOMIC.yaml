@@ -34,12 +34,12 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name:  ibm-aiops-installer
+  name: ibm-aiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name:  ibm-aiops-installer-admin
+  name: ibm-aiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -47,19 +47,19 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace:  ibm-aiops-installer
+    namespace: ibm-aiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name:  ibm-aiops-install-turbonomic
-  namespace:  ibm-aiops-installer
+  name: ibm-aiops-install-turbonomic
+  namespace: ibm-aiops-installer
 spec:
-  serviceAccountname:  ibm-aiops-installer-admin
+  serviceAccountname: ibm-aiops-installer-admin
   template:
     metadata:
       labels:
-        app:  ibm-aiops-installer
+        app: ibm-aiops-installer
 
     spec:
       containers:
@@ -81,8 +81,8 @@ spec:
               #set -x
 
               oc delete ConsoleNotification --all
-              oc delete job  -n  ibm-aiops-installer --ignore-not-found $(oc get job -n  ibm-aiops-installer|grep load-|awk '{print$1}')
-              oc delete pod  -n  ibm-aiops-installer --ignore-not-found $(oc get po -n  ibm-aiops-installer|grep load-|awk '{print$1}')
+              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}')
+              oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}')
 
               echo "*****************************************************************************************************************************"
               echo " ✅ STARTING: INSTALL IBMAIOps with Demo Content"
@@ -92,8 +92,8 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo $INSTALL_REPO"
-              git clone $INSTALL_REPO -b  ibm-aiops_stable
-              cd  ibm-aiops-deployer
+              git clone $INSTALL_REPO -b ibm-aiops_stable
+              cd ibm-aiops-deployer
               echo ""
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -116,7 +116,7 @@ spec:
               # *************************************************************************************************************************************************
 
               global_config:
-                environment_name:  ibm-aiops
+                environment_name: ibm-aiops
                 cloud_platform: existing-ocp
                 # --------------------------------------------------------------------------------------------------------------------------------------
                 # IBMAIOPS Pull Registires
@@ -169,15 +169,15 @@ spec:
               # *************************************************************************************************************************************************
               
 
-               ibm-aiops:
-              - project:  ibm-aiops-addons
+              ibm-aiops:
+              - project: ibm-aiops-addons
                 instances:
                 # --------------------------------------------------------------------------------------------------------------------------------------
                 # --------------------------------------------------------------------------------------------------------------------------------------
                 # INSTALL TURBONOMIC
                 # --------------------------------------------------------------------------------------------------------------------------------------
                 # --------------------------------------------------------------------------------------------------------------------------------------
-                - name:  ibm-aiops-turbonomic
+                - name: ibm-aiops-turbonomic
                   kind: Turbonomic
                   install: false
                   turbo_version: 8.8.3
@@ -188,7 +188,7 @@ spec:
                   #storage_class_file: automatic
                   #storage_class_block: automatic
 
-                - name:  ibm-aiops-turbonomic-demo-content
+                - name: ibm-aiops-turbonomic-demo-content
                   kind: TurbonomicDemoContent
                   install: true
                   # Admin User Password (OVERRIDES GLOBAL PASSWORD)

@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name:  ibm-aiops
+  environment_name: ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -47,12 +47,12 @@ openshift:
 
 
  ibm-aiops:
-- project:  ibm-aiops-infra
+- project: ibm-aiops-infra
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Infrastructure Management
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name:  ibm-aiops-infrastructure-management
+  - name: ibm-aiops-infrastructure-management
     kind: InfrastructureManagement
     install: true
     # Version of the catalog subscription

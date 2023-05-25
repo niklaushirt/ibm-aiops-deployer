@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: load-metric-cassandra
-  namespace:  ibm-aiops-installer
+  namespace: ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
   template:
@@ -39,7 +39,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              cd  ibm-aiops-trainingdata
+              cd ibm-aiops-trainingdata
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo "This Repo includes those latestet Commits"
               echo "------------------------------------------------------------------------------------------------------------------------------"

@@ -336,7 +336,7 @@ This installation cocntains:
 1. Adap the installation configuration to your needs. Select the modules to install and their configuration.
 
 	```yaml
-	- name:  ibm-aiops
+	- name: ibm-aiops
 	  kind: IBMAIOps						<-- The feature to be configured
 	  install: true							<-- Install yes/no
 	

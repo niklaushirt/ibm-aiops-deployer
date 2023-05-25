@@ -45,7 +45,7 @@ OCP_MAJOR_VERSION: automatic
 # *************************************************************************************
 
 # IBMAIOPS Namespace for installation
-AIOPS_NAMESPACE:  ibm-aiops
+AIOPS_NAMESPACE: ibm-aiops
 
 # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)
 AIOPS_SIZE: small # Leave at small unless you know what you're doing
@@ -87,7 +87,7 @@ STORAGECLASS_BLOCK_OVERRIDE: not_configured
 # *************************************************************************************
 
 # IBMAIOPS Namespace for installation
-EVTMGR_NAMESPACE:  ibm-aiops-evtmgr
+EVTMGR_NAMESPACE: ibm-aiops-evtmgr
 
 ```
 <div style="page-break-after: always;"></div>

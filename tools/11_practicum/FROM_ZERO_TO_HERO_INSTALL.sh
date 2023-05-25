@@ -2,12 +2,12 @@ cat << EOF | oc apply -f -
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name:  ibm-aiops-installer
+  name: ibm-aiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name:  ibm-aiops-installer-admin
+  name: ibm-aiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -15,15 +15,15 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace:  ibm-aiops-installer
+    namespace: ibm-aiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: aiops-easy-install-aimanager-practicum
-  namespace:  ibm-aiops-installer
+  namespace: ibm-aiops-installer
 spec:
-  serviceAccountname:  ibm-aiops-installer-admin
+  serviceAccountname: ibm-aiops-installer-admin
   template:
     spec:
       containers:
@@ -51,10 +51,10 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo https://github.com/niklaushirt/ ibm-aiops-deployer.git"
-              git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b  ibm-aiops_stable
+              git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b ibm-aiops_stable
 
               
-              cd  ibm-aiops-deployer
+              cd ibm-aiops-deployer
               echo ""
               echo ""
 

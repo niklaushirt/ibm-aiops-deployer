@@ -26,7 +26,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name:  ibm-aiops-notification-main
+      name: ibm-aiops-notification-main
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
@@ -39,7 +39,7 @@
 
 # - name: Show Config
 #   debug:
-#     var:  ibm-aiops_cluster
+#     var: ibm-aiops_cluster
 - name: 🟣  Show Config File
   debug:
     var: all_config
@@ -74,7 +74,7 @@
 # Loop over all instances
 - name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ ibm-aiops_cluster.project}}
   include_role:
-    name:  ibm-aiops-install-modules-loop
+    name: ibm-aiops-install-modules-loop
   loop: "{{ current_ ibm-aiops_cluster.instances}}"
   loop_control:
     loop_var: current_ ibm-aiops_feature

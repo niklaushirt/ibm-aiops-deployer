@@ -1,8 +1,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name:  ibm-aiops-turbonomic-license
-  namespace:  ibm-aiops-installer
+  name: ibm-aiops-turbonomic-license
+  namespace: ibm-aiops-installer
 spec:
   template:
     spec:
@@ -15,7 +15,7 @@ spec:
             - -c
             - |
               #!/bin/bash
-              git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b 3.6_dev && cd  ibm-aiops-deployer && echo $LICENSE_KEY > /tmp/SCRIPT_PWD.txt && ansible-vault decrypt  --vault-password-file /tmp/SCRIPT_PWD.txt ./tools/11_practicum/turbonomic/TURBO_LICENSE.enc --output /tmp/TURBO_LICENSE.sh && chmod +x /tmp/TURBO_LICENSE.sh && /tmp/TURBO_LICENSE.sh
+              git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b 3.6_dev && cd ibm-aiops-deployer && echo $LICENSE_KEY > /tmp/SCRIPT_PWD.txt && ansible-vault decrypt  --vault-password-file /tmp/SCRIPT_PWD.txt ./tools/11_practicum/turbonomic/TURBO_LICENSE.enc --output /tmp/TURBO_LICENSE.sh && chmod +x /tmp/TURBO_LICENSE.sh && /tmp/TURBO_LICENSE.sh
           env:
           - name: LICENSE_KEY
             value : "CHANGEME"

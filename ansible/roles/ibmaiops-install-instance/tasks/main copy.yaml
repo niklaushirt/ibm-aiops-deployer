@@ -63,7 +63,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name:  ibm-aiops-notification
+      name: ibm-aiops-notification
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
@@ -180,13 +180,13 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡 Install IBMAIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
-    name:  ibm-aiops-case-save
+    name: ibm-aiops-case-save
   when: current_ ibm-aiops_feature.case_install==true
 
 
 - name: 🟡🟡🟡 Install IBMAIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
-    name:  ibm-aiops-case-catalog-source
+    name: ibm-aiops-case-catalog-source
   when: current_ ibm-aiops_feature.case_install==true
 
 

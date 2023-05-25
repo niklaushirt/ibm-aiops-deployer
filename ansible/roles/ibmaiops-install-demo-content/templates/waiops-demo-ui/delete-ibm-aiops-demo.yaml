@@ -40,8 +40,8 @@ spec:
               set -x
 
               export AIOPS_NAMESPACE={{current_ ibm-aiops_cluster.project}}
-              export KAFKA_TOPIC_EVENTS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v  ibm-aiops ibm-aiops|grep -v noi-integration | grep  ibm-aiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
-              export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE  | grep -v  ibm-aiops ibm-aiops| grep  ibm-aiops-cartridge-logs-humio| awk '{print $1;}')
+              export KAFKA_TOPIC_EVENTS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v ibm-aiops ibm-aiops|grep -v noi-integration | grep ibm-aiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
+              export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE  | grep -v ibm-aiops ibm-aiops| grep ibm-aiops-cartridge-logs-humio| awk '{print $1;}')
               export KAFKA_SECRET=$(oc get secret -n {{current_ ibm-aiops_cluster.project}} |grep 'aiops-kafka-secret'|awk '{print$1}')
               export KAFKA_USER=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
               export KAFKA_PWD=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
@@ -118,16 +118,16 @@ kind: Deployment
 metadata:
   name: ibm-aiops-demo-ui
   labels:
-      app:  ibm-aiops-demo-ui
+      app: ibm-aiops-demo-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  ibm-aiops-demo-ui
+      app: ibm-aiops-demo-ui
   template:
     metadata:
       labels:
-        app:  ibm-aiops-demo-ui
+        app: ibm-aiops-demo-ui
     spec:
       containers:
       - image: quay.io/niklaushirt/ ibm-aiops-demo-ui:3.1
@@ -150,10 +150,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name:  ibm-aiops-demo-ui-service
+  name: ibm-aiops-demo-ui-service
 spec:
   selector:
-    app:  ibm-aiops-demo-ui
+    app: ibm-aiops-demo-ui
   ports:
     - protocol: TCP
       port: 8080
@@ -162,9 +162,9 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name:   ibm-aiops-demo-ui
+  name: ibm-aiops-demo-ui
 spec:
   to:
     kind: Service
-    name:  ibm-aiops-demo-ui-service
+    name: ibm-aiops-demo-ui-service
 

@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name:  ibm-aiops
+  environment_name: ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -47,12 +47,12 @@ openshift:
 
 
  ibm-aiops:
-- project:  ibm-aiops-addons
+- project: ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS TURBONOMIC
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name:  ibm-aiops-turbonomic
+  - name: ibm-aiops-turbonomic
     kind: Turbonomic
     install: true
     turbo_version: 8.8.3
@@ -64,7 +64,7 @@ openshift:
     #storage_class_block: automatic
 
     
-  - name:  ibm-aiops-turbonomic-demo-content
+  - name: ibm-aiops-turbonomic-demo-content
     kind: TurbonomicDemoContent
     install: true
     # Admin User Password (OVERRIDES GLOBAL PASSWORD)

@@ -1,20 +1,20 @@
 
 
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
 
 
 
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
 
 
 
 
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/TemporalGrouping
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/TemporalGrouping
 
 
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
 
 ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
 
@@ -51,7 +51,7 @@ done
 
 
 
-oc rsh -n  ibm-aiops $(oc get po -n  ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
 
 
 

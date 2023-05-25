@@ -80,7 +80,7 @@ The Gateway URL : `sgmanager.us-south.securegateway.cloud.ibm.com`
 
 	![secure_gw_search](pics/slack06.png)
 
-6. Input `ibm-nginx-svc. ibm-aiops.svc.cluster.local` and `443`
+6. Input `ibm-nginx-svc.ibm-aiops.svc.cluster.local` and `443`
 	
 	❗ Replace ` ibm-aiops` with the name of your IBMAIOPS namespace if you have changed it in `01_config-install.sh`.
 

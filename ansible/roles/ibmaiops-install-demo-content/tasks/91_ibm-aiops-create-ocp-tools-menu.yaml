@@ -26,7 +26,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name:  ibm-aiops-notification
+      name: ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
@@ -48,7 +48,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-robotshop
+        name: ibm-aiops-robotshop
       spec:
         applicationMenu:
           imageURL: >-
@@ -72,7 +72,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-sockshop
+        name: ibm-aiops-sockshop
       spec:
         applicationMenu:
           imageURL: >-
@@ -95,7 +95,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-awx
+        name: ibm-aiops-awx
       spec:
         applicationMenu:
           imageURL: >-
@@ -117,7 +117,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-ldap
+        name: ibm-aiops-ldap
       spec:
         applicationMenu:
           imageURL: >-
@@ -140,7 +140,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-flink-connectors
+        name: ibm-aiops-flink-connectors
       spec:
         applicationMenu:
           imageURL: >-
@@ -163,7 +163,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-flink-policy
+        name: ibm-aiops-flink-policy
       spec:
         applicationMenu:
           imageURL: >-
@@ -185,7 +185,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name:  ibm-aiops-spark
+        name: ibm-aiops-spark
       spec:
         applicationMenu:
           imageURL: >-

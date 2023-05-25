@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name:  ibm-aiops
+  environment_name: ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -47,12 +47,12 @@ openshift:
 
 
  ibm-aiops:
-- project:  ibm-aiops-addons
+- project: ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS INSTANA
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name:  ibm-aiops-instana
+  - name: ibm-aiops-instana
     kind: Instana
     install: true
     version: 241-3

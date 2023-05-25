@@ -197,9 +197,9 @@ echo "http://$SPARK_ROUTE$PATH"
 
 
 
-oc create route passthrough aiops-ir-analytics-metric-api -n  ibm-aiops --insecure-policy="Redirect" --service=aiops-ir-analytics-metric-api --port=unsecure-port
-oc create route passthrough aiops-ir-analytics-metric-api -n  ibm-aiops --insecure-policy="Redirect" --service=aiops-ir-analytics-metric-api --port=unsecure-port
-oc expose svc aiops-ir-analytics-metric-api -n  ibm-aiops --name aiops-ir-analytics-metric-api
+oc create route passthrough aiops-ir-analytics-metric-api -n ibm-aiops --insecure-policy="Redirect" --service=aiops-ir-analytics-metric-api --port=unsecure-port
+oc create route passthrough aiops-ir-analytics-metric-api -n ibm-aiops --insecure-policy="Redirect" --service=aiops-ir-analytics-metric-api --port=unsecure-port
+oc expose svc aiops-ir-analytics-metric-api -n ibm-aiops --name aiops-ir-analytics-metric-api
 
 http://aiops-ir-analytics-metric-api- ibm-aiops.itzroks-270003bu3k-mxbvso-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud/metrics/api/swagger
 

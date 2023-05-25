@@ -182,8 +182,8 @@ This allows the IBMAIOPS images to be pulled from the IBM Container Registry.
 Quick and dirty way to create the pull secrets without need for a global secret
 
 ```bash
-oc create ns  ibm-aiops
-oc create ns  ibm-aiops-evtmgr
+oc create ns ibm-aiops
+oc create ns ibm-aiops-evtmgr
 
 
 export ICR_TOKEN=<IBM PULL TOKEN>
@@ -201,12 +201,12 @@ oc get secret/pull-secret -n openshift-config --template='{{index .data ".docker
 
 
 
-oc create secret generic ibm-entitlement-key -n  ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
-oc create secret generic ibm-entitlement-key -n  ibm-aiops-evtmgr --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
+oc create secret generic ibm-entitlement-key -n ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
+oc create secret generic ibm-entitlement-key -n ibm-aiops-evtmgr --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 oc create secret generic ibm-entitlement-key -n openshift-marketplace --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 oc create secret generic ibm-entitlement-key -n openshift-operators --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 
-oc create secret generic ibm-entitlement-key -n  ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
+oc create secret generic ibm-entitlement-key -n ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 
 
 ```
@@ -693,7 +693,7 @@ metadata:
   name: $AUTO_UI_INSTANCE
   namespace: $AIOPS_NAMESPACE
 spec:
-  description: AutomationUIConfig for  ibm-aiops
+  description: AutomationUIConfig for ibm-aiops
   license:
     accept: true
   version: v1.3

@@ -7,8 +7,8 @@ echo ""
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete existing Secrets"
-oc delete secret ibm-entitlement-key -n  ibm-aiops
-oc delete secret ibm-entitlement-key -n  ibm-aiops-evtmgr
+oc delete secret ibm-entitlement-key -n ibm-aiops
+oc delete secret ibm-entitlement-key -n ibm-aiops-evtmgr
 oc delete secret ibm-entitlement-key -n openshift-marketplace
 oc delete secret ibm-entitlement-key -n openshift-operators
 echo ""
@@ -18,8 +18,8 @@ echo ""
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🚀 Creating Namespaces"
-oc create ns  ibm-aiops
-oc create ns  ibm-aiops-evtmgr
+oc create ns ibm-aiops
+oc create ns ibm-aiops-evtmgr
 echo ""
 echo ""
 
@@ -55,8 +55,8 @@ echo ""
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🚀 Creating Pull Secrets"
-oc create secret generic ibm-entitlement-key -n  ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
-oc create secret generic ibm-entitlement-key -n  ibm-aiops-evtmgr --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
+oc create secret generic ibm-entitlement-key -n ibm-aiops --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
+oc create secret generic ibm-entitlement-key -n ibm-aiops-evtmgr --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 oc create secret generic ibm-entitlement-key -n openshift-marketplace --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 oc create secret generic ibm-entitlement-key -n openshift-operators --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=temp-ibm-entitlement-key.yaml
 echo ""

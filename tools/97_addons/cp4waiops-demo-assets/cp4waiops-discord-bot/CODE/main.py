@@ -101,7 +101,7 @@ global api_url
 # GET CONNECTIONS
 # ('--------------------------------------------------')('--------------------------------------------------')--------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v  ibm-aiops ibm-aiops| grep  ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiops ibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
@@ -133,7 +133,7 @@ METRIC_TOKEN = stream.read().strip()
 print('     ❓ Getting Details AIOPS UIs')
 stream = os.popen("oc get route  -n "+aimanagerns+" cpd  -o jsonpath='{.status.ingress[0].host}'")
 CPD_ROUTE = stream.read().strip()
-stream = os.popen("oc get route  -n  ibm-aiops-demo-ui  ibm-aiops-demo-ui  -o jsonpath='{.status.ingress[0].host}'")
+stream = os.popen("oc get route  -n ibm-aiops-demo-ui ibm-aiops-demo-ui  -o jsonpath='{.status.ingress[0].host}'")
 DENO_UI_ROUTE = stream.read().strip()
 stream = os.popen("oc get route  -n instana-core dev-aiops -o jsonpath='{.status.ingress[0].host}'")
 INSTANA_ROUTE = stream.read().strip()

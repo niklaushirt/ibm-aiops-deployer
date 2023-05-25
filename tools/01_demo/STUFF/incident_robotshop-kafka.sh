@@ -117,8 +117,8 @@ echo "   -----------------------------------------------------------------------
 
 
 echo "     📥 Get Kafka Topics"
-export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep  ibm-aiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
-export KAFKA_TOPIC_EVENTS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v  ibm-aiops ibm-aiops| grep -v noi-integration| grep -v "1000-1000"| grep  ibm-aiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibm-aiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC_EVENTS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep -v ibm-aiops ibm-aiops| grep -v noi-integration| grep -v "1000-1000"| grep ibm-aiops-cartridge-alerts-$EVENTS_TYPE| awk '{print $1;}')
 
 echo " "
 echo "     🔐 Get Kafka Password"
