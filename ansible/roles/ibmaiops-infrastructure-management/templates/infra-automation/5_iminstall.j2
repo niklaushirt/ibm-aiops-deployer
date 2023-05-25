@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: ibm-infra-management-install-operator
     app.kubernetes.io/name: ibm-infra-management-install-operator
   name: im-iminstall
-  namespace: {{ current_ ibm-aiops_cluster.project }}
+  namespace: {{ current_ibm-aiops_cluster.project }}
 spec:
   applicationDomain: {{ INFRA_NAME }}
   imagePullPolicy: Always

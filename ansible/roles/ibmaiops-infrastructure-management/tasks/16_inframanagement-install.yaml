@@ -39,24 +39,24 @@
 
 
 # Create Namespace 
-- name: 🚀 INFRA MGT - Create IBMAIOPS Infra namespace {{ current_ ibm-aiops_cluster.project }}
+- name: 🚀 INFRA MGT - Create IBMAIOPS Infra namespace {{ current_ibm-aiops_cluster.project }}
   kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
-    name: "{{ current_ ibm-aiops_cluster.project }}"
+    name: "{{ current_ibm-aiops_cluster.project }}"
     state: present
   ignore_errors: true
 
 
 - name: 🚀 INFRA MGT - Create Pull Secret
   shell: |
-    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ ibm-aiops_cluster.project }}
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ibm-aiops_cluster.project }}
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace=openshift-marketplace
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace=openshift-operators
-    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ ibm-aiops_cluster.project }}
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ibm-aiops_cluster.project }}
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace=openshift-marketplace
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace=openshift-operators
-    oc create secret docker-registry 'ibm-management-pull-secret' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ ibm-aiops_cluster.project }}
+    oc create secret docker-registry 'ibm-management-pull-secret' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ibm-aiops_cluster.project }}
   ignore_errors: true
 
 
@@ -99,7 +99,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🕦 INFRA MGT - Wait for number of CSVs to be running
-  shell: oc get csv -n {{ current_ ibm-aiops_cluster.project }}| grep "IBM"|grep "Succeeded"| wc -l|tr -d ' '
+  shell: oc get csv -n {{ current_ibm-aiops_cluster.project }}| grep "IBM"|grep "Succeeded"| wc -l|tr -d ' '
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout > "6"
   retries: 500
@@ -111,7 +111,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🕦 INFRA MGT - Wait for CSVs to become ready
-  shell: oc get csv -n {{ current_ ibm-aiops_cluster.project }}|grep -v "Succeeded" | grep -c ""
+  shell: oc get csv -n {{ current_ibm-aiops_cluster.project }}|grep -v "Succeeded" | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -128,7 +128,7 @@
 
 - name: 🚀 INFRA MGT - Patch Service Account
   shell: |
-    oc patch -n {{ current_ ibm-aiops_cluster.project }} serviceaccount ibm-infra-management-install-operator -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n {{ current_ibm-aiops_cluster.project }} serviceaccount ibm-infra-management-install-operator -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
   ignore_errors: true
 
 
@@ -222,7 +222,7 @@
 
 - name: 🕦 CHECK -  Wait for Infrastructure Management to be ready (this might take some time)
   shell: |
-    NUM_PODS=$(oc get po -n {{ current_ ibm-aiops_cluster.project }} |grep Running| wc -l)
+    NUM_PODS=$(oc get po -n {{ current_ibm-aiops_cluster.project }} |grep Running| wc -l)
     echo $NUM_PODS
   register: kubectl_num_pods
   until: kubectl_num_pods.stdout|int > 54
@@ -230,8 +230,8 @@
   delay: 15
 
 
-- name: 🕦 CHECK -  Wait for all Pods in {{ current_ ibm-aiops_cluster.project }} to become ready (this might take some time)
-  shell: oc get po -n {{ current_ ibm-aiops_cluster.project }} | grep -v Completed | grep -v Error |grep "0/" |wc -l| tr -d ' '
+- name: 🕦 CHECK -  Wait for all Pods in {{ current_ibm-aiops_cluster.project }} to become ready (this might take some time)
+  shell: oc get po -n {{ current_ibm-aiops_cluster.project }} | grep -v Completed | grep -v Error |grep "0/" |wc -l| tr -d ' '
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "0"
   retries: 500

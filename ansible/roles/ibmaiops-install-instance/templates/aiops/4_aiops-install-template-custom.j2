@@ -2,7 +2,7 @@ apiVersion: orchestrator.aiops.ibm.com/v1alpha1
 kind: Installation
 metadata:
   name: {{ current_ ibm-aiops_feature.aiops_name }}
-  namespace: {{ current_ ibm-aiops_cluster.project }}
+  namespace: {{ current_ibm-aiops_cluster.project }}
 spec:
   imagePullSecret: ibm-entitlement-key
   license:

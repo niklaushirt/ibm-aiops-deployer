@@ -49,7 +49,7 @@
 
 - name: 👩‍💻 DEMO USER - Create OCP Demouser Account
   shell: |
-        oc project {{current_ ibm-aiops_cluster.project}} 
+        oc project {{current_ibm-aiops_cluster.project}} 
         oc create serviceaccount -n default demo-admin
         oc create clusterrolebinding test-admin --clusterrole=cluster-admin --serviceaccount=default:demo-admin
         oc create clusterrolebinding ibm-zen-operator-serviceaccount --clusterrole=cluster-admin --serviceaccount=ibm-common-services:ibm-zen-operator-serviceaccount
