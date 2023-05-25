@@ -70,7 +70,7 @@
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "              📥 IBMAIOps Login:"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🌏 URL:      https://$(oc get route -n {{ current_ibm-aiops_cluster.project }} cpd -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "                🌏 URL:      https://$(oc get route -n {{ current_ibmaiops_cluster.project }} cpd -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "                🧑 User:     $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "                🔐 Password: $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)" >> ../install_{{current_ ibm-aiops_feature.kind}}.log

@@ -42,7 +42,7 @@
 # Wait for AutomationUIConfig ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 # - name: 🕦 CHECK -  Wait for Zen AutomationUIConfig being ready (this might take some time)
-#   shell: oc get AutomationUIConfig -n {{ current_ibm-aiops_cluster.project }} iaf-system  | grep True|grep -c ""
+#   shell: oc get AutomationUIConfig -n {{ current_ibmaiops_cluster.project }} iaf-system  | grep True|grep -c ""
 #   register: kubectl_get_pods
 #   until: kubectl_get_pods.stdout == "1"
 #   retries: 500

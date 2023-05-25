@@ -34,7 +34,7 @@
 
 - name: 🚀 INIT - CREATE FEATURE FLAGS
   shell: |
-    cat <<EOF | oc apply -n {{ current_ibm-aiops_cluster.project }} -f -
+    cat <<EOF | oc apply -n {{ current_ibmaiops_cluster.project }} -f -
     # https://github.ibm.com/katamari/feature-flags/blob/b1e85bc6e846ede7bf2114602b0558f70293278c/feature-flags-configmap.yaml
     apiVersion: v1
     data:
@@ -48,7 +48,7 @@
     kind: ConfigMap
     metadata:
       name: feature-flag-configmap
-      namespace: {{ current_ibm-aiops_cluster.project }}
+      namespace: {{ current_ibmaiops_cluster.project }}
     EOF
   register: output_string
   ignore_errors: true

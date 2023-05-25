@@ -60,8 +60,8 @@
 
 
 
-- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibm-aiops_cluster.project }}" with size "{{ current_ ibm-aiops_feature.aiops_size }}"
-  set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ibm-aiops_cluster.project }} 
+- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibmaiops_cluster.project }}" with size "{{ current_ ibm-aiops_feature.aiops_size }}"
+  set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ibmaiops_cluster.project }} 
 
 
 - name:   🚀 INITIALIZATION - Installation Parameters"

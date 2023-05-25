@@ -185,7 +185,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 Delete lingering Pods before check for reinstall
   shell: |
-    oc delete pod $(oc get po -n {{ current_ibm-aiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibm-aiops_cluster.project }} --ignore-not-found
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
   register: kubectl_get_pods
   ignore_errors: true
 
@@ -461,7 +461,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   ⚠️ HACK - Delete lingering Luigi Pods  (hack)
   shell: |
-    oc delete pod $(oc get po -n {{ current_ibm-aiops_cluster.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound -n {{ current_ibm-aiops_cluster.project }} --ignore-not-found
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
   register: kubectl_get_pods
   ignore_errors: true
 

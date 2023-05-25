@@ -55,7 +55,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🕦 INSTALL PROBE - Wait for Subscription to become ready
-  shell: oc get csv -n {{ current_ibm-aiops_cluster.project }}|grep netcool-integrations-operator|grep "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -c ""
+  shell: oc get csv -n {{ current_ibmaiops_cluster.project }}|grep netcool-integrations-operator|grep "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -203,7 +203,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🕦 INSTALL PROBE - Wait for Probe to become ready
-  shell: oc get pod -n {{ current_ibm-aiops_cluster.project }}|grep generic-probe|grep "1/1" | grep -c ""
+  shell: oc get pod -n {{ current_ibmaiops_cluster.project }}|grep generic-probe|grep "1/1" | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500

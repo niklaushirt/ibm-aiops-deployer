@@ -99,5 +99,5 @@
       name: ibm-aiops-install-main-loop
     loop: "{{ all_config.ibmaiops | default([]) }}"
     loop_control:
-      loop_var: current_ibm-aiops_cluster
+      loop_var: current_ibmaiops_cluster
 

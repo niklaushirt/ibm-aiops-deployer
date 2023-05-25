@@ -34,11 +34,11 @@
 
 - name: 🌏 EVENT MANAGER - Get EVENT MANAGER LOGINS
   shell: |
-    export ROUTE=$(oc get route -n {{ current_ibm-aiops_cluster.project }}  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})
+    export ROUTE=$(oc get route -n {{ current_ibmaiops_cluster.project }}  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})
     echo ""
     echo "            🌏 URL:           https://$ROUTE"
     echo "            🧑 User:          smadmin"
-    echo "            🔐 Password:      $(oc get secret -n {{ current_ibm-aiops_cluster.project }}  evtmanager-was-secret -o jsonpath='{.data.WAS_PASSWORD}'| base64 --decode && echo)"
+    echo "            🔐 Password:      $(oc get secret -n {{ current_ibmaiops_cluster.project }}  evtmanager-was-secret -o jsonpath='{.data.WAS_PASSWORD}'| base64 --decode && echo)"
     echo ""
     echo ""
     export URL=https://$ROUTE
@@ -70,9 +70,9 @@
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "      📥 Event Manager"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo ""  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "            🌏 URL:           https://$(oc get route -n {{ current_ibm-aiops_cluster.project }}  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "            🌏 URL:           https://$(oc get route -n {{ current_ibmaiops_cluster.project }}  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "            🧑 User:          smadmin"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "            🔐 Password:      $(oc get secret -n {{ current_ibm-aiops_cluster.project }}  evtmanager-was-secret -o jsonpath='{.data.WAS_PASSWORD}'| base64 --decode && echo)"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "            🔐 Password:      $(oc get secret -n {{ current_ibmaiops_cluster.project }}  evtmanager-was-secret -o jsonpath='{.data.WAS_PASSWORD}'| base64 --decode && echo)"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
 
