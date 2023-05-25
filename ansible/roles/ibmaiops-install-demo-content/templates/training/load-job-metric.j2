@@ -3,14 +3,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: load-metric-cassandra
-  namespace: ibmaiops-installer
+  namespace:  ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibmaiops-tools:2.0
+          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -30,7 +30,7 @@ spec:
               echo " ✅ STARTING: Load metric anomaly training files (>=4.1)"
               echo "*****************************************************************************************************************************"
 
-              export TRAINING_REPO={{ current_ibmaiops_feature.training_data_url }}{{ current_ibmaiops_feature.training_data_repo }}.git
+              export TRAINING_REPO={{ current_ ibm-aiops_feature.training_data_url }}{{ current_ ibm-aiops_feature.training_data_repo }}.git
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading metric anomaly training files from $TRAINING_REPO"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
@@ -39,7 +39,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              cd {{ current_ibmaiops_feature.training_data_repo }}
+              cd {{ current_ ibm-aiops_feature.training_data_repo }}
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo "This Repo includes those latestet Commits"
               echo "------------------------------------------------------------------------------------------------------------------------------"

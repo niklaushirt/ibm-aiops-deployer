@@ -28,7 +28,7 @@
  
  
  
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -36,7 +36,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -48,20 +48,20 @@
   shell: |
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
-    INSTALL_POD=$(oc get po -n ibmaiops-installer -l app=ibmaiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+    INSTALL_POD=$(oc get po -n  ibm-aiops-installer -l app= ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
     
     cat <<EOF | oc apply -f -
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing  {{current_ibmaiops_feature.kind}} - '  
+      text: 'Installing  {{current_ ibm-aiops_feature.kind}} - '  
       link:
-          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibmaiops-installer/pods/$INSTALL_POD/logs"
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs    
     EOF
   ignore_errors: true
@@ -76,16 +76,16 @@
 
 # Initialize Logging
 - name: 📥 Init Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
 
  
 - name: 📥 Get Storage Class
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
 # Start block
 - name: 📥 Start Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
 
 
 
@@ -98,10 +98,10 @@
 
 
 - name: 📥 End Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg:  
 
@@ -110,7 +110,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

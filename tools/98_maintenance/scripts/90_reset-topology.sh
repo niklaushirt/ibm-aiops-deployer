@@ -14,7 +14,7 @@ oc exec -ti aiops-topology-cassandra-0 -n $AIOPS_NAMESPACE -- bash -c "/opt/ibm/
 PGPASSWORD=$(oc get secret aiops-topology-postgres-user -o jsonpath="{.data.password}"| base64 --decode)
 
  # Clear out the inventory data
- oc exec -it ibm-cp-watson-aiops-edb-postgres-1 -- /bin/bash -c 'export PGPASSWORD='$PGPASSWORD' && psql --host localhost --username aiops_topology_user --dbname aiops_topology --command "DO \
+ oc exec -it ibm-aiops-edb-postgres-1 -- /bin/bash -c 'export PGPASSWORD='$PGPASSWORD' && psql --host localhost --username aiops_topology_user --dbname aiops_topology --command "DO \
  \$\$ \
  BEGIN \
      EXECUTE (SELECT '\''TRUNCATE TABLE '\'' \

@@ -27,7 +27,7 @@
 - hosts: localhost
   #become: true
   #vars_files: {{ config_file }}
-  #vars_files: ./configs/ibmaiops-roks-all.yaml
+  #vars_files: ./configs/ ibm-aiops-roks-all.yaml
 
   tasks:
   - name: 🚀 MAIN INSTALLATION LOOP - Install Module
@@ -96,8 +96,8 @@
   # Loop over all Clusters
   - name: ♻️  Deploy IBM AIOps Assets - Loop over Clusters
     include_role:
-      name: ibmaiops-install-main-loop
-    loop: "{{ all_config.ibmaiops | default([]) }}"
+      name:  ibm-aiops-install-main-loop
+    loop: "{{ all_config. ibm-aiops | default([]) }}"
     loop_control:
-      loop_var: current_ibmaiops_cluster
+      loop_var: current_ ibm-aiops_cluster
 

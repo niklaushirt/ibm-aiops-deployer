@@ -12,7 +12,7 @@ Only do this if you don't want to use 🐥 Easy Install
 
 ### 19..1.1 Adapt configuration
 
-Adapt the `00_config_ibmaiops.yaml` file with the desired parameters:
+Adapt the `00_config_ ibm-aiops.yaml` file with the desired parameters:
 
 
 #### 19.1.1.1 Automatic Login
@@ -45,7 +45,7 @@ OCP_MAJOR_VERSION: automatic
 # *************************************************************************************
 
 # IBMAIOPS Namespace for installation
-AIOPS_NAMESPACE: ibmaiops
+AIOPS_NAMESPACE:  ibm-aiops
 
 # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)
 AIOPS_SIZE: small # Leave at small unless you know what you're doing
@@ -87,7 +87,7 @@ STORAGECLASS_BLOCK_OVERRIDE: not_configured
 # *************************************************************************************
 
 # IBMAIOPS Namespace for installation
-EVTMGR_NAMESPACE: ibmaiops-evtmgr
+EVTMGR_NAMESPACE:  ibm-aiops-evtmgr
 
 ```
 <div style="page-break-after: always;"></div>

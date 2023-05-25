@@ -9,8 +9,8 @@
   shell: |
     export MESSAGE="Create SNOW Training Definition"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -19,12 +19,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create SNOW Training Definition'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Create SNOW Training Definition'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -41,13 +41,13 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Change Risk"
-    export FILE_NAME=create-analysis-CR{{current_ibmaiops_feature.training_suffix | default("") }}.graphql
+    export FILE_NAME=create-analysis-CR{{current_ ibm-aiops_feature.training_suffix | default("") }}.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
     {{role_path}}/templates/training/scripts/execute-graphql.sh
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Similar Incidents"
-    export FILE_NAME=create-analysis-SI{{current_ibmaiops_feature.training_suffix | default("") }}.graphql
+    export FILE_NAME=create-analysis-SI{{current_ ibm-aiops_feature.training_suffix | default("") }}.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
     {{role_path}}/templates/training/scripts/execute-graphql.sh
 

@@ -29,7 +29,7 @@ echo ""
 
 
 
-oc apply -f ./tools/97_addons/ibmaiops-eda/create-eda.yaml
+oc apply -f ./tools/97_addons/ ibm-aiops-eda/create-eda.yaml
 
 sleep 15
 
@@ -125,7 +125,7 @@ else
     echo "    🌏  https://github.com/ansible/eda-server" 
 
     oc create ns eda-server
-    oc apply -n eda-server -f ./tools/97_addons/ibmaiops-eda/eda-server
+    oc apply -n eda-server -f ./tools/97_addons/ ibm-aiops-eda/eda-server
 fi
 
 

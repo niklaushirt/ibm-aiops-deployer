@@ -29,7 +29,7 @@
  
 
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -37,7 +37,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      � IBM AIOps - INSTALLING {{current_ibmaiops_feature.kind}} "
+    - "      � IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -48,8 +48,8 @@
   shell: |
     export MESSAGE="Installing Demo Apps"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 
@@ -63,12 +63,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing  {{current_ibmaiops_feature.kind}}'    
+      text: 'Installing  {{current_ ibm-aiops_feature.kind}}'    
     EOF
   ignore_errors: true
 
@@ -78,14 +78,14 @@
   debug:
     msg:
     - "***********************************************************************************************"
-    - " 🚀 Installing {{current_ibmaiops_feature.kind}}"
+    - " 🚀 Installing {{current_ ibm-aiops_feature.kind}}"
     - "***********************************************************************************************"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 STORAGE"
-    - "     💾 Installation Options for SPECIFIC MODULE {{ current_ibmaiops_feature.kind}}"
-    - "        Storage Class File Override:             {{ current_ibmaiops_feature.storage_class_file | default('no override') }}"
-    - "        Storage Class Block Override:            {{ current_ibmaiops_feature.storage_class_block | default('no override') }}"
-    - "        Storage Class InfraManagement:           {{ current_ibmaiops_feature.storage_class_file | default('no override') }}"
+    - "     💾 Installation Options for SPECIFIC MODULE {{ current_ ibm-aiops_feature.kind}}"
+    - "        Storage Class File Override:             {{ current_ ibm-aiops_feature.storage_class_file | default('no override') }}"
+    - "        Storage Class Block Override:            {{ current_ ibm-aiops_feature.storage_class_block | default('no override') }}"
+    - "        Storage Class InfraManagement:           {{ current_ ibm-aiops_feature.storage_class_file | default('no override') }}"
     - ""
     - "     💾 Installation Options from GLOBAL"
     - "        Storage Class File Override:             {{ ocp_storage_class_file | default('not defined') }}"
@@ -93,21 +93,21 @@
     - "        Storage Class InfraManagement:           {{ ocp_storage_class_file | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 CONFIG"
-    - "     ✅ Installation Name:                        {{current_ibmaiops_feature.aiops_name}}"
-    - "     🔎 IBMAIOps Size:                           {{current_ibmaiops_feature.aiops_size}}"
-    - "     🔽 Custom Sizing File:                       {{current_ibmaiops_feature.custom_size_file | default('none')}}"
-    - "     🔽 Install Feature Flags:                    {{current_ibmaiops_feature.install_feature_flags | default('not defined')}}"
+    - "     ✅ Installation Name:                        {{current_ ibm-aiops_feature.aiops_name}}"
+    - "     🔎 IBMAIOps Size:                           {{current_ ibm-aiops_feature.aiops_size}}"
+    - "     🔽 Custom Sizing File:                       {{current_ ibm-aiops_feature.custom_size_file | default('none')}}"
+    - "     🔽 Install Feature Flags:                    {{current_ ibm-aiops_feature.install_feature_flags | default('not defined')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 VERSION "
-    - "     🚀 Subscription Channel:                     {{current_ibmaiops_feature.subscription_channel}}"
-    - "     🔽 Freeze the Catalog Image Version:         {{current_ibmaiops_feature.freeze_catalog  | default('not defined')}}"
-    - "     ✅ Install with CASE:                        {{current_ibmaiops_feature.case_install}}"
+    - "     🚀 Subscription Channel:                     {{current_ ibm-aiops_feature.subscription_channel}}"
+    - "     🔽 Freeze the Catalog Image Version:         {{current_ ibm-aiops_feature.freeze_catalog  | default('not defined')}}"
+    - "     ✅ Install with CASE:                        {{current_ ibm-aiops_feature.case_install}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
 
-- name: 🟣 Installing {{current_ibmaiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
   debug:
-    var: current_ibmaiops_feature
+    var: current_ ibm-aiops_feature
 
 
 
@@ -120,13 +120,13 @@
 
 # Initialize Logging
 - name: 🟡🟡🟡 Initialize Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
     
 - name: 🟡🟡🟡 Initialization Checks
   include_tasks: 02_init_checks.yaml
 # Start block
 - name: 🟡🟡🟡 Start Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
 - name: 🟡🟡🟡 Initialization of the Installation
@@ -140,11 +140,11 @@
 # TEST
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # - name: 🟡🟡🟡  Create Routes
-#   include_tasks: 30_ibmaiops-create-routes.yaml
+#   include_tasks: 30_ ibm-aiops-create-routes.yaml
 
 # # Update IBMAIOps Cards
 # - name: 🟡🟡🟡 Update IBMAIOps Cards
-#   include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
+#   include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # TEST
@@ -154,16 +154,16 @@
 
 
 - name: 🟡🟡🟡 Get Storage Classes
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/05_init-get-storage-class.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
 - name: 🟡🟡🟡 Install IBMAIOps Prerequisites 
-  include_tasks: 06_ibmaiops-prerequisites.yaml
+  include_tasks: 06_ ibm-aiops-prerequisites.yaml
       
 
 # Install IBMAIOPS Operator
 - name: 🟡🟡🟡 IBMAIOps Custom Hook
-  include_tasks: 08_ibmaiops-custom-hook.yaml
+  include_tasks: 08_ ibm-aiops-custom-hook.yaml
 
 
 
@@ -171,8 +171,8 @@
 # INSTALL CATALOG with YAML FILE
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡 Install IBMAIOps Catalog - Classic Way (skipped if CASE selected)
-  include_tasks: 10_ibmaiops-catalog.yaml
-  when: current_ibmaiops_feature.case_install==false
+  include_tasks: 10_ ibm-aiops-catalog.yaml
+  when: current_ ibm-aiops_feature.case_install==false
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -180,14 +180,14 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡 Install IBMAIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
-    name: ibmaiops-case-save
-  when: current_ibmaiops_feature.case_install==true
+    name:  ibm-aiops-case-save
+  when: current_ ibm-aiops_feature.case_install==true
 
 
 - name: 🟡🟡🟡 Install IBMAIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
-    name: ibmaiops-case-catalog-source
-  when: current_ibmaiops_feature.case_install==true
+    name:  ibm-aiops-case-catalog-source
+  when: current_ ibm-aiops_feature.case_install==true
 
 
 
@@ -195,7 +195,7 @@
 # INSTALL IBMAIOPS OPERATOR
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡 Install the IBMAIOps Operator
-  include_tasks: 11_ibmaiops-operator.yaml
+  include_tasks: 11_ ibm-aiops-operator.yaml
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -203,8 +203,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Install  Feature Flags
 - name: 🟡🟡🟡  Install IBMAIOPS Feature Flags
-  include_tasks: 12_ibmaiops-featureflags.yaml
-  when: current_ibmaiops_feature.install_feature_flags == true | default('false')
+  include_tasks: 12_ ibm-aiops-featureflags.yaml
+  when: current_ ibm-aiops_feature.install_feature_flags == true | default('false')
 
 
 
@@ -213,7 +213,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Install IBMAIOPS Instance
 - name: 🟡🟡🟡 Install the IBMAIOps Instance
-  include_tasks: 19_ibmaiops-install.yaml
+  include_tasks: 19_ ibm-aiops-install.yaml
       
 
 
@@ -224,54 +224,54 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Wait for Common Services being completely installed
 - name: 🟡🟡🟡 Wait for CommonServices to be ready
-  include_tasks: 99_ibmaiops-wait-common-services.yaml
+  include_tasks: 99_ ibm-aiops-wait-common-services.yaml
 - name: 🟡🟡🟡 Wait for Zen Initialisation
-  include_tasks: 99_ibmaiops-wait-for-zen.yaml
+  include_tasks: 99_ ibm-aiops-wait-for-zen.yaml
       
 
 # Patching Topology Deployment
 - name: 🟡🟡🟡 Patch IBMAIOPS Topology
-  include_tasks: 20_ibmaiops-patch-topology.yaml
+  include_tasks: 20_ ibm-aiops-patch-topology.yaml
 
 
 # Wait for IBMAIOPS being completely installed
 - name: 🟡🟡🟡 Wait for IBMAIOps to be ready
-  include_tasks: 99_ibmaiops-wait-ibmaiops.yaml
+  include_tasks: 99_ ibm-aiops-wait- ibm-aiops.yaml
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Openshift WebConsole Menu Item
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🟡🟡🟡  Create IBMAIOps Openshift WebConsole Menu Item
-  include_tasks: 91_ibmaiops-create-ocp-menu.yaml
+  include_tasks: 91_ ibm-aiops-create-ocp-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
 # Update IBMAIOps Cards
 - name: 🟡🟡🟡 Update IBMAIOps Cards
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
 
   
 # Access and documentaiton
 - name: 🟡🟡🟡 Get all logins
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/90_core-get-all-logins.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90_core-get-all-logins.yaml"
 
 
 
 - name: 🟡🟡🟡 Open IBMAIOps
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_open-aimanager.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_open-aimanager.yaml"
 
 
 - name: 🟡🟡🟡 Open Documentation
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_open-doc.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_open-doc.yaml"
 
 
 
 - name: 🟡🟡🟡 End Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -279,7 +279,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

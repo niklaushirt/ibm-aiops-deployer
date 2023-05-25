@@ -10,8 +10,8 @@
   shell: |
     export MESSAGE=" 🌏 Open DemoUI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -20,12 +20,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Open DemoUI'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Open DemoUI'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -63,14 +63,14 @@
   shell: |
     export MESSAGE=" 🕦 Wait for IBMAIOps to become ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
     appURL=$(oc get routes -n $AIOPS_NAMESPACE aiops-demo-ui-python  -o jsonpath="{['spec']['host']}")|| true
     appToken=$(oc get cm -n $AIOPS_NAMESPACE demo-ui-python-config -o jsonpath='{.data.TOKEN}')
-    echo "            📥 Demo UI:"     >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "    "   >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🌏 URL:           http://$appURL/"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🔐 Token:         $appToken"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "            📥 Demo UI:"     >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "    "   >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "                🌏 URL:           http://$appURL/"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "                🔐 Token:         $appToken"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true

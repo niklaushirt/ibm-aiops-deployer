@@ -38,8 +38,8 @@ echo "  🔐  Getting credentials"
 echo "***************************************************************************************************************************************************"
 oc project $AIOPS_NAMESPACE
 
-export username=$(oc exec -n ibmaiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
-export password=$(oc exec -n ibmaiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
+export username=$(oc exec -n  ibm-aiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
+export password=$(oc exec -n  ibm-aiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
 
 
 

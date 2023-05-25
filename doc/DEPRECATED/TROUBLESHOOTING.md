@@ -21,7 +21,7 @@ and select `Option 1`
 If the evtmanager-topology-merge and/or evtmanager-ibm-hdm-analytics-dev-inferenceservice are crashlooping, apply the following patches. I have only seen this happen on ROKS.
 
 ```bash
-export AIOPS_NAMESPACE=ibmaiops
+export AIOPS_NAMESPACE= ibm-aiops
 
 oc patch deployment evtmanager-topology-merge -n $AIOPS_NAMESPACE --patch-file ./yaml/aiops/pazch/topology-merge-patch.yaml
 
@@ -37,7 +37,7 @@ oc patch deployment evtmanager-ibm-hdm-analytics-dev-inferenceservice -n $AIOPS_
 If the ir-analytics or cassandra job pods are having pull errors, apply the following patches. 
 
 ```bash
-export AIOPS_NAMESPACE=ibmaiops
+export AIOPS_NAMESPACE= ibm-aiops
 
 kubectl patch -n $AIOPS_NAMESPACE serviceaccount aiops-topology-service-account -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
 kubectl patch -n $AIOPS_NAMESPACE serviceaccount aiops-ir-analytics-spark-worker -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
@@ -57,7 +57,7 @@ oc delete pod $(oc get po -n $AIOPS_NAMESPACE|grep ImagePull|awk '{print$1}') -n
 If the scm-handler or snow-handler pods are not coming up, apply the following patches. 
 
 ```bash
-export AIOPS_NAMESPACE=ibmaiops
+export AIOPS_NAMESPACE= ibm-aiops
 
 oc patch vaultaccess/ibm-vault-access -p '{"spec":{"token_period":"760h"}}' --type=merge -n $AIOPS_NAMESPACE
 oc delete pod $(oc get po -n $AIOPS_NAMESPACE|grep 0/| grep -v "Completed"|awk '{print$1}') -n $AIOPS_NAMESPACE
@@ -69,7 +69,7 @@ oc delete pod $(oc get po -n $AIOPS_NAMESPACE|grep 0/| grep -v "Completed"|awk '
 
 ## 9.5 Slack integration not working
 
-See [here](../README.md#57-create-valid-ibmaiops-certificate-optional)
+See [here](../README.md#57-create-valid- ibm-aiops-certificate-optional)
 
 <div style="page-break-after: always;"></div>
 

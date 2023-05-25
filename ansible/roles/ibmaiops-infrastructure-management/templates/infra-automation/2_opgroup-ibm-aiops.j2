@@ -1,8 +1,8 @@
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: ibmaiops-operator-group
-  namespace: {{ current_ibmaiops_cluster.project }}
+  name:  ibm-aiops-operator-group
+  namespace: {{ current_ ibm-aiops_cluster.project }}
 spec:
   targetNamespaces:
-    - {{ current_ibmaiops_cluster.project }}
+    - {{ current_ ibm-aiops_cluster.project }}

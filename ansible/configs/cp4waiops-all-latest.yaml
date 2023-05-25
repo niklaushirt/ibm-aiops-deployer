@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name: ibmaiops
+  environment_name:  ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -45,13 +45,13 @@ openshift:
     #ocp_storage_class_block: ibmc-block-gold
 
 
-ibmaiops:
-- project: ibmaiops
+ ibm-aiops:
+- project:  ibm-aiops
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops
+  - name:  ibm-aiops
     kind: IBMAIOps
     install: true
     # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)
@@ -59,7 +59,7 @@ ibmaiops:
     # Custom Sizing File (aiops_size must be set to "custom")
     custom_size_file: none    # Name of the IBMAIOPS instance
     # Name of the IBMAIOPS instance
-    aiops_name: ibm-cp-watson-aiops
+    aiops_name: ibm-aiops
     # Version of the catalog subscription
     subscription_channel: v3.7
     # Freeze the version of the Catalog image by patching CatalogSource
@@ -87,7 +87,7 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS Demo Content
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-demo-content
+  - name:  ibm-aiops-demo-content
     kind: IBMAIOpsDemoContent
     install: true
 
@@ -111,7 +111,7 @@ ibmaiops:
     training_run_training_metrics: true
 
     training_data_url: https://github.com/niklaushirt/
-    training_data_repo: ibmaiops-trainingdata
+    training_data_repo:  ibm-aiops-trainingdata
 
 
     # ---------------------------------------------------------------------
@@ -141,7 +141,7 @@ ibmaiops:
     install_demo_ui: true
     demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
     # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-    demoui_slack_user: ibmaiopsdemo@gmail.com
+    demoui_slack_user:  ibm-aiopsdemo@gmail.com
     demoui_slack_pwd: P4ssw0rd!
     demoui_admin_mode: "true"
     demoui_simulation_mode: "true"

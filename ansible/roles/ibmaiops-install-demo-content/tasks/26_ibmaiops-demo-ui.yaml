@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Create DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -26,12 +26,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create DEMO UI'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Create DEMO UI'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -41,22 +41,22 @@
 - name: 🚀 DEMO-UI - Delete old instance (ignore problems in this step))
   shell: |
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    oc delete deployment -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui --ignore-not-found
-    oc delete job -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-create-config --ignore-not-found
-    oc delete job -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-create-config-events --ignore-not-found
-    oc delete job -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-create-config-logs --ignore-not-found
-    oc delete job -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-create-config-metrics --ignore-not-found
-    oc delete cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config --ignore-not-found
-    oc delete cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config-events --ignore-not-found
-    oc delete cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config-logs --ignore-not-found
-    oc delete cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config-metrics --ignore-not-found
+    oc delete deployment -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui --ignore-not-found
+    oc delete job -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-create-config --ignore-not-found
+    oc delete job -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-create-config-events --ignore-not-found
+    oc delete job -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-create-config-logs --ignore-not-found
+    oc delete job -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-create-config-metrics --ignore-not-found
+    oc delete cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config --ignore-not-found
+    oc delete cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config-events --ignore-not-found
+    oc delete cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config-logs --ignore-not-found
+    oc delete cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config-metrics --ignore-not-found
   register: CERT_ELEMENT
   ignore_errors: true
 
 
 
 - name: 🚀 DEMO-UI - Set Demo UI Password from instance configuration
-  set_fact: current_demoui_pwd={{current_ibmaiops_feature.demoui_pwd | default('P4ssw0rd!')}}
+  set_fact: current_demoui_pwd={{current_ ibm-aiops_feature.demoui_pwd | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -77,7 +77,7 @@
 - name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration
   kubernetes.core.k8s:
     state: present
-    template: ./templates/aiops-demo-ui/create-ibmaiops-demo-cm.j2
+    template: ./templates/aiops-demo-ui/create- ibm-aiops-demo-cm.j2
   ignore_errors: true
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@
 - name: 🕦 DEMO-UI - Wait for Demo UI Configuration being ready
   shell: |   
           export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-          oc get cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config --ignore-not-found --no-headers|grep -c ""
+          oc get cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config --ignore-not-found --no-headers|grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -96,7 +96,7 @@
 - name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Deployment
   kubernetes.core.k8s:
     state: present
-    template: ./templates/aiops-demo-ui/create-ibmaiops-demo-deploy.j2
+    template: ./templates/aiops-demo-ui/create- ibm-aiops-demo-deploy.j2
   ignore_errors: true
 
 # Wait for Demo UI being ready
@@ -104,7 +104,7 @@
 - name: 🕦 DEMO-UI - Wait for Demo UI being ready
   shell: | 
             export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-            oc get pod -n $AIOPS_NAMESPACE-demo-ui |grep ibmaiops-demo-ui|grep "1/1"|grep -v "Terminating"|grep -c ""
+            oc get pod -n $AIOPS_NAMESPACE-demo-ui |grep  ibm-aiops-demo-ui|grep "1/1"|grep -v "Terminating"|grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 50
@@ -117,10 +117,10 @@
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export MESSAGE="Installing DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "              📥 DEMO UI Login:"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo ""  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibmaiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "              📥 DEMO UI Login:"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo ""  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui  ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 

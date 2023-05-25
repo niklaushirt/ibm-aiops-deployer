@@ -29,7 +29,7 @@ There is some demo content available to RobotShop.
 	1. Name it `Mitigate Robotshop Ratings Outage`
 	2. Select Inventory `Demo Inventory`
 	3. Select Project `DemoIBMAIOPS`
-	4. Select Playbook `ibmaiops/robotshop-restart/start-ratings.yaml`
+	4. Select Playbook ` ibm-aiops/robotshop-restart/start-ratings.yaml`
 	5. Select` Prompt on launch` for `Variables`  ❗
 	2. Save
 

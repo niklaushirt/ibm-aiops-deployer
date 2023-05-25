@@ -22,7 +22,7 @@ export log_output_path=/dev/null 2>&1
 export TYPE=events
 export TYPE_PRINT="📥 "$(echo $TYPE | tr 'a-z' 'A-Z')
 
-AIOPS_PARAMETER=$(cat ./00_config_ibmaiops.yaml|grep AIOPS_NAMESPACE:)
+AIOPS_PARAMETER=$(cat ./00_config_ ibm-aiops.yaml|grep AIOPS_NAMESPACE:)
 AIOPS_NAMESPACE=${AIOPS_PARAMETER##*:}
 AIOPS_NAMESPACE=$(echo $AIOPS_NAMESPACE|tr -d '[:space:]')
 

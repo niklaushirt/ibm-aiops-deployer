@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name: ibmaiops
+  environment_name:  ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -46,23 +46,23 @@ openshift:
     #ocp_storage_class_block: ibmc-block-gold
 
 
-ibmaiops:
-- project: ibmaiops
+ ibm-aiops:
+- project:  ibm-aiops
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops
+  - name:  ibm-aiops
     kind: IBMAIOps
     install: false
 
-    # current_ibmaiops_feature
+    # current_ ibm-aiops_feature
     # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)
     aiops_size: small
     # Custom Sizing File (aiops_size must be set to "custom")
     custom_size_file: none    # Name of the IBMAIOPS instance
     # Name of the IBMAIOPS instance
-    aiops_name: ibm-cp-watson-aiops
+    aiops_name: ibm-aiops
     # Version of the catalog subscription
     subscription_channel: v3.7
     # Freeze the version of the Catalog image by patching CatalogSource
@@ -91,7 +91,7 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS Demo Content
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-demo-content
+  - name:  ibm-aiops-demo-content
     kind: IBMAIOpsDemoContent
     install: true
 
@@ -115,7 +115,7 @@ ibmaiops:
     training_run_training_metrics: false
 
     training_data_url: https://github.com/niklaushirt/
-    training_data_repo: ibmaiops-trainingdata
+    training_data_repo:  ibm-aiops-trainingdata
 
 
     # ---------------------------------------------------------------------
@@ -146,7 +146,7 @@ ibmaiops:
     install_demo_ui: false
     demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
     # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-    demoui_slack_user: ibmaiopsdemo@gmail.com
+    demoui_slack_user:  ibm-aiopsdemo@gmail.com
     demoui_slack_pwd: P4ssw0rd!
     demoui_admin_mode: "true"
     demoui_simulation_mode: "true"
@@ -203,12 +203,12 @@ ibmaiops:
 
 
 
-- project: ibmaiops-evtmgr
+- project:  ibm-aiops-evtmgr
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Event Manager
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-eventmanager
+  - name:  ibm-aiops-eventmanager
     kind: EventManager
     install: false
     # Version of the catalog subscription
@@ -226,19 +226,19 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Event Manager Demo Content
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-eventmanager
+  - name:  ibm-aiops-eventmanager
     kind: EventManagerDemoContent
     install: false
 
 
 
 
-- project: ibmaiops-infra
+- project:  ibm-aiops-infra
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Infrastructure Management
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-infrastructure-management
+  - name:  ibm-aiops-infrastructure-management
     kind: InfrastructureManagement
     install: false
     # Version of the catalog subscription
@@ -256,12 +256,12 @@ ibmaiops:
 
 
 
-- project: ibmaiops-addons
+- project:  ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS ELK
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-elk
+  - name:  ibm-aiops-elk
     kind: ELK
     install: false
 
@@ -269,7 +269,7 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS INSTANA
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-instana
+  - name:  ibm-aiops-instana
     kind: Instana
     install: false
     version: 241-3
@@ -292,7 +292,7 @@ ibmaiops:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # INTEGRATIONS
-    integrate_ibmaiops: false
+    integrate_ ibm-aiops: false
     #integrate_turbonomic: false
     
     # --------------------------------------------------------------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS TURBONOMIC
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-turbonomic
+  - name:  ibm-aiops-turbonomic
     kind: Turbonomic
     install: false
     turbo_version: 8.8.3
@@ -317,7 +317,7 @@ ibmaiops:
     #storage_class_file: automatic
     #storage_class_block: automatic
 
-  - name: ibmaiops-turbonomic-demo-content
+  - name:  ibm-aiops-turbonomic-demo-content
     kind: TurbonomicDemoContent
     install: false
     # Admin User Password (OVERRIDES GLOBAL PASSWORD)

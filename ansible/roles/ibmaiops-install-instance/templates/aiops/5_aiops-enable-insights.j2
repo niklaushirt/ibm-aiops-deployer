@@ -2,22 +2,22 @@ apiVersion: consoleui.aiops.ibm.com/v1
 kind: InsightsUI
 metadata:
   name: insightsui-instance
-  namespace: {{ current_ibmaiops_cluster.project }}
+  namespace: {{ current_ ibm-aiops_cluster.project }}
 spec:
   license:
     accept: true
   size: small
   version: 1.0.0
   elasticSearch:
-    bindingSecret: ibm-cp-watson-aiops-elastic-secret
+    bindingSecret: ibm-aiops-elastic-secret
   kafka:
-    bindingSecret: ibm-cp-watson-aiops-kafka-secret
+    bindingSecret: ibm-aiops-kafka-secret
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aiops-insights-ui-datarouting
-  namespace: {{ current_ibmaiops_cluster.project }}
+  namespace: {{ current_ ibm-aiops_cluster.project }}
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -63,22 +63,22 @@ spec:
           valueFrom:
             secretKeyRef:
               key: bootstrapServers
-              name: ibm-cp-watson-aiops-kafka-secret
+              name: ibm-aiops-kafka-secret
         - name: KAFKA_SASL_USERNAME
           valueFrom:
             secretKeyRef:
               key: username
-              name: ibm-cp-watson-aiops-kafka-secret
+              name: ibm-aiops-kafka-secret
         - name: KAFKA_SASL_PASSWORD
           valueFrom:
             secretKeyRef:
               key: password
-              name: ibm-cp-watson-aiops-kafka-secret
+              name: ibm-aiops-kafka-secret
         - name: KAFKA_SSL_CA
           valueFrom:
             secretKeyRef:
               key: caCertificate
-              name: ibm-cp-watson-aiops-kafka-secret
+              name: ibm-aiops-kafka-secret
         - name: PIPELINES
           value: es-story-archive
         - name: LOGLEVEL
@@ -88,14 +88,14 @@ spec:
         - name: LOGSTASH_REPLICAS
           value: "0"
         - name: KAFKA_TOPICPREFIX
-          value: ibmaiops-cartridge.
+          value:  ibm-aiops-cartridge.
         - name: KAFKA_SSL_ENABLED
           value: "true"
         - name: KAFKA_SASL_MECHANISM
           valueFrom:
             secretKeyRef:
               key: authMechanism
-              name: ibm-cp-watson-aiops-kafka-secret
+              name: ibm-aiops-kafka-secret
         image: {{DATAROUTER_IMAGE}}
         imagePullPolicy: Always
         livenessProbe:
@@ -160,11 +160,11 @@ spec:
       - name: elasticsearch-binding
         secret:
           defaultMode: 292
-          secretName: ibm-cp-watson-aiops-elastic-secret
+          secretName: ibm-aiops-elastic-secret
       - name: kafka-ca
         secret:
           defaultMode: 292
           items:
           - key: caCertificate
             path: ca.crt
-          secretName: ibm-cp-watson-aiops-kafka-secret
+          secretName: ibm-aiops-kafka-secret

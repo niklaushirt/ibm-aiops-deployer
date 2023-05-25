@@ -9,8 +9,8 @@
   shell: |
     export MESSAGE="Wait for Training Data to finish loading"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -19,12 +19,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Training Data to finish loading (up to 15 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - 🕦 Wait for Training Data to finish loading (up to 15 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -35,7 +35,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION METRICS LOAD
   shell: |
     while : ; do
-          READY=$(oc get jobs -n ibmaiops-installer --ignore-not-found load-metric-cassandra)
+          READY=$(oc get jobs -n  ibm-aiops-installer --ignore-not-found load-metric-cassandra)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -60,7 +60,7 @@
 
 - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS METRICS LOAD
   shell: |
-    oc delete pod  -n ibmaiops-installer --ignore-not-found $(oc get po -n ibmaiops-installer|grep load-metric-cassandra|awk '{print$1}')
+    oc delete pod  -n  ibm-aiops-installer --ignore-not-found $(oc get po -n  ibm-aiops-installer|grep load-metric-cassandra|awk '{print$1}')
   register: ES_READY
   ignore_errors: true
 
@@ -68,7 +68,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION SNOW LOAD
   shell: |
       while : ; do
-          READY=$(oc get jobs -n ibmaiops-installer --ignore-not-found load-snow-indexes)
+          READY=$(oc get jobs -n  ibm-aiops-installer --ignore-not-found load-snow-indexes)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -93,7 +93,7 @@
 
 - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS SNOW LOAD
   shell: |
-    oc delete pod  -n ibmaiops-installer --ignore-not-found $(oc get po -n ibmaiops-installer|grep load-snow-indexes|awk '{print$1}')
+    oc delete pod  -n  ibm-aiops-installer --ignore-not-found $(oc get po -n  ibm-aiops-installer|grep load-snow-indexes|awk '{print$1}')
   register: ES_READY
   ignore_errors: true
 
@@ -104,7 +104,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION LAD LOAD
   shell: |
       while : ; do
-          READY=$(oc get jobs -n ibmaiops-installer --ignore-not-found load-log-indexes)
+          READY=$(oc get jobs -n  ibm-aiops-installer --ignore-not-found load-log-indexes)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -129,7 +129,7 @@
 
 - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS LAD LOAD
   shell: |
-    oc delete pod  -n ibmaiops-installer --ignore-not-found $(oc get po -n ibmaiops-installer|grep load-log-indexes|awk '{print$1}')
+    oc delete pod  -n  ibm-aiops-installer --ignore-not-found $(oc get po -n  ibm-aiops-installer|grep load-log-indexes|awk '{print$1}')
   register: ES_READY
   ignore_errors: true
 

@@ -17,7 +17,7 @@ Please use the in-cluster installation method in chapter 1:
 Clone the GitHub Repository
 
 ```
-git clone https://github.com/niklaushirt/ibmaiops-deployer.git -b ibmaiops_stable
+git clone https://github.com/niklaushirt/ ibm-aiops-deployer.git -b  ibm-aiops_stable
 ```
 
 
@@ -121,7 +121,7 @@ You have different options:
 	
 1. **Install from your PC** *with the token from 1.3.1*
 	```bash
-	ansible-playbook ./ansible/01_ibmaiops-aimanager-all.yaml -e cp_entitlement_key=<REGISTRY_TOKEN> 
+	ansible-playbook ./ansible/01_ ibm-aiops-aimanager-all.yaml -e cp_entitlement_key=<REGISTRY_TOKEN> 
 	```
 	
 1. **Install with the Easy Installer** *with the token from 1.3.1*
@@ -300,7 +300,7 @@ You have different options:
 	
 1. **Install from your PC** *with the token from 1.3.1*
 	```bash
-	ansible-playbook ./ansible/04_ibmaiops-eventmanager-all.yaml -e cp_entitlement_key=<REGISTRY_TOKEN> 
+	ansible-playbook ./ansible/04_ ibm-aiops-eventmanager-all.yaml -e cp_entitlement_key=<REGISTRY_TOKEN> 
 	```
 	
 1. **Install with the Easy Installer** *with the token from 1.3.1*

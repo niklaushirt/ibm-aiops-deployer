@@ -15,8 +15,8 @@
   shell: |
     export MESSAGE="Load Robotshop overlay Topology"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -25,12 +25,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Load Robotshop overlay Topology'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Load Robotshop overlay Topology'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -88,7 +88,7 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [ "${OS}" == "darwin" ]; then
           echo "MAC"
-          TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibmaiops-install-demo-content/templates/topology/asm_config.json"
+          TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ ibm-aiops-install-demo-content/templates/topology/asm_config.json"
     else
           TOPOLOGY_CUSTOM_FILE="{{role_path}}/templates/topology/asm_config.json"
     fi    
@@ -139,7 +139,7 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [ "${OS}" == "darwin" ]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibmaiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/roles/ ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
     fi    
@@ -240,7 +240,7 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [ "${OS}" == "darwin" ]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibmaiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/roles/ ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
     fi    
@@ -339,7 +339,7 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [ "${OS}" == "darwin" ]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibmaiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/roles/ ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
     fi    

@@ -92,6 +92,6 @@ done
 
 exit 1
 
-oc delete pod $(oc get po -n ibmaiops|grep ibmaiops-eventprocessor|awk '{print$1}') -n ibmaiops --ignore-not-found
+oc delete pod $(oc get po -n  ibm-aiops|grep  ibm-aiops-eventprocessor|awk '{print$1}') -n  ibm-aiops --ignore-not-found
 
 

@@ -756,7 +756,7 @@ spec:
       
       containers:
       - name: web
-        image: quay.io/niklaushirt/rs-web:{{current_ibmaiops_feature.robotshop_color | default('classic') }}
+        image: quay.io/niklaushirt/rs-web:{{current_ ibm-aiops_feature.robotshop_color | default('classic') }}
         imagePullPolicy: IfNotPresent
         env:
         - name: INSTANA_EUM_KEY

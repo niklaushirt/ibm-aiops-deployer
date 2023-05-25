@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  ibmaiops-simulation-config
-  namespace: ibmaiops-experimental
+  name:   ibm-aiops-simulation-config
+  namespace:  ibm-aiops-experimental
 data:
   DISCORD_BOT_TOKEN: "CHANGEME"
   DISCORD_WEBHOOK: "CHANGEME"
@@ -22,8 +22,8 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  ibmaiops-simulation-config-events
-  namespace: ibmaiops-experimental
+  name:   ibm-aiops-simulation-config-events
+  namespace:  ibm-aiops-experimental
 data:
   DEMO_EVENTS_MEM:  |-
     { "id": "1a2a6787-59ad-4acd-bd0d-46c1ddfd8e60", "occurrenceTime": "MY_TIMESTAMP", "summary": "Commit in repository robot-shop by Niklaus Hirt on file my.cnf - Optimise Buffer Pool                               ", "severity": 3, "type": { "eventType": "problem", "classification": "Github Commit" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "GitHub", "description": "GitHub", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "GitHub", "sourceId": "github" }, "resource": { "type": "host", "name": "mysql-db", "sourceId": "database" }, "details": { "operation": "push", "user": "nikh@ch.ibm.com", "branch": "main" }}
@@ -75,8 +75,8 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  ibmaiops-simulation-config-metrics
-  namespace: ibmaiops-experimental
+  name:   ibm-aiops-simulation-config-metrics
+  namespace:  ibm-aiops-experimental
 data:
   METRICS_TO_SIMULATE_FAN_TEMP:  |-
     DCWest1-Rack045-DELL3762,CPU1Temperature,System,ITERATIONS,90
@@ -104,8 +104,8 @@ data:
   apiVersion: v1
   kind: ConfigMap
   metadata:
-    name:  ibmaiops-simulation-config-logs
-    namespace: ibmaiops-experimental
+    name:   ibm-aiops-simulation-config-logs
+    namespace:  ibm-aiops-experimental
   data:
 
     DEMO_LOGS:  |-

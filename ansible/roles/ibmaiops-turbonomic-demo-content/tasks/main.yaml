@@ -35,7 +35,7 @@
  
  
  
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -43,7 +43,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -58,14 +58,14 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification-main
+      name:  ibm-aiops-notification-main
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerBottom")}}
-      text: 'Installing  {{current_ibmaiops_feature.kind}} - '    
+      text: 'Installing  {{current_ ibm-aiops_feature.kind}} - '    
       link:
-          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibmaiops-installer/pods/$INSTALL_POD/logs"
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs  
     EOF
   ignore_errors: true
@@ -90,9 +90,9 @@
 
 
 
-- name: 🟣 Installing {{current_ibmaiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
   debug:
-    var: current_ibmaiops_feature
+    var: current_ ibm-aiops_feature
     verbosity: 1
 
 
@@ -107,8 +107,8 @@
 - name: Get Licenses 
   block:
 
-  - name: 💾 SET Turbo License from Config File - {{current_ibmaiops_feature.turbo_license | default("NONE")}} 
-    set_fact: current_turbo_license={{current_ibmaiops_feature.turbo_license| default("NONE")}}
+  - name: 💾 SET Turbo License from Config File - {{current_ ibm-aiops_feature.turbo_license | default("NONE")}} 
+    set_fact: current_turbo_license={{current_ ibm-aiops_feature.turbo_license| default("NONE")}}
 
 
 
@@ -125,7 +125,7 @@
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
       if [ "${OS}" == "darwin" ]; then
             echo "MAC"
-            LICENSE_FILE=$(pwd)"/roles/ibmaiops-turbonomic-demo-content/vars/lic.yaml"
+            LICENSE_FILE=$(pwd)"/roles/ ibm-aiops-turbonomic-demo-content/vars/lic.yaml"
       else
             LICENSE_FILE="{{role_path}}/vars/lic.yaml"
       fi    
@@ -196,12 +196,12 @@
 
 # Initialize Logging
 - name: 📥 Init Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/01_init-logging.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/01_init-logging.yaml"
 
   
 # Start block
 - name: 📥 Start Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/90-log-start.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/90-log-start.yaml"
 
 
 
@@ -216,19 +216,19 @@
 
 # Update IBMAIOps Cards
 - name: 📥 Update IBMAIOps Cards
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/99_update_cards.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/99_update_cards.yaml"
 
 
 
 
 
 - name: 📥 End Logging
-  include_tasks: "{{role_path}}/../ibmaiops-global/tasks/91-log-end.yaml"
+  include_tasks: "{{role_path}}/../ ibm-aiops-global/tasks/91-log-end.yaml"
 
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
   debug: 
     msg:  
 
@@ -237,7 +237,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

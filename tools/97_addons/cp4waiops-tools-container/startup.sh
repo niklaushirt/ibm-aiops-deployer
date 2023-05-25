@@ -17,8 +17,8 @@ echo ""
 
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
 echo "   🌏  Get Installer files from $INSTALL_REPO"
-git clone $INSTALL_REPO -b ibmaiops_stable ibmaiops| sed 's/^/      /'
-cd ibmaiops
+git clone $INSTALL_REPO -b  ibm-aiops_stable  ibm-aiops| sed 's/^/      /'
+cd  ibm-aiops
 
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
 echo "   🔎  Available Playbooks"

@@ -2,22 +2,22 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: {{current_ibmaiops_cluster.project}}-demo-ui
+  name: {{current_ ibm-aiops_cluster.project}}-demo-ui
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ibmaiops-demo-ui-admin
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-admin
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibmaiops-demo-ui-admin-crb
+  name:  ibm-aiops-demo-ui-admin-crb
 subjects:
   - kind: ServiceAccount
-    name: ibmaiops-demo-ui-admin
-    namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+    name:  ibm-aiops-demo-ui-admin
+    namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -26,8 +26,8 @@ roleRef:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibmaiops-demo-ui-create-config
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-create-config
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   template:
     spec:
@@ -48,7 +48,7 @@ spec:
             - |
               set -x
 
-              export AIOPS_NAMESPACE={{current_ibmaiops_cluster.project}}-demo-ui
+              export AIOPS_NAMESPACE={{current_ ibm-aiops_cluster.project}}-demo-ui
               export TOKEN="P4ssw0rd!"
 
               export LOG_ITERATIONS=20
@@ -63,23 +63,23 @@ spec:
               export INSTANCE_NAME=" {{global_config.environment_name | default("Demo")}}"
 
 
-              export SLACK_URL="{{current_ibmaiops_feature.demoui_slack_url}}"
-              export SLACK_USER="{{current_ibmaiops_feature.demoui_slack_user}}"
-              export SLACK_PWD="{{current_ibmaiops_feature.demoui_slack_pwd}}"
+              export SLACK_URL="{{current_ ibm-aiops_feature.demoui_slack_url}}"
+              export SLACK_USER="{{current_ ibm-aiops_feature.demoui_slack_user}}"
+              export SLACK_PWD="{{current_ ibm-aiops_feature.demoui_slack_pwd}}"
 
 
-              export ADMIN_MODE='{{current_ibmaiops_feature.demoui_admin_mode}}'
-              export SIMULATION_MODE='{{current_ibmaiops_feature.demoui_simulation_mode}}'
+              export ADMIN_MODE='{{current_ ibm-aiops_feature.demoui_admin_mode}}'
+              export SIMULATION_MODE='{{current_ ibm-aiops_feature.demoui_simulation_mode}}'
 
-              export DEMO_USER='{{current_ibmaiops_feature.demoui_user}}'
+              export DEMO_USER='{{current_ ibm-aiops_feature.demoui_user}}'
               export DEMO_PWD='{{current_demoui_pwd}}'
 
-              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
+              cat <<EOF | oc apply -n {{current_ ibm-aiops_cluster.project}}-demo-ui -f -
                 apiVersion: v1
                 kind: ConfigMap
                 metadata:
-                  name:  ibmaiops-demo-ui-config
-                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+                  name:   ibm-aiops-demo-ui-config
+                  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
                 data:
                   TOKEN: $TOKEN
                   INSTANCE_NAME: $INSTANCE_NAME
@@ -103,14 +103,14 @@ spec:
               EOF
 
       restartPolicy: Never
-      serviceAccountName: ibmaiops-demo-ui-admin
+      serviceAccountName:  ibm-aiops-demo-ui-admin
   backoffLimit: 4
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibmaiops-demo-ui-create-config-events
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-create-config-events
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   template:
     spec:
@@ -134,12 +134,12 @@ spec:
 
 
 
-              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
+              cat <<EOF | oc apply -n {{current_ ibm-aiops_cluster.project}}-demo-ui -f -
                 apiVersion: v1
                 kind: ConfigMap
                 metadata:
-                  name:  ibmaiops-demo-ui-config-events
-                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+                  name:   ibm-aiops-demo-ui-config-events
+                  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
                 data:
 
                   DEMO_EVENTS_MEM:  |-
@@ -209,14 +209,14 @@ spec:
               EOF
 
       restartPolicy: Never
-      serviceAccountName: ibmaiops-demo-ui-admin
+      serviceAccountName:  ibm-aiops-demo-ui-admin
   backoffLimit: 4
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibmaiops-demo-ui-create-config-metrics
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-create-config-metrics
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   template:
     spec:
@@ -237,12 +237,12 @@ spec:
             - |
               set -x
 
-              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
+              cat <<EOF | oc apply -n {{current_ ibm-aiops_cluster.project}}-demo-ui -f -
                 apiVersion: v1
                 kind: ConfigMap
                 metadata:
-                  name:  ibmaiops-demo-ui-config-metrics
-                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+                  name:   ibm-aiops-demo-ui-config-metrics
+                  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
                 data:
                   METRICS_TO_SIMULATE_FAN_TEMP:  |-
                     DCWest1-Rack045-DELL3762,CPU1Temperature,System,130,5
@@ -299,15 +299,15 @@ spec:
               EOF
 
       restartPolicy: Never
-      serviceAccountName: ibmaiops-demo-ui-admin
+      serviceAccountName:  ibm-aiops-demo-ui-admin
   backoffLimit: 4
 
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibmaiops-demo-ui-create-config-logs
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-create-config-logs
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   template:
     spec:
@@ -328,12 +328,12 @@ spec:
             - |
               set -x
 
-              cat <<EOF | oc apply -n ibmaiops-demo-ui -f -
+              cat <<EOF | oc apply -n  ibm-aiops-demo-ui -f -
                 apiVersion: v1
                 kind: ConfigMap
                 metadata:
-                  name:  ibmaiops-demo-ui-config-logs
-                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+                  name:   ibm-aiops-demo-ui-config-logs
+                  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
                 data:
 
                   DEMO_LOGS:  |-
@@ -425,15 +425,15 @@ spec:
 
               EOF
       restartPolicy: Never
-      serviceAccountName: ibmaiops-demo-ui-admin
+      serviceAccountName:  ibm-aiops-demo-ui-admin
   backoffLimit: 4
 
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibmaiops-demo-ui-create-config-logs-sock
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-create-config-logs-sock
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   template:
     spec:
@@ -455,12 +455,12 @@ spec:
               set -x
 
 
-              cat <<EOF | oc apply -n ibmaiops-demo-ui -f -
+              cat <<EOF | oc apply -n  ibm-aiops-demo-ui -f -
                 kind: ConfigMap
                 apiVersion: v1
                 metadata:
-                  name: ibmaiops-demo-ui-config-logs-sock
-                  namespace: ibmaiops-demo-ui
+                  name:  ibm-aiops-demo-ui-config-logs-sock
+                  namespace:  ibm-aiops-demo-ui
                 data:
                   DEMO_LOGS_SOCK: >-
                     {"_index":"app-000003","_type":"_doc","_id":"ODI1Zjk3MTUtZTM2MC00MjAxLTk4NDMtMWEyOWVjMzc3Yjli","_score":3.5539014,"_source":{"kubernetes":{"container_image_id":"docker.io/robotshop/rs-catalog@sha256:d545747c1b97cd2e0f41221291cd2f66781bceabaab2cfd42a7be4b8c2f3ba62","container_name":"catalog","namespace_id":"caf137b0-ca89-42bc-a899-563513a17f4b","flat_labels":["app=sock-shop","pod-template-hash=6777bdf99d","service=catalog","version=v1"],"pod_ip":"172.30.95.152","host":"KUBE1","master_url":"https://kubernetes.default.svc","pod_id":"44373841-0386-4a7c-a9fa-31841d6eb53d","namespace_labels":{"kubernetes_io/metadata_name":"sock-shop"},"container_image":"docker.io/robotshop/rs-catalog:latest","namespace_name":"sock-shop","pod_name":"catalog-6777bdf99d-j26rs"},"viaq_msg_id":"ODI1Zjk3MTUtZTM2MC00MjAxLTk4NDMtMWEyOWVjMzc3Yjli","level":"info","message":"{\"level\":\"info\",\"time\":1646414858648,\"pid\":1,\"hostname\":\"catalog-6777bdf99d-j26rs\",\"req\":{\"id\":169609,\"method\":\"GET\",\"url\":\"/product/Watson\",\"headers\":{\"x-instana-t\":\"7949448219d87f81\",\"x-instana-s\":\"3b90e59a62bdb0e5\",\"x-instana-l\":\"1\",\"host\":\"catalog:8080\",\"connection\":\"close\",\"user-agent\":\"python-requests/2.26.0\",\"accept-encoding\":\"gzip,deflate,br\",\"accept\":\"*/*\",\"x-forwarded-for\":\"34.196.93.245\"},\"remoteAddress\":\"::ffff:172.30.219.38\",\"remotePort\":54454},\"res\":{\"statusCode\":200,\"headers\":{\"x-powered-by\":\"Express\",\"timing-allow-origin\":\"*\",\"access-control-allow-origin\":\"*\",\"content-type\":\"application/json;charset=utf-8\",\"content-length\":\"186\",\"etag\":\"W/\\\"ba-drbptpatW/GYpzcL8DEJ4l13VQ4\\\"\"}},\"responseTime\":6,\"msg\":\"requestcompleted\",\"v\":1}","docker":{"container_id":"4d75004c159a7bf41d0abfe2d808882bf69dcea824779ec1cd6184bef06ca9d0"},"hostname":"10.13.177.73","log_type":"application","@timestamp":"MY_TIMESTAMP","pipeline_metadata":{"collector":{"received_at":"2022-03-04T17:27:39.025261+00:00","name":"fluentd","inputname":"fluent-plugin-systemd","version":"1.7.41.6.0","ipaddr4":"10.13.177.73"}}}} 
@@ -529,6 +529,6 @@ spec:
               EOF
 
       restartPolicy: Never
-      serviceAccountName: ibmaiops-demo-ui-admin
+      serviceAccountName:  ibm-aiops-demo-ui-admin
   backoffLimit: 4
 ---

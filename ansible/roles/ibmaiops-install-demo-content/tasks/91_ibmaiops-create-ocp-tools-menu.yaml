@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Create Openshift WebConsole Menu Item"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -26,12 +26,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Openshift WebConsole Menu Item'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Create Openshift WebConsole Menu Item'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -48,11 +48,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-robotshop
+        name:  ibm-aiops-robotshop
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/stan1.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/stan1.svg
           section: IBM AIOps Addons
         href: >-
           https://$appURL
@@ -72,11 +72,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-sockshop
+        name:  ibm-aiops-sockshop
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation.svg
           section: IBM AIOps Addons
         href: >-
           https://$appURL
@@ -95,11 +95,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-awx
+        name:  ibm-aiops-awx
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ansible-icon.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/ansible-icon.svg
           section: IBM AIOps Addons
         href: >-
           https://$appURL
@@ -117,11 +117,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-ldap
+        name:  ibm-aiops-ldap
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/ldap-icon.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/ldap-icon.svg
           section: IBM AIOps Addons
         href: >-
           https://$appURL
@@ -140,11 +140,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-flink-connectors
+        name:  ibm-aiops-flink-connectors
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
           section: IBM AIOps Tools
         href: >-
           https://$appURL
@@ -163,11 +163,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-flink-policy
+        name:  ibm-aiops-flink-policy
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
           section: IBM AIOps Tools
         href: >-
           https://$appURL
@@ -185,11 +185,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibmaiops-spark
+        name:  ibm-aiops-spark
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibmaiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
+            https://raw.githubusercontent.com/niklaushirt/ ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels.svg
           section: IBM AIOps Tools
         href: >-
           https://$appURL

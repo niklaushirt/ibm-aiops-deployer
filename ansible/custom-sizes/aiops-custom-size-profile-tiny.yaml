@@ -45,7 +45,7 @@ data:
             limits:
               cpu: 1000m
               memory: 512Mi
-    ibmaiops-eventprocessor:
+     ibm-aiops-eventprocessor:
       flink:
         taskmanager:
           replicas: 1

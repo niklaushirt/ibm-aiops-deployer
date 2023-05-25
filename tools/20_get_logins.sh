@@ -52,7 +52,7 @@ export TEMP_PATH=~/aiops-install
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
-: "${AIOPS_NAMESPACE:=ibmaiops}"
+: "${AIOPS_NAMESPACE:= ibm-aiops}"
 
 CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
 CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')

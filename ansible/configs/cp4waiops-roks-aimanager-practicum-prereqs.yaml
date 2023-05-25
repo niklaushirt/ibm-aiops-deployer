@@ -1,7 +1,7 @@
 
 
 global_config:
-  environment_name: ibmaiops
+  environment_name:  ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -40,15 +40,15 @@ openshift:
     #ocp_storage_class_block: ibmc-block-gold
 
 
-ibmaiops:
-- project: ibmaiops
+ ibm-aiops:
+- project:  ibm-aiops
   instances:
 
     
   # --------------------------------------------------------------------------------------------------------------------------------------
   # INSTALL IBMAIOPS Demo Content
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-demo-content
+  - name:  ibm-aiops-demo-content
     kind: IBMAIOpsDemoContent
     install: true
 
@@ -72,7 +72,7 @@ ibmaiops:
     training_run_training_metrics: false
 
     training_data_url: https://github.com/niklaushirt/
-    training_data_repo: ibmaiops-trainingdata
+    training_data_repo:  ibm-aiops-trainingdata
 
 
     # ---------------------------------------------------------------------
@@ -102,7 +102,7 @@ ibmaiops:
     install_demo_ui: false
     demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
     # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-    demoui_slack_user: ibmaiopsdemo@gmail.com
+    demoui_slack_user:  ibm-aiopsdemo@gmail.com
     demoui_slack_pwd: P4ssw0rd!
     demoui_admin_mode: "true"
     demoui_simulation_mode: "true"
@@ -157,12 +157,12 @@ ibmaiops:
 
 
 
-- project: ibmaiops-addons
+- project:  ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS ELK
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-elk
+  - name:  ibm-aiops-elk
     kind: ELK
     install: true
 

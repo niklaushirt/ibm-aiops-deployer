@@ -111,7 +111,7 @@ function namespace_resources(){
 }
 
 
-export NAMESPACE=ibmaiops-demo-ui
+export NAMESPACE= ibm-aiops-demo-ui
 namespace_resources
 
 export NAMESPACE=awx
@@ -126,11 +126,11 @@ namespace_resources
 export NAMESPACE=robot-shop
 namespace_resources
 
-export NAMESPACE=ibmaiops
+export NAMESPACE= ibm-aiops
 namespace_resources
 
 export NAMESPACE=ibm-common-services
 namespace_resources
 
-export NAMESPACE=ibmaiops-evtmgr
+export NAMESPACE= ibm-aiops-evtmgr
 namespace_resources

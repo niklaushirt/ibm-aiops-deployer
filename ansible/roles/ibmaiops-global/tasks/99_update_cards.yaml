@@ -11,8 +11,8 @@
   shell: |
     export MESSAGE=" 🌏 Update IBMAIOps Cards"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -21,12 +21,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Update IBMAIOps Cards'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Update IBMAIOps Cards'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -128,7 +128,7 @@
         fi
         ROWS=$ROWS'{"drilldown_url":  " ", "label": " ", "sub_text": " "},'
 
-        ROWS=$ROWS'{"drilldown_url":  "https://github.com/niklaushirt/ibmaiops-deployer#-demo-installation", "label": "Created with IBMAIOps-Deployer", "sub_text": "Built with 🤍 by Niklaus Hirt"},'
+        ROWS=$ROWS'{"drilldown_url":  "https://github.com/niklaushirt/ ibm-aiops-deployer#-demo-installation", "label": "Created with IBMAIOps-Deployer", "sub_text": "Built with 🤍 by Niklaus Hirt"},'
 
         PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 1, "title": "🚀   Getting Started", "template_type": "text_list", "data": { "text_list_data": { "rows": [ { "drilldown_url": "", "label": "🐥 Welcome to the {{global_config.environment_name | default("Demo")}} Environment", "sub_text": "" }, '$ROWS' { "drilldown_url": "", "label": " ", "sub_text": " " } ] } } } '
         echo "PAYLOAD:"$PAYLOAD

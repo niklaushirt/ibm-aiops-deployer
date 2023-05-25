@@ -1,13 +1,13 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibmaiops-tools
+  name:  ibm-aiops-tools
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: primecalc-deployment
-  namespace: ibmaiops-tools
+  namespace:  ibm-aiops-tools
   labels:
     app: primecalc
 spec:

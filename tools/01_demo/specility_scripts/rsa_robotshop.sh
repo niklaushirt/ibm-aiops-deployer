@@ -99,7 +99,7 @@ oc project $AIOPS_NAMESPACE  >/tmp/demo.log 2>&1  || true
 echo " "
 
 echo "     📥 Get Kafka Topics"
-export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibmaiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep  ibm-aiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
 
 echo " "
 echo "     🔐 Get Kafka Password"

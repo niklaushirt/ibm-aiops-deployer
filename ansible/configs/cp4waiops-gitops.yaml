@@ -7,7 +7,7 @@
 
 
 global_config:
-  environment_name: ibmaiops
+  environment_name:  ibm-aiops
   cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Pull Registires
@@ -46,13 +46,13 @@ openshift:
     #ocp_storage_class_block: ibmc-block-gold
 
 
-ibmaiops:
-- project: ibmaiops-addons
+ ibm-aiops:
+- project:  ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS ARGOCD
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibmaiops-argoCD
+  - name:  ibm-aiops-argoCD
     kind: GitOps
     install: true
     test: 1234

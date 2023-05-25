@@ -18,8 +18,8 @@
   shell: |
     export MESSAGE="Installing TURBONOMIC Demo Content"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -28,19 +28,19 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Demo Content'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Demo Content'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
 - name: 🚀 TURBONOMIC - Set ADMIN Password from instance configuration
-  set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default('P4ssw0rd!')}}
+  set_fact: current_admin_pass={{current_ ibm-aiops_feature.turbo_admin_password  | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -56,7 +56,7 @@
 
 
 - name: 🚀 TURBONOMIC - Set DEMO Password from instance configuration
-  set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_demo_password  | default('P4ssw0rd!')}}
+  set_fact: current_demo_pass={{current_ ibm-aiops_feature.turbo_demo_password  | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -175,7 +175,7 @@
     echo " 📥 Create demo User"
     result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/users" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  {
       "displayName": "Demo User",
-        "username": "{{current_ibmaiops_feature.demo_user}}",
+        "username": "{{current_ ibm-aiops_feature.demo_user}}",
         "password": "{{current_demo_pass}}",
         "roles": [
           {
@@ -194,12 +194,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.create_user == true
+  when: current_ ibm-aiops_feature.create_user == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.create_user == true
+  when: current_ ibm-aiops_feature.create_user == true
 
 
 
@@ -248,12 +248,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.group_vcenter_vms == true
+  when: current_ ibm-aiops_feature.group_vcenter_vms == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.group_vcenter_vms == true
+  when: current_ ibm-aiops_feature.group_vcenter_vms == true
 
 
 
@@ -304,12 +304,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.group_robotshop == true
+  when: current_ ibm-aiops_feature.group_robotshop == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.group_robotshop == true
+  when: current_ ibm-aiops_feature.group_robotshop == true
 
 
 
@@ -454,12 +454,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.group_licensing == true
+  when: current_ ibm-aiops_feature.group_licensing == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.group_licensing == true
+  when: current_ ibm-aiops_feature.group_licensing == true
 
 
 
@@ -498,12 +498,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.group_robotshop == true
+  when: current_ ibm-aiops_feature.group_robotshop == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.group_robotshop == true
+  when: current_ ibm-aiops_feature.group_robotshop == true
 
 
 
@@ -549,12 +549,12 @@
 #   register: output
 #   args:
 #     executable: /bin/bash
-#   when: current_ibmaiops_feature.target_instana == true
+#   when: current_ ibm-aiops_feature.target_instana == true
 # - name: 🟣  OUTPUT
 #   debug:
 #     var: output.stdout_lines
 #     verbosity: 1
-#   when: current_ibmaiops_feature.target_instana == true
+#   when: current_ ibm-aiops_feature.target_instana == true
 
 
 
@@ -640,12 +640,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 
 
 
@@ -653,7 +653,7 @@
   shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Deploy Synthetic Metrics Server for DIF"
-    oc apply -f ./roles/ibmaiops-turbonomic-demo-content/templates/create-data-ingestion.yaml
+    oc apply -f ./roles/ ibm-aiops-turbonomic-demo-content/templates/create-data-ingestion.yaml
     echo ""
     echo ""
     export robotshopUUID=$(curl -XGET -s -k "https://{{TURBO_URL}}/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
@@ -664,12 +664,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 
 
 
@@ -703,12 +703,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 
 
 
@@ -745,12 +745,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 
 
 
@@ -767,20 +767,20 @@
   shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Deploy Memory and CPU Hogs"
-    oc apply  -f ./roles/ibmaiops-turbonomic-demo-content/templates/prime_numbers-deploy.yaml
-    oc apply  -f ./roles/ibmaiops-turbonomic-demo-content/templates/memory_grabber.yaml
+    oc apply  -f ./roles/ ibm-aiops-turbonomic-demo-content/templates/prime_numbers-deploy.yaml
+    oc apply  -f ./roles/ ibm-aiops-turbonomic-demo-content/templates/memory_grabber.yaml
     echo ""
     echo ""
   ignore_errors: true
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.resource_hogs == true
+  when: current_ ibm-aiops_feature.resource_hogs == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.resource_hogs == true
+  when: current_ ibm-aiops_feature.resource_hogs == true
 
 
 
@@ -819,12 +819,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_ibmaiops_feature.metrics_dif == true
+  when: current_ ibm-aiops_feature.metrics_dif == true
 
 
 

@@ -3,14 +3,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: load-snow-indexes
-  namespace: ibmaiops-installer
+  namespace:  ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibmaiops-tools:2.0
+          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -33,13 +33,13 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading service now training files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export AWX_REPO=https://github.com/niklaushirt/ibmaiops-trainingdata.git
+              export AWX_REPO=https://github.com/niklaushirt/ ibm-aiops-trainingdata.git
               git clone $AWX_REPO
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              cd ibmaiops-trainingdata
+              cd  ibm-aiops-trainingdata
               ./training/load-snow-for-training.sh
 
               echo "*****************************************************************************************************************************"

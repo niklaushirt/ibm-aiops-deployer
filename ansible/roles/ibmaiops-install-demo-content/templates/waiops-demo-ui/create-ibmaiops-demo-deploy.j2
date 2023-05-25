@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ibmaiops-demo-ui
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
   labels:
-      app: ibmaiops-demo-ui
+      app:  ibm-aiops-demo-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ibmaiops-demo-ui
+      app:  ibm-aiops-demo-ui
   template:
     metadata:
       labels:
-        app: ibmaiops-demo-ui
+        app:  ibm-aiops-demo-ui
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibmaiops-demo-ui:2.0
+      - image: quay.io/niklaushirt/ ibm-aiops-demo-ui:2.0
         imagePullPolicy: Always
-        name: ibmaiops-demo-ui
+        name:  ibm-aiops-demo-ui
         command:
         ports:
         - containerPort: 8000
@@ -42,26 +42,26 @@ spec:
           failureThreshold: 3
         envFrom:
         - configMapRef:
-            name:  ibmaiops-demo-ui-config
+            name:   ibm-aiops-demo-ui-config
         - configMapRef:
-            name:  ibmaiops-demo-ui-config-events
+            name:   ibm-aiops-demo-ui-config-events
         - configMapRef:
-            name:  ibmaiops-demo-ui-config-logs
+            name:   ibm-aiops-demo-ui-config-logs
         - configMapRef:
-            name:  ibmaiops-demo-ui-config-logs-sock
+            name:   ibm-aiops-demo-ui-config-logs-sock
         - configMapRef:
-            name:  ibmaiops-demo-ui-config-metrics
-      serviceAccountName: ibmaiops-demo-ui-admin
+            name:   ibm-aiops-demo-ui-config-metrics
+      serviceAccountName:  ibm-aiops-demo-ui-admin
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ibmaiops-demo-ui-service
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:  ibm-aiops-demo-ui-service
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   selector:
-    app: ibmaiops-demo-ui
+    app:  ibm-aiops-demo-ui
   ports:
     - protocol: TCP
       port: 8000
@@ -70,12 +70,12 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name:  ibmaiops-demo-ui
-  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+  name:   ibm-aiops-demo-ui
+  namespace: {{current_ ibm-aiops_cluster.project}}-demo-ui
 spec:
   to:
     kind: Service
-    name: ibmaiops-demo-ui-service
+    name:  ibm-aiops-demo-ui-service
     weight: 100
   port:
     targetPort: 8000

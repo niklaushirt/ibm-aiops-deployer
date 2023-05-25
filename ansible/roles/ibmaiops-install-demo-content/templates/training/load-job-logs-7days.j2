@@ -3,14 +3,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: load-log-indexes-test
-  namespace: ibmaiops-installer
+  namespace:  ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibmaiops-tools:2.0
+          image: quay.io/niklaushirt/ ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:

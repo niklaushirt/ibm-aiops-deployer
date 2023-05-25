@@ -498,7 +498,7 @@ metadata:
           'f:observedGeneration': {}
           'f:updateRevision': {}
       subresource: status
-  namespace: ibmaiops-evtmgr
+  namespace:  ibm-aiops-evtmgr
   ownerReferences:
     - apiVersion: noi.ibm.com/v1beta1
       kind: NOIFormation

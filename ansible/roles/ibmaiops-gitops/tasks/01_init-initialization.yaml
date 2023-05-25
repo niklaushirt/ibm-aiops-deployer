@@ -38,8 +38,8 @@
   shell: |
     export MESSAGE="Initializing Installer"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -48,27 +48,27 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Initializing Installer'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Initializing Installer'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
 
-- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibmaiops_cluster.project }}" with size "{{ current_ibmaiops_feature.aiops_size }}"
-  set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ibmaiops_cluster.project }} 
+- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ ibm-aiops_cluster.project }}" with size "{{ current_ ibm-aiops_feature.aiops_size }}"
+  set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ ibm-aiops_cluster.project }} 
 
 
 - name:   🚀 INITIALIZATION - Installation Parameters"
   debug:
     msg:
     - "** IBMAIOPS IBMAIOps Parameters ***********************************************************************"
-    - " IBMAIOps Installation Name:      {{current_ibmaiops_feature.test}}"
+    - " IBMAIOps Installation Name:      {{current_ ibm-aiops_feature.test}}"
 
 
 

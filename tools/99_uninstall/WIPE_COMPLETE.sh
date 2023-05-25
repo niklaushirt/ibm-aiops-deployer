@@ -12,55 +12,55 @@ oc delete subscription --all -n ibm-common-services
 
 $echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete AIOPS CSV"
-oc delete csv --all -n ibmaiops 
-oc delete subscription --all -n ibmaiops 
+oc delete csv --all -n  ibm-aiops 
+oc delete subscription --all -n  ibm-aiops 
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete Stuff"
 oc delete pods -n ibm-common-services --all &
-oc delete pods -n ibmaiops --all &
+oc delete pods -n  ibm-aiops --all &
 oc delete csv --all & -n ibm-common-services
 oc delete subscription --all & -n ibm-common-services
-oc delete csv --all & -n ibmaiops
-oc delete subscription --all & -n ibmaiops
-oc delete deployment -n ibmaiops --all &
+oc delete csv --all & -n  ibm-aiops
+oc delete subscription --all & -n  ibm-aiops
+oc delete deployment -n  ibm-aiops --all &
 oc delete deployment -n ibm-common-services --all &
 oc delete ss -n ibm-common-services --all &
 oc delete statefulset -n ibm-common-services --all &
-oc delete statefulset -n ibmaiops --all &
-oc delete jobs -n ibmaiops --all &
+oc delete statefulset -n  ibm-aiops --all &
+oc delete jobs -n  ibm-aiops --all &
 oc delete jobs -n ibm-common-services --all &
-oc delete cm -n ibmaiops --all &
+oc delete cm -n  ibm-aiops --all &
 oc delete cm -n ibm-common-services --all &
-oc delete secret -n ibmaiops --all &
+oc delete secret -n  ibm-aiops --all &
 oc delete secret -n ibm-common-services --all &
-oc delete pvc -n ibmaiops --all &
+oc delete pvc -n  ibm-aiops --all &
 oc delete pvc -n ibm-common-services --all &
-oc delete cm -n ibmaiops --all &
+oc delete cm -n  ibm-aiops --all &
 oc delete cm -n ibm-common-services --all &
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete OPERANDREQUESTS"
-oc delete operandrequests.operator.ibm.com -n ibmaiops --all --force --grace-period=0 &
+oc delete operandrequests.operator.ibm.com -n  ibm-aiops --all --force --grace-period=0 &
 oc delete operandrequests.operator.ibm.com -n ibm-common-services --all --force --grace-period=0 &
 
-oc patch operandrequests.operator.ibm.com -n ibmaiops iaf-core-operator  -p '{"metadata":{"finalizers":null}}' --type=merge          
-oc patch operandrequests.operator.ibm.com -n ibmaiops iaf-eventprocessing-operator  -p '{"metadata":{"finalizers":null}}' --type=merge
-oc patch operandrequests.operator.ibm.com -n ibmaiops iaf-operator  -p '{"metadata":{"finalizers":null}}' --type=merge               
-oc patch operandrequests.operator.ibm.com -n ibmaiops ibm-elastic-operator -p '{"metadata":{"finalizers":null}}' --type=merge       
+oc patch operandrequests.operator.ibm.com -n  ibm-aiops iaf-core-operator  -p '{"metadata":{"finalizers":null}}' --type=merge          
+oc patch operandrequests.operator.ibm.com -n  ibm-aiops iaf-eventprocessing-operator  -p '{"metadata":{"finalizers":null}}' --type=merge
+oc patch operandrequests.operator.ibm.com -n  ibm-aiops iaf-operator  -p '{"metadata":{"finalizers":null}}' --type=merge               
+oc patch operandrequests.operator.ibm.com -n  ibm-aiops ibm-elastic-operator -p '{"metadata":{"finalizers":null}}' --type=merge       
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete KAFKA Claims"
-oc delete kafkaclaims.shim.bedrock.ibm.com -n ibmaiops --all
+oc delete kafkaclaims.shim.bedrock.ibm.com -n  ibm-aiops --all
 oc delete kafkaclaims.shim.bedrock.ibm.com -n ibm-common-services --all
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete OIDC Clients"
-oc delete clients.oidc.security.ibm.com -n ibmaiops --all --force --grace-period=0 &
+oc delete clients.oidc.security.ibm.com -n  ibm-aiops --all --force --grace-period=0 &
 sleep 5
-oc patch clients.oidc.security.ibm.com $(oc get clients.oidc.security.ibm.com -n ibmaiops| grep .ibm.com|awk '{print$1}') -n ibmaiops -p '{"metadata":{"finalizers":null}}' --type=merge 
+oc patch clients.oidc.security.ibm.com $(oc get clients.oidc.security.ibm.com -n  ibm-aiops| grep .ibm.com|awk '{print$1}') -n  ibm-aiops -p '{"metadata":{"finalizers":null}}' --type=merge 
 
 oc delete clients.oidc.security.ibm.com -n ibm-common-services --all &
 sleep 5
@@ -69,11 +69,11 @@ oc patch clients.oidc.security.ibm.com $(oc get clients.oidc.security.ibm.com -n
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete ConfigMaps"
-oc delete cm -n ibmaiops --all
+oc delete cm -n  ibm-aiops --all
 oc delete cm -n ibm-common-services --all
-oc delete cm -n ibmaiops --all
+oc delete cm -n  ibm-aiops --all
 oc delete cm -n ibm-common-services --all
-oc delete cm -n ibmaiops --all
+oc delete cm -n  ibm-aiops --all
 oc delete cm -n ibm-common-services --all
 
 
@@ -92,11 +92,11 @@ oc delete CustomResourceDefinition $(oc get CustomResourceDefinition| grep awx.a
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibmaiops-demo-ui"
-oc delete ns ibmaiops-demo-ui &
+echo " 🧻 Delete Namespace  ibm-aiops-demo-ui"
+oc delete ns  ibm-aiops-demo-ui &
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibmaiops-tools"
-oc delete ns ibmaiops-tools &
+echo " 🧻 Delete Namespace  ibm-aiops-tools"
+oc delete ns  ibm-aiops-tools &
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete Namespace openldap"
 oc delete ns openldap &
@@ -121,8 +121,8 @@ echo "--------------------------------------------------------------------------
 echo " 🧻 Delete Namespace ibm-common-services "
 oc delete ns ibm-common-services &
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibmaiops"
-oc delete ns ibmaiops &
+echo " 🧻 Delete Namespace  ibm-aiops"
+oc delete ns  ibm-aiops &
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -135,7 +135,7 @@ oc patch CustomResourceDefinition $(oc get CustomResourceDefinition| grep .ibm.c
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete ClusterRoleBindings"
-oc delete ClusterRoleBinding ibmaiops-demo-ui-admin-crb &                 
+oc delete ClusterRoleBinding  ibm-aiops-demo-ui-admin-crb &                 
 oc delete ClusterRoleBinding awx-default &
 oc delete ClusterRoleBinding aimanager-api-platform &
 oc delete ClusterRoleBinding default-robotinfo1-admin &                        
@@ -145,11 +145,11 @@ oc delete ClusterRoleBinding default-sockinfo2-admin &
 oc delete ClusterRoleBinding ibm-common-service-webhook-ibm-common-services &  
 oc delete ClusterRoleBinding ibm-zen-operator-serviceaccount &
 oc delete ClusterRoleBinding robot-shop &
-oc delete ClusterRoleBinding sre-tunnel-ibmaiops-tunnel-cluster &             
-oc delete ClusterRoleBinding sre-tunnel-ibmaiops-tunnel-cluster-api &
+oc delete ClusterRoleBinding sre-tunnel- ibm-aiops-tunnel-cluster &             
+oc delete ClusterRoleBinding sre-tunnel- ibm-aiops-tunnel-cluster-api &
 
 
-oc patch ClusterRoleBinding ibmaiops-demo-ui-admin-crb -p '{"metadata":{"finalizers":null}}' --type=merge                       
+oc patch ClusterRoleBinding  ibm-aiops-demo-ui-admin-crb -p '{"metadata":{"finalizers":null}}' --type=merge                       
 oc patch ClusterRoleBinding awx-default -p '{"metadata":{"finalizers":null}}' --type=merge 
 oc patch ClusterRoleBinding aimanager-api-platform -p '{"metadata":{"finalizers":null}}' --type=merge 
 oc patch ClusterRoleBinding default-robotinfo1-admin -p '{"metadata":{"finalizers":null}}' --type=merge                         
@@ -159,8 +159,8 @@ oc patch ClusterRoleBinding default-sockinfo2-admin -p '{"metadata":{"finalizers
 oc patch ClusterRoleBinding ibm-common-service-webhook-ibm-common-services -p '{"metadata":{"finalizers":null}}' --type=merge   
 oc patch ClusterRoleBinding ibm-zen-operator-serviceaccount -p '{"metadata":{"finalizers":null}}' --type=merge 
 oc patch ClusterRoleBinding robot-shop -p '{"metadata":{"finalizers":null}}' --type=merge 
-oc patch ClusterRoleBinding sre-tunnel-ibmaiops-tunnel-cluster -p '{"metadata":{"finalizers":null}}' --type=merge              
-oc patch ClusterRoleBinding sre-tunnel-ibmaiops-tunnel-cluster-api -p '{"metadata":{"finalizers":null}}' --type=merge 
+oc patch ClusterRoleBinding sre-tunnel- ibm-aiops-tunnel-cluster -p '{"metadata":{"finalizers":null}}' --type=merge              
+oc patch ClusterRoleBinding sre-tunnel- ibm-aiops-tunnel-cluster-api -p '{"metadata":{"finalizers":null}}' --type=merge 
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -168,8 +168,8 @@ echo " 🧻 Delete IBM CatalogSource"
 oc delete CatalogSource -n openshift-marketplace ibm-operator-catalog
 
 
-oc delete ClusterRoleBinding ibmaiops-installer-admin &
-oc patch ClusterRoleBinding ibmaiops-installer-admin -p '{"metadata":{"finalizers":null}}' --type=merge  
+oc delete ClusterRoleBinding  ibm-aiops-installer-admin &
+oc patch ClusterRoleBinding  ibm-aiops-installer-admin -p '{"metadata":{"finalizers":null}}' --type=merge  
 
 exit 1
 

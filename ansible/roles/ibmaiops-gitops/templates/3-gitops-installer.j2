@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: ibmaiops
+  name:  ibm-aiops
   namespace: openshift-gitops
 spec:
   clusterResourceWhitelist:
@@ -16,7 +16,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ibmaiops-installer
+  name:  ibm-aiops-installer
   namespace: openshift-gitops
 spec:
   project: default
@@ -32,7 +32,7 @@ spec:
           value: main
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: ibmaiops
+    namespace:  ibm-aiops
   syncPolicy:
     automated:
       prune: true

@@ -53,7 +53,7 @@ fi
 
 oc project $AIOPS_NAMESPACE 
 
-export EVENTS_TOPIC="ibmaiops-cartridge-connections"
+export EVENTS_TOPIC=" ibm-aiops-cartridge-connections"
 export FILE="./tools/02_training/scripts/test.json"
 
 export KAFKA_SECRET=$(oc get secret -n $AIOPS_NAMESPACE |grep 'aiops-kafka-secret'|awk '{print$1}')

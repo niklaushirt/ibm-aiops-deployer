@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Load Templates into AWX"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -26,12 +26,12 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibmaiops-notification
+      name:  ibm-aiops-notification
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Load Templates into AWX'    
+      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Load Templates into AWX'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -65,7 +65,7 @@
 
 - name: 🚀 AWX - Create AWX Execution Environment
   shell: |
-    export RUNNER_IMAGE=quay.io/niklaushirt/ibmaiops-awx:0.1.4
+    export RUNNER_IMAGE=quay.io/niklaushirt/ ibm-aiops-awx:0.1.4
     export result=$(curl -X "POST" -s "{{ AWX_URL }}/api/v2/execution_environments/" -u "admin:{{ AWX_PWD }}" --insecure \
     -H 'content-type: application/json' \
     -d $'{
@@ -248,7 +248,7 @@
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
       "project": {{AWX_PROJECT_ID}},
-      "playbook": "ibmaiops/robotshop-restart/start-ratings.yaml",
+      "playbook": " ibm-aiops/robotshop-restart/start-ratings.yaml",
       "scm_branch": "",
       "extra_vars": "",
       "ask_variables_on_launch": true,
@@ -274,7 +274,7 @@
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
       "project": {{AWX_PROJECT_ID}},
-      "playbook": "ibmaiops/robotshop-restart/stop-ratings.yaml",
+      "playbook": " ibm-aiops/robotshop-restart/stop-ratings.yaml",
       "scm_branch": "",
       "extra_vars": "",
       "ask_variables_on_launch": true,
@@ -299,7 +299,7 @@
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
       "project": {{AWX_PROJECT_ID}},
-      "playbook": "ibmaiops/robotshop-restart/restart-ratings-start.yaml",
+      "playbook": " ibm-aiops/robotshop-restart/restart-ratings-start.yaml",
       "scm_branch": "",
       "extra_vars": "",
       "ask_variables_on_launch": true,
@@ -325,7 +325,7 @@
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
       "project": {{AWX_PROJECT_ID}},
-      "playbook": "ibmaiops/robotshop-restart/restart-ratings-stop.yaml",
+      "playbook": " ibm-aiops/robotshop-restart/restart-ratings-stop.yaml",
       "scm_branch": "",
       "extra_vars": "",
       "ask_variables_on_launch": true,
@@ -351,7 +351,7 @@
       "job_type": "run",
       "inventory": {{AWX_INVENTORY_ID}},
       "project": {{AWX_PROJECT_ID}},
-      "playbook": "ibmaiops/sockshop/mitigate-sockshop.yaml",
+      "playbook": " ibm-aiops/sockshop/mitigate-sockshop.yaml",
       "scm_branch": "",
       "extra_vars": "",
       "ask_variables_on_launch": true,

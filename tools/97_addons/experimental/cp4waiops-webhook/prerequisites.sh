@@ -19,4 +19,4 @@ python manage.py runserver
 
 
 
-oc expose svc aiops-demo-ui-python-service -n ibmaiops  --name test1
+oc expose svc aiops-demo-ui-python-service -n  ibm-aiops  --name test1
