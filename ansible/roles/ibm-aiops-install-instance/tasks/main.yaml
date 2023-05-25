@@ -29,7 +29,7 @@
  
 
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -37,7 +37,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      � IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} "
+    - "      � IBM AIOps - INSTALLING {{current_ibmaiops_cluster.kind}} "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -48,8 +48,8 @@
   shell: |
     export MESSAGE="Installing Demo Apps"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 
@@ -70,7 +70,7 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
-      text: 'Installing  {{current_ ibm-aiops_feature.kind}} - {{global_config.environment_name | default("Demo")}} - Version {{current_ ibm-aiops_feature.subscription_channel}} - ' 
+      text: 'Installing  {{current_ibmaiops_cluster.kind}} - {{global_config.environment_name | default("Demo")}} - Version {{current_ibmaiops_cluster.subscription_channel}} - ' 
       link:
           href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs   
@@ -83,14 +83,14 @@
   debug:
     msg:
     - "***********************************************************************************************"
-    - " 🚀 Installing {{current_ ibm-aiops_feature.kind}}"
+    - " 🚀 Installing {{current_ibmaiops_cluster.kind}}"
     - "***********************************************************************************************"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 STORAGE"
-    - "     💾 Installation Options for SPECIFIC MODULE {{ current_ ibm-aiops_feature.kind}}"
-    - "        Storage Class File Override:             {{ current_ ibm-aiops_feature.storage_class_file | default('no override') }}"
-    - "        Storage Class Block Override:            {{ current_ ibm-aiops_feature.storage_class_block | default('no override') }}"
-    - "        Storage Class InfraManagement:           {{ current_ ibm-aiops_feature.storage_class_file | default('no override') }}"
+    - "     💾 Installation Options for SPECIFIC MODULE {{ current_ibmaiops_cluster.kind}}"
+    - "        Storage Class File Override:             {{ current_ibmaiops_cluster.storage_class_file | default('no override') }}"
+    - "        Storage Class Block Override:            {{ current_ibmaiops_cluster.storage_class_block | default('no override') }}"
+    - "        Storage Class InfraManagement:           {{ current_ibmaiops_cluster.storage_class_file | default('no override') }}"
     - ""
     - "     💾 Installation Options from GLOBAL"
     - "        Storage Class File Override:             {{ ocp_storage_class_file | default('not defined') }}"
@@ -98,23 +98,23 @@
     - "        Storage Class InfraManagement:           {{ ocp_storage_class_file | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 CONFIG"
-    - "     ✅ Installation Name:                        {{current_ ibm-aiops_feature.aiops_name}}"
-    - "     🔎 IBM AIOps Size:                           {{current_ ibm-aiops_feature.aiops_size}}"
-    - "     🔽 Custom Sizing File:                       {{current_ ibm-aiops_feature.custom_size_file | default('none')}}"
+    - "     ✅ Installation Name:                        {{current_ibmaiops_cluster.aiops_name}}"
+    - "     🔎 IBM AIOps Size:                           {{current_ibmaiops_cluster.aiops_size}}"
+    - "     🔽 Custom Sizing File:                       {{current_ibmaiops_cluster.custom_size_file | default('none')}}"
     - "     📣 Show Notifications:                       {{global_config.create_ocp_notifications | default('not defined')}}"
     - "     📣 Primary Notifications Position:           {{global_config.position_final_ocp_notification | default('not defined')}}"
     - "     📣 Secondary Notifications Position:         {{global_config.position_ocp_notification | default('not defined')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 VERSION "
-    - "     🚀 Subscription Channel:                     {{current_ ibm-aiops_feature.subscription_channel}}"
-    - "     🔽 Freeze the Catalog Image Version:         {{current_ ibm-aiops_feature.freeze_catalog  | default('not defined')}}"
-    - "     ✅ Install with CASE:                        {{current_ ibm-aiops_feature.case_install}}"
+    - "     🚀 Subscription Channel:                     {{current_ibmaiops_cluster.subscription_channel}}"
+    - "     🔽 Freeze the Catalog Image Version:         {{current_ibmaiops_cluster.freeze_catalog  | default('not defined')}}"
+    - "     ✅ Install with CASE:                        {{current_ibmaiops_cluster.case_install}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
 
-- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ibmaiops_cluster.kind}} with the following configuration
   debug:
-    var: current_ ibm-aiops_feature
+    var: current_ibmaiops_cluster
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -175,7 +175,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: 🟡🟡🟡 Install IBM AIOps Catalog - Classic Way (skipped if CASE selected)
   include_tasks: 10_ ibm-aiops-catalog.yaml
-  when: current_ ibm-aiops_feature.case_install==false
+  when: current_ibmaiops_cluster.case_install==false
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -184,13 +184,13 @@
 - name: 🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
     name: ibm-aiops-case-save
-  when: current_ ibm-aiops_feature.case_install==true
+  when: current_ibmaiops_cluster.case_install==true
 
 
 - name: 🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
     name: ibm-aiops-case-catalog-source
-  when: current_ ibm-aiops_feature.case_install==true
+  when: current_ibmaiops_cluster.case_install==true
 
 
 
@@ -207,7 +207,7 @@
 # Install  Feature Flags
 - name: 🟡🟡🟡  Install IBM AIOPS Feature Flags
   include_tasks: 12_ ibm-aiops-featureflags.yaml
-  when: current_ ibm-aiops_feature.install_feature_flags == true | default('false')
+  when: current_ibmaiops_cluster.install_feature_flags == true | default('false')
 
 
 
@@ -258,7 +258,7 @@
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -266,7 +266,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_cluster.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

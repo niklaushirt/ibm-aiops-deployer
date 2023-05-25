@@ -14,8 +14,8 @@
   shell: |
     export MESSAGE="Installing IBMAIOPS Infrastructure Automation"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - IBMAIOPS Infrastructure Automation'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - IBMAIOPS Infrastructure Automation'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -199,8 +199,8 @@
   shell: |
     export MESSAGE=" 🕦 Wait for IA CONFIG to become ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -214,7 +214,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - 🕦 Wait for IA CONFIG to become ready - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - 🕦 Wait for IA CONFIG to become ready - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -243,7 +243,7 @@
   shell: |
     export MESSAGE=" ✅  IA CONFIG is ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -257,7 +257,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - IA CONFIG is ready'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - IA CONFIG is ready'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  

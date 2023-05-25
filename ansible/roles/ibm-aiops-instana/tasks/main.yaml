@@ -35,7 +35,7 @@
  
  
  
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -43,7 +43,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_cluster.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -71,7 +71,7 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerBottom")}}
-      text: 'Installing  {{current_ ibm-aiops_feature.kind}} - Version {{current_ ibm-aiops_feature.instana_version}} - '    
+      text: 'Installing  {{current_ibmaiops_cluster.kind}} - Version {{current_ibmaiops_cluster.instana_version}} - '    
       link:
           href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs  
@@ -94,19 +94,19 @@
 
 
 
-- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ibmaiops_cluster.kind}} with the following configuration
   debug:
-    var: current_ ibm-aiops_feature
+    var: current_ibmaiops_cluster
 
 
 - name:  🟣 Storage Class Parameters - SPECIFIC INSTANCE"
   debug:
     msg:
     - "** Installation Options for SPECIFIC INSTANCE ***********************************************************************"
-    - " Storage Class File Override:      {{ current_ ibm-aiops_feature.storage_class_file}}"
-    - " Storage Class Block Override:     {{ current_ ibm-aiops_feature.storage_class_block}}"
+    - " Storage Class File Override:      {{ current_ibmaiops_cluster.storage_class_file}}"
+    - " Storage Class Block Override:     {{ current_ibmaiops_cluster.storage_class_block}}"
     - ""
-  when: current_ ibm-aiops_feature.storage_class_file is defined
+  when: current_ibmaiops_cluster.storage_class_file is defined
 
 
 - name:  🟣 Storage Class Parameters - GLOBAL"
@@ -116,7 +116,7 @@
     - " Storage Class File Override:      {{ ocp_storage_class_file }}"
     - " Storage Class Block Override:     {{ ocp_storage_class_block }}"
     - ""
-  when: current_ ibm-aiops_feature.storage_class_file is not defined and ocp_storage_class_file is defined
+  when: current_ibmaiops_cluster.storage_class_file is not defined and ocp_storage_class_file is defined
 
 
 
@@ -129,12 +129,12 @@
 - name: Get Licenses 
   block:
 
-  - name: 💾 SET sales_key from Config File - {{current_ ibm-aiops_feature.sales_key | default("NONE")}} 
-    set_fact: current_sales_key={{current_ ibm-aiops_feature.sales_key| default("NONE")}}
+  - name: 💾 SET sales_key from Config File - {{current_ibmaiops_cluster.sales_key | default("NONE")}} 
+    set_fact: current_sales_key={{current_ibmaiops_cluster.sales_key| default("NONE")}}
 
 
-  - name: 💾 SET agent_key from  Config File  - {{current_ ibm-aiops_feature.agent_key | default("NONE")}} 
-    set_fact: current_agent_key={{current_ ibm-aiops_feature.agent_key| default("NONE")}}
+  - name: 💾 SET agent_key from  Config File  - {{current_ibmaiops_cluster.agent_key | default("NONE")}} 
+    set_fact: current_agent_key={{current_ibmaiops_cluster.agent_key| default("NONE")}}
 
 
 
@@ -249,13 +249,13 @@
   # Install INSTANA AGENT
   - name: 🟡🟡🟡 Install Instana Agent
     include_tasks: 11_addons-instana-agent.yaml
-    when: current_ ibm-aiops_feature.install_agent == true
+    when: current_ibmaiops_cluster.install_agent == true
 
 
   # Install INSTANA IBMAIOps Connection
   - name: 🟡🟡🟡 Install IBMAIOps to Instana Connection
     include_tasks: 12_addons-instana-create-connections.yaml
-    when: current_ ibm-aiops_feature.integrate_ ibm-aiops == true
+    when: current_ibmaiops_cluster.integrate_ ibm-aiops == true
 
 
   - name: 🟡🟡🟡 Restart Demo UI
@@ -276,8 +276,8 @@
       export DEMOUI_ROUTE=$(oc get routes -n instana-core dev-aiops  -o jsonpath="{['spec']['host']}")
       echo "                🌏 URL:       http://$DEMOUI_ROUTE"
       echo ""
-      echo "                🧑‍🦳 USER:      {{current_ ibm-aiops_feature.instana_admin_user}}"
-      echo "                🔐 LOGIN:     {{current_ ibm-aiops_feature.instana_admin_pass  | default('using global')}}"
+      echo "                🧑‍🦳 USER:      {{current_ibmaiops_cluster.instana_admin_user}}"
+      echo "                🔐 LOGIN:     {{current_ibmaiops_cluster.instana_admin_pass  | default('using global')}}"
     ignore_errors: true
     register: LOGINS
 
@@ -290,16 +290,16 @@
     shell: |
       export MESSAGE=" 🌏 INSTANA - LOGINS"
       export currentDate=$(date +%Y-%m-%d_%H:%M)
-      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
       appURL=$(oc get routes -n instana-core dev-aiops  -o jsonpath="{['spec']['host']}")|| true
-      echo "            📥 Demo UI:"     >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "    "   >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "                🌏 URL:           http://$appURL/"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "                🧑‍🦳 USER:          {{current_ ibm-aiops_feature.instana_admin_user}}"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "                🔐 PASSWORD:      {{current_ ibm-aiops_feature.instana_admin_pass| default('using global')}}"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+      echo "            📥 Demo UI:"     >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "    "   >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "                🌏 URL:           http://$appURL/"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "                🧑‍🦳 USER:          {{current_ibmaiops_cluster.instana_admin_user}}"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "                🔐 PASSWORD:      {{current_ibmaiops_cluster.instana_admin_pass| default('using global')}}"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
     ignore_errors: true
   # ---------------------------------------------------------------------------------------------------------------------------------------------------"
   # CHECKS
@@ -314,7 +314,7 @@
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg:  
 
@@ -323,7 +323,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_cluster.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Create DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -31,7 +31,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Create DEMO UI'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Create DEMO UI'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -56,7 +56,7 @@
 
 
 - name: 🚀 DEMO-UI - Set Demo UI Password from instance configuration
-  set_fact: current_demoui_pwd={{current_ ibm-aiops_feature.demoui_pwd | default('P4ssw0rd!')}}
+  set_fact: current_demoui_pwd={{current_ibmaiops_cluster.demoui_pwd | default('P4ssw0rd!')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -117,10 +117,10 @@
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export MESSAGE="Installing DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "              📥 DEMO UI Login:"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo ""  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "              📥 DEMO UI Login:"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo ""  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 

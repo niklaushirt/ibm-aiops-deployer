@@ -340,7 +340,7 @@ This installation cocntains:
 	  kind: IBMAIOps						<-- The feature to be configured
 	  install: true							<-- Install yes/no
 	
-	  # current_ ibm-aiops_feature			<-- Configuration of the feature
+	  # current_ibmaiops_cluster			<-- Configuration of the feature
 	  # IBMAIOPS Size of the install
 	  aiops_size: small
 	  ...

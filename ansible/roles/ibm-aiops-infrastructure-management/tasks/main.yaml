@@ -29,7 +29,7 @@
  
  
  
-- name:  ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
+- name:  ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -37,7 +37,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_cluster.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -57,25 +57,25 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing  {{current_ ibm-aiops_feature.kind}}'    
+      text: 'Installing  {{current_ibmaiops_cluster.kind}}'    
     EOF
   ignore_errors: true
 
 
-- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ibmaiops_cluster.kind}} with the following configuration
   debug:
-    var: current_ ibm-aiops_feature
+    var: current_ibmaiops_cluster
 
 
 - name:  🟣 Storage Class Parameters - SPECIFIC INSTANCE"
   debug:
     msg:
     - "** Installation Options for SPECIFIC INSTANCE ***********************************************************************"
-    - " Storage Class File Override:      {{ current_ ibm-aiops_feature.storage_class_file}}"
-    - " Storage Class Block Override:     {{ current_ ibm-aiops_feature.storage_class_block}}"
-    - " Storage Class InfraManagement:    {{ current_ ibm-aiops_feature.storage_class_file}}"
+    - " Storage Class File Override:      {{ current_ibmaiops_cluster.storage_class_file}}"
+    - " Storage Class Block Override:     {{ current_ibmaiops_cluster.storage_class_block}}"
+    - " Storage Class InfraManagement:    {{ current_ibmaiops_cluster.storage_class_file}}"
     - ""
-  when: current_ ibm-aiops_feature.storage_class_file is defined
+  when: current_ibmaiops_cluster.storage_class_file is defined
 
 
 - name:  🟣 Storage Class Parameters - GLOBAL"
@@ -86,7 +86,7 @@
     - " Storage Class Block Override:     {{ ocp_storage_class_block }}"
     - " Storage Class InfraManagement:    {{ ocp_storage_class_file }}"
     - ""
-  when: current_ ibm-aiops_feature.storage_class_file is not defined and ocp_storage_class_file is defined
+  when: current_ibmaiops_cluster.storage_class_file is not defined and ocp_storage_class_file is defined
 
 
 
@@ -160,7 +160,7 @@
 
 
 
-- name:  ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
+- name:  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg:  
 
@@ -169,7 +169,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_cluster.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

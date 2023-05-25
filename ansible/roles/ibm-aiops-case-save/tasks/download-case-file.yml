@@ -6,7 +6,7 @@
   debug:
     var: _case_save_command
 
-- name: 📥 Save case file {{ current_ ibm-aiops_feature.case_name }}-{{ current_ ibm-aiops_feature.case_version }}
+- name: 📥 Save case file {{ current_ibmaiops_cluster.case_name }}-{{ current_ibmaiops_cluster.case_version }}
   shell: |
     {{ _case_save_command }}
   register: _case_save

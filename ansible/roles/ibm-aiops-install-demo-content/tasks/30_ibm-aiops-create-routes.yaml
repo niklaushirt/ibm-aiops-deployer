@@ -14,8 +14,8 @@
   shell: |
     export MESSAGE="Create External Routes"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Create External Routes'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Create External Routes'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -294,7 +294,7 @@
 
   
 
-  when: current_ ibm-aiops_feature.create_external_routes == true
+  when: current_ibmaiops_cluster.create_external_routes == true
 
 
 

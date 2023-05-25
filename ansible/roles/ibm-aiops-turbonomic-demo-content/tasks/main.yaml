@@ -35,7 +35,7 @@
  
  
  
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ ibm-aiops_feature.kind}}
+- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -43,7 +43,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ ibm-aiops_feature.kind}} 🟡🟡🟡🟡🟡                                                        "
+    - "      🟡🟡🟡🟡🟡  🚀 IBM AIOps - INSTALLING {{current_ibmaiops_cluster.kind}} 🟡🟡🟡🟡🟡                                                        "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -63,7 +63,7 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerBottom")}}
-      text: 'Installing  {{current_ ibm-aiops_feature.kind}} - '    
+      text: 'Installing  {{current_ibmaiops_cluster.kind}} - '    
       link:
           href: "https://$OPENSHIFT_ROUTE/k8s/ns/ ibm-aiops-installer/pods/$INSTALL_POD/logs"
           text: Open Logs  
@@ -90,9 +90,9 @@
 
 
 
-- name: 🟣 Installing {{current_ ibm-aiops_feature.kind}} with the following configuration
+- name: 🟣 Installing {{current_ibmaiops_cluster.kind}} with the following configuration
   debug:
-    var: current_ ibm-aiops_feature
+    var: current_ibmaiops_cluster
     verbosity: 1
 
 
@@ -107,8 +107,8 @@
 - name: Get Licenses 
   block:
 
-  - name: 💾 SET Turbo License from Config File - {{current_ ibm-aiops_feature.turbo_license | default("NONE")}} 
-    set_fact: current_turbo_license={{current_ ibm-aiops_feature.turbo_license| default("NONE")}}
+  - name: 💾 SET Turbo License from Config File - {{current_ibmaiops_cluster.turbo_license | default("NONE")}} 
+    set_fact: current_turbo_license={{current_ibmaiops_cluster.turbo_license| default("NONE")}}
 
 
 
@@ -228,7 +228,7 @@
 
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ ibm-aiops_feature.kind}}
+- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_cluster.kind}}
   debug: 
     msg:  
 
@@ -237,7 +237,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ ibm-aiops_feature.kind}}                                                                                 "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_cluster.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

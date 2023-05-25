@@ -77,5 +77,5 @@
     name: ibm-aiops-install-modules-loop
   loop: "{{ current_ibmaiops_cluster.instances}}"
   loop_control:
-    loop_var: current_ ibm-aiops_feature
+    loop_var: current_ibmaiops_cluster
 

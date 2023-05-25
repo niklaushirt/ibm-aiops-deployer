@@ -14,8 +14,8 @@
   shell: |
     export MESSAGE="Installing IBM AIOPS Operator"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - IBM AIOPS Operator'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - IBM AIOPS Operator'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -56,7 +56,7 @@
   until: kubectl_get_sa.stdout == "1"
   retries: 500
   delay: 15
-  when: current_ ibm-aiops_feature.case_install==false
+  when: current_ibmaiops_cluster.case_install==false
 
 
 
@@ -130,7 +130,7 @@
   until: kubectl_get_pods.stdout == "1"
   retries: 500
   delay: 15
-  when: current_ ibm-aiops_feature.case_install==false
+  when: current_ibmaiops_cluster.case_install==false
 
 
 
@@ -140,14 +140,14 @@
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription.j2
-  when: current_ ibm-aiops_feature.case_install==false
+  when: current_ibmaiops_cluster.case_install==false
 
 # Create IBM AIOps Subscription
 - name:   🚀 IBM AIOPS OPERATOR - Install Subscription - CASE
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription-case.j2
-  when: current_ ibm-aiops_feature.case_install==true
+  when: current_ibmaiops_cluster.case_install==true
 
 
 
@@ -183,8 +183,8 @@
   shell: |
     export MESSAGE=" 🕦 Wait for CSVs to become ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 
@@ -200,7 +200,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - 🕦 Wait for ibm-operator-catalog to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - 🕦 Wait for ibm-operator-catalog to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -215,7 +215,7 @@
   until: kubectl_get_pods.stdout == "1"
   retries: 500
   delay: 15
-  when: current_ ibm-aiops_feature.case_install==false
+  when: current_ibmaiops_cluster.case_install==false
 
 
 
@@ -230,7 +230,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - 🕦 Wait for CSVs to become ready (up to 5 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - 🕦 Wait for CSVs to become ready (up to 5 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -251,7 +251,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 IBM AIOPS CATALOG - Freeze IBM Operator Catalog version
   shell: |
-    export FREEZE={{current_ ibm-aiops_feature.freeze_catalog | default("false") }}
+    export FREEZE={{current_ibmaiops_cluster.freeze_catalog | default("false") }}
     #echo "FREEZE:$FREEZE"
     if [[ $FREEZE == "True" ]];
     then
@@ -277,7 +277,7 @@
   shell: |
     export MESSAGE=" ✅ CSVs are ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -291,7 +291,7 @@
       backgroundColor: '#009a00'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - CSVs are ready'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - CSVs are ready'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  

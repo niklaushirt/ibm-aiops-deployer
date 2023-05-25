@@ -63,15 +63,15 @@ spec:
               export INSTANCE_NAME=" {{global_config.environment_name | default("Demo")}}"
 
 
-              export SLACK_URL="{{current_ ibm-aiops_feature.demoui_slack_url}}"
-              export SLACK_USER="{{current_ ibm-aiops_feature.demoui_slack_user}}"
-              export SLACK_PWD="{{current_ ibm-aiops_feature.demoui_slack_pwd}}"
+              export SLACK_URL="{{current_ibmaiops_cluster.demoui_slack_url}}"
+              export SLACK_USER="{{current_ibmaiops_cluster.demoui_slack_user}}"
+              export SLACK_PWD="{{current_ibmaiops_cluster.demoui_slack_pwd}}"
 
 
-              export ADMIN_MODE='{{current_ ibm-aiops_feature.demoui_admin_mode}}'
-              export SIMULATION_MODE='{{current_ ibm-aiops_feature.demoui_simulation_mode}}'
+              export ADMIN_MODE='{{current_ibmaiops_cluster.demoui_admin_mode}}'
+              export SIMULATION_MODE='{{current_ibmaiops_cluster.demoui_simulation_mode}}'
 
-              export DEMO_USER='{{current_ ibm-aiops_feature.demoui_user}}'
+              export DEMO_USER='{{current_ibmaiops_cluster.demoui_user}}'
               export DEMO_PWD='{{current_demoui_pwd}}'
 
               cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -

@@ -38,8 +38,8 @@
   shell: |
     export MESSAGE="Initializing Installer"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -53,14 +53,14 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Initializing Installer'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Initializing Installer'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
 
-- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibmaiops_cluster.project }}" with size "{{ current_ ibm-aiops_feature.aiops_size }}"
+- name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibmaiops_cluster.project }}" with size "{{ current_ibmaiops_cluster.aiops_size }}"
   set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ibmaiops_cluster.project }} 
 
 
@@ -68,9 +68,9 @@
   debug:
     msg:
     - "** IBM AIOps Parameters ***********************************************************************"
-    - " IBM AIOps Installation Name:      {{current_ ibm-aiops_feature.aiops_name}}"
+    - " IBM AIOps Installation Name:      {{current_ibmaiops_cluster.aiops_name}}"
     - " IBM AIOps Namespace:              {{ current_ibmaiops_cluster.project }}"
-    - " IBM AIOps Installation Size:      {{current_ ibm-aiops_feature.aiops_size}}"
+    - " IBM AIOps Installation Size:      {{current_ibmaiops_cluster.aiops_size}}"
     - ""
     verbosity: 1
 

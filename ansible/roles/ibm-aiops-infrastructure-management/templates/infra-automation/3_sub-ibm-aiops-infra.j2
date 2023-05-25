@@ -4,7 +4,7 @@ metadata:
   name: ibm-infrastructure-automation-operator
   namespace: {{ current_ibmaiops_cluster.project }}
 spec:
-  channel: {{current_ ibm-aiops_feature.subscription_channel}}
+  channel: {{current_ibmaiops_cluster.subscription_channel}}
   installPlanApproval: Automatic
   name: ibm-infrastructure-automation-operator
   source: ibm-operator-catalog

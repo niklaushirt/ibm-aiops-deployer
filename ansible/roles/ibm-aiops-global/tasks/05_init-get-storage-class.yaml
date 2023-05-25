@@ -17,8 +17,8 @@
   shell: |
     export MESSAGE="Installing Prerequisites"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -32,7 +32,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Prerequisites'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Prerequisites'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -59,7 +59,7 @@
 
 - name: 🛠️  Show Config File
   debug:
-    var: current_ ibm-aiops_feature.storage_class_block
+    var: current_ibmaiops_cluster.storage_class_block
 
 
 
@@ -81,12 +81,12 @@
 
 
 - name: 🛠️  INSTANCE STRING_STORAGE_CLASS_FILE
-  set_fact: STRING_STORAGE_CLASS_FILE={{ current_ ibm-aiops_feature.storage_class_file }}
-  when: current_ ibm-aiops_feature.storage_class_file is defined
+  set_fact: STRING_STORAGE_CLASS_FILE={{ current_ibmaiops_cluster.storage_class_file }}
+  when: current_ibmaiops_cluster.storage_class_file is defined
 
 - name: 🛠️  INSTANCE STRING_STORAGE_CLASS_BLOCK
-  set_fact: STRING_STORAGE_CLASS_BLOCK={{ current_ ibm-aiops_feature.storage_class_block }}
-  when: current_ ibm-aiops_feature.storage_class_block is defined
+  set_fact: STRING_STORAGE_CLASS_BLOCK={{ current_ibmaiops_cluster.storage_class_block }}
+  when: current_ibmaiops_cluster.storage_class_block is defined
 
 - name: 🛠️  Show FINAL STRING_STORAGE_CLASS_FILE
   debug:
@@ -263,9 +263,9 @@
 - name: Log
   shell: |
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - ""Global Storage Classes for IBMAIOPS installation:"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "" IBMAIOPS Storage Class File:          {{AIOPS_STORAGE_CLASS_FILE}}"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "" IBMAIOPS Storage Class Large Block:   {{AIOPS_STORAGE_CLASS_LARGE_BLOCK}}"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - ""Global Storage Classes for IBMAIOPS installation:"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "" IBMAIOPS Storage Class File:          {{AIOPS_STORAGE_CLASS_FILE}}"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "" IBMAIOPS Storage Class Large Block:   {{AIOPS_STORAGE_CLASS_LARGE_BLOCK}}"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
 
   ignore_errors: true

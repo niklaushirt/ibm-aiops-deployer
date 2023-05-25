@@ -1,7 +1,7 @@
 apiVersion: orchestrator.aiops.ibm.com/v1alpha1
 kind: Installation
 metadata:
-  name: {{ current_ ibm-aiops_feature.aiops_name }}
+  name: {{ current_ibmaiops_cluster.aiops_name }}
   namespace: {{ current_ibmaiops_cluster.project }}
 spec:
   imagePullSecret: ibm-entitlement-key
@@ -17,7 +17,7 @@ spec:
       name: applicationManager
     - enabled: true
       name: connection
-  size: {{ current_ ibm-aiops_feature.aiops_size }}
+  size: {{ current_ibmaiops_cluster.aiops_size }}
   storageClass: '{{ AIOPS_STORAGE_CLASS_FILE }}'
   storageClassLargeBlock: '{{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}'
   #resourceOverrides: aiops-custom-size-profile

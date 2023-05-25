@@ -10,13 +10,13 @@
 
 - name: Log
   shell: |
-    export MESSAGE=" 🟣🟣✅ Done {{current_ ibm-aiops_feature.kind}} Install - {{role_name}}"
+    export MESSAGE=" 🟣🟣✅ Done {{current_ibmaiops_cluster.kind}} Install - {{role_name}}"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
 
-    echo "**********************************************************************************************************************************************************" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "**********************************************************************************************************************************************************" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "**********************************************************************************************************************************************************" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "**********************************************************************************************************************************************************" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "" >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 

@@ -10,8 +10,8 @@
   shell: |
     export MESSAGE="Check if Training Exists"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -25,7 +25,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Check if Training Exists'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Check if Training Exists'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -136,7 +136,7 @@
   shell: |
     export MESSAGE="Check if Training Exists"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - Training exists: {{TRAINING_EXISTS}}"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo $currentDate" - Training exists: {{TRAINING_EXISTS}}"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 

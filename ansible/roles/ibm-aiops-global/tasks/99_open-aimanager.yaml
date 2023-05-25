@@ -9,8 +9,8 @@
   shell: |
     export MESSAGE=" 🌏 Open IBMAIOps"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_cluster.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -24,7 +24,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ ibm-aiops_feature.kind}} - Open IBMAIOps'    
+      text: 'Installing {{current_ibmaiops_cluster.kind}} - Open IBMAIOps'    
     EOF
   ignore_errors: true
   when: global_config.create_ocp_notifications | default(true) == true  
@@ -66,15 +66,15 @@
   shell: |
     export MESSAGE=" 🕦 Wait for IBMAIOps to become ready"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "              📥 IBMAIOps Login:"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🌏 URL:      https://$(oc get route -n {{ current_ibmaiops_cluster.project }} cpd -o jsonpath={.spec.host})"  >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🧑 User:     $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "                🔐 Password: $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ ibm-aiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "              📥 IBMAIOps Login:"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "                🌏 URL:      https://$(oc get route -n {{ current_ibmaiops_cluster.project }} cpd -o jsonpath={.spec.host})"  >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "                🧑 User:     $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "                🔐 Password: $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_cluster.kind}}.log
 
   ignore_errors: true
