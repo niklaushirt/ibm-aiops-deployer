@@ -1,12 +1,12 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibmaiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -14,27 +14,27 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibmaiops-installer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
   namespace: default
   labels:
-      app: ibm-aiops-installer
+      app: ibmaiops-installer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ibm-aiops-installer
+      app: ibmaiops-installer
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibmaiops-installer
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-installer:2.0
+      - image: quay.io/niklaushirt/ibmaiops-installer:2.0
         imagePullPolicy: Always
         name: installer
         command:
@@ -49,7 +49,7 @@ spec:
             memory: "250Mi"
         env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibmaiops-deployer.git"
           - name: SHOW_TOOLS
             value : "false"
           - name: SHOW_ADDONS

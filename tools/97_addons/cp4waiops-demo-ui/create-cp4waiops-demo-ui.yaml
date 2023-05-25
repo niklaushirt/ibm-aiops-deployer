@@ -2,29 +2,29 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-demo-ui
+  name: ibmaiops-demo-ui
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ibm-aiops-demo-ui
-  namespace: ibm-aiops-demo-ui
+  name: ibmaiops-demo-ui
+  namespace: ibmaiops-demo-ui
   labels:
-      app: ibm-aiops-demo-ui
+      app: ibmaiops-demo-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ibm-aiops-demo-ui
+      app: ibmaiops-demo-ui
   template:
     metadata:
       labels:
-        app: ibm-aiops-demo-ui
+        app: ibmaiops-demo-ui
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-demo-ui:2.0
+      - image: quay.io/niklaushirt/ibmaiops-demo-ui:2.0
         imagePullPolicy: Always
-        name: ibm-aiops-demo-ui
+        name: ibmaiops-demo-ui
         command:
         ports:
         - containerPort: 8080
@@ -47,23 +47,23 @@ spec:
             timeoutSeconds: 3
         envFrom:
         - configMapRef:
-            name: ibm-aiops-demo-ui-config
+            name:  ibmaiops-demo-ui-config
         - configMapRef:
-            name: ibm-aiops-demo-ui-config-events
+            name:  ibmaiops-demo-ui-config-events
         - configMapRef:
-            name: ibm-aiops-demo-ui-config-logs
+            name:  ibmaiops-demo-ui-config-logs
         - configMapRef:
-            name: ibm-aiops-demo-ui-config-metrics
-      serviceAccountName: ibm-aiops-demo-ui-admin
+            name:  ibmaiops-demo-ui-config-metrics
+      serviceAccountName: ibmaiops-demo-ui-admin
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ibm-aiops-demo-ui-service
-  namespace: ibm-aiops-demo-ui
+  name: ibmaiops-demo-ui-service
+  namespace: ibmaiops-demo-ui
 spec:
   selector:
-    app: ibm-aiops-demo-ui
+    app: ibmaiops-demo-ui
   ports:
     - protocol: TCP
       port: 8000
@@ -72,12 +72,12 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: ibm-aiops-demo-ui
-  namespace: ibm-aiops-demo-ui
+  name:  ibmaiops-demo-ui
+  namespace: ibmaiops-demo-ui
 spec:
   to:
     kind: Service
-    name: ibm-aiops-demo-ui-service
+    name: ibmaiops-demo-ui-service
     weight: 100
   port:
     targetPort: 8000

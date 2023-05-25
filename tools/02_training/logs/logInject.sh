@@ -46,12 +46,12 @@ export WORKING_DIR_LOGS="./logs"
 
 
 echo "     📥 Get Kafka Topics"
-export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibm-aiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibmaiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
 
 if [[ "${KAFKA_TOPIC_LOGS}" == "" ]]; then
     echo "          ❗ Please define a Kafka connection in IBMAIOps of type $LOG_TYPE."
     echo "          ❗ Existing Log Topics are:"
-    oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibm-aiops-cartridge-logs-| awk '{print $1;}'| sed 's/^/                /'
+    oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibmaiops-cartridge-logs-| awk '{print $1;}'| sed 's/^/                /'
     echo ""
     echo "          ❌ Exiting....."
     #exit 1 

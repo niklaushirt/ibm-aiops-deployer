@@ -96,7 +96,7 @@ menu_option_2() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibm-aiops-cartridge.lifecycle.input.alerts
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibmaiops-cartridge.lifecycle.input.alerts
 
 }
 
@@ -106,7 +106,7 @@ menu_option_3() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibm-aiops-cartridge.lifecycle.input.stories 
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibmaiops-cartridge.lifecycle.input.stories 
 
 }
 
@@ -136,7 +136,7 @@ menu_option_6() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibm-aiops-cartridge.analyticsorchestrator.metrics.itsm.raw
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibmaiops-cartridge.analyticsorchestrator.metrics.itsm.raw
 
 }
 
@@ -146,7 +146,7 @@ menu_option_7() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibm-aiops-cartridge.lifecycle.input.alerts
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibmaiops-cartridge.lifecycle.input.alerts
 
 }
 
@@ -155,7 +155,7 @@ menu_option_8() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibm-aiops-cartridge.connector-instana.infra_topology.connector_response
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t ibmaiops-cartridge.connector-instana.infra_topology.connector_response
 
 }
 
@@ -214,7 +214,7 @@ echo "**************************************************************************
 echo "  "
 
 export LOGS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | grep logs-$LOG_TYPE| awk '{print $1;}')
-export EVENTS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | grep -v noi-integration| grep -v ibm-aiops ibm-aiops | grep alerts-$EVENT_TYPE| awk '{print $1;}')
+export EVENTS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | grep -v noi-integration| grep -v ibmaiopsibmaiops | grep alerts-$EVENT_TYPE| awk '{print $1;}')
 
 
 until [ "$selection" = "0" ]; do

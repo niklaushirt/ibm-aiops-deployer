@@ -10,7 +10,7 @@ export METRIC_TIME_STEP=100
 
 
 export SLACK_URL="https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ"
-export SLACK_USER=" ibm-aiopsdemo@gmail.com"
+export SLACK_USER="ibmaiopsdemo@gmail.com"
 export SLACK_PWD="P4ssw0rd!"
 
 export ADMIN_MODE='false'

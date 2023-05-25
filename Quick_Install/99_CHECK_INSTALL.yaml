@@ -25,12 +25,12 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibmaiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -38,24 +38,24 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibmaiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-check-install
-  namespace: ibm-aiops-installer
+  name: ibmaiops-check-install
+  namespace: ibmaiops-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibmaiops-installer-admin
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibmaiops-installer
 
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibmaiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -496,7 +496,7 @@ spec:
                         "c-example-redis-s-0"
                         "c-example-redis-s-1"
                         "c-example-redis-s-2"
-                        " ibm-aiops-postgres-keeper-0"
+                        "ibmaiops-postgres-keeper-0"
                         "iaf-system-kafka-0"
                         "iaf-system-zookeeper-0"
                         "ibm-cp-watson-aiops-edb-postgres-1"
@@ -675,7 +675,7 @@ spec:
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
                         echo "     📥  LAD"
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api- ibm-aiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"query {\n    getTrainingDefinitions(algorithmName:\"Log_Anomaly_Detection\") {\n      definitionName\n      algorithmName\n      version\n      deployedVersion\n      description\n      createdBy\n      modelDeploymentDate\n      trainedModels(latest: true) {\n        modelStatus\n        trainingStartTimestamp\n        trainingEndTimestamp\n        precheckTrainingDetails {\n          dataQuality\n          dataQualityDetails {\n            report\n            languageInfo {\n              language\n            }\n          }\n        }\n        postcheckTrainingDetails {\n          aiCoverage\n          overallModelQuality\n          modelsCreatedList {\n            modelId\n          }\n        }\n      }\n    }\n  }"}' --compressed)
+                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api-ibmaiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"query {\n    getTrainingDefinitions(algorithmName:\"Log_Anomaly_Detection\") {\n      definitionName\n      algorithmName\n      version\n      deployedVersion\n      description\n      createdBy\n      modelDeploymentDate\n      trainedModels(latest: true) {\n        modelStatus\n        trainingStartTimestamp\n        trainingEndTimestamp\n        precheckTrainingDetails {\n          dataQuality\n          dataQualityDetails {\n            report\n            languageInfo {\n              language\n            }\n          }\n        }\n        postcheckTrainingDetails {\n          aiCoverage\n          overallModelQuality\n          modelsCreatedList {\n            modelId\n          }\n        }\n      }\n    }\n  }"}' --compressed)
                         #echo $result| jq ".data.getTrainingDefinitions[].definitionName,.data.getTrainingDefinitions[].deployedVersion, .data.getTrainingDefinitions[].trainedModels.precheckTrainingDetails.dataQuality, .data.getTrainingDefinitions[].trainedModels.precheckTrainingDetails.dataQuality.dataQualityDetails.report, .data.getTrainingDefinitions[].trainedModels.postcheckTrainingDetails    , .data.getTrainingDefinitions[].postcheckTrainingDetails.aiCoverage"
                         echo "      Name:          "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".definitionName")
                         echo "      Deployed:      "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".deployedVersion")
@@ -697,7 +697,7 @@ spec:
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
                         echo "     📥  METRIC ANOMALIES"
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api- ibm-aiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Metric_Anomaly_Detection\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
+                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api-ibmaiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Metric_Anomaly_Detection\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
                         echo "      Name:          "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".definitionName")
                         echo "      Deployed:      "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".deployedVersion")
                         echo "      Latest:        "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".version")
@@ -716,7 +716,7 @@ spec:
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
                         echo "     📥  TEMPORAL GROUPING"
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api- ibm-aiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"query {\n    getTrainingDefinitions(algorithmName:\"Temporal_Grouping\") {\n      definitionName\n      algorithmName\n      version\n      deployedVersion\n      description\n      createdBy\n      modelDeploymentDate\n      trainedModels(latest: true) {\n        modelStatus\n        trainingStartTimestamp\n        trainingEndTimestamp\n        postcheckTrainingDetails {\n          modelsCreatedList {\n            modelId\n          }\n        }\n      }\n    }\n  }"}' --compressed)
+                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api-ibmaiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"query {\n    getTrainingDefinitions(algorithmName:\"Temporal_Grouping\") {\n      definitionName\n      algorithmName\n      version\n      deployedVersion\n      description\n      createdBy\n      modelDeploymentDate\n      trainedModels(latest: true) {\n        modelStatus\n        trainingStartTimestamp\n        trainingEndTimestamp\n        postcheckTrainingDetails {\n          modelsCreatedList {\n            modelId\n          }\n        }\n      }\n    }\n  }"}' --compressed)
                         echo "      Name:          "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".definitionName")
                         echo "      Deployed:      "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".deployedVersion")
                         echo "      Latest:        "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".version")      
@@ -735,7 +735,7 @@ spec:
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
                         echo "     📥  SIMILAR INCIDENTS"
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api- ibm-aiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Similar_Incidents\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
+                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api-ibmaiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Similar_Incidents\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
                         echo "      Name:          "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".definitionName")
                         echo "      Deployed:      "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".deployedVersion")
                         echo "      Latest:        "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".version")      
@@ -753,7 +753,7 @@ spec:
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
                         echo "     📥  CHANGE RISK"
                         echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api- ibm-aiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Change_Risk\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
+                        export result=$(curl "https://$ROUTE/graphql" -k -s -H "authorization: Bearer $ZEN_TOKEN" -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://ai-platform-api-ibmaiops.itzroks-270003bu3k-qd899z-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-de.containers.appdomain.cloud' --data-binary '{"query":"  query {\n    getTrainingDefinitions (algorithmName:\"Change_Risk\"){\n      definitionName\n      algorithmName\n      description\n      version\n      deployedVersion\n      lastTraining\n      trainingSchedule {\n        frequency\n        repeat\n        noEndDate\n      }\n      trainedModels(latest: true) {\n        trainingStartTimestamp\n        trainingEndTimestamp\n        modelStatus\n        postcheckTrainingDetails {\n            aiCoverage\n          \n          }\n      }\n    }\n  }"}' --compressed)
                         echo "      Name:          "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".definitionName")
                         echo "      Deployed:      "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".deployedVersion")
                         echo "      Latest:        "$(echo $result| jq ".data.getTrainingDefinitions[]" | jq -r ".version")

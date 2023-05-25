@@ -17,7 +17,7 @@ helm install falco -n falco falcosecurity/falco \
   --set falco.docker.enabled=false \
   --set falco.fileOutput.enabled=true \
   --create-namespace \
-  --set falcosidekick.config.webhook.address="http://ibm-aiops-falco-gateway- ibm-aiops.itzroks-270003bu3k-rt8vw8-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-gb.containers.appdomain.cloud/webhookSingle" \
+  --set falcosidekick.config.webhook.address="http://ibmaiops-falco-gateway-ibmaiops.itzroks-270003bu3k-rt8vw8-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-gb.containers.appdomain.cloud/webhookSingle" \
   --set falcosidekick.config.webhook.customHeaders="token:46c1ddfd8e00" \
   --set falcosidekick.config.webhook.checkcert="false"
 
@@ -65,8 +65,8 @@ oc delete -n falco pods --all
 
 
 
-http://ibm-aiops-falco-gateway- ibm-aiops.itzroks-270003bu3k-rt8vw8-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-gb.containers.appdomain.cloud/webhookSingle
-http://aiops-falco-gateway-service.ibm-aiops/webhookSingle:8000
+http://ibmaiops-falco-gateway-ibmaiops.itzroks-270003bu3k-rt8vw8-6ccd7f378ae819553d37d5f2ee142bd6-0000.eu-gb.containers.appdomain.cloud/webhookSingle
+http://aiops-falco-gateway-service.ibmaiops/webhookSingle:8000
 
 
 

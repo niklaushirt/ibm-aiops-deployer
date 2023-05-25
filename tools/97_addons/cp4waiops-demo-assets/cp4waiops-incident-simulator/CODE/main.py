@@ -99,7 +99,7 @@ global api_url
 # GET CONNECTIONS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiops ibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibmaiopsibmaiops| grep ibmaiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()

@@ -48,12 +48,12 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibmaiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -61,24 +61,24 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibmaiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-aimanager
-  namespace: ibm-aiops-installer
+  name: ibmaiops-install-aimanager
+  namespace: ibmaiops-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibmaiops-installer-admin
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibmaiops-installer
 
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibmaiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -95,8 +95,8 @@ spec:
               #set -x
 
               oc delete ConsoleNotification --all
-              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}')
-              oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}')
+              oc delete job  -n ibmaiops-installer --ignore-not-found $(oc get job -n ibmaiops-installer|grep load-|awk '{print$1}')
+              oc delete pod  -n ibmaiops-installer --ignore-not-found $(oc get po -n ibmaiops-installer|grep load-|awk '{print$1}')
 
               echo "*****************************************************************************************************************************"
               echo " ✅ STARTING: INSTALL IBMAIOps with Demo Content"
@@ -105,8 +105,8 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo $INSTALL_REPO"
-              git clone $INSTALL_REPO -b ibm-aiops_stable
-              cd ibm-aiops-deployer
+              git clone $INSTALL_REPO -b ibmaiops_stable
+              cd ibmaiops-deployer
               echo ""
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -130,7 +130,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Starting Installation"
-              ansible-playbook ./ansible/00_ ibm-aiops-install.yaml -e "config_file_path=$CONFIG" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
+              ansible-playbook ./ansible/00_ibmaiops-install.yaml -e "config_file_path=$CONFIG" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
               echo ""
               echo ""
               echo "*****************************************************************************************************************************"
@@ -146,10 +146,10 @@ spec:
 
           env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibmaiops-deployer.git"
           - name: CONFIG
-            #value : "./configs/ibm-aiops-all-34.yaml"
-            value : "./configs/ibm-aiops-latest.yaml"
+            #value : "./configs/ibmaiops-all-34.yaml"
+            value : "./configs/ibmaiops-latest.yaml"
             # The pull token for cp.icr.com from https://myibm.ibm.com/products-services/containerlibrary
           - name: ENTITLED_REGISTRY_KEY
             value : "<REGISTRY_TOKEN>"

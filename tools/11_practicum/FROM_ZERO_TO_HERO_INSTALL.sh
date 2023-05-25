@@ -2,12 +2,12 @@ cat << EOF | oc apply -f -
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibmaiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -15,20 +15,20 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibmaiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: aiops-easy-install-aimanager-practicum
-  namespace: ibm-aiops-installer
+  namespace: ibmaiops-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibmaiops-installer-admin
   template:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibmaiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -50,11 +50,11 @@ spec:
               echo ""
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
-              echo " 📥 Clone Repo https://github.com/niklaushirt/ibm-aiops-deployer.git"
-              git clone https://github.com/niklaushirt/ibm-aiops-deployer.git -b ibm-aiops_stable
+              echo " 📥 Clone Repo https://github.com/niklaushirt/ibmaiops-deployer.git"
+              git clone https://github.com/niklaushirt/ibmaiops-deployer.git -b ibmaiops_stable
 
               
-              cd ibm-aiops-deployer
+              cd ibmaiops-deployer
               echo ""
               echo ""
 
@@ -69,7 +69,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Starting Installation"
-              ansible-playbook ./ansible/00_ ibm-aiops-install.yaml -e "config_file_path=./configs/ibm-aiops-practicum.yaml"
+              ansible-playbook ./ansible/00_ibmaiops-install.yaml -e "config_file_path=./configs/ibmaiops-practicum.yaml"
               echo ""
               echo ""
               echo "*****************************************************************************************************************************"

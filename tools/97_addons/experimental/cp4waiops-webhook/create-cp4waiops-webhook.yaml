@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: aiops-event-gateway-admin
-  namespace: ibm-aiops
+  namespace: ibmaiops
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -11,7 +11,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: aiops-event-gateway-admin
-    namespace: ibm-aiops
+    namespace: ibmaiops
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -22,7 +22,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name:  aiops-event-gateway-config
-  namespace: ibm-aiops
+  namespace: ibmaiops
 data:
   TOKEN: 'P4ssw0rd!'
   ITERATE_ELEMENT: 'events'
@@ -46,7 +46,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aiops-event-gateway
-  namespace: ibm-aiops
+  namespace: ibmaiops
   labels:
       app:  aiops-event-gateway
 spec:
@@ -60,7 +60,7 @@ spec:
         app:  aiops-event-gateway
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-webhook-python:0.4
+      - image: quay.io/niklaushirt/ibmaiops-webhook-python:0.4
         imagePullPolicy: Always
         name: gateway
         command:
@@ -82,7 +82,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name:  aiops-event-gateway-service
-  namespace: ibm-aiops
+  namespace: ibmaiops
 spec:
   selector:
     app:  aiops-event-gateway
@@ -94,8 +94,8 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: ibm-aiops-event-gateway
-  namespace: ibm-aiops
+  name:  ibmaiops-event-gateway
+  namespace: ibmaiops
 spec:
   to:
     kind: Service

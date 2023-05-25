@@ -15,10 +15,10 @@ cp -r ../cloud-pak-deployer/* ../ARCHIVE/cloud-pak-deployer-$gitCommitMessage
 cp .gitignore ../ARCHIVE/cloud-pak-deployer-$gitCommitMessage
  
 
-rm -r ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibm-aiops/
-cp -r ./ansible/roles/ ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibm-aiops/
+rm -r ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibmaiops/
+cp -r ./ansible/roles/ ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibmaiops/
 
-cd ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibm-aiops/
+cd ../cloud-pak-deployer/automation-roles/50-install-cloud-pak/ibmaiops/
 
 echo "--------------------------------------------------------------------------------------------------------------------------------"
 echo "    🚀  Find File Copies"

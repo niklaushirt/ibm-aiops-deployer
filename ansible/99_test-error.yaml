@@ -27,7 +27,7 @@
 - hosts: localhost
   #become: true
   #vars_files: {{ config_file }}
-  #vars_files: ./configs/ibm-aiops-roks-all.yaml
+  #vars_files: ./configs/ibmaiops-roks-all.yaml
 
   tasks:
   - name: 🚀 MAIN INSTALLATION LOOP - Install Module
@@ -51,7 +51,7 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleNotification
       metadata:
-        name: ibm-aiops-notification-main
+        name: ibmaiops-notification-main
       spec:
         backgroundColor: '#141a6b'
         color: '#fff'

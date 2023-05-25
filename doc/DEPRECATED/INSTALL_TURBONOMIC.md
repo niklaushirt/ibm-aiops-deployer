@@ -18,7 +18,7 @@ You can install Turbonomic into the same cluster as IBMAIOPS.
 1. Launch
 
 	```bash
-	ansible-playbook ./ansible/10_ ibm-aiops-turbonomic-install.yaml
+	ansible-playbook ./ansible/10_ibmaiops-turbonomic-install.yaml
 	```
 2. Wait for the pods to come up
 3. Open Turbonomic

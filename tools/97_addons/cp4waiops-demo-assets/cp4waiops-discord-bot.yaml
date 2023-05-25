@@ -2,22 +2,22 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-experimental
+  name: ibmaiops-experimental
 ---  
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ibm-aiops-experimental-admin
-  namespace: ibm-aiops-experimental
+  name: ibmaiops-experimental-admin
+  namespace: ibmaiops-experimental
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-experimental-admin-crb
+  name: ibmaiops-experimental-admin-crb
 subjects:
   - kind: ServiceAccount
-    name: ibm-aiops-experimental-admin
-    namespace: ibm-aiops-experimental
+    name: ibmaiops-experimental-admin
+    namespace: ibmaiops-experimental
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -26,24 +26,24 @@ roleRef:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ibm-aiops-discord-bot
-  namespace: ibm-aiops-experimental
+  name: ibmaiops-discord-bot
+  namespace: ibmaiops-experimental
   labels:
-      app: ibm-aiops-discord-bot
+      app: ibmaiops-discord-bot
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ibm-aiops-discord-bot
+      app: ibmaiops-discord-bot
   template:
     metadata:
       labels:
-        app: ibm-aiops-discord-bot
+        app: ibmaiops-discord-bot
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-discord-bot:1.0
+      - image: quay.io/niklaushirt/ibmaiops-discord-bot:1.0
         imagePullPolicy: Always
-        name: ibm-aiops-discord-bot
+        name: ibmaiops-discord-bot
         command:
         ports:
         - containerPort: 8080
@@ -73,23 +73,23 @@ spec:
             value: "/"
         envFrom:
         - configMapRef:
-            name: ibm-aiops-simulation-config
+            name:  ibmaiops-simulation-config
         - configMapRef:
-            name: ibm-aiops-simulation-config-events
+            name:  ibmaiops-simulation-config-events
         - configMapRef:
-            name: ibm-aiops-simulation-config-logs
+            name:  ibmaiops-simulation-config-logs
         - configMapRef:
-            name: ibm-aiops-simulation-config-metrics
-      serviceAccountName: ibm-aiops-experimental-admin
+            name:  ibmaiops-simulation-config-metrics
+      serviceAccountName: ibmaiops-experimental-admin
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ibm-aiops-discord-bot-service
-  namespace: ibm-aiops-experimental
+  name: ibmaiops-discord-bot-service
+  namespace: ibmaiops-experimental
 spec:
   selector:
-    app: ibm-aiops-discord-bot
+    app: ibmaiops-discord-bot
   ports:
     - protocol: TCP
       port: 8000
@@ -98,12 +98,12 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: ibm-aiops-discord-bot
-  namespace: ibm-aiops-experimental
+  name:  ibmaiops-discord-bot
+  namespace: ibmaiops-experimental
 spec:
   to:
     kind: Service
-    name: ibm-aiops-discord-bot-service
+    name: ibmaiops-discord-bot-service
     weight: 100
   port:
     targetPort: 8000

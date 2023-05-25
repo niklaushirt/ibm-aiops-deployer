@@ -23,12 +23,12 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibmaiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibmaiops-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -36,20 +36,20 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibmaiops-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: aiops-delete-instance
-  namespace: ibm-aiops-installer
+  namespace: ibmaiops-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibmaiops-installer-admin
   template:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.0
+          image: quay.io/niklaushirt/ibmaiops-tools:2.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -78,16 +78,16 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo $INSTALL_REPO"
-              git clone $INSTALL_REPO -b ibm-aiops_stable
-              cd ibm-aiops-deployer
+              git clone $INSTALL_REPO -b ibmaiops_stable
+              cd ibmaiops-deployer
               echo ""
               echo ""
 
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Starting Uninstall"
-              cd ibm-aiops-deployer/
-              ./tools/99_uninstall/3.7/uninstall- ibm-aiops.sh -s
+              cd ibmaiops-deployer/
+              ./tools/99_uninstall/3.7/uninstall-ibmaiops.sh -s
               echo ""
               echo ""
               echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"
@@ -104,7 +104,7 @@ spec:
 
           env:
           - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
+            value : "https://github.com/niklaushirt/ibmaiops-deployer.git"
 
       restartPolicy: Never
   backoffLimit: 4

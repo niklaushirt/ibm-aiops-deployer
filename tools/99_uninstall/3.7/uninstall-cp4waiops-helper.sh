@@ -3,7 +3,7 @@
 # Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
-. ./uninstall- ibm-aiops.props
+. ./uninstall-ibmaiops.props
 
 export OPERATORS_PROJECT=openshift-operators
 export IBM_COMMON_SERVICES_PROJECT=ibm-common-services
@@ -40,10 +40,10 @@ display_help() {
    echo " This script is used to uninstall IBM IBM AIOps AI Manager version 3.7"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
-   echo " - Update uninstall- ibm-aiops.props with components that you want to uninstall"
+   echo " - Update uninstall-ibmaiops.props with components that you want to uninstall"
    echo ""
    echo " Usage:"
-   echo " ./uninstall- ibm-aiops.sh -h -s"
+   echo " ./uninstall-ibmaiops.sh -h -s"
    echo "  -h Prints out the help message"
    echo "  -s Skip asking for confirmations"   
    echo ""
@@ -93,7 +93,7 @@ check_namespaced_install () {
         log $INFO "\033[1;36mUninstalling AIOps and IAF components from the namespace $IBMAIOPS_PROJECT\033[0m"
         return 0
     else 
-        log $WARNING "No AIOps nor IAF subscriptions were found. This may result in unexpected behaviour. Please review uninstall- ibm-aiops.props if this seems incorrect."
+        log $WARNING "No AIOps nor IAF subscriptions were found. This may result in unexpected behaviour. Please review uninstall-ibmaiops.props if this seems incorrect."
         log $INFO "\033[1;36mDefaulting to uninstalling resources from $IBMAIOPS_PROJECT project.\033[0m"
         AIOPS_NAMESPACED="true"
         IAF_PROJECT=$IBMAIOPS_PROJECT
@@ -505,22 +505,22 @@ if [[ $DELETE_ALL == "true" ]]; then
 fi
 
 if [[ $DELETE_ALL != "true" ]] && [[ $DELETE_ALL != "false" ]]; then
-    log $ERROR "The DELETE_ALL flag must have a value of either \"true\" or \"false\". Please review the uninstall- ibm-aiops.props file."
+    log $ERROR "The DELETE_ALL flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibmaiops.props file."
     exit 1
 fi
 
 if [[ $ONLY_CLOUDPAK != "true" ]] && [[ $ONLY_CLOUDPAK != "false" ]]; then
-    log $ERROR "The ONLY_CLOUDPAK flag must have a value of either \"true\" or \"false\". Please review the uninstall- ibm-aiops.props file."
+    log $ERROR "The ONLY_CLOUDPAK flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibmaiops.props file."
     exit 1
 fi
 
 if [[ $DELETE_PVCS != "true" ]] && [[ $DELETE_PVCS != "false" ]]; then
-    log $ERROR "The DELETE_PVCS flag must have a value of either \"true\" or \"false\". Please review the uninstall- ibm-aiops.props file."
+    log $ERROR "The DELETE_PVCS flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibmaiops.props file."
     exit 1
 fi
 
 if [[ $DELETE_CRDS != "true" ]] && [[ $DELETE_CRDS != "false" ]]; then
-    log $ERROR "The DELETE_CRDS flag must have a value of either \"true\" or \"false\". Please review the uninstall- ibm-aiops.props file."
+    log $ERROR "The DELETE_CRDS flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibmaiops.props file."
     exit 1
 fi
 
@@ -528,12 +528,12 @@ fi
 
 display_script_properties(){
 
-log $INFO "##### Properties in uninstall- ibm-aiops.props #####"
+log $INFO "##### Properties in uninstall-ibmaiops.props #####"
 log $INFO
 if [[ $DELETE_ALL == "true" ]]; then
-	log $INFO "\033[1;36m The script uninstall- ibm-aiops.props has 'DELETE_ALL=true', hence the script will execute wih below values: \033[0m"
+	log $INFO "\033[1;36m The script uninstall-ibmaiops.props has 'DELETE_ALL=true', hence the script will execute wih below values: \033[0m"
 else
-    log $INFO "The script uninstall- ibm-aiops.props has the properties with below values: "
+    log $INFO "The script uninstall-ibmaiops.props has the properties with below values: "
 fi
 log $INFO
 log $INFO "IBMAIOPS_PROJECT=$IBMAIOPS_PROJECT"
@@ -542,7 +542,7 @@ log $INFO "ONLY_CLOUDPAK=\033[1;36m$ONLY_CLOUDPAK\033[0m"
 log $INFO "DELETE_PVCS=\033[1;36m$DELETE_PVCS\033[0m"
 log $INFO "DELETE_CRDS=\033[1;36m$DELETE_CRDS\033[0m"
 log $INFO
-log $INFO "##### Properties in uninstall- ibm-aiops.props #####"
+log $INFO "##### Properties in uninstall-ibmaiops.props #####"
 }
 
 check_additional_installation_exists(){

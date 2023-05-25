@@ -489,9 +489,9 @@ Finally, lets verify the ServiceNow inventory and topology data in the Topology 
 
       * Make sure that you have oc installed on your local system. For more information about these requirements, see Preparing to install IBM IBM AIOps. Log in to your Red Hat OpenShift Container Platform cluster by using the oc login command. You can identify your specific oc login by clicking the user name dropdown menu in the Red Hat OpenShift Container Platform console, then clicking Copy Login Command.
 
-      * Switch your project to where the IBM AIOps is installed (e.g.ibm-aiops) using the following command (use your own project name):
+      * Switch your project to where the IBM AIOps is installed (e.g. ibmaiops) using the following command (use your own project name):
       ```
-      oc project ibm-aiops
+      oc project ibmaiops
       ```
       * Identify the full name for the evtmanager-topology-topology pod:
       ```
