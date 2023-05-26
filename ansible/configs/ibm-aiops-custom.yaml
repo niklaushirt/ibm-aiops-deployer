@@ -91,7 +91,7 @@ ibmaiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   - name: ibm-aiops
     kind: IBMAIOps
-    install: true
+    install: false
 
     # current_ibmaiops_feature
     # ibm-aiops Size of the install (small: PoC/Demo, tall: Production)
@@ -103,9 +103,9 @@ ibmaiops:
     # Version of the catalog subscription
     subscription_channel: 4.1-dev
     # Freeze the version of the Catalog image by patching CatalogSource
-    freeze_catalog: true
+    freeze_catalog: false
     # Install Feature Flags
-    install_feature_flags: true
+    install_feature_flags: false
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # Storage Classes Override for this Instance (see comment below)
@@ -139,22 +139,22 @@ ibmaiops:
     # TRAINING
     # Train the Models based on pre-canned content
 
-    training_create_training_temporal: true
+    training_create_training_temporal: false
 
-    training_load_data_logs: true
-    training_create_training_logs: true
-    training_run_training_logs: true
+    training_load_data_logs: false
+    training_create_training_logs: false
+    training_run_training_logs: false
 
-    training_load_data_snow: true
-    training_create_training_snow: true
-    training_run_training_snow: true
+    training_load_data_snow: false
+    training_create_training_snow: false
+    training_run_training_snow: false
 
-    training_load_data_metrics: true
-    training_create_training_metrics: true
-    training_run_training_metrics: true
+    training_load_data_metrics: false
+    training_create_training_metrics: false
+    training_run_training_metrics: false
 
     # Create feature flag Training (Seasonality and XinY)
-    training_create_training_experimental: true
+    training_create_training_experimental: false
 
     training_data_url: https://github.com/niklaushirt/
     training_data_repo: ibm-aiops-trainingdata
@@ -163,31 +163,31 @@ ibmaiops:
     # ---------------------------------------------------------------------
     # TOPOLOGY
     # Install DemoApps Application
-    install_demoapps: true
+    install_demoapps: false
     # RobotShop interface color (classic/white)
     robotshop_color: white
     # Install DemoApps K8s Observer
-    install_demoapps_observer: true
+    install_demoapps_observer: false
     # Create Topology
-    create_topology_templates: true
-    create_topology_apps: true
+    create_topology_templates: false
+    create_topology_apps: false
     # Create Custom overlay topology
-    install_custom_topology: true
+    install_custom_topology: false
 
 
     # ---------------------------------------------------------------------
     # RUNBOOKS
     # Install AWX and create Runbooks
-    install_awx: true
-    load_awx_playbooks: true
-    integrate_awx: true
-    load_runbooks: true
-    create_runbook_policy: true
+    install_awx: false
+    load_awx_playbooks: false
+    integrate_awx: false
+    load_runbooks: false
+    create_runbook_policy: false
 
 
     # ---------------------------------------------------------------------
     # Demo UI
-    install_demo_ui: true
+    install_demo_ui: false
     demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
     # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
     demoui_slack_user: ibm-aiopsdemo@gmail.com
@@ -202,7 +202,7 @@ ibmaiops:
 
     # ---------------------------------------------------------------------
     # LDAP
-    install_ldap: true
+    install_ldap: false
     # ldap domain
     ldap_domain: ibm.com
     # ldap base
@@ -214,24 +214,24 @@ ibmaiops:
     # ldap namespace
     ldap_namespace: openldap
     # ldap namespace
-    ldap_register: true
+    ldap_register: false
 
     # ---------------------------------------------------------------------
     # MISC PARAMETERS (you should not modify those)
     # Create external routes (needed to create demo content)
-    create_external_routes: true
+    create_external_routes: false
 
     # Create a valid ingress certificate (needed for Slack integration)
-    create_valid_ingress_certificate: true
+    create_valid_ingress_certificate: false
 
     # Create Policy for Story Creation
-    create_incident_policy: true
+    create_incident_policy: false
 
     # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
     create_log_connection: true
 
     # Create Service Account
-    create_account: true
+    create_account: false
 
     # Install Webhook Probe
     install_webhook_probe: false

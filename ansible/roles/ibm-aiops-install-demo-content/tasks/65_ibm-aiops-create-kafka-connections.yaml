@@ -102,7 +102,7 @@
         "connection_type": "kafka",
         "creator_user_name": "",
         "description": "Automatically created by Nicks scripts",
-        "topic": "ibm-aiops-cartridge-logs-elk-iuacrepx",
+        "topic": "cp4waiops-cartridge-logs-elk-iuacrepx",
         "base_parallelism": 5,
         "num_partitions": 1,
         "display_name": "ELKInception",
