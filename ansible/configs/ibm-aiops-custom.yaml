@@ -169,8 +169,8 @@ ibmaiops:
     # Install DemoApps K8s Observer
     install_demoapps_observer: false
     # Create Topology
-    create_topology_templates: false
-    create_topology_apps: false
+    create_topology_templates: true
+    create_topology_apps: true
     # Create Custom overlay topology
     install_custom_topology: false
 
@@ -228,7 +228,7 @@ ibmaiops:
     create_incident_policy: false
 
     # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-    create_log_connection: true
+    create_log_connection: false
 
     # Create Service Account
     create_account: false
