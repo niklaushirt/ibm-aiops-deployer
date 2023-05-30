@@ -261,6 +261,10 @@
   register: AWX_RESULT
   args:
     executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.AWX_RESULT
+    #verbosity: 1
 
 
 
@@ -287,6 +291,10 @@
   register: AWX_RESULT
   args:
     executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.AWX_RESULT
+    #verbosity: 1
 
 
 - name: 🚀 AWX - Create AWX Template Start Robotshop Ratings
@@ -312,7 +320,10 @@
   register: AWX_RESULT
   args:
     executable: /bin/bash
-
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.AWX_RESULT
+    #verbosity: 1
 
 
 - name: 🚀 AWX - Create AWX Template Stop Robotshop Ratings
@@ -338,6 +349,10 @@
   register: AWX_RESULT
   args:
     executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.AWX_RESULT
+    #verbosity: 1
 
 
 
@@ -364,4 +379,8 @@
   register: AWX_RESULT
   args:
     executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.AWX_RESULT
+    #verbosity: 1
 
