@@ -263,7 +263,7 @@
     executable: /bin/bash
 - name: 🟣  OUTPUT
   debug: 
-    var: output_string.AWX_RESULT
+    var: AWX_RESULT.stdout_lines
     #verbosity: 1
 
 
@@ -293,7 +293,7 @@
     executable: /bin/bash
 - name: 🟣  OUTPUT
   debug: 
-    var: output_string.AWX_RESULT
+    var: AWX_RESULT.stdout_lines
     #verbosity: 1
 
 
@@ -322,7 +322,7 @@
     executable: /bin/bash
 - name: 🟣  OUTPUT
   debug: 
-    var: output_string.AWX_RESULT
+    var: AWX_RESULT.stdout_lines
     #verbosity: 1
 
 
@@ -351,7 +351,7 @@
     executable: /bin/bash
 - name: 🟣  OUTPUT
   debug: 
-    var: output_string.AWX_RESULT
+    var: AWX_RESULT.stdout_lines
     #verbosity: 1
 
 
@@ -381,6 +381,6 @@
     executable: /bin/bash
 - name: 🟣  OUTPUT
   debug: 
-    var: output_string.AWX_RESULT
+    var: AWX_RESULT.stdout_lines
     #verbosity: 1
 
