@@ -101,7 +101,7 @@ global api_url
 # GET CONNECTIONS
 # ('--------------------------------------------------')('--------------------------------------------------')--------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
@@ -437,7 +437,7 @@ class IncidentBot(commands.Bot):
                 await message.channel.send('**🚀 Demo Assets**')
                 view = AIOPSLink(DENO_UI_ROUTE,'Demo Dashboard')
                 await message.channel.send(view=view)
-                view = AIOPSLink(CPD_ROUTE,'IBMAIOps')
+                view = AIOPSLink(CPD_ROUTE,'IBM AIOps')
                 await message.channel.send(view=view)
                 if INSTANA_ROUTE != '':
                     view = AIOPSLink(INSTANA_ROUTE,'Instana')
@@ -645,8 +645,8 @@ class IncidentBot(commands.Bot):
                     await message.channel.send('   🛠️ Incidents:')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **Incidents**     :  List all Incidents')
                     await message.channel.send('   🛠️ Simulation:')
-                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incident**    :  Simulates a Memory leak in RobotShop')
-                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentMem** :  Simulates a Memory leak in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incident**    :  Simulates a Memory Problem in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentMem** :  Simulates a Memory Problem in RobotShop')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentFan** :  Simulates a Fan problem in RobotShop')
                     await message.channel.send('   🛠️ Modify Incidents:')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **progress**    :  Set all Incidents to InProgress')
@@ -659,7 +659,7 @@ class IncidentBot(commands.Bot):
 
                 # --------------------------------------------------------------------------------
                 # GET Incidents
-                elif myArgument == "Incidents":
+                elif myArgument == "incidents":
                     print(" 📥 Command: Incidents")
                     await message.channel.send('**🚀 '+INSTANCE_NAME+' Open Incidents**')
                     await message.channel.send('--------------------------------------------------')
