@@ -20,9 +20,9 @@ echo "--------------------------------------------------------------------------
 echo " 🧻 Delete Stuff"
 oc delete pods -n ibm-common-services --all &
 oc delete pods -n ibm-aiops --all &
-oc delete csv --all & -n ibm-common-services
-oc delete subscription --all & -n ibm-common-services
-oc delete csv --all & -n ibm-aiops
+oc delete csv --all -n ibm-common-services &
+oc delete subscription --all -n ibm-common-services &
+oc delete csv --all -n ibm-aiops &
 oc delete subscription --all & -n ibm-aiops
 oc delete deployment -n ibm-aiops --all &
 oc delete deployment -n ibm-common-services --all &

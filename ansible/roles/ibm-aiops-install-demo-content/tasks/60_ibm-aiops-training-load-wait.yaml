@@ -51,18 +51,18 @@
     executable: /bin/bash
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP JOB METRICS LOAD
-  kubernetes.core.k8s:
-    state: absent
-    template: ./templates/training/load-job-metric.j2
+# - name: 🧻 TRAINING WAIT - CLEANUP JOB METRICS LOAD
+#   kubernetes.core.k8s:
+#     state: absent
+#     template: ./templates/training/load-job-metric.j2
   
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS METRICS LOAD
-  shell: |
-    oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-metric-cassandra|awk '{print$1}')
-  register: ES_READY
-  ignore_errors: true
+# - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS METRICS LOAD
+#   shell: |
+#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-metric-cassandra|awk '{print$1}')
+#   register: ES_READY
+#   ignore_errors: true
 
 
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION SNOW LOAD
@@ -84,18 +84,18 @@
     executable: /bin/bash
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP JOB SNOW LOAD
-  kubernetes.core.k8s:
-    state: absent
-    template: ./templates/training/load-job-snow.j2
+# - name: 🧻 TRAINING WAIT - CLEANUP JOB SNOW LOAD
+#   kubernetes.core.k8s:
+#     state: absent
+#     template: ./templates/training/load-job-snow.j2
   
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS SNOW LOAD
-  shell: |
-    oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-snow-indexes|awk '{print$1}')
-  register: ES_READY
-  ignore_errors: true
+# - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS SNOW LOAD
+#   shell: |
+#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-snow-indexes|awk '{print$1}')
+#   register: ES_READY
+#   ignore_errors: true
 
 
 
@@ -120,16 +120,16 @@
     executable: /bin/bash
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP JOB LAD LOAD
-  kubernetes.core.k8s:
-    state: absent
-    template: ./templates/training/load-job-logs.j2
+# - name: 🧻 TRAINING WAIT - CLEANUP JOB LAD LOAD
+#   kubernetes.core.k8s:
+#     state: absent
+#     template: ./templates/training/load-job-logs.j2
   
 
 
-- name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS LAD LOAD
-  shell: |
-    oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-log-indexes|awk '{print$1}')
-  register: ES_READY
-  ignore_errors: true
+# - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS LAD LOAD
+#   shell: |
+#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-log-indexes|awk '{print$1}')
+#   register: ES_READY
+#   ignore_errors: true
 
