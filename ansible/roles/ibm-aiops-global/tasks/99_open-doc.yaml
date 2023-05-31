@@ -9,7 +9,7 @@
 
 - name: Log
   shell: |
-    export MESSAGE=" 🌏 Open doc at https://github.com/niklaushirt/ibm-aiops-deployer#-demo-installation"
+    export MESSAGE=" 🌏 Open doc at https://github.com/niklaushirt/ibm-aiops-deployer#2-quick-install"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
