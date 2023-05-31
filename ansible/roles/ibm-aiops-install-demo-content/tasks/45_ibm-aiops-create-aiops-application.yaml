@@ -92,7 +92,7 @@
           "disruptionCostPerMin": "1000",
           "name": "RobotShop",
           "entityTypes": [
-              "aiopsApplication"
+              "waiopsApplication"
           ],
           "tags": [
             "app:robotshop",
@@ -281,7 +281,7 @@
           "disruptionCostPerMin": "1000",
           "name": "SockShop",
           "entityTypes": [
-              "aiopsApplication"
+              "waiopsApplication"
           ],
           "tags": [
             "app:sockshop",
@@ -460,7 +460,7 @@
           "disruptionCostPerMin": "1000",
           "name": "ACME Air",
           "entityTypes": [
-              "aiopsApplication"
+              "waiopsApplication"
           ],
           "tags": [
             "app:acmeair",
