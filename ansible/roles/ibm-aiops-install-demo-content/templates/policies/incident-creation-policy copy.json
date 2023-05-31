@@ -48,11 +48,6 @@
                     "details": {}
                   },
                   {
-                    "type": "chatops",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  },
-                  {
                     "type": "msteams",
                     "name": "AIOPSSystemDefault",
                     "details": {}
