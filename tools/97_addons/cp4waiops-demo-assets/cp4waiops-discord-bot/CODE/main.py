@@ -800,7 +800,7 @@ class IncidentCreateActions(discord.ui.View):
     def __init__(self):
         super().__init__()
 
-    @discord.ui.button(label='RobotShop - Memory Leak', style=discord.ButtonStyle.red, custom_id='persistent_view:mem')
+    @discord.ui.button(label='RobotShop - Memory Problem', style=discord.ButtonStyle.red, custom_id='persistent_view:mem')
     async def green(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating Memory Incident', ephemeral=True)
         print('    🟠 Create THREADS')

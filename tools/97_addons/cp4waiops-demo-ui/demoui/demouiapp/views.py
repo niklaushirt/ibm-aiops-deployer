@@ -353,7 +353,7 @@ LOG_TIME_ZONE="-1"
 # GET CONNECTIONS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()

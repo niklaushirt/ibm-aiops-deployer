@@ -247,7 +247,7 @@ echo "🌏 Demo UI:              https://$(oc get route -n $AIOPS_NAMESPACE aiop
 
 #### 3.4.1.3 Simulate the incident
 
-Click on the red `Create Incident Memory Leak` button
+Click on the red `Create Incident Memory` button
 
 This will create alerts and an incident in IBMAIOps.
 
