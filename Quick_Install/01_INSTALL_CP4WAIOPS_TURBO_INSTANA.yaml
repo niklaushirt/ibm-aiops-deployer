@@ -355,12 +355,7 @@ spec:
                   install_webhook_probe: false
                   subscription_channel: v3.7
 
-                  # ---------------------------------------------------------------------
-                  # OUTPUT
-                  # Print all logins
-                  print_logins: true
-                  # Open the relevant Web UIs
-                  open_web_ui: true
+
 
 
 

@@ -117,12 +117,6 @@ oc patch operandbindinfo.operator.ibm.com -n ibm-common-services ibm-licensing-b
 
 
 
-echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibm-common-services "
-oc delete ns ibm-common-services &
-echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibm-aiops"
-oc delete ns ibm-aiops &
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -131,6 +125,13 @@ oc delete CustomResourceDefinition $(oc get CustomResourceDefinition| grep .ibm.
 sleep 5
 oc patch CustomResourceDefinition $(oc get CustomResourceDefinition| grep .ibm.com|awk '{print$1}')  -p '{"metadata":{"finalizers":null}}' --type=merge 
 
+
+echo "------------------------------------------------------------------------------------------------------------------------------"
+echo " 🧻 Delete Namespace ibm-common-services "
+oc delete ns ibm-common-services &
+echo "------------------------------------------------------------------------------------------------------------------------------"
+echo " 🧻 Delete Namespace ibm-aiops"
+oc delete ns ibm-aiops
 
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
