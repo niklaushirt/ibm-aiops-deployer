@@ -214,8 +214,6 @@ You get IBM AIOps installed and pre-trained in one simple script.
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the end of the file with your Instana license if you have one
-5. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license if you have one
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -276,6 +274,7 @@ Ready to go.
         install: true
 	
 	```
+5. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license
 5. Click `Save`
@@ -338,7 +337,7 @@ Ready to go.
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-1. Adap the installation configuration to enable Turbonomic (set `install` to `true`)
+1. Adap the installation configuration to enable Instana (set `install` to `true`)
 
 	```yaml
       - name: ibm-aiops-instana
@@ -346,6 +345,7 @@ Ready to go.
         install: true
 	
 	```
+4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the end of the file with your Instana license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the sales_key and agent_key `NONE` at the end of the file with your Instana license
 5. Click `Save`
