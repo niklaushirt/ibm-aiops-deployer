@@ -201,20 +201,20 @@ You can find some examples below.
 <details>
 <summary>✅ Install IBMAIOps with demo content</summary>
 
-## 2.1 Install IBMAIOps with demo content
+## 2.1 Install IBM AIOps with demo content
 
 > ### ✅ This is probably the one that you want.
 
 You get IBMAIOps installed and pre-trained in one simple script.
-Ready to go.
-On top of that you get Turbonomic and Instana instances to play around a bit (you'll need a license key for each).
+
+🚀 Ready to go.
 
 
 
 ![K8s CNI](./doc/pics/install01.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_IBM_AIOPS.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the end of the file with your Instana license if you have one
 5. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license if you have one
@@ -269,7 +269,15 @@ Ready to go.
 ![K8s CNI](./doc/pics/install01.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_AIMGR_EVTMGR.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+1. Adap the installation configuration to enable Turbonomic (set `install` to `true`)
+
+	```yaml
+      - name: ibm-aiops-turbonomic
+        kind: Turbonomic
+        install: true
+	
+	```
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license
 5. Click `Save`
@@ -331,7 +339,15 @@ Ready to go.
 ![K8s CNI](./doc/pics/install01.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_AIMGR_EVTMGR.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+1. Adap the installation configuration to enable Turbonomic (set `install` to `true`)
+
+	```yaml
+      - name: ibm-aiops-instana
+        kind: Instana
+        install: true
+	
+	```
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the sales_key and agent_key `NONE` at the end of the file with your Instana license
 5. Click `Save`

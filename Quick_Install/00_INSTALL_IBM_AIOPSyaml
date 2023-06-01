@@ -298,23 +298,23 @@ data:
 
 
 
-    - project: cp4waiops-addons
+    - project: ibm-aiops-addons
       instances:
       # --------------------------------------------------------------------------------------------------------------------------------------
       # CP4WAIOPS ELK
       # --------------------------------------------------------------------------------------------------------------------------------------
 
-      - name: cp4waiops-elk
+      - name: ibm-aiops-elk
         kind: ELK
         install: false
 
 
 
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # CP4WAIOPS TURBONOMIC
+      # IBM AIOPS TURBONOMIC
       # --------------------------------------------------------------------------------------------------------------------------------------
 
-      - name: cp4waiops-turbonomic
+      - name: ibm-aiops-turbonomic
         kind: Turbonomic
         install: true
         turbo_version: 8.8.5
@@ -325,7 +325,7 @@ data:
         #storage_class_file: automatic
         #storage_class_block: automatic
 
-      - name: cp4waiops-turbonomic-demo-content
+      - name: ibm-aiops-turbonomic-demo-content
         kind: TurbonomicDemoContent
         install: true
         # Admin User Password (OVERRIDES GLOBAL PASSWORD)
@@ -359,10 +359,10 @@ data:
 
 
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # CP4WAIOPS INSTANA
+      # IBM AIOPS INSTANA
       # --------------------------------------------------------------------------------------------------------------------------------------
-      
-      - name: cp4waiops-instana
+
+      - name: ibm-aiops-instana
         kind: Instana
         install: true
         instana_version: 247-0
@@ -384,7 +384,7 @@ data:
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # INTEGRATIONS
-        integrate_cp4waiops: true
+        integrate_ibm-aiops: true
         #integrate_turbonomic: true
         
         # --------------------------------------------------------------------------------------------------------------------------------------
