@@ -199,9 +199,9 @@ You can find some examples below.
 
 
 <details>
-<summary>✅ Install IBMAIOps with demo content, Turbonomic and Instana</summary>
+<summary>✅ Install IBMAIOps with demo content</summary>
 
-## 2.1 Install IBMAIOps with demo content, Turbonomic and Instana 
+## 2.1 Install IBMAIOps with demo content
 
 > ### ✅ This is probably the one that you want.
 
@@ -214,11 +214,65 @@ On top of that you get Turbonomic and Instana instances to play around a bit (yo
 ![K8s CNI](./doc/pics/install01.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_IBMAIOPS_TURBO_INSTANA.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the end of the file with your Instana license if you have one
 5. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license if you have one
 3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+
+### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
+
+This installation cocntains:
+
+> - **IBMAIOps**
+> 	- IBM Operator
+> 	- IBMAIOps Instance
+> - **IBMAIOps Demo Content**
+>    - **OpenLDAP** & Register with IBMAIOps
+> 
+>    
+>    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+>    - **AI Models** - Load and Train 
+>      - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
+>      - Create Training Data (LAD, SNOW) 
+>      - Train Models (TG, LAD, CR, SI) 
+>    - **Topology**
+>      - RobotShop Demo App
+>      - Create K8s Observer
+>      - Create ASM merge rules
+>      - Load Overlay Topology
+>      - Create IBMAIOps Application
+>    - **Misc**
+> 	   - Creates valid certificate for Ingress (Slack) 
+> 	   - External Routes (Flink, Topology, ...)
+> 	   - Disables ASM Service match rule 
+> 	   - Create Policy Creation for Stories and Runbooks 
+> 	   - Demo Service Account 
+> 
+
+<div style="page-break-after: always;"></div>
+
+</details>
+<details>
+<summary>☑️ Install additional Turbonomic</summary>
+
+## 2.2 Install additional Turbonomic
+
+You get all the IBMAIOPS components installed and pre-trained in one simple script.
+Ready to go.
+
+
+
+![K8s CNI](./doc/pics/install01.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_AIMGR_EVTMGR.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+4. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license
+5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
@@ -259,16 +313,15 @@ This installation cocntains:
 > 		- Groups for vCenter and RobotShop
 > 		- Groups for licensing
 > 		- Resource Hogs
-> - **Instana**
-> 
 
 <div style="page-break-after: always;"></div>
 
+
 </details>
 <details>
-<summary>☑️ Install IBMAIOps, Event Manager with demo content</summary>
+<summary>☑️ Install additional Instana</summary>
 
-## 2.2 Install IBMAIOps, Event Manager with demo content
+## 2.2 Install additional Instana
 
 You get all the IBMAIOPS components installed and pre-trained in one simple script.
 Ready to go.
@@ -280,7 +333,8 @@ Ready to go.
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/01_INSTALL_AIMGR_EVTMGR.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-3. Click `Save`
+4. Replace the sales_key and agent_key `NONE` at the end of the file with your Instana license
+5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
@@ -313,19 +367,14 @@ This installation cocntains:
 > 	   - Disables ASM Service match rule 
 > 	   - Create Policy Creation for Stories and Runbooks 
 > 	   - Demo Service Account 
-> - **Event Manager**
-> 	- Event Manager
-> - **Event Manager Demo Content**
->   - **Topology**
->     - Create ASM merge rules
->     - Load ASM merge Topology
->     - Create IBMAIOps Application
-> 
+> - **Instana**
+
 
 <div style="page-break-after: always;"></div>
 
 
 </details>
+
 <details>
 <summary>☑️ Custom Install</summary>
 
