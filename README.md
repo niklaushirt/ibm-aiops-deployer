@@ -227,8 +227,6 @@ This installation cocntains:
 > 	- IBM AIOps Instance
 > - **IBM AIOps Demo Content**
 >    - **OpenLDAP** & Register with IBM AIOps
-> 
->    
 >    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
 >    - **AI Models** - Load and Train 
 >      - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
@@ -236,6 +234,8 @@ This installation cocntains:
 >      - Train Models (TG, LAD, CR, SI) 
 >    - **Topology**
 >      - RobotShop Demo App
+>      - SockShop Demo App
+>      - ACME Air Demo App
 >      - Create K8s Observer
 >      - Create ASM merge rules
 >      - Load Overlay Topology
@@ -274,40 +274,14 @@ Ready to go.
 	```
 5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-4. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license
 5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
 
-### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
+This installation adds:
 
-This installation cocntains:
 
-> - **IBM AIOps**
-> 	- IBM Operator
-> 	- IBM AIOps Instance
-> - **IBM AIOps Demo Content**
->    - **OpenLDAP** & Register with IBM AIOps
-> 
->    
->    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
->    - **AI Models** - Load and Train 
->      - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
->      - Create Training Data (LAD, SNOW) 
->      - Train Models (TG, LAD, CR, SI) 
->    - **Topology**
->      - RobotShop Demo App
->      - Create K8s Observer
->      - Create ASM merge rules
->      - Load Overlay Topology
->      - Create IBM AIOps Application
->    - **Misc**
-> 	   - Creates valid certificate for Ingress (Slack) 
-> 	   - External Routes (Flink, Topology, ...)
-> 	   - Disables ASM Service match rule 
-> 	   - Create Policy Creation for Stories and Runbooks 
-> 	   - Demo Service Account 
 > - **Turbonomic**
 > - **Turbonomic Demo Content**
 > 		- Demo User
@@ -344,41 +318,13 @@ Ready to go.
 	```
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-4. Replace the sales_key and agent_key `NONE` at the end of the file with your Instana license
 5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
 
+This installation adds:
 
-### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
-
-This installation cocntains:
-
-> - **IBM AIOps**
-> 	- IBM Operator
-> 	- IBM AIOps Instance
-> - **IBM AIOps Demo Content**
->    - **OpenLDAP** & Register with IBM AIOps
-> 
->    
->    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
->    - **AI Models** - Load and Train 
->      - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
->      - Create Training Data (LAD, SNOW) 
->      - Train Models (TG, LAD, CR, SI) 
->    - **Topology**
->      - RobotShop Demo App
->      - Create K8s Observer
->      - Create ASM merge rules
->      - Load Overlay Topology
->      - Create IBM AIOps Application
->    - **Misc**
-> 	   - Creates valid certificate for Ingress (Slack) 
-> 	   - External Routes (Flink, Topology, ...)
-> 	   - Disables ASM Service match rule 
-> 	   - Create Policy Creation for Stories and Runbooks 
-> 	   - Demo Service Account 
 > - **Instana**
 
 
@@ -388,11 +334,11 @@ This installation cocntains:
 </details>
 
 <details>
-<summary>☑️ 2.4 Follow the installation progress</summary>
+<summary>🔎 2.4 Follow the installation progress</summary>
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
 
-	You can open and follow the installation logs by clicking on Òpen Logs` 
+	You can open and follow the installation logs by clicking on `Open Logs` 
 
 	![install](./doc/pics/notification02.png)
 
@@ -411,6 +357,7 @@ This installation cocntains:
 </details>
 
 
+### **🚀 When done, you can go to [Demo the Solution](#3-demo-the-solution)**
 
 ---------------------------------------------------------------
 # 3. Demo the Solution
