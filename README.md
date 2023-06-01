@@ -141,7 +141,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 	- Worker node count: **5**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBMAIOps, Trubonomic and Instana please select **32 vCPU X 128 GB** 
+	> ❗ If you want to install IBM AIOps, Trubonomic and Instana please select **32 vCPU X 128 GB** 
 
 	![K8s CNI](./doc/pics/roks04.png)
 
@@ -170,7 +170,7 @@ Those scripts have been tested thoroughly on different environments and have pro
 If you think that you hit a problem:
 
 * Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each (`b3c.16x64` - it's easy to select the wrong size). If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
-* If you want to install IBMAIOps, Turbonomic and Instana please select **5 worker nodes with 32 CPU and 128 GB**
+* If you want to install IBM AIOps, Turbonomic and Instana please select **5 worker nodes with 32 CPU and 128 GB**
 * The complete installation takes about 2.5 to 8 hours depending on your region where and how you deployed ROKS to (see above).
 * If you see Pods in `CrashLoop` or other error states, try to wait it out (this can be due to dependencies on other componenets that are not ready yet). Chances are that the deployment will eventually go through. If after 8h you are still stuck, ping me.
 * **Select and use ONLY ONE of the scripts** below, depending on which components you want to install.
@@ -199,13 +199,11 @@ You can find some examples below.
 
 
 <details>
-<summary>✅ Install IBMAIOps with demo content</summary>
+<summary>✅ Install IBM AIOps with demo content</summary>
 
 ## 2.1 Install IBM AIOps with demo content
 
-> ### ✅ This is probably the one that you want.
-
-You get IBMAIOps installed and pre-trained in one simple script.
+You get IBM AIOps installed and pre-trained in one simple script.
 
 🚀 Ready to go.
 
@@ -227,11 +225,11 @@ You get IBMAIOps installed and pre-trained in one simple script.
 
 This installation cocntains:
 
-> - **IBMAIOps**
+> - **IBM AIOps**
 > 	- IBM Operator
-> 	- IBMAIOps Instance
-> - **IBMAIOps Demo Content**
->    - **OpenLDAP** & Register with IBMAIOps
+> 	- IBM AIOps Instance
+> - **IBM AIOps Demo Content**
+>    - **OpenLDAP** & Register with IBM AIOps
 > 
 >    
 >    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
@@ -244,7 +242,7 @@ This installation cocntains:
 >      - Create K8s Observer
 >      - Create ASM merge rules
 >      - Load Overlay Topology
->      - Create IBMAIOps Application
+>      - Create IBM AIOps Application
 >    - **Misc**
 > 	   - Creates valid certificate for Ingress (Slack) 
 > 	   - External Routes (Flink, Topology, ...)
@@ -289,11 +287,11 @@ Ready to go.
 
 This installation cocntains:
 
-> - **IBMAIOps**
+> - **IBM AIOps**
 > 	- IBM Operator
-> 	- IBMAIOps Instance
-> - **IBMAIOps Demo Content**
->    - **OpenLDAP** & Register with IBMAIOps
+> 	- IBM AIOps Instance
+> - **IBM AIOps Demo Content**
+>    - **OpenLDAP** & Register with IBM AIOps
 > 
 >    
 >    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
@@ -306,7 +304,7 @@ This installation cocntains:
 >      - Create K8s Observer
 >      - Create ASM merge rules
 >      - Load Overlay Topology
->      - Create IBMAIOps Application
+>      - Create IBM AIOps Application
 >    - **Misc**
 > 	   - Creates valid certificate for Ingress (Slack) 
 > 	   - External Routes (Flink, Topology, ...)
@@ -359,11 +357,11 @@ Ready to go.
 
 This installation cocntains:
 
-> - **IBMAIOps**
+> - **IBM AIOps**
 > 	- IBM Operator
-> 	- IBMAIOps Instance
-> - **IBMAIOps Demo Content**
->    - **OpenLDAP** & Register with IBMAIOps
+> 	- IBM AIOps Instance
+> - **IBM AIOps Demo Content**
+>    - **OpenLDAP** & Register with IBM AIOps
 > 
 >    
 >    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
@@ -376,7 +374,7 @@ This installation cocntains:
 >      - Create K8s Observer
 >      - Create ASM merge rules
 >      - Load Overlay Topology
->      - Create IBMAIOps Application
+>      - Create IBM AIOps Application
 >    - **Misc**
 > 	   - Creates valid certificate for Ingress (Slack) 
 > 	   - External Routes (Flink, Topology, ...)
@@ -401,7 +399,7 @@ This installation cocntains:
 
 	```yaml
 	- name: ibm-aiops
-	  kind: IBMAIOps						<-- The feature to be configured
+	  kind: IBM AIOps						<-- The feature to be configured
 	  install: true							<-- Install yes/no
 	
 	  # current_ibmaiops_feature			<-- Configuration of the feature
@@ -446,7 +444,7 @@ This installation cocntains:
 To access the demo environment:
 
 * Click on the Application Menu <svg fill="currentColor" height="1em" width="1em" viewBox="0 0 512 512" aria-hidden="true" role="img" style="vertical-align: -0.125em;"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"></path></svg> in your Openshift Web Console.
-* Select `IBMAIOps Demo UI`
+* Select `IBM AIOps Demo UI`
 * Login with the password `P4ssw0rd!`
 
 	![demo](./doc/pics/demo-menu.png)
@@ -458,11 +456,11 @@ To access the demo environment:
 
 </details>
 <details>
-<summary>🔐 Login to IBMAIOps as demo User</summary>
+<summary>🔐 Login to IBM AIOps as demo User</summary>
 
-## 3.2 Login to IBMAIOps as demo User
+## 3.2 Login to IBM AIOps as demo User
 
-* Click on the blue `IBMAIOps` button
+* Click on the blue `IBM AIOps` button
 * Login as User `demo` with the Password `P4ssw0rd!`
 
 
@@ -626,9 +624,9 @@ In the Slack App:
 
 	![K8s CNI](./doc/pics/doc48.png)
 
-In the IBMAIOps (IBMAIOPS) 
+In the IBM AIOps (IBMAIOPS) 
 
-1. In the `IBMAIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
 1. Click `Add connection`
 
 	![K8s CNI](./doc/pics/doc14.png)
@@ -660,7 +658,7 @@ In the IBMAIOps (IBMAIOPS)
 
 ## 4.5 Create the Integration URL
 
-In the IBMAIOps (IBMAIOPS) 
+In the IBM AIOps (IBMAIOPS) 
 
 1. Go to `Data and tool integrations`
 2. Under `Slack` click on `1 integration`
@@ -825,11 +823,11 @@ The environement (Kubernetes, Applications, ...) create logs that are being fed 
 
 ![demo](./doc/pics/aiops_arch_overview.jpg)
 
-1. External Systems generate Alerts and send them into the IBMAIOps for Event Grouping.
-1. At the same time IBMAIOps ingests the raw logs coming from the Log Management Tool (ELK) and looks for anomalies in the stream based on the trained model.
+1. External Systems generate Alerts and send them into the IBM AIOps for Event Grouping.
+1. At the same time IBM AIOps ingests the raw logs coming from the Log Management Tool (ELK) and looks for anomalies in the stream based on the trained model.
 2. It also ingests Metric Data and looks for anomalies
 1. If it finds an anomaly (logs and/or metrics) it forwards it to the Event Grouping as well.
-1. Out of this, IBMAIOps creates an Incident that is being enriched with Topology (Localization and Blast Radius) and with Similar Incidents that might help correct the problem.
+1. Out of this, IBM AIOps creates an Incident that is being enriched with Topology (Localization and Blast Radius) and with Similar Incidents that might help correct the problem.
 1. The Incident is then sent to Slack.
 1. A Runbook is available to correct the problem but not launched automatically.
 
@@ -845,11 +843,11 @@ The idea of this repo is to provide a optimised, complete, pre-trained demo envi
 
 It contains the following components (which can be installed independently):
 
- - **IBMAIOps**
+ - **IBM AIOps**
  	- IBM Operator
- 	- IBMAIOps Instance
- - **IBMAIOps Demo Content**  (optional)
-    - **OpenLDAP** & Register with IBMAIOps
+ 	- IBM AIOps Instance
+ - **IBM AIOps Demo Content**  (optional)
+    - **OpenLDAP** & Register with IBM AIOps
     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
     - **AI Models** - Load and Train 
       - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
@@ -860,7 +858,7 @@ It contains the following components (which can be installed independently):
       - Create K8s Observer
       - Create ASM merge rules
       - Load Overlay Topology
-      - Create IBMAIOps Application
+      - Create IBM AIOps Application
     - **Misc**
      	   - Creates valid certificate for Ingress (Slack) 
      	   	   	   	   - External Routes (Flink, Topology, ...)
@@ -873,7 +871,7 @@ It contains the following components (which can be installed independently):
    - **Topology**
      - Create ASM merge rules
      - Load ASM merge Topology
-     - Create IBMAIOps Application
+     - Create IBM AIOps Application
  - **Turbonomic**  (optional)
  - **Turbonomic Demo Content** (optional)
 	- Demo User
@@ -891,7 +889,7 @@ For the this specific Demo environment:
 
 * ELK is not needed as I am using pre-canned logs for training and for the anomaly detection (inception)
 * Same goes for Metrics, I am using pre-canned metric data for training and for the anomaly detection (inception)
-* The Events are also created from pre-canned content that is injected into IBMAIOps
+* The Events are also created from pre-canned content that is injected into IBM AIOps
 * There are also pre-canned ServiceNow Incidents if you don’t want to do the live integration with SNOW
 * The Webpages that are reachable from the Events are static and hosted on my GitHub
 * The same goes for ServiceNow Incident pages if you don’t integrate with live SNOW
