@@ -271,9 +271,9 @@ This installation cocntains:
 
 </details>
 <details>
-<summary>☑️ Install additional Turbonomic</summary>
+<summary>☑️ 2.2 Install additional Turbonomic</summary>
 
-## 2.2 Install additional Turbonomic
+## 2.2.1 Installation
 
 You get all the IBMAIOPS components installed and pre-trained in one simple script.
 Ready to go.
@@ -298,6 +298,25 @@ Ready to go.
 5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+### 2.2.2 Follow installation progress
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on Òpen Logs` 
+
+	![install](./doc/pics/notification02.png)
+
+- In addition to this you also have the bottom Notifications that give you the current step of the Installation
+
+	![install](./doc/pics/notification03.png)
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
+
+	![install](./doc/pics/notification01.png)
 
 
 ### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
@@ -342,9 +361,9 @@ This installation cocntains:
 
 </details>
 <details>
-<summary>☑️ Install additional Instana</summary>
+<summary>☑️ 2.3 Install additional Instana</summary>
 
-## 2.2 Install additional Instana
+## 2.3.1 Installation
 
 You get all the IBMAIOPS components installed and pre-trained in one simple script.
 Ready to go.
@@ -369,6 +388,25 @@ Ready to go.
 5. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+### 2.3.2 Follow installation progress
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on Òpen Logs` 
+
+	![install](./doc/pics/notification02.png)
+
+- In addition to this you also have the bottom Notifications that give you the current step of the Installation
+
+	![install](./doc/pics/notification03.png)
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
+
+	![install](./doc/pics/notification01.png)
 
 
 ### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
