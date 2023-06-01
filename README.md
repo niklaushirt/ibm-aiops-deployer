@@ -190,14 +190,6 @@ If you think that you hit a problem:
 ---------------------------------------------------------------
 
 
-
-You can use the scritps in the `Quick_Install` folder to rapidly spin up a demo environment.
-The names should be self explaining and the headers of the files explain the modules to be installed.
-
-
-You can find some examples below.
-
-
 <details>
 <summary>✅ 2.1 Install IBM AIOps with demo content</summary>
 
@@ -338,9 +330,10 @@ This installation adds:
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
 
+	![install](./doc/pics/notification02.png)
+
 	You can open and follow the installation logs by clicking on `Open Logs` 
 
-	![install](./doc/pics/notification02.png)
 
 - In addition to this you also have the bottom Notifications that give you the current step of the Installation
 
@@ -349,9 +342,9 @@ This installation adds:
 
 - When the Installation has succeeded, you get the top green Notification bar
 	
-	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
-
 	![install](./doc/pics/notification01.png)
+	
+	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
 
 
 </details>
