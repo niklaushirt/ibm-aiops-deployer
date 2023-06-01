@@ -233,7 +233,7 @@ You get IBM AIOps installed and pre-trained in one simple script.
 
 - When the Installation has succeeded, you get the top green Notification bar
 	
-	You can directly open the DemoUI by clicking on the link or go to [Demo the Solution](#3-demo-the-solution)
+	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
 
 	![install](./doc/pics/notification01.png)
 
