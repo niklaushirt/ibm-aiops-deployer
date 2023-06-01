@@ -199,9 +199,9 @@ You can find some examples below.
 
 
 <details>
-<summary>✅ Install IBM AIOps with demo content</summary>
+<summary>✅ 2.1 Install IBM AIOps with demo content</summary>
 
-## 2.1 Install IBM AIOps with demo content
+### 2.1.1 Installing
 
 You get IBM AIOps installed and pre-trained in one simple script.
 
@@ -213,10 +213,19 @@ You get IBM AIOps installed and pre-trained in one simple script.
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+### 2.1.2 Follow installation progress
+
+
+![install](./doc/pics/notification02.png)
+
+![install](./doc/pics/notification03.png)
+
+![install](./doc/pics/notification01.png)
 
 
 ### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
@@ -274,7 +283,7 @@ Ready to go.
         install: true
 	
 	```
-5. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license if you have one
+5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the TURBO_LICENSE `NONE` at the end of the file with your Turbonomic license
 5. Click `Save`
@@ -345,7 +354,7 @@ Ready to go.
         install: true
 	
 	```
-4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the end of the file with your Instana license if you have one
+4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 4. Replace the sales_key and agent_key `NONE` at the end of the file with your Instana license
 5. Click `Save`
