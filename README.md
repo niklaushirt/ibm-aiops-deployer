@@ -1,4 +1,4 @@
-<center> <h1>CP4WatsonAIOps IBMAIOPS v3.7.1</h1> </center>
+<center> <h1>CP4WatsonAIOps IBMAIOPS v4.1</h1> </center>
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
 
 ![K8s CNI](./doc/pics/front.png)
@@ -23,13 +23,12 @@ Please contact me if you have feedback or if you find glitches or problems.
 - by Mail: nikh@ch.ibm.com
 
 
-**❗The installation has been tested for the IBMAIOPS v3.7.1 release on OpenShift 4.12 on:**
+**❗The installation has been tested on OpenShift 4.12 on:**
 
 - OpenShift Cluster (VMware on IBM Cloud) - IPI
 - OpenShift Cluster (VMware on IBM Cloud) - UPI
-- IBM RedHat Openshift Kubernetes Service (ROKS) with IBM Cloud Storage (ibmc-xxx)
 
-But it should work on other Openshift Platforms as well
+But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 
 
 
@@ -332,7 +331,7 @@ This installation cocntains:
 
 ## 2.3 Custom Install
 
-1. Open the [00\_INSTALL_CUSTOM.yaml](./Quick_Install/00_INSTALL_CUSTOM.yaml) file
+1. Open the [00\_INSTALL_CUSTOM.yaml](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml) file
 1. Adap the installation configuration to your needs. Select the modules to install and their configuration.
 
 	```yaml
@@ -345,7 +344,7 @@ This installation cocntains:
 	  aiops_size: small
 	  ...
 	  # Version of the catalog subscription
-	  subscription_channel: v3.7
+	  subscription_channel: v4.1
 	
 	```
 	

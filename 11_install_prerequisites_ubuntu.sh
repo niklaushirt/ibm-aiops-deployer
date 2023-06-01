@@ -50,8 +50,8 @@ echo ""
         sudo apt-get install -y python3-pip
 
         echo "      📥 Install Ansible Kubernetes"
-        ansible-galaxy collection install community.kubernetes:1.2.1
-        ansible-galaxy collection install kubernetes.core:2.2.3
+        ansible-galaxy collection install community.kubernetes
+        ansible-galaxy collection install kubernetes.core
         ansible-galaxy collection install cloud.common
         pip install openshift pyyaml kubernetes 
 
@@ -91,8 +91,8 @@ echo ""
     echo ""  
     echo "   🧰 Install K9s"
     echo ""  
-        wget https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz
-        tar xfzv k9s_Linux_x86_64.tar.gz
+        wget https://github.com/derailed/k9s/releases/download/v0.27.4/k9s_Linux_amd64.tar.gz
+        tar xfzv k9s_Linux_amd64.tar.gz
         sudo mv k9s /usr/local/bin
         rm LICENSE
         rm README.md
