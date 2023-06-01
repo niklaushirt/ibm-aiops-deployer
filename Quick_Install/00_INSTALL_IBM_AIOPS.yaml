@@ -322,7 +322,7 @@ data:
 
       - name: ibm-aiops-turbonomic
         kind: Turbonomic
-        install: true
+        install: false
         turbo_version: 8.8.5
 
         # --------------------------------------------------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ data:
 
       - name: ibm-aiops-instana
         kind: Instana
-        install: true
+        install: false
         instana_version: 247-0
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
