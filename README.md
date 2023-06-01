@@ -220,15 +220,24 @@ You get IBM AIOps installed and pre-trained in one simple script.
 
 ### 2.1.2 Follow installation progress
 
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
 
-![install](./doc/pics/notification02.png)
+	You can open and follow the installation logs by clicking on Òpen Logs` 
 
-![install](./doc/pics/notification03.png)
+	![install](./doc/pics/notification02.png)
 
-![install](./doc/pics/notification01.png)
+- In addition to this you also have the bottom Notifications that give you the current step of the Installation
+
+	![install](./doc/pics/notification03.png)
 
 
-### **🚀 You can now go to [Demo the Solution](#3-demo-the-solution)**
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open the DemoUI by clicking on the link or go to [Demo the Solution](#3-demo-the-solution)
+
+	![install](./doc/pics/notification01.png)
+
+
 
 This installation cocntains:
 
