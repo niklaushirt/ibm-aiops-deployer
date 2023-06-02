@@ -196,10 +196,7 @@ If you think that you hit a problem:
 <summary>✅ 2.1 Install IBM AIOps with demo content</summary>
 
 
-You get IBM AIOps installed and pre-trained in one simple script.
-
-🚀 Ready to go.
-
+🚀 You get IBM AIOps installed and pre-trained in one simple script.
 
 
 ![K8s CNI](./doc/pics/install01.png)
@@ -254,7 +251,7 @@ Ready to go.
 
 
 
-![K8s CNI](./doc/pics/install01.png)
+![K8s CNI](./doc/pics/install02.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
@@ -298,7 +295,7 @@ Ready to go.
 
 
 
-![K8s CNI](./doc/pics/install01.png)
+![K8s CNI](./doc/pics/install03.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
@@ -351,8 +348,6 @@ This installation adds:
 
 </details>
 
-
-### **🚀 When done, you can go to [Demo the Solution](#3-demo-the-solution)**
 
 ---------------------------------------------------------------
 # 3. Demo the Solution
