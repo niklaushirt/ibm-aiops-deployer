@@ -337,7 +337,7 @@ This installation adds:
 	![install](./doc/pics/install04.png)
 
 
-- In addition to this you also have the bottom Notifications that give you the current step of the Installation
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
 
 	![install](./doc/pics/notification03.png)
 
@@ -402,9 +402,9 @@ To access the demo environment:
 
 ## 3.3 🚀 Demo the Solution
 
-Please use the [Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
+Please use the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
-Then start the demo with the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md#3-deliver-the-demo).
+Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md#2-deliver-the-demo).
 
 </details>
 <div style="page-break-after: always;"></div>
