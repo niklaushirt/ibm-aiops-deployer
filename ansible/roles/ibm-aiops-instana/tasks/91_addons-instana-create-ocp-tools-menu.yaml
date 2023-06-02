@@ -53,7 +53,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/instana-icon.svg
-          section: IBMAIOps Addons
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu

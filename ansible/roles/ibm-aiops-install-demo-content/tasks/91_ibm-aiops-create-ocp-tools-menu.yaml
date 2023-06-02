@@ -53,7 +53,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/stan1.svg
-          section: IBM AIOps Addons
+          section: IBM AIOps Demo
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -77,7 +77,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation.svg
-          section: IBM AIOps Addons
+          section: IBM AIOps Demo
         href: >-
           https://$appURL
         location: ApplicationMenu
