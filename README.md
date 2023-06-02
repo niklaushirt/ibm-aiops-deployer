@@ -1,4 +1,4 @@
-<center> <h1>CP4WatsonAIOps IBMAIOPS v4.1</h1> </center>
+<center> <h1>CloudPak for AIOps v4.1</h1> </center>
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
 
 ![K8s CNI](./doc/pics/front.png)
@@ -102,7 +102,8 @@ I installed the demo in a Techzone environment.
 
 You'll need:
 
-- ROKS 4.12
+- OpenShift Cluster (VMware on IBM Cloud) - IPI
+- OpenShift Cluster (VMware on IBM Cloud) - UPI
 - 5x worker nodes with **32 CPU / 128 GB**  ❗
 
 
@@ -116,7 +117,7 @@ You **might** get away with less if you don't install some components (Event Man
 IBMers and Partners can get a temporary cluster from [**Techzone**](https://techzone.ibm.com/collection/tech-zone-certified-base-images).
 
 
-1. Select `OpenShift Cluster (VMware on IBM Cloud) - IPI - Public` Openshift that you want to use above
+1. Select `OpenShift Cluster (VMware on IBM Cloud) - UPI - Public` Openshift that you want to use above
 
 1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number
 
@@ -146,14 +147,14 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 	![K8s CNI](./doc/pics/roks04.png)
 
 1. Click `Submit`
-1. Once the cluster is provisioned, don't forget to extend it to 8 days if needed.
+1. Once the cluster is provisioned, don't forget to extend it as needed.
 
 
-### 1.1.3 Get the IBMAIOPS installation token (registry pull token) 
+### 1.1.3 Get the installation token (registry pull token) 
 
 You can get the installation (registry pull token) token from [https://myibm.ibm.com/products-services/containerlibrary](https://myibm.ibm.com/products-services/containerlibrary).
 
-This allows the IBMAIOPS images to be pulled from the IBM Container Registry.
+This allows the images to be pulled from the IBM Container Registry.
 
 <div style="page-break-after: always;"></div>
 
@@ -170,15 +171,16 @@ Those scripts have been tested thoroughly on different environments and have pro
 If you think that you hit a problem:
 
 * Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each (`b3c.16x64` - it's easy to select the wrong size). If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
-* If you want to install IBM AIOps, Turbonomic and Instana please select **5 worker nodes with 32 CPU and 128 GB**
-* The complete installation takes about 2.5 to 8 hours depending on your region where and how you deployed ROKS to (see above).
+* If you want to install IBM AIOps, Turbonomic and Instana you **must** select **5 worker nodes with 32 CPU and 128 GB**
+* The complete installation takes about 1.5 to 8 hours depending on your region where and the platform you deployed to.
 * If you see Pods in `CrashLoop` or other error states, try to wait it out (this can be due to dependencies on other componenets that are not ready yet). Chances are that the deployment will eventually go through. If after 8h you are still stuck, ping me.
-* **Select and use ONLY ONE of the scripts** below, depending on which components you want to install.
-
-
-
-
 ### ❗ So simply put be patient and make sure you have the correct size of cluster provisioned!
+
+### ❗ If you encounter problems or missing stuff in your demo environment (no training, no topology, no runbooks, ...) you can re-run the installer by deleting the installer Pod. **The install scripts are NON DESTRUCTIVE** and can be run as many times as you like without corrupting/destroying anything.
+
+
+
+
 
 <div style="page-break-after: always;"></div>
 
