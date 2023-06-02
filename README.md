@@ -211,9 +211,10 @@ If you think that you hit a problem:
 
 
 
-This installation cocntains:
+This installation contains:
 
 > - **IBM AIOps**
+> 	- IBM Catalog
 > 	- IBM Operator
 > 	- IBM AIOps Instance
 > - **IBM AIOps Demo Content**
@@ -333,6 +334,8 @@ This installation adds:
 
 	You can open and follow the installation logs by clicking on `Open Logs` 
 
+	![install](./doc/pics/install04.png)
+
 
 - In addition to this you also have the bottom Notifications that give you the current step of the Installation
 
@@ -344,6 +347,10 @@ This installation adds:
 	![install](./doc/pics/notification01.png)
 	
 	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
+
+	And you get this message in the logs
+
+	![install](./doc/pics/install05.png)
 
 
 </details>
