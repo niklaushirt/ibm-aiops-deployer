@@ -32,6 +32,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Patching Topology Deployment'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -64,6 +66,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Cassandra to become ready (about 5-15 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -94,6 +98,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Topology to become ready (about 25-35 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 

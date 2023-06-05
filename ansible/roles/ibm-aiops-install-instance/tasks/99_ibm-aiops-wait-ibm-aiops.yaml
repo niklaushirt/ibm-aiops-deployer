@@ -29,6 +29,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM AIOps to become ready (about 10-20 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -85,5 +87,7 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - IBM AIOps is ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 

@@ -34,6 +34,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Create valid Ingress Certificates'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
    
 
@@ -149,6 +151,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for nginx coming back up (up to 3 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 

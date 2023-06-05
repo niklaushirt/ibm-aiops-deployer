@@ -32,6 +32,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - IBMAIOPS Infrastructure Automation'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -217,6 +219,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IA CONFIG to become ready - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -260,5 +264,7 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - IA CONFIG is ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 

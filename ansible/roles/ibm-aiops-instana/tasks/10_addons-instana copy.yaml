@@ -36,6 +36,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator {{current_ibmaiops_feature.instana_version}}'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -461,6 +463,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for DataStores to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -538,6 +542,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Core to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 - name:   🕦 INSTANA - Wait for Core Instance to become ready
@@ -577,6 +583,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Unit to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 - name:   🕦 INSTANA - Wait for Unit Instance to become ready

@@ -34,6 +34,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Create Openshift WebConsole Menu Item'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
    
 
@@ -59,5 +61,7 @@
         text: IBM AIOps Demo UI
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 

@@ -34,6 +34,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Zen to become ready (about 25-35 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -86,6 +88,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Zen is ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 

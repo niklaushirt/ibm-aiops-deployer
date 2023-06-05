@@ -34,6 +34,8 @@
       text: 'Starting Installation - Warming Up'
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 

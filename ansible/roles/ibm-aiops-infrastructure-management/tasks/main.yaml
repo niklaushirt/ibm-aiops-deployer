@@ -60,6 +60,8 @@
       text: 'Installing  {{current_ibmaiops_feature.kind}}'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 - name: 🟣 Installing {{current_ibmaiops_feature.kind}} with the following configuration

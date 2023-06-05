@@ -77,6 +77,8 @@
           text: Open Logs  
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 

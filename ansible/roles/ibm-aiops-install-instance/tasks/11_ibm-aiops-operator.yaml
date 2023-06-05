@@ -32,6 +32,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - IBM AIOPS Operator'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -203,6 +205,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for ibm-operator-catalog to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -233,6 +237,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for CSVs to become ready (up to 5 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -294,5 +300,7 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - CSVs are ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 

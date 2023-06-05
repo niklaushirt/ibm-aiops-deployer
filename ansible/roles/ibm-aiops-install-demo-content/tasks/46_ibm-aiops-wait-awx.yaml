@@ -27,6 +27,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for AWX to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -80,6 +82,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - AWX is ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 

@@ -29,6 +29,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Common Services to become ready (about 15-20 minutes) - Started at $(date +%H:%M:%S) UTC'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -78,4 +80,6 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Common Services is ready'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  

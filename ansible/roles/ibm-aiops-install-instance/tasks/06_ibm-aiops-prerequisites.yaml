@@ -47,6 +47,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Prerequisites'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -101,6 +103,8 @@
       - name: ibm-entitlement-key
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 # Create aiops-topology-service-account

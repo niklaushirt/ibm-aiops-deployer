@@ -37,6 +37,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Integrate IBMAIOps with LDAP'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -146,6 +148,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Register OpenLDAP Server'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
@@ -217,6 +221,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Create Users and Groups'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
 

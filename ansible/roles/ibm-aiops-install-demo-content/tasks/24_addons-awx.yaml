@@ -38,6 +38,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - AWX'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
   

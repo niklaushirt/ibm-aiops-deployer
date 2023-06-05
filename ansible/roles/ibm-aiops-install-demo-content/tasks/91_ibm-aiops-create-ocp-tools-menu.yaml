@@ -34,6 +34,8 @@
       text: 'Installing {{current_ibmaiops_feature.kind}} - Create Openshift WebConsole Menu Item'    
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
    
 
@@ -60,6 +62,8 @@
         text: RobotShop Demo App
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 
@@ -84,6 +88,8 @@
         text: SockShop Demo App
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 
@@ -107,6 +113,8 @@
         text: AWX Runbooks
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 - name: 🌏 OCP CONSOLE - Create Openshift WebConsole Menu Item - LDAP
@@ -129,6 +137,8 @@
         text: Open LDAP
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 - name: 🌏 OCP CONSOLE - Create Openshift WebConsole Menu Item
@@ -152,6 +162,8 @@
         text: IBM AIOps Flink Connectors
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 - name: 🌏 OCP CONSOLE - Create Openshift WebConsole Menu Item
@@ -175,6 +187,8 @@
         text: IBM AIOps Flink Policies
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
 
 - name: 🌏 OCP CONSOLE - Create Openshift WebConsole Menu Item
   shell: |
@@ -197,3 +211,5 @@
         text: IBM AIOps Spark
     EOF
   ignore_errors: true
+  args:
+    executable: /bin/bash
