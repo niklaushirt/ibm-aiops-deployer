@@ -236,6 +236,12 @@
 
 
 
+- name: ⏳ AWX - Wait 2 minutes to settle
+  shell: |
+    sleep 120
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 - name: 🚀 AWX - Create AWX Template Mitigate Robotshop Ratings Outage
