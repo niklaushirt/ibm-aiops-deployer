@@ -28,7 +28,7 @@
  
 
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: 🟣🟣🟣 INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"

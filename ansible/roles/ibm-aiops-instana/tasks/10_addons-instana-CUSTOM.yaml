@@ -395,7 +395,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for DataStores to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for DataStores to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -474,7 +474,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Core to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Core to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -515,7 +515,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Unit to become ready (about 5-10 minutes) - Started at $(date +%H:%M:%S) UTC'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Unit to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
