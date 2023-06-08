@@ -19,7 +19,7 @@ spec:
     backgroundColor: '#9a0000'
     color: '#fff'
     location: "BannerTop"
-    text: "❌ FATAL ERROR: Please check the Installation Logs"
+    text: "❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod"
     link:
         href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
         text: Open Logs

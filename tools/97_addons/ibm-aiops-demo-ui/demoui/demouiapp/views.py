@@ -1294,7 +1294,7 @@ def clearAllREST(request):
         print('🌏 Mitigate Sockshop Catalog outage')
         os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog\\"}}}"')
 
-        stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep ibm-aiops-cartridge-logs-elk| awk '{print $1;}'")
+        stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v ibm-aiopsibm-aiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
         KAFKA_TOPIC_LOGS = stream.read().strip()
 
 
