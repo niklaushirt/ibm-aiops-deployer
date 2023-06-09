@@ -4,6 +4,26 @@ metadata:
   name: xl-release
   namespace: turbonomic
 spec:
+  kafka:
+    #resources:
+    #  limits:
+    #    memory: 6Gi
+    persistence:
+      size: 30Gi
+  db:
+    #resources:
+    #  limits:
+    #    memory: 6Gi
+    persistence:
+      size: 30Gi
+  rsyslog:
+    #resources:
+    #  limits:
+    #    memory: 6Gi
+    persistence:
+      size: 30Gi
+  webhook:
+    enabled: true
   servicenow:
     enabled: true
   websphere:
@@ -24,24 +44,6 @@ spec:
     tag: {{ current_ibmaiops_feature.turbo_version }}
   tomcat:
     enabled: true
-  grafana:
-    adminPassword: vmturbo
-    enabled: true
-    grafana.ini:
-      database:
-        password: vmturbo
-        type: postgres
-  properties:
-    extractor:
-      grafanaAdminPassword: vmturbo
-  postgres:
-    enabled: true
-  timescaledb:
-    enabled: true
-  extractor:
-    enabled: true
-  reporting:
-    enabled: true
   netapp:
     enabled: true
   hyperflex:
@@ -50,19 +52,11 @@ spec:
     enabled: true
   udt:
     enabled: true
-  kafka:
-    persistence:
-      size: 30Gi
   mssql:
     enabled: true
-  rsyslog:
-    persistence:
-      size: 30Gi
   nutanix:
     enabled: true
   weblogic:
-    enabled: false
-  prometheus:
     enabled: false
   hyperv:
     enabled: true
@@ -82,8 +76,6 @@ spec:
     enabled: false
   scaleio:
     enabled: false
-  kubeturbo:
-    enabled: true
   wmi:
     enabled: true
   newrelic:
@@ -94,13 +86,9 @@ spec:
     enabled: true
   vmm:
     enabled: true
-  webhook:
-    enabled: true
   jboss:
     enabled: true
   pure:
-    enabled: true
-  prometurbo:
     enabled: true
   ibmstorage-flashsystem:
     enabled: true
@@ -114,10 +102,14 @@ spec:
     enabled: true
   openshiftingress:
     enabled: true
-  db:
-    persistence:
-      size: 30Gi
   snmp:
     enabled: true
   oracle:
     enabled: true
+  kubeturbo:
+    enabled: true
+  prometheus:
+    enabled: false
+  prometurbo:
+    enabled: true
+
