@@ -36,8 +36,8 @@ data:
     {
         "communicationConfig": {
             "serverMeta": {
-                "version": "8.6",
-                "turboServer": "https://topology-processor-turbonomic.itzroks-270003bu3k-4t80ng-4b4a324f027aea19c5cbc0c3275c4656-0000.eu-de.containers.appdomain.cloud"
+                "version": "8.9.1",
+                "turboServer": "https://nginx-turbonomic.apps.ocp-270003bu3k-g5ec.cloud.techzone.ibm.com/"
             },
             "restAPIConfig": {
                 "opsManagerUserName": "administrator",
@@ -45,7 +45,7 @@ data:
             }
         },
         "targetConfig": {
-            "targetName": "AIOPS-DEMO-CLUSTER"
+            "targetName": "Arya"
         },
         "HANodeConfig": {
             "nodeRoles": [ "master" ]
@@ -72,7 +72,7 @@ spec:
       serviceAccountName: turbo-user
       containers:
       - name: kubeturbo
-        image: turbonomic/kubeturbo:8.6.4
+        image: icr.io/cpopen/turbonomic/kubeturbo:8.9.1
         env:
           - name: kubeturbo
             valueFrom:
