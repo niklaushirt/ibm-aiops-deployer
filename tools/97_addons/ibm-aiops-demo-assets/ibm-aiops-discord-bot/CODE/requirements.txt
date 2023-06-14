@@ -3,3 +3,4 @@ requests.auth
 datetime
 confluent_kafka
 django
+instana

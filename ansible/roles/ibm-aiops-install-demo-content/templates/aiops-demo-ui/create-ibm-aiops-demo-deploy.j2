@@ -51,6 +51,13 @@ spec:
             name:  ibm-aiops-demo-ui-config-logs-sock
         - configMapRef:
             name:  ibm-aiops-demo-ui-config-metrics
+        env:
+          - name: INSTANA_SERVICE_NAME
+            value: ibm-aiops-demo-ui
+          - name: AUTOWRAPT_BOOTSTRAP
+            value: instana
+          - name: INSTANA_DEBUG
+            value: 'true'
       serviceAccountName: ibm-aiops-demo-ui-admin
 
 ---
