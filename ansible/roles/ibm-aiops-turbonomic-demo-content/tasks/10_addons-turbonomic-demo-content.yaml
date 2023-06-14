@@ -602,7 +602,7 @@
           },
           "VirtualMachine": {
             "dynamicConnectionCriteria": [{
-              "expVal": ".*demo.*",
+              "expVal": ".*demo.*|.*robot.*",
               "expType": "RXEQ",
               "filterType": "vmsByName",
               "caseSensitive": false,
