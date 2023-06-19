@@ -66,6 +66,26 @@
     verbosity: 1
 
 
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-main
+    spec:
+      backgroundColor: '#990000'
+      color: '#fff'
+      location: BannerBottom
+      text: 'Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)'
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: all_config.global_config.global_password == "CHANGEME"
+
+
 - name: 🛠️  Fail if Password not modified
   fail: msg="Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
   when: all_config.global_config.global_password == "CHANGEME"
