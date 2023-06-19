@@ -42,7 +42,7 @@
 
 
 - name: 🚀 TURBONOMIC - Set ADMIN Password from instance configuration
-  set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default('P4ssw0rd!')}}
+  set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default('{{current_admin_pass}}')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -58,7 +58,7 @@
 
 
 - name: 🚀 TURBONOMIC - Set DEMO Password from instance configuration
-  set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_demo_password  | default('P4ssw0rd!')}}
+  set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_demo_password  | default('{{current_admin_pass}}')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 

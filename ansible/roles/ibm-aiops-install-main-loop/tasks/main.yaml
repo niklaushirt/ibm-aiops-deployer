@@ -65,6 +65,12 @@
     var: _current_openshift_cluster
     verbosity: 1
 
+
+- name: 🛠️  Fail if Password not modified
+  fail: msg="Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
+  when: "{{ all_config.global_config.global_password }} == CHANGEME"
+
+
 # Get default storage classes for current OpenShift cluster
 - name: Get OpenShift storage classes to use for {{ current_ibmaiops_cluster.project }} and storage name {{ current_ibmaiops_cluster.openshift_storage_name }}
   include_role: 

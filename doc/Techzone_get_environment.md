@@ -69,7 +69,7 @@ The most important functionalities are:
 3. **Create an Incident**
 
 
-> ℹ️ If you are asked to login to the Demo UI, please use the toekn/password `P4ssw0rd!`
+> ℹ️ If you are asked to login to the Demo UI, please use the toekn/password `{{current_admin_pass}}`
 
 
 
@@ -189,7 +189,7 @@ Now let's start the demo.
 >
 >- Point your browser to the IBMAIOps Demo UI, 
 >
->- Login with the token “P4ssw0rd!” and 
+>- Login with the token “{{current_admin_pass}}” and 
 >
 >- Trigger the incident `(3)` you would like to use in your demo. 
 >
