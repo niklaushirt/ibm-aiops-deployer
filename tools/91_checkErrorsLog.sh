@@ -9,7 +9,7 @@ echo "**************************************************************************
 OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
 INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
-oc delete ConsoleNotification --all
+oc delete ConsoleNotification ibm-aiops-notification
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
