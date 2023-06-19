@@ -68,7 +68,7 @@
 
 - name: 🛠️  Fail if Password not modified
   fail: msg="Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
-  when: all_config.global_config.global_password == CHANGEME
+  when: all_config.global_config.global_password == "CHANGEME"
 
 
 # Get default storage classes for current OpenShift cluster
