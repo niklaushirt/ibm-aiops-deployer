@@ -58,7 +58,7 @@
 
 
 - name: 🚀 DEMO-UI - Set Demo UI Password from instance configuration
-  set_fact: current_demoui_pwd={{current_ibmaiops_feature.demoui_pwd | default('{{current_admin_pass}}')}}
+  set_fact: current_demoui_pwd={{current_ibmaiops_feature.demoui_pwd | default('CHANGEME')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
