@@ -58,7 +58,7 @@
 
 
 - name: 🚀 DEMO-UI - Set Demo UI Password
-  set_fact: current_demoui_pwd={{current_cp4waiops_feature.demoui_pwd |  default('{{current_ibmaiops_feature.global_password}}')}}
+  set_fact: current_demoui_pwd={{current_cp4waiops_feature.demoui_pwd |  default('{{global_config.global_password}}')}}
 
 - name: 🟣  DEMO-UI -  Demo UI Password {{current_demoui_pwd}}
   debug:
