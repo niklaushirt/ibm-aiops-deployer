@@ -41,7 +41,7 @@
 
 
 - name: 🚀 INSTANA - Set INSTANA Password from instance configuration
-  set_fact: current_admin_pass={{current_ibmaiops_feature.instana_admin_pass  | default('current_ibmaiops_feature.global_password')}}
+  set_fact: current_admin_pass={{current_ibmaiops_feature.instana_admin_pass  | default('{{current_ibmaiops_feature.global_password}}')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
