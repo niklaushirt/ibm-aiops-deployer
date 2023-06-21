@@ -153,6 +153,8 @@
           
 
 
+
+
   - name:  🌏 ZEN CARDS - Create Card AIOPS APPS
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -166,12 +168,12 @@
         if [[ $instanaURL =~ "dev-aiops" ]]; then
         echo "Instana Present"
         ROWS=$ROWS'{"drilldown_url":  "https://'$instanaURL'/#/applications", "label": "→   Instana", "sub_text": " "},'
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: admin@instana.local - Password: {{current_admin_pass}} "},'
+        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: admin@instana.local - Password: {{current_ibmaiops_feature.instana_admin_pass  | default('current_ibmaiops_feature.global_password')}} "},'
         fi
         if [[ $turboURL =~ "-turbonomic" ]]; then
         echo "Turbonomic Present"
         ROWS=$ROWS'{"drilldown_url":  "https://'$turboURL'", "label": "→   Turbonomic", "sub_text": " "},'
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: administrator - Password: {{current_admin_pass}} "},'
+        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: administrator - Password: {{current_ibmaiops_feature.turbo_admin_password  | default('current_ibmaiops_feature.global_password')}} "},'
         fi
 
         ROWS=$ROWS'{"drilldown_url":  "", "label": "Select your IBM AIOps Application above.", "sub_text": ""}'
@@ -232,7 +234,7 @@
         if [[ $ldapURL =~ "openldap" ]]; then
         echo "LDAP Present"
         ROWS=$ROWS'{"drilldown_url":  "https://'$ldapURL'", "label": "→  LDAP", "sub_text": " "},'
-        ROWS=$ROWS'{"drilldown_url":  "", "label": " ", "sub_text": "User: cn=admin,dc=ibm,dc=com - Password: {{current_admin_pass}} "},'
+        ROWS=$ROWS'{"drilldown_url":  "", "label": " ", "sub_text": "User: cn=admin,dc=ibm,dc=com - Password: {{current_ibmaiops_feature.ldap_admin_password  | default('current_ibmaiops_feature.global_password')}} "},'
         fi
         if [[ $awxUrl =~ "awx" ]]; then
         echo "AWX Present"

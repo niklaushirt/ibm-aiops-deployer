@@ -41,7 +41,7 @@ data:
             },
             "restAPIConfig": {
                 "opsManagerUserName": "administrator",
-                "opsManagerPassword": "{{current_admin_pass}}"
+                "opsManagerPassword": "that you have defined in the configuration file"
             }
         },
         "targetConfig": {

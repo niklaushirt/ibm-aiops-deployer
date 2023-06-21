@@ -92,7 +92,7 @@
 
 
     export PROBE_AUTH_SECRET=turbonomic-probe-client-basic-auth
-    oc create secret generic $PROBE_AUTH_SECRET --from-literal=serverBasicAuthenticationUsername=administrator  --from-literal=serverBasicAuthenticationPassword={{current_admin_pass}}
+    oc create secret generic $PROBE_AUTH_SECRET --from-literal=serverBasicAuthenticationUsername=administrator  --from-literal=serverBasicAuthenticationPassword={{current_ibmaiops_feature.turbo_admin_password  | default('current_ibmaiops_feature.global_password')}}
 
 
 

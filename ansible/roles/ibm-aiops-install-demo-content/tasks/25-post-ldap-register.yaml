@@ -59,7 +59,7 @@
   when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
-- name: 🟣  LDAPREGISTER -  Demo UI Password {{current_ldap_admin_password}}
+- name: 🟣  LDAPREGISTER -  LDAP Password {{current_ldap_admin_password}}
   debug:
     var: current_ldap_admin_password
     verbosity: 1
@@ -75,7 +75,7 @@
   when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
-- name: 🟣  LDAPREGISTER -  Demo UI Password {{current_ldap_user_password}}
+- name: 🟣  LDAPREGISTER -  LDAP Password {{current_ldap_user_password}}
   debug:
     var: current_ldap_user_password
     verbosity: 1
@@ -424,7 +424,7 @@
     "username": "demo",
     "user_roles": ["zen_administrator_role"],
     "displayName": "demo",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "demo@ibm.com",
     "approval_status": "approved",
     "permissions": ["administrator"],
@@ -448,7 +448,7 @@
     "username": "nik",
     "user_roles": ["zen_administrator_role"],
     "displayName": "nik",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "nik@ibm.com",
     "approval_status": "approved",
     "permissions": ["administrator"],
@@ -473,7 +473,7 @@
     "username": "dev",
     "user_roles": ["iaf-automation-operator"],
     "displayName": "dev",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "dev@ibm.com",
     "approval_status": "approved",
     "permissions": [],
@@ -499,7 +499,7 @@
     "user_roles": ["iaf-automation-operator"],
     "groups": ["demo"],
     "displayName": "test",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "test@ibm.com",
     "approval_status": "approved",
     "permissions": [],
@@ -524,7 +524,7 @@
     "username": "prod",
     "user_roles": ["iaf-automation-operator"],
     "displayName": "prod",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "prod@ibm.com",
     "approval_status": "approved",
     "permissions": [
@@ -557,7 +557,7 @@
     "username": "sre1",
     "user_roles": ["iaf-automation-operator"],
     "displayName": "sre1",
-    "password": "{{current_admin_pass}}",
+    "password": "{{current_ldap_admin_password}}",
     "email": "sre1@ibm.com",
     "approval_status": "approved",
     "permissions": [],

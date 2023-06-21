@@ -44,7 +44,7 @@
 
 
 - name: 🚀 LDAP - Set LDAP ADMIN Password from instance configuration
-  set_fact: current_ldap_admin_password={{current_ibmaiops_feature.ldap_admin_password  | default('{{current_admin_pass}}')}}
+  set_fact: current_ldap_admin_password={{current_ibmaiops_feature.ldap_admin_password  | default('CHANGEME')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -53,13 +53,13 @@
   when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
-- name: 🟣  LDAP -  Demo UI Password {{current_ldap_admin_password}}
+- name: 🟣  LDAP -  Password {{current_ldap_admin_password}}
   debug:
     var: current_ldap_admin_password
     verbosity: 1
 
 - name: 🚀 LDAP - Set LDAP USERS Password from instance configuration
-  set_fact: current_ldap_user_password={{current_ibmaiops_feature.ldap_user_password  | default('{{current_admin_pass}}')}}
+  set_fact: current_ldap_user_password={{current_ibmaiops_feature.ldap_user_password  | default('CHANGEME')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -68,7 +68,7 @@
   when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
-- name: 🟣  LDAP -  Demo UI Password {{current_ldap_user_password}}
+- name: 🟣  LDAP -  Password {{current_ldap_user_password}}
   debug:
     var: current_ldap_user_password
     verbosity: 1

@@ -197,7 +197,7 @@ echo "🌏 Demo UI:              https://$(oc get route -n $AIOPS_NAMESPACE aiop
 
 * Open the URL from the above
 * Click on `Enterprise LDAP`
-* Login as `demo` with the password `{{current_admin_pass}}`
+* Login as `demo` with the password that you have defined in the configuration file
 
 
 #### 3.3.3.1 Login as admin
@@ -241,7 +241,7 @@ echo "🌏 Demo UI:              https://$(oc get route -n $AIOPS_NAMESPACE aiop
 #### 3.4.1.2 Open the Web Demo UI
 
 * Open the Demo UI URL from the above
-* Login with the password `{{current_admin_pass}}`
+* Login with the password that you have defined in the configuration file
 
 <div style="page-break-after: always;"></div>
 
@@ -259,7 +259,7 @@ This will create alerts and an incident in IBMAIOps.
 
 * Open the IBMAIOps URL from the above
 * Click on `Enterprise LDAP`
-* Login as `demo` with the password `{{current_admin_pass}}`
+* Login as `demo` with the password that you have defined in the configuration file
 
 ℹ️  Give it a minute or two for all events and anomalies to arrive in IBMAIOps and Slack.
 
