@@ -41,14 +41,8 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 TURBONOMIC - Set ADMIN Password from instance configuration
+- name: 🚀 TURBONOMIC - Set ADMIN Password 
   set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default('{{current_ibmaiops_feature.global_password}}')}}
-  when: global_config.global_password is undefined or global_config.global_password=="NONE"
-
-
-- name: 🚀 TURBONOMIC - Set ADMIN Password from global configuration
-  set_fact: current_admin_pass={{global_config.global_password}}
-  when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
 - name: 🟣  TURBONOMIC -  ADMIN Password {{current_admin_pass}}
@@ -57,14 +51,8 @@
     verbosity: 1
 
 
-- name: 🚀 TURBONOMIC - Set DEMO Password from instance configuration
+- name: 🚀 TURBONOMIC - Set DEMO Password 
   set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_admin_password  | default('{{current_ibmaiops_feature.global_password}}')}}
-  when: global_config.global_password is undefined or global_config.global_password=="NONE"
-
-
-- name: 🚀 TURBONOMIC - Set DEMO Password from global configuration
-  set_fact: current_demo_pass={{global_config.global_password}}
-  when: global_config.global_password is defined and global_config.global_password!="NONE"
 
 
 - name: 🟣  TURBONOMIC -  DEMO Password {{current_demo_pass}}
