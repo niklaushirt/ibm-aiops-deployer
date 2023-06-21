@@ -57,21 +57,13 @@
 
 
 
-- name: 🚀 DEMO-UI - Set Demo UI Password from instance configuration
-  set_fact: current_demoui_pwd={{current_ibmaiops_feature.demoui_pwd | default('CHANGEME')}}
-  when: global_config.global_password is undefined or global_config.global_password=="NONE"
-
-
-- name: 🚀 DEMO-UI - Set Demo UI Password from global configuration
-  set_fact: current_demoui_pwd={{global_config.global_password}}
-  when: global_config.global_password is defined and global_config.global_password!="NONE"
-
+- name: 🚀 DEMO-UI - Set Demo UI Password
+  set_fact: current_demoui_pwd={{current_cp4waiops_feature.demoui_pwd |  default('{{current_ibmaiops_feature.global_password}}')}}
 
 - name: 🟣  DEMO-UI -  Demo UI Password {{current_demoui_pwd}}
   debug:
     var: current_demoui_pwd
     verbosity: 1
-
 
 
 
