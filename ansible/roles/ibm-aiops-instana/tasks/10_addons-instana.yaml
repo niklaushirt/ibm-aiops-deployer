@@ -532,6 +532,10 @@
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
         --docker-server=artifact-public.instana.io  
+    oc -n instana-core create secret docker-registry instana-registry-old \
+        --docker-username=_ \
+        --docker-password={{current_agent_key}} \
+        --docker-server=containers.instana.io  
     oc -n instana-units create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
@@ -854,19 +858,19 @@
 
 
 
-- name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
-  shell: |
-    oc scale deployment  -n instana-operator instana-operator --replicas=0
-    oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true},"image": "containers.instana.io/instana/release/product/appdata-writer:3.247.193-0"}]}}}}'     
-    oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}'):-notfound  --ignore-not-found -n instana-core --ignore-not-found   
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
+#   shell: |
+#     oc scale deployment  -n instana-operator instana-operator --replicas=0
+#     oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true},"image": "containers.instana.io/instana/release/product/appdata-writer:3.247.193-0"}]}}}}'     
+#     oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}'):-notfound  --ignore-not-found -n instana-core --ignore-not-found   
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
