@@ -215,7 +215,7 @@
       --namespace=instana-datastores \
       --docker-username=_ \
       --docker-password={{current_agent_key}} \
-      --docker-server=artifact-public.instana.iocontainers.instana.io
+      --docker-server=artifact-public.instana.io
   ignore_errors: true
   register: output
   args:
@@ -528,19 +528,19 @@
     oc -n instana-operator create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.iocontainers.instana.io    
+        --docker-server=artifact-public.instana.io    
     oc -n instana-core create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.iocontainers.instana.io  
+        --docker-server=artifact-public.instana.io  
     oc -n instana-units create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.iocontainers.instana.io  
+        --docker-server=artifact-public.instana.io  
     oc -n instana-datastores create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.iocontainers.instana.io  
+        --docker-server=artifact-public.instana.io  
 
     # create core secrets
     oc -n instana-core label secret instana-registry app.kubernetes.io/name=instana
