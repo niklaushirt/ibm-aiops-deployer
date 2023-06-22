@@ -41,7 +41,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops--delete-instana
+  name: ibm-aiops-delete-instana
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
@@ -133,6 +133,8 @@ spec:
               oc delete pvc  -n instana-datastores --all  &
               oc delete zookeeperclusters  -n instana-datastores --all  &
 
+              oc delete clickhouseinstallations -n instana-datastores --all
+              
               oc delete ns instana-datastores &
               oc delete ns instana-agent &
               oc delete ns instana-operator & 
@@ -163,6 +165,6 @@ spec:
             value : "./configs/xxxx.yaml"
             # The pull token for cp.icr.com from https://myibm.ibm.com/products-services/containerlibrary
           - name: ENTITLED_REGISTRY_KEY
-            value : "NOT NEEDED"
+            value : "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJQk0gTWFya2V0cGxhY2UiLCJpYXQiOjE1Nzg0NzQzMjgsImp0aSI6IjRjYTM3ODkwMzExNjQxZDdiMDJhMjRmMGMxMWMwYmZhIn0.Z-rqfSLJA-R-ow__tI3RmLx4m9EH-abvdc53DYEkbYY"
       restartPolicy: Never
   backoffLimit: 4
