@@ -114,6 +114,6 @@ kubectl create secret docker-registry clickhouse-image-secret \
   --namespace=instana-clickhouse \
   --docker-username=_ \
   --docker-password=<agent_key> \
-  --docker-server=containers.instana.io
+  --docker-server=artifact-public.instana.io
 # Apply deployment
 kubectl apply -f clickhouse/operator/manifests/instana-clickhouse.yaml -n instana-clickhouse
