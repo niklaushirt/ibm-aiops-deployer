@@ -120,13 +120,12 @@
 
         export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
         demoURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")
-        demoToken=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui-config -o jsonpath='{.data.TOKEN}')
 
         export ROWS=""
 
         if [[ $demoURL =~ "demo-ui" ]]; then
         echo "DemoUI Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'", "label": "🚀  Get started with the DemoUI ", "sub_text": "Token/Password: '$demoToken'"},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'", "label": "🚀  Get started with the DemoUI ", "sub_text": "Token/Password:  {{current_ibmaiops_feature.demoui_pwd  | default( global_config.global_password )}}"},'
         fi
         ROWS=$ROWS'{"drilldown_url":  " ", "label": " ", "sub_text": " "},'
 
