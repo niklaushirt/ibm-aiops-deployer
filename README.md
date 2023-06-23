@@ -258,16 +258,7 @@ Ready to go.
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-1. Adap the installation configuration to enable Turbonomic (set `install` to `true`)
-
-	```yaml
-      - name: ibm-aiops-turbonomic
-        kind: Turbonomic
-        install: true
-	
-	```
 5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
-3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 55)
 3. Set `accept_all_licenses: False`  to `True` to accept the license (line 57)
 3. Click `Save`
@@ -304,16 +295,7 @@ Ready to go.
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-1. Adap the installation configuration to enable Instana (set `install` to `true`)
-
-	```yaml
-      - name: ibm-aiops-instana
-        kind: Instana
-        install: true
-	
-	```
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
-3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 57)
 3. Set `accept_all_licenses: False`  to `True` to accept the license (line 59)
 3. Click `Save`
