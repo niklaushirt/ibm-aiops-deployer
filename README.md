@@ -249,7 +249,7 @@ This installation contains:
 <summary>✅ 2.2 Install Turbonomic</summary>
 
 
-You get all the IBMAIOPS components installed and pre-trained in one simple script.
+You get Turbonomic installed and pre-configured in one simple script.
 Ready to go.
 
 
@@ -288,7 +288,7 @@ This installation adds:
 ❗ I have tested this and usually it works. But there are occasional hiccups.
  
 
-You get all the IBMAIOPS components installed and pre-trained in one simple script.
+You get Instana installed in one simple script.
 Ready to go.
 
 
