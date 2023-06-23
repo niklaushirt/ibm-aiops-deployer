@@ -204,6 +204,8 @@ If you think that you hit a problem:
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 85)
+3. Set `accept_all_licenses: False`  to `True` to accept the license (line 89)
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -255,7 +257,7 @@ Ready to go.
 ![K8s CNI](./doc/pics/install02.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
 1. Adap the installation configuration to enable Turbonomic (set `install` to `true`)
 
 	```yaml
@@ -266,7 +268,9 @@ Ready to go.
 	```
 5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-5. Click `Save`
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 85)
+3. Set `accept_all_licenses: False`  to `True` to accept the license (line 89)
+3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
@@ -299,7 +303,7 @@ Ready to go.
 ![K8s CNI](./doc/pics/install03.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
 1. Adap the installation configuration to enable Instana (set `install` to `true`)
 
 	```yaml
@@ -310,7 +314,9 @@ Ready to go.
 	```
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
 3. Replace `<REGISTRY_TOKEN>` at the end of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-5. Click `Save`
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 85)
+3. Set `accept_all_licenses: False`  to `True` to accept the license (line 89)
+3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
 
