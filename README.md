@@ -191,7 +191,7 @@ If you think that you hit a problem:
 # 2. Quick Install
 ---------------------------------------------------------------
 
-## 🚀 2.1 Install IBM AIOps with demo content
+## 2.1 🚀 Install IBM AIOps with demo content
 <details>
 <summary>✅ Instructions</summary>
 
@@ -247,7 +247,7 @@ This installation contains:
 </details>
 
 
-## 🚀 2.2 Install Turbonomic
+## 2.2 Install Turbonomic 🚀 
 
 <details>
 <summary>✅ Instructions</summary>
