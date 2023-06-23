@@ -193,7 +193,7 @@ If you think that you hit a problem:
 
 ## 2.1 Install IBM AIOps with demo content
 <details>
-<summary>Instructions</summary>
+<summary>✅ Instructions</summary>
 
 
 🚀 You get IBM AIOps installed and pre-trained in one simple script.
@@ -245,8 +245,12 @@ This installation contains:
 <div style="page-break-after: always;"></div>
 
 </details>
+
+
+## 2.2 Install Turbonomic
+
 <details>
-<summary>✅ 2.2 Install Turbonomic</summary>
+<summary>✅ Instructions</summary>
 
 
 You get Turbonomic installed and pre-configured in one simple script.
@@ -282,8 +286,11 @@ This installation adds:
 
 
 </details>
+
+
+## 2.3 Install Instana (experimental)
 <details>
-<summary>✅ 2.3 Install Instana (experimental)</summary>
+<summary>✅ Instructions</summary>
 
 ❗ I have tested this and usually it works. But there are occasional hiccups.
  
