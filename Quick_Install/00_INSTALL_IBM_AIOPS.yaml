@@ -51,6 +51,12 @@
 #  - ELK
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+---
+apiVersion: v1                     
+kind: Namespace
+metadata:
+  name: ibm-aiops-installer-test
+---
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -74,35 +80,23 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Use this Password for all Instances
       global_password: CHANGEME
-      # Set this value to True to accept all licenses
-      accept_all_licenses: False
+
 
       # Available Names: Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
       environment_name: Bear
       cloud_platform: existing-ocp
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
       # Key to decrypt Licenses
       #license_token: NONE
+
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
       # --------------------------------------------------------------------------------------------------------------------------------------
-      entitled_registry: docker-na-public.artifactory.swg-devops.com
-      entitled_registry_user: nikh@ch.ibm.com
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230504.1302-8a7bf836e
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230505.0302-2c0f450f9
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230509.0902-6eef3eab8
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230511.0503-fd49d3786
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230522.0502-f1d268e15
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230524.1401-e682bad9f
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230530.0402-9d41ee552
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230531.1202-4278b0a61
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230607.0807-6295ef8e0
-      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230612.0605-19e30b344
-      catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230614.1603-8b622a1d9
-      #catalog_image: cp.stg.icr.io/cp/ibm-watson-aiops-catalog:v4.1.0-20230621.0047-5db986601
-      # entitled_registry: cp.icr.io
-      # entitled_registry_user: cp
-      # catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      entitled_registry: cp.icr.io
+      entitled_registry_user: cp
+      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -350,11 +344,6 @@ data:
 # DO NOT MODIFY BELOW
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
----
-apiVersion: v1                     
-kind: Namespace
-metadata:
-  name: ibm-aiops-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
