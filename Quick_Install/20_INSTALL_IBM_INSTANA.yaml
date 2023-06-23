@@ -11,7 +11,7 @@
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
 #  Installing IBM AIOps
 #
-#  CloudPak for AIOps
+#  Instana
 #
 #  ©2023 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -28,13 +28,13 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - Instana    (disabled by default)
+#  - Instana
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration
+  name: ibm-aiops-install-configuration-instana
   namespace: ibm-aiops-installer
 immutable: false
 data:
@@ -54,29 +54,36 @@ data:
       # Passwords and Licenses
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Use this Password for all Instances
-      # Deployment will not work if these aren't changed
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # --------------------------------------------------------------------------------------------------------------------------------------
       global_password: CHANGEME
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # --------------------------------------------------------------------------------------------------------------------------------------
       # Set this value to True to accept all licenses
       accept_all_licenses: False
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # --------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
+      # Available Names: Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
+      environment_name: Bear
+      cloud_platform: existing-ocp
+      # Key to decrypt Licenses
+      #license_token: NONE
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
       # --------------------------------------------------------------------------------------------------------------------------------------
-      entitled_registry: cp.icr.io
-      entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      entitled_registry: docker-na-public.artifactory.swg-devops.com
+      entitled_registry_user: nikh@ch.ibm.com
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230504.1302-8a7bf836e
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230505.0302-2c0f450f9
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230509.0902-6eef3eab8
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230511.0503-fd49d3786
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v0.1.0-20230522.0502-f1d268e15
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230524.1401-e682bad9f
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230530.0402-9d41ee552
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230531.1202-4278b0a61
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230607.0807-6295ef8e0
+      #catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230612.0605-19e30b344
+      catalog_image: docker-na-public.artifactory.swg-devops.com/hyc-katamari-cicd-team-docker-local/katamari/relatedimages/ibm-watson-aiops-catalog:v4.1.0-20230614.1603-8b622a1d9
+      #catalog_image: cp.stg.icr.io/cp/ibm-watson-aiops-catalog:v4.1.0-20230621.0047-5db986601
+      # entitled_registry: cp.icr.io
+      # entitled_registry_user: cp
+      # catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -91,15 +98,7 @@ data:
       position_final_ocp_notification: BannerTop
 
 
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Passwords and Licenses
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Available Names: Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
-      environment_name: Penny
-      cloud_platform: existing-ocp
 
-      # Key to decrypt Licenses
-      # license_token: NONE
 
 
     # *************************************************************************************************************************************************
@@ -133,6 +132,8 @@ data:
     #*************************************************************************************************************************************************
 
     ibmaiops:
+
+    
     - project: ibm-aiops-addons
       instances:
       # --------------------------------------------------------------------------------------------------------------------------------------
@@ -141,7 +142,7 @@ data:
 
       - name: ibm-aiops-instana
         kind: Instana
-        install: false
+        install: true
         instana_version: 249-1
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
@@ -169,7 +170,6 @@ data:
         # --------------------------------------------------------------------------------------------------------------------------------------
         #storage_class_file: automatic
         #storage_class_block: automatic
-
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
 
@@ -216,7 +216,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-installer
+  name: ibm-aiops-install-instana
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
@@ -295,7 +295,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
+              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
               echo ""
               echo ""
 
@@ -318,7 +318,7 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration
+                name: ibm-aiops-install-configuration-instana
                 key: INSTALL_REPO
           volumeMounts:
             - name: config-file
@@ -326,7 +326,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration
+            name: ibm-aiops-install-configuration-instana
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml
