@@ -191,7 +191,7 @@ If you think that you hit a problem:
 # 2. Quick Install
 ---------------------------------------------------------------
 
-## 2.1 Install IBM AIOps with demo content
+## 🚀 2.1 Install IBM AIOps with demo content
 <details>
 <summary>✅ Instructions</summary>
 
@@ -247,7 +247,7 @@ This installation contains:
 </details>
 
 
-## 2.2 Install Turbonomic
+## 🚀 2.2 Install Turbonomic
 
 <details>
 <summary>✅ Instructions</summary>
@@ -288,7 +288,7 @@ This installation adds:
 </details>
 
 
-## 2.3 Install Instana (experimental)
+## 🚀 2.3 Install Instana (experimental)
 <details>
 <summary>✅ Instructions</summary>
 
@@ -322,8 +322,10 @@ This installation adds:
 
 </details>
 
+## 🔎 2.4 Follow the installation progress
 <details>
-<summary>🔎 2.4 Follow the installation progress</summary>
+<summary>✅ Instructions</summary>
+
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
 
