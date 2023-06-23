@@ -153,7 +153,20 @@
           
 
 
+  - name:  🌏 ZEN CARDS - TEST
+    shell: |
 
+      echo "User: admin@instana.local - Password: {{current_ibmaiops_feature.instana_admin_pass  | default( global_config.global_password )}} "
+      echo "User: administrator - Password: {{current_ibmaiops_feature.turbo_admin_password  | default( {{global_config.global_password}} )}} "
+
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
 
   - name:  🌏 ZEN CARDS - Create Card AIOPS APPS
     shell: |
