@@ -16,7 +16,7 @@ spec:
     enabled: true
     
   grafana:
-    adminPassword: "{{current_ibmaiops_feature.turbo_admin_password  | default('{{global_config.global_password}}')}}"
+    adminPassword: "{{current_ibmaiops_feature.turbo_admin_password  | default( global_config.global_password )}}"
     enabled: true
   extractor:
     enabled: true

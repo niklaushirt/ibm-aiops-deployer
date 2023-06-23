@@ -42,7 +42,7 @@
 
 
 - name: 🚀 TURBONOMIC - Set ADMIN Password 
-  set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default('{{global_config.global_password}}')}}
+  set_fact: current_admin_pass={{current_ibmaiops_feature.turbo_admin_password  | default( global_config.global_password )}}
 
 
 - name: 🟣  TURBONOMIC -  ADMIN Password {{current_admin_pass}}
@@ -52,7 +52,7 @@
 
 
 - name: 🚀 TURBONOMIC - Set DEMO Password 
-  set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_admin_password  | default('{{global_config.global_password}}')}}
+  set_fact: current_demo_pass={{current_ibmaiops_feature.turbo_admin_password  | default( global_config.global_password )}}
 
 
 - name: 🟣  TURBONOMIC -  DEMO Password {{current_demo_pass}}

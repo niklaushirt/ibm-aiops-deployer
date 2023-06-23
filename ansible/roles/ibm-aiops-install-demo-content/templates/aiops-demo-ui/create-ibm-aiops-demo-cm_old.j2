@@ -49,7 +49,7 @@ spec:
               set -x
 
               export AIOPS_NAMESPACE={{current_ibmaiops_cluster.project}}-demo-ui
-              export TOKEN="{{current_ibmaiops_feature.demoui_pwd  | default('{{global_config.global_password}}')}}"
+              export TOKEN="{{current_ibmaiops_feature.demoui_pwd  | default( global_config.global_password )}}"
 
               export LOG_ITERATIONS=20
               export LOG_TIME_FORMAT="%Y-%m-%dT%H:%M:%S.000000"
