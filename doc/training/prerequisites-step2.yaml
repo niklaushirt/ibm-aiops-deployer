@@ -194,7 +194,7 @@ data:
 
 
 
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b ibm-aiops_stable'
 
 
 
