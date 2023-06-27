@@ -1,5 +1,5 @@
 
-import instana
+#import instana
 import requests
 from requests.auth import HTTPBasicAuth
 import json

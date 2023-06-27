@@ -228,7 +228,7 @@ echo "   -----------------------------------------------------------------------
 
 
 echo "     📥 Get Kafka Topics"
-export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep ibm-aiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
+export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-$LOG_TYPE| awk '{print $1;}')
 
 echo " "
 echo "     🔐 Get Kafka Password"
@@ -379,7 +379,7 @@ echo "   -----------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # # Inject the Events Inception files
-# ./tools/01_demo/scripts/simulate-events-rest.sh
+./tools/01_demo/scripts/simulate-events-rest.sh
 
 # # Prepare the Log Inception files
 # ./tools/01_demo/scripts/prepare-logs-fast.sh
@@ -388,7 +388,7 @@ echo "   -----------------------------------------------------------------------
 # ./tools/01_demo/scripts/simulate-logs.sh 
 
 # # Inject the Metric Anomalies
-./tools/01_demo/scripts/simulate-metrics-ok-past.sh
+#./tools/01_demo/scripts/simulate-metrics-ok-past.sh
 #./tools/01_demo/scripts/simulate-metrics_predict.sh
 
 # # Inject the Log Inception files

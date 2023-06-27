@@ -107,7 +107,7 @@ def sendIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DATAL
     "event_action": stateString,
     "dedup_key": id,
     "payload": {
-        "summary": title,
+        "summary": INSTANCE_NAME+" - " + title,
         "source": INSTANCE_NAME+" ChatBot",
         "severity": "info",
         "component": "postgres",
