@@ -2,19 +2,19 @@
 # Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
-# Supplementary file to uninstall-ibm-aiops.sh script for uninstalling 
-# IBM IBM AIOps AI Manager version 3.7
+# Supplementary file to uninstall-cp4waiops.sh script for uninstalling 
+# IBM Cloud Pak for Watson AIOps AI Manager version 4.1
 
-# Below are the PVC's that would be deleted if DELETE_PVCS in uninstall-ibm-aiops-props.props is set to true
+# Below are the PVC's that would be deleted if DELETE_PVCS in uninstall-cp4waiops-props.props is set to true
 # 1. app.kubernetes.io/instance=aimanager : This PVC is for minio StatefulSet. Change risk model and all the training logs are in the minio pvc.
 # 2. app.kubernetes.io/instance=example-couchdbcluster: This PVC contains AI training schedules and history
 # 3. app.kubernetes.io/managed-by=ir-core-operator : This PVC contains information about current and recent events and stories 
-IBMAIOPS_PVC_LABEL=("app.kubernetes.io/instance=aimanager"
+CP4WAIOPS_PVC_LABEL=("app.kubernetes.io/instance=aimanager"
                     "app.kubernetes.io/instance=example-couchdbcluster"
                     "app.kubernetes.io/managed-by=ir-core-operator")
 
 # These secrets are linked with PVC, hence deleting them if those PVC's are deleted.
-IBMAIOPS_LINKED_SECRETS=( "secret/aimanager-ca-certificate-secret"
+CP4WAIOPS_LINKED_SECRETS=( "secret/aimanager-ca-certificate-secret"
                            "secret/aimanager-certificate-secret"
                            "secret/aiops-ir-core-model-secret"
                            "secret/aiops-ir-core-omni-secret"
@@ -24,7 +24,7 @@ IBMAIOPS_LINKED_SECRETS=( "secret/aimanager-ca-certificate-secret"
 
 # All the dependent CRDS related to below operators:
 # Elasticsearch, RedisDB, CouchDB, Events, Postgres, SecureTunnel, Vault, Camel-k , Kong
-IBMAIOPS_DEPENDENT_CRDS=(#elasticsearch
+CP4WAIOPS_DEPENDENT_CRDS=(#elasticsearch
                           "elasticsearchdetails.elasticsearch.cloudpackopen.ibm.com"
                           "elasticsearches.elasticsearch.cloudpackopen.ibm.com"
                           #RedisDB
@@ -36,31 +36,12 @@ IBMAIOPS_DEPENDENT_CRDS=(#elasticsearch
                           "recipetemplates.redis.databases.cloud.ibm.com"
                           "redissentinels.redis.databases.cloud.ibm.com"
                           "releases.redis.databases.cloud.ibm.com"
-                          #CouchDB
-                          "backups.couchdb.databases.cloud.ibm.com"
-                          "buckets.couchdb.databases.cloud.ibm.com"
-                          "couchdbclusters.couchdb.databases.cloud.ibm.com"
-                          "formationlocks.couchdb.databases.cloud.ibm.com"
-                          "formations.couchdb.databases.cloud.ibm.com"
-                          "recipes.couchdb.databases.cloud.ibm.com"
-                          "recipetemplates.couchdb.databases.cloud.ibm.com"
-                          #PostgresOperator
-                          "postgreservices.postgres.aiops.ibm.com"
-                          "postgresdbs.postgres.aiops.ibm.com"
                           #SecureTunnel
                           "applications.tunnel.management.ibm.com"
                           "tunnels.sretooling.management.ibm.com"
                           #Vault
                           "vaultaccesses.vault.aiops.ibm.com"
                           "vaultdeploys.vault.aiops.ibm.com"
-                          #Camel-k
-                          "builds.camel.apache.org"
-                          "camelcatalogs.camel.apache.org"
-                          "integrations.camel.apache.org"
-                          "integrationkits.camel.apache.org"
-                          "integrationplatforms.camel.apache.org"
-                          "kamelets.camel.apache.org"
-                          "kameletbindings.camel.apache.org"
                           #Kong
                           "kongs.management.ibm.com"
                           "kongclusterplugins.configuration.konghq.com"
@@ -75,22 +56,22 @@ IBMAIOPS_DEPENDENT_CRDS=(#elasticsearch
 ########## INTERNAL RESOURCES TO BE CLEANED UP AFTER UNINSTALL OF OPERATOR ##########
                     
 # These PVC's are to be deleted everytime the uninstall is run.
-IBMAIOPS_INTERNAL_PVC=("app=cassandra"
+CP4WAIOPS_INTERNAL_PVC=("app=cassandra"
                         "formation_type=redis"
                         "app.kubernetes.io/component=ep")
 
 # Delete these internal secrets always
-IBMAIOPS_INTERNAL_SECRETS_LABELS=("release=aiops-topology")
+CP4WAIOPS_INTERNAL_SECRETS_LABELS=("release=aiops-topology")
 
 # Delete these internal secrets always
-IBMAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
+CP4WAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-client-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-internal-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-ss-cacert-kp"
                             "secret/aiops-ir-lifecycle-policy-grpc-clt-svc"
-                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-client-cert-kp"
-                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
-                            "secret/ibm-aiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
+                            "secret/cp4waiops-eventprocessor-eve-29ee-ep-client-cert-kp"
+                            "secret/cp4waiops-eventprocessor-eve-29ee-ep-ss-cacert-kp"
+                            "secret/cp4waiops-eventprocessor-eve-29ee-ep-internal-cert-kp"
                             "secret/ir-ui-session-secret"
                             "secret/sre-tunnel-tunnel-api-cert"
                             "secret/sre-tunnel-tunnel-readiness-cert"
@@ -98,12 +79,13 @@ IBMAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
                             "secret/connector-manager-cert-secret"
                             "secret/connector-local-orchestrator"
                             "secret/connector-credential-encryption-cert-secret"
-                            "secret/aiopsedgeca-cert-secret")
+                            "secret/aiopsedgeca-cert-secret"
+                            "secret/aiops-topology-cassandra-cert-manager-ca")
 
 
-IBMAIOPS_CONFIGMAPS_INTERNAL_LABELS=("app=ibm-aiops-eventprocessor-eve-29ee-ep")
+CP4WAIOPS_CONFIGMAPS_INTERNAL_LABELS=("app=cp4waiops-eventprocessor-eve-29ee-ep")
 
-IBMAIOPS_CONFIGMAPS_INTERNAL=("configmap/64fae646.ibm.com"
+CP4WAIOPS_CONFIGMAPS_INTERNAL=("configmap/64fae646.ibm.com"
             "configmap/9efbc0e4.aiops.ibm.com"
             "configmap/kong-ingress-controller-leader-kong-kong"  
             "configmap/9a76a9f8.aiops.ibm.com"
@@ -117,22 +99,33 @@ IBMAIOPS_CONFIGMAPS_INTERNAL=("configmap/64fae646.ibm.com"
             "configmap/5ba58da1.ai.ir.aiops.ibm.com"
             "configmap/model-train-classic-operator"
             "configmap/aiopsedge-maven-settings"
-            "configmap/aiops-topology-cassandra-bootstrap-config")
+            "configmap/aiops-topology-cassandra-bootstrap-config"
+            "configmap/postgresql-operator-default-monitoring")
 
-IBMAIOPS_KAFKATOPICS_LABELS=("ibmevents.ibm.com/cluster=iaf-system")
+CP4WAIOPS_KAFKATOPICS_LABELS=("ibmevents.ibm.com/cluster=iaf-system")
 
-IBMAIOPS_SERVICEACCOUNTS=("serviceaccount/aiops-topology-service-account"
+CP4WAIOPS_SERVICEACCOUNTS=("serviceaccount/aiops-topology-service-account"
                           "serviceaccount/example-redis"
-                          "serviceaccount/ir-core-operator-controller-manager")
+                          "serviceaccount/ir-core-operator-controller-manager"
 
-IBMAIOPS_MISC=("rolebinding.authorization.openshift.io/example-redis"
+                          # Event Processor
+                          "serviceaccount/cp4waiops-eventprocessor-eve-29ee-ep")
+
+CP4WAIOPS_MISC=("rolebinding.authorization.openshift.io/example-redis"
                 "role.authorization.openshift.io/example-redis"
+                "role/cp4waiops-eventprocessor-eve-29ee-ep-role"
+                "rolebinding/cp4waiops-eventprocessor-eve-29ee-ep-role"
+                "rolebinding.rbac.authorization.k8s.io/cp4waiops-eventprocessor-eve-29ee-ep-rb"
+                "rolebinding.authorization.openshift.io/cp4waiops-eventprocessor-eve-29ee-ep-rb"
                 "networkpolicy.networking.k8s.io/c-example-redis-default-deny"
                 "secret/aiopsedge-client-cert"
                 "priorityclass.scheduling.k8s.io/high-priority"
-                "priorityclass.scheduling.k8s.io/aiops-topology-cassandra-priority")
+                "priorityclass.scheduling.k8s.io/aiops-topology-cassandra-priority"
+                "issuers.cert-manager.io/aiops-flink-issuer"
+                "issuers.cert-manager.io/aiops-flink-ss-issuer"
+                "issuers.cert-manager.io/automationbase-sample-automationbase-ab-ss-issuer")
 
-IBMAIOPS_LEASE=("lease.coordination.k8s.io/9efbc0e4.aiops.ibm.com"
+CP4WAIOPS_LEASE=("lease.coordination.k8s.io/9efbc0e4.aiops.ibm.com"
                 "lease.coordination.k8s.io/5ba58da1.ai.ir.aiops.ibm.com"
                 "lease.coordination.k8s.io/dae1af9b.aiops.ibm.com"
                 "lease.coordination.k8s.io/e1d7d41e.ibm.com"
@@ -141,7 +134,7 @@ IBMAIOPS_LEASE=("lease.coordination.k8s.io/9efbc0e4.aiops.ibm.com"
                 "lease.coordination.k8s.io/aiopsedge-connector-manager"
                 "lease.coordination.k8s.io/9a76a9f8.aiops.ibm.com")
 
-IBMAIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com" 
+CP4WAIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com" 
                 "aimanagers.ai-manager.watson-aiops.ibm.com"
                 "aimodeluis.consoleui.aiops.ibm.com"
                 "aiopskafkatopics.connectors.aiops.ibm.com"
@@ -160,7 +153,7 @@ IBMAIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com"
                 "aiopsuis.consoleui.aiops.ibm.com"
                 "automationactions.connectors.aiops.ibm.com"
                 "bundlemanifests.connectors.aiops.ibm.com"
-                "bundlemanifests.ibm-aiops.management.ibm.com"
+                "bundlemanifests.cp4waiops.management.ibm.com"
                 "connectorcomponents.connectors.aiops.ibm.com"
                 "connectorconfigurations.connectors.aiops.ibm.com"
                 "connectorschemas.connectors.aiops.ibm.com"
@@ -181,10 +174,19 @@ ASM_CRDS=("asmformations.asm.ibm.com"
 
 
 #### IBM Automation Foundation (IAF) ####
-IAF_CERTMANAGER=("certificate.certmanager.k8s.io/iaf-system-automationui-aui-zen-ca"
-             "certificate.certmanager.k8s.io/iaf-system-automationui-aui-zen-cert"
-             "issuer.certmanager.k8s.io/iaf-system-automationui-aui-zen-issuer"
-             "issuer.certmanager.k8s.io/iaf-system-automationui-aui-zen-ss-issuer"
+IAF_CERTMANAGER=("issuer.certmanager.io/automationbase-sample-automationbase-ab-ss-issuer"
+        "issuer.certmanager.k8s.io/iaf-system-automationui-aui-zen-issuer"
+        "issuer.certmanager.k8s.io/iaf-system-automationui-aui-zen-ss-issuer"
+        "certificates.cert-manager.io/automationbase-sample-automationbase-ab-ss-ca"
+
+
+        # eventproccesor
+        "certificates.cert-manager.io/cp4waiops-eventprocessor-eve-29ee-ep-client-cert"
+        "certificates.cert-manager.io/cp4waiops-eventprocessor-eve-29ee-ep-internal-cert"
+        "certificates.cert-manager.io/cp4waiops-eventprocessor-eve-29ee-ep-ss-ca"
+
+        "certificate.certmanager.k8s.io/iaf-system-automationui-aui-zen-cert"
+        "certificate.certmanager.k8s.io/iaf-system-automationui-aui-zen-ca"
 )
 
 #### IBM Automation Foundation (IAF) ####
@@ -195,42 +197,23 @@ IAF_LEASES=("lease.coordination.k8s.io/1b727795.ibm.com"
             "lease.coordination.k8s.io/dd8836af.eventprocessing.automation.ibm.com")
 
 #### IBM Automation Foundation ####
-IAF_SECRETS=("secret/external-tls-secret"
-            "secret/internal-nginx-svc-tls"
-            "secret/internal-tls"
-            "secret/metastore-secret"
-            "secret/admin-user-details"
+IAF_SECRETS=("secret/metastore-secret"
+            "secret/external-tls-secret"
             "secret/app-api-user-jwt"
-            "secret/automationbase-sample-elasticsearch-es-cls-cert"
             "secret/automationbase-sample-automationbase-ab-ss-ca"
-            "secret/cpd-oidcclient-secret"
-            "secret/default-ssl"
-            "secret/dsx-influxdb-auth"
             "secret/iaf-system-elasticsearch-es-client-cert-kp"
             "secret/iaf-system-elasticsearch-es-ss-cacert-kp"
-            "secret/iaf-system-provider"
-            "secret/zen-secrets-aes-key"
-            "secret/zen-service-broker-secret"
             "secret/iaf-system-automationui-aui-zen-ca"
             "secret/iaf-system-automationui-aui-zen-cert"
-            "secret/automationbase-sample-kafka-kf-cli-cert"
-            "secret/automationbase-sample-kafka-kf-clst-cert"
+            "secret/zen-service-broker-secret"
             )
                         
 #### IBM Automation Foundation ####
-IAF_SERVICEACCOUNTS_LABELS=("app.kubernetes.io/component=iaf-core-operator"
-                           "app.kubernetes.io/instance=iaf-eventprocessing-operator"
-                           "app.kubernetes.io/instance=iaf-flink-operator"
-                           "app.kubernetes.io/component=iaf-operator"
-                           "app.kubernetes.io/instance=ibm-elastic-operator")
-
-#### IBM Automation Foundation ####
-IAF_CONFIGMAPS=("configmap/ibm-elasticsearch-operator"
-                "configmap/2124ed9c.eventprocessing.flink.automation.ibm.com"
-                "configmap/1b727795.ibm.com"
-                "configmap/2133ec8b.automation.ibm.com"
+IAF_CONFIGMAPS=("configmap/1b727795.ibm.com"
                 "configmap/651334e7.automation.ibm.com"
                 "configmap/dd8836af.eventprocessing.automation.ibm.com"
+                "configmap/2124ed9c.eventprocessing.flink.automation.ibm.com"
+                "configmap/2133ec8b.automation.ibm.com"
                 "configmap/ibm-cpp-config")
 
 #### IBM Automation Foundation ####
@@ -238,33 +221,6 @@ ZEN_PVCS_LABELS=("app.kubernetes.io/component=zen-metastoredb"
                 "component=zen-metastoredb")
 
 IAF_PVCS_LABELS=("app.kubernetes.io/instance=iaf-system")
-#### IBM Automation Foundation ####
-IAF_MISC=("client.oidc.security.ibm.com/zenclient-$IAF_PROJECT"
-          "operatorgroup.operators.coreos.com/operand-deployment-lifecycle-manager-operatorgroup"
-          "automationuiconfig.core.automation.ibm.com/iaf-system")
-
-CROSSPLANE_COMPOSITIONS=("composition.apiextensions.ibm.crossplane.io/kafka-iaf-k.odlm.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user-k.odlm.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user.ibmcloud.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user.odlm.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.external.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.ibmcloud.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.odlm.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-small.ibmcloud.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/kafka-small.odlm.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/postgres.ibmcloud.bedrock.ibm.com"
-                        "composition.apiextensions.ibm.crossplane.io/postgres.odlm.bedrock.ibm.com")
-
-CROSSPLANE_OBJECTS=("object.kubernetes.crossplane.io/kafka-iaf-system"
-                    "object.kubernetes.crossplane.io/kafkauser-iaf-system"
-                    "object.kubernetes.crossplane.io/operandrequest-iaf-system"
-                    "object.kubernetes.crossplane.io/operandrequest-kafkauser-iaf-system")
-
-CROSSPLANE_XRDS=("compositeresourcedefinition.apiextensions.ibm.crossplane.io/kafkacomposites.shim.bedrock.ibm.com"
-                "compositeresourcedefinition.apiextensions.ibm.crossplane.io/postgrescomposites.shim.bedrock.ibm.com")
-
-CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/ibm-aiops-cartridge-kafka-auth-0"
-                        "kafkaclaim.shim.bedrock.ibm.com/iaf-system")
 
 BEDROCK_CRDS=(#Bedrock shim CRDS
                 "kafkaclaims.shim.bedrock.ibm.com"
@@ -323,4 +279,32 @@ BEDROCK_CRDS=(#Bedrock shim CRDS
                 "secretwatchers.operator.ibm.com"
                 "securityonboardings.operator.ibm.com"
                 "switcheritems.operators.ibm.com"
-                "zenservices.zen.cpd.ibm.com")
+                "zenservices.zen.cpd.ibm.com"
+                "ibmlicensingdefinitions.operator.ibm.com"
+                "ibmlicensingmetadatas.operator.ibm.com "
+                "ibmlicensingquerysources.operator.ibm.com"
+                "strimzipodsets.core.ibmevents.ibm.com"
+                "zenextensions.zen.cpd.ibm.com ")
+
+CROSSPLANE_COMPOSITIONS=("composition.apiextensions.ibm.crossplane.io/kafka-iaf-k.odlm.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user-k.odlm.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user.ibmcloud.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf-skip-user.odlm.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.external.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.ibmcloud.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-iaf.odlm.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-small.ibmcloud.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/kafka-small.odlm.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/postgres.ibmcloud.bedrock.ibm.com"
+                        "composition.apiextensions.ibm.crossplane.io/postgres.odlm.bedrock.ibm.com")
+
+CROSSPLANE_OBJECTS=("object.kubernetes.crossplane.io/kafka-iaf-system"
+                    "object.kubernetes.crossplane.io/kafkauser-iaf-system"
+                    "object.kubernetes.crossplane.io/operandrequest-iaf-system"
+                    "object.kubernetes.crossplane.io/operandrequest-kafkauser-iaf-system")
+
+CROSSPLANE_XRDS=("compositeresourcedefinition.apiextensions.ibm.crossplane.io/kafkacomposites.shim.bedrock.ibm.com"
+                "compositeresourcedefinition.apiextensions.ibm.crossplane.io/postgrescomposites.shim.bedrock.ibm.com")
+
+CROSSPLANE_KAFKACLAIMS=("kafkaclaim.shim.bedrock.ibm.com/cp4waiops-cartridge-kafka-auth-0"
+                        "kafkaclaim.shim.bedrock.ibm.com/iaf-system")

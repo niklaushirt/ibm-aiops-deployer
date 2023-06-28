@@ -3,12 +3,10 @@
 # Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
-. ./uninstall-ibm-aiops.props
+. ./uninstall-cp4waiops.props
 
 export OPERATORS_PROJECT=openshift-operators
 export IBM_COMMON_SERVICES_PROJECT=ibm-common-services
-export KNATIVE_SERVING_NAMESPACE=knative-serving
-export KNATIVE_EVENTING_NAMESPACE=knative-eventing
 export ZENSERVICE_CR_NAME=iaf-zen-cpdservice
 
 # SLEEP TIMES
@@ -37,13 +35,13 @@ log () {
 display_help() {
    echo "**************************************** Usage ********************************************"
    echo ""
-   echo " This script is used to uninstall IBM IBM AIOps AI Manager version 3.7"
+   echo " This script is used to uninstall IBM Cloud Pak for Watson AIOps AI Manager version 4.1"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
-   echo " - Update uninstall-ibm-aiops.props with components that you want to uninstall"
+   echo " - Update uninstall-cp4waiops.props with components that you want to uninstall"
    echo ""
    echo " Usage:"
-   echo " ./uninstall-ibm-aiops.sh -h -s"
+   echo " ./uninstall-cp4waiops.sh -h -s"
    echo "  -h Prints out the help message"
    echo "  -s Skip asking for confirmations"   
    echo ""
@@ -56,48 +54,19 @@ check_namespaced_install () {
     if [[ ! -z "$operator_name" ]]; then
         # Operator is installed in all-ns mode
         AIOPS_NAMESPACED="false"
-        IAF_PROJECT=$OPERATORS_PROJECT
-        log $INFO "\033[1;36mUninstalling AIOps and IAF components from the cluster scope.\033[0m"
+        log $INFO "\033[1;36mUninstalling AIOps and its components from the cluster scope.\033[0m"
         return 0
     fi
 
     # Check that the operator is in the ns the user provided
-    operator_name=$(oc get subscription.operators.coreos.com/ibm-aiops-orchestrator -n $IBMAIOPS_PROJECT -o name --ignore-not-found)
+    operator_name=$(oc get subscription.operators.coreos.com/ibm-aiops-orchestrator -n $CP4WAIOPS_PROJECT -o name --ignore-not-found)
     if [[ ! -z "$operator_name" ]]; then
         # Operator is in the user provided ns, this is a namespaced install
         AIOPS_NAMESPACED="true"
-        log $INFO "AIOps found in $IBMAIOPS_PROJECT project. Checking IAF install location..."
-        operator_name=$(oc get subscription.operators.coreos.com -n $IBMAIOPS_PROJECT -o name --ignore-not-found | grep ibm-automation-core)
-        if [[ ! -z "$operator_name" ]]; then
-            IAF_PROJECT=$IBMAIOPS_PROJECT
-        else
-            IAF_PROJECT=$OPERATORS_PROJECT
-        fi
-        log $INFO "\033[1;36mUninstalling AIOps from the namespace $IBMAIOPS_PROJECT. IAF found in $IAF_PROJECT.\033[0m"
+        log $INFO "\033[1;36mUninstalling AIOps from the namespace $CP4WAIOPS_PROJECT. \033[0m"
         return 0
     fi
 
-    # There is no aiops subscription in expected places, try ibm-automation-core subscription
-    operator_name=$(oc get subscription.operators.coreos.com -n $OPERATORS_PROJECT -o name --ignore-not-found | grep ibm-automation-core)
-    if [[ ! -z "$operator_name" ]]; then
-        AIOPS_NAMESPACED="false"
-        IAF_PROJECT=$OPERATORS_PROJECT
-        log $INFO "\033[1;36mUninstalling AIOps components from the cluster scope\033[0m"
-        return 0
-    fi
-
-    operator_name=$(oc get subscription.operators.coreos.com -n $IBMAIOPS_PROJECT -o name --ignore-not-found | grep ibm-automation-core)
-    if [[ ! -z "$operator_name" ]]; then
-        AIOPS_NAMESPACED="true"
-        IAF_PROJECT=$IBMAIOPS_PROJECT
-        log $INFO "\033[1;36mUninstalling AIOps and IAF components from the namespace $IBMAIOPS_PROJECT\033[0m"
-        return 0
-    else 
-        log $WARNING "No AIOps nor IAF subscriptions were found. This may result in unexpected behaviour. Please review uninstall-ibm-aiops.props if this seems incorrect."
-        log $INFO "\033[1;36mDefaulting to uninstalling resources from $IBMAIOPS_PROJECT project.\033[0m"
-        AIOPS_NAMESPACED="true"
-        IAF_PROJECT=$IBMAIOPS_PROJECT
-    fi
 }
 
 check_oc_resource_exists () {
@@ -199,7 +168,6 @@ aiops_operands_exists () {
   if [ `oc get operandrequests ibm-aiops-ai-manager -n $namespace --ignore-not-found --no-headers | wc -l` -gt 0 ] ||
                 [ `oc get operandrequests ibm-aiops-aiops-foundation -n $namespace --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
                 [ `oc get operandrequests ibm-aiops-application-manager  -n $namespace --ignore-not-found --no-headers |  wc -l` -gt 0 ]  ||
-                [ `oc get operandrequests iaf-system-common-service -n $namespace --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
                 [ `oc get operandrequests aiopsedge-base -n $namespace --ignore-not-found --no-headers | wc -l` -gt 0 ] ||
                 [ `oc get operandrequests aiopsedge-cs -n $namespace --ignore-not-found --no-headers | wc -l` -gt 0 ] ; then
      operand_exists=true
@@ -236,6 +204,12 @@ delete_installation_instance () {
         log $INFO "The $installation_name installation instance is not found, skipping the deletion of $installation_name."
     fi
 
+    check_additional_installation_exists
+    # if return code of check_additional_installation_exists is 1... change the value of $project to newly found namespace
+    if [[ "$?" == "1" ]]; then
+        project=$CP4WAIOPS_PROJECT
+    fi
+
     log $INFO "Checking if operandrequests are all deleted "        
     LOOP_COUNT=0
     while [ $(aiops_operands_exists $project) == "true" ]
@@ -247,11 +221,10 @@ delete_installation_instance () {
 	
 	          log $INFO "Below operand requests are left behind in namespace $project"
 	          oc get operandrequests -n $project -o name
-	          log $INFO "Trying to delete remaining operandrequests manually, only for IBM AIOps"
+	          log $INFO "Trying to delete remaining operandrequests manually, only for Watson Aiops"
 	          oc delete operandrequests ibm-aiops-ai-manager -n $project --ignore-not-found
 	          oc delete operandrequests ibm-aiops-aiops-foundation -n $project --ignore-not-found
 	          oc delete operandrequests ibm-aiops-application-manager -n $project --ignore-not-found
-	          oc delete operandrequests iaf-system-common-service -n $project --ignore-not-found
 	          oc delete operandrequests aiopsedge-base -n $project --ignore-not-found
 	          oc delete operandrequests aiopsedge-cs -n $project --ignore-not-found    
 	          while [ $(aiops_operands_exists $project) == "true" ]
@@ -272,7 +245,7 @@ delete_installation_instance () {
 	      fi
     done
     log $INFO "Expected operandrequests got deleted successfully!"
-    oc patch -n $IBMAIOPS_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
+    oc patch -n $CP4WAIOPS_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
 
 }
 
@@ -311,9 +284,11 @@ delete_zenservice_instance () {
         do
         sleep $SLEEP_LONG_LOOP
         LOOP_COUNT=`expr $LOOP_COUNT + 1`
-        if [ $LOOP_COUNT -gt 10 ] ; then
+        if [ $LOOP_COUNT -gt 15 ] ; then
             log $ERROR "Timed out waiting for operandrequests to be deleted"
             exit 1
+        elif [ "$LOOP_COUNT" == "10" ] ; then
+            oc delete operandrequest -n ibm-common-services ibm-commonui-request
         else
             log $INFO "Found following operandrequests in the project: "
             log $INFO "$(oc get operandrequests -n ibm-common-services --no-headers)"
@@ -357,23 +332,14 @@ delete_project () {
 }
 
 delete_iaf_bedrock () {
-    log $INFO "Starting uninstall of IAF & Bedrock components"
+    log $INFO "Starting uninstall of Bedrock components"
 
-    # Delete IAF/Bedrock/Common Services from the projects they were installed in. 
-    # This is a full removal of IAF/Bedrock/Common Services operators, resources, and CRDS.
+    # Delete Bedrock/Common Services from the projects they were installed in. 
+    # This is a full removal of Bedrock/Common Services operators, resources, and CRDS.
 
     if [ $ONLY_CLOUDPAK == "true" ]; then 
 
-        # Check if there are ibm-automation-core subscriptions in namespaces outside of IBMAIOPS_PROJECT and OPENSHIFT_OPERATORS and kick out if yes
-        ADDITIONAL_IAF_NS=$(oc get subscription.operators.coreos.com -A --ignore-not-found | grep ibm-automation-core | grep -v $IBMAIOPS_PROJECT | grep -v $OPERATORS_PROJECT | while read a b; do echo "$a"; done)
-        if [[ ! -z "$ADDITIONAL_IAF_NS" ]]; then
-            log $ERROR "You're attempting to delete IAF and Bedrock CRs and CRDs but there is an additional installation in the following namespaces:"
-            log $INFO "$ADDITIONAL_IAF_NS"
-            log $ERROR "Uninstall will now exit. Please clear out your other installations."
-            exit 1
-        fi
-
-        oc patch -n $IBMAIOPS_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
+        oc patch -n $CP4WAIOPS_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
 
         oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
         oc delete rolebinding admin -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
@@ -382,25 +348,27 @@ delete_iaf_bedrock () {
         oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebinding/view -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
         oc delete rolebinding view -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
 
-        oc patch -n $IAF_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding admin -n $IAF_PROJECT --ignore-not-found
-        oc patch -n $IAF_PROJECT rolebinding/edit -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding edit -n $IAF_PROJECT --ignore-not-found
-        oc patch -n $IAF_PROJECT rolebinding/view -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding view -n $IAF_PROJECT --ignore-not-found
+        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-automation-elastic.$CP4WAIOPS_PROJECT --ignore-not-found)
+        if [[ "$subscription_check" == "" ]]; then
+            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-automation-elastic.$OPERATORS_PROJECT"
+        else
+            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-automation-elastic.$CP4WAIOPS_PROJECT"
+        fi
 
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation-ai.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation-core.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation-elastic.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation-eventprocessing.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation-flink.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-automation.$IAF_PROJECT"
-        unsubscribe "" $IAF_PROJECT "operators.coreos.com/ibm-common-service-operator.$IAF_PROJECT"
+        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-automation-flink.$CP4WAIOPS_PROJECT --ignore-not-found)
+        if [[ "$subscription_check" == "" ]]; then
+            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-automation-flink.$OPERATORS_PROJECT"
+        else
+            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-automation-flink.$CP4WAIOPS_PROJECT"
+        fi
 
-        oc delete operandrequest iaf-operator -n $IAF_PROJECT --ignore-not-found
-        oc delete operandrequest iaf-core-operator -n $IAF_PROJECT --ignore-not-found  
-      
+        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT --ignore-not-found)
+        if [[ "$subscription_check" == "" ]]; then
+            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-common-service-operator.$OPERATORS_PROJECT"
+        else
+            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT"
+        fi
+              
         # Note :  Verify there are no operandrequests & operandbindinfo at this point before proceeding.  It may take a few minutes for them to go away.
         log $INFO "Checking if operandrequests are all deleted "
         LOOP_COUNT=0
@@ -411,6 +379,9 @@ delete_iaf_bedrock () {
         if [ $LOOP_COUNT -gt 30 ]; then
             log $ERROR "Timed out waiting for all operandrequests to be deleted.  Cannot proceed with uninstallation til all operandrequests in ibm-common-services project are deleted."
             exit 1
+        elif [ "$LOOP_COUNT" == "15" ]; then
+            oc delete --all operandrequests -n ibm-common-services
+            oc delete --all operandrequests -n $CP4WAIOPS_PROJECT       
         else
             log $INFO "Found following operandrequests in the project: $(oc get operandrequests -A --ignore-not-found --no-headers)"
             log $INFO "Waiting for operandrequests instances to get deleted... Checking again in $SLEEP_LONG_LOOP seconds"
@@ -461,10 +432,15 @@ delete_iaf_bedrock () {
 
         oc delete --ignore-not-found $(oc get crd -o name | grep "serving.kubeflow.org" || echo "crd no-serving-kubeflow")
 
+        # TODO (3/23/23): We may need to keep "delete_crd_group "IAF_CRDS"" to delete elasticsearches and flinkclusters
         delete_crd_group "IAF_CRDS"
         delete_crd_group "BEDROCK_CRDS"
 
+        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebindings.authorization.openshift.io/bedrock-admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
+        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebindings.rbac.authorization.k8s.io/bedrock-admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
+
         delete_project $IBM_COMMON_SERVICES_PROJECT
+
     fi
 }
 
@@ -472,14 +448,14 @@ delete_crd_group () {
     local crd_group=$1
 
     case "$crd_group" in
-    "IBMAIOPS_CRDS") 
-        for CRD in ${IBMAIOPS_CRDS[@]}; do
+    "CP4WAIOPS_CRDS") 
+        for CRD in ${CP4WAIOPS_CRDS[@]}; do
             log $INFO "Deleting CRD $CRD.."
             oc delete crd $CRD --ignore-not-found
         done
     ;;
-    "IBMAIOPS_DEPENDENT_CRDS") 
-        for CRD in ${IBMAIOPS_DEPENDENT_CRDS[@]}; do
+    "CP4WAIOPS_DEPENDENT_CRDS") 
+        for CRD in ${CP4WAIOPS_DEPENDENT_CRDS[@]}; do
             log $INFO "Deleting CRD $CRD.."
             oc delete crd $CRD --ignore-not-found
         done
@@ -490,6 +466,12 @@ delete_crd_group () {
     ;;
     "BEDROCK_CRDS") 
         for CRD in ${BEDROCK_CRDS[@]}; do
+            log $INFO "Deleting CRD $CRD.."
+            oc delete crd $CRD --ignore-not-found
+        done
+    ;;
+    "ASM_CRDS")
+        for CRD in ${ASM_CRDS[@]}; do
             log $INFO "Deleting CRD $CRD.."
             oc delete crd $CRD --ignore-not-found
         done
@@ -505,22 +487,22 @@ if [[ $DELETE_ALL == "true" ]]; then
 fi
 
 if [[ $DELETE_ALL != "true" ]] && [[ $DELETE_ALL != "false" ]]; then
-    log $ERROR "The DELETE_ALL flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibm-aiops.props file."
+    log $ERROR "The DELETE_ALL flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
     exit 1
 fi
 
 if [[ $ONLY_CLOUDPAK != "true" ]] && [[ $ONLY_CLOUDPAK != "false" ]]; then
-    log $ERROR "The ONLY_CLOUDPAK flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibm-aiops.props file."
+    log $ERROR "The ONLY_CLOUDPAK flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
     exit 1
 fi
 
 if [[ $DELETE_PVCS != "true" ]] && [[ $DELETE_PVCS != "false" ]]; then
-    log $ERROR "The DELETE_PVCS flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibm-aiops.props file."
+    log $ERROR "The DELETE_PVCS flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
     exit 1
 fi
 
 if [[ $DELETE_CRDS != "true" ]] && [[ $DELETE_CRDS != "false" ]]; then
-    log $ERROR "The DELETE_CRDS flag must have a value of either \"true\" or \"false\". Please review the uninstall-ibm-aiops.props file."
+    log $ERROR "The DELETE_CRDS flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
     exit 1
 fi
 
@@ -528,51 +510,60 @@ fi
 
 display_script_properties(){
 
-log $INFO "##### Properties in uninstall-ibm-aiops.props #####"
+log $INFO "##### Properties in uninstall-cp4waiops.props #####"
 log $INFO
 if [[ $DELETE_ALL == "true" ]]; then
-	log $INFO "\033[1;36m The script uninstall-ibm-aiops.props has 'DELETE_ALL=true', hence the script will execute wih below values: \033[0m"
+	log $INFO "\033[1;36m The script uninstall-cp4waiops.props has 'DELETE_ALL=true', hence the script will execute wih below values: \033[0m"
 else
-    log $INFO "The script uninstall-ibm-aiops.props has the properties with below values: "
+    log $INFO "The script uninstall-cp4waiops.props has the properties with below values: "
 fi
 log $INFO
-log $INFO "IBMAIOPS_PROJECT=$IBMAIOPS_PROJECT"
+log $INFO "CP4WAIOPS_PROJECT=$CP4WAIOPS_PROJECT"
 log $INFO "INSTALLATION_NAME=$INSTALLATION_NAME"
 log $INFO "ONLY_CLOUDPAK=\033[1;36m$ONLY_CLOUDPAK\033[0m"
 log $INFO "DELETE_PVCS=\033[1;36m$DELETE_PVCS\033[0m"
 log $INFO "DELETE_CRDS=\033[1;36m$DELETE_CRDS\033[0m"
 log $INFO
-log $INFO "##### Properties in uninstall-ibm-aiops.props #####"
+log $INFO "##### Properties in uninstall-cp4waiops.props #####"
 }
 
 check_additional_installation_exists(){
-
   log $INFO "Checking if any additional installation resources found in the cluster."
   installation_returned_value=$(oc get installations.orchestrator.aiops.ibm.com -A)
   if [[ ! -z $installation_returned_value  ]] ; then
-     log $ERROR "Some additional installation cr found in the cluster, please delete the installation cr's and try again."
      log $ERROR "Remaining installation cr found : "
      oc get installations.orchestrator.aiops.ibm.com -A
-     exit 1
+     log $INFO "Deleting remaining installation"
+     
+     # Get name and namespace of additional install
+     local INSTALLATION_NAME=$(oc get installations.orchestrator.aiops.ibm.com -A --no-headers=true | awk '{print $2}')
+     local CP4WAIOPS_PROJECT=$(oc get installations.orchestrator.aiops.ibm.com -A --no-headers=true | awk '{print $1}')
+     # Change the value of the name and namespace in the props file
+     sed -i -e "s,^CP4WAIOPS_PROJECT=\".*\",CP4WAIOPS_PROJECT=\"$CP4WAIOPS_PROJECT\",;  s,^INSTALLATION_NAME=\".*\",INSTALLATION_NAME=\"$INSTALLATION_NAME\"," ./uninstall-cp4waiops.props
+     . ./uninstall-cp4waiops.props
+
+     oc delete installation.orchestrator.aiops.ibm.com $INSTALLATION_NAME -n $CP4WAIOPS_PROJECT
+     return 1
   else
      log $INFO "No additional installation resources found in the cluster."
+     return 0
   fi
 }
 
 check_additional_asm_exists(){
     log $INFO "Checking if any additional ASM resources (ie from Event Manager installation) are on the cluster."
-    if [ `oc get asms.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $IBMAIOPS_PROJECT; done | wc -l`  -gt 0 ] ||
-     [ `oc get asmformations.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $IBMAIOPS_PROJECT; done | wc -l` -gt 0 ] ; then
-        log $INFO "ASM resource instances were found outside the $IBMAIOPS_PROJECT namespace"
+    if [ `oc get asms.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $CP4WAIOPS_PROJECT; done | wc -l`  -gt 0 ] ||
+     [ `oc get asmformations.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $CP4WAIOPS_PROJECT; done | wc -l` -gt 0 ] ; then
+        log $INFO "ASM resource instances were found outside the $CP4WAIOPS_PROJECT namespace"
         DELETE_ASM="false"
     else
-        log $INFO "No ASM resource instances were found outside the $IBMAIOPS_PROJECT namespace, so the ASM CRDs can be deleted."
+        log $INFO "No ASM resource instances were found outside the $CP4WAIOPS_PROJECT namespace, so the ASM CRDs can be deleted."
         DELETE_ASM="true"
     fi
 }
 
 delete_connections() {
-   until GET_AIOC_MSG=$(oc -n $IBMAIOPS_PROJECT get connectorconfigurations.connectors.aiops.ibm.com -o name 2>&1); do
+   until GET_AIOC_MSG=$(oc -n $CP4WAIOPS_PROJECT get connectorconfigurations.connectors.aiops.ibm.com -o name 2>&1); do
         if [[ "$GET_AIOC_MSG" == "error: the server doesn't have a resource type \"connectorconfigurations\"" ]]; then
             log $INFO "ConnectorConfiguration CRD is not installed, no need to clean up connections"
             return
@@ -580,17 +571,17 @@ delete_connections() {
         sleep 10
    done
    log $INFO "Deleting all ConnectorConfigurations"
-   oc -n $IBMAIOPS_PROJECT delete connectorconfigurations.connectors.aiops.ibm.com --all &
+   oc -n $CP4WAIOPS_PROJECT delete connectorconfigurations.connectors.aiops.ibm.com --all &
    log $INFO "waiting for ConnectorComponent termination"
-   until [[ `oc -n $IBMAIOPS_PROJECT get connectorcomponents.connectors.aiops.ibm.com -o name | wc -l` -eq 0 ]]; do
-        oc -n $IBMAIOPS_PROJECT get connectorcomponents.connectors.aiops.ibm.com -o name | while read r; do
-            DEL_TIMESTAMP=$(oc -n $IBMAIOPS_PROJECT get $r -o jsonpath={.metadata.deletionTimestamp} 2>>/dev/null) || continue
+   until [[ `oc -n $CP4WAIOPS_PROJECT get connectorcomponents.connectors.aiops.ibm.com -o name | wc -l` -eq 0 ]]; do
+        oc -n $CP4WAIOPS_PROJECT get connectorcomponents.connectors.aiops.ibm.com -o name | while read r; do
+            DEL_TIMESTAMP=$(oc -n $CP4WAIOPS_PROJECT get $r -o jsonpath={.metadata.deletionTimestamp} 2>>/dev/null) || continue
             DEL_TIMESTAMP=$(date --date $DEL_TIMESTAMP +%s 2>>/dev/null) || continue
             NOW=$(date +%s)
             DELTA=$((NOW - DEL_TIMESTAMP))
             if ((DELTA > 300)); then
                 log $INFO "removing finalizers from ConnectorComponent that has been Terminating for over $DELTA seconds"
-                oc -n $IBMAIOPS_PROJECT patch $r -p '{"metadata":{"finalizers":[]}}' --type=merge
+                oc -n $CP4WAIOPS_PROJECT patch $r -p '{"metadata":{"finalizers":[]}}' --type=merge
             fi
         done
         sleep 10
@@ -599,13 +590,13 @@ delete_connections() {
 }
 
 delete_securetunnel(){
-    log $INFO "Deleting the Secure tunnel resources in $IBMAIOPS_PROJECT "
-    oc -n $IBMAIOPS_PROJECT delete tunnelconnections.securetunnel.management.ibm.com --all 2>>/dev/null
-    oc -n $IBMAIOPS_PROJECT delete applicationmappings.securetunnel.management.ibm.com --all 2>>/dev/null
-    oc -n $IBMAIOPS_PROJECT delete templates.securetunnel.management.ibm.com --all 2>>/dev/null
-    oc -n $IBMAIOPS_PROJECT delete tunnelconnections.tunnel.management.ibm.com --all 2>>/dev/null
-    oc -n $IBMAIOPS_PROJECT delete applicationmappings.tunnel.management.ibm.com --all 2>>/dev/null
-    oc -n $IBMAIOPS_PROJECT delete templates.tunnel.management.ibm.com --all 2>>/dev/null
+    log $INFO "Deleting the Secure tunnel resources in $CP4WAIOPS_PROJECT "
+    oc -n $CP4WAIOPS_PROJECT delete tunnelconnections.securetunnel.management.ibm.com --all 2>>/dev/null
+    oc -n $CP4WAIOPS_PROJECT delete applicationmappings.securetunnel.management.ibm.com --all 2>>/dev/null
+    oc -n $CP4WAIOPS_PROJECT delete templates.securetunnel.management.ibm.com --all 2>>/dev/null
+    oc -n $CP4WAIOPS_PROJECT delete tunnelconnections.tunnel.management.ibm.com --all 2>>/dev/null
+    oc -n $CP4WAIOPS_PROJECT delete applicationmappings.tunnel.management.ibm.com --all 2>>/dev/null
+    oc -n $CP4WAIOPS_PROJECT delete templates.tunnel.management.ibm.com --all 2>>/dev/null
     # check if there have another Secure tunnel operator reference to the Secure Tunnel CRDs
     COUNT=`oc get deployment -A | grep ibm-secure-tunnel-operator | wc -l`
     if [ "${COUNT}" == "0" ]; then
@@ -618,7 +609,15 @@ delete_securetunnel(){
         oc delete crd templates.tunnel.management.ibm.com 2>>/dev/null
     fi
     log $INFO "Finished deleting securetunnel resources"
-    # Securetunnel secrets are removed via resource group IBMAIOPS_INTERNAL_SECRETS
+    # Securetunnel secrets are removed via resource group CP4WAIOPS_INTERNAL_SECRETS
+}
+
+delete_IRCoreResources(){
+    # Get the name of the leftover IR Core resource
+    IRCoreName=$(oc get Role | grep ibm-aiops-ir-core | awk '{ print $1 }')
+
+    oc delete role/$IRCoreName --ignore-not-found
+    oc delete rolebinding/$IRCoreName --ignore-not-found
 }
 
 delete_crossplane(){
@@ -627,11 +626,11 @@ delete_crossplane(){
 
     log $INFO "Delete the Crossplane custom resources"
     # remove finalizers from and delete kafkaclaim, configurationrevisions, composition, objects, provider configs
-    log $INFO "Deleting kafkaclaims in $IBMAIOPS_PROJECT"
+    log $INFO "Deleting kafkaclaims in $CP4WAIOPS_PROJECT"
     for KAFKACLAIM in ${CROSSPLANE_KAFKACLAIMS[@]}; do
       log $INFO "Deleting $KAFKACLAIM..."
-      oc patch -n $IBMAIOPS_PROJECT $KAFKACLAIM --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-      oc delete $KAFKACLAIM -n $IBMAIOPS_PROJECT --ignore-not-found
+      oc patch -n $CP4WAIOPS_PROJECT $KAFKACLAIM --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+      oc delete $KAFKACLAIM -n $CP4WAIOPS_PROJECT --ignore-not-found
     done
 
     log $INFO "Deleting Object resources at the cluster scope"
