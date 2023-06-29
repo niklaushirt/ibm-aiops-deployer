@@ -381,7 +381,7 @@ data:
       - name: ibm-aiops-instana
         kind: Instana
         install: true
-        instana_version: 249-1
+        instana_version: 251-0
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
         sales_key: 'NONE'
