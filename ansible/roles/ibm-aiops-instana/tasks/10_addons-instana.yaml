@@ -424,7 +424,6 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
   shell: |
-
     export MAJ_VERSION=$(echo $version|cut -f1 -d-)
     # https://self-hosted.instana.io/
     if [ -x "$(command -v kubectl-instana)" ]; then
