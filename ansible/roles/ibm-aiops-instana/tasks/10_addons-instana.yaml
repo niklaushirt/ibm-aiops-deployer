@@ -692,6 +692,9 @@
 
 - name: 🚀 INSTANA - Create License
   shell: |
+    echo "-----------------------------------------------------------"
+    cat ./license.json
+    echo "-----------------------------------------------------------"
     cat ./config.yaml
     #create dev unit secret
     export LICENSE_STRING=$(cat license.json | sed -e 's/\[//g' -e 's/\"//g' -e 's/\]//g')
@@ -701,7 +704,7 @@
     echo "  - {{current_agent_key}}" >> config.yaml
     echo "initialAdminPassword: {{current_admin_pass}}" >> config.yaml
     echo "initialAdminUser: {{current_ibmaiops_feature.instana_admin_user}}" >> config.yaml
-
+    echo "-----------------------------------------------------------"
     oc -n instana-units create secret generic aiops-dev --from-file=./config.yaml
     cat ./config.yaml
 
@@ -713,7 +716,7 @@
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
-    verbosity: 1
+    #verbosity: 1
 
 
 
