@@ -424,6 +424,8 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
   shell: |
+
+    export MAJ_VERSION=$(echo $version|cut -f1 -d-)
     # https://self-hosted.instana.io/
     if [ -x "$(command -v kubectl-instana)" ]; then
         echo "Kubectl Instana Plugin already installed"
@@ -431,15 +433,15 @@
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         echo "Installing Kubectl Instana Plugin for $OS"
         if [ "${OS}" == "darwin" ]; then
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${{{current_ibmaiops_feature.instana_version | default("251-0") }}##*-}/kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
+              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-$MAJ_VERSION/kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
               tar xfvz kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
               sudo mv kubectl-instana /usr/local/bin/kubectl-instana
               rm kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
         else
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${{{current_ibmaiops_feature.instana_version | default("251-0") }}##*-}/kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              tar xfvz kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
+              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-$MAJ_VERSION/kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
+              tar xfvz kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
               mv kubectl-instana /usr/local/bin/kubectl-instana
-              rm kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
+              rm kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
         fi
     fi
     if [ -x "$(command -v kubectl-instana)" ]; then
