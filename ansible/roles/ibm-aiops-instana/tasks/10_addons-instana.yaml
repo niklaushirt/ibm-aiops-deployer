@@ -734,7 +734,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Operator being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🕦 INSTANA - Wait for Operator to become ready
+- name:   🕦 INSTANA - Wait for Operator to become ready (if this hangs delete Pod in instana-operators)
   shell: |
     while [ `oc -n instana-operator get pods| grep '1/1' | grep -c ""` -lt 2 ]
     do
