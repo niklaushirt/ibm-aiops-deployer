@@ -96,6 +96,10 @@ spec:
             storage: 300Gi
         storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
   datastoreConfigs:
+    beeInstanaConfig:
+      hosts:
+        - aggregators.instana-datastores
+      clustered: true
     cassandraConfigs:
       - hosts:
           - instana-cassandra-service.instana-datastores.svc
