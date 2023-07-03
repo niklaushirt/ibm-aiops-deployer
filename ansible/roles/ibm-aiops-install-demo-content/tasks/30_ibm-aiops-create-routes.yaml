@@ -167,7 +167,7 @@
       existing=$(oc get route job-manager -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route edge job-manager -n $AIOPS_NAMESPACE --service=ibm-aiops-eventprocessor-eve-29ee-ep-jobmanager --port=ui
+        oc create route edge job-manager -n $AIOPS_NAMESPACE --service=cp4waiops-eventprocessor-eve-29ee-ep-jobmanager --port=ui
       fi
     ignore_errors: true
     register: output
