@@ -40,6 +40,16 @@ data:
       principals:
         - id: YourApplicationClientID
           secret: YourSecretValue
+    com.instana.plugin.action:
+      enabled: true # by default is false
+    com.instana.plugin.action.script:
+      enabled: true # by default is false
+    com.instana.plugin.vsphere:
+      host: https://myvsphere/sdk
+      username: administrator@myvsphere.com
+      password: myvspherepassword
+      enabled: true
+      poll_rate: 20 # metrics poll rate in seconds
 ---
 apiVersion: apps/v1
 kind: DaemonSet
