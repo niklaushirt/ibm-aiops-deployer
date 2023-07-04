@@ -17,6 +17,7 @@ oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-
 oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
 
 ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
+./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
 
 
 

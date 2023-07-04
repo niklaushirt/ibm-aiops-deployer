@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.49
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,50 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: instana-agent
-  namespace: instana-agent
-  labels:
-    app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
-spec:
-  selector:
-    app.kubernetes.io/name: instana-agent
-  ports:
-    # Prometheus remote_write, Trace Web SDK and other APIs
-    - name: agent-apis
-      protocol: TCP
-      port: 42699
-      targetPort: 42699
-    
-  internalTrafficPolicy: Local
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: instana-agent-headless
-  namespace: instana-agent
-  labels:
-    app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
-spec:
-  clusterIP: None
-  selector:
-    app.kubernetes.io/name: instana-agent
-  ports:
-    # Prometheus remote_write, Trace Web SDK and other APIs
-    - name: agent-apis
-      protocol: TCP
-      port: 42699
-      targetPort: 42699
-    - name: agent-socket
-      protocol: TCP
-      port: 42666
-      targetPort: 42666
+    app.kubernetes.io/version: 1.2.49
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -66,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.49
 data:
   cluster_name: "Demo"
   configuration.yaml: |
@@ -99,7 +56,6 @@ data:
       enabled: true
       poll_rate: 20 # metrics poll rate in seconds
 ---
-# TODO: Combine into single template with agent-daemonset-with-zones.yaml---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -107,7 +63,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.49
 spec:
   selector:
     matchLabels:
@@ -120,7 +76,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.59
+        app.kubernetes.io/version: 1.2.49
         instana/agent-mode: "APM"
       annotations: {}
     spec:
@@ -221,7 +177,7 @@ spec:
           ports:
             - containerPort: 42699
         - name: leader-elector
-          image: "icr.io/instana/leader-elector:0.5.18"
+          image: "icr.io/instana/leader-elector:0.5.16"
           env:
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
@@ -281,7 +237,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.49
 rules:
 - nonResourceURLs:
     - "/version"
@@ -344,7 +300,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.49
 subjects:
 - kind: ServiceAccount
   name: instana-agent
