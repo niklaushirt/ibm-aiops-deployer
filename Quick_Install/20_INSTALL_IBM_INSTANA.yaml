@@ -138,8 +138,8 @@ data:
         kind: Instana
         install: true
         instana_version: 251-0
-        # Can be large, medium, small (default)
-        instana_size: small
+        # Can be large, medium (default), small 
+        instana_size: medium
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
         sales_key: 'NONE'
