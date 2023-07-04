@@ -382,6 +382,9 @@ data:
         kind: Instana
         install: true
         instana_version: 251-0
+        # Can be large, medium, small (default)
+        instana_size: small
+
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
         sales_key: 'NONE'
@@ -450,7 +453,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-aiops
+  name: ibm-aiops-aiops-install-all
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
