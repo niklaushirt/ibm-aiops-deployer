@@ -41,7 +41,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: aiops-restart-spark-jobs
+  name: ibm-aiops-restart-spark-jobs
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
