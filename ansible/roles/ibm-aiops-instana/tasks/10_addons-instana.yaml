@@ -79,6 +79,10 @@
 - name:   🚀 INSTANA - Create Backend Datastore Namespace
   shell: |
     oc create ns instana-datastores
+    oc -n instana-datastores create secret docker-registry instana-registry \
+    --docker-username=_ \
+    --docker-password={{current_agent_key}} \
+    --docker-server=artifact-public.instana.io   
   ignore_errors: true
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Install Helm
