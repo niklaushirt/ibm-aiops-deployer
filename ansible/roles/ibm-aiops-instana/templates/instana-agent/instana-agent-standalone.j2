@@ -44,6 +44,11 @@ data:
       enabled: true # by default is false
     com.instana.plugin.action.script:
       enabled: true # by default is false
+      runAs: 'root'
+      scriptExecutionHome: '/tmp' # The path used for action script executions.
+    com.instana.plugin.action.http:
+      enabled: true # by default is false
+      maxConcurrentActions: 5  # optional, default value is 10
     com.instana.plugin.vsphere:
       host: https://myvsphere/sdk
       username: administrator@myvsphere.com
