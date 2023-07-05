@@ -151,7 +151,7 @@ spec:
             port: 5432
         authEnabled: true
   enableNetworkPolicies: false
-  resourceProfile: medium
+  resourceProfile: {{current_ibmaiops_feature.instana_size  | default("medium")}}
   imageConfig: {}
   emailConfig:
     smtpConfig:
