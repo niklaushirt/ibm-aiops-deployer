@@ -142,12 +142,12 @@
 
 - name: Get Licenses from Env Variable
   block:
-  - name: 💾 SET sales_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
-    set_fact: current_sales_key={{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
+    - name: 💾 SET sales_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
+      set_fact: current_sales_key={{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
 
-  - name: 💾 SET agent_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
-    set_fact: current_agent_key={{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
-  when: current_sales_key == "NONE" 
+    - name: 💾 SET agent_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
+      set_fact: current_agent_key={{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
+  when: current_sales_key == "NONE" or current_agent_key == "NONE" 
 
 
 
@@ -220,6 +220,6 @@
     - " ✅ OK...."
     - ""
     #verbosity: 2
-  when: current_sales_key != "NONE" or current_agent_key != "NONE"
+  when: current_sales_key != "NONE" and current_agent_key != "NONE"
 
 
