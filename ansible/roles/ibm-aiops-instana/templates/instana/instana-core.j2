@@ -72,7 +72,7 @@ spec:
     - name: feature.action.automation.enabled
       enabled: true
   agentAcceptorConfig:
-    host: {{BASE_DOMAIN}}
+    host: agent.{{BASE_DOMAIN}}
     port: 443
   properties:
     - name: retention.metrics.rollup5
@@ -151,7 +151,7 @@ spec:
             port: 5432
         authEnabled: true
   enableNetworkPolicies: false
-  resourceProfile: medium
+  resourceProfile: {{current_ibmaiops_feature.instana_size  | default("medium")}}
   imageConfig: {}
   emailConfig:
     smtpConfig:

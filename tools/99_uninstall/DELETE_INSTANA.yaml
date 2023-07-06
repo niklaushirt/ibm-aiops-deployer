@@ -95,19 +95,25 @@ spec:
               echo ""
 
               
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Delete Agent"
               oc scale deployment  -n instana-operator instana-operator --replicas=0
-
               oc delete agents.instana.io -n instana-agent instana-agent
               oc delete subscription -n openshift-operators instana-agent
               oc delete DaemonSet -n instana-agent --all
 
-                #delete instana based on flag
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Delete Units and Core"
               oc -n instana-units delete unit --all &
               oc -n instana-core delete core --all &
 
               oc -n instana-core patch core instana-core -p '{"metadata":{"finalizers":null}}' --type=merge
               oc -n instana-units patch unit aiops-dev -p '{"metadata":{"finalizers":null}}' --type=merge
               oc -n instana-units patch unit aiops-prod  -p '{"metadata":{"finalizers":null}}' --type=merge
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Delete Operator"
               oc project instana-operator
               oc delete deployment  -n instana-operator --all              
               oc delete clusterrolebinding instana-agent
@@ -115,33 +121,41 @@ spec:
               echo ""
 
 
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Delete Datastores"
               oc project instana-datastores
 
+              echo " 🚀 Delete Instances"
               oc delete zookeeperclusters  -n instana-datastores --all  &
               oc delete BeeInstana  -n instana-datastores --all  &
-              oc delete zookeeperclusters  -n instana-datastores --all  &
 
+              echo " 🚀 Delete Operators via Helm"
               helm delete elastic-operator  &
               helm delete instana           &
               helm delete postgres-operator &
               helm delete strimzi           &
-              helm delete beeinstana           &
+              helm delete beeinstana        &
 
+              echo " 🚀 Patch Instances Finalizers"
               oc patch ClickHouseInstallation $(oc get ClickHouseInstallation -n instana-datastores|awk '{print$1}') -n instana-datastores -p '{"metadata":{"finalizers":null}}' --type=merge 
               oc patch zookeepercluster $(oc get zookeepercluster -n instana-datastores|awk '{print$1}') -n instana-datastores -p '{"metadata":{"finalizers":null}}' --type=merge 
               oc patch cassandradatacenters $(oc get cassandradatacenters -n instana-datastores|awk '{print$1}') -n instana-datastores -p '{"metadata":{"finalizers":null}}' --type=merge 
               oc patch clickhouseinstallations $(oc get clickhouseinstallations -n instana-datastores|awk '{print$1}') -n instana-datastores -p '{"metadata":{"finalizers":null}}' --type=merge 
+              oc patch BeeInstana $(oc get BeeInstana -n instana-datastores|awk '{print$1}') -n instana-datastores -p '{"metadata":{"finalizers":null}}' --type=merge 
 
+              echo " 🚀 Delete Objects"
               oc delete deployment  -n instana-datastores --all  &
               oc delete statefulset  -n instana-datastores --all  &
               oc delete services  -n instana-datastores --all  &
               oc delete jobs  -n instana-datastores --all  &
               oc delete pods  -n instana-datastores --all  &
-
               oc delete deployment  -n instana-operator --all  &
               oc delete pvc  -n instana-datastores --all  &
               oc delete zookeeperclusters  -n instana-datastores --all  &
 
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Delete Namespaces"
               oc delete ns instana-datastores &
               oc delete ns instana-agent &
               oc delete ns instana-operator & 
@@ -149,6 +163,12 @@ spec:
               oc delete ns instana-core &
               oc delete ns instana-synthetic &
               oc delete pvc  -n instana-datastores --all  &
+
+              sleep 30
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Retry Delete Stuff"
+              oc delete zookeeperclusters  -n instana-datastores --all  &
+              oc delete BeeInstana  -n instana-datastores --all  &
 
 
               echo "*****************************************************************************************************************************"
