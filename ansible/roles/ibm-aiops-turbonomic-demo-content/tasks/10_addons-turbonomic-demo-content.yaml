@@ -247,6 +247,196 @@
 
 
 
+- name: 🚀 TURBONOMIC - Create Group Azure VMs
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 📥 Create demo User"
+    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+      {
+        "displayName": "Azure VMs",
+        "className": "Group",
+        "groupType": "VirtualMachine",
+        "environmentType": "ONPREM",
+        "isStatic": false,
+        "logicalOperator": "AND",
+        "criteriaList": [{
+            "expVal": "AZURE",
+            "expType": "EQ",
+            "filterType": "vmsByCloudProvider",
+            "caseSensitive": false,
+            "entityType": null,
+            "singleLine": false
+        }],
+        "temporary": false,
+        "memberTypes": [
+          "VirtualMachine"
+        ],
+        "entityTypes": [
+          "VirtualMachine"
+        ],
+        "groupOrigin": "USER",
+        "groupClassName": "GroupApiDTO"
+      }
+    
+      ')
+    echo $result
+    echo ""
+    echo ""
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+
+
+
+- name: 🚀 TURBONOMIC - Create Group AWS VMs
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 📥 Create demo User"
+    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+      {
+        "displayName": "AWS VMs",
+        "className": "Group",
+        "groupType": "VirtualMachine",
+        "environmentType": "ONPREM",
+        "isStatic": false,
+        "logicalOperator": "AND",
+        "criteriaList": [{
+            "expVal": "AWS",
+            "expType": "EQ",
+            "filterType": "vmsByCloudProvider",
+            "caseSensitive": false,
+            "entityType": null,
+            "singleLine": false
+        }],
+        "temporary": false,
+        "memberTypes": [
+          "VirtualMachine"
+        ],
+        "entityTypes": [
+          "VirtualMachine"
+        ],
+        "groupOrigin": "USER",
+        "groupClassName": "GroupApiDTO"
+      }
+    
+      ')
+    echo $result
+    echo ""
+    echo ""
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+
+
+- name: 🚀 TURBONOMIC - Create Group Google VMs
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 📥 Create demo User"
+    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+      {
+        "displayName": "Google VMs",
+        "className": "Group",
+        "groupType": "VirtualMachine",
+        "environmentType": "ONPREM",
+        "isStatic": false,
+        "logicalOperator": "AND",
+        "criteriaList": [{
+            "expVal": "GCP",
+            "expType": "EQ",
+            "filterType": "vmsByCloudProvider",
+            "caseSensitive": false,
+            "entityType": null,
+            "singleLine": false
+        }],
+        "temporary": false,
+        "memberTypes": [
+          "VirtualMachine"
+        ],
+        "entityTypes": [
+          "VirtualMachine"
+        ],
+        "groupOrigin": "USER",
+        "groupClassName": "GroupApiDTO"
+      }
+    
+      ')
+    echo $result
+    echo ""
+    echo ""
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+
+
+- name: 🚀 TURBONOMIC - Create Group Kubernetes VMs
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 📥 Create demo User"
+    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+      {
+        "displayName": "Kubernetes VMs",
+        "className": "Group",
+        "groupType": "VirtualMachine",
+        "environmentType": "ONPREM",
+        "isStatic": false,
+        "logicalOperator": "AND",
+        "criteriaList": [
+          {
+            "expVal": "Kubernetes",
+            "expType": "EQ",
+            "filterType": "vmByTargetType",
+            "caseSensitive": false,
+            "entityType": null,
+            "singleLine": false
+          }
+        ],
+        "temporary": false,
+        "memberTypes": [
+          "VirtualMachine"
+        ],
+        "entityTypes": [
+          "VirtualMachine"
+        ],
+        "groupOrigin": "USER",
+        "groupClassName": "GroupApiDTO"
+      }
+    
+      ')
+    echo $result
+    echo ""
+    echo ""
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+  when: current_ibmaiops_feature.group_vcenter_vms == true
+
 
 
 - name: 🚀 TURBONOMIC - Create Group RobotShop AppComponents
