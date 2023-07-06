@@ -391,6 +391,10 @@ data:
         agent_key: 'NONE'
 
         # ---------------------------------------------------------------------
+        # INSTANA DATASTORE
+        instana_beeinstana_mirrors: 2  # Set to 1 for single node installations
+
+        # ---------------------------------------------------------------------
         # INSTANA ADMIN LOGIN
         # Admin User Name
         instana_admin_user: "admin@instana.local"

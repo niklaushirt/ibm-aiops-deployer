@@ -46,7 +46,7 @@ spec:
     cpu: 4
     memory: 16Gi
     limitMemory: true
-    mirrors: 1
+    mirrors: {{current_ibmaiops_feature.instana_beeinstana_mirrors  | default("2")}}
     shards: 1
     volumes:
       live:
