@@ -147,7 +147,7 @@
 
   - name: 💾 SET agent_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
     set_fact: current_agent_key={{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
-  when: current_sales_key = "NONE" 
+  when: current_sales_key == "NONE" 
 
 
 
