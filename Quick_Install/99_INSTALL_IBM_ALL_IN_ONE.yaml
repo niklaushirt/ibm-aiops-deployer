@@ -585,6 +585,7 @@ spec:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-all
                 key: ENTITLED_REGISTRY_KEY
+                optional: true
           volumeMounts:
             - name: config-file
               mountPath: /tmp/config-file
@@ -597,5 +598,3 @@ spec:
               path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
   backoffLimit: 400
-
-
