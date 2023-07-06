@@ -313,13 +313,37 @@ spec:
                 sleep 1000
               done
 
+
           env:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-turbo
                 key: INSTALL_REPO
-
+          - name: TURBO_LICENSE
+            valueFrom:
+              configMapKeyRef:
+                name: ibm-aiops-install-configuration-turbo
+                key: TURBO_LICENSE
+                optional: true
+          - name: INSTANA_SALES_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: ibm-aiops-install-configuration-turbo
+                key: INSTANA_SALES_KEY
+                optional: true
+          - name: INSTANA_AGENT_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: ibm-aiops-install-configuration-turbo
+                key: INSTANA_AGENT_KEY
+                optional: true
+          - name: ENTITLED_REGISTRY_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: ibm-aiops-install-configuration-turbo
+                key: ENTITLED_REGISTRY_KEY
+                optional: true
           volumeMounts:
             - name: config-file
               mountPath: /tmp/config-file
@@ -332,7 +356,5 @@ spec:
               path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
   backoffLimit: 400
-
-
 
 

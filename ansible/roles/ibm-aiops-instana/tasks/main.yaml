@@ -128,15 +128,29 @@
 # Check Encrypted Licenses
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
-- name: Get Licenses 
-  block:
 
+- name: Get Licenses from Config
+  block:
   - name: 💾 SET sales_key from Config File - {{current_ibmaiops_feature.sales_key | default("NONE")}} 
     set_fact: current_sales_key={{current_ibmaiops_feature.sales_key| default("NONE")}}
 
-
-  - name: 💾 SET agent_key from  Config File  - {{current_ibmaiops_feature.agent_key | default("NONE")}} 
+  - name: 💾 SET agent_key from Config File  - {{current_ibmaiops_feature.agent_key | default("NONE")}} 
     set_fact: current_agent_key={{current_ibmaiops_feature.agent_key| default("NONE")}}
+
+
+
+
+- name: Get Licenses from Env Variable
+  block:
+    - name: 💾 SET sales_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
+      set_fact: current_sales_key={{ lookup('ansible.builtin.env', 'INSTANA_SALES_KEY', default='NONE') }}
+
+    - name: 💾 SET agent_key from Env Variable - {{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
+      set_fact: current_agent_key={{ lookup('ansible.builtin.env', 'INSTANA_AGENT_KEY', default='NONE') }}
+  when: current_sales_key == "NONE" or current_agent_key == "NONE" 
+
+
+
 
 
 
@@ -146,7 +160,6 @@
     shell: |
       echo {{global_config.license_token}} > /tmp/pwd.yaml
     ignore_errors: true
-
 
   - name: Get License from Vault
     shell: |
@@ -162,7 +175,6 @@
     register: OUTPUT
     ignore_errors: true
 
-
   - name: Include License from Vault
     ansible.builtin.include_vars:
       file: /tmp/license.yaml
@@ -175,15 +187,11 @@
       rm /tmp/license.yaml
     ignore_errors: true
 
-      
   - name: 💾 SET sales_key from Vault
     set_fact: current_sales_key={{licenses.sales_key }} 
 
   - name: 💾 SET agent_key from Vault
     set_fact: current_agent_key={{licenses.agent_key }} 
-
-
-
 
   when: global_config.license_token is defined 
 
@@ -211,8 +219,8 @@
     - " Agent Key:      {{ current_agent_key}}"
     - " ✅ OK...."
     - ""
-    verbosity: 2
-  when: current_sales_key != "NONE" or current_agent_key != "NONE"
+    #verbosity: 2
+  when: current_sales_key != "NONE" and current_agent_key != "NONE"
 
 
 
@@ -307,7 +315,7 @@
   # CHECKS
   # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-  #when: current_sales_key != "NONE" and current_agent_key != "NONE"
+  when: current_sales_key != "NONE" and current_agent_key != "NONE"
   ignore_errors: true
 
 

@@ -108,10 +108,15 @@
 # *************************************************************************************************************************************************
 - name: Get Licenses 
   block:
-
   - name: 💾 SET Turbo License from Config File - {{current_ibmaiops_feature.turbo_license | default("NONE")}} 
     set_fact: current_turbo_license={{current_ibmaiops_feature.turbo_license| default("NONE")}}
 
+
+- name: Get Licenses from Env Variable
+  block:
+    - name: 💾 SET Turbo License from Env Variable - {{ lookup('ansible.builtin.env', 'TURBO_LICENSE', default='NONE') }}
+      set_fact: current_turbo_license={{ lookup('ansible.builtin.env', 'TURBO_LICENSE', default='NONE') }}
+  when: current_turbo_license == "NONE" 
 
 
 - name: Decrypt Licenses 
@@ -135,13 +140,11 @@
       ansible-vault decrypt --vault-password-file /tmp/pwd.yaml --output /tmp/license.yaml "$LICENSE_FILE"
     ignore_errors: true
 
-
   - name: Include License from Vault
     ansible.builtin.include_vars:
       file: /tmp/license.yaml
       name: licenses
     ignore_errors: true
-
 
   - name: Cleanup
     shell: |
@@ -149,12 +152,8 @@
       rm /tmp/license.yaml
     ignore_errors: true
 
-      
   - name: 💾 SET Turbo License from Vault
     set_fact: current_turbo_license={{licenses.turbo_license }} 
-
-
-
   when: global_config.license_token is defined 
 
 
@@ -171,7 +170,6 @@
 
 
 
-
 - name:  🟢 Turbo License - OK"
   debug:
     msg:
@@ -181,10 +179,6 @@
     - ""
     verbosity: 2
   when: current_turbo_license != "NONE"
-
-
-
-
 
 
 
