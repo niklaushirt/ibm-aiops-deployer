@@ -215,3 +215,118 @@
   when: current_sales_key != "NONE" or current_agent_key != "NONE"
 
 
+
+
+- name: Install Instana if sales and agent key provided
+  block:
+
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+  # INITIALIZATION
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+  # Placeholder for customization
+  - name: 🟡🟡🟡 Initialize Custom Hook
+    include_tasks: 00_init-custom-hook.yaml
+
+  # Initialize Logging
+  - name: 🟡🟡🟡 Initialize Logging
+    include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
+
+  - name: 🟡🟡🟡 Get Storage Class
+    include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+
+    
+  # Start block
+  - name: 🟡🟡🟡 Start Logging
+    include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
+
+
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+  # INSTALL INSTANA
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+  # Install INSTANA
+  - name: 🟡🟡🟡 Install Instana
+    include_tasks: 10_addons-instana.yaml
+
+
+  # Install INSTANA AGENT
+  - name: 🟡🟡🟡 Install Instana Agent
+    include_tasks: 11_addons-instana-agent.yaml
+    when: current_ibmaiops_feature.install_agent == true
+
+
+  # Install INSTANA IBMAIOps Connection
+  - name: 🟡🟡🟡 Install IBMAIOps to Instana Connection
+    include_tasks: 12_addons-instana-create-connections.yaml
+    when: current_ibmaiops_feature.integrate_ibmaiops == true
+
+
+  - name: 🟡🟡🟡 Restart Demo UI
+    include_tasks: 21_addons-instana-restart-demoui.yaml
+
+
+  - name: 🟡🟡🟡 Install OCP Menu Item
+    include_tasks: 91_addons-instana-create-ocp-tools-menu.yaml
+    when: global_config.create_ocp_items | default(true) == true  
+
+  # Update IBMAIOps Cards
+  - name: 🟡🟡🟡 Update IBMAIOps Cards
+    include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
+
+
+  - name: 🌏 INSTANA - LOGINS
+    shell: |
+      export DEMOUI_ROUTE=$(oc get routes -n instana-core dev-aiops  -o jsonpath="{['spec']['host']}")
+      echo "                🌏 URL:       http://$DEMOUI_ROUTE"
+      echo ""
+      echo "                🧑‍🦳 USER:      {{current_ibmaiops_feature.instana_admin_user}}"
+      echo "                🔐 LOGIN:     {{current_ibmaiops_feature.instana_admin_pass  | default('using global')}}"
+    ignore_errors: true
+    register: LOGINS
+
+
+  - name: 🌏 INSTANA - LOGINS
+    debug: 
+      var: LOGINS.stdout_lines
+
+  - name: Log
+    shell: |
+      export MESSAGE=" 🌏 INSTANA - LOGINS"
+      export currentDate=$(date +%Y-%m-%d_%H:%M)
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+      appURL=$(oc get routes -n instana-core dev-aiops  -o jsonpath="{['spec']['host']}")|| true
+      echo "            📥 Demo UI:"     >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "    "   >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "                🌏 URL:           http://$appURL/"  >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "                🧑‍🦳 USER:          {{current_ibmaiops_feature.instana_admin_user}}"  >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "                🔐 PASSWORD:      {{current_ibmaiops_feature.instana_admin_pass| default('using global')}}"  >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+      echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    ignore_errors: true
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+  # CHECKS
+  # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+  #when: current_sales_key != "NONE" and current_agent_key != "NONE"
+  ignore_errors: true
+
+
+- name: 🟡🟡🟡 End Logging
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
+
+
+
+- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+  debug: 
+    msg:  
+
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "                                                                                                                                                   "
+    - "       ✅ IBM AIOps - DONE INSTALLING {{current_ibmaiops_feature.kind}}                                                                                 "
+    - "                                                                                                                                                   "
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
