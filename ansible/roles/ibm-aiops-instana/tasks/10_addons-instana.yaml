@@ -66,7 +66,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastores {{current_ibmaiops_feature.instana_version}}'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastore Operators {{current_ibmaiops_feature.instana_version}}'    
     EOF
   ignore_errors: true
   args:
@@ -249,6 +249,24 @@
 
 
 
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for DataStore Operators to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
 
 
 - name:   🕦 INSTANA - Wait for DataStores Operators to become ready
@@ -284,6 +302,25 @@
     verbosity: 1
 
 
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastores {{current_ibmaiops_feature.instana_version}}'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
 
 
 - name: 🚀 INSTANA - Create Backend Datastore cassandra
@@ -407,7 +444,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator {{current_ibmaiops_feature.instana_version}}'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Cert Manager (optional)'    
     EOF
   ignore_errors: true
   args:
@@ -447,9 +484,32 @@
   when: cert_check.stdout == "0"
 
 
+
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Instana Kubectl plugin
 # --------------------------------------------------------------------------------------------------------------------------------------
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Kubectl Plugin version: {{current_ibmaiops_feature.instana_version}}'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
   shell: |
     export MAJ_VERSION=$(echo {{current_ibmaiops_feature.instana_version | default("251-0") }}|cut -f1 -d-)
@@ -492,6 +552,25 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Get Info
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Namespaces and Secrets'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
 - name: 🚀 INSTANA - Get BASE_DOMAIN
   shell: |
     CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
@@ -594,9 +673,33 @@
     verbosity: 1
 
 
+
+
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Operator
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator version: {{current_ibmaiops_feature.instana_version}} - If this hangs delete/restart the Pod from instana-operator Namespace'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
 - name: 🚀 INSTANA - Create Operator
   shell: |
     #switch project
@@ -642,9 +745,33 @@
 
 
 
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Create Operator
+# Create Configuration
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Create {{current_ibmaiops_feature.kind}} - Core and Unit Configurations'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
+
 - name: 🚀 INSTANA - Get License
   shell: |
     #get license
@@ -759,9 +886,32 @@
 
 
 
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Operator being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Operator to become ready (about 2-3 minutes)  - If this hangs delete/restart the Pod from instana-operator Namespace'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
 - name:   🕦 INSTANA - Wait for Operator to become ready (if this hangs delete Pod in instana-operators)
   shell: |
     while [ `oc -n instana-operator get pods| grep '1/1' | grep -c ""` -lt 2 ]
@@ -784,6 +934,25 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Core CR
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Core Instance'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
 - name: 🚀 INSTANA - Create Instana Core Instance
   kubernetes.core.k8s:
     state: present
@@ -826,6 +995,25 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Unit CR
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Unit Instance'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
 - name: 🚀 INSTANA - Create Instana Unit Instance
   kubernetes.core.k8s:
     state: present
@@ -897,15 +1085,32 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Routes
 # --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Routes and Patches'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
+
 - name: 🚀 INSTANA - Create Routes
   kubernetes.core.k8s:
     namespace: instana-datastores
     state: present
     template: ./templates/instana/instana-routes.j2
-
-
-
-
 
 
 
