@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Instana Connection'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Instana Connection in CP4AIOps'    
     EOF
   ignore_errors: true
   args:

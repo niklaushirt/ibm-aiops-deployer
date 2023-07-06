@@ -381,6 +381,7 @@ data:
       - name: ibm-aiops-instana
         kind: Instana
         install: true
+        # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
         instana_version: 251-0
         # Can be large, medium (default), small 
         instana_size: medium
