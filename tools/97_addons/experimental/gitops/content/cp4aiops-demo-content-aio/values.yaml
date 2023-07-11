@@ -8,7 +8,8 @@ cp4aiops:
     # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
     instanceName: Demo
     globalPassword: CHANGEME
-  
+    create_ocp_items: true
+    create_ocp_notifications: true
   training:
     # ---------------------------------------------------------------------
     # TRAINING
@@ -96,6 +97,9 @@ cp4aiops:
   additional:
     # ---------------------------------------------------------------------
     # MISC PARAMETERS (you should not modify those)
+
+    create_cards: false
+
     # Create external routes (needed to create demo content)
     create_external_routes: false
 

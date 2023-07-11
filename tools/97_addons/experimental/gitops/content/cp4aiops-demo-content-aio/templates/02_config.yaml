@@ -40,11 +40,11 @@ data:
       # Notifications and Cards
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Create Welcome Cards in ibm-aiops
-      create_cards: true
+      create_cards: {{ .Values.cp4aiops.additional.create_cards }}
       # Create App Menu Items in OCP
-      create_ocp_items: true
+      create_ocp_items: {{ .Values.cp4aiops.global.create_ocp_items }}
       # Create Notifications in OCP
-      create_ocp_notifications: true
+      create_ocp_notifications: {{ .Values.cp4aiops.global.create_ocp_notifications }}
       position_ocp_notifications: BannerBottom
       position_final_ocp_notification: BannerTop
 
