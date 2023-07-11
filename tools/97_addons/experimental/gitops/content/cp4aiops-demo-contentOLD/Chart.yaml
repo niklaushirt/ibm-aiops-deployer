@@ -1,7 +1,7 @@
 ---
 apiVersion: v1
-name: cp4aiops-conntent-aio
-description: CP4AIOps Demo Content AIO
+name: cp4aiops-conntent
+description: CP4AIOps Demo Content
 
 # A chart can be either an 'application' or a 'library' chart.
 #
