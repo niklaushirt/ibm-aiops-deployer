@@ -123,8 +123,8 @@ data:
         # Create feature flag Training (Seasonality and XinY)
          training_create_training_experimental: {{ .Values.cp4aiops.content.training_create_training_experimental }}
 
-         training_data_url: {{ .Values.cp4aiops.content.training_data_url: https://github.com/niklaushirt/
-        training_data_repo: {{ .Values.cp4aiops.content.training_data_repo: ibm-aiops-additionaldata
+         training_data_url: {{ .Values.cp4aiops.content.training_data_url }}
+        training_data_repo: {{ .Values.cp4aiops.content.training_data_repo }}
 
 
         # ---------------------------------------------------------------------
@@ -146,8 +146,8 @@ data:
         # RUNBOOKS
         # Install AWX and create Runbooks
          install_awx: {{ .Values.cp4aiops.content.install_awx }}
-        load_awx_playbooks: {{ .Values.cp4aiops.content. load_awx_playbooks }}
-        integrate_awx: {{ .Values.cp4aiops.content. integrate_awx }}
+        load_awx_playbooks: {{ .Values.cp4aiops.content.load_awx_playbooks }}
+        integrate_awx: {{ .Values.cp4aiops.content.integrate_awx }}
          load_runbooks: {{ .Values.cp4aiops.content.load_runbooks }}
         create_runbook_policy: {{ .Values.cp4aiops.content.create_runbook_policy }}
 
@@ -171,15 +171,15 @@ data:
         # LDAP
          install_ldap: {{ .Values.cp4aiops.content.install_ldap }}
         # ldap domain
-         ldap_domain: {{ .Values.cp4aiops.content.ldap_domain: ibm.com
+         ldap_domain: {{ .Values.cp4aiops.content.ldap_domain }}
         # ldap base
-        ldap_base: {{ .Values.cp4aiops.content.ldap_base: dc=ibm,dc=com
+        ldap_base: {{ .Values.cp4aiops.content.ldap_base }}
         # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
         #ldap_admin_password: CHANGEME
         # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
         #ldap_user_password: CHANGEME
         # ldap namespace
-         ldap_namespace: {{ .Values.cp4aiops.content.ldap_namespace: openldap
+         ldap_namespace: {{ .Values.cp4aiops.content.ldap_namespace }}
         # ldap namespace
          ldap_register: {{ .Values.cp4aiops.content.ldap_register }}
 
