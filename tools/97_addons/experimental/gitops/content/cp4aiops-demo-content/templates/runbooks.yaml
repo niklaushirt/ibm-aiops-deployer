@@ -238,7 +238,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-aiops-install-training
+  name: ibm-aiops-aiops-install-runbooks
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin

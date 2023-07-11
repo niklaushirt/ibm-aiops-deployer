@@ -11,17 +11,17 @@ cp4aiops:
   
   content:
     training: 
-      enabled: true
+      enabled: false
     topology: 
-      enabled: true
+      enabled: false
     demoui: 
-      enabled: true
+      enabled: false
     policies: 
-      enabled: true
+      enabled: false
     runbooks: 
-      enabled: true
+      enabled: false
     additional: 
-      enabled: true
+      enabled: false
 
 
 
