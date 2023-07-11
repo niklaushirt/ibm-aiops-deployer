@@ -132,7 +132,7 @@ data:
         # Install DemoApps Application
          install_demoapps: {{ .Values.cp4aiops.content.install_demoapps }}
         # RobotShop interface color (classic/white)
-         robotshop_color: {{ .Values.cp4aiops.content.robotshop_color: white
+         robotshop_color: {{ .Values.cp4aiops.content.robotshop_color }}
         # Install DemoApps K8s Observer
          install_demoapps_observer: {{ .Values.cp4aiops.content.install_demoapps_observer }}
         # Create Topology
