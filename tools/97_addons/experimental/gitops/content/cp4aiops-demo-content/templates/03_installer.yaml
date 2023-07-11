@@ -4,6 +4,8 @@ kind: Job
 metadata:
   name: ibm-aiops-aiops-install-demo-content
   namespace: ibm-aiops-installer
+  annotations:
+    argocd.argoproj.io/sync-wave: "030"
 spec:
   serviceAccountname: ibm-aiops-installer-admin
   template:

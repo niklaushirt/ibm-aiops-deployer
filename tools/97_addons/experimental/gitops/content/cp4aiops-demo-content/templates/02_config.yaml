@@ -4,6 +4,8 @@ apiVersion: v1
 metadata:
   name: ibm-aiops-install-configuration-aiops-demo-content
   namespace: ibm-aiops-installer
+  annotations:
+    argocd.argoproj.io/sync-wave: "020"
 immutable: false
 data:
   INSTALLATION_CONFIG.yaml: >+
