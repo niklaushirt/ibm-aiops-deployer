@@ -4,12 +4,12 @@
 # CP4AIOps parameters
 # -----------------------------------------------------------------------------
 cp4aiops:
-
-  # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
-  instanceName: Demo
-  globalPassword: CHANGEME
+  global:
+    # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
+    instanceName: Demo
+    globalPassword: CHANGEME
   
-  content:
+  training:
     # ---------------------------------------------------------------------
     # TRAINING
     # Train the Models based on pre-canned content
@@ -35,6 +35,8 @@ cp4aiops:
     training_data_repo: ibm-aiops-additionaldata
 
 
+
+  topology:
     # ---------------------------------------------------------------------
     # TOPOLOGY
     # Install DemoApps Application
@@ -50,6 +52,7 @@ cp4aiops:
     install_custom_topology: false
 
 
+  runbooks:
     # ---------------------------------------------------------------------
     # RUNBOOKS
     # Install AWX and create Runbooks
@@ -60,21 +63,19 @@ cp4aiops:
     create_runbook_policy: false
 
 
+
+  demoui:
     # ---------------------------------------------------------------------
     # Demo UI
     install_demo_ui: false
-    demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
-    # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-    demoui_slack_user: ibm-aiopsdemo@gmail.com
-    demoui_slack_pwd: CHANGEME
     demoui_admin_mode: "false"
     demoui_simulation_mode: "false"
-
     demoui_user: demo
     # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
     #demoui_pwd: CHANGEME
 
 
+  ldap:
     # ---------------------------------------------------------------------
     # LDAP
     install_ldap: false
@@ -91,6 +92,8 @@ cp4aiops:
     # ldap namespace
     ldap_register: false
 
+
+  additional:
     # ---------------------------------------------------------------------
     # MISC PARAMETERS (you should not modify those)
     # Create external routes (needed to create demo content)
