@@ -20,7 +20,9 @@ cp4aiops:
       enabled: true
     runbooks: 
       enabled: true
-    
+    additional: 
+      enabled: true
+
 
 
 
