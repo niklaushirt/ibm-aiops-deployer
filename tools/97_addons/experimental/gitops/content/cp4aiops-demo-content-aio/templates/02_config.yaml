@@ -108,47 +108,47 @@ data:
 
         training_create_training_temporal: {{ .Values.cp4aiops.content.training_create_training_temporal }}
 
-         training_load_data_logs: {{ .Values.cp4aiops.content.training_load_data_logs }}
-         training_create_training_logs: {{ .Values.cp4aiops.content.training_create_training_logs }}
-         training_run_training_logs: {{ .Values.cp4aiops.content.training_run_training_logs }}
+        training_load_data_logs: {{ .Values.cp4aiops.content.training_load_data_logs }}
+        training_create_training_logs: {{ .Values.cp4aiops.content.training_create_training_logs }}
+        training_run_training_logs: {{ .Values.cp4aiops.content.training_run_training_logs }}
 
-         training_load_data_snow: {{ .Values.cp4aiops.content.training_load_data_snow }}
-         training_create_training_snow: {{ .Values.cp4aiops.content.training_create_training_snow }}
-         training_run_training_snow: {{ .Values.cp4aiops.content.training_run_training_snow }}
+        training_load_data_snow: {{ .Values.cp4aiops.content.training_load_data_snow }}
+        training_create_training_snow: {{ .Values.cp4aiops.content.training_create_training_snow }}
+        training_run_training_snow: {{ .Values.cp4aiops.content.training_run_training_snow }}
 
-         training_load_data_metrics: {{ .Values.cp4aiops.content.training_load_data_metrics }}
-         training_create_training_metrics: {{ .Values.cp4aiops.content.training_create_training_metrics }}
-         training_run_training_metrics: {{ .Values.cp4aiops.content.training_run_training_metrics }}
+        training_load_data_metrics: {{ .Values.cp4aiops.content.training_load_data_metrics }}
+        training_create_training_metrics: {{ .Values.cp4aiops.content.training_create_training_metrics }}
+        training_run_training_metrics: {{ .Values.cp4aiops.content.training_run_training_metrics }}
 
         # Create feature flag Training (Seasonality and XinY)
-         training_create_training_experimental: {{ .Values.cp4aiops.content.training_create_training_experimental }}
+        training_create_training_experimental: {{ .Values.cp4aiops.content.training_create_training_experimental }}
 
-         training_data_url: {{ .Values.cp4aiops.content.training_data_url }}
+        training_data_url: {{ .Values.cp4aiops.content.training_data_url }}
         training_data_repo: {{ .Values.cp4aiops.content.training_data_repo }}
 
 
         # ---------------------------------------------------------------------
         # TOPOLOGY
         # Install DemoApps Application
-         install_demoapps: {{ .Values.cp4aiops.content.install_demoapps }}
+        install_demoapps: {{ .Values.cp4aiops.content.install_demoapps }}
         # RobotShop interface color (classic/white)
-         robotshop_color: {{ .Values.cp4aiops.content.robotshop_color }}
+        robotshop_color: {{ .Values.cp4aiops.content.robotshop_color }}
         # Install DemoApps K8s Observer
-         install_demoapps_observer: {{ .Values.cp4aiops.content.install_demoapps_observer }}
+        install_demoapps_observer: {{ .Values.cp4aiops.content.install_demoapps_observer }}
         # Create Topology
-         create_topology_templates: {{ .Values.cp4aiops.content.create_topology_templates }}
-         create_topology_apps: {{ .Values.cp4aiops.content.create_topology_apps }}
+        create_topology_templates: {{ .Values.cp4aiops.content.create_topology_templates }}
+        create_topology_apps: {{ .Values.cp4aiops.content.create_topology_apps }}
         # Create Custom overlay topology
-         install_custom_topology: {{ .Values.cp4aiops.content.install_custom_topology }}
+        install_custom_topology: {{ .Values.cp4aiops.content.install_custom_topology }}
 
 
         # ---------------------------------------------------------------------
         # RUNBOOKS
         # Install AWX and create Runbooks
-         install_awx: {{ .Values.cp4aiops.content.install_awx }}
+        install_awx: {{ .Values.cp4aiops.content.install_awx }}
         load_awx_playbooks: {{ .Values.cp4aiops.content.load_awx_playbooks }}
         integrate_awx: {{ .Values.cp4aiops.content.integrate_awx }}
-         load_runbooks: {{ .Values.cp4aiops.content.load_runbooks }}
+        load_runbooks: {{ .Values.cp4aiops.content.load_runbooks }}
         create_runbook_policy: {{ .Values.cp4aiops.content.create_runbook_policy }}
 
 
@@ -169,9 +169,9 @@ data:
 
         # ---------------------------------------------------------------------
         # LDAP
-         install_ldap: {{ .Values.cp4aiops.content.install_ldap }}
+        install_ldap: {{ .Values.cp4aiops.content.install_ldap }}
         # ldap domain
-         ldap_domain: {{ .Values.cp4aiops.content.ldap_domain }}
+        ldap_domain: {{ .Values.cp4aiops.content.ldap_domain }}
         # ldap base
         ldap_base: {{ .Values.cp4aiops.content.ldap_base }}
         # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
@@ -179,9 +179,9 @@ data:
         # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
         #ldap_user_password: CHANGEME
         # ldap namespace
-         ldap_namespace: {{ .Values.cp4aiops.content.ldap_namespace }}
+        ldap_namespace: {{ .Values.cp4aiops.content.ldap_namespace }}
         # ldap namespace
-         ldap_register: {{ .Values.cp4aiops.content.ldap_register }}
+        ldap_register: {{ .Values.cp4aiops.content.ldap_register }}
 
         # ---------------------------------------------------------------------
         # MISC PARAMETERS (you should not modify those)
