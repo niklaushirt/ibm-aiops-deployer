@@ -18,10 +18,10 @@ data:
       # Passwords and Licenses
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Use this Password for all Instances
-      global_password: {{ .Values.cp4aiops.01_global.globalPassword }}
+      global_password: {{ .Values.cp4aiops.01-global.globalPassword }}
 
 
-      environment_name: {{ .Values.cp4aiops.01_global.instanaceName }}
+      environment_name: {{ .Values.cp4aiops.01-global.instanaceName }}
       cloud_platform: existing-ocp
       # Set this value to True to accept all licenses
       accept_all_licenses: False

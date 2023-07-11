@@ -4,7 +4,7 @@
 # CP4AIOps parameters
 # -----------------------------------------------------------------------------
 cp4aiops:
-  01_global:
+  01-global:
     # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
     instanceName: Demo
     globalPassword: CHANGEME
