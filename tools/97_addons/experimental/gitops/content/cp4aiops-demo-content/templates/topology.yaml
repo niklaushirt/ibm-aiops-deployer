@@ -337,7 +337,7 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
+                name: ibm-aiops-install-configuration-aiops-topology
                 key: INSTALL_REPO
           volumeMounts:
             - name: config-file
