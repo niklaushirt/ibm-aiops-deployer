@@ -179,7 +179,7 @@ data:
         # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
         #ldap_user_password: CHANGEME
         # ldap namespace
-        ldap_namespace: {{ .Values.cp4aiops.coldapntent.ldap_namespace }}
+        ldap_namespace: {{ .Values.cp4aiops.ldap.ldap_namespace }}
         # ldap namespace
         ldap_register: {{ .Values.cp4aiops.ldap.ldap_register }}
 
