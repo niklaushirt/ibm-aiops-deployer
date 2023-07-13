@@ -103,6 +103,34 @@
       }'
     else
       echo "  Application already exists"
+      echo "  Re-Creating Application"
+      curl -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
+
+      echo "  Creating Application"
+      curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      -d '  {
+          "keyIndexName": "robot-shop-app",
+          "_correlationEnabled": "true",
+          "iconId": "application",
+          "businessCriticality": "Platinum",
+          "vertexType": "group",
+          "correlatable": "true",
+          "disruptionCostPerMin": "1000",
+          "name": "RobotShop",
+          "entityTypes": [
+              "waiopsApplication"
+          ],
+          "tags": [
+            "app:robotshop",
+            "app:robot-shop"
+          ]
+      }'
     fi
 
     export APP_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Drobot-shop-app" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
@@ -292,6 +320,34 @@
       }'
     else
       echo "  Application already exists"
+      echo "  Re-Creating Application"
+      curl -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
+
+      echo "  Creating Application"
+      curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      -d '  {
+          "keyIndexName": "sock-shop-app",
+          "_correlationEnabled": "true",
+          "iconId": "swarm",
+          "businessCriticality": "Gold",
+          "vertexType": "group",
+          "correlatable": "true",
+          "disruptionCostPerMin": "1000",
+          "name": "SockShop",
+          "entityTypes": [
+              "waiopsApplication"
+          ],
+          "tags": [
+            "app:sockshop",
+            "app:sock-shop"
+          ]
+      }'
     fi
 
     export APP_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dsock-shop-app" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
@@ -471,6 +527,35 @@
       }'
     else
       echo "  Application already exists"
+      echo "  Re-Creating Application"
+      curl -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
+
+
+      curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+      -u $LOGIN \
+      -H 'Content-Type: application/json' \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      -d '  {
+          "keyIndexName": "acme-app",
+          "_correlationEnabled": "true",
+          "iconId": "cluster",
+          "businessCriticality": "Silver",
+          "vertexType": "group",
+          "correlatable": "true",
+          "disruptionCostPerMin": "1000",
+          "name": "ACME Air",
+          "entityTypes": [
+              "waiopsApplication"
+          ],
+          "tags": [
+            "app:acmeair",
+            "app:acme-air"
+          ]
+      }'
+
     fi
 
     export APP_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dacme-app" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
