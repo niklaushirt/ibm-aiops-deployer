@@ -178,7 +178,7 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Beeinstana
   shell: |
-    # Postgres operator installation
+    # Beeinstana operator installation
     helm repo add instana https://helm.instana.io/artifactory/rel-helm-customer-virtual --username _ --password {{current_agent_key}}
     helm repo update
     helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault
