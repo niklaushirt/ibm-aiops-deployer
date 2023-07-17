@@ -941,7 +941,7 @@ Incidents are being created by using the high level APIs in order to simulate a 
 # 6. Troubleshooting
 ---------------------------------------------------------------
 
-###❗ Globally: if there is and error or something missing re-run the installer Pod.
+### ❗ Globally: if there is and error or something missing re-run the installer Pod.
 ### ❗ 99% of the time this corrects the problem
 
 
@@ -955,6 +955,8 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 ## 6.2 Installation error
 
 If you get a red notification saying `❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod`
+
+![demo](./doc/pics/notification04.png)
 
 ✅ Please re-run the installer Pod.
 
