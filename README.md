@@ -1015,9 +1015,9 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 <details>
 <summary>📥 Instana Installation hanging</summary>
 
-- If the instana installation is hanging at `Wait for Operator to become ready `
+- If the Instana installation is hanging at `Wait for Operator to become ready `
 
-	✅ Please delete/restart the Pod from `instana-operator` Namespace
+	✅ Please delete/restart the `instana-operator-xxx` Pod from the `instana-operator` Namespace
 
 
 - If the instana installation is hanging at `Wait for Core to become ready` for more than 15 minutes
@@ -1031,6 +1031,17 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 
 
 </details>
+
+
+<details>
+<summary>📥 Instana Error on traces</summary>
+
+- If you get `An unexpected error occurred. Please refresh the page or try again later.` when trying to display traces
+
+	✅ Please delete/restart the `action-reader-xxx` Pod from the `instana-core` Namespace
+
+</details>
+
 
 ## Re-Run the installer
 
