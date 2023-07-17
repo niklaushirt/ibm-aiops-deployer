@@ -947,10 +947,11 @@ Incidents are being created by using the high level APIs in order to simulate a 
 # 6. Troubleshooting
 ---------------------------------------------------------------
 
-### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)
-### ❗ 99% of the time this corrects the problem
+> ### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)
+> ### ❗ 99% of the time this corrects the problem
 
-</details>
+
+
 <details>
 <summary>📥 CP4AIOPS Base installation Failing</summary>
 
@@ -964,16 +965,12 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 <details>
 <summary>📥 I'm getting a certificate error when opening CP4AIOPS, Instana or Turbonomic</summary>
 
+❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
 
-
-
-> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
-> 
->  ✅ Open the links in a Private/Incognito window and select proceed
-> 
-> ✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
-> 
-> 
+✅ Open the links in a Private/Incognito window and select proceed
+ 
+✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+ 
 
 </details>
 
@@ -1040,13 +1037,10 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 <details>
 <summary>📥 Re-Run the installer</summary>
 
-
-
-
 #### ❗ You can re-run the installer as many times as you want.
 #### ❗ It won't destroy anything!
 
-1. Go to your OCP UI
+1. Go to your OpenShift UI
 2. Select Namespace `ibm-aiops-installer`
 3. Select Workloads/Pods
 4. You should see something like this
