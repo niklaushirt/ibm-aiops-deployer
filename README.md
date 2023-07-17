@@ -458,6 +458,12 @@ To access the demo environment:
 ![demo](./doc/pics/demo01.png)
 
 
+> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+> 
+>  ✅ Open the links in a Private/Incognito window and select proceed
+> 
+> ✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+
 </details>
 <details>
 <summary>🚀 Demo the Solution</summary>
@@ -941,54 +947,109 @@ Incidents are being created by using the high level APIs in order to simulate a 
 # 6. Troubleshooting
 ---------------------------------------------------------------
 
-### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#69-re-run-the-installer)
-### ❗ 99% of the time this corrects the problem
+> ### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)
+> ### ❗ 99% of the time this corrects the problem
 
 
-## 6.1 CP4AIOPS Base installation 
+
+<details>
+<summary>📥 CP4AIOPS Base installation Failing</summary>
+
 
 If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
 
 ✅ Please get help on Slack.
 
+</details>
 
-## 6.2 Installation error
+<details>
+<summary>📥 I'm getting a certificate error when opening CP4AIOPS, Instana or Turbonomic</summary>
+
+❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+
+✅ Open the links in a Private/Incognito window and select proceed
+ 
+✅ Or in Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+ 
+
+</details>
+
+
+<details>
+<summary>📥 Installation error Notification</summary>
 
 If you get a red notification saying `❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod`
 
 ![demo](./doc/pics/notification04.png)
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
+</details>
 
-## 6.3 Missing stuff
+<details>
+<summary>📥 Missing stuff in CP4AIOps</summary>
 
 If you have missing elements:
 - Incomplete Topology
 - Missing Policies
 - Missing Runbooks
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
+</details>
 
-## 6.3 Training not correctly done
+<details>
+<summary>📥 Training not done or incomplete</summary>
+
 
 If you have missing or incomplete Training
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
 For deeper understanding of the problem you can check the logs of the Data Load Pods 
 
 ![demo](./doc/pics/pods_training.png)
 
+</details>
+
+<details>
+<summary>📥 Instana Installation hanging</summary>
+
+- If the Instana installation is hanging at `Wait for Operator to become ready `
+
+	✅ Please delete/restart the `instana-operator-xxx` Pod from the `instana-operator` Namespace
 
 
-## 6.9 Re-Run the installer
+- If the instana installation is hanging at `Wait for Core to become ready` for more than 15 minutes
+	- Check running Pods in the instana-core Namespace
+	- If there are no Pods:
+	
+	✅ Uninstall instana with [this script](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/jobs/DELETE_INSTANA.yaml) (you might have to run it twice - just delete the Pod it will restart)
+	
+	✅Then [re-run the installer Pod](#re-run-the-installer).
 
-#### ❗ You can re-run the installer as many times as you want.
-#### ❗ It won't destroy anything!
 
-1. Go to your OCP UI
+
+</details>
+
+
+<details>
+<summary>📥 Instana Error on traces</summary>
+
+- If you get `An unexpected error occurred. Please refresh the page or try again later.` when trying to display traces
+
+	✅ Please delete/restart the `action-reader-xxx` Pod from the `instana-core` Namespace
+
+</details>
+
+
+## Re-Run the installer
+
+
+> #### ❗ You can re-run the installer as many times as you want.
+> #### ❗ It won't destroy anything!
+
+1. Go to your OpenShift UI
 2. Select Namespace `ibm-aiops-installer`
 3. Select Workloads/Pods
 4. You should see something like this
@@ -1003,4 +1064,6 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 7. Confirm
 
 This will restart the complete installation process. But it will be much faster as it is mainly incremental.
+
+</details>
 
