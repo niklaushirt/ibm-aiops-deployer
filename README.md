@@ -458,6 +458,12 @@ To access the demo environment:
 ![demo](./doc/pics/demo01.png)
 
 
+> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+> 
+>  ✅ Open the links in a Private/Incognito window and select proceed
+> 
+> ✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+
 </details>
 <details>
 <summary>🚀 Demo the Solution</summary>
@@ -954,6 +960,24 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 ✅ Please get help on Slack.
 
 </details>
+
+<details>
+<summary>📥 I'm getting a certificate error when opening CP4AIOPS, Instana or Turbonomic</summary>
+
+
+
+
+> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+> 
+>  ✅ Open the links in a Private/Incognito window and select proceed
+> 
+> ✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+> 
+> 
+
+</details>
+
+
 <details>
 <summary>📥 Installation error Notification</summary>
 
@@ -964,6 +988,7 @@ If you get a red notification saying `❌ FATAL ERROR: Please check the Installa
 ✅ Please [re-run the installer Pod](#re-run-the-installer).
 
 </details>
+
 <details>
 <summary>📥 Missing stuff in CP4AIOps</summary>
 
@@ -975,6 +1000,7 @@ If you have missing elements:
 ✅ Please [re-run the installer Pod](#re-run-the-installer).
 
 </details>
+
 <details>
 <summary>📥 Training not done or incomplete</summary>
 
@@ -988,6 +1014,7 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 ![demo](./doc/pics/pods_training.png)
 
 </details>
+
 <details>
 <summary>📥 Instana Installation hanging</summary>
 
@@ -1007,11 +1034,14 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 
 
 </details>
+
+## Re-Run the installer
+
 <details>
 <summary>📥 Re-Run the installer</summary>
 
 
-## Re-Run the installer
+
 
 #### ❗ You can re-run the installer as many times as you want.
 #### ❗ It won't destroy anything!
