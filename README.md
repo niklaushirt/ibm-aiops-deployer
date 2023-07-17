@@ -969,7 +969,7 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 
 ✅ Open the links in a Private/Incognito window and select proceed
  
-✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+✅ Or in Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
  
 
 </details>
