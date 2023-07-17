@@ -941,7 +941,7 @@ Incidents are being created by using the high level APIs in order to simulate a 
 # 6. Troubleshooting
 ---------------------------------------------------------------
 
-###❗ Globally: if there is and error or something missing re-run the installer Pod.
+### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#69-re-run-the-installer)
 ### ❗ 99% of the time this corrects the problem
 
 
@@ -956,7 +956,9 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 
 If you get a red notification saying `❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod`
 
-✅ Please re-run the installer Pod.
+![demo](./doc/pics/notification04.png)
+
+✅ Please [re-run the installer Pod](#69-re-run-the-installer).
 
 
 ## 6.3 Missing stuff
@@ -965,12 +967,23 @@ If you have missing elements:
 - Incomplete Topology
 - Missing Policies
 - Missing Runbooks
-- Missing/Incomplete Training
 
-✅ Please re-run the installer Pod.
+✅ Please [re-run the installer Pod](#69-re-run-the-installer).
 
 
-## 6.4 Re-Run the installer
+## 6.3 Training not correctly done
+
+If you have missing or incomplete Training
+
+✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+
+For deeper understanding of the problem you can check the logs of the Data Load Pods 
+
+![demo](./doc/pics/pods_training.png)
+
+
+
+## 6.9 Re-Run the installer
 
 #### ❗ You can re-run the installer as many times as you want.
 #### ❗ It won't destroy anything!
