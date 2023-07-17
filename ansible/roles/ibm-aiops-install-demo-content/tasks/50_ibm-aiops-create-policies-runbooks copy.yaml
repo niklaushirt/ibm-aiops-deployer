@@ -87,13 +87,11 @@
     echo $POLICY_ROUTE
 
 
-    export policyID=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+    export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
       -H 'content-type: application/json' \
-      -u $POLICY_LOGIN|jq -r '.[] | select(.metadata |  contains("DEMO RobotShop Mitigation" ) )| .policyid')
-      
-    if [[ -z $policyID  ]]; then
-      echo "Create Policy"
+      -u $POLICY_LOGIN|grep "DEMO RobotShop Mitigation"|wc -l|tr -d ' ')
+    if [[ $result == "0" ]]; then
 
       export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
@@ -101,22 +99,7 @@
         -u $POLICY_LOGIN \
         -d @/tmp/runbook_policy.json)
     else 
-      echo "Already exists - Recreate Policy"
-
-
-      export result=$(curl -XDELETE -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies/$policyID"  \
-        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-        -H 'content-type: application/json' \
-        -u $POLICY_LOGIN )
-      echo $result
-
-
-        export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
-        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-        -H 'content-type: application/json' \
-        -u $POLICY_LOGIN \
-        -d @/tmp/runbook_policy.json)
-
+      export result="Already exists"
     fi 
     echo $result
 
@@ -189,13 +172,12 @@
     export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
     echo $POLICY_ROUTE
 
-    export policyID=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+
+    export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
       -H 'content-type: application/json' \
-      -u $POLICY_LOGIN|jq -r '.[] | select(.metadata |  contains("DEMO SockShop Mitigation" ) )| .policyid')
-      
-    if [[ -z $policyID  ]]; then
-      echo "Create Policy"
+      -u $POLICY_LOGIN|grep "DEMO SockShop Mitigation"|wc -l|tr -d ' ')
+    if [[ $result == "0" ]]; then
 
       export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
@@ -203,25 +185,9 @@
         -u $POLICY_LOGIN \
         -d @/tmp/runbook_policy.json)
     else 
-      echo "Already exists - Recreate Policy"
-
-
-      export result=$(curl -XDELETE -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies/$policyID"  \
-        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-        -H 'content-type: application/json' \
-        -u $POLICY_LOGIN )
-      echo $result
-
-
-        export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
-        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-        -H 'content-type: application/json' \
-        -u $POLICY_LOGIN \
-        -d @/tmp/runbook_policy.json)
-
+      export result="Already exists"
     fi 
     echo $result
-
 
   ignore_errors: true
   register: POLICY_RESULT

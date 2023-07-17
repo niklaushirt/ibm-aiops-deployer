@@ -169,6 +169,11 @@
   when: current_turbo_license == "NONE"
 
 
+- name:  🟣 Check Sales and Agent Key
+  fail: msg="❌ Missing License Information - Aborting"
+  when: current_turbo_license == "NONE"
+
+
 
 - name:  🟢 Turbo License - OK"
   debug:

@@ -55,6 +55,7 @@ But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 
 🤓 [Demo Setup - Explained](#5-demo-setup---explained)
 
+🧨 [Troubleshooting](#6-troubleshooting)
 
 > ℹ️ You can find a more detailed presentation about how the automation works here: [PDF](https://ibm.box.com/s/gx0tcubl9k4phvdsrffd7taragrmvz02).
 > 
@@ -347,6 +348,71 @@ This installation adds:
 	And you get this message in the logs
 
 	![install](./doc/pics/install05.png)
+
+
+</details>
+
+
+## 2.5 Verify your installation 🔎
+<details>
+<summary>✅ Instructions</summary>
+
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
+
+
+### 2.5.1 Check Overall
+Check that the green notification bar is displayed as follows
+
+![install](./doc/pics/check01.png)
+	
+### 2.5.2 Check Training
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
+2. Check that the Training are displayed as follows
+
+![install](./doc/pics/check02.png)
+
+
+### 2.5.3 Check Automations
+
+#### 2.5.3.1 Check Policies
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Policies` Tab
+2. Enter `DEMO` into the search field
+2. Check that you have 5 Policies as shown below
+
+![install](./doc/pics/check03.png)
+
+
+#### 2.5.3.2 Check Runbooks
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Runbooks ` Tab
+2. Check that you have 4 Runbooks as shown below
+
+![install](./doc/pics/check04.png)
+
+#### 2.5.3.3 Check Actions
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Actions ` Tab
+3. 2. Enter `DEMO` into the search field
+2. Check that you have some Actions present as shown below
+
+![install](./doc/pics/check05.png)
+
+### 2.5.4 Check Applications
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
+2. Check that the Applications are displayed as follows
+
+![install](./doc/pics/check07.png)
+
+
+### 2.5.4 Check Connections
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
+2. Check that the Connections are displayed as follows
+
+![install](./doc/pics/check06.png)
+
+
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
 
 
 </details>
@@ -870,4 +936,58 @@ Incidents are being created by using the high level APIs in order to simulate a 
 
 
 <div style="page-break-after: always;"></div>
+
+---------------------------------------------------------------
+# 6. Troubleshooting
+---------------------------------------------------------------
+
+###❗ Globally: if there is and error or something missing re-run the installer Pod.
+### ❗ 99% of the time this corrects the problem
+
+
+## 6.1 CP4AIOPS Base installation 
+
+If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
+
+✅ Please get help on Slack.
+
+
+## 6.2 Installation error
+
+If you get a red notification saying `❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod`
+
+✅ Please re-run the installer Pod.
+
+
+## 6.3 Missing stuff
+
+If you have missing elements:
+- Incomplete Topology
+- Missing Policies
+- Missing Runbooks
+- Missing/Incomplete Training
+
+✅ Please re-run the installer Pod.
+
+
+## 6.4 Re-Run the installer
+
+#### ❗ You can re-run the installer as many times as you want.
+#### ❗ It won't destroy anything!
+
+1. Go to your OCP UI
+2. Select Namespace `ibm-aiops-installer`
+3. Select Workloads/Pods
+4. You should see something like this
+
+	![demo](./doc/pics/restartinstall01.png)
+
+5. click on the three dots at the end of the line for Pod `ibm-aiops-install-aiops-xxx`
+6. Select Delete
+
+	![demo](./doc/pics/restartinstall02.png)
+
+7. Confirm
+
+This will restart the complete installation process. But it will be much faster as it is mainly incremental.
 

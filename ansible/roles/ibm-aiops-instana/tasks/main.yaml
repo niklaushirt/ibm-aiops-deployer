@@ -209,6 +209,10 @@
   when: current_sales_key == "NONE" or current_agent_key == "NONE"
 
 
+- name:  🟣 Check Sales and Agent Key
+  fail: msg="❌ Missing License Information - Aborting"
+  when: current_sales_key == "NONE" or current_agent_key == "NONE"
+
 
 
 - name:  🟢 Sales and Agent Key - OK"
