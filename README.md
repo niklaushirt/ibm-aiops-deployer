@@ -1034,11 +1034,9 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 
 ## Re-Run the installer
 
-<details>
-<summary>📥 Re-Run the installer</summary>
 
-#### ❗ You can re-run the installer as many times as you want.
-#### ❗ It won't destroy anything!
+> #### ❗ You can re-run the installer as many times as you want.
+> #### ❗ It won't destroy anything!
 
 1. Go to your OpenShift UI
 2. Select Namespace `ibm-aiops-installer`
