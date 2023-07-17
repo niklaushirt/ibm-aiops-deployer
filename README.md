@@ -941,49 +941,77 @@ Incidents are being created by using the high level APIs in order to simulate a 
 # 6. Troubleshooting
 ---------------------------------------------------------------
 
-### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#69-re-run-the-installer)
+### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)
 ### ❗ 99% of the time this corrects the problem
 
+</details>
+<details>
+<summary>📥 CP4AIOPS Base installation Failing</summary>
 
-## 6.1 CP4AIOPS Base installation 
 
 If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
 
 ✅ Please get help on Slack.
 
-
-## 6.2 Installation error
+</details>
+<details>
+<summary>📥 Installation error Notification</summary>
 
 If you get a red notification saying `❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod`
 
 ![demo](./doc/pics/notification04.png)
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
-
-## 6.3 Missing stuff
+</details>
+<details>
+<summary>📥 Missing stuff in CP4AIOps</summary>
 
 If you have missing elements:
 - Incomplete Topology
 - Missing Policies
 - Missing Runbooks
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
+</details>
+<details>
+<summary>📥 Training not done or incomplete</summary>
 
-## 6.3 Training not correctly done
 
 If you have missing or incomplete Training
 
-✅ Please [re-run the installer Pod](#69-re-run-the-installer).
+✅ Please [re-run the installer Pod](#re-run-the-installer).
 
 For deeper understanding of the problem you can check the logs of the Data Load Pods 
 
 ![demo](./doc/pics/pods_training.png)
 
+</details>
+<details>
+<summary>📥 Instana Installation hanging</summary>
+
+- If the instana installation is hanging at `Wait for Operator to become ready `
+
+	✅ Please delete/restart the Pod from `instana-operator` Namespace
 
 
-## 6.9 Re-Run the installer
+- If the instana installation is hanging at `Wait for Core to become ready` for more than 15 minutes
+	- Check running Pods in the instana-core Namespace
+	- If there are no Pods:
+	
+	✅ Uninstall instana with [this script](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/jobs/DELETE_INSTANA.yaml) (you might have to run it twice - just delete the Pod it will restart)
+	
+	✅Then [re-run the installer Pod](#re-run-the-installer).
+
+
+
+</details>
+<details>
+<summary>📥 Re-Run the installer</summary>
+
+
+## Re-Run the installer
 
 #### ❗ You can re-run the installer as many times as you want.
 #### ❗ It won't destroy anything!
@@ -1003,4 +1031,6 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 7. Confirm
 
 This will restart the complete installation process. But it will be much faster as it is mainly incremental.
+
+</details>
 
