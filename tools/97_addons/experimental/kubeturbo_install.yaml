@@ -36,8 +36,8 @@ data:
     {
         "communicationConfig": {
             "serverMeta": {
-                "version": "8.9.1",
-                "turboServer": "https://nginx-turbonomic.apps.ocp-270003bu3k-g5ec.cloud.techzone.ibm.com/"
+                "version": "8.9.3",
+                "turboServer": "https://nginx-turbonomic.apps.ocp-270003bu3k-4sbk.cloud.techzone.ibm.com/"
             },
             "restAPIConfig": {
                 "opsManagerUserName": "administrator",
@@ -72,7 +72,7 @@ spec:
       serviceAccountName: turbo-user
       containers:
       - name: kubeturbo
-        image: icr.io/cpopen/turbonomic/kubeturbo:8.9.1
+        image: icr.io/cpopen/turbonomic/kubeturbo:8.9.3
         env:
           - name: kubeturbo
             valueFrom:
