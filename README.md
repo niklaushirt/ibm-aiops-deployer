@@ -171,7 +171,7 @@ Those scripts have been tested thoroughly on different environments and have pro
 
 If you think that you hit a problem:
 
-* Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each (`b3c.16x64` - it's easy to select the wrong size). If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
+* Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each. If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
 * If you want to install IBM AIOps, Turbonomic and Instana you **must** select **5 worker nodes with 32 CPU and 128 GB**
 * The complete installation takes about 1.5 to 8 hours depending on your region where and the platform you deployed to.
 * If you see Pods in `CrashLoop` or other error states, try to wait it out (this can be due to dependencies on other componenets that are not ready yet). Chances are that the deployment will eventually go through. If after 8h you are still stuck, ping me.
