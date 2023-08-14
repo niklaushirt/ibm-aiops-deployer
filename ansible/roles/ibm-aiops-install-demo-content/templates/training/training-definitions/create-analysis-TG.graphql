@@ -5,6 +5,7 @@ mutation createTrainingDefinition {
     algorithmName: "Temporal_Grouping"
     description: "Automatically created by Nick's scripts"
     createdBy: "demo"
+    dataSetIds: []
     promoteOption: manual
     trainingSchedule: {
       frequency: scheduled

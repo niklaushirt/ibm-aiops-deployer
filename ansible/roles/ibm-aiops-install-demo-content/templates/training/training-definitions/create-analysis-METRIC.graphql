@@ -4,7 +4,8 @@ mutation createTrainingDefinition {
     algorithmName: "Metric_Anomaly_Detection"
     description: "Automatically created by Nick's scripts"
     createdBy: "demo"
-    promoteOption: whenTrainingComplete,
+    promoteOption: whenTrainingComplete
+    dataSetIds: []
     trainingSchedule: {
       frequency: manual,
       repeat: daily,

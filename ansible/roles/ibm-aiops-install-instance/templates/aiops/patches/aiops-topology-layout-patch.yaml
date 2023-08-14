@@ -10,7 +10,7 @@ spec:
             scheme: HTTPS
           initialDelaySeconds: 60
           timeoutSeconds: 3
-          periodSeconds: 10
+          periodSeconds: 30
           successThreshold: 1
           failureThreshold: 30
         terminationMessagePath: /dev/termination-log
@@ -21,7 +21,7 @@ spec:
             scheme: HTTPS
           initialDelaySeconds: 120
           timeoutSeconds: 3
-          periodSeconds: 10
+          periodSeconds: 30
           successThreshold: 1
           failureThreshold: 60
 
