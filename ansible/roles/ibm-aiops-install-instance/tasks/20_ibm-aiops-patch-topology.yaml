@@ -142,6 +142,10 @@
   ignore_errors: true
 
 
+- name: 🩹 PATCH - Patch aiops-ir-analytics-metric-action
+  shell: oc patch deployment aiops-ir-analytics-metric-action -n {{ current_ibmaiops_cluster.project }} --patch-file "{{role_path}}/templates/aiops/patches/aiops-ir-analytics-metric-action.yaml"
+  ignore_errors: true
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------

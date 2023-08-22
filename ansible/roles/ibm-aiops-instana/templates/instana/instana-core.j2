@@ -71,6 +71,12 @@ spec:
       enabled: true
     - name: feature.action.automation.enabled
       enabled: true
+    - name: feature.phmc.enabled
+      enabled: true
+    - name: feature.powervc.enabled
+      enabled: true
+    - name: feature.slo.enabled
+      enabled: true
   agentAcceptorConfig:
     host: agent.{{BASE_DOMAIN}}
     port: 443
@@ -95,6 +101,23 @@ spec:
           requests:
             storage: 300Gi
         storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+    synthetics:
+      pvcConfig:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 300Gi
+        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+    syntheticsKeystore:
+      pvcConfig:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 300Gi
+        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+
   datastoreConfigs:
     beeInstanaConfig:
       hosts:
