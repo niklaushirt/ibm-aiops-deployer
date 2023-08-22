@@ -231,7 +231,7 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator Clickhouse 
   shell: |
     # Clickhouse Operator installation
-    curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.19.1/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
+    curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.21.2/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
     # Image pull secrets for Clickhouse image
     kubectl create secret docker-registry clickhouse-image-secret \
       --namespace=instana-datastores \
