@@ -24,6 +24,22 @@ export TEMP_PATH=~/aiops-install
 export ERROR_STRING=""
 export ERROR=false
 
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#1122aa'
+    color: '#fff'
+    location: BannerTop
+    text: "🔎 FINALIZING: Checking IBM AIOps Installation"
+EOF
+
+
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -454,12 +470,16 @@ function check_array(){
       echo ""
     if  ([[ $ERROR == true ]]); 
     then
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ERROR
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
         shopt -s xpg_echo
         echo ""
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
-        echo "  ❗ Your installation has the following errors ❗"
+        echo "  ❗ Your installation has the following problems ❗"
         echo ""
         echo "      $ERROR_STRING" | sed 's/^/       /'
         echo ""
@@ -467,7 +487,7 @@ function check_array(){
         echo "***************************************************************************************************************************************************"
         echo ""
         echo "  🚀 Try to re-run the installer to see if this solves the problem"
-        echo "  🛠️ To do this just delete the ibm-aiops-install-aiops pod in the ibm-aiop Namespace"
+        echo "  🛠️  To do this just delete the ibm-aiops-install-aiops pod in the ibm-aiop Namespace"
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
@@ -475,7 +495,72 @@ function check_array(){
 
         echo ""
         echo ""
+        OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-warning
+spec:
+    backgroundColor: '#dd4500'
+    color: '#fff'
+    location: "BannerTop"
+    text: "⚠️ WARNING: Your Installation has some problems. Please check the Installation Logs and re-run the installer by deleting the Pod"
+    link:
+        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+        text: Open Logs
+EOF
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#009a00'
+    color: '#fff'
+    link:
+        href: "https://$appURL"
+        text: DemoUI
+    location: BannerTop
+    text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
+EOF
+
+
+
+
     else
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# NO ERROR
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         echo ""
         echo "  🟢🟢🟢 Your installation looks fine"
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#009a00'
+    color: '#fff'
+    link:
+        href: "https://$appURL"
+        text: DemoUI
+    location: BannerTop
+    text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
+EOF
+
     fi
+
+
+
