@@ -1,3 +1,19 @@
+
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#1122aa'
+    color: '#fff'
+    location: BannerTop
+    text: "🔎 FINALIZING: Checking Installation Logs"
+EOF
+
+
 num_failed=$(cat /tmp/ansible.log|grep "failed=[1-9]"|wc -l)
 if [ $num_failed -gt 0 ];
 then
@@ -26,10 +42,10 @@ spec:
 
 EOF
 else
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
 export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
