@@ -128,6 +128,8 @@ function check_array(){
       echo "   🛠️  Get Namespaces"
 
         export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      echo "        IBM AIOps Namespace: $AIOPS_NAMESPACE"
+
 
       echo "   🛠️  Get Cluster Route"
 
@@ -317,7 +319,7 @@ function check_array(){
       echo ""
       echo ""
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  🚀 CHECK AWX and Runbooks"
+      echo "  🚀 CHECK AWX"
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
 
@@ -338,7 +340,7 @@ function check_array(){
       fi
 
     echo "      🔎 Check AWX Inventory"
-    export AWX_INVENTORY_COUNT=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|grep "IBMAIOPS Runbooks"|wc -l|tr -d ' ')
+    export AWX_INVENTORY_COUNT=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|grep "IBM AIOPS Runbooks"|wc -l|tr -d ' ')
     if  ([[ $AWX_INVENTORY_COUNT -lt 1 ]]); 
       then 
             export CURRENT_ERROR=true
@@ -356,10 +358,31 @@ function check_array(){
             export CURRENT_ERROR_STRING="AWX Templates not ready"
             handleError
       else  
-            echo "         ✅ OK"; 
+            echo "         ✅ OK ($AWX_TEMPLATE_COUNT Templates)"; 
+            curl -X "GET" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|jq -r '.results[].name'| sed 's/^/          - /'
+
+
+
+            
       fi
 
-          CPD_ROUTE=$(oc get route cpd -n $AIOPS_NAMESPACE  -o jsonpath={.spec.host} || true) 
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE POLICIES
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK IBM AIOps Runbooks"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+    CPD_ROUTE=$(oc get route cpd -n $AIOPS_NAMESPACE  -o jsonpath={.spec.host} || true) 
 
     echo "      🔎 Check IBMAIOPS Runbooks"
 
@@ -367,20 +390,71 @@ function check_array(){
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8')
     export RB_COUNT=$(echo $result|jq ".[].name"|grep -c "")
-    if  ([[ $AWX_TEMPLATE_COUNT -lt 3 ]]); 
+    if  ([[ $RB_COUNT -lt 4 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="IBMAIOps Runbooks not ready"
             handleError
       else  
-            echo "         ✅ OK"; 
+            echo "         ✅ OK ($RB_COUNT Runbooks)"; 
+            echo $result|jq -r '.[].name'| sed 's/^/          - /'
       fi
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE POLICIES
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK IBM AIOps Policies"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+    export POLICY_USERNAME=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.username}' | base64 --decode)
+    export POLICY_PASSWORD=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.password}' | base64 --decode)
+    export POLICY_LOGIN="$POLICY_USERNAME:$POLICY_PASSWORD"
+    export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
+
+    echo "      🔎 Check Policies"
+    export POLICY_COUNT=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      -H 'content-type: application/json' \
+      -u $POLICY_LOGIN|grep "DEMO"|wc -l|tr -d ' ')
+
+    if  ([[ $POLICY_COUNT -lt 5 ]]); 
+      then 
+            export CURRENT_ERROR=true
+            export CURRENT_ERROR_STRING="Policies Missing"
+            handleError
+      else  
+            echo "         ✅ OK ($POLICY_COUNT Policies)"; 
+            curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+            -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+            -H 'content-type: application/json' \
+            -u $POLICY_LOGIN|jq -r ".[].metadata"|jq -r '.name'|grep "DEMO"| sed 's/^/          - /'
+      fi
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# WRAP UP
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
       echo ""
       echo ""
     if  ([[ $ERROR == true ]]); 
     then
+        shopt -s xpg_echo
         echo ""
         echo ""
         echo "***************************************************************************************************************************************************"
