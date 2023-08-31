@@ -18,7 +18,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-
+export days_back=546
 export num_log_lines=10000
 export time_increment_sec=10
 export WORKING_DIR_LOGS=/tmp/testlogs
@@ -58,7 +58,7 @@ echo "">$WORKING_DIR_LOGS/test2.json
 echo "">$WORKING_DIR_LOGS/test3.json
 
 
-export utc_timestamp=$(date +'%Y-%m-%d %H:%M:%S.000')
+export utc_timestamp=$(date -v-${days_back}d +'%Y-%m-%d %H:%M:%S.000')
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
 echo "    🚀 Logs Starting at $utc_timestamp"
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
@@ -68,8 +68,8 @@ echo " "
 for i in $(seq 1 10 $(($num_log_lines*$time_increment_sec)))
 do
 
-export my_timestamp=$(date -v+${i}S +'%s')
-export utc_timestamp=$(date -v+${i}S +'%Y-%m-%d %H:%M:%S.000')
+export my_timestamp=$(date -v+${i}S -v-${days_back}d +'%s')
+export utc_timestamp=$(date -v+${i}S -v-${days_back}d +'%Y-%m-%d %H:%M:%S.000')
 
 
 
@@ -85,7 +85,7 @@ done
 
 printf "       Done       "\\r
 
-export utc_timestamp=$(date -v+${i}S +'%Y-%m-%d %H:%M:%S.000')
+export utc_timestamp=$(date -v+${i}S -v-${days_back}d +'%Y-%m-%d %H:%M:%S.000')
 echo " "
 echo " "
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
