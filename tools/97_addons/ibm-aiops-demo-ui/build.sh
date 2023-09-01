@@ -1,5 +1,5 @@
 #!/bin/bash
-export CONT_VERSION=2.0
+export CONT_VERSION=2.1
 
 # Create the Image
 docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load .

@@ -330,9 +330,9 @@ print('     ❓ Getting ALL LOGINS - this may take a minute or two')
 #ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
 
 
-stream = os.popen(cmd)
-ALL_LOGINS = stream.read().strip()
-#ALL_LOGINS="aaa"
+#stream = os.popen(cmd)
+#ALL_LOGINS = stream.read().strip()
+ALL_LOGINS="aaa"
 #print ('           ALL_LOGINS:              '+ALL_LOGINS)
 
 
@@ -355,6 +355,8 @@ LOG_TIME_ZONE="-1"
 print('     ❓ Getting Details Kafka')
 stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS = stream.read().strip()
+stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-none| awk '{print $1;}'")
+KAFKA_TOPIC_LOGS_NONE = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
 stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template={{.data.username}} | base64 --decode")
@@ -485,6 +487,7 @@ print ('           KafkaBroker:           '+KAFKA_BROKER)
 print ('           KafkaUser:             '+KAFKA_USER)
 print ('           KafkaPWD:              '+KAFKA_PWD)
 print ('           KafkaTopic Logs:       '+KAFKA_TOPIC_LOGS)
+print ('           KafkaTopic Logs None:  '+KAFKA_TOPIC_LOGS_NONE)
 print ('           Kafka Cert:            '+KAFKA_CERT[:25]+'...')
 print ('')   
 print ('')   
@@ -1045,18 +1048,18 @@ def injectAllNetSOCKREST(request):
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
-        threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadLogs1 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadLogs2 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+        threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+        threadLogs1 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+        threadLogs2 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        time.sleep(5)
+        time.sleep(2)
         threadLogs1.start()
-        time.sleep(5)
+        time.sleep(2)
         threadLogs2.start()
 
     else:
