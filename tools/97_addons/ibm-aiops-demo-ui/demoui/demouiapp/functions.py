@@ -151,15 +151,17 @@ def injectLogsRobotShop(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA
 
 def injectLogsSockShop(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK):  
     print ('📛 START - Inject Logs - SOCKSHOP')
+    LOG_TIME_FORMAT="%Y-%m-%d %H:%M:%S.000"
+    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
+    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
     injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
     return 'OK'
 
+
 def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_GENERIC):
-    
 
     stream = os.popen('echo "'+KAFKA_CERT+'" > ./demouiapp/ca.crt')
     stream.read().strip()
-
 
     conf = {'bootstrap.servers': KAFKA_BROKER+':443',
             'security.protocol': "SASL_SSL",
@@ -181,10 +183,13 @@ def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_C
 
     for i in range (1,LOG_ITERATIONS):
         for line in DEMO_LOGS_GENERIC.split('\n'):
-            timestamp = timestamp + datetime.timedelta(milliseconds=LOG_TIME_STEPS)            
+            timestamp = timestamp + datetime.timedelta(milliseconds=LOG_TIME_STEPS)      
+            epoch = int(timestamp.timestamp())      
             timestampstr = timestamp.strftime(LOG_TIME_FORMAT)+'+00:00'
+            epochstr = str(epoch)+'000'
             line = line.replace("MY_TIMESTAMP", timestampstr).strip()
-            #print ('    XX:'+line)
+            line = line.replace("MY_EPOCH", epochstr).strip()
+            print ('    XX:'+line)
 
             producer.produce(KAFKA_TOPIC_LOGS, value=line)
         producer.flush()
