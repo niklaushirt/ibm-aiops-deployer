@@ -19,7 +19,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
 export num_log_lines=100
-export time_increment_sec=60
+export time_increment_sec=2
 export WORKING_DIR_LOGS=/tmp/inceptionlogs
 
 
