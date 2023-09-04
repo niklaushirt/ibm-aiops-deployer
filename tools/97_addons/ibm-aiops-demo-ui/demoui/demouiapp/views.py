@@ -326,14 +326,16 @@ echo "<BR>"
 
 '''
 
-print('     ❓ Getting ALL LOGINS - this may take a minute or two')
 #ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
 
-
-#stream = os.popen(cmd)
-#ALL_LOGINS = stream.read().strip()
-ALL_LOGINS="aaa"
-#print ('           ALL_LOGINS:              '+ALL_LOGINS)
+if GET_CONFIG=='true':
+    print('     ❓ Getting ALL LOGINS - this may take a minute or two')
+    stream = os.popen(cmd)
+    ALL_LOGINS = stream.read().strip()
+else:
+    print('     ❓ Skip getting ALL LOGINS')
+    ALL_LOGINS="aaa"
+    #print ('           ALL_LOGINS:              '+ALL_LOGINS)
 
 
 
