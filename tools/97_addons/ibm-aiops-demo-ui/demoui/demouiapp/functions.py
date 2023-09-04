@@ -30,7 +30,8 @@ METRICS_TO_SIMULATE_NET_SOCK=str(os.environ.get('METRICS_TO_SIMULATE_NET_SOCK'))
 DEMO_EVENTS_NET_SOCK=os.environ.get('DEMO_EVENTS_NET_SOCK')
 
 
-
+#SHOW CONFIG
+GET_CONFIG=str(os.environ.get('GET_CONFIG', "false"))
 
 
 # GLOBAL
@@ -95,6 +96,8 @@ print ('')
 print ('           SLACK_URL:                      '+str(SLACK_URL))
 print ('           SLACK_USER:                     '+str(SLACK_USER))
 print ('           SLACK_PWD:                      '+str(SLACK_PWD))
+print ('')
+print ('           GET_CONFIG:                     '+str(GET_CONFIG))
 print ('')
 print ('    **************************************************************************************************')
 print ('')
