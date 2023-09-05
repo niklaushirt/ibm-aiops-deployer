@@ -95,6 +95,23 @@ spec:
           requests:
             storage: 300Gi
         storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+    synthetics:
+      pvcConfig:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 300Gi
+        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+    syntheticsKeystore:
+      pvcConfig:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 300Gi
+        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
+
   datastoreConfigs:
     beeInstanaConfig:
       hosts:
