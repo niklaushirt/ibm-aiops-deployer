@@ -6,7 +6,8 @@ import random
 import os
 import time
 from pathlib import Path
-
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 #ROBOTSHOP
 DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
@@ -156,8 +157,6 @@ def injectLogsSockShop(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_
     print ('📛 START - Inject Logs - SOCKSHOP')
     LOG_TIME_FORMAT="%Y-%m-%d %H:%M:%S.000"
     injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
-    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
-    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK)
     return 'OK'
 
 
@@ -192,11 +191,11 @@ def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_C
             epochstr = str(epoch)+'000'
             line = line.replace("MY_TIMESTAMP", timestampstr).strip()
             line = line.replace("MY_EPOCH", epochstr).strip()
-            print ('    XX:'+line)
+            #print ('    XX:'+line)
 
             producer.produce(KAFKA_TOPIC_LOGS, value=line)
         producer.flush()
-        print('Logs-Injection: '+str(i)+'  :  '+str(timestamp))
+        print('    📝 Logs-Injection: '+str(i)+'  :  '+str(timestamp))
 
 
     print ('✅ END - Inject Logs')
@@ -259,7 +258,7 @@ def injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS
 
         line = line.replace("MY_TIMESTAMP", timestampstr)
         response = requests.post(url, data=line, headers=headers, auth=auth, verify=False)
-        print ('    Events-Injection:'+str(response.content))
+        print ('    🚀 Events-Injection:'+str(response.content))
 
     print ('✅ END - Inject Events')
 
@@ -415,7 +414,7 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
         #print (MY_TIMESTAMP)
 
         response = requests.post(url, data=output_json, headers=headers, verify=False)
-        print ('    Metrics-Injection:'+str(METRIC_NAME)+' - '+str(MY_TIMESTAMP_READABLE)+' - '+str(response.content))
+        print ('    🚇 Metrics-Injection:'+str(METRIC_NAME)+' - '+str(MY_TIMESTAMP_READABLE)+' - '+str(response.content))
     print ('✅ END - Inject Metrics')
 
     return 'OK'

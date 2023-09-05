@@ -1051,18 +1051,12 @@ def injectAllNetSOCKREST(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadLogs1 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadLogs2 = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        time.sleep(2)
-        threadLogs1.start()
-        time.sleep(2)
-        threadLogs2.start()
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
