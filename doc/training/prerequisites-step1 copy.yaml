@@ -37,60 +37,37 @@ metadata:
 immutable: false
 data:
   INSTALLATION_CONFIG.yaml: >+
-    #*************************************************************************************************************************************************
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    # Global Configuration
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    #*************************************************************************************************************************************************
-
     global_config:
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # Passwords and Licenses
+      # Passwords
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Use this Password for all Instances
       global_password: CHANGEME
 
-
-      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
-      environment_name: Bear
+      environment_name: ibm-aiops
       cloud_platform: existing-ocp
-      # Set this value to True to accept all licenses
-      accept_all_licenses: False
-      # Key to decrypt Licenses
-      #license_token: NONE
-
-
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # Pull Registires
+      # IBMAIOPS Pull Registires
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
-
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Notifications and Cards
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Create Welcome Cards in ibm-aiops
+      # Create Welcome Cards in IBMAIOps
       create_cards: true
       # Create App Menu Items in OCP
       create_ocp_items: true
+      # Use this Password for all Instances
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
       # Create Notifications in OCP
       create_ocp_notifications: true
-      position_ocp_notifications: BannerBottom
+      position_ocp_notifications: BannerTop
       position_final_ocp_notification: BannerTop
+      # Key to decrypt Licenses
+      # license_token: NONE
 
-
-
-
-
-    # *************************************************************************************************************************************************
-    # -------------------------------------------------------------------------------------------------------------------------------------
-    # OpenShift Configuration
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # *************************************************************************************************************************************************
 
     openshift:
-
     - name: "mycluster"
       ocp_version: "4.12"
       cluster_name: "mycluster"
@@ -105,28 +82,16 @@ data:
         #ocp_storage_class_block: ibmc-block-gold
 
 
+    ibm-aiops:
 
-
-    #*************************************************************************************************************************************************
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    # IBM AIOPS Configuration
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    #*************************************************************************************************************************************************
-
-    ibmaiops:
-
-
-    #--------------------------------------------------------------------------------------------------------------------------------------
-
-    # CloudPak for AIOps Base Install
-
-    #--------------------------------------------------------------------------------------------------------------------------------------
-
+    
     - project: ibm-aiops
       instances:
-    #--------------------------------------------------------------------------------------------------------------------------------------
-    # CloudPak for AIOps Demo Content Install
-    #--------------------------------------------------------------------------------------------------------------------------------------
+
+        
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # INSTALL IBMAIOPS Demo Content
+      # --------------------------------------------------------------------------------------------------------------------------------------
       - name: ibm-aiops-demo-content
         kind: IBMAIOpsDemoContent
         install: true
@@ -150,9 +115,6 @@ data:
         training_create_training_metrics: false
         training_run_training_metrics: false
 
-        # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: false
-
         training_data_url: https://github.com/niklaushirt/
         training_data_repo: ibm-aiops-trainingdata
 
@@ -161,8 +123,6 @@ data:
         # TOPOLOGY
         # Install DemoApps Application
         install_demoapps: true
-        # RobotShop interface color (classic/white)
-        robotshop_color: white
         # Install DemoApps K8s Observer
         install_demoapps_observer: false
         # Create Topology
@@ -170,7 +130,6 @@ data:
         create_topology_apps: false
         # Create Custom overlay topology
         install_custom_topology: false
-
 
         # ---------------------------------------------------------------------
         # RUNBOOKS
@@ -221,7 +180,7 @@ data:
         # Create a valid ingress certificate (needed for Slack integration)
         create_valid_ingress_certificate: false
 
-        # Create Policy for Story Creation
+        # Create Policy for Incident Creation
         create_incident_policy: false
 
         # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
@@ -230,9 +189,14 @@ data:
         # Create Service Account
         create_account: true
 
-        # Install Webhook Probe
-        install_webhook_probe: false
-        subscription_channel: v3.7
+
+
+        # ---------------------------------------------------------------------
+        # OUTPUT
+        # Print all logins
+        print_logins: false
+        # Open the relevant Web UIs
+        open_web_ui: false
 
 
 
@@ -240,9 +204,8 @@ data:
     - project: ibm-aiops-addons
       instances:
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # CP4WAIOPS ELK
+      # IBMAIOPS ELK
       # --------------------------------------------------------------------------------------------------------------------------------------
-
       - name: ibm-aiops-elk
         kind: ELK
         install: true
@@ -318,7 +281,7 @@ spec:
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
               echo "                                                                                                                                                   "
-              echo " 🚀 Install IBM AIOps Training Prerequisites Step 1                                                                                                                                                "
+              echo " 🚀 Install IBM AIOps Training Prerequisites                                                                                                                                                 "
               echo "                                                                                                                                                   "
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
@@ -376,7 +339,11 @@ spec:
               echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"
               echo ""
 
-              oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Finalize Installation"
+              ./tools/90_finalizeInstallation.sh
+              echo ""
 
               while true
               do
