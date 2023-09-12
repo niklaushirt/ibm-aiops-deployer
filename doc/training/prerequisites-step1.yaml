@@ -289,7 +289,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-training-step1
+  name: ibm-aiops-install-training-step1
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
