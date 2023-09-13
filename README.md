@@ -1,9 +1,10 @@
 <center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
-<center> <h2>Demo Environment Installation 🚀</h2> </center>
+
 
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
 
-
+<center> <h2>Demo Environment Installation 🚀</h2> </center>
+<BR>
 <center> ©2023 Niklaus Hirt / IBM </center>
 
 
