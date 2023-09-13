@@ -49,7 +49,10 @@
 # 🚀 Quick install
 ---------------------------------------------------------------
 
-The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box`` environment that is self-contained (e.g. can be deployed in only one cluster)
+The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
+
+<details>
+<summary>Details...</summary>
 
 > It contains the following components (which can be installed independently):
 > 
@@ -74,6 +77,9 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 > - You don’t need a connection to the cluster during the installation (fire and forget)
 > 
 > 🤓 So this could basically be done from an iPhone or iPad	
+
+</details>
+
 
 ## 🚀 Getting Started
 
@@ -134,7 +140,7 @@ You'll need:
 - 5x worker nodes with **32 CPU / 128 GB**  ❗
 
 
-You **might** get away with less if you don't install some components (Event Manager, ELK, Turbonomic,...) but no guarantee.
+You **might** get away with less if you don't install some components (ELK, Turbonomic, Instana,...) but no guarantee.
 
 
 
