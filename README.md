@@ -9,7 +9,9 @@
 
 <div style="page-break-after: always;"></div>
 
-# Disclaimer
+
+
+<summary>⚠️ Disclaimer</summary>
 > ### ❗ This is provided `as-is`:
 > 
 > * I'm sure there are errors
@@ -34,6 +36,8 @@
 > 
 > ❗Those are **non-production** installations and are suited only for demo and PoC environments. ❗
 > Please refer to the official IBM Documentation for production ready installations.
+
+<details>
 
 <div style="page-break-after: always;"></div>
 
