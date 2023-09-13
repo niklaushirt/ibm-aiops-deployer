@@ -10,8 +10,11 @@
 <div style="page-break-after: always;"></div>
 
 <BR>
+
+# ⚠️ Disclaimer
+
 <details>
-<summary># ⚠️ Disclaimer</summary>
+<summary>Read...</summary>
 
 > ### ❗ This is provided `as-is`:
 > 
