@@ -46,36 +46,36 @@
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 🚀 Getting Started
+# 🚀 Quick install
 ---------------------------------------------------------------
 
 The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box`` environment that is self-contained (e.g. can be deployed in only one cluster)
 
-It contains the following components (which can be installed independently):
+> It contains the following components (which can be installed independently):
+> 
+>  - **IBM AIOps**
+>  - **IBM AIOps Demo Content**  (optional)
+>     - **OpenLDAP** & Register with IBM AIOps
+>     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+>     - **AI Models** - Load and Train 
+> 	  - Load Training Data (LAD, SNOW, MET) 
+>       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
+>       - Train Models (TG, LAD, CR, SI, MET) 
+>     - **Topology**
+>       - Demo Apps (RobotShop. SockShop)
+>       - Create IBM AIOps Topology and Applications
+>  - **Turbonomic**  (optional)
+>  - **Instana**  (optional)
 
- - **IBM AIOps**
- - **IBM AIOps Demo Content**  (optional)
-    - **OpenLDAP** & Register with IBM AIOps
-    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
-    - **AI Models** - Load and Train 
-	  - Load Training Data (LAD, SNOW, MET) 
-      - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
-      - Train Models (TG, LAD, CR, SI, MET) 
-    - **Topology**
-      - Demo Apps (RobotShop. SockShop)
-      - Create IBM AIOps Topology and Applications
- - **Turbonomic**  (optional)
- - **Instana**  (optional)
-
-### ⚠️ **This method creates an in-cluster installation**
-
-- It's way faster
-- You don't have to install all the tooling locally
-- You don’t need a connection to the cluster during the installation (fire and forget)
-
+> #### ⚠️ **This method creates an in-cluster installation**
+> 
+> - It's way faster
+> - You don't have to install all the tooling locally
+> - You don’t need a connection to the cluster during the installation (fire and forget)
+> 
 > 🤓 So this could basically be done from an iPhone or iPad	
 
-
+## 🚀 Getting Started
 
 🐥 [Quick Install](#1-preparation)
 
