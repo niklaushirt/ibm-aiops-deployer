@@ -331,7 +331,7 @@ spec:
             - |
               set -x
 
-              cat <<EOF | oc apply -n ibm-aiops-demo-ui -f -
+              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
                 apiVersion: v1
                 kind: ConfigMap
                 metadata:
@@ -458,7 +458,7 @@ spec:
               set -x
 
 
-              cat <<EOF | oc apply -n ibm-aiops-demo-ui -f -
+              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
                 kind: ConfigMap
                 apiVersion: v1
                 metadata:
