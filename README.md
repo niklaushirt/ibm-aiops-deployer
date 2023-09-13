@@ -1,4 +1,4 @@
-<center> <h1>CloudPak for AIOps v4.1</h1> </center>
+<center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
 
 ![K8s CNI](./doc/pics/front.png)
@@ -49,6 +49,33 @@
 # 🚀 Getting Started
 ---------------------------------------------------------------
 
+The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box`` environment that is self-contained (e.g. can be deployed in only one cluster)
+
+It contains the following components (which can be installed independently):
+
+ - **IBM AIOps**
+ - **IBM AIOps Demo Content**  (optional)
+    - **OpenLDAP** & Register with IBM AIOps
+    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+    - **AI Models** - Load and Train 
+	  - Load Training Data (LAD, SNOW, MET) 
+      - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
+      - Train Models (TG, LAD, CR, SI, MET) 
+    - **Topology**
+      - Demo Apps (RobotShop. SockShop)
+      - Create IBM AIOps Topology and Applications
+ - **Turbonomic**  (optional)
+ - **Instana**  (optional)
+
+### ⚠️ **This method creates an in-cluster installation**
+
+- It's way faster
+- You don't have to install all the tooling locally
+- You don’t need a connection to the cluster during the installation (fire and forget)
+
+> 🤓 So this could basically be done from an iPhone or iPad	
+
+
 
 🐥 [Quick Install](#1-preparation)
 
@@ -65,8 +92,6 @@
 
 🧨 [Troubleshooting](#6-troubleshooting)
 
-> ℹ️ You can find a more detailed presentation about how the automation works here: [PDF](https://ibm.box.com/s/gx0tcubl9k4phvdsrffd7taragrmvz02).
-> 
 
 
 
@@ -74,15 +99,8 @@ Here is a quick video that walks you through the installation process
 ![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
 
-### ⚠️ **This method creates an in-cluster installation**
-
-- It's way faster
-- You don't have to install all the tooling locally
-- You don’t need a connection to the cluster during the installation (fire and forget)
 
 
-
-> 🤓 So this could basically be done from an iPhone or iPad	
 
 🚀 Already have a cluster? [Dive right in](#-21-install-ai-manager-with-demo-content-turbonomic-and-instana)
 
@@ -869,18 +887,11 @@ It contains the following components (which can be installed independently):
       - Load Overlay Topology
       - Create IBM AIOps Application
     - **Misc**
-     	   - Creates valid certificate for Ingress (Slack) 
-     	   	   	   	   - External Routes (Flink, Topology, ...)
-     	   	   	   	    	   	   	    	   	    	   - Disables ASM Service match rule 
-     	   	   	   	    	   	   	    	   	    	   	   	   	    	   	    	   	   	    	   	   - Create Policy Creation for Stories and Runbooks 
-     	   	   	   	    	   	   	    	   	    	   	   	   	    	   	    	   	   	    	   	    	   	   	    	   	    	   	   	    	   	    	   	    	   	    	   - Demo Service Account 
- - **Event Manager**  (optional)
- 	- Event Manager
- - **Event Manager Demo Content**  (optional)
-   - **Topology**
-     - Create ASM merge rules
-     - Load ASM merge Topology
-     - Create IBM AIOps Application
+     	- Creates valid certificate for Ingress (Slack) 
+		- External Routes (Flink, Topology, ...)
+		- Disables ASM Service match rule 
+		- Create Policy Creation for Stories and Runbooks 
+		- Demo Service Account 
  - **Turbonomic**  (optional)
  - **Turbonomic Demo Content** (optional)
 	- Demo User
@@ -951,6 +962,10 @@ Incidents are being created by using the high level APIs in order to simulate a 
 * Logs: Pre-canned anomalous logs for a 30 min timerange are injected through Kafka
 * Metrics: Anomalous metric data are generated on the fly and injected via the corresponding REST API
 </details>
+
+
+> ℹ️ You can find a more detailed presentation about how the automation works here: [PDF](https://ibm.box.com/s/gx0tcubl9k4phvdsrffd7taragrmvz02).
+
 
 
 <div style="page-break-after: always;"></div>
