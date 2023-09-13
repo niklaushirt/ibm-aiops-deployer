@@ -9,29 +9,29 @@
 
 <div style="page-break-after: always;"></div>
 
-xc
-### ❗ This is provided `as-is`:
-
-* I'm sure there are errors
-* I'm sure it's not complete
-* It clearly can be improved
-
-
-Please contact me if you have feedback or if you find glitches or problems.
-
-- on Slack: @niklaushirt or
-- by Mail: nikh@ch.ibm.com
-
-
-**❗The installation has been tested on OpenShift 4.12 on:**
-
-- OpenShift Cluster (VMware on IBM Cloud) - IPI
-- OpenShift Cluster (VMware on IBM Cloud) - UPI
-
-But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
-
-
-
+# Disclaimer
+> ### ❗ This is provided `as-is`:
+> 
+> * I'm sure there are errors
+> * I'm sure it's not complete
+> * It clearly can be improved
+> 
+> 
+> Please contact me if you have feedback or if you find glitches or problems.
+> 
+> - on Slack: @niklaushirt or
+> - by Mail: nikh@ch.ibm.com
+> 
+> 
+> **❗The installation has been tested on OpenShift 4.12 on:**
+> 
+> - OpenShift Cluster (VMware on IBM Cloud) - IPI
+> - OpenShift Cluster (VMware on IBM Cloud) - UPI
+> 
+> But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
+> 
+> 
+> 
 > ❗Those are **non-production** installations and are suited only for demo and PoC environments. ❗
 > Please refer to the official IBM Documentation for production ready installations.
 
