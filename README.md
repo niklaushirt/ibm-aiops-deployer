@@ -38,7 +38,7 @@
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 🚀 Quickstart
+# 🚀 Getting Started
 ---------------------------------------------------------------
 
 
@@ -193,10 +193,10 @@ If you think that you hit a problem:
 ---------------------------------------------------------------
 
 
-## 2.1 Install IBM AIOps with demo content 🚀 
+## 2.1 Install IBM AIOps 🚀 
 
 
-### 2.1.1 Install IBM AIOps with demo content 🚀 
+### 2.1.1 Install IBM AIOps with demo content
 <details>
 <summary>✅ Instructions</summary>
 
@@ -251,7 +251,7 @@ This installation contains:
 </details>
 
 
-### 2.1.2 Install Turbonomic 🚀 
+### 2.1.2 Install Turbonomic
 
 <details>
 <summary>✅ Instructions</summary>
@@ -291,7 +291,7 @@ This installation adds:
 </details>
 
 
-### 2.1.3 Install Instana (experimental) 🚀 
+### 2.1.3 Install Instana (experimental)
 <details>
 <summary>✅ Instructions</summary>
 
