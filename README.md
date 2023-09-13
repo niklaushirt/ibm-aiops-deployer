@@ -1,46 +1,88 @@
-<center> <h1>CloudPak for AIOps v4.1</h1> </center>
+<center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
+
+
+![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
+
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
-
-![K8s CNI](./doc/pics/front.png)
-
-
+<BR>
 <center> ©2023 Niklaus Hirt / IBM </center>
 
 
 <div style="page-break-after: always;"></div>
 
-xc
-### ❗ This is provided `as-is`:
+<BR>
 
-* I'm sure there are errors
-* I'm sure it's not complete
-* It clearly can be improved
+### ⚠️ Disclaimer
 
+<details>
+<summary>Read...</summary>
 
-Please contact me if you have feedback or if you find glitches or problems.
+> ### ❗ This is provided `as-is`:
+> 
+> * I'm sure there are errors
+> * I'm sure it's not complete
+> * It clearly can be improved
+> 
+> 
+> Please contact me if you have feedback or if you find glitches or problems.
+> 
+> - on Slack: @niklaushirt or
+> - by Mail: nikh@ch.ibm.com
+> 
+> 
+> **❗The installation has been tested on OpenShift 4.12 on:**
+> 
+> - OpenShift Cluster (VMware on IBM Cloud) - IPI
+> - OpenShift Cluster (VMware on IBM Cloud) - UPI
+> 
+> But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
+> 
+> 
+> 
+> ❗ Those are **non-production** installations and are suited only for demo and PoC environments. 
+> ❗ Please refer to the official IBM Documentation for production ready installations.
 
-- on Slack: @niklaushirt or
-- by Mail: nikh@ch.ibm.com
-
-
-**❗The installation has been tested on OpenShift 4.12 on:**
-
-- OpenShift Cluster (VMware on IBM Cloud) - IPI
-- OpenShift Cluster (VMware on IBM Cloud) - UPI
-
-But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
-
-
-
-> ❗Those are **non-production** installations and are suited only for demo and PoC environments. ❗
-> Please refer to the official IBM Documentation for production ready installations.
+</details>
 
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 🚀 Quickstart
+# 🚀 Quick install
 ---------------------------------------------------------------
 
+The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
+
+<details>
+<summary>Details...</summary>
+
+> It contains the following components (which can be installed independently):
+> 
+>  - **IBM AIOps**
+>  - **IBM AIOps Demo Content**  (optional)
+>     - **OpenLDAP** & Register with IBM AIOps
+>     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+>     - **AI Models** - Load and Train 
+> 	  - Load Training Data (LAD, SNOW, MET) 
+>       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
+>       - Train Models (TG, LAD, CR, SI, MET) 
+>     - **Topology**
+>       - Demo Apps (RobotShop. SockShop)
+>       - Create IBM AIOps Topology and Applications
+>  - **Turbonomic**  (optional)
+>  - **Instana**  (optional)
+
+> #### ⚠️ **This method creates an in-cluster installation**
+> 
+> - It's way faster
+> - You don't have to install all the tooling locally
+> - You don’t need a connection to the cluster during the installation (fire and forget)
+> 
+> 🤓 So this could basically be done from an iPhone or iPad	
+
+</details>
+
+
+## 🚀 Getting Started
 
 🐥 [Quick Install](#1-preparation)
 
@@ -51,32 +93,13 @@ But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 
 🚀 [Demo the Solution](#3-demo-the-solution)
 
-📱 [Slack integration](#4-slack-integration) (optional)
-
 🤓 [Demo Setup - Explained](#5-demo-setup---explained)
 
 🧨 [Troubleshooting](#6-troubleshooting)
 
-> ℹ️ You can find a more detailed presentation about how the automation works here: [PDF](https://ibm.box.com/s/gx0tcubl9k4phvdsrffd7taragrmvz02).
-> 
+📱 [Slack integration](#4-slack-integration) (optional)
 
-
-
-Here is a quick video that walks you through the installation process
-![K8s CNI](./doc/pics/JOB_INSTALL.gif)
-
-
-### ⚠️ **This method creates an in-cluster installation**
-
-- It's way faster
-- You don't have to install all the tooling locally
-- You don’t need a connection to the cluster during the installation (fire and forget)
-
-
-
-> 🤓 So this could basically be done from an iPhone or iPad	
-
-🚀 Already have a cluster? [Dive right in](#-21-install-ai-manager-with-demo-content-turbonomic-and-instana)
+🚀 Already have a cluster? [Dive right in](#4.1_dev#211-install-ibm-aiops-with-demo-content)
 
 
 
@@ -108,7 +131,7 @@ You'll need:
 - 5x worker nodes with **32 CPU / 128 GB**  ❗
 
 
-You **might** get away with less if you don't install some components (Event Manager, ELK, Turbonomic,...) but no guarantee.
+You **might** get away with less if you don't install some components (ELK, Turbonomic, Instana,...) but no guarantee.
 
 
 
@@ -192,7 +215,14 @@ If you think that you hit a problem:
 # 2. Quick Install
 ---------------------------------------------------------------
 
-## 2.1 Install IBM AIOps with demo content 🚀 
+
+Here is a quick video that walks you through the installation process
+![K8s CNI](./doc/pics/JOB_INSTALL.gif)
+
+## 2.1 Install IBM AIOps 🚀 
+
+
+### 2.1.1 Install IBM AIOps with demo content
 <details>
 <summary>✅ Instructions</summary>
 
@@ -247,7 +277,7 @@ This installation contains:
 </details>
 
 
-## 2.2 Install Turbonomic 🚀 
+### 2.1.2 Install Turbonomic
 
 <details>
 <summary>✅ Instructions</summary>
@@ -287,7 +317,7 @@ This installation adds:
 </details>
 
 
-## 2.3 Install Instana (experimental) 🚀 
+### 2.1.3 Install Instana (experimental)
 <details>
 <summary>✅ Instructions</summary>
 
@@ -320,7 +350,7 @@ This installation adds:
 
 </details>
 
-## 2.4 Follow the installation progress 🔎
+## 2.2 Follow the installation progress 🔎
 <details>
 <summary>✅ Instructions</summary>
 
@@ -353,28 +383,28 @@ This installation adds:
 </details>
 
 
-## 2.5 Verify your installation 🔎
+## 2.3 Verify your installation 🔎
 <details>
 <summary>✅ Instructions</summary>
 
 ### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
 
 
-### 2.5.1 Check Overall
+### 2.3.1 Check Overall
 Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check01.png)
 	
-### 2.5.2 Check Training
+### 2.3.2 Check Training
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
 2. Check that the Training are displayed as follows
 
 ![install](./doc/pics/check02.png)
 
 
-### 2.5.3 Check Automations
+### 2.3.3 Check Automations
 
-#### 2.5.3.1 Check Policies
+#### 2.3.3.1 Check Policies
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Policies` Tab
 2. Enter `DEMO` into the search field
@@ -383,14 +413,14 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check03.png)
 
 
-#### 2.5.3.2 Check Runbooks
+#### 2.3.3.2 Check Runbooks
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Runbooks ` Tab
 2. Check that you have 4 Runbooks as shown below
 
 ![install](./doc/pics/check04.png)
 
-#### 2.5.3.3 Check Actions
+#### 2.3.3.3 Check Actions
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Actions ` Tab
 3. 2. Enter `DEMO` into the search field
@@ -398,14 +428,14 @@ Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check05.png)
 
-### 2.5.4 Check Applications
+### 2.3.4 Check Applications
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
 2. Check that the Applications are displayed as follows
 
 ![install](./doc/pics/check07.png)
 
 
-### 2.5.4 Check Connections
+### 2.3.4 Check Connections
 1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
 2. Check that the Connections are displayed as follows
 
@@ -857,18 +887,11 @@ It contains the following components (which can be installed independently):
       - Load Overlay Topology
       - Create IBM AIOps Application
     - **Misc**
-     	   - Creates valid certificate for Ingress (Slack) 
-     	   	   	   	   - External Routes (Flink, Topology, ...)
-     	   	   	   	    	   	   	    	   	    	   - Disables ASM Service match rule 
-     	   	   	   	    	   	   	    	   	    	   	   	   	    	   	    	   	   	    	   	   - Create Policy Creation for Stories and Runbooks 
-     	   	   	   	    	   	   	    	   	    	   	   	   	    	   	    	   	   	    	   	    	   	   	    	   	    	   	   	    	   	    	   	    	   	    	   - Demo Service Account 
- - **Event Manager**  (optional)
- 	- Event Manager
- - **Event Manager Demo Content**  (optional)
-   - **Topology**
-     - Create ASM merge rules
-     - Load ASM merge Topology
-     - Create IBM AIOps Application
+     	- Creates valid certificate for Ingress (Slack) 
+		- External Routes (Flink, Topology, ...)
+		- Disables ASM Service match rule 
+		- Create Policy Creation for Stories and Runbooks 
+		- Demo Service Account 
  - **Turbonomic**  (optional)
  - **Turbonomic Demo Content** (optional)
 	- Demo User
@@ -939,6 +962,10 @@ Incidents are being created by using the high level APIs in order to simulate a 
 * Logs: Pre-canned anomalous logs for a 30 min timerange are injected through Kafka
 * Metrics: Anomalous metric data are generated on the fly and injected via the corresponding REST API
 </details>
+
+
+> ℹ️ You can find a more detailed presentation about how the automation works here: [PDF](https://ibm.box.com/s/gx0tcubl9k4phvdsrffd7taragrmvz02).
+
 
 
 <div style="page-break-after: always;"></div>
