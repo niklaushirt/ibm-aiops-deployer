@@ -1,7 +1,7 @@
 <center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
 
-![K8s CNI](./doc/pics/front.png)
+![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
 
 
 <center> ©2023 Niklaus Hirt / IBM </center>
@@ -92,23 +92,13 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 
 🚀 [Demo the Solution](#3-demo-the-solution)
 
-📱 [Slack integration](#4-slack-integration) (optional)
-
 🤓 [Demo Setup - Explained](#5-demo-setup---explained)
 
 🧨 [Troubleshooting](#6-troubleshooting)
 
+📱 [Slack integration](#4-slack-integration) (optional)
 
-
-
-Here is a quick video that walks you through the installation process
-![K8s CNI](./doc/pics/JOB_INSTALL.gif)
-
-
-
-
-
-🚀 Already have a cluster? [Dive right in](#-21-install-ai-manager-with-demo-content-turbonomic-and-instana)
+🚀 Already have a cluster? [Dive right in](#4.1_dev#211-install-ibm-aiops-with-demo-content)
 
 
 
@@ -224,6 +214,9 @@ If you think that you hit a problem:
 # 2. Quick Install
 ---------------------------------------------------------------
 
+
+Here is a quick video that walks you through the installation process
+![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
 ## 2.1 Install IBM AIOps 🚀 
 
