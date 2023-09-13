@@ -192,7 +192,11 @@ If you think that you hit a problem:
 # 2. Quick Install
 ---------------------------------------------------------------
 
+
 ## 2.1 Install IBM AIOps with demo content 🚀 
+
+
+### 2.1.1 Install IBM AIOps with demo content 🚀 
 <details>
 <summary>✅ Instructions</summary>
 
@@ -247,7 +251,7 @@ This installation contains:
 </details>
 
 
-## 2.2 Install Turbonomic 🚀 
+### 2.1.2 Install Turbonomic 🚀 
 
 <details>
 <summary>✅ Instructions</summary>
@@ -287,7 +291,7 @@ This installation adds:
 </details>
 
 
-## 2.3 Install Instana (experimental) 🚀 
+### 2.1.3 Install Instana (experimental) 🚀 
 <details>
 <summary>✅ Instructions</summary>
 
@@ -320,7 +324,7 @@ This installation adds:
 
 </details>
 
-## 2.4 Follow the installation progress 🔎
+## 2.2 Follow the installation progress 🔎
 <details>
 <summary>✅ Instructions</summary>
 
@@ -353,28 +357,28 @@ This installation adds:
 </details>
 
 
-## 2.5 Verify your installation 🔎
+## 2.3 Verify your installation 🔎
 <details>
 <summary>✅ Instructions</summary>
 
 ### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
 
 
-### 2.5.1 Check Overall
+### 2.3.1 Check Overall
 Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check01.png)
 	
-### 2.5.2 Check Training
+### 2.3.2 Check Training
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
 2. Check that the Training are displayed as follows
 
 ![install](./doc/pics/check02.png)
 
 
-### 2.5.3 Check Automations
+### 2.3.3 Check Automations
 
-#### 2.5.3.1 Check Policies
+#### 2.3.3.1 Check Policies
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Policies` Tab
 2. Enter `DEMO` into the search field
@@ -383,14 +387,14 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check03.png)
 
 
-#### 2.5.3.2 Check Runbooks
+#### 2.3.3.2 Check Runbooks
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Runbooks ` Tab
 2. Check that you have 4 Runbooks as shown below
 
 ![install](./doc/pics/check04.png)
 
-#### 2.5.3.3 Check Actions
+#### 2.3.3.3 Check Actions
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Actions ` Tab
 3. 2. Enter `DEMO` into the search field
@@ -398,14 +402,14 @@ Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check05.png)
 
-### 2.5.4 Check Applications
+### 2.3.4 Check Applications
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
 2. Check that the Applications are displayed as follows
 
 ![install](./doc/pics/check07.png)
 
 
-### 2.5.4 Check Connections
+### 2.3.4 Check Connections
 1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
 2. Check that the Connections are displayed as follows
 
