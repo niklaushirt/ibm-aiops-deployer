@@ -10,7 +10,7 @@
 <div style="page-break-after: always;"></div>
 
 
-
+<details>
 <summary>⚠️ Disclaimer</summary>
 > ### ❗ This is provided `as-is`:
 > 
@@ -37,7 +37,7 @@
 > ❗Those are **non-production** installations and are suited only for demo and PoC environments. ❗
 > Please refer to the official IBM Documentation for production ready installations.
 
-<details>
+</details>
 
 <div style="page-break-after: always;"></div>
 
