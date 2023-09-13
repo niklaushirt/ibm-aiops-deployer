@@ -99,7 +99,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 
 📱 [Slack integration](#4-slack-integration) (optional)
 
-🚀 Already have a cluster? [Dive right in](#4.1_dev#211-install-ibm-aiops-with-demo-content)
+🚀 Already have a cluster? [Dive right in](#211-install-ibm-aiops-with-demo-content)
 
 
 
