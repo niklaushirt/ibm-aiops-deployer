@@ -151,7 +151,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Select the maximum end date that fits your needs (you can extend the duration once after creation)
 
-	![K8s CNI](./doc/pics/roks03.png)
+	![K8s CNI](./doc/pics/roks03.png) 
 
 1. Select Openshift Storage
 
