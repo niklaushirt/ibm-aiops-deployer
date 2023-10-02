@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# © Copyright IBM Corp. 2020, 2023
+# Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
 . ./uninstall-cp4waiops.props
@@ -35,7 +35,7 @@ log () {
 display_help() {
    echo "**************************************** Usage ********************************************"
    echo ""
-   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.2"
+   echo " This script is used to uninstall IBM Cloud Pak for Watson AIOps AI Manager version 4.1"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
    echo " - Update uninstall-cp4waiops.props with components that you want to uninstall"
@@ -221,7 +221,7 @@ delete_installation_instance () {
 	
 	          log $INFO "Below operand requests are left behind in namespace $project"
 	          oc get operandrequests -n $project -o name
-	          log $INFO "Trying to delete remaining operandrequests manually, only for AIOps"
+	          log $INFO "Trying to delete remaining operandrequests manually, only for Watson Aiops"
 	          oc delete operandrequests ibm-aiops-ai-manager -n $project --ignore-not-found
 	          oc delete operandrequests ibm-aiops-aiops-foundation -n $project --ignore-not-found
 	          oc delete operandrequests ibm-aiops-application-manager -n $project --ignore-not-found
@@ -255,14 +255,6 @@ delete_zenservice_instance () {
 
     if  [ `oc get zenservice $zenservice_name -n $project --ignore-not-found | wc -l` -gt 0 ] ; then
         log $INFO "Found zenservice CR $zenservice_name to delete."
-
-        log $INFO "Checking for ZenClient"
-        oc get client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-cp4waiops 2>>/dev/null
-        if [[ "$?" == "0" ]]; then
-            log $INFO "Deleting ZenClient found"
-            oc patch -n $CP4WAIOPS_PROJECT client.oidc.security.ibm.com zenclient-cp4waiops  --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-            oc delete client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-cp4waiops
-        fi
 
         oc delete zenservice $zenservice_name -n $project --ignore-not-found;
     
@@ -304,6 +296,7 @@ delete_zenservice_instance () {
         fi
         done
         log $INFO "Expected operandrequests got deleted successfully!"
+
     else
         log $INFO "The $zenservice_name zenservice instance is not found, skipping the deletion of $zenservice_name."
     fi
@@ -369,13 +362,11 @@ delete_iaf_bedrock () {
             unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-automation-flink.$CP4WAIOPS_PROJECT"
         fi
 
-        unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT"
-        unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-common-service-operator.$OPERATORS_PROJECT"
-
-        # check if additional subscription exists in CS namespace. If found, unsub and delete csv
-        subscription_check=$(oc get subscription.operators.coreos.com -n $IBM_COMMON_SERVICES_PROJECT -l operators.coreos.com/ibm-common-service-operator.$IBM_COMMON_SERVICES_PROJECT --ignore-not-found)
-        if [[ "$subscription_check" != "" ]]; then
-            unsubscribe "" $IBM_COMMON_SERVICES_PROJECT "operators.coreos.com/ibm-common-service-operator.$IBM_COMMON_SERVICES_PROJECT"
+        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT --ignore-not-found)
+        if [[ "$subscription_check" == "" ]]; then
+            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-common-service-operator.$OPERATORS_PROJECT"
+        else
+            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT"
         fi
               
         # Note :  Verify there are no operandrequests & operandbindinfo at this point before proceeding.  It may take a few minutes for them to go away.

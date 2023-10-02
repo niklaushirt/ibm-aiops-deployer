@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# © Copyright IBM Corp. 2020, 2023
+# Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache2.0
 #
-# This script can be used to uninstall the IBM Cloud Pak for AIOps v4.2 product and
+# This script can be used to uninstall the IBM Cloud Pak for Watson AIOps AI Manager v4.1 product and
 # cleanup resources created by the product.  Please configure what you want to uninstall
 # in the uninstall-cp4waiops.props file first before running this script.
 
@@ -36,9 +36,9 @@ analyze_script_properties
 
 # Confirm we really want to uninstall 
 if [[ $SKIP_CONFIRM != "true" ]]; then
-  log $INFO "\033[0;33mUninstall v1.0 for AIOPs v4.2\033[0m"
+  log $INFO "\033[0;33mUninstall v1.0 for AIOPs v4.1\033[0m"
   log $INFO
-  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.2. Please ensure you have deleted any CRs you created before running this script."
+  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.1. Please ensure you have deleted any CRs you created before running this script."
   log $INFO ""
   log $INFO "##### IMPORTANT ######"
   log $INFO ""
@@ -64,7 +64,7 @@ if [[ $SKIP_CONFIRM != "true" ]]; then
     fi
   fi
 else
-  log $INFO "\033[0;33mUninstall v1.0 for AIOPs v4.2\033[0m"
+  log $INFO "\033[0;33mUninstall v1.0 for AIOPs v4.1\033[0m"
   log $INFO
   log $INFO "This script will uninstall IBM Cloud Pak for AIOps."
   display_script_properties
@@ -86,7 +86,7 @@ if [ $? -gt 0 ]; then
 fi
 
 echo
-log $INFO "Prereq checks passed. Starting uninstall of IBM Cloud Pak for AIOps ..."
+log $INFO "Prereq checks passed. Starting uninstall of IBM Cloud Pak for Watson AIOps AI Manager ..."
 echo
 
 # Check if the project configured in the props file exists
@@ -174,6 +174,12 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
             log $INFO "Deleting cert $CERT.."
             oc delete $CERT -n $CP4WAIOPS_PROJECT --ignore-not-found
       done
+
+      log $INFO "Deleting Postgres Cluster $INSTALLATION_NAME-edb-postgres in $CP4WAIOPS_PROJECT"
+      oc delete cluster.postgresql.k8s.enterprisedb.io/${INSTALLATION_NAME}-edb-postgres -n $CP4WAIOPS_PROJECT
+
+      log $INFO "Deleting FlinkCluster cp4waiops-eventprocessor-eve-29ee-ep in $CP4WAIOPS_PROJECT"
+      oc delete flinkcluster cp4waiops-eventprocessor-eve-29ee-ep -n $CP4WAIOPS_PROJECT
    fi
 
    # Start cleaning up remaining resources in the project that CP4WAIOps created 
@@ -207,12 +213,6 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
       oc patch configmap aiops-custom-size-profile -n $CP4WAIOPS_PROJECT --type merge -p '{"metadata":{"finalizers": [null]}}'
       oc delete configmap aiops-custom-size-profile -n $CP4WAIOPS_PROJECT
    fi
-
-   log $INFO "Deleting Postgres Cluster $INSTALLATION_NAME-edb-postgres in $CP4WAIOPS_PROJECT"
-   oc delete cluster.postgresql.k8s.enterprisedb.io/${INSTALLATION_NAME}-edb-postgres -n $CP4WAIOPS_PROJECT
-
-   log $INFO "Deleting FlinkCluster cp4waiops-eventprocessor-eve-29ee-ep in $CP4WAIOPS_PROJECT"
-   oc delete flinkcluster cp4waiops-eventprocessor-eve-29ee-ep -n $CP4WAIOPS_PROJECT
 
    #Delete these PVC's always without user's consent
    log $INFO "Deleting Internal PVCs in $CP4WAIOPS_PROJECT"
@@ -300,7 +300,7 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
       
       # At this point we have cleaned up everything in the project
 
-   log "[SUCCESS]" "----Congratulations! IBM Cloud Pak for AIOps has been uninstalled!----"
+   log "[SUCCESS]" "----Congratulations! IBM Cloud Pak for Watson AIOps AI Manager has been uninstalled!----"
    if [[ $ONLY_CLOUDPAK == "true" ]]; then 
    # If Cloud Pak Platform was removed, or IAF was installed at the cluster scope, cp4waiops project can be deleted
       log "[SUCCESS]" "------ \033[1;36mYou can now delete the $CP4WAIOPS_PROJECT project safely.\033[0m------"

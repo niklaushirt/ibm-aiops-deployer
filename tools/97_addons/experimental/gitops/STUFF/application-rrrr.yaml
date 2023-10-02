@@ -70,7 +70,7 @@ spec:
         - name: cp4aiops.content.robotshop_color
           value: white
         - name: cp4aiops.content.subscription_channel
-          value: v4.1
+          value: v4.2
         - name: cp4aiops.content.training_create_training_experimental
           value: false
         - name: cp4aiops.content.training_create_training_logs
