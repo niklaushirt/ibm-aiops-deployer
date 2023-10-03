@@ -204,6 +204,7 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
   shell: |
+    kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-superuser.yaml
     helm repo add k8ssandra https://helm.k8ssandra.io/stable
     helm repo update
     helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.42.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
