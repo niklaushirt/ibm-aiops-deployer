@@ -28,7 +28,7 @@ spec:
         - name: cp4aiops.additional.install_webhook_probe
           value: "true"
         - name: cp4aiops.additional.subscription_channel
-          value: v4.1
+          value: v4.2
         - name: cp4aiops.demoui.demoui_admin_mode
           value: "true"
         - name: cp4aiops.demoui.demoui_simulation_mode

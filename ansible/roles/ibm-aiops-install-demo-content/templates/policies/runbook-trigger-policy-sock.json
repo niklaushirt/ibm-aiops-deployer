@@ -23,7 +23,7 @@
             "actionId": "aiops.ibm.com/action/internal/conditional",
             "arguments": {
                 "name": "",
-                "condition": "({{contains alert.resource.name \"catalog\"}})",
+                "condition": "({{contains alert.resource.name \"catalogue-db\"}})",
                 "then": [{
                     "actionId": "aiops.ibm.com/action/internal/runbooks/add",
                     "output": "alert.insights.[]",
@@ -32,7 +32,7 @@
                             "$variable": "alert"
                         },
                         "runbookId": "MY_RUNBOOK_ID",
-                        "isAutomated": false,
+                        "isAutomated": true,
                         "mappings": [{
                             "mappingType": "useDefault",
                             "parameterValue": "",

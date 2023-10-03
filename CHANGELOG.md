@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [41.0.2] - 2023-10-02
+### Minor changes
+- Adaptations for Version 4.2.0
+
+
+
+  
 ## [41.0.2] - 2023-09-13
 ### Minor changes
 - Turbo 8.10.0

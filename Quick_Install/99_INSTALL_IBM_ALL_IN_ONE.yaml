@@ -180,7 +180,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-cp-watson-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.1
+        subscription_channel: v4.2
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
         # Install Feature Flags
@@ -334,7 +334,7 @@ data:
       - name: ibm-aiops-turbonomic
         kind: Turbonomic
         install: true
-        turbo_version: 8.10.0
+        turbo_version: 8.10.1
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
@@ -382,7 +382,7 @@ data:
         kind: Instana
         install: true
         # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
-        instana_version: 255-0
+        instana_version: 257-0
         # Can be large, medium (default), small 
         instana_size: medium
 
