@@ -287,20 +287,20 @@
 
 
 
-- name:   🕦 INSTANA - Wait for Casstandra Operator to become ready
-  shell: |
-    while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
-    do
-      sleep 30
-    done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name:   🕦 INSTANA - Wait for Cassandra Operator to become ready
+#   shell: |
+#     while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
+#     do
+#       sleep 30
+#     done
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
