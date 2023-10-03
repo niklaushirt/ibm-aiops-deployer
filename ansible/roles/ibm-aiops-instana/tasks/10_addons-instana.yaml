@@ -206,17 +206,12 @@
     state: present
     template: ./templates/instana-datastores/cassandra-superuser.yaml
 
-- name: 🚀 INSTANA - Create Cassandra scc
+- name: 🚀 INSTANA - Create Cassandra Roles
   kubernetes.core.k8s:
     namespace: instana-datastores
     state: present
     template: ./templates/instana-datastores/cassandra-scc.yaml
 
-- name: 🚀 INSTANA - Create Cassandra crb
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/cassandra-crb.yaml
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
   shell: |
