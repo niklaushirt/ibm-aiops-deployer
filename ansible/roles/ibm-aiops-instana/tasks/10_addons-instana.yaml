@@ -195,7 +195,6 @@
 
 
 
-
 # - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
 #   kubernetes.core.k8s:
 #     namespace: instana-datastores
@@ -204,13 +203,13 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
   shell: |
-    kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-superuser.yaml
+    kubectl apply -f ./templates/instana-datastores/cassandra-superuser.yaml
     helm repo add k8ssandra https://helm.k8ssandra.io/stable
     helm repo update
     helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.42.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
     # Security Context Constraints, needed if you are running on RedHat OpenShift
-    kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
-    kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-crb.yaml
+    kubectl apply -f ./templates/instana-datastores/cassandra-scc.yaml
+    kubectl apply -f ./templates/instana-datastores/cassandra-crb.yaml
   ignore_errors: true
   register: output
   args:
