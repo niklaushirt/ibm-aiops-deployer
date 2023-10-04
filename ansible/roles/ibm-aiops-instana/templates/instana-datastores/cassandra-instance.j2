@@ -34,7 +34,7 @@ spec:
         - -Dcassandra.allow_unsafe_aggressive_sstable_expiration=true
     cassandra-yaml:
       authenticator: org.apache.cassandra.auth.AllowAllAuthenticator
-      authorizer: org.apache.cassandra.auth.CassandraAuthorizer
+      authorizer: org.apache.cassandra.auth.AllowAllAuthorizer
       role_manager: org.apache.cassandra.auth.CassandraRoleManager
       memtable_flush_writers: 8
       auto_snapshot: false
@@ -43,3 +43,4 @@ spec:
       memtable_allocation_type: offheap_objects
       num_tokens: 256
       enable_drop_compact_storage: true
+
