@@ -410,9 +410,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 15 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 15 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
@@ -876,7 +876,7 @@
     echo "agentKeys:" >> config.yaml
     echo "  - {{current_agent_key}}" >> config.yaml
     echo "initialAdminPassword: {{current_admin_pass}}" >> config.yaml
-    echo "initialAdminUser: {{current_ibmaiops_feature.instana_admin_user}}" >> config.yaml
+    echo "initialAdminUser: {{current_ibmaiops_feature.instana_admin_user}}@ibm.com" >> config.yaml
     echo "-----------------------------------------------------------"
     echo " ✅ Unit Config"
     echo "-----------------------------------------------------------"

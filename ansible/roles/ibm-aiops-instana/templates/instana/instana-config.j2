@@ -42,6 +42,11 @@ datastoreConfigs:
       password: clickhouse-pass
       adminUser: clickhouse-user
       adminPassword: clickhouse-pass
+  cassandraConfigs:
+    - user: instana-superuser
+      password: mysupersecretpassword
+      adminUser: instana-superuser
+      adminPassword: mysupersecretpassword
 imagePullSecrets:
   - name: instana-registry
 downloadKey: {{current_agent_key}}

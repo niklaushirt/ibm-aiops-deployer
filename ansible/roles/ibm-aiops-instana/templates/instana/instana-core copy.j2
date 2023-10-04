@@ -106,11 +106,11 @@ spec:
         ports:
           - name: tcp
             port: 9042
-        cassandraConfigs:
-          - user: instana-superuser
-            password: mysupersecretpassword
-            adminUser: instana-superuser
-            adminPassword: mysupersecretpassword
+        authEnabled: true
+        user: instana-superuser
+        password: mysupersecretpassword
+        adminUser: instana-superuser
+        adminPassword: mysupersecretpassword
     clickhouseConfigs:
       - clusterName: local
         hosts:
