@@ -33,7 +33,7 @@ spec:
       additional-jvm-opts:
         - -Dcassandra.allow_unsafe_aggressive_sstable_expiration=true
     cassandra-yaml:
-      authenticator: org.apache.cassandra.auth.AllowAllAuthenticator
+      authenticator: org.apache.cassandra.auth.PasswordAuthenticator
       authorizer: org.apache.cassandra.auth.CassandraAuthorizer
       role_manager: org.apache.cassandra.auth.CassandraRoleManager
       memtable_flush_writers: 8
