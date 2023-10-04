@@ -4,6 +4,7 @@ metadata:
   name: cassandra
   namespace: instana-datastores
 spec:
+  superuserSecretName: superuser-secret
   clusterName: instana
   serverType: cassandra
   configBuilderImage: docker.io/datastax/cass-config-builder:1.0-ubi7
