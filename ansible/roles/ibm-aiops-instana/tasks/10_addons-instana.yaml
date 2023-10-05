@@ -998,7 +998,7 @@
 - name:   🕦 INSTANA - HACK - Wait for cashier-rollup
   shell: oc -n instana-core get deployment cashier-rollup --no-headers
   register: kubectl_get_pods
-  until: kubectl_get_pods.stdout == "cashier-rollup"
+  until: '"cashier-rollup" in kubectl_get_pods.stdout'
   retries: 500
   delay: 15
 
