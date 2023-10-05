@@ -994,6 +994,19 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
+
+- name:   🕦 INSTANA - HACK - Wait for cashier-rollup
+  shell: oc -n instana-core get deployment cashier-rollup --no-headers
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout == "/1"
+  retries: 500
+  delay: 15
+
+
+- name:   🕦 INSTANA - HACK - Scale to 0 for cashier-rollup
+  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=0
+
+
 - name:   🕦 INSTANA - Wait for Core Instance to become ready
   shell: oc -n instana-core get core instana-core -o=custom-columns=STATUS:.status.componentsStatus --no-headers
   register: kubectl_get_pods
@@ -1126,6 +1139,8 @@
     template: ./templates/instana/instana-routes.j2
 
 
+- name:   🕦 INSTANA - HACK - Scale to 1 for cashier-rollup
+  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=1
 
 # - name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
 #   shell: |
