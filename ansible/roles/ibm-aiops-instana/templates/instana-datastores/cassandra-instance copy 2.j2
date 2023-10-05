@@ -4,7 +4,6 @@ metadata:
   name: cassandra
   namespace: instana-datastores
 spec:
-  superuserSecretName: superuser-secret
   clusterName: instana
   serverType: cassandra
   configBuilderImage: docker.io/datastax/cass-config-builder:1.0-ubi7
@@ -44,4 +43,3 @@ spec:
       memtable_allocation_type: offheap_objects
       num_tokens: 256
       enable_drop_compact_storage: true
-

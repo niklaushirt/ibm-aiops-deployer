@@ -4,7 +4,6 @@ metadata:
   name: cassandra
   namespace: instana-datastores
 spec:
-  superuserSecretName: superuser-secret
   clusterName: instana
   serverType: cassandra
   configBuilderImage: docker.io/datastax/cass-config-builder:1.0-ubi7
@@ -34,8 +33,8 @@ spec:
       additional-jvm-opts:
         - -Dcassandra.allow_unsafe_aggressive_sstable_expiration=true
     cassandra-yaml:
-      authenticator: org.apache.cassandra.auth.PasswordAuthenticator
-      authorizer: org.apache.cassandra.auth.CassandraAuthorizer
+      authenticator: org.apache.cassandra.auth.AllowAllAuthenticator
+      authorizer: org.apache.cassandra.auth.AllowAllAuthorizer
       role_manager: org.apache.cassandra.auth.CassandraRoleManager
       memtable_flush_writers: 8
       auto_snapshot: false

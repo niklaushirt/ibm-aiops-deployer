@@ -195,28 +195,41 @@
 
 
 
-
-- name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+# - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+#   kubernetes.core.k8s:
+#     namespace: instana-datastores
+#     state: present
+#     template: ./templates/instana-datastores/cassandra-operator.yaml
+- name: 🚀 INSTANA - Create Cassandra Password Secret
   kubernetes.core.k8s:
     namespace: instana-datastores
     state: present
-    template: ./templates/instana-datastores/cassandra-operator.yaml
+    template: ./templates/instana-datastores/cassandra-superuser.yaml
 
-# - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
-#   shell: |
-#     helm repo add k8ssandra https://helm.k8ssandra.io/stable
-#     helm repo update
-#     helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.40.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
-#     # Security Context Constraints, needed if you are running on RedHat OpenShift
-#     kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
-#   ignore_errors: true
-#   register: output
-#   args:
-#     executable: /bin/bash
-# - name: 🟣  OUTPUT
-#   debug:
-#     var: output.stdout_lines
-#     verbosity: 1
+- name: 🚀 INSTANA - Create Cassandra Roles
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/cassandra-scc.yaml
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+  shell: |
+    # kubectl apply -f ./templates/instana-datastores/cassandra-superuser.yaml
+    helm repo add k8ssandra https://helm.k8ssandra.io/stable
+    helm repo update
+    helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.42.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
+    # Security Context Constraints, needed if you are running on RedHat OpenShift
+    # kubectl apply -f ./templates/instana-datastores/cassandra-scc.yaml
+    # kubectl apply -f ./templates/instana-datastores/cassandra-crb.yaml
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Roles
@@ -286,20 +299,20 @@
 
 
 
-- name:   🕦 INSTANA - Wait for Casstandra Operator to become ready
-  shell: |
-    while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
-    do
-      sleep 30
-    done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name:   🕦 INSTANA - Wait for Cassandra Operator to become ready
+#   shell: |
+#     while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
+#     do
+#       sleep 30
+#     done
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
@@ -397,9 +410,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 15 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 15 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
@@ -981,6 +994,19 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
+
+- name:   🕦 INSTANA - HACK - Wait for cashier-rollup
+  shell: oc -n instana-core get deployment cashier-rollup --no-headers
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout == "/1"
+  retries: 500
+  delay: 15
+
+
+- name:   🕦 INSTANA - HACK - Scale to 0 for cashier-rollup
+  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=0
+
+
 - name:   🕦 INSTANA - Wait for Core Instance to become ready
   shell: oc -n instana-core get core instana-core -o=custom-columns=STATUS:.status.componentsStatus --no-headers
   register: kubectl_get_pods
@@ -989,7 +1015,7 @@
   delay: 15
 
 
-
+# oc scale deployment  -n instana-core cashier-rollup --replicas=0
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -1113,20 +1139,22 @@
     template: ./templates/instana/instana-routes.j2
 
 
+- name:   🕦 INSTANA - HACK - Scale to 1 for cashier-rollup
+  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=1
 
-- name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
-  shell: |
-    oc scale deployment  -n instana-operator instana-operator --replicas=0
-    oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true}}]}}}}'     
-    oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}') -n instana-core
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
+#   shell: |
+#     oc scale deployment  -n instana-operator instana-operator --replicas=0
+#     oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true}}]}}}}'     
+#     oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}') -n instana-core
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
