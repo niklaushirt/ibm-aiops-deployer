@@ -27,4 +27,4 @@ spec:
           value: P4ssw0rd!
     path: tools/97_addons/experimental/gitops/content/cp4aiops-demo-content
     repoURL: 'https://github.com/niklaushirt/ibm-aiops-deployer'
-    targetRevision: 4.1_dev
+    targetRevision: dev_latest

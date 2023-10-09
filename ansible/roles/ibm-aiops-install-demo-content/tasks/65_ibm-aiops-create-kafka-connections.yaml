@@ -212,6 +212,7 @@
         "data_flow": true,
         "connection_type": "kafka",
         "creator_user_name": "",
+        "description": "Automatically created by Nicks scripts",
         "collection_mode": "inference",
         "logs_per_second": 1000,
         "topic": "cp4waiops-cartridge-logs-none-fanxygx9",
