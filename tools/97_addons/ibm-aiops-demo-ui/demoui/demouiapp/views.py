@@ -16,26 +16,26 @@ INCIDENT_ACTIVE=False
 ROBOT_SHOP_OUTAGE_ACTIVE=False
 SOCK_SHOP_OUTAGE_ACTIVE=False
 
-print ('*************************************************************************************************')
-print ('*************************************************************************************************')
-print ('            ________  __  ___     ___    ________       ')
-print ('           /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____')
-print ('           / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/')
-print ('         _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) ')
-print ('        /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  ')
-print ('                                              /_/')
-print ('*************************************************************************************************')
-print ('*************************************************************************************************')
-print ('')
-print ('    🛰️  DemoUI for IBM Automation AIOps')
-print ('')
-print ('       Provided by:')
-print ('        🇨🇭 Niklaus Hirt (nikh@ch.ibm.com)')
-print ('')
+# print ('*************************************************************************************************')
+# print ('*************************************************************************************************')
+# print ('            ________  __  ___     ___    ________       ')
+# print ('           /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____')
+# print ('           / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/')
+# print ('         _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) ')
+# print ('        /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  ')
+# print ('                                              /_/')
+# print ('*************************************************************************************************')
+# print ('*************************************************************************************************')
+# print ('')
+# print ('    🛰️  DemoUI for IBM Automation AIOps')
+# print ('')
+# print ('       Provided by:')
+# print ('        🇨🇭 Niklaus Hirt (nikh@ch.ibm.com)')
+# print ('')
 
-print ('*************************************************************************************************')
+print ('-------------------------------------------------------------------------------------------------')
 print (' 🚀 Warming up')
-print ('*************************************************************************************************')
+print ('-------------------------------------------------------------------------------------------------')
 
 #os.system('ls -l')
 loggedin='false'
@@ -98,7 +98,7 @@ else:
 
 
 
-print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
+print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
 
 #assignedToIndividual
 #inProgress
@@ -334,7 +334,7 @@ if GET_CONFIG=='true':
     ALL_LOGINS = stream.read().strip()
 else:
     print('     ❓ Skip getting ALL LOGINS')
-    ALL_LOGINS="aaa"
+    ALL_LOGINS="❗ Has been disabled in the DemoUI configuration"
     #print ('           ALL_LOGINS:              '+ALL_LOGINS)
 
 
@@ -411,7 +411,7 @@ stream = os.popen('oc -n awx get secret awx-admin-password -o jsonpath={.data.pa
 awx_pwd = stream.read().strip()
  
 print('     ❓ Getting Details ELK ')
-stream = os.popen('oc get route -n openshift-logging elasticsearch -o jsonpath={.spec.host}')
+stream = os.popen('oc get route -n openshift-logging kibana -o jsonpath={.spec.host}')
 elk_url = stream.read().strip()
 
 print('     ❓ Getting Details Turbonomic Dashboard')
@@ -476,43 +476,102 @@ SIMULATION_MODE=os.environ.get('SIMULATION_MODE')
 DEMO_USER=os.environ.get('DEMO_USER')
 DEMO_PWD=os.environ.get('DEMO_PWD')
 
-
-
-
-print ('*************************************************************************************************')
-print ('*************************************************************************************************')
 print ('')
-print ('    **************************************************************************************************')
-print ('     🔎 Demo Parameters')
-print ('    **************************************************************************************************')
-print ('           KafkaBroker:           '+KAFKA_BROKER)
-print ('           KafkaUser:             '+KAFKA_USER)
-print ('           KafkaPWD:              '+KAFKA_PWD)
-print ('           KafkaTopic Logs:       '+KAFKA_TOPIC_LOGS)
-print ('           KafkaTopic Logs None:  '+KAFKA_TOPIC_LOGS_NONE)
-print ('           Kafka Cert:            '+KAFKA_CERT[:25]+'...')
-print ('')   
-print ('')   
-print ('           Datalayer Route:       '+DATALAYER_ROUTE)
-print ('           Datalayer User:        '+DATALAYER_USER)
-print ('           Datalayer Pwd:         '+DATALAYER_PWD)
-print ('')   
-print ('           Metric Route:          '+METRIC_ROUTE)
-print ('           Metric Token:          '+METRIC_TOKEN[:25]+'...')
-print ('')   
-print ('           Token:                 '+TOKEN)
-print ('')   
-print ('           Admin:                 '+ADMIN_MODE)
-print ('           Can create incident:   '+SIMULATION_MODE)
-print ('')   
-print ('           Demo User:             '+DEMO_USER)
-print ('           Demo Password:         '+DEMO_PWD)
+print (' ✅ Warming up - DONE')
+print ('-------------------------------------------------------------------------------------------------')
 print ('')
-print ('    **************************************************************************************************')
+print ('')
+print ('')
+print ('')
 
-SLACK_URL=str(os.environ.get('SLACK_URL'))
-SLACK_USER=str(os.environ.get('SLACK_USER'))
-SLACK_PWD=str(os.environ.get('SLACK_PWD'))
+
+print ('🟣')
+print ('🟣-------------------------------------------------------------------------------------------------')
+print ('🟣  🟢 Global Configuration')
+print ('🟣-------------------------------------------------------------------------------------------------')
+print ('🟣')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣     🔎 Simulation Parameters')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣           📥 Instance Name:                  '+str(INSTANCE_NAME))
+print ('🟣           🔐 Login Token:                    '+TOKEN)
+print ('🟣')   
+print ('🟣           🟠 Admin Mode:                     '+ADMIN_MODE)
+print ('🟣           ⚠️  Can create incident:            '+SIMULATION_MODE)
+print ('🟣')   
+print ('🟣           🔏 Login for all sytems:                      ')
+print ('🟣             👩‍💻 Demo User:                    '+DEMO_USER)
+print ('🟣             🔐 Demo Password:                '+DEMO_PWD)
+print ('🟣')
+print ('🟣           🖼️  Image for UI:                   '+str(INSTANCE_IMAGE))
+print ('🟣')
+print ('🟣           🔎 Read Configuration:             '+str(GET_CONFIG))
+print ('🟣')  
+print ('🟣')  
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣     🔎 Simulation Parameters')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣           🔄 LOG_ITERATIONS:                 '+str(LOG_ITERATIONS))
+print ('🟣           🕦 LOG_TIME_FORMAT:                '+LOG_TIME_FORMAT)
+print ('🟣           🔄 LOG_TIME_STEPS:                 '+str(LOG_TIME_STEPS))
+print ('🟣           🔄 LOG_TIME_SKEW Logs:             '+str(LOG_TIME_SKEW))
+print ('🟣           🔐 LOG_TIME_ZONE Cert:             '+str(LOG_TIME_ZONE))
+print ('🟣')
+print ('🟣           🕦 EVENTS_TIME_SKEW:               '+str(EVENTS_TIME_SKEW))
+print ('🟣           📝 DEMO_EVENTS_MEM:                '+str(len(DEMO_EVENTS_MEM)))
+print ('🟣           📝 DEMO_EVENTS_FAN:                '+str(len(DEMO_EVENTS_FAN)))
+print ('🟣           📝 DEMO_EVENTS_NET:                '+str(len(DEMO_EVENTS_NET)))
+print ('🟣')
+print ('🟣           🕦 METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
+print ('🟣           🔄 METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
+print ('🟣           📈 METRICS_TO_SIMULATE_MEM:        '+str(len(METRICS_TO_SIMULATE_MEM)))
+print ('🟣           📈 METRICS_TO_SIMULATE_FAN_TEMP:   '+str(len(METRICS_TO_SIMULATE_FAN_TEMP)))
+print ('🟣           📈 METRICS_TO_SIMULATE_FAN:        '+str(len(METRICS_TO_SIMULATE_FAN)))
+print ('🟣           📈 METRICS_TO_SIMULATE_NET:        '+str(len(METRICS_TO_SIMULATE_NET)))
+print ('🟣')
+print ('🟣')
+print ('🟣           📥 URLs for static Slack and SNOW Integration (set to NONE if not needed): ')
+print ('🟣')
+print ('🟣               🌏 SLACK_URL_ROSH:                 '+str(SLACK_URL_ROSH))
+print ('🟣               🌏 SLACK_URL_SOSH:                 '+str(SLACK_URL_SOSH))
+print ('🟣               🌏 SLACK_URL_ACME:                 '+str(SLACK_URL_ACME))
+print ('🟣')    
+print ('🟣               🌏 SNOW_URL_ROSH:                  '+str(SNOW_URL_ROSH))
+print ('🟣               🌏 SNOW_URL_SOSH:                  '+str(SNOW_URL_SOSH))
+print ('🟣               🌏 SNOW_URL_ACME:                  '+str(SNOW_URL_ACME))
+print ('🟣')
+print ('🟣')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣     🔎 System Parameters')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣           🌏 KafkaBroker:                    '+KAFKA_BROKER)
+print ('🟣           👩‍💻 KafkaUser:                      '+KAFKA_USER)
+print ('🟣           🔐 KafkaPWD:                       '+KAFKA_PWD)
+print ('🟣           📥 KafkaTopic Logs:                '+KAFKA_TOPIC_LOGS)
+print ('🟣           📥 KafkaTopic Logs None:           '+KAFKA_TOPIC_LOGS_NONE)
+print ('🟣           🔐 Kafka Cert:                     '+KAFKA_CERT[:25]+'...')
+print ('🟣')   
+print ('🟣           🌏 Datalayer Route:                '+DATALAYER_ROUTE)
+print ('🟣           👩‍💻 Datalayer User:                 '+DATALAYER_USER)
+print ('🟣           🔐 Datalayer Pwd:                  '+DATALAYER_PWD)
+print ('🟣')   
+print ('🟣           🌏 Metric Route:                   '+METRIC_ROUTE)
+print ('🟣           🔐 Metric Token:                   '+METRIC_TOKEN[:25]+'...')
+print ('🟣')   
+print ('🟣')
+print ('🟣    --------------------------------------------------------------------------------------------------')
+print ('🟣')
+
+print ('')
+
+
+SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
+SLACK_USER=str(os.environ.get('SLACK_USER', "NONE"))
+SLACK_PWD=str(os.environ.get('SLACK_PWD', "NONE"))
+print ('')
+print ('')
+print ('')
+print ('')
 
 
 print ('*************************************************************************************************')
@@ -525,6 +584,131 @@ print ('************************************************************************
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
+#    ADD SLACK AND SNOW Links to Incidents
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+def addExternalLinksToIncident(request):
+    print('🌏 addExternalLinksToIncident')
+
+    if ('https:' in SLACK_URL_ROSH or 'https:' in SNOW_URL_ROSH  or 'https:' in SLACK_URL_SOSH   or 'https:' in SNOW_URL_SOSH   or 'https:' in SLACK_URL_ACME   or 'https:' in SNOW_URL_ACME):
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    Wait 10 Seconds for Incident to be created')
+        print ('    ---------------------------------------------------------------------------------------------')
+
+        time.sleep(10)
+
+        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
+        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+        response = requests.get(url, headers=headers, auth=auth, verify=False)
+        responseJSON=response.json()
+        responseStr=str(json.dumps(responseJSON))
+        # print ('aaaa'+responseStr)
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ---------------------------------------------------------------------------------------------')
+        for i in responseJSON.get('stories'):
+            # print(i['title'])
+
+            if 'Optimise Buffer Pool ' in i['title']:
+                current_id=str(i['id'])
+                # print(i['title'])
+                # print(current_id)
+                if 'https:' in SLACK_URL_ROSH:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding Slack RobotShop')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82391", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d00", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ROSH+"","channel_name": "cp4aiops-demo"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SLACK_URL_ROSH')
+                if 'https:' in SNOW_URL_ROSH:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding SNOW RobotShop')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667e","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d00","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010003'}","permalink": ""+SNOW_URL_ROSH+"","ticket_num": "INC0010003"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SNOW_URL_ROSH')
+
+
+
+            if 'Switch Outage' in i['title']:
+                current_id=str(i['id'])
+                # print(i['title'])
+                # print(current_id)
+                if 'https:' in SLACK_URL_SOSH:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding Slack SockShop')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82390", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d01", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_SOSH+"","channel_name": "cp4aiops-demo"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SLACK_URL_SOSH')
+                if 'https:' in SNOW_URL_SOSH:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding SNOW SockShop')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667f","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d01","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010002'}","permalink": ""+SNOW_URL_SOSH+"","ticket_num": "INC0010002"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SNOW_URL_SOSH')
+
+            if 'Fan malfunction' in i['title']:
+                current_id=str(i['id'])
+                # print(i['title'])
+                # print(current_id)
+                if 'https:' in SLACK_URL_ACME:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding Slack ACME')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82392", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d02", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ACME+"","channel_name": "cp4aiops-demo"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SLACK_URL_ACME')
+                if 'https:' in SNOW_URL_ACME:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding SNOW ACME')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010001'}","permalink": ""+SNOW_URL_ACME+"","ticket_num": "INC0010001"}}]}
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping SNOW_URL_ACME')
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ---------------------------------------------------------------------------------------------')
+    else:
+        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ❌ Skipping SNOW and Slack Links')
+        print ('    ---------------------------------------------------------------------------------------------')
+ 
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
 #    INSTANA
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -534,7 +718,7 @@ def instanaCreateIncident(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
     if loggedin=='true':
@@ -601,6 +785,7 @@ def instanaCreateIncident(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def instanaMitigateIncident(request):
     print('🌏 instanaMitigateIncident')
     global loggedin
@@ -608,7 +793,7 @@ def instanaMitigateIncident(request):
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
 
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -692,7 +877,7 @@ def injectAllREST(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
 
     if loggedin=='true':
@@ -722,6 +907,8 @@ def injectAllREST(request):
         # threadMetrics.join()
         # threadLogs.join()
         time.sleep(3)
+
+        addExternalLinksToIncident(request)
 
         INCIDENT_ACTIVE=True
         ROBOT_SHOP_OUTAGE_ACTIVE=True
@@ -779,7 +966,7 @@ def injectAllFanREST(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -812,6 +999,9 @@ def injectAllFanREST(request):
         threadMetrics2.start()
         threadLogs.start()
         time.sleep(3)
+
+        addExternalLinksToIncident(request)
+        
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -859,14 +1049,13 @@ def injectAllFanREST(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def injectAllNetREST(request):
     print('🌏 injectAllNetREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
     if loggedin=='true':
@@ -886,6 +1075,9 @@ def injectAllNetREST(request):
         threadEvents.start()
         threadLogs.start()
         time.sleep(3)
+
+        addExternalLinksToIncident(request)
+        
 
         INCIDENT_ACTIVE=True
 
@@ -944,14 +1136,13 @@ def injectAllNetREST(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def injectAllFanACMEREST(request):
     print('🌏 injectAllFanACMEREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - ACME-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - ACME-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -976,6 +1167,9 @@ def injectAllFanACMEREST(request):
         threadEvents.start()
         threadMetrics2.start()
         time.sleep(3)
+
+        addExternalLinksToIncident(request)
+        
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -1023,14 +1217,13 @@ def injectAllFanACMEREST(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def injectAllNetSOCKREST(request):
     print('🌏 injectAllNetSOCKREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - SOCK-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - SOCK-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -1057,6 +1250,10 @@ def injectAllNetSOCKREST(request):
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
+        time.sleep(3)
+
+        addExternalLinksToIncident(request)
+        
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -1104,14 +1301,13 @@ def injectAllNetSOCKREST(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def injectLogsREST(request):
     print('🌏 injectLogsREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -1167,7 +1363,7 @@ def injectEventsREST(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
 
     if loggedin=='true':
@@ -1217,13 +1413,14 @@ def injectEventsREST(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def injectMetricsREST(request):
     print('🌏 injectMetricsREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
 
     if loggedin=='true':
@@ -1273,14 +1470,13 @@ def injectMetricsREST(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def clearAllREST(request):
     print('🌏 clearAllREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -1365,13 +1561,14 @@ def clearAllREST(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def clearEventsREST(request):
     print('🌏 clearEventsREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -1420,13 +1617,14 @@ def clearEventsREST(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def clearStoriesREST(request):
     print('🌏 clearStoriesREST')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
     verifyLogin(request)
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
@@ -1478,6 +1676,7 @@ def clearStoriesREST(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def login(request):
     print('🌏 login')
 
@@ -1486,7 +1685,7 @@ def login(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     response = HttpResponse()
 
@@ -1563,9 +1762,10 @@ def login(request):
     return response
     #return HttpResponse("Hello, world. You're at the polls index.")
 
+
 def verifyLogin(request):
     actToken=request.COOKIES.get('token', 'none')
-    print('   🔎 SESSION TOKEN:'+str(actToken))
+    #print('   🔎 SESSION TOKEN:'+str(actToken))
 
     global loggedin
     
@@ -1577,32 +1777,13 @@ def verifyLogin(request):
 
         #print('        ❌ LOGIN NOK: NEW IP')
         print('   🔎 Check IP : ❌ LOGIN NOK: ACT SESSION TOKEN:'+str(actToken)+' - LOGGED IN: '+str(loggedin))
+        print('   🔎 SESSION TOKEN:'+str(actToken))
     else:
-        print('   🔎 Check IP : ✅ LOGIN OK: '+str(loggedin))
+        #print('   🔎 Check IP : ✅ LOGIN OK: '+str(loggedin))
         #print('        ✅ LOGIN OK')
         #loggedin='true'
         loginip=request.META.get('REMOTE_ADDR')
 
-
-
-# def verifyLogin(request):
-#     actloginip=request.META.get('REMOTE_ADDR')
-
-#     global loggedin
-#     global loginip
-
-
-#     if str(loginip)!=str(actloginip):
-#         loggedin='false'
-#         loginip=request.META.get('REMOTE_ADDR')
-
-#         #print('        ❌ LOGIN NOK: NEW IP')
-#         print('   🔎 Check IP : ❌ LOGIN NOK: ACT IP:'+str(actloginip)+'  - SAVED IP:'+str(loginip))
-#     else:
-#         print('   🔎 Check IP : ✅ LOGIN OK: '+str(loggedin))
-#         #print('        ✅ LOGIN OK')
-#         #loggedin='true'
-#         loginip=request.META.get('REMOTE_ADDR')
 
 
 
@@ -1610,7 +1791,6 @@ def verifyLogin(request):
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 # PAGE ENDPOINTS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 def loginui(request):
     print('🌏 loginui')
@@ -1631,7 +1811,7 @@ def index(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1700,13 +1880,14 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def doc(request):
     print('🌏 doc')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1750,13 +1931,14 @@ def doc(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def apps(request):
     print('🌏 apps')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1807,13 +1989,14 @@ def apps(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def apps_system(request):
     print('🌏 apps_system')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1871,7 +2054,7 @@ def apps_demo(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1923,14 +2106,13 @@ def apps_demo(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def apps_additional(request):
     print('🌏 apps_additional')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -1982,7 +2164,6 @@ def apps_additional(request):
     return HttpResponse(template.render(context, request))
 
 
-
 def about(request):
     print('🌏 about')
 
@@ -1990,7 +2171,7 @@ def about(request):
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -2017,13 +2198,14 @@ def about(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def config(request):
     print('🌏 config')
     global loggedin
     global INCIDENT_ACTIVE
     global ROBOT_SHOP_OUTAGE_ACTIVE
     global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟠 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
 
     verifyLogin(request)
 
@@ -2048,7 +2230,6 @@ def config(request):
 
     }
     return HttpResponse(template.render(context, request))
-
 
 
 def index1(request):

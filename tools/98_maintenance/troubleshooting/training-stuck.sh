@@ -52,10 +52,11 @@ done
 
 
 
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/log_anomaly_golden_signal_configuration
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
 
 
-
-
+oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/metric_anomaly_detection_configuration
 
 
 
