@@ -224,6 +224,7 @@ ibmaiops:
 
     # Create a valid ingress certificate (needed for Slack integration)
     create_valid_ingress_certificate: false
+    create_valid_ingress_itz: false
 
     # Create Policy for Story Creation
     create_incident_policy: false

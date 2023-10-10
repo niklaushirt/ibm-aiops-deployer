@@ -7,14 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [41.0.2] - 2023-10-02
+
+## [42.0.2] - 2023-10-10
+### Minor changes
+- DemUI Overhaul, now allows to link with static SNOW and Slack Incidents
+- New Flag create_valid_ingress_itz to patch ingress certificates when on ITZ UPI/IPI (specifically for Wlodek)
+
+
+
+
+## [42.0.1] - 2023-10-02
 ### Minor changes
 - Adaptations for Version 4.2.0
 
 
 
   
-## [41.0.2] - 2023-09-13
+## [41.2.1] - 2023-09-13
 ### Minor changes
 - Turbo 8.10.0
 - Instana 255.0
@@ -27,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [41.0.2] - 2023-08-23
+## [41.1.1] - 2023-08-23
 ### Minor changes
 - Adaptations for Version 4.1.1
 - Check Installation at the end

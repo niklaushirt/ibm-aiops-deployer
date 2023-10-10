@@ -8,6 +8,43 @@ import time
 from pathlib import Path
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+print ('')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('*************************************************************************************************')
+print ('*************************************************************************************************')
+print ('            ________  __  ___     ___    ________       ')
+print ('           /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____')
+print ('           / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/')
+print ('         _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) ')
+print ('        /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  ')
+print ('                                              /_/')
+print ('*************************************************************************************************')
+print ('*************************************************************************************************')
+print ('')
+print ('    🛰️  DemoUI for IBM Automation AIOps')
+print ('')
+print ('       Provided by:')
+print ('        🇨🇭 Niklaus Hirt (nikh@ch.ibm.com)')
+print ('')
+print ('*************************************************************************************************')
+print ('*************************************************************************************************')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('')
+print ('-------------------------------------------------------------------------------------------------')
+print (' 🚀 Prefetching Configuration')
+print ('-------------------------------------------------------------------------------------------------')
+
+
+
 
 #ROBOTSHOP
 DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
@@ -55,7 +92,7 @@ image_name=INSTANCE_NAME.lower()+".png"
 path = Path('./static/images/characters/'+image_name)
 
 if path.is_file():
-    print('Custom Image:'+str(path))
+    #print('Custom Image:'+str(path))
     INSTANCE_IMAGE=path
 else:
     INSTANCE_IMAGE="None"
@@ -63,47 +100,24 @@ else:
 
 
 
-SLACK_URL=str(os.environ.get('SLACK_URL'))
-SLACK_USER=str(os.environ.get('SLACK_USER'))
-SLACK_PWD=str(os.environ.get('SLACK_PWD'))
+SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
+SLACK_USER=str(os.environ.get('SLACK_USER', "NONE"))
+SLACK_PWD=str(os.environ.get('SLACK_PWD', "NONE"))
 
 
 
-print ('*************************************************************************************************')
-print ('*************************************************************************************************')
-print ('')
-print ('    **************************************************************************************************')
-print ('     🔎 Simulation Parameters')
-print ('    **************************************************************************************************')
-print ('           INSTANCE_NAME:                  '+str(INSTANCE_NAME))
-print ('           LOG_ITERATIONS:                 '+str(LOG_ITERATIONS))
-print ('           LOG_TIME_FORMAT:                '+LOG_TIME_FORMAT)
-print ('           LOG_TIME_STEPS:                 '+str(LOG_TIME_STEPS))
-print ('           LOG_TIME_SKEW Logs:             '+str(LOG_TIME_SKEW))
-print ('           LOG_TIME_ZONE Cert:             '+str(LOG_TIME_ZONE))
-print ('')
-print ('           EVENTS_TIME_SKEW:               '+str(EVENTS_TIME_SKEW))
-print ('           DEMO_EVENTS_MEM:                '+str(len(DEMO_EVENTS_MEM)))
-print ('           DEMO_EVENTS_FAN:                '+str(len(DEMO_EVENTS_FAN)))
-print ('           DEMO_EVENTS_NET:                '+str(len(DEMO_EVENTS_NET)))
-print ('')
-print ('           METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
-print ('           METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
-print ('           METRICS_TO_SIMULATE_MEM:        '+str(len(METRICS_TO_SIMULATE_MEM)))
-print ('           METRICS_TO_SIMULATE_FAN_TEMP:   '+str(len(METRICS_TO_SIMULATE_FAN_TEMP)))
-print ('           METRICS_TO_SIMULATE_FAN:        '+str(len(METRICS_TO_SIMULATE_FAN)))
-print ('           METRICS_TO_SIMULATE_NET:        '+str(len(METRICS_TO_SIMULATE_NET)))
-print ('')
-print ('           SLACK_URL:                      '+str(SLACK_URL))
-print ('           SLACK_USER:                     '+str(SLACK_USER))
-print ('           SLACK_PWD:                      '+str(SLACK_PWD))
-print ('')
-print ('           GET_CONFIG:                     '+str(GET_CONFIG))
-print ('')
-print ('    **************************************************************************************************')
-print ('')
-print ('')
+SLACK_URL_ROSH=str(os.environ.get('SLACK_URL_ROSH', "NONE"))
+SLACK_URL_SOSH=str(os.environ.get('SLACK_URL_SOSH', "NONE"))
+SLACK_URL_ACME=str(os.environ.get('SLACK_URL_ACME', "NONE"))
 
+SNOW_URL_ROSH=str(os.environ.get('SNOW_URL_ROSH', "NONE"))
+SNOW_URL_SOSH=str(os.environ.get('SNOW_URL_SOSH', "NONE"))
+SNOW_URL_ACME=str(os.environ.get('SNOW_URL_ACME', "NONE"))
+
+print (' ✅ Prefetching Configuration - DONE')
+print ('-------------------------------------------------------------------------------------------------')
+print ('')
+print ('')
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------

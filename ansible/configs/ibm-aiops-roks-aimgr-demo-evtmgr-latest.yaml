@@ -150,6 +150,7 @@ ibm-aiops:
     create_external_routes: true
     # Create a valid ingress certificate (needed for Slack integration)
     create_valid_ingress_certificate: true
+    create_valid_ingress_itz: false
     # Create Policy for Incident Creation
     create_incident_policy: true
     # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
