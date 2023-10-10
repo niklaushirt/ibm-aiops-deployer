@@ -291,6 +291,7 @@ data:
 
         # Create a valid ingress certificate (needed for Slack integration)
         create_valid_ingress_certificate: true
+        # Create a valid ingress certificate when on ITZ
         create_valid_ingress_itz: false
 
         # Create Policy for Story Creation

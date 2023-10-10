@@ -173,6 +173,9 @@ data:
         # ---------------------------------------------------------------------
         # Turbo License (optional)
         turbo_license: NONE
+        # ---------------------------------------------------------------------
+        # Create a valid ingress certificate when on ITZ
+        create_valid_ingress_itz: false
 
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
