@@ -359,7 +359,7 @@ stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4
 KAFKA_TOPIC_LOGS = stream.read().strip()
 stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-none| awk '{print $1;}'")
 KAFKA_TOPIC_LOGS_NONE = stream.read().strip()
-stream = os.popen("oc get secret -n "+aimanagerns+" |grep 'aiops-kafka-secret'|awk '{print$1}'")
+stream = os.popen("oc get secret -n "+aimanagerns+" |grep '\-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
 stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template={{.data.username}} | base64 --decode")
 KAFKA_USER = stream.read().strip()
