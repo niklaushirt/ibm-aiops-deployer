@@ -126,37 +126,33 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Otherwise determine Storage Class
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🌏 STORAGECLASS - Determine File Storage Class - Detection
+- name: 🌏 STORAGECLASS - Determine File Storage Class
   shell: |
-      export STORAGE_CLASSES=$(oc get storageclasses)
-      if [ -z "${STORAGE_CLASSES##*ocs-storagecluster-cephfs*}" ];
+      CLUSTER_NAME={{ CLUSTER_NAME.stdout_lines[0] }}
+      if [ -z "${CLUSTER_NAME##*fyre.ibm.com*}" ];
       then
-          echo "ocs-storagecluster-cephfs"
+          echo "rook-cephfs"
       else
-
-        if [ -z "${STORAGE_CLASSES##*ibmc-file-gold-gid*}" ];
+        if [ -z "${CLUSTER_NAME##*appdomain.cloud*}" ]; 
         then
-            echo "ibmc-file-gold-gid"
+            SC_ODF_STRING=$(oc get sc | grep "ocs-storagecluster-cephfs")
+            if [ -z "${SC_ODF_STRING##ocs-storagecluster-cephfs}" ];
+            then
+              echo "ibmc-file-gold-gid"
+            else
+              echo "ocs-storagecluster-cephfs"
+            fi
         else
-          if [ -z "${STORAGE_CLASSES##*rook-cephfs*}" ];
+          # Use Default Class (storageclass.kubernetes.io/is-default-class:true)
+          SC_DEFAULT_STRING=$(oc get sc | grep "(default)")
+          if [ -z "${SC_DEFAULT_STRING##*(default)*}" ];
           then
-              echo "rook-cephfs"
+            echo ${SC_DEFAULT_STRING//\(*} 
           else
-            if [ -z "${STORAGE_CLASSES##*managed-nfs-storage*}" ];
-              then
-                  echo "managed-nfs-storage"
-              else
-                SC_DEFAULT_STRING=$(oc get sc | grep "(default)")
-                if [ -z "${SC_DEFAULT_STRING##*(default)*}" ];
-                then
-                  echo ${SC_DEFAULT_STRING//\(*} 
-                else
-                  echo "No default StorageClass defined. Unable to determine what SC to use." 
-                  echo "Please define one using storageclass.kubernetes.io/is-default-class:true"
-                  echo "or set the STORAGECLASS_XXX_OVERRIDE in the configuration file."
-                  exit 1
-                fi
-              fi
+            echo "No default StorageClass defined. Unable to determine what SC to use." 
+            echo "Please define one using storageclass.kubernetes.io/is-default-class:true"
+            echo "or set the STORAGECLASS_XXX_OVERRIDE in the configuration file."
+            exit 1
           fi
         fi
       fi
@@ -170,37 +166,33 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Otherwise determine Storage Class
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🌏 STORAGECLASS - Determine Block Storage Class - Detection
+- name: 🌏 STORAGECLASS - Determine Block Storage Class
   shell: |
-      export STORAGE_CLASSES=$(oc get storageclasses)
-      if [ -z "${STORAGE_CLASSES##*ocs-storagecluster-ceph-rbd*}" ];
+      CLUSTER_NAME={{ CLUSTER_NAME.stdout_lines[0] }}
+      if [ -z "${CLUSTER_NAME##*fyre.ibm.com*}" ]; 
       then
-          echo "ocs-storagecluster-ceph-rbd"
+          echo "rook-ceph-block"
       else
-
-        if [ -z "${STORAGE_CLASSES##*ibmc-block-gold*}" ];
+        if [ -z "${CLUSTER_NAME##*appdomain.cloud*}" ]; 
         then
-            echo "ibmc-block-gold"
+            SC_ODF_STRING=$(oc get sc | grep "ocs-storagecluster-ceph-rbd")
+            if [ -z "${SC_ODF_STRING##ocs-storagecluster-ceph-rbd}" ];
+            then
+              echo "ibmc-block-gold"             
+            else
+              echo "ocs-storagecluster-ceph-rbd"
+            fi
         else
-          if [ -z "${STORAGE_CLASSES##*rook-ceph-block*}" ];
+          # Use Default Class (storageclass.kubernetes.io/is-default-class:true)
+          SC_DEFAULT_STRING=$(oc get sc | grep "(default)")
+          if [ -z "${SC_DEFAULT_STRING##*(default)*}" ];
           then
-              echo "rook-ceph-block"
+            echo ${SC_DEFAULT_STRING//\(*} 
           else
-            if [ -z "${STORAGE_CLASSES##*managed-nfs-storage*}" ];
-              then
-                  echo "managed-nfs-storage"
-              else
-                SC_DEFAULT_STRING=$(oc get sc | grep "(default)")
-                if [ -z "${SC_DEFAULT_STRING##*(default)*}" ];
-                then
-                  echo ${SC_DEFAULT_STRING//\(*} 
-                else
-                  echo "No default StorageClass defined. Unable to determine what SC to use." 
-                  echo "Please define one using storageclass.kubernetes.io/is-default-class:true"
-                  echo "or set the STORAGECLASS_XXX_OVERRIDE in the configuration file."
-                  exit 1
-                fi
-              fi
+            echo "No default StorageClass defined. Unable to determine what SC to use." 
+            echo "Please define one using storageclass.kubernetes.io/is-default-class:true"
+            echo "or set the STORAGECLASS_XXX_OVERRIDE in the configuration file."
+            exit 1
           fi
         fi
       fi
