@@ -1021,8 +1021,8 @@
         echo "✅ Let's patch the certificates"  
 
         echo "Extracting signed cert"
-        oc get secret -n openshift-ingress -o 'go-template={{index .data "tls.crt"}}' letsencrypt-certs | base64 -d > cert.crt
-        oc get secret -n openshift-ingress -o 'go-template={{index .data "tls.key"}}' letsencrypt-certs | base64 -d > cert.key
+        oc get secret -n openshift-ingress letsencrypt-certs -o jsonpath='{.data.tls\.crt}'| base64 -d > cert.crt
+        oc get secret -n openshift-ingress letsencrypt-certs -o jsonpath='{.data.tls\.key}'| base64 -d > cert.key
 
         oc create secret tls -n turbonomic nginx-ingressgateway-certs --cert=cert.crt --key=cert.key --dry-run=client -o yaml | oc apply -f -
 
