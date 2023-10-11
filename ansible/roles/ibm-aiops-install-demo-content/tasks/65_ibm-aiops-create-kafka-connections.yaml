@@ -135,7 +135,7 @@
 
 
   ignore_errors: true
-  when: create_external_routes == true
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true 
   register: output_string
   args:
     executable: /bin/bash
@@ -246,7 +246,7 @@
 
 
   ignore_errors: true
-  when: create_external_routes == true
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true 
   register: output_string
   args:
     executable: /bin/bash

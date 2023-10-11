@@ -55,7 +55,7 @@ ibm-aiops:
     # Custom Sizing File (aiops_size must be set to "custom")
     custom_size_file: none
     # Name of the IBMAIOPS instance
-    aiops_name: ibm-cp-watson-aiops
+    aiops_name: ibm-aiops
     # Version of the catalog subscription
     subscription_channel: v3.7
     # Freeze the version of the Catalog image by patching CatalogSource

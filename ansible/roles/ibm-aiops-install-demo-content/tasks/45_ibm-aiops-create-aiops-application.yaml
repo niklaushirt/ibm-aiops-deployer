@@ -91,7 +91,7 @@
           "businessCriticality": "Platinum",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "100",
           "name": "RobotShop",
           "entityTypes": [
               "waiopsApplication"
@@ -121,7 +121,7 @@
           "businessCriticality": "Platinum",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "100",
           "name": "RobotShop",
           "entityTypes": [
               "waiopsApplication"
@@ -308,7 +308,7 @@
           "businessCriticality": "Gold",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "50",
           "name": "SockShop",
           "entityTypes": [
               "waiopsApplication"
@@ -338,7 +338,7 @@
           "businessCriticality": "Gold",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "50",
           "name": "SockShop",
           "entityTypes": [
               "waiopsApplication"
@@ -515,7 +515,7 @@
           "businessCriticality": "Silver",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "25",
           "name": "ACME Air",
           "entityTypes": [
               "waiopsApplication"
@@ -545,7 +545,7 @@
           "businessCriticality": "Silver",
           "vertexType": "group",
           "correlatable": "true",
-          "disruptionCostPerMin": "1000",
+          "disruptionCostPerMin": "25",
           "name": "ACME Air",
           "entityTypes": [
               "waiopsApplication"

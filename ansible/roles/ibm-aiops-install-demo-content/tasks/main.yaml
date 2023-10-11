@@ -163,7 +163,7 @@
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 MISC PARAMETERS"
     - "     🌏 Create external routes:                   {{current_ibmaiops_feature.create_external_routes}}"
-    - "     🛠️ Create a valid ingress cert:              {{current_ibmaiops_feature.create_valid_ingress_certificate}}"
+    - "     🛠️ Create a valid ingress cert for ITZ:      {{current_ibmaiops_feature.create_valid_ingress_itz}}"
     - "     🛠️ Create Policy for Incident Creation:      {{current_ibmaiops_feature.create_incident_policy}}"
     - "     🛠️ Create Kafka Log connection:              {{current_ibmaiops_feature.create_log_connection}}"
     - "     🛠️ Create Service Account:                   {{current_ibmaiops_feature.create_account}}"
@@ -313,7 +313,6 @@
 # Create valid certificate for Ingress (for Slack)
 - name: 🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
   include_tasks: 31_ibm-aiops-patch-ingress.yaml
-  when: current_ibmaiops_feature.create_valid_ingress_certificate == true
 
 
 
