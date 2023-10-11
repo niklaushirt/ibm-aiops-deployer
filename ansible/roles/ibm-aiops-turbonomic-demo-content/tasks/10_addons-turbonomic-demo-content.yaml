@@ -1013,28 +1013,8 @@
     CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 )
     CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
     CLUSTER_NAME=${CLUSTER_FQDN##*console.}
+    echo $CLUSTER_NAME
 
-
-    if [[ $CLUSTER_NAME =~ "cloud.techzone.ibm.com" ]];
-    then
-        echo "✅ Seems that you're on Techzone IPI/UPI"  
-        echo "✅ Let's patch the certificates"  
-
-        echo "Extracting signed cert"
-        oc get secret -n openshift-ingress -o 'go-template={{index .data "tls.crt"}}' letsencrypt-certs | base64 -d > cert.crt
-        oc get secret -n openshift-ingress -o 'go-template={{index .data "tls.key"}}' letsencrypt-certs | base64 -d > cert.key
-
-        oc create secret tls -n turbonomic nginx-ingressgateway-certs --cert=cert.crt --key=cert.key --dry-run=client -o yaml | oc apply -f -
-
-
-        REPLICAS=$(oc get pods -n turbonomic |grep nginx|wc -l |xargs)
-        oc scale Deployment/nginx --replicas=0 -n turbonomic
-        sleep 10
-        oc scale Deployment/nginx --replicas=${REPLICAS} -n turbonomic
-    else
-        echo "✅ Seems that you're NOT on Techzone IPI/UPI"  
-        echo "✅ No need to patch the certificates any further"  
-    fi
   register: certificate_patch
   ignore_errors: true
   args:
