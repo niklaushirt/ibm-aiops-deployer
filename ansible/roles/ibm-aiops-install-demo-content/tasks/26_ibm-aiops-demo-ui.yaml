@@ -66,6 +66,9 @@
     verbosity: 1
 
 
+- name: 🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣  DEMO-UI -  CONFIG
+  debug:
+    var: current_ibmaiops_feature.demoui_create_slack_snow
 
 
 - name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITHOUT Slack and SNOW Simulation
