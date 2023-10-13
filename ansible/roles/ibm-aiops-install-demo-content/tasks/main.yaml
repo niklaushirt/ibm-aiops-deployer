@@ -117,6 +117,7 @@
     - "      📝 Create Welcome Cards in IBM AIOps:       {{ global_config.create_cards  | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 TRAINING"
+    - "     🔽 Load Data for Event Temporal Training:    {{current_ibmaiops_feature.training_load_data_events | default('false')}}"
     - "     ✅ Create Training for Temp Grouping:        {{current_ibmaiops_feature.training_create_training_temporal}}"
     - "     🔽 Load Data for Log Anomaly:                {{current_ibmaiops_feature.training_load_data_logs}}"
     - "     ✅ Create Training for Log Anomaly:          {{current_ibmaiops_feature.training_create_training_logs}}"
@@ -146,12 +147,10 @@
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 DEMO UI"
     - "     ✅ Install Demo UI:                          {{current_ibmaiops_feature.install_demo_ui}}"
-    - "     🌏 Slack URL:                                {{current_ibmaiops_feature.demoui_slack_url}}"
-    - "     👩‍💻 Slack User:                               {{current_ibmaiops_feature.demoui_slack_user}}"
-    - "     🔐 Slack Password:                           {{current_ibmaiops_feature.demoui_slack_pwd}}"
     - "     👩‍💻 IBM AIOps Demo User:                      {{current_ibmaiops_feature.demoui_user}}"
     - "     🔐 IBM AIOps Demo Password (override):       {{current_ibmaiops_feature.demoui_pwd | default('not defined')}}"
     - "     ❗ Admin Mode:                               {{current_ibmaiops_feature.demoui_admin_mode}}"
+    - "     ❗ Create precanned Slack and SNOW Links:    {{current_ibmaiops_feature.demoui_create_slack_snow | default('false')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 LDAP"
     - "     ✅ LDAP Install:                             {{current_ibmaiops_feature.install_ldap}}"
@@ -253,6 +252,9 @@
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
   when: current_ibmaiops_feature.training_load_data_metrics == true
 
+- name: 🟡🟡🟡  Load EVENTS Training Data
+  include_tasks: 53_ibm-aiops-training-load-events.yaml
+  when: current_ibmaiops_feature.training_load_data_events == true | default('true')
 
 
 

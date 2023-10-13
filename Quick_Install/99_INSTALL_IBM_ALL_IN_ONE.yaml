@@ -215,6 +215,7 @@ data:
         # TRAINING
         # Train the Models based on pre-canned content
 
+        training_load_data_events: true
         training_create_training_temporal: true
 
         training_load_data_logs: true
@@ -271,6 +272,10 @@ data:
         demoui_admin_mode: "true"
         demoui_simulation_mode: "true"
 
+        # Create incident links to static Slack and Snow pages
+        demoui_create_slack_snow: true
+
+
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
         #demoui_pwd: CHANGEME
@@ -297,10 +302,8 @@ data:
         # Create external routes (needed to create demo content)
         create_external_routes: true
 
-        # Create a valid ingress certificate (needed for Slack integration)
-        create_valid_ingress_certificate: true
         # Create a valid ingress certificate when on ITZ
-        create_valid_ingress_itz: false
+        create_valid_ingress_itz: true
 
         # Create Policy for Story Creation
         create_incident_policy: true

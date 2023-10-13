@@ -6,7 +6,7 @@ mutation createTrainingDefinition {
     description: "Automatically created by Nick's scripts"
     createdBy: "demo"
     dataSetIds: []
-    promoteOption: manual
+    promoteOption: whenTrainingComplete
     trainingSchedule: {
       frequency: scheduled
       repeat: daily

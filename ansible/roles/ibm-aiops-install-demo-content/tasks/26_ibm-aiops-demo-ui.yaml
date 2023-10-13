@@ -67,12 +67,21 @@
 
 
 
-
-- name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration
+- name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITHOUT Slack and SNOW Simulation
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm.j2
   ignore_errors: true
+  when: current_ibmaiops_feature.demoui_create_slack_snow == false | default('false')
+
+
+- name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITH Slack and SNOW Simulation
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm-with-slack-snow.j2
+  ignore_errors: true
+  when: current_ibmaiops_feature.demoui_create_slack_snow == true | default('false')
+
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Demo UI Configuration being ready
