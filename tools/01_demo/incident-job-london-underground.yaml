@@ -23,11 +23,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              #!/bin/bash
+              #!/bin/zsh
               #set -x
 
 
-              export INSTALL_REPO='https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+              export INSTALL_REPO='https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest'
 
 
 
