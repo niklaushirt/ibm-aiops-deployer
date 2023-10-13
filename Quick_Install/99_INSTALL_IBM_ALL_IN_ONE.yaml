@@ -273,7 +273,7 @@ data:
         demoui_simulation_mode: "true"
 
         # Create incident links to static Slack and Snow pages
-        demoui_create_slack_snow: "true"
+        demoui_create_slack_snow: true
 
 
         demoui_user: demo
