@@ -207,6 +207,7 @@ data:
         # TRAINING
         # Train the Models based on pre-canned content
 
+        training_load_data_events: true
         training_create_training_temporal: true
 
         training_load_data_logs: true
@@ -262,6 +263,9 @@ data:
         demoui_slack_pwd: CHANGEME
         demoui_admin_mode: "true"
         demoui_simulation_mode: "true"
+
+        # Create incident links to static Slack and Snow pages
+        demoui_create_slack_snow: "true"
 
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)

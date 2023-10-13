@@ -253,6 +253,9 @@
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
   when: current_ibmaiops_feature.training_load_data_metrics == true
 
+- name: 🟡🟡🟡  Load EVENTS Training Data
+  include_tasks: 53_ibm-aiops-training-load-events.yaml
+  when: current_ibmaiops_feature.training_load_data_events == true | default('true')
 
 
 
