@@ -49,7 +49,7 @@ do
 
       while IFS= read -r line
       do
-            ((EVENTS_SECONDS++))
+            EVENTS_SECONDS=$((EVENTS_SECONDS+1))
             EVENTS_SECONDS=$((EVENTS_SECONDS+60))
             EVENTS_SECONDS_SKEW="-v+"$EVENTS_SECONDS"S"
 
