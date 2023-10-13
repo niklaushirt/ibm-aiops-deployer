@@ -76,7 +76,7 @@
     state: present
     template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm.j2
   ignore_errors: true
-  when: current_ibmaiops_feature.demoui_create_slack_snow == false
+  when: current_ibmaiops_feature.demoui_create_slack_snow == false | default('false')
 
 
 - name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITH Slack and SNOW Simulation
@@ -84,7 +84,7 @@
     state: present
     template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm-with-slack-snow.j2
   ignore_errors: true
-  when: current_ibmaiops_feature.demoui_create_slack_snow == true
+  when: current_ibmaiops_feature.demoui_create_slack_snow == true | default('false')
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
