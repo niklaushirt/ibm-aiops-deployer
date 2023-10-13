@@ -23,7 +23,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              #!/bin/zsh
+              #!/bin/bash
               #set -x
 
 

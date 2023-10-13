@@ -1,13 +1,6 @@
 #!/bin/bash
 echo "***************************************************************************************************************************************"
 
-# 20 ITERATIONS gives you about 2.5 months of synthetic data
-export MAX_ITERATIONS=20
-
-# The default work sub-directory
-export DIR_PREFIX=my-data
-
-
 
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')

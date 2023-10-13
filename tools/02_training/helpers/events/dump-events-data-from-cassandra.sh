@@ -1,12 +1,6 @@
 #!/bin/bash
 echo "***************************************************************************************************************************************"
 
-# 20 ITERATIONS gives you about 2.5 months of synthetic data
-export MAX_ITERATIONS=20
-
-# The default work sub-directory
-export DIR_PREFIX=my-data
-
 
 
 
@@ -29,7 +23,7 @@ echo  ""
 echo "     --------------------------------------------------------------------------------------------"
 echo "     💾 Dump the tables to the Pod filesystem"
 
-oc exec -ti aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"copy aiops.alerts to '/tmp/aiops.alerts.csv' with header=true;\""| sed 's/^/           /'
+oc exec -ti aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"copy aiops.alerts to '/tmp/aiops.alerts.csv' with header=true;\""
 
 
 echo  ""    
@@ -37,6 +31,6 @@ echo  ""
 echo "     --------------------------------------------------------------------------------------------"
 echo "     📥 Copy the dumps from the Pod to the local filesystem (you can ignore rsync errors)"
 
-oc rsync aiops-topology-cassandra-0:/tmp/aiops.alerts.csv $(pwd)| sed 's/^/           /'
+oc rsync aiops-topology-cassandra-0:/tmp/aiops.alerts.csv $(pwd)
 
 
