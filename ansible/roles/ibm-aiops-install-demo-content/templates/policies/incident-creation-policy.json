@@ -19,52 +19,57 @@
       "entityId": "alert",
       "triggerId": "aiops.ibm.com/trigger/alert-created"
     },
-    "actions": [{
-      "actionId": "lang/if",
-      "arguments": {
-        "name": "Match all alerts",
-        "conditions": {
-          "actionId": "lang/condition/and",
-          "arguments": {
-            "conditions": [{
-              "actionId": "lang/condition/template",
+    "actions": [
+      {
+        "actionId": "aiops.ibm.com/action/internal/conditional",
+        "arguments": {
+          "name": "Match all alerts",
+          "condition": "{{ alert.severity }} >= 2",
+          "then": [
+            {
+              "actionId": "aiops.ibm.com/action/internal/stories/derive",
               "arguments": {
-                "template": "({{alert.type.classification}} == \"No service\") and ({{alert.severity}} > 3) and ({{alert.sender.service}} == \"DemoTube\")"
+                "entity": {
+                  "$variable": "alert"
+                },
+                "priority": 1,
+                "retentionDays": 30,
+                "title": {
+                  "$template": "{{ alert.summary }}"
+                },
+                "description": {
+                  "$template": "{{ alert.summary }}"
+                },
+                "holdoffSec": 0,
+                "notification": [
+                  {
+                    "type": "slack",
+                    "name": "AIOPSSystemDefault",
+                    "details": {}
+                  },
+                  {
+                    "type": "chatops",
+                    "name": "AIOPSSystemDefault",
+                    "details": {}
+                  },
+                  {
+                    "type": "msteams",
+                    "name": "AIOPSSystemDefault",
+                    "details": {}
+                  }
+                ],
+                "assignment": {
+                  "owner": "demo",
+                  "team": "All users"
+                },
+                "addRelatedAlerts": {
+                  "update": false
+                }
               }
-            }]
-          }
-        },
-        "then": [{
-          "actionId": "aiops/stories/deriveFromAlert",
-          "arguments": {
-            "entity": {
-              "$variable": "alert"
-            },
-            "priority": 1,
-            "retentionDays": 30,
-            "title": {
-              "$template": "{{ alert.summary }}"
-            },
-            "description": {
-              "$template": "{{ alert.summary }}"
-            },
-            "holdoffSec": 0,
-            "notification": [{
-              "type": "chatops",
-              "name": "AIOPSSystemDefault",
-              "details": {}
-            }],
-            "assignment": {
-              "owner": "demo",
-              "team": "All users"
-            },
-            "addRelatedAlerts": {
-              "update": false
             }
-          },
-          "output": "global.proposedStories.[]"
-        }]
+          ]
+        }
       }
-    }]
+    ]
   }
 }
