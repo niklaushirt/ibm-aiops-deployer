@@ -51,7 +51,7 @@ spec:
               export AIOPS_NAMESPACE={{current_ibmaiops_cluster.project}}-demo-ui
               export TOKEN="{{current_demoui_pwd}}"
 
-              export LOG_ITERATIONS=50
+              export LOG_ITERATIONS=20
               export LOG_TIME_FORMAT="%Y-%m-%dT%H:%M:%S.000000"
               export LOG_TIME_STEPS=1000
               export LOG_TIME_SKEW=0
@@ -59,6 +59,7 @@ spec:
               export EVENTS_TIME_SKEW=30
               export METRIC_TIME_SKEW=240
               export METRIC_TIME_STEP=20
+              export METRIC_ITERATIONS=30
 
               export INSTANCE_NAME=" {{global_config.environment_name | default("Demo")}}"
 
@@ -100,6 +101,7 @@ spec:
                   EVENTS_TIME_SKEW: "$EVENTS_TIME_SKEW"
                   METRIC_TIME_SKEW: "$METRIC_TIME_SKEW"
                   METRIC_TIME_STEP: "$METRIC_TIME_STEP"
+                  METRIC_ITERATIONS: "$METRIC_ITERATIONS"
 
                   SLACK_URL_ROSH: "$SLACK_URL_ROSH"
                   SLACK_URL_SOSH: "$SLACK_URL_SOSH"
