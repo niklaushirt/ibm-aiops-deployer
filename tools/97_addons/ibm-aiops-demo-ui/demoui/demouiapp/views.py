@@ -524,6 +524,7 @@ print ('🟣           📝 DEMO_EVENTS_NET:                '+str(len(DEMO_EVENT
 print ('🟣')
 print ('🟣           🕦 METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
 print ('🟣           🔄 METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
+print ('🟣           🔄 METRIC_ITERATIONS:              '+str(METRIC_ITERATIONS))
 print ('🟣           📈 METRICS_TO_SIMULATE_MEM:        '+str(len(METRICS_TO_SIMULATE_MEM)))
 print ('🟣           📈 METRICS_TO_SIMULATE_FAN_TEMP:   '+str(len(METRICS_TO_SIMULATE_FAN_TEMP)))
 print ('🟣           📈 METRICS_TO_SIMULATE_FAN:        '+str(len(METRICS_TO_SIMULATE_FAN)))
