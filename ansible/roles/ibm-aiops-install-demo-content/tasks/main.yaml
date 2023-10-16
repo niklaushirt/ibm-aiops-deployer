@@ -315,6 +315,8 @@
 # Create valid certificate for Ingress (for Slack)
 - name: 🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
   include_tasks: 31_ibm-aiops-patch-ingress.yaml
+  when: current_ibmaiops_feature.create_valid_ingress_itz == true | default('false')
+
 
 
 
