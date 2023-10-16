@@ -218,17 +218,17 @@
 
 
 
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Wait for nginx Pods
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: CERTIFICATES -           🕦 Wait for nginx coming back up
-  shell: |
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    oc get po -n $AIOPS_NAMESPACE | grep nginx|grep -v ibm-nginx-tester|grep -v setup-nginx-job |grep "1/1"|grep -c ""
-  register: kubectl_get_pods
-  until: kubectl_get_pods.stdout == "2"
-  retries: 50
-  delay: 15
+# # --------------------------------------------------------------------------------------------------------------------------------------
+# # Wait for nginx Pods
+# # --------------------------------------------------------------------------------------------------------------------------------------
+# - name: CERTIFICATES -           🕦 Wait for nginx coming back up
+#   shell: |
+#     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+#     oc get po -n $AIOPS_NAMESPACE | grep nginx|grep -v ibm-nginx-tester|grep -v setup-nginx-job |grep "1/1"|grep -c ""
+#   register: kubectl_get_pods
+#   until: kubectl_get_pods.stdout == "2"
+#   retries: 50
+#   delay: 15
 
 
 
