@@ -193,6 +193,9 @@ data:
         demoui_admin_mode: "true"
         demoui_simulation_mode: "true"
 
+        # Create incident links to static Slack and Snow pages
+        demoui_create_slack_snow: true
+
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
         #demoui_pwd: CHANGEME
