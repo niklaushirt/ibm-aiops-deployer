@@ -43,7 +43,15 @@ print ('------------------------------------------------------------------------
 print (' 🚀 Prefetching Configuration')
 print ('-------------------------------------------------------------------------------------------------')
 
-
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# DEFAULT VALUES
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+LOG_ITERATIONS=5
+TOKEN='test'
+LOG_TIME_FORMAT="%Y-%m-%dT%H:%M:%S.000000"
+LOG_TIME_STEPS=1000
+LOG_TIME_SKEW=60
+LOG_TIME_ZONE="-1"
 
 
 #ROBOTSHOP
@@ -75,6 +83,7 @@ GET_CONFIG=str(os.environ.get('GET_CONFIG', "false"))
 # GLOBAL
 METRIC_TIME_SKEW=int(os.environ.get('METRIC_TIME_SKEW'))
 METRIC_TIME_STEP=int(os.environ.get('METRIC_TIME_STEP'))
+METRIC_ITERATIONS=int(os.environ.get('METRIC_ITERATIONS', "80"))
 
 LOG_ITERATIONS=int(os.environ.get('LOG_ITERATIONS'))
 LOG_TIME_FORMAT=os.environ.get('LOG_TIME_FORMAT')
@@ -384,7 +393,7 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
 
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'Authorization': 'Bearer '+METRIC_TOKEN, 'X-TenantID' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
 
-    for i in range (1,80):
+    for i in range (1,METRIC_ITERATIONS):
         output_json='{"groups":['
         CURR_ITERATIONS=CURR_ITERATIONS+1
 
