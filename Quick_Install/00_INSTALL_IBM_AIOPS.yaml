@@ -228,6 +228,7 @@ data:
 
         training_load_data_events: true
         training_create_training_temporal: true
+        training_run_training_temporal: true
 
         training_load_data_logs: true
         training_create_training_logs: true
