@@ -164,6 +164,10 @@
         "ASM_UI_CONFIG"
       ]
     }'
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 

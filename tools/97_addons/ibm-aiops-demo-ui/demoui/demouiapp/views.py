@@ -233,7 +233,7 @@ echo "    <BR>"
 
     echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
     echo "    <h3>🚀 2.2 Configure ELK </h3><BR>"
-    token=$(oc sa get-token cluster-logging-operator -n openshift-logging)
+    token=$(oc -n openshift-logging get secret $(oc get secret -n openshift-logging|grep cluster-logging-operator-token-|awk '{print$1}') -o jsonpath='{.data.token}' | base64 --decode && echo)
     routeES=`oc get route elasticsearch -o jsonpath={.spec.host} -n openshift-logging`
     routeKIBANA=`oc get route kibana -o jsonpath={.spec.host} -n openshift-logging`
 
@@ -513,6 +513,7 @@ print ('🟣           🕦 EVENTS_TIME_SKEW:               '+str(EVENTS_TIME_SK
 print ('🟣           📝 DEMO_EVENTS_MEM:                '+str(len(DEMO_EVENTS_MEM)))
 print ('🟣           📝 DEMO_EVENTS_FAN:                '+str(len(DEMO_EVENTS_FAN)))
 print ('🟣           📝 DEMO_EVENTS_NET:                '+str(len(DEMO_EVENTS_NET)))
+print ('🟣           📝 DEMO_EVENTS_TUBE:               '+str(len(DEMO_EVENTS_TUBE)))
 print ('🟣')
 print ('🟣           🕦 METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
 print ('🟣           🔄 METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
@@ -532,6 +533,8 @@ print ('🟣')
 print ('🟣               🌏 SNOW_URL_ROSH:                  '+str(SNOW_URL_ROSH))
 print ('🟣               🌏 SNOW_URL_SOSH:                  '+str(SNOW_URL_SOSH))
 print ('🟣               🌏 SNOW_URL_ACME:                  '+str(SNOW_URL_ACME))
+print ('🟣')
+print ('🟣               🌏 INCIDENT_URL_TUBE:              '+str(INCIDENT_URL_TUBE))
 print ('🟣')
 print ('🟣')
 print ('🟣    ---------------------------------------------------------------------------------------------')
@@ -598,10 +601,10 @@ def addExternalLinksToIncident(request):
         responseStr=str(json.dumps(responseJSON))
         # print ('aaaa'+responseStr)
         print ('    ---------------------------------------------------------------------------------------------')
-        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    Checking Incidents')
         print ('    ---------------------------------------------------------------------------------------------')
         for i in responseJSON.get('stories'):
-            # print(i['title'])
+            print(i['title'])
 
             if 'Optimise Buffer Pool ' in i['title']:
                 current_id=str(i['id'])
@@ -691,6 +694,27 @@ def addExternalLinksToIncident(request):
                     print(str(response.content))
                 else:
                     print ('    ❌ Skipping SNOW_URL_ACME')
+
+
+            if 'fire' in i['title'] or 'delays' in i['title']:
+                current_id=str(i['id'])
+                # print(i['title'])
+                # print(current_id)
+                if 'https:' in INCIDENT_URL_TUBE:
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    print ('     🛠️ Adding Incident Tube')
+                    print ('    ---------------------------------------------------------------------------------------------')
+                    patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Dashboard","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'MILE_END'}","permalink": ""+INCIDENT_URL_TUBE+"","ticket_num": "MILE_END"}}]} 
+                    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                    auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                    response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                    print(str(response.content))
+                else:
+                    print ('    ❌ Skipping INCIDENT_URL_TUBE')
+
+
+
         print ('    ---------------------------------------------------------------------------------------------')
         print ('    ---------------------------------------------------------------------------------------------')
         print ('    ---------------------------------------------------------------------------------------------')
@@ -1292,6 +1316,83 @@ def injectAllNetSOCKREST(request):
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
+
+
+
+def injectAllTUBEREST(request):
+    print('🌏 injectAllTUBEREST')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - SOCK-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE))
+    verifyLogin(request)
+    if loggedin=='true':
+        template = loader.get_template('demouiapp/home.html')
+
+        INCIDENT_ACTIVE=True
+        SOCK_SHOP_OUTAGE_ACTIVE=True
+
+        print('🌏 Create London Underground outage')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsTube, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        time.sleep(3)
+
+        addExternalLinksToIncident(request)
+        
+
+    else:
+        template = loader.get_template('demouiapp/loginui.html')
+
+
+    context = {
+        'loggedin': loggedin,
+        'aimanager_url': aimanager_url,
+        'aimanager_user': aimanager_user,
+        'aimanager_pwd': aimanager_pwd,
+        'SLACK_URL': SLACK_URL,
+        'SLACK_USER': SLACK_USER,
+        'SLACK_PWD': SLACK_PWD,
+        'DEMO_USER': DEMO_USER,
+        'DEMO_PWD': DEMO_PWD,
+        'awx_url': awx_url,
+        'awx_user': awx_user,
+        'awx_pwd': awx_pwd,
+        'elk_url': elk_url,
+        'turbonomic_url': turbonomic_url,
+        'instana_url': instana_url,
+        'openshift_url': openshift_url,
+        'openshift_token': openshift_token,
+        'openshift_server': openshift_server,
+        'vault_url': vault_url,
+        'vault_token': vault_token,
+        'ladp_url': ladp_url,
+        'ladp_user': ladp_user,
+        'ladp_pwd': ladp_pwd,
+        'flink_url': flink_url,
+        'flink_url_policy': flink_url_policy,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
+        'spark_url': spark_url,
+        'INSTANCE_NAME': INSTANCE_NAME,
+        'INSTANCE_IMAGE': INSTANCE_IMAGE,
+        'ADMIN_MODE': ADMIN_MODE,
+        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
+        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
+        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
+        'SIMULATION_MODE': SIMULATION_MODE,
+        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_NAME': 'index'
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
 
 
 def injectLogsREST(request):

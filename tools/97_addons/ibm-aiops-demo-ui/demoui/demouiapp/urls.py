@@ -22,6 +22,7 @@ urlpatterns = [
     path('injectAllFanACMEREST', views.injectAllFanACMEREST, name='injectAllFanACMEREST'),
     path('injectAllNetSOCKREST', views.injectAllNetSOCKREST, name='injectAllNetSOCKREST'),
     path('injectAllNetREST', views.injectAllNetREST, name='injectAllNetREST'),
+    path('injectAllTUBEREST', views.injectAllTUBEREST, name='injectAllTUBEREST'),
     path('clearAllREST', views.clearAllREST, name='clearAllREST'),
     path('clearEventsREST', views.clearEventsREST, name='clearEventsREST'),
     path('clearStoriesREST', views.clearStoriesREST, name='clearStoriesREST'),

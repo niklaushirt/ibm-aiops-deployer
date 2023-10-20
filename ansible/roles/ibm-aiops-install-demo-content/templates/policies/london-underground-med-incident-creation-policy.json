@@ -11,8 +11,8 @@
       "type": "user"
     }
   },
-  "executionPriority": 21,
-  "state": "enabled",
+  "executionPriority": 40,
+  "state": "disabled",
   "spec": {
     "triggers": [{
       "entityId": "alert",
@@ -20,24 +20,6 @@
       "arguments": {
         "condition": {
           "$variable": "constants.baseTriggerCondition"
-        }
-      }
-    }, {
-      "entityId": "alert",
-      "triggerId": "aiops.ibm.com/trigger/alert-updated",
-      "arguments": {
-        "condition": {
-          "actionId": "lang/condition/and",
-          "arguments": {
-            "conditions": [{
-              "$variable": "constants.baseTriggerCondition"
-            }, {
-              "actionId": "lang/condition/template",
-              "arguments": {
-                "template": "{{prevAlert.suppressed}} != {{alert.suppressed}} or {{prevAlert.lastOccurrenceTime}} != {{alert.lastOccurrenceTime}}"
-              }
-            }]
-          }
         }
       }
     }],

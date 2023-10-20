@@ -7,15 +7,17 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 oc project openshift-logging
 
-ES_INDEX=app-000003
+export ES_INDEX=app-000001
 
 export routeES=`oc get route elasticsearch -o jsonpath={.spec.host}`
 export token=$(oc whoami -t)
 export ES_URL=https://$routeES
 
+echo $routeES
+echo $token
+echo $ES_URL
 
-
-QUALITYTY_CHECKPOINT=2
+QUALITYTY_CHECKPOINT=20
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@ QUALITYTY_CHECKPOINT=2
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # fix sed issue on mac
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-SED="sed"
+export SED="sed"
 if [ "${OS}" == "darwin" ]; then
     SED="gsed"
     if [ ! -x "$(command -v ${SED})"  ]; then
@@ -74,9 +76,13 @@ echo "**************************************************************************
 echo "  🌏  Get first part of Index"
 echo "***************************************************************************************************************************************************"
 
-echo "curl -tlsv1.2 --insecure -H 'Authorization: Bearer ${token}' -H 'Content-Type: application/json' -s $ES_URL/$ES_INDEX/_search?scroll=1m -d @query.json"
-response=$(curl -tlsv1.2 --insecure -H "Authorization: Bearer ${token}" -H'Content-Type: application/json' -s $ES_URL/$ES_INDEX/_search?scroll=1m -d @query.json)
+echo "curl -tlsv1.2 --insecure -H 'Authorization: Bearer ${token}' -H 'Content-Type: application/json' -s "$ES_URL/$ES_INDEX/_search?scroll=1m" -d @query.json"
+echo "***************************************************************************************************************************************************"
 
+response=$(curl -tlsv1.2 --insecure -H "Authorization: Bearer ${token}" -H'Content-Type: application/json' -s "$ES_URL/$ES_INDEX/_search?scroll=1m" -d @query.json)
+
+echo $response
+echo "***************************************************************************************************************************************************"
 
 scroll_id=$(echo $response | jq -r ._scroll_id)
 hits_count=$(echo $response | jq -r '.hits.hits | length')
@@ -158,6 +164,10 @@ ${SED} -i 's/ //g' es_export_formatted_$ES_INDEX.json
 ${SED} -i 's/\[{/{/g' es_export_formatted_$ES_INDEX.json
 ${SED} -i 's/]},{/\]}\n\{/g' es_export_formatted_$ES_INDEX.json
 ${SED} -i 's/\]}\]/\]}/g' es_export_formatted_$ES_INDEX.json
+${SED} -i 's/},{/},\n{/g' es_export_formatted_$ES_INDEX.json
+
+
+
 echo "      ✅ OK"
 echo ""
 echo ""

@@ -420,7 +420,10 @@
   include_tasks: 63_ibm-aiops-training-run-metric.yaml
   when: current_ibmaiops_feature.training_run_training_metrics == true and TRAINING_EXISTS==false
       
-
+- name: 🟡🟡🟡  Run TEMPORAL EVENTS  AI Model Training
+  include_tasks: 64_ibm-aiops-training-run-temporal.yaml
+  when: current_ibmaiops_feature.training_run_training_temporal | default('false') == true and TRAINING_EXISTS==false
+      
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
