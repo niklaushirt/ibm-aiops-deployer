@@ -11,7 +11,7 @@
       "type": "user"
     }
   },
-  "executionPriority": 22,
+  "executionPriority": 20,
   "state": "enabled",
   "spec": {
     "triggers": [{
