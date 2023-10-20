@@ -1,0 +1,22 @@
+{
+    "query": {
+      "match": {
+        "kubernetes.namespace_name": {
+          "query": "robot-shop",
+          "type": "phrase"
+        }
+      }
+    }
+  }
+
+  {
+    "message_field": "message",
+    "log_entity_types": "kubernetes.container_image_id, kubernetes.host, kubernetes.pod_name, kubernetes.namespace_name",
+    "resource_id": "kubernetes.container_name",
+    "instance_id_field": "kubernetes.namespace_name",
+    "rolling_time": 10,
+    "timestamp_field": "@timestamp"
+  }
+
+
+  

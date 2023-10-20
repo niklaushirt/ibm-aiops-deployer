@@ -233,7 +233,7 @@ echo "    <BR>"
 
     echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
     echo "    <h3>🚀 2.2 Configure ELK </h3><BR>"
-    token=$(oc sa get-token cluster-logging-operator -n openshift-logging)
+    token=$(oc -n openshift-logging get secret $(oc get secret -n openshift-logging|grep cluster-logging-operator-token-|awk '{print$1}') -o jsonpath='{.data.token}' | base64 --decode && echo)
     routeES=`oc get route elasticsearch -o jsonpath={.spec.host} -n openshift-logging`
     routeKIBANA=`oc get route kibana -o jsonpath={.spec.host} -n openshift-logging`
 
