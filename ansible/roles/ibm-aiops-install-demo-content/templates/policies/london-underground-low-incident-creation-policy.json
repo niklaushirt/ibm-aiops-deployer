@@ -12,7 +12,7 @@
     }
   },
   "executionPriority": 20,
-  "state": "disabled",
+  "state": "enabled",
   "spec": {
     "triggers": [{
       "entityId": "alert",
