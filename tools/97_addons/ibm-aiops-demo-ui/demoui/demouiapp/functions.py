@@ -58,6 +58,7 @@ LOG_TIME_ZONE="-1"
 DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
 DEMO_EVENTS_FAN=os.environ.get('DEMO_EVENTS_FAN')
 DEMO_EVENTS_NET=os.environ.get('DEMO_EVENTS_NET')
+DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
 DEMO_LOGS=os.environ.get('DEMO_LOGS')
 DEMO_LOGS_SOCK=os.environ.get('DEMO_LOGS_SOCK')
 METRICS_TO_SIMULATE_MEM=str(os.environ.get('METRICS_TO_SIMULATE_MEM')).split(';')
@@ -122,6 +123,9 @@ SLACK_URL_ACME=str(os.environ.get('SLACK_URL_ACME', "NONE"))
 SNOW_URL_ROSH=str(os.environ.get('SNOW_URL_ROSH', "NONE"))
 SNOW_URL_SOSH=str(os.environ.get('SNOW_URL_SOSH', "NONE"))
 SNOW_URL_ACME=str(os.environ.get('SNOW_URL_ACME', "NONE"))
+
+INCIDENT_URL_TUBE=str(os.environ.get('INCIDENT_URL_TUBE', "NONE"))
+
 
 print (' ✅ Prefetching Configuration - DONE')
 print ('-------------------------------------------------------------------------------------------------')
@@ -258,6 +262,12 @@ def injectEventsFanACME(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
 def injectEventsNetSock(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
     print ('📛 START - Inject Events - NET SOCKSHOP')
     injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_NET_SOCK)
+    return 'OK'
+
+
+def injectEventsTube(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
+    print ('📛 START - Inject Events - NET SOCKSHOP')
+    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_TUBE)
     return 'OK'
 
 

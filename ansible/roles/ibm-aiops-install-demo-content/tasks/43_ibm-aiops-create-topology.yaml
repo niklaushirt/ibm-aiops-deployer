@@ -88,7 +88,7 @@
 
     echo "Upload Topology Customization"
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [ "${OS}" == "darwin" ]; then
+    if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
           TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
     else
@@ -139,7 +139,7 @@
     LOAD_FILE_NAME="robot-shop-file.txt"
     
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [ "${OS}" == "darwin" ]; then
+    if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
           FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
@@ -240,7 +240,7 @@
     LOAD_FILE_NAME="sock-shop-file.txt"
     
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [ "${OS}" == "darwin" ]; then
+    if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
           FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
@@ -339,7 +339,7 @@
     LOAD_FILE_NAME="acme-file.txt"
     
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [ "${OS}" == "darwin" ]; then
+    if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
           FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
@@ -472,7 +472,7 @@
 
       echo "Upload Topology Customization"
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
       else
@@ -502,7 +502,7 @@
       LOAD_FILE_NAME=$TOPOLOGY_NAME"-file.txt"
 
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
       else
@@ -831,7 +831,7 @@
 
       echo "Upload Topology Customization"
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
@@ -870,7 +870,7 @@
 
       echo "Upload Topology Customization"
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
@@ -910,7 +910,7 @@
 
       echo "Upload Topology Customization"
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
@@ -948,7 +948,7 @@
       echo "🛠️  POLICIES - Create Scope Policy - $POLICY_NAME"
 
       OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [ "${OS}" == "darwin" ]; then
+      if [[ "${OS}" == "darwin" ]]; then
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID".json"
       else
