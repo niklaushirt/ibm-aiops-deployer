@@ -11,7 +11,7 @@
       "type": "user"
     }
   },
-  "executionPriority": 20,
+  "executionPriority": 90,
   "state": "enabled",
   "spec": {
     "triggers": [{
@@ -41,7 +41,7 @@
             "conditions": [{
               "actionId": "lang/condition/template",
               "arguments": {
-                "template": "({{alert.sender.service}} == \"DemoTube\") and ({{alert.severity}} >= 1)"
+                "template": "({{alert.sender.service}} == \"DemoTube\") and ({{alert.severity}} <= 3)"
               }
             }]
           }

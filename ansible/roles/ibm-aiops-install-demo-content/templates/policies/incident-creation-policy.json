@@ -24,7 +24,7 @@
         "actionId": "aiops.ibm.com/action/internal/conditional",
         "arguments": {
           "name": "Match all alerts",
-          "condition": "{{ alert.severity }} >= 2",
+          "condition": "({{ alert.severity }} >= 2) and ({{alert.sender.service}} != \"DemoTube\")",
           "then": [
             {
               "actionId": "aiops.ibm.com/action/internal/stories/derive",

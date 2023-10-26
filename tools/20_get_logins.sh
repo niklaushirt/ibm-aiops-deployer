@@ -205,7 +205,7 @@ then
     echo "    🚀 2.2 Configure ELK "
     echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
     echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-    token=$(oc sa get-token cluster-logging-operator -n openshift-logging)
+    token=$(oc -n openshift-logging get secret $(oc get secret -n openshift-logging|grep cluster-logging-operator-token-|awk '{print$1}') -o jsonpath='{.data.token}' | base64 --decode && echo)
     routeES=`oc get route elasticsearch -o jsonpath={.spec.host} -n openshift-logging`
     routeKIBANA=`oc get route kibana -o jsonpath={.spec.host} -n openshift-logging`
     echo "      "
@@ -454,7 +454,8 @@ then
     echo "  \"codec\": \"elk\","
     echo "  \"message_field\": \"message\","
     echo "  \"log_entity_types\": \"kubernetes.container_image_id, kubernetes.host, kubernetes.pod_name, kubernetes.namespace_name\","
-    echo "  \"instance_id_field\": \"kubernetes.container_name\","
+    echo "  \"resource_id\": \"kubernetes.container_name\","
+    echo "  \"instance_id_field\": \"kubernetes.namespace_name\","
     echo "  \"rolling_time\": 10,"
     echo "  \"timestamp_field\": \"@timestamp\""
     echo "}"
