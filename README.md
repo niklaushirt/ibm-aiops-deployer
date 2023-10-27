@@ -62,12 +62,12 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 >     - **OpenLDAP** & Register with IBM AIOps
 >     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
 >     - **AI Models** - Load and Train 
-> 	  - Load Training Data (LAD, SNOW, MET) 
+> 	  - Load Training Data (LAD, SNOW, MET, TG) 
 >       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
 >       - Train Models (TG, LAD, CR, SI, MET) 
 >     - **Topology**
 >       - Demo Apps (RobotShop. SockShop)
->       - Create IBM AIOps Topology and Applications
+>       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME)
 >  - **Turbonomic**  (optional)
 >  - **Instana**  (optional)
 
