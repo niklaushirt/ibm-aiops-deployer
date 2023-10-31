@@ -1,432 +1,3 @@
-
-# *************************************************************************************************************************************************
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Connection Details
-# --------------------------------------------------------------------------------------------------------------------------------------
-# *************************************************************************************************************************************************
-
-- name: 🛰️  START - LOAD OVERLAY MERGE TOPOLOGY 
-  debug: 
-    msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
-
-
-
-- name: Log
-  shell: |
-    export MESSAGE="Load Robotshop overlay Topology"
-    export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
-  ignore_errors: true
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Load Robotshop overlay Topology'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-# LOAD TOPOLOGY CONFIGURATION
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 TOPOLOGY - LOAD TOPOLOGY CONFIGURATION
-  shell: |
-    set -x
-    
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-    export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
-    export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
-
-    echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
-    echo "    LOGIN: $LOGIN"
-
-    # kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/backup_ui_config -out backup.json
-    # kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
-    # open ./backup.json
-
-
-
-    echo "Delete existing Topology Customization"
-    curl -XGET -k \
-    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*" \
-    -H 'accept: application/json' \
-    -H 'content-type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -u $LOGIN|jq -r '._items[] | select(.maxLabelLength=="")|._id'>/tmp/customItems.json
-
-    cat /tmp/customItems.json
-
-    while read line; 
-    do 
-      echo "DELETE: $line"
-      curl -XDELETE -k \
-      "$TOPO_MGT_ROUTE/1.0/topology/metadata/$line" \
-      -H 'accept: application/json' \
-      -H 'content-type: application/json' \
-      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -u $LOGIN
-    done < /tmp/customItems.json
-
-
-
-    echo "Upload Topology Customization"
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [[ "${OS}" == "darwin" ]]; then
-          echo "MAC"
-          TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
-    else
-          TOPOLOGY_CUSTOM_FILE="{{role_path}}/templates/topology/asm_config.json"
-    fi    
-    kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
-    
-    sleep 30 
-
-    echo "Import Topology Customization"
-    #kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- find /opt/ibm/netcool/asm/data/tools/
-    kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/import_ui_config -file asm_config.json
-
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
-
-
-
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-# APPLICATION ROBOT SHOP
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ROBOTSHOP
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Copy Topology to File Observer"
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get FILE_OBSERVER_POD
-    FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
-    echo $FILE_OBSERVER_POD
-    LOAD_FILE_NAME="robot-shop-file.txt"
-    
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [[ "${OS}" == "darwin" ]]; then
-          echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
-    else
-          FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
-    fi    
-    echo $FILE_OBSERVER_POD
-    echo $FILE_OBSERVER_CAP
-    echo $TARGET_FILE_PATH
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-    echo "  Copying capture file [${FILE_OBSERVER_CAP}] to file observer pod"
-    echo "oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}"
-    oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
-
-
-
-- name: 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ROBOTSHOP
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Create File Observer Job"
-
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    LOAD_FILE_NAME="robot-shop-file.txt"
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get Credentials
-    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-    export JOB_ID=robot-shop-topology
-
-    echo "  URL: $TOPO_ROUTE"
-    echo "  LOGIN: $LOGIN"
-
-
-    # Get FILE_OBSERVER JOB
-    curl -X "POST" "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
-      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -H "accept: application/json" \
-      -H "Content-Type: application/json" \
-      -u $LOGIN \
-      -d "{
-      \"unique_id\": \"${JOB_ID}\",
-      \"description\": \"Automatically created by Nicks scripts\",
-      \"parameters\": {
-          \"file\": \"${TARGET_FILE_PATH}\"
-          }
-      }"
-
-
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-# APPLICATION SOCK SHOP
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD SOCKSHOP
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Copy Topology to File Observer"
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get FILE_OBSERVER_POD
-    FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
-    echo $FILE_OBSERVER_POD
-    LOAD_FILE_NAME="sock-shop-file.txt"
-    
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [[ "${OS}" == "darwin" ]]; then
-          echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
-    else
-          FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
-    fi    
-    echo $FILE_OBSERVER_POD
-    echo $FILE_OBSERVER_CAP
-    echo $TARGET_FILE_PATH
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-    echo "  Copying capture file [${FILE_OBSERVER_CAP}] to file observer pod"
-    echo "oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}"
-    oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
-
-
-
-- name: 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY SOCKSHOP
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Create File Observer Job"
-
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    LOAD_FILE_NAME="sock-shop-file.txt"
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get Credentials
-    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-    export JOB_ID=sock-shop-topology
-
-    echo "  URL: $TOPO_ROUTE"
-    echo "  LOGIN: $LOGIN"
-
-
-    # Get FILE_OBSERVER JOB
-    curl -X "POST" "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
-      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -H "accept: application/json" \
-      -H "Content-Type: application/json" \
-      -u $LOGIN \
-      -d "{
-      \"unique_id\": \"${JOB_ID}\",
-      \"description\": \"Automatically created by Nicks scripts\",
-      \"parameters\": {
-          \"file\": \"${TARGET_FILE_PATH}\"
-          }
-      }"
-
-
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-# APPLICATION ACME AIR
-# --------------------------------------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ACME
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Copy Topology to File Observer"
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get FILE_OBSERVER_POD
-    FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
-    echo $FILE_OBSERVER_POD
-    LOAD_FILE_NAME="acme-file.txt"
-    
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    if [[ "${OS}" == "darwin" ]]; then
-          echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
-    else
-          FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
-    fi    
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-    echo $FILE_OBSERVER_POD
-    echo $FILE_OBSERVER_CAP
-    echo $TARGET_FILE_PATH
-    echo "  Copying capture file [${FILE_OBSERVER_CAP}] to file observer pod"
-    echo "oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}"
-    oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
-
-
-
-
-
-- name: 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ACME
-  shell: |
-    set -x
-    
-    echo "Create Custom Topology - Create File Observer Job"
-
-
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    LOAD_FILE_NAME="acme-file.txt"
-    TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-
-    # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
-
-    # Get Credentials
-    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-    export JOB_ID=acme-topology
-
-    echo "  URL: $TOPO_ROUTE"
-    echo "  LOGIN: $LOGIN"
-
-
-    # Get FILE_OBSERVER JOB
-    curl -X "POST" "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
-      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -H "accept: application/json" \
-      -H "Content-Type: application/json" \
-      -u $LOGIN \
-      -d "{
-      \"unique_id\": \"${JOB_ID}\",
-      \"description\": \"Automatically created by Nicks scripts\",
-      \"parameters\": {
-          \"file\": \"${TARGET_FILE_PATH}\"
-          }
-      }"
-
-
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    verbosity: 1
-
-
-
-
-
-
-- name: 🚀 TOPOLOGY - CREATE LONDON UNDERGROUND
-  shell: |
-    set -x
-
       export TOPOLOGY_NAME=london-underground
       cd ansible
 
@@ -476,7 +47,7 @@
             echo "MAC"
             TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
       else
-            TOPOLOGY_CUSTOM_FILE="{{role_path}}/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
+            TOPOLOGY_CUSTOM_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
       fi    
       kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/"$TOPOLOGY_NAME"-asm_config.json 
 
@@ -506,7 +77,7 @@
             echo "MAC"
             FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
       else
-            FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
+            FILE_OBSERVER_CAP="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
       fi    
       echo $FILE_OBSERVER_POD
       echo $FILE_OBSERVER_CAP
@@ -808,6 +379,8 @@
       echo "----------------------------------------------------------------------------------------------------------"
       echo "🚀 CREATE POLICIES - $APP_NAME"
       echo "----------------------------------------------------------------------------------------------------------"
+
+
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
       export POLICY_USERNAME=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.username}' | base64 --decode)
@@ -836,7 +409,7 @@
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+            POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       fi    
 
       echo $POLICY_FILE
@@ -875,7 +448,7 @@
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+            POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       fi    
 
       echo $POLICY_FILE
@@ -915,7 +488,7 @@
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+            POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
       fi    
 
       echo $POLICY_FILE
@@ -953,7 +526,7 @@
             echo "MAC"
             POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID".json"
       else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID".json"
+            POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID".json"
       fi    
 
       echo $POLICY_FILE
@@ -976,15 +549,3 @@
           export result="Already exists"
       fi 
       echo $result
-
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    #verbosity: 1
-
-

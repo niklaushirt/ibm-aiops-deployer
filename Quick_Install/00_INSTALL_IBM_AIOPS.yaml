@@ -471,24 +471,6 @@ spec:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-aiops
                 key: INSTALL_REPO
-          - name: TURBO_LICENSE
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
-                key: TURBO_LICENSE
-                optional: true
-          - name: INSTANA_SALES_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
-                key: INSTANA_SALES_KEY
-                optional: true
-          - name: INSTANA_AGENT_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
-                key: INSTANA_AGENT_KEY
-                optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
