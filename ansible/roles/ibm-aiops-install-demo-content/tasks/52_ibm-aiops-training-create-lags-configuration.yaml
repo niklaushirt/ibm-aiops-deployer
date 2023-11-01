@@ -141,7 +141,7 @@
     export result=$(curl -X 'PUT' --insecure "https://$AIO_PLATFORM_ROUTE/v3/connections/$connection_id/enable" -H 'accept: application/json' -H 'Content-Type: application/json' -H "authorization: Bearer $ZEN_TOKEN")
     echo $result
   ignore_errors: true
-  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_load_data_lags | default(false) == true
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
   register: output_string
   args:
     executable: /bin/bash
