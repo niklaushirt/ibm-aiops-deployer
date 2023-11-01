@@ -248,6 +248,11 @@
   include_tasks: 52_ibm-aiops-training-load-logs.yaml
   when: current_ibmaiops_feature.training_load_data_logs == true
 
+- name: 🟡🟡🟡  Load LAGS Training Data
+  include_tasks: 52_ibm-aiops-training-load-logs.yaml
+  when: current_ibmaiops_feature.training_load_data_lags | default(false) == true
+
+
 - name: 🟡🟡🟡  Load METRICS Training Data
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
   when: current_ibmaiops_feature.training_load_data_metrics == true
@@ -380,6 +385,12 @@
   include_tasks: 58_ibm-aiops-training-create-logs-configuration.yaml
   when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false
 
+- name: 🟡🟡🟡  Create Training  Definition for Lags
+  include_tasks: 58_ibm-aiops-training-create-lags-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_lags | default(false) == true and TRAINING_EXISTS==false
+
+
+
 - name: 🟡🟡🟡  Create Training  Definition for Seasonality and XinY
   include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
   when: current_ibmaiops_feature.training_create_training_experimental == true | default('false')
@@ -412,9 +423,16 @@
   include_tasks: 61_ibm-aiops-training-run-snow.yaml
   when: current_ibmaiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
 
-- name: 🟡🟡🟡  Run LAD  AI Model Training
+- name: 🟡🟡🟡  Run LAD AI Model Training
   include_tasks: 62_ibm-aiops-training-run-logs.yaml
   when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false
+
+- name: 🟡🟡🟡  Run LAGS AI Model Training
+  include_tasks: 62_ibm-aiops-training-run-lags.yaml
+  when: current_ibmaiops_feature.training_run_training_lags | default(false) == true and TRAINING_EXISTS==false
+
+
+
 
 - name: 🟡🟡🟡  Run METRICS  AI Model Training
   include_tasks: 63_ibm-aiops-training-run-metric.yaml
