@@ -118,11 +118,12 @@
         "mapping": {
           "codec": "elk",
           "message_field": "message",
-          "log_entity_types": "clusterName, kubernetes.container_image_id, kubernetes.host, kubernetes.container_name, kubernetes.pod_name",
-          "instance_id_field": "kubernetes.container_name",
+          "log_entity_types": "kubernetes.container_image_id, kubernetes.host, kubernetes.pod_name, kubernetes.namespace_name",
+          "resource_id": "kubernetes.container_name",
+          "instance_id_field": "kubernetes.namespace_name",
           "rolling_time": 10,
           "timestamp_field": "@timestamp"
-        },
+      },
       "request_action": "create"
     }')
 
@@ -135,11 +136,14 @@
 
 
   ignore_errors: true
-  when: current_ibmaiops_feature.create_log_connection | default(true) == true 
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_load_data_lags | default(false) == false
   register: output_string
   args:
     executable: /bin/bash
   
+
+
+ 
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
@@ -244,9 +248,8 @@
     export result=$(curl -X 'PUT' --insecure "https://$AIO_PLATFORM_ROUTE/v3/connections/$connection_id/enable" -H 'accept: application/json' -H 'Content-Type: application/json' -H "authorization: Bearer $ZEN_TOKEN")
     echo $result
 
-
   ignore_errors: true
-  when: current_ibmaiops_feature.create_log_connection | default(true) == true 
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_load_data_lags | default(false) == false
   register: output_string
   args:
     executable: /bin/bash

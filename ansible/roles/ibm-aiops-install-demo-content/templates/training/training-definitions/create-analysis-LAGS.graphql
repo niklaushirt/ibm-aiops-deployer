@@ -2,7 +2,6 @@ mutation createTrainingDefinition {
   createTrainingDefinition(
     definitionName: "log_anomaly_golden_signal_configuration"
     algorithmName: "Log_Anomaly_Golden_Signal"
-    dataSetIds: "<DATA_SET_ID>"
     description: "Automatically created by Nick's scripts"
     createdBy: "demo"
     enableSelectiveTraining: false

@@ -223,9 +223,7 @@ data:
         training_create_training_logs: true
         training_run_training_logs: true
 
-        training_load_data_lags: false
-        training_create_training_lags: false
-        training_run_training_lags: false
+        training_enable_log_golden_signals: false
 
         training_load_data_snow: true
         training_create_training_snow: true

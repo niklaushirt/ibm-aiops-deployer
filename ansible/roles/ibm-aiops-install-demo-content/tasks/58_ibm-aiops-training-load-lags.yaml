@@ -47,7 +47,7 @@
     src: ./templates/training/default-clusterrole.yaml
     
 
-- name: 📥 TRAINING LOAD LAD - LOAD KAFKA LOG DATA 
+- name: 📥 TRAINING LOAD LAD - LOAD KAFKA LAGS DATA 
   kubernetes.core.k8s:
     state: present
     namespace: turbonomic
