@@ -394,6 +394,21 @@ echo "   -----------------------------------------------------------------------
 ./tools/01_demo/scripts/simulate-logs.sh 
 ./tools/01_demo/scripts/simulate-logs.sh 
 ./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
+./tools/01_demo/scripts/simulate-logs.sh 
 
 export result=$(curl "https://$DATALAYER_ROUTE/irdatalayer.aiops.io/active/v1/stories" --insecure --silent -X PATCH -u "${USER_PASS}" -d '{"priority": 1,"state": "inProgress","owner": "demo","team": "All users"}' -H 'Content-Type: application/json' -H "x-username:admin" -H "x-subscription-id:cfd95b7e-3bc7-4006-a4a8-a73a79c71255")
 echo "       Stories assigned: "$(echo $result | jq ".affected")
