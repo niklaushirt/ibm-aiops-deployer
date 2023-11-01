@@ -257,9 +257,9 @@
   include_tasks: 53_ibm-aiops-training-load-events.yaml
   when: current_ibmaiops_feature.training_load_data_events == true | default('true')
 
-- name: 🟡🟡🟡  Create Training  Definition for Lags
+- name: 🟡🟡🟡  Create Training Definition for Lags
   include_tasks: 52_ibm-aiops-training-create-lags-configuration.yaml
-  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
 
 
 

@@ -211,11 +211,14 @@ data:
         training_create_training_temporal: true
         training_run_training_temporal: true
 
+        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training)
+        training_enable_log_golden_signals: false
+
+        # LAD-NLP Training - disabled if training_enable_log_golden_signals is true
         training_load_data_logs: true
         training_create_training_logs: true
         training_run_training_logs: true
 
-        training_enable_log_golden_signals: false
 
         training_load_data_snow: true
         training_create_training_snow: true
