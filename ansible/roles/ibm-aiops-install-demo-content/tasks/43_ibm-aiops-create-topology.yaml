@@ -815,6 +815,7 @@
       export POLICY_LOGIN="$POLICY_USERNAME:$POLICY_PASSWORD"
       echo "POLICY_LOGIN: "$POLICY_LOGIN
 
+      oc create route reencrypt policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
 
 
       export POLICY_ROUTE=""

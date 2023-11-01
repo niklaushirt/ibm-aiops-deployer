@@ -108,11 +108,7 @@ echo "   -----------------------------------------------------------------------
 echo "     🚀  Preparing Log Data"
 echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
 
-mkdir /tmp/training-files-logs/  >/tmp/demo.log 2>&1 
-rm -f -r /tmp/training-files-logs/* 
-
-
-for actFile in $(ls -1 $WORKING_DIR_LOGS | grep "zip"); 
+for actFile in $(ls -1 $WORKING_DIR_LOGS | grep "json"); 
 do 
 
 #------------------------------------------------------------------------------------------------------------------------------------
@@ -130,56 +126,58 @@ do
     #  Create file and structure in /tmp
     #------------------------------------------------------------------------------------------------------------------------------------
     echo "      -------------------------------------------------------------------------------------------------------------------------------------"
-    echo "        🛠️   Copy $actFile to /tmp/training-files-logs/"
+    echo "        🛠️   Copy $actFile to /tmp/training-files-logs/logFile.json"
 
-    cp $WORKING_DIR_LOGS/$actFile /tmp/training-files-logs/$actFile
+    mkdir /tmp/training-files-logs/  >/tmp/demo.log 2>&1 
+    rm /tmp/training-files-logs/* 
+    cp $WORKING_DIR_LOGS/$actFile /tmp/training-files-logs/logFile.json
+
+    echo "      -------------------------------------------------------------------------------------------------------------------------------------"
+    echo "        🛠️   Updating to todays Date"
+
+    gsed -i 's/2023-10-25/2023-10-26/g' /tmp/training-files-logs/logFile.json
+
 
     cd /tmp/training-files-logs/
-
-    unzip /tmp/training-files-logs/$actFile
-
-
-
-
+    #------------------------------------------------------------------------------------------------------------------------------------
+    #  Split the files in 1500 line chunks for kafkacat
+    #------------------------------------------------------------------------------------------------------------------------------------
+    echo "      -------------------------------------------------------------------------------------------------------------------------------------"
+    echo "          🔨 Splitting Log File:"
+    split -l 1500 ./logFile.json 
     export NUM_FILES=$(ls | wc -l)
     ls -1 /tmp/training-files-logs/x*| sed 's/^/             /'
     #cat xaa
     cd -  >/tmp/demo.log 2>&1 
     echo " "
-    echo "          ✅ OK - File Count: $NUM_FILES"
+    echo "          ✅ OK"
+
+    echo "   "
+    echo "      ----------------------------------------------------------------------------------------------------------------------------------------"
+    echo "       🚀  Inject Log Files for file $actFile"
+    echo "      ----------------------------------------------------------------------------------------------------------------------------------------"
+
+    cat /tmp/training-files-logs/xaa
+    #------------------------------------------------------------------------------------------------------------------------------------
+    #  Inject the Data
+    #------------------------------------------------------------------------------------------------------------------------------------
+    echo "         -------------------------------------------------------------------------------------------------------------------------------------"
+    echo "          🌏  Injecting Log Data" 
+    echo "              Quit with Ctrl-Z"
+    echo "         -------------------------------------------------------------------------------------------------------------------------------------"
+    ACT_COUNT=0
+    for FILE in /tmp/training-files-logs/*; do 
+        if [[ $FILE =~ "x"  ]]; then
+                ACT_COUNT=`expr $ACT_COUNT + 1`
+                echo "          Injecting file ($ACT_COUNT/$(($NUM_FILES-1))) - $FILE"
+                #echo "                 ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=token -X sasl.password=$KAFKA_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE   "
+                kcat -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE
+                echo "          ✅ OK"
+                echo " "
+        fi
+    done
+
 
 done
-
-rm -f -r /tmp/training-files-logs/*.zip 
-rm -f -r /tmp/training-files-logs/__MACOSX
-
-
-
-echo "   "
-echo "      ----------------------------------------------------------------------------------------------------------------------------------------"
-echo "       🚀  Inject Log Files for file $actFile"
-echo "      ----------------------------------------------------------------------------------------------------------------------------------------"
-
-#cat /tmp/training-files-logs/xaa
-#------------------------------------------------------------------------------------------------------------------------------------
-#  Inject the Data
-#------------------------------------------------------------------------------------------------------------------------------------
-echo "         -------------------------------------------------------------------------------------------------------------------------------------"
-echo "          🌏  Injecting Log Data" 
-echo "              Quit with Ctrl-Z"
-echo "         -------------------------------------------------------------------------------------------------------------------------------------"
-ACT_COUNT=0
-for FILE in /tmp/training-files-logs/*; do 
-    if [[ $FILE =~ "x"  ]]; then
-            ACT_COUNT=`expr $ACT_COUNT + 1`
-            echo "          Injecting file ($ACT_COUNT/$(($NUM_FILES-1))) - $FILE"
-            #echo "                 ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=token -X sasl.password=$KAFKA_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE   "
-            kcat -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE
-            echo "          ✅ OK"
-            echo " "
-    fi
-done
-
-
 
 

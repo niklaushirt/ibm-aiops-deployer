@@ -111,7 +111,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 ---------------------------------------------------------------
 
 
- 
+
 
 <div style="page-break-after: always;"></div>
 
@@ -322,7 +322,7 @@ This installation adds:
 <summary>✅ Instructions</summary>
 
 ❗ I have tested this and usually it works. But there are occasional hiccups.
- 
+
 
 You get Instana installed in one simple script.
 Ready to go.
@@ -995,9 +995,9 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
 
 ✅ Open the links in a Private/Incognito window and select proceed
- 
+
 ✅ Or in Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
- 
+
 
 </details>
 

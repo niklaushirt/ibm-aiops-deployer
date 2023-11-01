@@ -47,7 +47,7 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
 else
-      TOPOLOGY_CUSTOM_FILE="{{role_path}}/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
+      TOPOLOGY_CUSTOM_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/topology/"$TOPOLOGY_NAME"-asm_config.json"
 fi    
 kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/"$TOPOLOGY_NAME"-asm_config.json 
 
@@ -78,7 +78,7 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
 else
-      FILE_OBSERVER_CAP="{{role_path}}/templates/topology/$LOAD_FILE_NAME"
+      FILE_OBSERVER_CAP="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
 fi    
 echo $FILE_OBSERVER_POD
 echo $FILE_OBSERVER_CAP
@@ -397,11 +397,17 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 else
-      POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      POLICY_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 fi    
 
-echo $POLICY_FILE
-cp $POLICY_FILE /tmp/incident_policy.json
+oc create route reencrypt policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
+
+export POLICY_ROUTE=""
+while [[ $POLICY_ROUTE == "" ]]; do
+  export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
+done
+echo "POLICY_ROUTE: "$POLICY_ROUTE
+
 
 
 export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
@@ -436,7 +442,7 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 else
-      POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      POLICY_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 fi    
 
 echo $POLICY_FILE
@@ -476,7 +482,7 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 else
-      POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      POLICY_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 fi    
 
 echo $POLICY_FILE
@@ -514,7 +520,7 @@ if [ "${OS}" == "darwin" ]; then
       echo "MAC"
       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID".json"
 else
-      POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID".json"
+      POLICY_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID".json"
 fi    
 
 echo $POLICY_FILE
