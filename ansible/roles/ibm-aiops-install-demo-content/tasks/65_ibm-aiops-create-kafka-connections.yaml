@@ -136,7 +136,7 @@
 
 
   ignore_errors: true
-  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_load_data_lags | default(false) == false
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
   register: output_string
   args:
     executable: /bin/bash
@@ -249,7 +249,7 @@
     echo $result
 
   ignore_errors: true
-  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_load_data_lags | default(false) == false
+  when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
   register: output_string
   args:
     executable: /bin/bash
