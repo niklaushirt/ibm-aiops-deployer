@@ -72,11 +72,21 @@
 
 
 
-    echo "  ***************************************************************************************************************************************************"
+    echo "***************************************************************************************************************************************************"
     echo "   🛠️   Turn off RSA - Log Anomaly Statistical Baseline"
-    export FILE_NAME=deactivate-analysis-RSA.graphql
-    ../tools/02_training/scripts/execute-graphql.sh
+    export FILE_NAME=check-RSA.graphql
+    export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
+    export result=$({{role_path}}/templates/training/scripts/execute-graphql.sh)
+    echo $result
 
+    if [[ $result =~ "true" ]]; then
+      echo "      ❌ RSA Enabled: Turning Off"	
+      export FILE_NAME=deactivate-analysis-RSA.graphql
+      export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
+      {{role_path}}/templates/training/scripts/execute-graphql.sh
+    else
+      echo "      ❌ RSA already Disabled: Nothing to do"	
+    fi
 
 
     echo "  ***************************************************************************************************************************************************"

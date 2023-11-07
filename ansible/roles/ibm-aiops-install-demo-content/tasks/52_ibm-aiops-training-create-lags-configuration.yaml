@@ -162,6 +162,21 @@
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     echo "       ✅ OK - IBMAIOps:    $AIOPS_NAMESPACE"
 
+    echo "***************************************************************************************************************************************************"
+    echo "   🛠️   Turn off RSA - Log Anomaly Statistical Baseline"
+    export FILE_NAME=check-RSA.graphql
+    export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
+    export result=$({{role_path}}/templates/training/scripts/execute-graphql.sh)
+    echo $result
+
+    if [[ $result =~ "true" ]]; then
+      echo "      ❌ RSA Enabled: Turning Off"	
+      export FILE_NAME=deactivate-analysis-RSA.graphql
+      export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
+      {{role_path}}/templates/training/scripts/execute-graphql.sh
+    else
+      echo "      ❌ RSA already Disabled: Nothing to do"	
+    fi
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Log Anomaly Golden Signals"
