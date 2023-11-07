@@ -195,3 +195,20 @@
     var: output_string.stdout_lines
     #verbosity: 1
 
+
+- name: 🚀 TRAINING CREATE LAGS - WAIT 5 MINUTES
+  shell: |
+    set -x
+    sleep 300
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+    
+- name: 🟣 TRAINING CREATE LAGS - RESULT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+

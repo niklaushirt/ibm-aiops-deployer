@@ -228,7 +228,7 @@ echo "   -----------------------------------------------------------------------
 
 
 echo "     📥 Get Kafka Topics"
-export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-lags| awk '{print $1;}')
+export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-elk| awk '{print $1;}')
 
 echo " "
 echo "     🔐 Get Kafka Password"
