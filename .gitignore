@@ -2,3 +2,4 @@
 **/.DS_Store
 **/launch.sh
 ca.crt
+**/__pycache__
