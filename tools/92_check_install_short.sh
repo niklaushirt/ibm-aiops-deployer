@@ -255,12 +255,12 @@ function check_array(){
       export trainedAlgorithms=$(echo $result |jq -r ".data.getTrainingDefinitions[].algorithmName")
       
 
-      if  ([[ $trainedAlgorithms =~ "Log_Anomaly_Detection" ]]); 
+      if  ([[ $trainedAlgorithms =~ "Log_Anomaly_" ]]); 
       then
-            echo "      ✅ OK: Trained - Log_Anomaly_Detection"; 
+            echo "      ✅ OK: Trained - Log_Anomaly_Detection (NLP or Golden Signal)"; 
       else
             export CURRENT_ERROR=true
-            export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained"
+            export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained (NLP or Golden Signal)"
             handleError
       fi
 

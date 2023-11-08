@@ -31,8 +31,10 @@ echo "**************************************************************************
 echo "***************************************************************************************************************************************************"
 echo "  "
 echo "  "
-export TEMP_PATH=~/aiops-install
+export TEMP_PATH=training-files-logs-dump
 
+mkdir /tmp/$TEMP_PATH/  >/tmp/demo.log 2>&1 
+rm -f -r /tmp/$TEMP_PATH/* 
 
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -73,15 +75,21 @@ export LOGS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | g
 echo "***************************************************************************************************************************************************"
 echo "Exporting LOGS_TOPIC: $LOGS_TOPIC"
 
-echo "">raw-logs-kafka.json
+echo "">/tmp/raw-logs-kafka.json
 
 oc get kafkatopic -n $AIOPS_NAMESPACE
 read -p "Press Enter to start"
 
-${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t $LOGS_TOPIC>>raw-logs-kafka.json
+${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t $LOGS_TOPIC>>/tmp/$TEMP_PATH/raw-logs-kafka.json
 
 
+echo "Dump Lines:"$(cat /tmp/$TEMP_PATH/raw-logs-kafka.json|wc -l)
 
+cd /tmp/$TEMP_PATH/ 
+split -l 1500 -a 6 ./raw-logs-kafka.json 
+export NUM_FILES=$(ls | wc -l)
+echo "NUM_FILES"$NUM_FILES
+cd -
 
 
 

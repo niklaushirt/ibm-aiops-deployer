@@ -91,7 +91,7 @@
     "https://$AIO_PLATFORM_ROUTE/v3/connections" \
     -H 'accept: application/json' \
     -H 'Content-Type: application/json' \
-      -H "authorization: Bearer $ZEN_TOKEN" |jq|grep display_name|grep -v ELKGoldenSignal|wc -l|tr -d ' ')
+      -H "authorization: Bearer $ZEN_TOKEN" |jq|grep inference|grep -v ELKGoldenSignal|wc -l|tr -d ' ')
 
     echo $result
 
@@ -112,9 +112,10 @@
             href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
             text: Open Logs
     EOF
+    exit 1
     fi
 
-  ignore_errors: true
+  #ignore_errors: true
   when: current_ibmaiops_feature.create_log_connection | default(true) == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
   register: output_string
   args:
@@ -124,11 +125,6 @@
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1
-
-
-- fail:
-    msg: There are existing Kafka connections. Delete them and relaunch the installer
-  when: output_string.stdout_lines > 0
 
 
 
@@ -288,12 +284,12 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Patch Golden Signals Pod for Historical Data"
-    # Thursday, October 26, 2023 5:00:00 AM
-    # 10 hours of data
-    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1698296400000" 
-    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="1200" 
-
-
+    # Wednesday, 8 November 2023 10:27:00
+    # 20 hours of previous data
+    # https://www.epochconverter.com
+    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1699439220000') }}" 
+    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1699439220000" 
+    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="{{ current_ibmaiops_feature.training_golden_signals_previousminutes | default('1200') }}" 
   register: output_string
   ignore_errors: true
   args:
