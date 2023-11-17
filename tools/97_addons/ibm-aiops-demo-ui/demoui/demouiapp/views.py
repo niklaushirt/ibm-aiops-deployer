@@ -2341,6 +2341,16 @@ def config(request):
     }
     return HttpResponse(template.render(context, request))
 
+def watsonx(request):
+    template = loader.get_template('demouiapp/watsonx.html')
+    context = {
+        'loggedin': loggedin,
+        'INSTANCE_NAME': INSTANCE_NAME
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
 
 def index1(request):
     template = loader.get_template('demouiapp/index.html')

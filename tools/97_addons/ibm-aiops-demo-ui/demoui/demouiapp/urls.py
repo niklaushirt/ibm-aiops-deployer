@@ -13,6 +13,7 @@ urlpatterns = [
     path('apps_demo', views.apps_demo, name='apps_demo'),
     path('apps_additional', views.apps_additional, name='apps_additional'),
     path('about', views.about, name='about'),
+    path('watsonx', views.watsonx, name='watsonx'),
     path('', views.index, name='index'),
     path('injectLogsREST', views.injectLogsREST, name='injectLogsREST'),
     path('injectEventsREST', views.injectEventsREST, name='injectEventsREST'),
