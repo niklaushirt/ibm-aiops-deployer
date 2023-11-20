@@ -6,7 +6,7 @@
 
 
 
-![K8s CNI](./demo/00_aimanager_insights.png)
+![K8s CNI](./pics/turbo_001.png)
 
 <center> ©2023 Joel Hartmann/Niklaus Hirt / IBM </center>
 
@@ -154,7 +154,7 @@ To get started with the platform, I will log in and get started managing my envi
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -188,7 +188,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -207,7 +207,7 @@ Click **Settings**
 Click **Targets**
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -228,7 +228,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -245,7 +245,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -262,7 +262,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -279,7 +279,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -296,7 +296,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -313,7 +313,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -330,7 +330,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 
@@ -348,7 +348,7 @@ In the Demo UI, click **Turbonomic `(1)`**
 
 
 
-![image](./demo/image.xxxx.png)
+![image](./pics/image.xxxx.png)
 
 **📣 <u>Narration</u>**
 

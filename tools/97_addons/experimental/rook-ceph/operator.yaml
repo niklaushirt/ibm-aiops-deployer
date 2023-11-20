@@ -1,106 +1,20 @@
 #################################################################################################################
-# Create the rook operator and necessary security context constraints for running
-# Rook in an OpenShift cluster.
+# The deployment for the rook operator
+# Contains the common settings for most Kubernetes deployments.
 # For example, to create the rook-ceph cluster:
-#   oc create -f crds.yaml -f common.yaml -f operator-openshift.yaml
-#   oc create -f cluster.yaml
-#################################################################################################################
-# scc for the Rook and Ceph daemons
-kind: SecurityContextConstraints
-apiVersion: security.openshift.io/v1
-metadata:
-  name: rook-ceph
-allowPrivilegedContainer: true
-allowHostDirVolumePlugin: true
-allowHostPID: false
-# set to true if running rook with host networking enabled
-allowHostNetwork: false
-# set to true if running rook with the provider as host
-allowHostPorts: false
-priority:
-allowedCapabilities: ["MKNOD"]
-allowHostIPC: true
-readOnlyRootFilesystem: false
-# drop all default privileges
-requiredDropCapabilities: ["All"]
-defaultAddCapabilities: []
-runAsUser:
-  type: RunAsAny
-seLinuxContext:
-  type: MustRunAs
-fsGroup:
-  type: MustRunAs
-supplementalGroups:
-  type: RunAsAny
-volumes:
-  - configMap
-  - downwardAPI
-  - emptyDir
-  - hostPath
-  - persistentVolumeClaim
-  - projected
-  - secret
-users:
-  # A user needs to be added for each rook service account.
-  # This assumes running in the default sample "rook-ceph" namespace.
-  # If other namespaces or service accounts are configured, they need to be updated here.
-  - system:serviceaccount:rook-ceph:rook-ceph-system # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:default # serviceaccount:namespace:cluster
-  - system:serviceaccount:rook-ceph:rook-ceph-mgr # serviceaccount:namespace:cluster
-  - system:serviceaccount:rook-ceph:rook-ceph-osd # serviceaccount:namespace:cluster
-  - system:serviceaccount:rook-ceph:rook-ceph-rgw # serviceaccount:namespace:cluster
----
-# scc for the CSI driver
-kind: SecurityContextConstraints
-apiVersion: security.openshift.io/v1
-metadata:
-  name: rook-ceph-csi
-# To allow running privilegedContainers
-allowPrivilegedContainer: true
-# CSI daemonset pod needs hostnetworking
-allowHostNetwork: true
-# This need to be set to true as we use HostPath
-allowHostDirVolumePlugin: true
-priority:
-# SYS_ADMIN is needed for rbd to execute rbd map command
-allowedCapabilities: ["SYS_ADMIN"]
-# Needed as we run liveness container on daemonset pods
-allowHostPorts: true
-# Needed as we are setting this in RBD plugin pod
-allowHostPID: true
-# Required for encryption
-allowHostIPC: true
-# Set to false as we write to RootFilesystem inside csi containers
-readOnlyRootFilesystem: false
-runAsUser:
-  type: RunAsAny
-seLinuxContext:
-  type: RunAsAny
-fsGroup:
-  type: RunAsAny
-supplementalGroups:
-  type: RunAsAny
-# The type of volumes which are mounted to csi pods
-volumes:
-  - configMap
-  - projected
-  - emptyDir
-  - hostPath
-users:
-  # A user needs to be added for each rook service account.
-  # This assumes running in the default sample "rook-ceph" namespace.
-  # If other namespaces or service accounts are configured, they need to be updated here.
-  - system:serviceaccount:rook-ceph:rook-csi-rbd-plugin-sa # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:rook-csi-rbd-provisioner-sa # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:rook-csi-cephfs-plugin-sa # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:rook-csi-cephfs-provisioner-sa # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:rook-csi-nfs-plugin-sa # serviceaccount:namespace:operator
-  - system:serviceaccount:rook-ceph:rook-csi-nfs-provisioner-sa # serviceaccount:namespace:operator
----
-# Rook Ceph Operator Config
-# Use this ConfigMap to override operator configurations
-# Precedence will be given to this config in case Env Var also exists for the same
+#   kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+#   kubectl create -f cluster.yaml
 #
+# Also see other operator sample files for variations of operator.yaml:
+# - operator-openshift.yaml: Common settings for running in OpenShift
+###############################################################################################################
+
+# Rook Ceph Operator Config ConfigMap
+# Use this ConfigMap to override Rook-Ceph Operator configurations.
+# NOTE! Precedence will be given to this config if the same Env Var config also exists in the
+#       Operator Deployment.
+# To move a configuration(s) from the Operator Deployment to this ConfigMap, add the config
+# here. It is recommended to then remove it from the Deployment to eliminate any future confusion.
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -125,35 +39,36 @@ data:
   # Set to true to enable Ceph CSI pvc encryption support.
   CSI_ENABLE_ENCRYPTION: "false"
 
-  # set to true to enable adding volume metadata on the CephFS subvolume and RBD images.
+  # Set to true to enable host networking for CSI CephFS and RBD nodeplugins. This may be necessary
+  # in some network configurations where the SDN does not provide access to an external cluster or
+  # there is significant drop in read/write performance.
+  # CSI_ENABLE_HOST_NETWORK: "true"
+
+  # Set to true to enable adding volume metadata on the CephFS subvolume and RBD images.
+  # Not all users might be interested in getting volume/snapshot details as metadata on CephFS subvolume and RBD images.
+  # Hence enable metadata is false by default.
   # CSI_ENABLE_METADATA: "true"
 
   # cluster name identifier to set as metadata on the CephFS subvolume and RBD images. This will be useful in cases
   # like for example, when two container orchestrator clusters (Kubernetes/OCP) are using a single ceph cluster.
   # CSI_CLUSTER_NAME: "my-prod-cluster"
 
-  # Set to true to enable host networking for CSI CephFS and RBD nodeplugins. This may be necessary
-  # in some network configurations where the SDN does not provide access to an external cluster or
-  # there is significant drop in read/write performance.
-  # CSI_ENABLE_HOST_NETWORK: "true"
-
   # Set logging level for cephCSI containers maintained by the cephCSI.
   # Supported values from 0 to 5. 0 for general useful logs, 5 for trace level verbosity.
   # CSI_LOG_LEVEL: "0"
 
   # Set logging level for Kubernetes-csi sidecar containers.
-  # Supported values from 0 to 5. 0 for general useful logs, 5 for trace level verbosity.
+  # Supported values from 0 to 5. 0 for general useful logs (the default), 5 for trace level verbosity.
   # CSI_SIDECAR_LOG_LEVEL: "0"
 
   # Set replicas for csi provisioner deployment.
   CSI_PROVISIONER_REPLICAS: "2"
 
-  # OMAP generator generates the omap mapping between the PV name and the RBD image
-  # which helps CSI to identify the rbd images for CSI operations.
+  # OMAP generator will generate the omap mapping between the PV name and the RBD image.
   # CSI_ENABLE_OMAP_GENERATOR need to be enabled when we are using rbd mirroring feature.
-  # By default OMAP generator is disabled and when enabled it willbe deployed as a
-  # sidecar with CSI provisioner pod, to enable set it to true.
-  # CSI_ENABLE_OMAP_GENERATOR: "true"
+  # By default OMAP generator sidecar is deployed with CSI provisioner pod, to disable
+  # it set it to false.
+  # CSI_ENABLE_OMAP_GENERATOR: "false"
 
   # set to false to disable deployment of snapshotter container in CephFS provisioner pod.
   CSI_ENABLE_CEPHFS_SNAPSHOTTER: "true"
@@ -164,9 +79,10 @@ data:
   # set to false to disable deployment of snapshotter container in RBD provisioner pod.
   CSI_ENABLE_RBD_SNAPSHOTTER: "true"
 
-  # Enable Ceph Kernel clients on kernel < 4.17 which support quotas for Cephfs
+  # Enable cephfs kernel driver instead of ceph-fuse.
   # If you disable the kernel client, your application may be disrupted during upgrade.
   # See the upgrade guide: https://rook.io/docs/rook/latest/ceph-upgrade.html
+  # NOTE! cephfs quota is not supported in kernel version < 4.17
   CSI_FORCE_CEPHFS_KERNEL_CLIENT: "true"
 
   # (Optional) policy for modifying a volume's ownership or permissions when the RBD PVC is being mounted.
@@ -196,6 +112,9 @@ data:
   # ROOK_CSI_PROVISIONER_IMAGE: "registry.k8s.io/sig-storage/csi-provisioner:v3.5.0"
   # ROOK_CSI_SNAPSHOTTER_IMAGE: "registry.k8s.io/sig-storage/csi-snapshotter:v6.2.2"
   # ROOK_CSI_ATTACHER_IMAGE: "registry.k8s.io/sig-storage/csi-attacher:v4.3.0"
+
+  # To indicate the image pull policy to be applied to all the containers in the csi driver pods.
+  # ROOK_CSI_IMAGE_PULL_POLICY: "IfNotPresent"
 
   # (Optional) set user created priorityclassName for csi plugin pods.
   CSI_PLUGIN_PRIORITY_CLASSNAME: "system-node-critical"
@@ -260,7 +179,7 @@ data:
   #    mountPath: /nix
   #    readOnly: true
 
-  # (Optional) CephCSI provisioner NodeAffinity(applied to both CephFS and RBD provisioner).
+  # (Optional) CephCSI provisioner NodeAffinity (applied to both CephFS and RBD provisioner).
   # CSI_PROVISIONER_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
   # (Optional) CephCSI provisioner tolerations list(applied to both CephFS and RBD provisioner).
   # Put here list of taints you want to tolerate in YAML format.
@@ -272,7 +191,7 @@ data:
   #   - effect: NoExecute
   #     key: node-role.kubernetes.io/etcd
   #     operator: Exists
-  # (Optional) CephCSI plugin NodeAffinity(applied to both CephFS and RBD plugin).
+  # (Optional) CephCSI plugin NodeAffinity (applied to both CephFS and RBD plugin).
   # CSI_PLUGIN_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
   # (Optional) CephCSI plugin tolerations list(applied to both CephFS and RBD plugin).
   # Put here list of taints you want to tolerate in YAML format.
@@ -285,7 +204,7 @@ data:
   #     key: node-role.kubernetes.io/etcd
   #     operator: Exists
 
-  # (Optional) CephCSI RBD provisioner NodeAffinity(if specified, overrides CSI_PROVISIONER_NODE_AFFINITY).
+  # (Optional) CephCSI RBD provisioner NodeAffinity (if specified, overrides CSI_PROVISIONER_NODE_AFFINITY).
   # CSI_RBD_PROVISIONER_NODE_AFFINITY: "role=rbd-node"
   # (Optional) CephCSI RBD provisioner tolerations list(if specified, overrides CSI_PROVISIONER_TOLERATIONS).
   # Put here list of taints you want to tolerate in YAML format.
@@ -293,7 +212,7 @@ data:
   # CSI_RBD_PROVISIONER_TOLERATIONS: |
   #   - key: node.rook.io/rbd
   #     operator: Exists
-  # (Optional) CephCSI RBD plugin NodeAffinity(if specified, overrides CSI_PLUGIN_NODE_AFFINITY).
+  # (Optional) CephCSI RBD plugin NodeAffinity (if specified, overrides CSI_PLUGIN_NODE_AFFINITY).
   # CSI_RBD_PLUGIN_NODE_AFFINITY: "role=rbd-node"
   # (Optional) CephCSI RBD plugin tolerations list(if specified, overrides CSI_PLUGIN_TOLERATIONS).
   # Put here list of taints you want to tolerate in YAML format.
@@ -302,7 +221,7 @@ data:
   #   - key: node.rook.io/rbd
   #     operator: Exists
 
-  # (Optional) CephCSI CephFS provisioner NodeAffinity(if specified, overrides CSI_PROVISIONER_NODE_AFFINITY).
+  # (Optional) CephCSI CephFS provisioner NodeAffinity (if specified, overrides CSI_PROVISIONER_NODE_AFFINITY).
   # CSI_CEPHFS_PROVISIONER_NODE_AFFINITY: "role=cephfs-node"
   # (Optional) CephCSI CephFS provisioner tolerations list(if specified, overrides CSI_PROVISIONER_TOLERATIONS).
   # Put here list of taints you want to tolerate in YAML format.
@@ -310,8 +229,16 @@ data:
   # CSI_CEPHFS_PROVISIONER_TOLERATIONS: |
   #   - key: node.rook.io/cephfs
   #     operator: Exists
-  # (Optional) CephCSI CephFS plugin NodeAffinity(if specified, overrides CSI_PLUGIN_NODE_AFFINITY).
+  # (Optional) CephCSI CephFS plugin NodeAffinity (if specified, overrides CSI_PLUGIN_NODE_AFFINITY).
   # CSI_CEPHFS_PLUGIN_NODE_AFFINITY: "role=cephfs-node"
+  # NOTE: Support for defining NodeAffinity for operators other than "In" and "Exists" requires the user to input a
+  # valid v1.NodeAffinity JSON or YAML string. For example, the following is valid YAML v1.NodeAffinity:
+  # CSI_CEPHFS_PLUGIN_NODE_AFFINITY: |
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: myKey
+  #           operator: DoesNotExist
   # (Optional) CephCSI CephFS plugin tolerations list(if specified, overrides CSI_PLUGIN_TOLERATIONS).
   # Put here list of taints you want to tolerate in YAML format.
   # CSI plugins need to be started on all the nodes where the clients need to mount the storage.
@@ -560,8 +487,6 @@ data:
   # Set to "ms_mode=secure" when connections.encrypted is enabled in CephCluster CR
   # CSI_CEPHFS_KERNEL_MOUNT_OPTIONS: "ms_mode=secure"
 
-  ROOK_DISABLE_ADMISSION_CONTROLLER: "true"
-
   # Whether the OBC provisioner should watch on the operator namespace or not, if not the namespace of the cluster will be used
   ROOK_OBC_WATCH_OPERATOR_NAMESPACE: "true"
 
@@ -574,9 +499,11 @@ data:
   CSI_ENABLE_CSIADDONS: "false"
   # Enable watch for faster recovery from rbd rwo node loss
   ROOK_WATCH_FOR_NODE_FAILURE: "true"
-  # ROOK_CSIADDONS_IMAGE: "quay.io/csiaddons/k8s-sidecar:v0.5.0"
-  # The GCSI RPC timeout value (in seconds). It should be >= 120. If this variable is not set or is an invalid value, it's default to 150.
+  # ROOK_CSIADDONS_IMAGE: "quay.io/csiaddons/k8s-sidecar:v0.7.0"
+  # The CSI GRPC timeout value (in seconds). It should be >= 120. If this variable is not set or is an invalid value, it's default to 150.
   CSI_GRPC_TIMEOUT_SECONDS: "150"
+
+  ROOK_DISABLE_ADMISSION_CONTROLLER: "true"
 
   # Enable topology based provisioning.
   CSI_ENABLE_TOPOLOGY: "false"
@@ -640,7 +567,6 @@ data:
   #         cpu: 100m
   #         memory: 128Mi
 ---
-# The deployment for the rook operator
 # OLM: BEGIN OPERATOR DEPLOYMENT
 apiVersion: apps/v1
 kind: Deployment
@@ -675,6 +601,8 @@ spec:
             runAsNonRoot: true
             runAsUser: 2016
             runAsGroup: 2016
+            capabilities:
+              drop: ["ALL"]
           volumeMounts:
             - mountPath: /var/lib/rook
               name: rook-config
@@ -687,6 +615,8 @@ spec:
               name: https-webhook
               protocol: TCP
           env:
+            # If the operator should only watch for cluster CRDs in the same namespace, set this to "true".
+            # If this is not set to true, the operator will watch for cluster CRDs in all namespaces.
             - name: ROOK_CURRENT_NAMESPACE_ONLY
               value: "false"
 
@@ -694,28 +624,14 @@ spec:
             # Set this to true if SELinux is enabled (e.g. OpenShift) to workaround the anyuid issues.
             # For more details see https://github.com/rook/rook/issues/1314#issuecomment-355799641
             - name: ROOK_HOSTPATH_REQUIRES_PRIVILEGED
-              value: "true"
+              value: "false"
             # Provide customised regex as the values using comma. For eg. regex for rbd based volume, value will be like "(?i)rbd[0-9]+".
             # In case of more than one regex, use comma to separate between them.
             # Default regex will be "(?i)dm-[0-9]+,(?i)rbd[0-9]+,(?i)nbd[0-9]+"
-            # add regex expression after putting a comma to blacklist a disk
+            # Add regex expression after putting a comma to blacklist a disk
             # If value is empty, the default regex will be used.
             - name: DISCOVER_DAEMON_UDEV_BLACKLIST
               value: "(?i)dm-[0-9]+,(?i)rbd[0-9]+,(?i)nbd[0-9]+"
-
-            # Whether to start machineDisruptionBudget and machineLabel controller to watch for the osd pods and MDBs.
-            - name: ROOK_ENABLE_MACHINE_DISRUPTION_BUDGET
-              value: "false"
-
-            # - name: DISCOVER_DAEMON_RESOURCES
-            #   value: |
-            #     resources:
-            #       limits:
-            #         cpu: 500m
-            #         memory: 512Mi
-            #       requests:
-            #         cpu: 100m
-            #         memory: 128Mi
 
             # Time to wait until the node controller will move Rook pods to other
             # nodes after detecting an unreachable node.
@@ -746,7 +662,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-
           # Recommended resource requests and limits, if desired
           #resources:
           #  limits:
@@ -760,6 +675,8 @@ spec:
           #- name: LIB_BUCKET_PROVISIONER_THREADS
           #  value: "5"
 
+      # Uncomment it to run rook operator on the host network
+      #hostNetwork: true
       volumes:
         - name: rook-config
           emptyDir: {}
