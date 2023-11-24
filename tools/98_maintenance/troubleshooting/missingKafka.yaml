@@ -40,7 +40,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration-missing-policies
+  name: ibm-aiops-install-configuration-missing-kafka
   namespace: ibm-aiops-installer
 immutable: false
 data:
@@ -242,10 +242,10 @@ data:
         create_valid_ingress_itz: false
 
         # Create Policy for Story Creation
-        create_incident_policy: true
+        create_incident_policy: false
 
         # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-        create_log_connection: false
+        create_log_connection: true
 
         # Create Service Account
         create_account: false
@@ -306,7 +306,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-aiops-create-missing-policies
+  name: ibm-aiops-aiops-create-missing-kafka
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
@@ -385,7 +385,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
+              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY -vv
               echo ""
               echo ""
 
@@ -409,30 +409,30 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-missing-policies
+                name: ibm-aiops-install-configuration-missing-kafka
                 key: INSTALL_REPO
           - name: TURBO_LICENSE
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-missing-policies
+                name: ibm-aiops-install-configuration-missing-kafka
                 key: TURBO_LICENSE
                 optional: true
           - name: INSTANA_SALES_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-missing-policies
+                name: ibm-aiops-install-configuration-missing-kafka
                 key: INSTANA_SALES_KEY
                 optional: true
           - name: INSTANA_AGENT_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-missing-policies
+                name: ibm-aiops-install-configuration-missing-kafka
                 key: INSTANA_AGENT_KEY
                 optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-missing-policies
+                name: ibm-aiops-install-configuration-missing-kafka
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -441,7 +441,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration-missing-policies
+            name: ibm-aiops-install-configuration-missing-kafka
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml
