@@ -24,10 +24,30 @@
 # - ELK
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+---
 apiVersion: v1                     
 kind: Namespace
 metadata:
   name: ibm-aiops-installer
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-client-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: nfs-client-provisioner
+    namespace: nfs-provisioner
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: nfs-client-provisioner
+  namespace: nfs-provisioner
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -36,6 +56,9 @@ metadata:
   namespace: ibm-aiops-installer
 immutable: false
 data:
+  # Get your key from here https://myibm.ibm.com/products-services/containerlibrary
+  ENTITLED_REGISTRY_KEY: >-
+    eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJQk0gTWFya2V0cGxhY2UiLCJpYXQiOjE1Nzg0NzQzMjgsImp0aSI6IjRjYTM3ODkwMzExNjQxZDdiMDJhMjRmMGMxMWMwYmZhIn0.Z-rqfSLJA-R-ow__tI3RmLx4m9EH-abvdc53DYEkbYY
   INSTALLATION_CONFIG.yaml: >+
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
@@ -44,21 +67,9 @@ data:
     #*************************************************************************************************************************************************
 
     global_config:
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Passwords and Licenses
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Use this Password for all Instances
-      global_password: CHANGEME
-
-
       # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
       environment_name: Bear
       cloud_platform: existing-ocp
-      # Set this value to True to accept all licenses
-      accept_all_licenses: False
-      # Key to decrypt Licenses
-      #license_token: NONE
-
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
@@ -80,7 +91,15 @@ data:
       position_final_ocp_notification: BannerTop
 
 
-
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Passwords and Licenses
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Use this Password for all Instances
+      global_password: CHANGEME
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
+      # Key to decrypt Licenses
+      #license_token: NONE
 
 
     # *************************************************************************************************************************************************
@@ -124,6 +143,7 @@ data:
 
     - project: ibm-aiops
       instances:
+
     #--------------------------------------------------------------------------------------------------------------------------------------
     # CloudPak for AIOps Demo Content Install
     #--------------------------------------------------------------------------------------------------------------------------------------
@@ -138,8 +158,12 @@ data:
 
         training_load_data_events: false
         training_create_training_temporal: false
+        training_run_training_temporal: false
 
+        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
+        training_enable_log_golden_signals: false
 
+        # LAD-NLP Training (disabled if training_enable_log_golden_signals is false)
         training_load_data_logs: false
         training_create_training_logs: false
         training_run_training_logs: false
@@ -191,12 +215,12 @@ data:
         # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
         demoui_slack_user: ibm-aiopsdemo@gmail.com
         demoui_slack_pwd: CHANGEME
-        demoui_admin_mode: "true"
-        demoui_simulation_mode: "true"
+        demoui_admin_mode: "false"
+        demoui_simulation_mode: "false"
 
         # Create incident links to static Slack and Snow pages
         demoui_create_slack_snow: false
-
+        
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
         #demoui_pwd: CHANGEME
@@ -254,8 +278,7 @@ data:
 
 
 
-
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest'
 
 
 
@@ -290,6 +313,7 @@ subjects:
   - kind: ServiceAccount
     name: default
     namespace: ibm-aiops-installer
+---
 ---
 apiVersion: batch/v1
 kind: Job
@@ -381,13 +405,30 @@ spec:
               echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"
               echo ""
 
-              oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
 
-              while true
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Finalize Installation"
+              ./tools/90_finalizeInstallation.sh
+              echo ""
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check for Errors in Ansible Log"
+              ./tools/91_checkErrorsLog.sh
+              echo ""
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check Installation Consistency"
+              ./tools/92_check_install_short.sh
+              echo ""
+
+
+
+              while false
               do
                 sleep 1000
               done
-
 
           env:
           - name: INSTALL_REPO
@@ -395,6 +436,11 @@ spec:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-prerequisites-step-1
                 key: INSTALL_REPO
+          - name: ENTITLED_REGISTRY_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: ibm-aiops-install-configuration-prerequisites-step-1
+                key: ENTITLED_REGISTRY_KEY
           volumeMounts:
             - name: config-file
               mountPath: /tmp/config-file
@@ -407,9 +453,6 @@ spec:
               path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
   backoffLimit: 400
-
-
-
 
 
 
