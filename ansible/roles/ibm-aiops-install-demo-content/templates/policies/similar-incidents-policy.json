@@ -1,5 +1,10 @@
 {
+  "state": "enabled",
+  "executionPriority": 25,
   "metadata": {
+    "labels": {
+      "ibm.com/is-default": "false"
+    },
     "name": "DEMO Similar Incident detection for Incidents",
     "description": "Created by Nicks scripts",
     "createdBy": {
@@ -7,50 +12,56 @@
       "type": "user"
     }
   },
-  "state": "enabled",
-  "executionPriority": 25,
   "spec": {
+    "constants": {},
     "trigger": {
       "entityId": "story",
-      "triggerId": "aiops.ibm.com/trigger/story-pre-create"
+      "triggerId": "aiops.ibm.com/trigger/story-pre-create",
+      "arguments": {}
     },
-    "actions": [{
-      "actionId": "aiops.ibm.com/action/internal/insights/query",
-      "arguments": {
-        "insightType": "aiops.ibm.com/insight-type/similar-incidents",
-        "serviceUrl": {
-          "$template": "{{ services.similarIncidents.url }}/v2/similar_incidents/search"
-        },
-        "insightId": {
-          "$variable": "story.id"
-        },
-        "parameters": {
-          "story_id": {
+    "actions": [
+      {
+        "actionId": "aiops.ibm.com/action/internal/insights/query",
+        "arguments": {
+          "insightType": "aiops.ibm.com/insight-type/similar-incidents",
+          "serviceUrl": {
+            "$template": "{{ services.similarIncidents.url }}/v2/similar_incidents/search"
+          },
+          "insightId": {
             "$variable": "story.id"
           },
-          "text": {
-            "$variable": "story.title"
-          },
-          "application_group_id": "1000",
-          "application_id": "1000"
-        }
+          "parameters": {
+            "story_id": {
+              "$variable": "story.id"
+            },
+            "text": {
+              "$variable": "story.title"
+            },
+            "application_group_id": "1000",
+            "application_id": "1000"
+          }
+        },
+        "output": "proposedInsight"
       },
-      "output": "proposedInsight"
-    }, {
-      "actionId": "lang/if",
-      "arguments": {
-        "name": "Only if we have a valid insight",
-        "condition": "{{ exists proposedInsight }}",
-        "then": [{
-          "actionId": "lang/eval",
-          "arguments": {
-            "input": {
-              "$variable": "proposedInsight"
+      {
+        "actionId": "lang/if",
+        "arguments": {
+          "name": "Only if we have a valid insight",
+          "condition": "{{ exists proposedInsight }}",
+          "then": [
+            {
+              "actionId": "lang/eval",
+              "arguments": {
+                "input": {
+                  "$variable": "proposedInsight"
+                }
+              },
+              "output": "story.insights.[]"
             }
-          },
-          "output": "story.insights.[]"
-        }]
+          ]
+        }
       }
-    }]
+    ]
   }
 }
+

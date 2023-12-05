@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+
+## [43.0.1] - 2023-12-06
+### Major changes
+- Support for Version 4.3.0
+
+### Fixes
+- New format for Policies
+
+
 ## [42.0.3] - 2023-10-13
 ### Minor changes
 - Added Pre-Canned Event Data for out-of-the-box Temporal training

@@ -20,7 +20,10 @@ CP4WAIOPS_LINKED_SECRETS=( "secret/aimanager-ca-certificate-secret"
                            "secret/aiops-ir-core-omni-secret"
                            "secret/kafka-truststore"
                            "secret/aiops-topology-asm-iafelastic-ca"
-                           "secret/aiops-topology-asm-iafkafka-ca")
+                           "secret/aiops-topology-asm-iafkafka-ca"
+                           "secret/aiops-metrics-processor"
+                           "secret/iaf-system-cluster-ca"
+                           "secret/iaf-system-cluster-ca-cert")
 
 # All the dependent CRDS related to below operators:
 # Elasticsearch, RedisDB, CouchDB, Events, Postgres, SecureTunnel, Vault, Camel-k , Kong
@@ -64,8 +67,7 @@ CP4WAIOPS_INTERNAL_PVC=("app=cassandra"
 CP4WAIOPS_INTERNAL_SECRETS_LABELS=("release=aiops-topology")
 
 # Delete these internal secrets always
-CP4WAIOPS_INTERNAL_SECRETS=("secret/aiops-installation-edb-secret"
-                            "secret/aiops-ir-lifecycle-eventprocessor-ep-client-cert-kp"
+CP4WAIOPS_INTERNAL_SECRETS=("secret/aiops-ir-lifecycle-eventprocessor-ep-client-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-internal-cert-kp"
                             "secret/aiops-ir-lifecycle-eventprocessor-ep-ss-cacert-kp"
                             "secret/aiops-ir-lifecycle-policy-grpc-clt-svc"
@@ -143,8 +145,6 @@ CP4WAIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com"
                 "applicationmanagers.aiops.ibm.com"
                 "applicationuis.consoleui.aiops.ibm.com"
                 "baseuis.consoleui.aiops.ibm.com"
-                "cemformations.cem.ibm.com"
-                "cemserviceinstances.cem.ibm.com"
                 "connectoruis.consoleui.aiops.ibm.com"
                 "eventmanagergateways.ai-manager.watson-aiops.ibm.com"
                 "installations.orchestrator.aiops.ibm.com"

@@ -66,12 +66,6 @@
                 "arguments": {
                   "template": "({{alert.severity}} >= 2)"
                 }
-              },
-              {
-                "actionId": "lang/condition/template",
-                "arguments": {
-                  "template": "({alert.sender.service}} != \"DemoTube\")"
-                }
               }
             ]
           }

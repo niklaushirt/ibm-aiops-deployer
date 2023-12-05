@@ -95,7 +95,7 @@ cp4aiops:
 
     # Install Webhook Probe
     install_webhook_probe: false
-    subscription_channel: v4.2
+    subscription_channel: v4.x
 
 
 
