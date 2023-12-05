@@ -162,8 +162,10 @@ To get started with the platform, I will log in and get started exploring my clo
 
 
 >**🚀 <u>Action</u>**
-   - Navigate your Web browser to the Apptio Cloudability installation
-   - Provide the user name and password for your account
+>
+>- Navigate your Web browser to the Apptio Cloudability installation
+>
+>- Provide the user name and password for your account
 
 
 
@@ -176,6 +178,7 @@ But before examining the current cloud costs, let's have look at the budget that
 
 
 >**🚀 <u>Action</u>**
+>
 >- In Cloudability, click **Plan / Budgets**
 
 
@@ -189,7 +192,8 @@ As you can see, the budget that Mark has provided, forsees a massive reduction f
 
 
 >**🚀 <u>Action</u>**
-	- Click **Forecast**
+>
+>- Click **Forecast**
 
 
 
@@ -208,7 +212,8 @@ However, in the short term I have to act on the concerns from my CFO.
 
 
 >**🚀 <u>Action</u>**
-	- Click on **Current Month**
+>
+>- Click on **Current Month**
 
 ![image](./pics/finops00004.png)
 
@@ -222,7 +227,8 @@ So now I have to understand where this overspend comes from and how I can quickl
 
 
 >**🚀 <u>Action</u>**
-	- Click on **Delta Spend**
+>
+>- Click on **Delta Spend**
 
 
 ![image](./pics/finops00005.png)
@@ -235,7 +241,8 @@ So let me try to better understand the current cloud spend.
 
 
 >**🚀 <u>Action</u>**
-	- Click on **Insights**
+>
+>- Click on **Insights**
 
 
 
@@ -293,7 +300,8 @@ I can see that there are several anomalies regarding storage.
 
 
 >**🚀 <u>Action</u>**
-	- Click **Details**
+>
+>- Click **Details**
 
 
 ![image](./pics/finops00011.png)
@@ -306,7 +314,8 @@ Now I'm going to try and fix my cost problems.
 I will be using **Turbonomic** for this as it allows me to automatically and securely apply most of the optimizations to my infrastructure and application.
 
 >**🚀 <u>Action</u>**
-	- Click **Turbonomic**
+>
+>- Click **Turbonomic**
 
 
 
@@ -433,7 +442,8 @@ When we start off for POVs or POCs for example, we might as well chose a read-on
 Now my application will be added as a target. It will take 10-15 minutes for its elements to be added to Turbonomic. Then we will be able to see the first recommended actions.
 
 >**🚀 <u>Action</u>**
-	- Click the green Turbonomic **on** button at the top left to get back on main page
+>
+>- Click the green Turbonomic **on** button at the top left to get back on main page
 
 <div style="page-break-after: always;"></div>
 
@@ -476,7 +486,7 @@ Let’s take a closer look at how recommended actions are being created in Turbo
 
 >**🚀 <u>Action</u>**
 >
->Click **Capacity and Usage** 
+>- Click **Capacity and Usage** 
 
 ![image](./pics/finops00023.png)
 
@@ -515,9 +525,9 @@ So that's how the optimization work, and this generates trustworthy actions that
 
 >**🚀 <u>Action</u>**
 >
->Click the **cross** on the top right and
+>- Click the **cross** on the top right and
 >
->Click **Show all** in the Actions section.
+>- Click **Show all** in the Actions section.
 
 
 ### 2.4.6 Actions
@@ -530,7 +540,7 @@ The actions make suggestions in order to ensure the best possible **performance*
 
 >**🚀 <u>Action</u>**
 >
->Click **Details** on the first action
+>- Click **Details** on the first action
 
 
 
@@ -546,7 +556,7 @@ For the first example, the memory utilization on the virtual machine (VM) has be
 
 >**🚀 <u>Action</u>**
 >
->Click the **right arrow** on the top right to go to the second action
+>- Click the **right arrow** on the top right to go to the second action
 
 
 ![image](./pics/finops00027.png)
