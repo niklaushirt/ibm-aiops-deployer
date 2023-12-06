@@ -1,4 +1,4 @@
-<center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
+<center> <h1>🐣 CloudPak for AIOps - Demo-in-a-Box</h1> </center>
 
 
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
@@ -30,7 +30,7 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.12 on:**
+> **❗The installation has been tested on OpenShift 4.12 and 4.14 on:**
 > 
 > - OpenShift Cluster (VMware on IBM Cloud) - IPI
 > - OpenShift Cluster (VMware on IBM Cloud) - UPI
@@ -50,7 +50,7 @@
 # 🚀 Quick install
 ---------------------------------------------------------------
 
-The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
+The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
 
 <details>
 <summary>Details...</summary>
@@ -60,14 +60,15 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 >  - **IBM AIOps**
 >  - **IBM AIOps Demo Content**  (optional)
 >     - **OpenLDAP** & Register with IBM AIOps
->     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+>     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks and AIOps Runbooks
 >     - **AI Models** - Load and Train 
 > 	  - Load Training Data (LAD, SNOW, MET, TG) 
 >       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
 >       - Train Models (TG, LAD, CR, SI, MET) 
 >     - **Topology**
 >       - Demo Apps (RobotShop. SockShop)
->       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME)
+>       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME, London Underground)
+>		- Dedicated DemoUI that allows you to trigger different scenarios
 >  - **Turbonomic**  (optional)
 >  - **Instana**  (optional)
 
@@ -111,7 +112,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 ---------------------------------------------------------------
 
 
- 
+
 
 <div style="page-break-after: always;"></div>
 
@@ -155,9 +156,9 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Select Openshift Storage
 
-   - Storage OCS/ODF Size: **5TiB** - This is important as with the 500MiB option your installation will run out of space rapidly.
+   - Storage OCS/ODF Size: **5TB** or Managed NFS **2TB**
 
-   - OpenShift Version: **4.12**
+   - OpenShift Version: **4.14**
 
 	![K8s CNI](./doc/pics/roks02.png)
 
@@ -166,7 +167,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 	- Worker node count: **5**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBM AIOps, Trubonomic and Instana please select **32 vCPU X 128 GB** 
+	> ❗ If you want to install IBM AIOps, Trubonomic and Instana you must select **32 vCPU X 128 GB** 
 
 	![K8s CNI](./doc/pics/roks04.png)
 
@@ -322,7 +323,7 @@ This installation adds:
 <summary>✅ Instructions</summary>
 
 ❗ I have tested this and usually it works. But there are occasional hiccups.
- 
+
 
 You get Instana installed in one simple script.
 Ready to go.
@@ -454,7 +455,9 @@ Check that the green notification bar is displayed as follows
 
 📹 Please use the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
-📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) that you can watch to get an idea on how to do the demo. This is based on 3.2 and the [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), but should work more or less with your own instance.
+📹 The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
+
+📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) that you can watch to get an idea on how to do the demo (based on 3.2). 
 
 
 <details>
@@ -513,6 +516,7 @@ Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environ
 # 4. Slack integration
 ---------------------------------------------------------------
 
+### ❗ Those instructions need updating, please follow the official documentation.
 
 For the system to work you need to follow those steps:
 
@@ -995,9 +999,9 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
 
 ✅ Open the links in a Private/Incognito window and select proceed
- 
+
 ✅ Or in Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
- 
+
 
 </details>
 

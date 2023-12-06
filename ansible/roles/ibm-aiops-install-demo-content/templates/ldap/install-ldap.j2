@@ -289,7 +289,7 @@ spec:
     spec:
       initContainers:
         - name: init-copy
-          image: busybox
+          image: quay.io/quay/busybox
           command: ['sh','-c','cp /config-map/* /config-storage; ls -lrt /config-storage']
           volumeMounts:
           - name: openldap-seedusers

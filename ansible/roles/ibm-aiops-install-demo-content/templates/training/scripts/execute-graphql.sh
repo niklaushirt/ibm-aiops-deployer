@@ -25,6 +25,7 @@ if [[ ! $ROUTE =~ "ai-platform-api" ]]; then
       echo "       🛠️   Create Route"
       oc create route passthrough ai-platform-api -n $AIOPS_NAMESPACE  --service=aimanager-aio-ai-platform-api-server --port=4000 --insecure-policy=Redirect --wildcard-policy=None
       export ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
+      sleep 60
 fi
       echo "        Route: $ROUTE"
       echo ""

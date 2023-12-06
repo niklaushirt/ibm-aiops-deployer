@@ -143,12 +143,18 @@ data:
         install: true
 
 
-        # ---------------------------------------------------------------------
+         # ---------------------------------------------------------------------
         # TRAINING
         # Train the Models based on pre-canned content
 
+        training_load_data_events: false
         training_create_training_temporal: false
+        training_run_training_temporal: false
 
+        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
+        training_enable_log_golden_signals: false
+
+        # LAD-NLP Training (disabled if training_enable_log_golden_signals is false)
         training_load_data_logs: false
         training_create_training_logs: false
         training_run_training_logs: false
@@ -199,13 +205,16 @@ data:
         demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
         # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
         demoui_slack_user: ibm-aiopsdemo@gmail.com
-        demoui_slack_pwd: CHANGEME
-        demoui_admin_mode: "true"
-        demoui_simulation_mode: "true"
+        demoui_slack_pwd: P4ssw0rd!
+        demoui_admin_mode: "false"
+        demoui_simulation_mode: "false"
 
+        # Create incident links to static Slack and Snow pages
+        demoui_create_slack_snow: false
+        
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
-        #demoui_pwd: CHANGEME
+        #demoui_pwd: P4ssw0rd!
 
 
         # ---------------------------------------------------------------------
@@ -216,9 +225,9 @@ data:
         # ldap base
         ldap_base: dc=ibm,dc=com
         # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
-        #ldap_admin_password: CHANGEME
+        #ldap_admin_password: P4ssw0rd!
         # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
-        #ldap_user_password: CHANGEME
+        #ldap_user_password: P4ssw0rd!
         # ldap namespace
         ldap_namespace: openldap
         # ldap namespace
@@ -229,8 +238,8 @@ data:
         # Create external routes (needed to create demo content)
         create_external_routes: false
 
-        # Create a valid ingress certificate (needed for Slack integration)
-        create_valid_ingress_certificate: false
+        # Create a valid ingress certificate when on ITZ
+        create_valid_ingress_itz: false
 
         # Create Policy for Story Creation
         create_incident_policy: true
@@ -240,10 +249,6 @@ data:
 
         # Create Service Account
         create_account: false
-
-        # Install Webhook Probe
-        install_webhook_probe: false
-        subscription_channel: v3.7
 
 
 

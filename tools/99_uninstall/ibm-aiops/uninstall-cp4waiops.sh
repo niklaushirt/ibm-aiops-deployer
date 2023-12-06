@@ -103,8 +103,8 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
   fi
   log $INFO "No remaining user-created instances, proceeding ahead..."
 
-  # Cleanup remaining connections
-  delete_connections
+   # Cleanup remaining connections
+   delete_connections
  
    # Delete the installation CR
 	log $INFO "Deleting the installation CR..."
@@ -128,16 +128,6 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
        oc delete $RESOURCE_MISC -n $CP4WAIOPS_PROJECT --ignore-not-found
    done
    delete_IRCoreResources
-
-   # Check if asm instances exist outside the ai mgr ns, and decide whether to delete those CRDs
-   # There is an overlap with Event Mgr CRDs
-   check_additional_asm_exists
-   if [[ $DELETE_ASM == "true" ]]; then
-      log $INFO "Deleting ASM CRDs..."
-      delete_crd_group ASM_CRDS
-   else
-      log $INFO "Skipping ASM CRD deletion."
-   fi
    
    delete_securetunnel
    
@@ -210,6 +200,9 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
 
    log $INFO "Deleting Postgres Cluster $INSTALLATION_NAME-edb-postgres in $CP4WAIOPS_PROJECT"
    oc delete cluster.postgresql.k8s.enterprisedb.io/${INSTALLATION_NAME}-edb-postgres -n $CP4WAIOPS_PROJECT
+
+   # Remove this in January release
+   delete_EDB_related_resources
 
    log $INFO "Deleting FlinkCluster cp4waiops-eventprocessor-eve-29ee-ep in $CP4WAIOPS_PROJECT"
    oc delete flinkcluster cp4waiops-eventprocessor-eve-29ee-ep -n $CP4WAIOPS_PROJECT

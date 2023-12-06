@@ -119,13 +119,14 @@
     - "  📥 TRAINING"
     - "     🔽 Load Data for Event Temporal Training:    {{current_ibmaiops_feature.training_load_data_events | default('false')}}"
     - "     ✅ Create Training for Temp Grouping:        {{current_ibmaiops_feature.training_create_training_temporal}}"
+    - "     ✅ Enable Log Anomaly - Golden Signals:      {{current_ibmaiops_feature.training_enable_log_golden_signals}}"
     - "     🔽 Load Data for Log Anomaly:                {{current_ibmaiops_feature.training_load_data_logs}}"
     - "     ✅ Create Training for Log Anomaly:          {{current_ibmaiops_feature.training_create_training_logs}}"
     - "     🚀 Run Training for Log Anomaly:             {{current_ibmaiops_feature.training_run_training_logs}}"
-    - "     🔽 Load Data for Metric Anomaly:             {{current_ibmaiops_feature.training_load_data_logs}}"
+    - "     🔽 Load Data for Metric Anomaly:             {{current_ibmaiops_feature.training_load_data_metrics}}"
     - "     ✅ Create Training for Metric Anomaly:       {{current_ibmaiops_feature.training_create_training_metrics}}"
     - "     🚀 Run Training for Metric Anomaly:          {{current_ibmaiops_feature.training_run_training_metrics}}"
-    - "     🔽 Load Data for Similar Incidents:          {{current_ibmaiops_feature.training_load_data_logs}}"
+    - "     🔽 Load Data for Similar Incidents:          {{current_ibmaiops_feature.training_load_data_snow}}"
     - "     ✅ Create Training for Similar Incidents:    {{current_ibmaiops_feature.training_create_training_snow}}"
     - "     🚀 Run Training for Similar Incidents:       {{current_ibmaiops_feature.training_run_training_snow}}"
     - "     ✅ Create Training for Season/XinY:          {{current_ibmaiops_feature.training_create_training_experimental | default('not defined') }}"
@@ -246,7 +247,7 @@
 
 - name: 🟡🟡🟡  Load LOGS Training Data
   include_tasks: 52_ibm-aiops-training-load-logs.yaml
-  when: current_ibmaiops_feature.training_load_data_logs == true
+  when: current_ibmaiops_feature.training_load_data_logs == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
 
 - name: 🟡🟡🟡  Load METRICS Training Data
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
@@ -256,6 +257,9 @@
   include_tasks: 53_ibm-aiops-training-load-events.yaml
   when: current_ibmaiops_feature.training_load_data_events == true | default('true')
 
+- name: 🟡🟡🟡  Create Training Definition for Lags
+  include_tasks: 52_ibm-aiops-training-create-lags-configuration.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
 
 
 
@@ -378,11 +382,16 @@
 
 - name: 🟡🟡🟡  Create Training  Definition for Logs
   include_tasks: 58_ibm-aiops-training-create-logs-configuration.yaml
-  when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
 
 - name: 🟡🟡🟡  Create Training  Definition for Seasonality and XinY
   include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
   when: current_ibmaiops_feature.training_create_training_experimental == true | default('false')
+
+- name: 🟡🟡🟡  Load LAGS Training Data
+  include_tasks: 58_ibm-aiops-training-load-lags.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
+
 
 
 
@@ -412,9 +421,16 @@
   include_tasks: 61_ibm-aiops-training-run-snow.yaml
   when: current_ibmaiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
 
-- name: 🟡🟡🟡  Run LAD  AI Model Training
+- name: 🟡🟡🟡  Run LAD AI Model Training
   include_tasks: 62_ibm-aiops-training-run-logs.yaml
-  when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false
+  when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
+
+- name: 🟡🟡🟡  Run LAGS AI Model Training
+  include_tasks: 62_ibm-aiops-training-run-lags.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true and TRAINING_EXISTS==false
+
+
+
 
 - name: 🟡🟡🟡  Run METRICS  AI Model Training
   include_tasks: 63_ibm-aiops-training-run-metric.yaml

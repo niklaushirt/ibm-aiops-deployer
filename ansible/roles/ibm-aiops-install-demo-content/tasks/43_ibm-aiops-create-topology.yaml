@@ -813,14 +813,16 @@
       export POLICY_USERNAME=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.username}' | base64 --decode)
       export POLICY_PASSWORD=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.password}' | base64 --decode)
       export POLICY_LOGIN="$POLICY_USERNAME:$POLICY_PASSWORD"
-      echo $POLICY_LOGIN
+      echo "POLICY_LOGIN: "$POLICY_LOGIN
+
+      oc create route reencrypt policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
 
 
-      export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
-      echo $POLICY_ROUTE
-
-
-
+      export POLICY_ROUTE=""
+      while [[ $POLICY_ROUTE == "" ]]; do
+        export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
+      done
+      echo "POLICY_ROUTE: "$POLICY_ROUTE
 
 
       export POLICY_ID=london-underground-high

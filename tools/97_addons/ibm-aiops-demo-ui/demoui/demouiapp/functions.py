@@ -136,6 +136,23 @@ print ('')
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 # CLOSE ALERTS AND STORIES
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
+def mitigateIssues(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
+    print ('📛 START - mitigateIssues')
+    print('🌏 Reset RobotShop MySQL outage')
+    os.system('oc patch service mysql -n robot-shop --patch "{\\"spec\\": {\\"selector\\": {\\"service\\": \\"mysql\\"}}}"')
+    os.system('oc set env deployment ratings -n robot-shop PDO_URL-')
+    os.system('oc set env deployment load -n robot-shop ERROR=0')
+    os.system("oc delete pod $(oc get po -n robot-shop|grep shipping|awk '{print$1}') -n robot-shop --ignore-not-found")
+    print('🌏 Mitigate Sockshop Catalog outage')
+    os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog\\"}}}"')
+
+
+
+    print ('✅ END - mitigateIssues')
+
+    return 'OK'
+
+
 def closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     print ('📛 START - Close Alerts')
     data = '{"state": "closed"}'

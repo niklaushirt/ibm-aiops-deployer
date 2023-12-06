@@ -180,7 +180,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.2
+        subscription_channel: v4.3
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
         # Install Feature Flags
@@ -219,6 +219,10 @@ data:
         training_create_training_temporal: true
         training_run_training_temporal: true
 
+        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
+        training_enable_log_golden_signals: false
+
+        # LAD-NLP Training (disabled if training_enable_log_golden_signals is true)
         training_load_data_logs: true
         training_create_training_logs: true
         training_run_training_logs: true
