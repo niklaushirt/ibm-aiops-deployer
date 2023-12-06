@@ -1,4 +1,4 @@
-<center> <h1>CloudPak for AIOps - Demo-in-a-Box</h1> </center>
+<center> <h1>🐣 CloudPak for AIOps - Demo-in-a-Box</h1> </center>
 
 
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
@@ -30,7 +30,7 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.12 on:**
+> **❗The installation has been tested on OpenShift 4.12 and 4.14 on:**
 > 
 > - OpenShift Cluster (VMware on IBM Cloud) - IPI
 > - OpenShift Cluster (VMware on IBM Cloud) - UPI
@@ -50,7 +50,7 @@
 # 🚀 Quick install
 ---------------------------------------------------------------
 
-The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
+The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
 
 <details>
 <summary>Details...</summary>
@@ -60,14 +60,15 @@ The idea of this repo is to provide a optimised, complete, pre-trained `Demo-in-
 >  - **IBM AIOps**
 >  - **IBM AIOps Demo Content**  (optional)
 >     - **OpenLDAP** & Register with IBM AIOps
->     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
+>     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks and AIOps Runbooks
 >     - **AI Models** - Load and Train 
 > 	  - Load Training Data (LAD, SNOW, MET, TG) 
 >       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
 >       - Train Models (TG, LAD, CR, SI, MET) 
 >     - **Topology**
 >       - Demo Apps (RobotShop. SockShop)
->       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME)
+>       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME, London Underground)
+>		- Dedicated DemoUI that allows you to trigger different scenarios
 >  - **Turbonomic**  (optional)
 >  - **Instana**  (optional)
 
@@ -155,9 +156,9 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Select Openshift Storage
 
-   - Storage OCS/ODF Size: **5TiB** - This is important as with the 500MiB option your installation will run out of space rapidly.
+   - Storage OCS/ODF Size: **5TB** or Managed NFS **2TB**
 
-   - OpenShift Version: **4.12**
+   - OpenShift Version: **4.14**
 
 	![K8s CNI](./doc/pics/roks02.png)
 
@@ -166,7 +167,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 	- Worker node count: **5**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBM AIOps, Trubonomic and Instana please select **32 vCPU X 128 GB** 
+	> ❗ If you want to install IBM AIOps, Trubonomic and Instana you must select **32 vCPU X 128 GB** 
 
 	![K8s CNI](./doc/pics/roks04.png)
 

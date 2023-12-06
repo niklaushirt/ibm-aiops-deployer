@@ -513,7 +513,8 @@ So as en example:
 
 
 >**🚀 <u>Action</u>**
->Click anywhere in the Clickthrough demo, or scroll in the live demo to show the Consumed resources
+>
+>- Click anywhere in the Clickthrough demo, or scroll in the live demo to show the Consumed resources
 
 ![image](./pics/finops00024.png)
 
