@@ -455,7 +455,9 @@ Check that the green notification bar is displayed as follows
 
 📹 Please use the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
-📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) that you can watch to get an idea on how to do the demo. This is based on 3.2 and the [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), but should work more or less with your own instance.
+📹 The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
+
+📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) that you can watch to get an idea on how to do the demo (based on 3.2). 
 
 
 <details>
@@ -514,6 +516,7 @@ Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environ
 # 4. Slack integration
 ---------------------------------------------------------------
 
+### ❗ Those instructions need updating, please follow the official documentation.
 
 For the system to work you need to follow those steps:
 
