@@ -56,7 +56,7 @@ immutable: false
 data:
   # Get your key from here https://myibm.ibm.com/products-services/containerlibrary
   ENTITLED_REGISTRY_KEY: >-
-    eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJQk0gTWFya2V0cGxhY2UiLCJpYXQiOjE1Nzg0NzQzMjgsImp0aSI6IjRjYTM3ODkwMzExNjQxZDdiMDJhMjRmMGMxMWMwYmZhIn0.Z-rqfSLJA-R-ow__tI3RmLx4m9EH-abvdc53DYEkbYY
+    <REGISTRY_TOKEN>
   INSTALLATION_CONFIG.yaml: >+
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
