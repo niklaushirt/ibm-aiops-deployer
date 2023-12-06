@@ -75,7 +75,7 @@ runPlaybook () {
                   read TOKEN
                   ansible-playbook $FILE -e cp_entitlement_key=$TOKEN
             else
-                  ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e config_file_path=$FILE  -e cp_entitlement_key=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJQk0gTWFya2V0cGxhY2UiLCJpYXQiOjE1Nzg0NzQzMjgsImp0aSI6IjRjYTM3ODkwMzExNjQxZDdiMDJhMjRmMGMxMWMwYmZhIn0.Z-rqfSLJA-R-ow__tI3RmLx4m9EH-abvdc53DYEkbYY
+                  ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e config_file_path=$FILE  -e cp_entitlement_key=<REGISTRY_TOKEN>
             fi
 
       else
