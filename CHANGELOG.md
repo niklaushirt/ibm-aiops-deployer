@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [43.0.2] - 2023-12-07
+### Minor changes
+- Added Runbooks for Incident Creation
+- Added AIOps Dashboard Card for Incident Creation
+- Overhaul of DemoUI
+
+
 ## [43.0.1] - 2023-12-06
 ### Major changes
 - Support for Version 4.3.0
