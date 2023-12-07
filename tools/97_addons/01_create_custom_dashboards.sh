@@ -28,7 +28,7 @@ npm run deploy -- -n  ibm-aiops
 {
   "url": "https://cpd-ibm-aiops.apps.656d9cdfeb178100111c14e8.cloud.techzone.ibm.com/",
   "username": "demo",
-  "apiKey": "6aTJCpAAKeIUVVzOpqQp65HBS7tT9KDvE4rr1ErJ",
+  "apiKey": "xxxxxxx",
   "tenantId": "cfd95b7e-3bc7-4006-a4a8-a73a79c71255",
   "bundleName": "alerts-examples"
 }
