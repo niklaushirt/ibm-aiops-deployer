@@ -33,11 +33,11 @@
                     </svg></button>
                 {% if loggedin == 'true' %}
                 <a class="bx--header__name" data-savepage-href="/" href="/">
-                    <span class="bx--header__name--prefix">IBM</span>AIOps Demo UI
+                    <span class="bx--header__name--prefix">IBM</span>AIOps &nbsp;&nbsp;<span class="bx--header__name--prefix"> - &nbsp;Demo UI for the {{INSTANCE_NAME}} Demo Environment</span>
                 </a>
                 {% else %}
                 <a class="bx--header__name" data-savepage-href="" href="">
-                    <span class="bx--header__name--prefix">IBM</span>AIOps Demo UI
+                    <span class="bx--header__name--prefix">IBM</span>AIOps &nbsp;&nbsp;<span class="bx--header__name--prefix"> - &nbsp;Demo UI</span>
                 </a>
                 {% endif %}
                 <div class="bx--header__global">
@@ -70,12 +70,32 @@
                     <div class="sc-gScZFl dZZCqG">
                         <div class="leadspace reservation bx--grid bx--grid--narrow">
                             <div class="bx--row bx--row--condensed">
-                                <div class="flexwrap bx--col-sm-4 bx--col-md-8 bx--col-lg-10 bx--col-max-12" xl="10">
-                                    <div class="logo">
+                                <div style="width: 2000px;" class="flexwrap" xl="10">
+                                    <div class="logo"
+                                        style=" padding-right: 40px; border-right: 2px solid #444444;">
                                         <div class="sc-ckEbSK khNUfs">
                                             {% if INSTANCE_IMAGE != 'None' %}
-                                            <img src="{{INSTANCE_IMAGE}}" style="width:150px;height:150px;"
-                                                alt="{{PAGE_TITLE}}">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <center><img src="{{INSTANCE_IMAGE}}"
+                                                                style="width:120px;height:120px;" alt="{{PAGE_TITLE}}">
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <center>
+                                                            <H3
+                                                                style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: rgb(224, 240, 255); font-weight: bolder;">
+                                                                {{INSTANCE_NAME}}</H3>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+
                                             {% else %}
 
                                             <svg id="technology-zone-logo" dataname="technology-zone-logo"
@@ -96,11 +116,55 @@
 
                                         </div>
                                     </div>
+
+
+
                                     <div class="titlewrap">
                                         <h1 class="title"><span class="sc-fXqpFg ddUeop">{{PAGE_TITLE}}</span>
                                         </h1>
 
                                     </div>
+
+
+                                  
+                                    <div>
+                                        {% if loggedin == 'true' %}
+                                        <ul>
+                                            <li style="padding-bottom: 10px;">
+                                                    {% if INCIDENT_ACTIVE == True %}
+                                                    🔴 Active Incident
+                                                    {% else %}
+                                                    🟢 No Active Incident
+                                                    {% endif %}
+                                               
+                                            </li>
+                                            <li style="padding-bottom: 10px;">
+                                               
+                                                    {% if ROBOT_SHOP_OUTAGE_ACTIVE == True %}
+                                                    🔴 Physical RobotShop Outage
+                                                    {% else %}
+                                                    🟢 No Physical RobotShop Outage
+                                                    {% endif %}
+                                             
+                                            </li>
+                                            <li style="padding-bottom: 10px;">
+                                               
+                                                    {% if SOCK_SHOP_OUTAGE_ACTIVE == True %}
+                                                    🔴 Physical SockShop Outage
+                                                    {% else %}
+                                                    🟢 No Physical SockShop Outage
+                                                    {% endif %}
+                                              
+                                            </li>
+
+
+
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+
+
+
                                 </div>
 
                             </div>
@@ -161,52 +225,13 @@
                                     tabindex="-1">About</a>
                             </li>
 
-                            
-                        </ul>
-
-
-                        <ul role="tablist" tabindex="-1" class="bx--tabs--scrollable__nav">
-                            <li class="bx--tabs--scrollable__nav-item" role="presentation">
-                                <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
-                                    id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
-                                    tabindex="-1">
-                                    {% if INCIDENT_ACTIVE == True %}
-                                    🔴 Active Incident
-                                    {% else %}
-                                    🟢 No Active Incident
-                                {% endif %}
-                                </a>
-                            </li>
-                            <li class="bx--tabs--scrollable__nav-item" role="presentation">
-                                <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
-                                    id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
-                                    tabindex="-1">
-                                    {% if ROBOT_SHOP_OUTAGE_ACTIVE == True %}
-                                    🔴 Physical RobotShop Outage
-                                    {% else %}
-                                    🟢 No Physical RobotShop Outage
-                                {% endif %}
-                                </a>
-                            </li>
-                            <li class="bx--tabs--scrollable__nav-item" role="presentation">
-                                <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
-                                    id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
-                                    tabindex="-1">
-                                    {% if SOCK_SHOP_OUTAGE_ACTIVE == True %}
-                                    🔴 Physical SockShop Outage
-                                    {% else %}
-                                    🟢 No Physical SockShop Outage
-                                {% endif %}
-                                </a>
-                            </li>
-
-                    
 
                         </ul>
-                
 
 
-                    
+
+
+
 
                         <button aria-hidden="true" aria-label="Scroll right"
                             class="bx--tab--overflow-nav-button--hidden" tabindex="-1" type="button"><svg
@@ -229,5 +254,5 @@
                             <div style="margin-top: 1r
                             
                             em;">
-                                <div class="bx--grid bx--grid--narrow" style="padding-left:0px;margin-left:0px ">
-                                    <div class="bx--row bx--row--condensed">
+                                <div style="margin-left:10px;margin-right:50px; ">
+                                   

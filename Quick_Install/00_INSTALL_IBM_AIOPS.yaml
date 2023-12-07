@@ -22,7 +22,7 @@
 #   Type:               VMWare on IBM Cloud / UPI Public
 #   Worker node count:  5
 #   Flavour:            b3c.32x128 ❗ 
-#   OpenShift Version:  4.12
+#   OpenShift Version:  4.14
 #   ODF:                5TB
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -82,7 +82,7 @@ data:
       global_password: CHANGEME
 
 
-      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
+      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson,Aajla,Amy,Anakin,Austin,Bart,Batman,Bob,Cara,Cassian,Chewbacca,Daffy,Darth,Dexter,Dilbert,Finn,Freddie,Grogu,Han,Harley,Hulk,James,Joker,Jyn,Kirk,Kurt,Lando,Leia,Luke,Obiwan,Padme,Picard,Prince,Rey,Robin,Sabine,Spiderman,Spock,Strange,Superman,Wedge
       environment_name: Bear
       cloud_platform: existing-ocp
       # Set this value to True to accept all licenses
@@ -213,7 +213,9 @@ data:
 
         # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
         training_enable_log_golden_signals: false
-
+        training_golden_signals_enddate: 1699439220000
+        training_golden_signals_previousminutes: 1200
+        
         # LAD-NLP Training (disabled if training_enable_log_golden_signals is true)
         training_load_data_logs: true
         training_create_training_logs: true
@@ -229,7 +231,7 @@ data:
         training_run_training_metrics: true
 
         # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: true
+        training_create_training_experimental: false
 
         training_data_url: https://github.com/niklaushirt/
         training_data_repo: ibm-aiops-trainingdata
@@ -371,7 +373,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-aiops-install
+  name: ibm-aiops-install-aiops
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
@@ -463,6 +465,19 @@ spec:
               echo " 🚀 Finalize Installation"
               ./tools/90_finalizeInstallation.sh
               echo ""
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check for Errors in Ansible Log"
+              ./tools/91_checkErrorsLog.sh
+              echo ""
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check Installation Consistency"
+              ./tools/92_check_install_short.sh
+              echo ""
+
 
               while true
               do

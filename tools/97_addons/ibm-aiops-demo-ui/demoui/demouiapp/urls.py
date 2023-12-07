@@ -29,4 +29,5 @@ urlpatterns = [
     path('clearStoriesREST', views.clearStoriesREST, name='clearStoriesREST'),
     path('instanaCreateIncident', views.instanaCreateIncident, name='instanaCreateIncident'),
     path('instanaMitigateIncident', views.instanaMitigateIncident, name='instanaMitigateIncident'),
+    path('injectRESTHeadless', views.injectRESTHeadless, name='injectRESTHeadless'),
 ]

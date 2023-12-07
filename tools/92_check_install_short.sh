@@ -209,7 +209,7 @@ function check_array(){
       echo "    🔎 Pods not ready in Namespace $CURRENT_NAMESPACE"
 
       export ERROR_PODS=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" | grep "0/"|awk '{print$1}')
-      export ERROR_PODS_COUNT=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" | grep "0/"| grep -c "")
+      export ERROR_PODS_COUNT=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" |grep -v nginx-ingress-controller| grep "0/"| grep -c "")
       if  ([[ $ERROR_PODS_COUNT -gt 0 ]]); 
       then 
             export CURRENT_ERROR=true

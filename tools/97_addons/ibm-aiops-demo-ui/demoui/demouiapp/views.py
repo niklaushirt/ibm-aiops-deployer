@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader
 from subprocess import check_output
 import os
@@ -800,7 +801,7 @@ def instanaCreateIncident(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -880,7 +881,7 @@ def instanaMitigateIncident(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -976,10 +977,205 @@ def injectAllREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
+
+
+
+def injectRESTHeadless(request):
+    print('🌏 injectRESTHEadless')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+
+    currentapp=request.GET.get("app", "robotshop")
+    print('  🟠 '+currentapp)
+
+    if currentapp=='robotshop':
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+
+        print('  🟠 Start THREADS')
+        threadEvents.start()
+        threadMetrics.start()
+        threadLogs.start()
+        threadLinks.start()
+        # print('  🟠 Join THREADS')
+        print('🌏 Create RobotShop MySQL outage')
+        os.system('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
+        os.system('oc set env deployment load -n robot-shop ERROR=1')
+
+        addExternalLinksToIncident(request)
+        INCIDENT_ACTIVE=True
+        ROBOT_SHOP_OUTAGE_ACTIVE=True
+
+
+    elif currentapp=='sockshop':
+
+        INCIDENT_ACTIVE=True
+        SOCK_SHOP_OUTAGE_ACTIVE=True
+
+        print('🌏 Create Sockshop Catalog outage')
+        os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog-outage\\"}}}"')
+
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadMetrics.start()
+        threadEvents.start()
+        threadLogs.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+    elif currentapp=='acme':
+
+        INCIDENT_ACTIVE=True
+
+        print('  🟠 Create THREADS')
+        threadMetrics1 = Thread(target=injectMetricsFanTempACME, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadEvents = Thread(target=injectEventsFanACME, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics2 = Thread(target=injectMetricsFanACME, args=(METRIC_ROUTE,METRIC_TOKEN,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadMetrics1.start()
+        threadEvents.start()
+        threadMetrics2.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+    elif currentapp=='tube':
+
+        INCIDENT_ACTIVE=True
+
+        print('🌏 Create London Underground outage')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsTube, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+    if currentapp=='all':
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+
+        print('  🟠 Start THREADS')
+        threadEvents.start()
+        threadMetrics.start()
+        threadLogs.start()
+        threadLinks.start()
+        # print('  🟠 Join THREADS')
+        print('🌏 Create RobotShop MySQL outage')
+        os.system('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
+        os.system('oc set env deployment load -n robot-shop ERROR=1')
+
+        addExternalLinksToIncident(request)
+        INCIDENT_ACTIVE=True
+        ROBOT_SHOP_OUTAGE_ACTIVE=True
+        SOCK_SHOP_OUTAGE_ACTIVE=True
+
+        print('🌏 Create Sockshop Catalog outage')
+        os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog-outage\\"}}}"')
+
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadMetrics.start()
+        threadEvents.start()
+        threadLogs.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+        print('  🟠 Create THREADS')
+        threadMetrics1 = Thread(target=injectMetricsFanTempACME, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadEvents = Thread(target=injectEventsFanACME, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics2 = Thread(target=injectMetricsFanACME, args=(METRIC_ROUTE,METRIC_TOKEN,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadMetrics1.start()
+        threadEvents.start()
+        threadMetrics2.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+        print('🌏 Create London Underground outage')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsTube, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        #time.sleep(3)
+
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        threadLinks.start()
+
+
+
+    elif currentapp=='clean':
+
+        print('  🟠 Create THREADS')
+        threadMitigateIssues = Thread(target=mitigateIssues, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadCloseAlerts = Thread(target=closeAlerts, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadCloseStories = Thread(target=closeStories, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadMitigateIssues.start()
+        threadCloseAlerts.start()
+        threadCloseStories.start()
+        time.sleep(1)
+
+        INCIDENT_ACTIVE=False
+        ROBOT_SHOP_OUTAGE_ACTIVE=False
+        SOCK_SHOP_OUTAGE_ACTIVE=False
+
+
+    return HttpResponse("Status OK :"+currentapp, content_type="application/json", status=201)
+
+
+
 
 
 def injectAllFanREST(request):
@@ -1068,7 +1264,7 @@ def injectAllFanREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1158,7 +1354,7 @@ def injectAllNetREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1242,7 +1438,7 @@ def injectAllFanACMEREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1329,7 +1525,7 @@ def injectAllNetSOCKREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1348,7 +1544,6 @@ def injectAllTUBEREST(request):
         template = loader.get_template('demouiapp/home.html')
 
         INCIDENT_ACTIVE=True
-        SOCK_SHOP_OUTAGE_ACTIVE=True
 
         print('🌏 Create London Underground outage')
 
@@ -1406,7 +1601,7 @@ def injectAllTUBEREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1465,7 +1660,7 @@ def injectLogsREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1522,7 +1717,7 @@ def injectEventsREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1578,7 +1773,7 @@ def injectMetricsREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1660,7 +1855,7 @@ def clearAllREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
 
 
@@ -1722,7 +1917,7 @@ def clearEventsREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1781,7 +1976,7 @@ def clearStoriesREST(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
@@ -1831,7 +2026,7 @@ def login(request):
             'INSTANCE_NAME': INSTANCE_NAME,
             'INSTANCE_IMAGE': INSTANCE_IMAGE,
             'SIMULATION_MODE': SIMULATION_MODE,
-            'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+            'PAGE_TITLE': 'Welcome to your Demo UI',
             'PAGE_NAME': 'index'
         }
     else:
@@ -1862,7 +2057,7 @@ def login(request):
             'INSTANCE_NAME': INSTANCE_NAME,
             'INSTANCE_IMAGE': INSTANCE_IMAGE,
             'SIMULATION_MODE': SIMULATION_MODE,
-            'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+            'PAGE_TITLE': 'Welcome to your Demo UI',
             'PAGE_NAME': 'login'
         }
 
@@ -1984,7 +2179,7 @@ def index(request):
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
         'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Demo UI for ' + INSTANCE_NAME,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
         'PAGE_NAME': 'index'
         
     }

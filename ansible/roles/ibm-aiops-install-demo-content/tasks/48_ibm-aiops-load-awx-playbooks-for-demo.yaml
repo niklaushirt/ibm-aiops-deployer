@@ -195,7 +195,7 @@
   ignore_errors: false
   register: STATUS
   until: STATUS.stdout == "successful"
-  retries: 10
+  retries: 30
   delay: 15
 
 
