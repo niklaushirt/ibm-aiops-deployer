@@ -564,6 +564,18 @@ spec:
               ./tools/90_finalizeInstallation.sh
               echo ""
 
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check for Errors in Ansible Log"
+              ./tools/91_checkErrorsLog.sh
+              echo ""
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🔎 Check Installation Consistency"
+              ./tools/92_check_install_short.sh
+              echo ""
+
               while true
               do
                 sleep 1000
