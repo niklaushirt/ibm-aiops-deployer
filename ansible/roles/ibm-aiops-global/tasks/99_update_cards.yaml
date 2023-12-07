@@ -201,6 +201,45 @@
 
 
 
+  - name:  🌏 ZEN CARDS - Create Card Incidents
+    shell: |
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      if [ "${AIOPS_NAMESPACE}" != "" ]; then
+        export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+
+        export ROWS=""
+
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshop", "label": "🤖 RobotShop - Memory Problem", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=sockshop", "label": "🧦 SockShop - Network Problem", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=acme", "label": "✈️ ACME - Server Fan Outage", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=tube", "label": "🚇 London Tube - Fire Alert", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=tube", "label": "✅ Clear all Incidents and Alerts", "sub_text": ""},'
+
+        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 49, "title": "🔴 Create Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS' { "drilldown_url": "", "label": "🧨 Create Incidents directly from the Dashboard.", "sub_text": "" } ] } } } '
+        echo "PAYLOAD:"$PAYLOAD
+
+
+        export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
+        echo "      🔎 Result: "
+        echo "       "$result
+      else
+        echo "Skipping: IBMAIOps not installed"
+      fi
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
+             
+
+
+
+
+
+
 
 
   - name:  🌏 ZEN CARDS - Create Card DEMO
