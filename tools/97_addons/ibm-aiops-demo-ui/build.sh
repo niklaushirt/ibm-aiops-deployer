@@ -1,5 +1,24 @@
 #!/bin/bash
-export CONT_VERSION=2.3
+podman login quay.io -u niklaushirt@gmail.com
+
+
+export CONT_VERSION=3.0
+
+podman buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load .
+podman push quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
+
+
+
+
+
+
+
+
+http://127.0.0.1:8000/injectRESTHeadless?app=clean
+
+
+
+
 
 # Create the Image
 docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load .

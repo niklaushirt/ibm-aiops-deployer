@@ -90,7 +90,7 @@ data:
       global_password: CHANGEME
 
 
-      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
+      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson,Aajla,Amy,Anakin,Austin,Bart,Batman,Bob,Cara,Cassian,Chewbacca,Daffy,Darth,Dexter,Dilbert,Finn,Freddie,Grogu,Han,Harley,Hulk,James,Joker,Jyn,Kirk,Kurt,Lando,Leia,Luke,Obiwan,Padme,Picard,Prince,Rey,Robin,Sabine,Spiderman,Spock,Strange,Superman,Wedge
       environment_name: Bear
       cloud_platform: existing-ocp
       # Set this value to True to accept all licenses
@@ -471,7 +471,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-aiops-install-all
+  name: ibm-aiops-install-aiops-all
   namespace: ibm-aiops-installer
 spec:
   serviceAccountname: ibm-aiops-installer-admin
