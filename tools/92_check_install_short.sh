@@ -533,7 +533,22 @@ spec:
     text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
 EOF
 
+      export already_restarted=$(oc get  cm -n ibm-aiops-installer rerun| wc -l|tr -d ' ')
+      if [ $already_restarted -gt 0 ]; then
+        echo "Already restarted once"
+      else
+        oc create cm -n ibm-aiops-installer rerun
+        echo ""
+        echo ""
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
+        echo "  ❗ Restarting installer once ❗"
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
 
+        oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep ibm-aiops-install-aiops|awk '{print$1}')
+        # oc delete -n ibm-aiops-installer cm rerun
+      fi
 
 
     else
