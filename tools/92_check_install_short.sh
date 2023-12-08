@@ -406,10 +406,11 @@ function check_array(){
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8')
     export RB_COUNT=$(echo $result|jq ".[].name"|grep -c "")
-    if  ([[ $RB_COUNT -lt 4 ]]); 
+    if  ([[ $RB_COUNT -lt 7 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="IBMAIOps Runbooks not ready"
+            echo $result|jq -r '.[].name'| sed 's/^/          - /'
             handleError
       else  
             echo "         ✅ OK ($RB_COUNT Runbooks)"; 
@@ -488,6 +489,7 @@ function check_array(){
         echo ""
         echo "  🚀 Try to re-run the installer to see if this solves the problem"
         echo "  🛠️  To do this just delete the ibm-aiops-install-aiops pod in the ibm-aiop Namespace"
+        echo "  🛠️  Explained in detail here: https://github.com/niklaushirt/ibm-aiops-deployer/tree/main#re-run-the-installer"
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"

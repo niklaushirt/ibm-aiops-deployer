@@ -98,7 +98,7 @@ INSTANCE_NAME=os.environ.get('INSTANCE_NAME')
 if INSTANCE_NAME == None:
     INSTANCE_NAME="IBMAIOPS"
 
-image_name=INSTANCE_NAME.lower()+".png"
+image_name=INSTANCE_NAME.lower().replace(" ", "_")+".png"
 path = Path('./static/images/characters/'+image_name)
 
 if path.is_file():

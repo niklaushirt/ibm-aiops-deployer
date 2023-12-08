@@ -223,6 +223,13 @@ Here is a quick video that walks you through the installation process
 ## 2.1 Install IBM AIOps 🚀 
 
 
+> ### ❗ There is a known race condition with the AWX installation.
+> ### ❗ If you get a warning (Orange or Red Bar on top) please
+> ### ❗ [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+
+
+
 ### 2.1.1 Install IBM AIOps with demo content
 <details>
 <summary>✅ Instructions</summary>
