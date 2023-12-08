@@ -277,6 +277,96 @@ This installation contains:
 
 </details>
 
+<details>
+<summary>👩‍💻 Characters to chose from</summary>
+
+In the Quick Install file you can also adapt the Name of your Environment (default is `Bear`)
+
+```yaml
+environment_name: Bear
+```
+
+You can chose from the following:
+
+![Characters](./doc/pics/characters.png)
+
+*  Aajla
+*  AIOPS
+*  Amy
+*  Anakin
+*  Arya
+*  Austin
+*  Bart
+*  Batman
+*  Bear
+*  Bob
+*  Cara
+*  Cassian
+*  Cersei
+*  Cersei1
+*  Chewbacca
+*  CP4AIOPS
+*  Daenerys
+*  Daffy
+*  Darth
+*  Demo
+*  Dexter
+*  Dilbert
+*  Finn
+*  Freddie
+*  Grogu
+*  Groot
+*  Han
+*  Harley
+*  Hodor
+*  Hofstadter
+*  Howard
+*  Hulk
+*  James
+*  Jimmy
+*  John
+*  Joker
+*  Jyn
+*  King
+*  Kirk
+*  Kurt
+*  Lando
+*  Leia
+*  Lemmy
+*  Luke
+*  Nightking
+*  Obiwan
+*  Padme
+*  Penny
+*  Picard
+*  Prince
+*  Raj
+*  Rey
+*  Robin
+*  Robot1
+*  Robot2
+*  Robot3
+*  Robot4
+*  Robot5
+*  Sabine
+*  Sansa
+*  Sheldon
+*  Sherlock
+*  Slash
+*  Spiderman
+*  Spock
+*  Strange
+*  Superman
+*  Tormund
+*  Tyrion
+*  Walker
+*  Watson
+*  Wedge
+
+
+
+
+</details>
 
 ### 2.1.2 Install Turbonomic
 

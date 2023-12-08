@@ -61,7 +61,7 @@ data:
       global_password: CHANGEME
 
 
-      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson,Aajla,Amy,Anakin,Austin,Bart,Batman,Bob,Cara,Cassian,Chewbacca,Daffy,Darth,Dexter,Dilbert,Finn,Freddie,Grogu,Han,Harley,Hulk,James,Joker,Jyn,Kirk,Kurt,Lando,Leia,Luke,Obiwan,Padme,Picard,Prince,Rey,Robin,Sabine,Spiderman,Spock,Strange,Superman,Wedge
+      # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
       environment_name: Bear
       cloud_platform: existing-ocp
       # Set this value to True to accept all licenses
