@@ -213,7 +213,8 @@ data:
 
         # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
         training_enable_log_golden_signals: false
-        training_golden_signals_enddate: 1699439220000
+        #training_golden_signals_enddate: 1699439220000
+        training_golden_signals_enddate: 1699479820000
         training_golden_signals_previousminutes: 1200
         
         # LAD-NLP Training (disabled if training_enable_log_golden_signals is true)
