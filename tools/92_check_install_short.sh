@@ -406,10 +406,11 @@ function check_array(){
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8')
     export RB_COUNT=$(echo $result|jq ".[].name"|grep -c "")
-    if  ([[ $RB_COUNT -lt 4 ]]); 
+    if  ([[ $RB_COUNT -lt 7 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="IBMAIOps Runbooks not ready"
+            echo $result|jq -r '.[].name'| sed 's/^/          - /'
             handleError
       else  
             echo "         ✅ OK ($RB_COUNT Runbooks)"; 
@@ -488,6 +489,7 @@ function check_array(){
         echo ""
         echo "  🚀 Try to re-run the installer to see if this solves the problem"
         echo "  🛠️  To do this just delete the ibm-aiops-install-aiops pod in the ibm-aiop Namespace"
+        echo "  🛠️  Explained in detail here: https://github.com/niklaushirt/ibm-aiops-deployer/tree/main#re-run-the-installer"
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
@@ -531,7 +533,22 @@ spec:
     text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
 EOF
 
+      export already_restarted=$(oc get  cm -n ibm-aiops-installer rerun| wc -l|tr -d ' ')
+      if [ $already_restarted -gt 0 ]; then
+        echo "Already restarted once"
+      else
+        oc create cm -n ibm-aiops-installer rerun
+        echo ""
+        echo ""
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
+        echo "  ❗ Restarting installer once ❗"
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
 
+        oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep ibm-aiops-install-aiops|awk '{print$1}')
+        # oc delete -n ibm-aiops-installer cm rerun
+      fi
 
 
     else

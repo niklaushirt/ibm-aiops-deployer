@@ -189,13 +189,13 @@
 
 - name: 🚀 AWX - Wait for AWX Project
   shell: |
-    #sleep 60
+    sleep 60
     export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}/api/v2/projects/" -u "admin:{{ AWX_PWD }}" --insecure|jq -c -r '.results[]| select( .name == "IBM AIOPS Runbooks")|.status')
     echo "$STATUS"
   ignore_errors: false
   register: STATUS
   until: STATUS.stdout == "successful"
-  retries: 30
+  retries: 20
   delay: 15
 
 
