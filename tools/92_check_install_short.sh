@@ -530,7 +530,7 @@ spec:
         href: "https://$appURL"
         text: DemoUI
     location: BannerTop
-    text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
+    text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
 EOF
 
       export already_restarted=$(oc get  cm -n ibm-aiops-installer rerun| wc -l|tr -d ' ')
@@ -574,7 +574,7 @@ spec:
         href: "https://$appURL"
         text: DemoUI
     location: BannerTop
-    text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Access Token '$DEMO_PWD' here:"
+    text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
 EOF
 
     fi
