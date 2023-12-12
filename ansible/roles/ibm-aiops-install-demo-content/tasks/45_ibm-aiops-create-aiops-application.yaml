@@ -162,14 +162,14 @@
       \"_id\": \"$TEMPLATE_ID\"
     }"
 
-    echo "  Add Template (Network) Resources"
-    curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -d "{
-      \"_id\": \"$TEMPLATE_NET_ID\"
-    }"
+    # echo "  Add Template (Network) Resources"
+    # curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
+    # -u $LOGIN \
+    # -H 'Content-Type: application/json' \
+    # -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    # -d "{
+    #   \"_id\": \"$TEMPLATE_NET_ID\"
+    # }"
 
     # # -------------------------------------------------------------------------------------------------------------------------------------------------
     # # RE-RUN K8s Observer

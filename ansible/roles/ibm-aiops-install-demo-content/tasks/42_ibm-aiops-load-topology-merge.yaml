@@ -47,7 +47,7 @@
   shell: |
     set -x
         
-    echo "Create Custom Topology - Create Template"
+    echo "Create CREATE BUSINESS CRITICALITIES"
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
     export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
