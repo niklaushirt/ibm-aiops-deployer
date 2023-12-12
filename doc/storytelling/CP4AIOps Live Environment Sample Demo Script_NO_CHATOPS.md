@@ -20,6 +20,8 @@ This script is intended as a guide to demonstrate IBM AIOps using the live demo 
 The script is intended to be used with live IBM AIOps 3.x demo environment that you can reserve via [TechZone](https://techzone.ibm.com/collection/ibm-aiopsdemo#tab-1) or [install yourself](https://github.com/niklaushirt/ibm-aiops-deployer#-1-quick-install).
 
 
+You can watch the [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) to get an idea on how to do the demo (based on 3.2). 
+
 In the demo script, 
 
 - “**🚀 <u>Action</u>**” denotes a setup step for the presenter.

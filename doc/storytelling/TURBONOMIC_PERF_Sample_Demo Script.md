@@ -15,6 +15,8 @@ This script is intended as a guide to demonstrate Turbonomic using the live demo
 
 The script is intended to be used with the [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), but should work with the live Turbonomic demo environment that you can reserve via [TechZone](https://techzone.ibm.com/collection/turbonomic-application-resource-management-demo-assets/resources).
 
+You can watch the [Demo Walkthrough video](https://ibm.box.com/s/ld3hjg9chhk3o0lzmkz99uimez23ta7q) to get an idea on how to do the demo. 
+
 
 In the demo script, 
 
