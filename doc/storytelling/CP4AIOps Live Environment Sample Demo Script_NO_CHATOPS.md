@@ -6,7 +6,7 @@
 
 
 
-![K8s CNI](./demo/00_aimanager_insights.png)
+![K8s CNI](./pics/aiops/00_aimanager_insights.png)
 
 <center> ©2023 Włodzimierz Dymaczewski/Niklaus Hirt / IBM </center>
 
@@ -44,7 +44,7 @@ You should be familiar with the following terminology when discussing IBM AIOps:
 
 
 
-![image](./demo/image.054.png)
+![image](./pics/aiops/image.054.png)
 
 The most important functionalities are:
 
@@ -164,7 +164,7 @@ Now let's start the demo.
 
 **❗ <u>Note</u>**: The following step does not have to be shown to the client – you may perform the action in the background if possible.
 
-![image](./demo/image.054.png)
+![image](./pics/aiops/image.054.png)
 
 
 
@@ -192,7 +192,7 @@ Now let's start the demo.
 
 
 
-![image](./demo/image.089.png)
+![image](./pics/aiops/image.089.png)
 
 
 
@@ -215,7 +215,7 @@ Let’s verify what’s going on with the RobotShop site. The application is up 
 
 
 
-![image](./demo/image.088.png)
+![image](./pics/aiops/image.088.png)
 
 
 
@@ -233,14 +233,14 @@ I know that there are many ratings for each of the products that we sell, so whe
 
 ### 2.4.1 Login to IBMAIOps
 
-![image](./demo/image.054.png)
+![image](./pics/aiops/image.054.png)
 
 >**🚀 <u>Action</u>**
 In the Demo UI, click **IBMAIOps `(1)`**
 
 
 
-![image](./demo/image.055.png)
+![image](./pics/aiops/image.055.png)
 
 **📣 <u>Narration</u>**
 
@@ -253,7 +253,7 @@ Let’s take a closer look at the incident that has been created in IBM AIOps.
 
 ### 2.4.2 Open the Incident
 
-![image](./demo/image.056.png)  
+![image](./pics/aiops/image.056.png)  
 
 >**🚀 <u>Action</u>**
 Click the "hamburger menu" on the upper left. Click **Stories and alerts**
@@ -261,7 +261,7 @@ Click the "hamburger menu" on the upper left. Click **Stories and alerts**
 
 
 
-![image](./demo/image.057.png)
+![image](./pics/aiops/image.057.png)
 
 **📣 <u>Narration</u>**
 
@@ -273,7 +273,7 @@ The **Incident** contains related log anomalies, topology, similar incidents, re
 
 ### 2.4.3 Examining the Incident
 
-![image](./demo/image.056.png)  
+![image](./pics/aiops/image.056.png)  
 
 >**🚀 <u>Action</u>**
 Click the "hamburger menu" on the upper left. Click **Stories and alerts** 
@@ -281,14 +281,14 @@ Click the "hamburger menu" on the upper left. Click **Stories and alerts**
 
 
 
-![image](./demo/image.057.png)
+![image](./pics/aiops/image.057.png)
 
 **📣 <u>Narration</u>**
 
 Now let's have a look at the **Incident**.
 
 
-![image](./demo/image.059.png)
+![image](./pics/aiops/image.059.png)
 
 As I said before, the Incident regroups all relevant information concerning the incident at hand that have been identified by IBM AIOps.
 
@@ -310,7 +310,7 @@ As I said before, the Incident regroups all relevant information concerning the 
 >Click on  **In progress**
 
 
-![image](./demo/image.079.png)  
+![image](./pics/aiops/image.079.png)  
 
 
 
@@ -326,7 +326,7 @@ First and before I continue examining the Incident I want to let my colleagues k
 Click the first similar resolution ticket  
 
 
-![image](./demo/image.060.png)  
+![image](./pics/aiops/image.060.png)  
 
 
 
@@ -354,7 +354,7 @@ Let me check how the problem was resolved for this incident.
 >Click on the **Resolution Information** Tab
 
 
-![image](./demo/image.076.png)  
+![image](./pics/aiops/image.076.png)  
 
 
 
@@ -372,14 +372,14 @@ To finish up, I will check if the incident was related to an official change.
 
 
 
-![image](./demo/image.077.png)
+![image](./pics/aiops/image.077.png)
 
 >**🚀 <u>Action</u>**
 >Click on the **Related Records** Tab
 >
 >Click on the **i** Button next to **Caused by Change**
 
-![image](./demo/image.078.png)  
+![image](./pics/aiops/image.078.png)  
 
 
 
@@ -403,7 +403,7 @@ But for the sake of the demo, let's dig a little deeper first.
 >**🚀 <u>Action</u>**
 Close the ServiceNow page and click the **Alerts** Tab. 
 
-![image](./demo/image.061.png)  
+![image](./pics/aiops/image.061.png)  
 
 **📣 <u>Narration</u>**
 
@@ -424,7 +424,7 @@ In the **Alert details,** you can see different types of groupings explaining wh
 Click **Scope-based grouping**. 
 
 
-![image](./demo/image.027.png)
+![image](./pics/aiops/image.027.png)
 
 **📣 <u>Narration</u>**
 
@@ -436,7 +436,7 @@ Some alerts were added to the incident because they occurred on the same resourc
 Click **Topological grouping**. 
 
 
-![image](./demo/image.028.png)
+![image](./pics/aiops/image.028.png)
 
 **📣 <u>Narration</u>**
 
@@ -450,7 +450,7 @@ Other alerts were grouped because they occurred on the logically or physically r
 Click **Temporal correlation**. 
 
 
-![image](./demo/image.029.png)
+![image](./pics/aiops/image.029.png)
 
 
 **📣 <u>Narration</u>**
@@ -470,7 +470,7 @@ Finally, the temporal correlation adds to the incident events that previously, i
 >
 >***Result**: The "Commit in repository robot-shop by Niklaus Hirt on file robot-shop.yaml" should be at the bottom* 
 
-![image](./demo/image.063.png)  
+![image](./pics/aiops/image.063.png)  
 
 **📣 <u>Narration</u>**
 
@@ -492,7 +492,7 @@ Other events are confirming the hypothesis.
 
 * IBM AIOps has learned the normal, good patterns for logs coming from the applications. The Incident contains a **Log Anomaly** that has been detected in the ratings service that cannot acces the mysql database.
 
-![image](./demo/image.064.png)
+![image](./pics/aiops/image.064.png)
 
 >**🚀 <u>Action</u>**
 Click on a Alert line that has **ANOMALY:** in the Type column. Then open the **Metric Anomaly Details** accordion. 
@@ -503,7 +503,7 @@ Click on a Alert line that has **ANOMALY:** in the Type column. Then open the **
 * IBM AIOps is also capable of collecting metrics from multiple sources and detecting **Metric Anomalies**. It was trained on hundreds or thousands of metrics from the environment and constructs a dynamic baseline (shown in green). The graphic suddenly turns red which relates to detected anomaly when the database is consuming a higher amount of memory than usual.
 
 
-![image](./demo/image.065.png)
+![image](./pics/aiops/image.065.png)
 
 >**🚀 <u>Action</u>**
 (1) In **Related Alerts** select some additional alerts.
@@ -523,7 +523,7 @@ You can display several alerts at the same time to better understand the tempora
 
 Now let's zoom in to better see the anomalies
 
-![image](./demo/image.066.png)
+![image](./pics/aiops/image.066.png)
 
 >**🚀 <u>Action</u>**
 Hover over a datapoint to show the before/after values. 
@@ -550,7 +550,7 @@ Close the Metric anomaly details view.
 
 
 
-![image](./demo/image.067.png)
+![image](./pics/aiops/image.067.png)
 
 **📣 <u>Narration</u>**
 
@@ -560,7 +560,7 @@ You can see that there are some statuses attached to the different resources, ma
 
 <div style="page-break-after: always;"></div>
 
-![image](./demo/image.068.png)  
+![image](./pics/aiops/image.068.png)  
 
 >**🚀 <u>Action</u>**
 >Find the resource which displays resource name “**mysql**”. Then, right-click and select **Resource details.** 
@@ -570,7 +570,7 @@ You can see that there are some statuses attached to the different resources, ma
 >Click on Tab **Alerts** 
 
 
-![image](./demo/image.069.png)
+![image](./pics/aiops/image.069.png)
 
 **📣 <u>Narration</u>** 
 
@@ -581,14 +581,14 @@ The topology service provides operations teams with complete up-to-date visibili
 
 ### 2.5.2 [Optional] Topology in-depth
 
-![image](./demo/image.070.png)
+![image](./pics/aiops/image.070.png)
 
 >**🚀 <u>Action</u>**
 >Find the resource which displays resource name “mysql”. Then, right-click and select **Open in Topology Viewer.** 
 
 
 
-![image](./demo/image.071.png)
+![image](./pics/aiops/image.071.png)
 
 
 
@@ -600,7 +600,7 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 
 
 
-![image](./demo/image.072.png)
+![image](./pics/aiops/image.072.png)
 
 >**🚀 <u>Action</u>**
 >Change the number of hops to `4` and click **Render**.
@@ -613,14 +613,14 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 
 
 
-![image](./demo/image.073.png)
+![image](./pics/aiops/image.073.png)
 
 >**🚀 <u>Action</u>**
 >Right-click om mysql and select **Show last change in timeline** and check **Delta**
 
 
 
-![image](./demo/image.074.png)
+![image](./pics/aiops/image.074.png)
 
 
 
@@ -646,7 +646,7 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 >Click on the  **Overview**  Tab.
 
 
-![image](./demo/image.080.png)
+![image](./pics/aiops/image.080.png)
 
 
 
@@ -665,13 +665,13 @@ Let’s execute the Runbook.
 >Click **Start Runbook**.
 
 
-![image](./demo/image.082.png)
+![image](./pics/aiops/image.082.png)
 
 >**🚀 <u>Action</u>**
 >
 >Click **Run** in Step 1.
 
-![image](./demo/image.083.png)
+![image](./pics/aiops/image.083.png)
 
 
 
@@ -685,7 +685,7 @@ The Runbook that I just started kicks off a Playbook on Ansible Tower. I can fol
 
 
 
-![image](./demo/image.084.png)
+![image](./pics/aiops/image.084.png)
 
 
 
@@ -697,7 +697,7 @@ The Runbook that I just started kicks off a Playbook on Ansible Tower. I can fol
 
 
 
-![image](./demo/image.087.png)
+![image](./pics/aiops/image.087.png)
 
 **📣 <u>Narration</u>**
 
@@ -705,7 +705,7 @@ Before confirming that the runbook worked as expected, I should check the RobotS
 
 
 
-![image](./demo/image.085.png)
+![image](./pics/aiops/image.085.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -729,7 +729,7 @@ So the runbook has resolved the problem. When I tell IBM AIOps that the Runbook 
 >Click on  **Resolved**
 
 
-![image](./demo/image.079.png)  
+![image](./pics/aiops/image.079.png)  
 
 
 
