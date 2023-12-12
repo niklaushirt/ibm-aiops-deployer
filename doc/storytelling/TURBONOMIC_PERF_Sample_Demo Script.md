@@ -84,7 +84,7 @@ You should be familiar with the following terminology when discussing Turbonomic
 
 **📣 <u>Narration</u>** 
 
-Welcome to this demonstration of the Turbonomic platform. In this demo, I am going to show you how Turbonomic can help your operations team proactively identify, diagnose, and resolve incidents across mission-critical workloads.
+Welcome to this demonstration of the Turbonomic platform. In this demo, I am going to show you how Turbonomic can help your operations team proactively optimize performance across mission-critical workloads, while improving cost.
 
 Let's imagine we're at work, it's end of the year, and I get an email from Uwe, our Group CTO, saying that we have massive performance problems with our customer facing applications and that customers are unhappy. 
 
