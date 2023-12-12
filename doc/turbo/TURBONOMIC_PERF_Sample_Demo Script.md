@@ -4,10 +4,6 @@
 <center> <h2>Sample Demo Script for the live demo environment</h2> </center>
 
 
-
-
-![K8s CNI](./pics/image.002.png)
-
 <center> ©2023 Joël Hartmann/Niklaus Hirt / IBM </center>
 
 
@@ -102,10 +98,10 @@ Obviously, Black Friday is an absolute priority for our end-of-year sales strate
 
 **ℹ️ <u>Note</u>**
 
-During the demonstration, we will be using the sample application called RobotShop, which serves as a proxy for any type of app. The application is built on a microservices architecture, and the services are running on Kubernetes cluster. All actions performed on Turbonomic, like adding the RobotShop application, are purely for demonstration purposes and must not be executed.
+During the demonstration, we will be using the sample application called RobotShop, which serves as a proxy for any type of app. The application is built on a microservices architecture, and the services are running on Kubernetes cluster. All actions performed on Turbonomic, like adding the RobotShop application, are purely for demonstration purposes and **must not be executed**.
 
 >**🚀 <u>Action</u>**
->Use demo [introductory PowerPoint presentation](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true), to illustrate the narration. Adapt your details on Slide 1 and 13
+>Use the [Click Through PPT](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true) to get started with the demo
 
 **📣 <u>Narration</u>**
 
@@ -140,39 +136,24 @@ To get started with the platform, I will log in and get started managing my envi
 
 The supply chain represents the infrastructure of my complete IT landscape.
 
-So I can see that I have 65 **BusinessApplications**, that are composed of **Services** and **ApplicationComponents** and **VirtualMachines** that are running in **VirtualDataCenters** or in the cloud in different **Zones** and **Regions**.
+So I can see that I have 65 **BusinessApplications**, that are composed of **Services**, **ApplicationComponents** and **VirtualMachines** that are running in **VirtualDataCenters** or in the cloud in different **Zones** and **Regions**.
 
 An **ApplicationComponent**, for example, could be a database running in a VM or it could very well also be, let's say, a web server running in a container. So the details are completely abstracted away.
 
 The same goes for virtual machine as well: So we have 946 virtual machines and that can be a virtual machine running on a vSphere on-prem or this could be a virtual machine running on Azure or on AWS or in Google Cloud. It doesn't matter because those differences get abstracted away and normalized in order to get this unified holistic view.
 
-So we get a complete overview, normalized of our complete infrastructure, be it on-prem or off-prem, in the private or public cloud.
-
-
-
-**📣 <u>Narration</u>**
-
-To perform Application Resource Management, Turbonomic models your environment as a market of buyers and sellers linked together in a supply chain. This supply chain represents the flow of resources from the datacenter, through the physical tiers of your environment, into the virtual tier and out to the cloud. By managing relationships between these buyers and sellers, Turbonomic provides closed-loop management of resources, from the datacenter, through to the application.
-
-Reading the Supply Chain
-By looking at the Supply Chain, you can see:
-
-- How many entities you have on each tier: Each entry in the supply chain gives a count of entities for the given type.
-
-- The overall health of entities in each tier: The ring for each entry indicates the percentage of pending actions for that tier in the datacenter. Ring colors indicate how critical the actions are - Green shows the percentage of entities that have no actions pending. To get actual counts of pending actions, hover on a ring to more details.
-
-- The flow of resources between tiers: The arrow from one entry to another indicates the flow of resources. For example, the Virtual Machine entry has arrows to Hosts and to Storage. If the VMs are running in a Virtual Data Center, it will have another arrow to that as well. This means that your VMs consume resources from hosts, storage, and possibly from VDCs.
+So we get a complete overview of our infrastructure, be it on-prem or off-prem, in the private or public cloud.
 
 >**🚀 <u>Action</u>**
-In the Demo UI, click **Turbonomic `(1)`**
+In the Demo UI, click **Turbonomic** on the top left
 
 ![image](./pics/image.001.png)
 
 **📣 <u>Narration</u>**
 
-So now the first thing that I have to do is to onboard my sales application that is not being managed by Turbonomic.
+So now the first thing that I have to do is to onboard my RobotShop application that is not being managed by Turbonomic.
 
-It's pretty simple to construct this supply chain,and now let's see how we add additional elements to Turbonomic.
+It's pretty simple to construct this supply chain. Now let's see how we add additional elements to Turbonomic.
 
 <div style="page-break-after: always;"></div>
 
@@ -197,7 +178,7 @@ Now I have to create a new target to add in my Sales Application.
 
 Let me just show you,how this is done.
 
-So for our application, for example, I just have to add a target connection to the vSphere Server. For this I just have to give it, the server URL, the user name and the password to connect to the Server.
+So for our application, for example, I just have to add a target connection to the vSphere Server. For this I just have to give it the server URL, the user name and the password to connect to the Server.
 
 Here we can use a user that already has read and write access.
 
@@ -207,7 +188,7 @@ When we start off for POVs or POCs for example, we might as well chose a read-on
 Click **New Target**
 Click **Hypervisor**
 Click **vCenter**
-Add **Credetials**
+Add **Credentials**
 Click **Add**
 
 **📣 <u>Narration</u>**
@@ -217,10 +198,10 @@ Now our RobotShop application will be added as a target. It will take 10-15 minu
 <div style="page-break-after: always;"></div>
 
 
-## 2.5 Explanation Commodities and Optimization  
+## 2.5 Explanation Commodities and Optimization 
+ 
 >**🚀 <u>Action</u>**
-In the Demo UI, click **Turbonomic `(1)`** on the top left to get back on main page
-
+In the Demo UI, click **Turbonomic** on the top left to get back on main page
 
 **📣 <u>Narration</u>**
 
@@ -230,15 +211,13 @@ So how does that work?
 
 First let me show you quickly how those recommendations are being created.
 
-If we go, for example, into virtual machines and just pick one virtual machine here.
+If we go, for example, into **VirtualMachines** and just pick one **VirtualMachine** here.
 
-You can see that we have changed perspective, specifically for the selected VM.
+You can see that we have changed perspective, specifically for the selected **VM**.
 
-So I can see that my **VM** (here Turbo 897 test) is running in a **VirtualData** center and on a specific host, I get the complete context here of my VM.
+So I can see that my **VM** (here Turbo 897 test) is running in a **VirtualDataCenter** and on a specific host, I get the complete context here of my VM.
 
 Let’s take a closer look at how recommended actions are being created in Turbonomic. 
-
-
 
 >**🚀 <u>Action</u>**
 Click **Virtual Machine** on the supply chain
@@ -251,8 +230,6 @@ Click **Turbo_897_Test** to select this VM.
 
 Let's take a look at **Capacity and Usage**.
 
-
-
 >**🚀 <u>Action</u>**
 Click **Capacity and Usage** 
 
@@ -260,9 +237,9 @@ Click **Capacity and Usage**
 
 **📣 <u>Narration</u>**
 
-This shows me that my VM is consuming Resources that we call Commodities, like memory and CPU from the underlying host.
+This shows me that my VM is consuming Resources that we call **Commodities**, like memory and CPU from the underlying host.
 
-In this example I am consuming a commodity that's called memory from my host, in this case 8.8GB.
+In this example I am consuming a **Commodity** that's called memory from my host, in this case 8.8GB.
 
 And what you can see here constitutes some sort of shopping list that contains all resources that I need, like amount of memory, this amount of CPU, this amount of storage, and so on and so forth.
 
@@ -273,22 +250,24 @@ So basically, and that's what I explained in the beginning before going into the
 So as en example:
 
 - If I have over provisioned memory, I will virtually sell some memory by scaling down, which will make my shopping list overall cheaper.
-- If I see that I don't have enough memory, I will buy some memory my shopping list will get a little bit more expensive, but I'm ensuring my performance.
+- If I see that I don't have enough memory, I will buy some memory, then my shopping list will get a little bit more expensive, but I'm ensuring my performance.
 
 ![image](./pics/image.005.png)
 
 
 
 >**🚀 <u>Action</u>**
->Click anywhere in the Clicktrhough demo, or scroll in the live demo to show the Consumed resources
+>Click anywhere in the Clicktrhough demo, or scroll in the live demo to show the Provided resources
 
-![image](./pics/image.005.png)
+![image](./pics/image.005.1.png)
 
-On the other hand, I see that this VM is providing virtual memory, storage as well as energy and carbon footprint, for example.
+On the other hand, I see that this VM is providing for example **VirtualMemory**, **Storage** as well as **Energy** and **CarbonFootprint**.
 
 So those resources/commodities are being consumed by what is running on this VM, which might be containers, a database or any other workload.
 
-So that's how the optimization work, and this generates what we call actions.
+In this case the **VM** provides 9GB of **VirtualMemory** and 2.73GB are used.
+
+So that's how the optimization works, and this generates what we call actions.
 
 
 
@@ -310,7 +289,7 @@ The actions make suggestions in order to ensure the best possible performance an
 
 ![image](./pics/image.006.png)
 
-In the diagram, we observe that the memory utilization on the virtual machine (VM) has been consistently at its maximum over the last 30 days. With this **Performance Action**, our goal is to bring the memory utilization down to 70-75%, providing a buffer for potential memory spikes and ensuring optimal efficiency. In the resource impact section, you can see that we are scaling the memory capacity from 4GB to 6GB to achieve this objective.
+In the diagram, we observe that the memory utilization on the **VirtualMachine** has been consistently at its maximum over the last 30 days. With this **Performance Action**, our goal is to bring the memory utilization down to 70-75%, providing a buffer for potential memory spikes and ensuring optimal efficiency. In the resource impact section, you can see that we are scaling the memory capacity from 9GB to 13GB to achieve this objective.
 
 
 
@@ -324,7 +303,7 @@ In the diagram, we observe that the memory utilization on the virtual machine (V
 
 **📣 <u>Narration</u>**
 
-With this **Efficiency Action**, we will scale down from 2 to 1 CPU to increase the CPU utilization from ~10% to ~25% on this VM. 
+With this **Efficiency Action**, we will scale down from 2 to 1 CPU to increase the CPU utilization from ~30% to ~70% on this VM. 
 
 All the actions can be executed manually using the execute button. 
 
@@ -343,14 +322,14 @@ For instance:
 
 ## 2.6 Zoom into Business Application
 >**🚀 <u>Action</u>**
-In the Demo UI, click **Turbonomic `(1)`**
+Click **Turbonomic**
 Click **Mission Control** in the Top Business Application section
 
 ![image](./pics/image.009.png)
 
 **📣 <u>Narration</u>**
 
-Let's refocus on the initial scenario and delve into my Application. 
+Let's refocus on the initial scenario and dive into my Application. 
 
 What I can do now is drill down into my **BusinessApplication**, called Mission Control. 
 
@@ -400,7 +379,7 @@ Click **psl-scale-vm1**
 
 This action is not related to performance improvements, however it allows me to save money while still ensuring the perfomance of my application. 
 
-In the details i can see that I get more VCPU capacity and better performance for less money. In total I would save 82 per month if I scale my VM to the suggested instance type because:
+In the details i can see that I get more VCPU capacity and better performance for less money. In total I would save 82$ per month if I scale my VM to the suggested instance type because:
 
 - This instance type is less expensive than the previous one and
 - It is already covered by capacity that I have bought upfront - what we call **DiscountCoverage** in Turbonomic.
@@ -418,7 +397,7 @@ Click **Host** in the provision category of the left bar
 
 We could go through the whole list but what we have mainly to do is to provision three new hosts to make sure that we can tackle the future resource needs of my application so that we can spread out the workloads over more hosts that we have today. Those three actions that you can see here indicate exactly that.
 
-So by taking all the actions that I have shonw you, I should be able to tackle the problems that have been mentioned by the CTO. 
+So by taking all the actions that I have shown you, I should be able to tackle the problems that have been mentioned by the CTO. 
 
 Now to ensure that we don't rapidly run in new problems, let's plan ahead a little bit for next year.
 
@@ -433,6 +412,7 @@ Click **New Plan**
 ![image](./pics/image.014.png)
 
 **📣 <u>Narration</u>**
+
 With the **Plan** feature I'm able to create "what-if" scenarios and simulate possible outcomes for the future. 
 
 Here we can see the different plan scenarios which we could simulate. 
@@ -454,7 +434,7 @@ On this plan summary we get a good overview of the actions we have to implement 
 - We will have to provision three new hosts (as we had already seen in the suggested actions)
 - We will also have to provision more storage in order to ensure growth projected by Turbonomics machine learning algorithms
 
-The goal being to lower the Host and Storage Density to make room for future needs.
+The goal is to lower the Host and Storage Density to make room for future needs.
 
 >**🚀 <u>Action</u>**
 Scroll down to **Hosts** (click on the lower part of the slide for the click-through demo)
@@ -467,7 +447,7 @@ It's interesting to see that after the plan's execution we will have much more e
 
 
 
-For the second half of next year there were plans to migrate the on-prem instances to cloud in order to reduce the footprint in our local data center.
+For the second half of next year we plan to migrate the on-prem instances to cloud in order to reduce the footprint in our local data center.
 
 Let me create a plan to help me get a good overview on how we could do that.
 
@@ -509,17 +489,14 @@ Now let's look at the **Optimized** column:
 
 If I optimize the resources before moving, I would have only around $1,000 compute cost and $120 of storage cost for a total cost of $1,150 a month for the migration project.
 
-And I can upload those migration plans to the Azure Migration Assistant to help with the migration.
-
-
-
 And thanks to Turbonomic, I can gain about $1,300. This doesn't seem like an enormous amount but 50% does.
 
 So if you scale this to your cloud cost, imagine what a 25%-50% reduction in cost would mean to you.
 
+Furthermore I can upload those migration plans to the Azure Migration Assistant to help with the migration.
 
 
-And with that I am confident that the immediate perfomance problems are being solved and that we have a solid plan to stabilize the platform for the next 6 months and a good idea fo the susequent move to the cloud.
+And with that I am confident that the immediate perfomance problems are being solved and that we have a solid plan to stabilize the platform for the next 6 months and a good idea fo the subsequent move to the cloud.
 
 So Christmas and the holiday selling season are saved and my CTO should be happy, at least until next year, when we start talking about moving to cloud.
 
