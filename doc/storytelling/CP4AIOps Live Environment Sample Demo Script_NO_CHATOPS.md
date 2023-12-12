@@ -100,6 +100,10 @@ You will demonstrate the following major selling points around IBM AIOps:
 1. Summary
 
 
+## 1.4 Demonstration Video Walkthrough
+
+You can watch the [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) to get an idea on how to do the demo (based on 3.2). 
+
 
 # 2. Deliver the demo
 
