@@ -6,7 +6,7 @@
 
 
 
-![image](./pics/finops00006.png)
+![image](./pics/finops/finops00006.png)
 
 <center> ©2023 Niklaus Hirt / IBM </center>
 
@@ -95,7 +95,7 @@ In this demo, you will demonstrate the following major selling points around **A
 - **Optimize Cloud Costs** (Optimize): Leverage optimization recommendations covering a wide set of cloud services across multi-cloud environments to reduce operating expenses and fund future investments. (in Turbonomic)
 
 
-![image](./pics/finops00100.png)
+![image](./pics/finops/finops00100.png)
 
 <div style="page-break-after: always;"></div>
 
@@ -153,7 +153,7 @@ Now let's start the demo.
 
 ### 2.2.1 Login to Apptio (only on live Environment)
 
-![image](./pics/finops00001.png)
+![image](./pics/finops/finops00001.png)
 
 **📣 <u>Narration</u>**
 
@@ -184,7 +184,7 @@ But before examining the current cloud costs, let's have look at the budget that
 
 ### 2.2.2 Visualize the provided budget
 
-![image](./pics/finops00002.png)
+![image](./pics/finops/finops00002.png)
 
 **📣 <u>Narration</u>**
 
@@ -202,7 +202,7 @@ As you can see, the budget that Mark has provided, forsees a massive reduction f
 
 ### 2.2.3 Forecast costs based on budget
 
-![image](./pics/finops00003.png)
+![image](./pics/finops/finops00003.png)
 
 **📣 <u>Narration</u>**
 
@@ -215,7 +215,7 @@ However, in the short term I have to act on the concerns from my CFO.
 >
 >- Click on **Current Month**
 
-![image](./pics/finops00004.png)
+![image](./pics/finops/finops00004.png)
 
 
 
@@ -231,7 +231,7 @@ So now I have to understand where this overspend comes from and how I can quickl
 >- Click on **Delta Spend**
 
 
-![image](./pics/finops00005.png)
+![image](./pics/finops/finops00005.png)
 
 **📣 <u>Narration</u>**
 
@@ -255,7 +255,7 @@ So let me try to better understand the current cloud spend.
 ### 2.3.2 Explain True Cost
 
 
-![image](./pics/finops00006.png)
+![image](./pics/finops/finops00006.png)
 
 **📣 <u>Narration</u>**
 
@@ -266,7 +266,7 @@ This allows me to see how the costs "flow" between the different **dimensions**.
 
 First let me zoom in on the account that is generating the problematic costs overruns.
 
-![image](./pics/finops00007.png)
+![image](./pics/finops/finops00007.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -276,7 +276,7 @@ First let me zoom in on the account that is generating the problematic costs ove
 
 
 
-![image](./pics/finops00008.png)
+![image](./pics/finops/finops00008.png)
 
 **📣 <u>Narration</u>**
 
@@ -292,7 +292,7 @@ Let me check if there are any unexpected costs.
 
 ### 2.3.3 Anomalies
 
-![image](./pics/finops00010.png)
+![image](./pics/finops/finops00010.png)
 
 **📣 <u>Narration</u>**
 
@@ -304,7 +304,7 @@ I can see that there are several anomalies regarding storage.
 >- Click **Details**
 
 
-![image](./pics/finops00011.png)
+![image](./pics/finops/finops00011.png)
 
 **📣 <u>Narration</u>**
 
@@ -323,7 +323,7 @@ I will be using **Turbonomic** for this as it allows me to automatically and sec
 
 ### 2.4.1 Login to Turbonomic (only on live Environment)
 
-![image](./pics/finops00019.png)
+![image](./pics/finops/finops00019.png)
 
 Let’s take a closer look at Turbonomic.
 To get started with the platform, I will log in and get started managing my environment.
@@ -347,7 +347,7 @@ To get started with the platform, I will log in and get started managing my envi
 This page is your starting point for sessions with Turbonomic.
 
 
-![image](./pics/finops00019.png)
+![image](./pics/finops/finops00019.png)
 
 **📣 <u>Narration</u>**
 
@@ -382,7 +382,7 @@ By managing relationships between these buyers and sellers, Turbonomic provides 
 
 
 
-![image](./pics/image.001.png)
+![image](./pics/finops/image.001.png)
 
 
 <div style="page-break-after: always;"></div>
@@ -395,7 +395,7 @@ By managing relationships between these buyers and sellers, Turbonomic provides 
 It's pretty simple to construct this **SupplyChain**, and now let's see how I add additional elements to Turbonomic by onboarding my sales application.
 
 
-![image](./pics/image.002.png)
+![image](./pics/finops/image.002.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -404,7 +404,7 @@ It's pretty simple to construct this **SupplyChain**, and now let's see how I ad
 >- Click **Target Configuration**
 
 
-![image](./pics/finops00020.png)
+![image](./pics/finops/finops00020.png)
 
 **📣 <u>Narration</u>**
 
@@ -423,7 +423,7 @@ For my example I'm using a user that already has read and write access.
 
 When we start off for POVs or POCs for example, we might as well chose a read-only user so that we can just start reading and making recommendations but not change anything in your infrastructure.
 
-![image](./pics/finops00021.png)
+![image](./pics/finops/finops00021.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -451,7 +451,7 @@ Now my application will be added as a target. It will take 10-15 minutes for its
 
 ### 2.4.5 Commodities and Optimization  
 
-![image](./pics/finops00019.png)
+![image](./pics/finops/finops00019.png)
 
 
 **📣 <u>Narration</u>**
@@ -473,7 +473,7 @@ If I go, for example, into virtual machines and just pick one virtual machine he
 >- Click **Turbo_897_Test** to select this VM.
 
 
-![image](./pics/finops00022.png)
+![image](./pics/finops/finops00022.png)
 
 **📣 <u>Narration</u>**
 
@@ -488,7 +488,7 @@ Let’s take a closer look at how recommended actions are being created in Turbo
 >
 >- Click **Capacity and Usage** 
 
-![image](./pics/finops00023.png)
+![image](./pics/finops/finops00023.png)
 
 
 **📣 <u>Narration</u>**
@@ -516,7 +516,7 @@ So as en example:
 >
 >- Click anywhere in the Clickthrough demo, or scroll in the live demo to show the Consumed resources
 
-![image](./pics/finops00024.png)
+![image](./pics/finops/finops00024.png)
 
 On the other hand, I see that this VM is also providing commodities that are being consumed by what is running on this VM, which might be containers, a database or any other workload. Again each resource is a `buyer` and a `seller`
 
@@ -533,7 +533,7 @@ So that's how the optimization work, and this generates trustworthy actions that
 
 ### 2.4.6 Actions
 
-![image](./pics/finops00025.png)
+![image](./pics/finops/finops00025.png)
 
 **📣 <u>Narration</u>**
 
@@ -545,7 +545,7 @@ The actions make suggestions in order to ensure the best possible **performance*
 
 
 
-![image](./pics/finops00026.png)
+![image](./pics/finops/finops00026.png)
 
 **📣 <u>Narration</u>**
 
@@ -560,7 +560,7 @@ For the first example, the memory utilization on the virtual machine (VM) has be
 >- Click the **right arrow** on the top right to go to the second action
 
 
-![image](./pics/finops00027.png)
+![image](./pics/finops/finops00027.png)
 
 **📣 <u>Narration</u>**
 
@@ -606,7 +606,7 @@ Now let's take a look at how I can optimise my application with Turbonomic.
 
 
 
-![image](./pics/finops00030.png)
+![image](./pics/finops/finops00030.png)
 
 
 I have already prepared a custom Dashboard for one component of my Application.
@@ -617,7 +617,7 @@ I have already prepared a custom Dashboard for one component of my Application.
 >- Click on **SE Demo Custom Dashboard**
 
 
-![image](./pics/finops00031.png)
+![image](./pics/finops/finops00031.png)
 
 
 **📣 <u>Narration</u>**
@@ -630,7 +630,7 @@ This Dashboard shows me all relevant information to optimise my application, lik
 >- Click in the lower part of the screen (for the click through demo) or scroll down 
 
 
-![image](./pics/finops00032.png)
+![image](./pics/finops/finops00032.png)
 
 **📣 <u>Narration</u>**
 
@@ -655,7 +655,7 @@ It also shows me that I have a lot of potential savings with non optimised and u
 
 #### 2.4.8.1 Unused Volumes
 
-![image](./pics/finops00034.png)
+![image](./pics/finops/finops00034.png)
 
 **📣 <u>Narration</u>**
 
@@ -673,7 +673,7 @@ By deleting them, I could already save over 450€ a month.
 
 
 
-![image](./pics/finops00035.png)
+![image](./pics/finops/finops00035.png)
 
 
 I just have to select and execute the actions that I want to apply.
@@ -688,7 +688,7 @@ Let's have a look at other possible improvements.
 
 #### 2.4.8.2 Scaling Volumes
 
-![image](./pics/finops00040.png)
+![image](./pics/finops/finops00040.png)
 
 
 **📣 <u>Narration</u>**
@@ -712,7 +712,7 @@ Let's have a look.
 >- Click on **Details** on the first action
 
 
-![image](./pics/finops00041.png)
+![image](./pics/finops/finops00041.png)
 
 **📣 <u>Narration</u>**
 
@@ -731,7 +731,7 @@ Another similar example might be the need for a bigger VM but which costs less i
 
 #### 2.4.8.3 Scaling VMs
 
-![image](./pics/finops00036.png)
+![image](./pics/finops/finops00036.png)
 
 **📣 <u>Narration</u>**
 
@@ -747,7 +747,7 @@ Let's take a look at the first action.
 
 
 
-![image](./pics/finops00037.png)
+![image](./pics/finops/finops00037.png)
 
 **📣 <u>Narration</u>**
 
@@ -760,7 +760,7 @@ This is a typical and simple example where my CPU and Network IO is overprovisio
 >- Click on **Details** for **Inst1-SuwoM** (the one with the Performance action)
 
 
-![image](./pics/finops00038.png)
+![image](./pics/finops/finops00038.png)
 
 **📣 <u>Narration</u>**
 
@@ -792,7 +792,7 @@ I want to use Turbonomic to help me simulate the optimization my whole applicati
 
 #### 2.4.9.1 Running the Plan 
 
-![image](./pics/finops00042.png)
+![image](./pics/finops/finops00042.png)
 
 
 
@@ -804,7 +804,7 @@ I want to use Turbonomic to help me simulate the optimization my whole applicati
 >- Click on **New Plan**
 
 
-![image](./pics/finops00043.png)
+![image](./pics/finops/finops00043.png)
 
 **📣 <u>Narration</u>**
 
@@ -840,7 +840,7 @@ And then I can run the plan.
 #### 2.4.9.2 Understanding the Plan 
 
 
-![image](./pics/finops00045.png)
+![image](./pics/finops/finops00045.png)
 
 
 **📣 <u>Narration</u>**
@@ -863,7 +863,7 @@ To wrap it up, let's have a look at some of the actions that have been recommend
 >
 >- Click on **Plan Actions** 
 
-![image](./pics/finops00048.png)
+![image](./pics/finops/finops00048.png)
 
 **📣 <u>Narration</u>**
 
@@ -877,7 +877,7 @@ Only here I have the complete scope of my Application landscape.
 >
 >- Click on **Reserved Instance** 
 
-![image](./pics/finops00049.png)
+![image](./pics/finops/finops00049.png)
 
 **📣 <u>Narration</u>**
 

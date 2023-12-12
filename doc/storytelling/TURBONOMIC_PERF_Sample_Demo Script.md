@@ -147,7 +147,7 @@ So we get a complete overview of our infrastructure, be it on-prem or off-prem, 
 >**🚀 <u>Action</u>**
 In the Demo UI, click **Turbonomic** on the top left
 
-![image](./pics/image.001.png)
+![image](./pics/turbo/image.001.png)
 
 **📣 <u>Narration</u>**
 
@@ -164,7 +164,7 @@ Click **Settings**
 Click **Target Configuration**
 
 
-![image](./pics/image.002.png)
+![image](./pics/turbo/image.002.png)
 
 **📣 <u>Narration</u>**
 
@@ -224,7 +224,7 @@ Click **Virtual Machine** on the supply chain
 Click **List of Virtual Machines**
 Click **Turbo_897_Test** to select this VM.
 
-![image](./pics/image.003.png)
+![image](./pics/turbo/image.003.png)
 
 **📣 <u>Narration</u>**
 
@@ -233,7 +233,7 @@ Let's take a look at **Capacity and Usage**.
 >**🚀 <u>Action</u>**
 Click **Capacity and Usage** 
 
-![image](./pics/image.004.png)
+![image](./pics/turbo/image.004.png)
 
 **📣 <u>Narration</u>**
 
@@ -252,14 +252,14 @@ So as en example:
 - If I have over provisioned memory, I will virtually sell some memory by scaling down, which will make my shopping list overall cheaper.
 - If I see that I don't have enough memory, I will buy some memory, then my shopping list will get a little bit more expensive, but I'm ensuring my performance.
 
-![image](./pics/image.005.png)
+![image](./pics/turbo/image.005.png)
 
 
 
 >**🚀 <u>Action</u>**
 >Click anywhere in the Clicktrhough demo, or scroll in the live demo to show the Provided resources
 
-![image](./pics/image.005.1.png)
+![image](./pics/turbo/image.005.1.png)
 
 On the other hand, I see that this VM is providing for example **VirtualMemory**, **Storage** as well as **Energy** and **CarbonFootprint**.
 
@@ -287,13 +287,13 @@ The actions make suggestions in order to ensure the best possible performance an
 
 
 
-![image](./pics/image.006.png)
+![image](./pics/turbo/image.006.png)
 
 In the diagram, we observe that the memory utilization on the **VirtualMachine** has been consistently at its maximum over the last 30 days. With this **Performance Action**, our goal is to bring the memory utilization down to 70-75%, providing a buffer for potential memory spikes and ensuring optimal efficiency. In the resource impact section, you can see that we are scaling the memory capacity from 9GB to 13GB to achieve this objective.
 
 
 
-![image](./pics/image.007.png)
+![image](./pics/turbo/image.007.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -316,7 +316,7 @@ For instance:
 - Non-disruptive actions in a Development environment can be executed every night.
 - Disruptive actions in a Production Environment can only be executed during  a maintenance window and with an additional sign-off in a tool like ServiceNow.
 
-![image](./pics/image.008.png)
+![image](./pics/turbo/image.008.png)
 
 <div style="page-break-after: always;"></div>
 
@@ -325,7 +325,7 @@ For instance:
 Click **Turbonomic**
 Click **Mission Control** in the Top Business Application section
 
-![image](./pics/image.009.png)
+![image](./pics/turbo/image.009.png)
 
 **📣 <u>Narration</u>**
 
@@ -347,7 +347,7 @@ I've established my Service Level Agreement (SLA) indicated in red. Upon examina
 Click **Actions** on the top bar
 Click **Virtual Machines** in the **Resize** category on the left bar
 
-![image](./pics/image.010.png)
+![image](./pics/turbo/image.010.png)
 
 **📣 <u>Narration</u>**
 
@@ -358,7 +358,7 @@ As you can see here we have several VM's which we need to resize from 1GB to 2GB
 >**🚀 <u>Action</u>**
 Click **vc01-centos-C06**
 
-![image](./pics/image.011.png)
+![image](./pics/turbo/image.011.png)
 
 **📣 <u>Narration</u>**
 
@@ -373,7 +373,7 @@ Click the **cross** on the top right
 Click **Virtual Machines** in the **Scale** category of the left bar
 Click **psl-scale-vm1**
 
-![image](./pics/image.012.png)
+![image](./pics/turbo/image.012.png)
 
 **📣 <u>Narration</u>**
 
@@ -391,7 +391,7 @@ So those actions will help us ensure future performance of our application while
 Click the **cross** on the top right
 Click **Host** in the provision category of the left bar
 
-![image](./pics/image.013.png)
+![image](./pics/turbo/image.013.png)
 
 **📣 <u>Narration</u>**
 
@@ -409,7 +409,7 @@ Let me explain how we can start planning for future scenarios.
 Click **Plan**
 Click **New Plan**
 
-![image](./pics/image.014.png)
+![image](./pics/turbo/image.014.png)
 
 **📣 <u>Narration</u>**
 
@@ -425,7 +425,7 @@ Click **all-vCenter-VMs**
 Select **the actions of your choice** to be included in the plan
 Click **Run Plan**
 
-![image](./pics/image.015.png)
+![image](./pics/turbo/image.015.png)
 
 **📣 <u>Narration</u>**
 
@@ -439,7 +439,7 @@ The goal is to lower the Host and Storage Density to make room for future needs.
 >**🚀 <u>Action</u>**
 Scroll down to **Hosts** (click on the lower part of the slide for the click-through demo)
 
-![image](./pics/image.016.png)
+![image](./pics/turbo/image.016.png)
 
 **📣 <u>Narration</u>**
 
@@ -465,7 +465,7 @@ Click **Next: Discount Settings**
 Select **3 Years**
 Click **Run Plan**
 
-![image](./pics/image.017.png)
+![image](./pics/turbo/image.017.png)
 
 **📣 <u>Narration</u>**
 
