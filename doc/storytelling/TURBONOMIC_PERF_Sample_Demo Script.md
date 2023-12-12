@@ -76,7 +76,9 @@ You should be familiar with the following terminology when discussing Turbonomic
    1. Explain Plan Management
 1. Summary
 
+## 1.4 Demonstration Video Walkthrough
 
+You can watch the [Demo Walkthrough video](https://ibm.box.com/s/ld3hjg9chhk3o0lzmkz99uimez23ta7q) to get an idea on how to do the demo. 
 
 # 2. Deliver the demo
 
@@ -199,7 +201,7 @@ Now our RobotShop application will be added as a target. It will take 10-15 minu
 
 
 ## 2.5 Explanation Commodities and Optimization 
- 
+
 >**🚀 <u>Action</u>**
 In the Demo UI, click **Turbonomic** on the top left to get back on main page
 

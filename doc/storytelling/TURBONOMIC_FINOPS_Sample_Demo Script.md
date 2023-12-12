@@ -101,26 +101,42 @@ In this demo, you will demonstrate the following major selling points around **A
 
 ## 1.3 Demonstration flow
 1. Scenario introduction
+
 2. FinOps Operate - Budgets and Forecasting (in Apptio Cloudability)
 	1. Login to Apptio
 	1. Visualize provided budget
 	2. Forecast costs based on budget
+	
 2. FinOps Inform - Understand current costs (in Apptio Cloudability)
    1. Explain True Cost
    1. Anomalies
+   
 3. FinOps Optimize - Optimize Costs (in Turbonomic)
    1. Login to Turbonomic
-   1. The SupplyChain
-   2. Application Resource Management
-   3. Onboarding a new Application
-   1. Commodities and Optimization  
-   2. Actions
-   3. Custom Dashboard
-   4. Optimising for Cost
-   5. Scnarios and Plans
-   1. Wrap Up
+   
+   2. The SupplyChain
+   
+   3. Application Resource Management
+   
+   4. Onboarding a new Application
+   
+   5. Commodities and Optimization  
+   
+   6. Actions
+   
+   7. Custom Dashboard
+   
+   8. Optimising for Cost
+   
+   9. Scnarios and Plans
+   
+   10. Wrap Up
+   
+       
 
+## 1.4 Demonstration Video Walkthrough
 
+Coming soon.
 
 
 # 2. Deliver the demo
