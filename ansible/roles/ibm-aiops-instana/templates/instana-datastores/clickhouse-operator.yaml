@@ -3755,7 +3755,7 @@ spec:
         prometheus.io/port: '8888'
         prometheus.io/scrape: 'true'
     spec:
-      serviceAccountName: clickhouse-operator
+      #serviceAccountName: clickhouse-operator
       volumes:
         - name: etc-clickhouse-operator-folder
           configMap:

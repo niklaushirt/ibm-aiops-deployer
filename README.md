@@ -175,9 +175,9 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 1. Once the cluster is provisioned, don't forget to extend it as needed.
 
 
-### 1.1.3 Get the installation token (registry pull token) 
+### 1.1.3 Get the entitlement key (registry pull token) 
 
-You can get the installation (registry pull token) token from [https://myibm.ibm.com/products-services/containerlibrary](https://myibm.ibm.com/products-services/containerlibrary).
+You can get the entitlement key (registry pull token) from [https://myibm.ibm.com/products-services/containerlibrary](https://myibm.ibm.com/products-services/containerlibrary).
 
 This allows the images to be pulled from the IBM Container Registry.
 
@@ -242,7 +242,7 @@ Here is a quick video that walks you through the installation process
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your pull token from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
 3. Click `Save`
 
@@ -550,7 +550,7 @@ Check that the green notification bar is displayed as follows
 # 3. Demo the Solution
 ---------------------------------------------------------------
 
-📹 Please use the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
+📹 Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
 📹 The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
 
@@ -600,7 +600,7 @@ To access the demo environment:
 
 ## 3.3 🚀 Demo the Solution
 
-Please use the [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
+Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
 Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md#2-deliver-the-demo).
 
