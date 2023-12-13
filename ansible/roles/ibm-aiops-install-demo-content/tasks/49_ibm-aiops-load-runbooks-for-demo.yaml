@@ -148,6 +148,11 @@
     executable: /bin/bash
 
 
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
 
 
 
@@ -220,6 +225,13 @@
   register: RBA_RESULT
   args:
     executable: /bin/bash
+
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
 
 
 
@@ -310,6 +322,13 @@
 
 
 
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
+
+
 
 
 - name: 🚀 AWX - Create AIOPS Runbook - Create RobotShop Incident
@@ -393,6 +412,13 @@
   args:
     executable: /bin/bash
 
+
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
 
 
 
@@ -480,6 +506,13 @@
 
 
 
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
+
+
 
 - name: 🚀 AWX - Create AIOPS Runbook - Create ACME Incident
   shell: |
@@ -564,6 +597,13 @@
 
 
 
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
+
+
 - name: 🚀 AWX - Create AIOPS Runbook - Create London Underground Incident
   shell: |
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -645,6 +685,13 @@
   args:
     executable: /bin/bash
 
+
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
 
 
 
