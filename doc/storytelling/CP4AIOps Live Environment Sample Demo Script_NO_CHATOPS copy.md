@@ -1,7 +1,7 @@
 
 
 <center> <h1>IBM AIOps </h1> </center>
-<center> <h2>Sample Demo Script for the Live Environment</h2> </center>
+<center> <h2>Sample Demo Script for the Click Through PPT</h2> </center>
 
 
 
