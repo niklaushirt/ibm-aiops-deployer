@@ -26,7 +26,7 @@ Showcase how CP4AIOps can help you understand and resolve incidents quickly. Wit
 
 **Preparation time**: About 1 hour to get used to the demo flow and click targets.
 
-#### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md)
+#### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/CP4AIOps_Sample%20Demo%20Script.md)
 
 
 ---
@@ -64,6 +64,27 @@ Showcase how Apptio Cloudability and Turbonomic can help manage and optimize pub
 **Preparation time**: About 1 hour to get used to the demo flow and click targets.
 
 #### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/TURBONOMIC_FINOPS_Sample_Demo%20Script.md)
+
+
+
+---
+### 🚀 Storytelling for CloudPak for AIOps with Live Environment
+
+![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/aiops_title.png)
+
+
+
+Showcase how CP4AIOps can help you understand and resolve incidents quickly. With integration of Instana, Turbonomic, ELK, Slack and much more. The story explains how a broken website will be fixed.
+
+**Available**: As soon as you get your Cluster
+
+**Access for**: IBMers and Business Partners
+
+**Preparation time**: About 3 hours for installation and to get used to the demo flow.
+
+#### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md)
+
+
 
 ---------------------------------------------------------------------------------------------------------
 
