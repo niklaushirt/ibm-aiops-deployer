@@ -335,7 +335,8 @@ First and before I continue examining the Incident I want to let my colleagues k
 ### 2.4.5 Similar Incidents
 
 >**🚀 <u>Action</u>**
-Click the first similar resolution ticket  
+>
+>- Click the first similar resolution ticket  
 
 
 ![image](./pics/aiops/image.060.png)  
@@ -363,7 +364,8 @@ Let me check how the problem was resolved for this incident.
 
 
 >**🚀 <u>Action</u>**
->Click on the **Resolution Information** Tab
+>
+>- Click on the **Resolution Information** Tab
 
 
 ![image](./pics/aiops/image.076.png)  
@@ -387,9 +389,10 @@ To finish up, I will check if the incident was related to an official change.
 ![image](./pics/aiops/image.077.png)
 
 >**🚀 <u>Action</u>**
->Click on the **Related Records** Tab
 >
->Click on the **i** Button next to **Caused by Change**
+>- Click on the **Related Records** Tab
+>
+>- Click on the **i** Button next to **Caused by Change**
 
 ![image](./pics/aiops/image.078.png)  
 
@@ -413,7 +416,8 @@ But for the sake of the demo, let's dig a little deeper first.
 ### 2.4.6 Examine the Alerts
 
 >**🚀 <u>Action</u>**
-Close the ServiceNow page and click the **Alerts** Tab. 
+>
+>- Close the ServiceNow page and click the **Alerts** Tab. 
 
 ![image](./pics/aiops/image.061.png)  
 
@@ -422,7 +426,8 @@ Close the ServiceNow page and click the **Alerts** Tab.
 Notice, that alerts are not sorted by severity, but the AI engine ranked them by relevance. The ones that are likely related to the root cause are at the top. Let’s look at the first row for some more details. 
 
 >**🚀 <u>Action</u>**
-Click on the first Alert in the list. 
+>
+>- Click on the first Alert in the list. 
 
 **📣 <u>Narration</u>**
 
@@ -433,7 +438,8 @@ In the **Alert details,** you can see different types of groupings explaining wh
 #### Scope based grouping
 
 >**🚀 <u>Action</u>**
-Click **Scope-based grouping**. 
+>
+>- Click **Scope-based grouping**. 
 
 
 ![image](./pics/aiops/image.027.png)
@@ -445,7 +451,8 @@ Some alerts were added to the incident because they occurred on the same resourc
 #### Topological grouping
 
 >**🚀 <u>Action</u>**
-Click **Topological grouping**. 
+>
+>- Click **Topological grouping**. 
 
 
 ![image](./pics/aiops/image.028.png)
@@ -459,7 +466,8 @@ Other alerts were grouped because they occurred on the logically or physically r
 #### Temporal grouping
 
 >**🚀 <u>Action</u>**
-Click **Temporal correlation**. 
+>
+>- Click **Temporal correlation**. 
 
 
 ![image](./pics/aiops/image.029.png)
@@ -471,14 +479,16 @@ Finally, the temporal correlation adds to the incident events that previously, i
 
 
 >**🚀 <u>Action</u>**
-**Close** the Alert details window. 
+>
+>- **Close** the Alert details window. 
 
 <div style="page-break-after: always;"></div>
 
 ### 2.4.7 Incident timeline
 
 >**🚀 <u>Action</u>**
->Click twice on the  **Last occurence** Header. 
+>
+>- Click twice on the  **Last occurence** Header. 
 >
 >***Result**: The "Commit in repository robot-shop by Niklaus Hirt on file robot-shop.yaml" should be at the bottom* 
 
@@ -507,7 +517,8 @@ Other events are confirming the hypothesis.
 ![image](./pics/aiops/image.064.png)
 
 >**🚀 <u>Action</u>**
-Click on a Alert line that has **ANOMALY:** in the Type column. Then open the **Metric Anomaly Details** accordion. 
+>
+>- Click on a Alert line that has **ANOMALY:** in the Type column. Then open the **Metric Anomaly Details** accordion. 
 
 
 **📣 <u>Narration</u>**
@@ -518,7 +529,8 @@ Click on a Alert line that has **ANOMALY:** in the Type column. Then open the **
 ![image](./pics/aiops/image.065.png)
 
 >**🚀 <u>Action</u>**
-(1) In **Related Alerts** select some additional alerts.
+>
+>- (1) In **Related Alerts** select some additional alerts.
 
 
 **📣 <u>Narration</u>**
@@ -528,7 +540,8 @@ You can display several alerts at the same time to better understand the tempora
 <div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
-(2) Select a portion of the graph with your mouse to zoom in
+>
+>- (2) Select a portion of the graph with your mouse to zoom in
 
 
 **📣 <u>Narration</u>**
@@ -538,7 +551,8 @@ Now let's zoom in to better see the anomalies
 ![image](./pics/aiops/image.066.png)
 
 >**🚀 <u>Action</u>**
-Hover over a datapoint to show the before/after values. 
+>
+>- Hover over a datapoint to show the before/after values. 
 
 
 **📣 <u>Narration</u>**
@@ -546,7 +560,8 @@ Hover over a datapoint to show the before/after values.
 I can clearly see that the incident caused the **Latencies** to skyrocket and the **Transactions per Seconds** are almost zero. This is yet another confirmation of the source of the problem.
 
 >**🚀 <u>Action</u>**
-Close the Metric anomaly details view. 
+>
+>- Close the Metric anomaly details view. 
 
 <div style="page-break-after: always;"></div>
 
@@ -558,7 +573,8 @@ Close the Metric anomaly details view.
 
 
 >**🚀 <u>Action</u>**
->Click the **Topology** Tab. 
+>
+>- Click the **Topology** Tab. 
 
 
 
@@ -575,11 +591,13 @@ You can see that there are some statuses attached to the different resources, ma
 ![image](./pics/aiops/image.068.png)  
 
 >**🚀 <u>Action</u>**
->Find the resource which displays resource name “**mysql**”. Then, right-click and select **Resource details.** 
 >
+>- Find the resource which displays resource name “**mysql**”. Then, right-click and select **Resource details.** 
+
 
 >**🚀 <u>Action</u>**
->Click on Tab **Alerts** 
+>
+>- Click on Tab **Alerts** 
 
 
 ![image](./pics/aiops/image.069.png)
@@ -596,7 +614,8 @@ The topology service provides operations teams with complete up-to-date visibili
 ![image](./pics/aiops/image.070.png)
 
 >**🚀 <u>Action</u>**
->Find the resource which displays resource name “mysql”. Then, right-click and select **Open in Topology Viewer.** 
+>
+>- Find the resource which displays resource name “mysql”. Then, right-click and select **Open in Topology Viewer.** 
 
 
 
@@ -615,7 +634,8 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 ![image](./pics/aiops/image.072.png)
 
 >**🚀 <u>Action</u>**
->Change the number of hops to `4` and click **Render**.
+>
+>- Change the number of hops to `4` and click **Render**.
 
 
 
@@ -628,7 +648,8 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 ![image](./pics/aiops/image.073.png)
 
 >**🚀 <u>Action</u>**
->Right-click om mysql and select **Show last change in timeline** and check **Delta**
+>
+>- Right-click om mysql and select **Show last change in timeline** and check **Delta**
 
 
 
@@ -655,7 +676,7 @@ The interface shows the topology surrounding the mysql resource. I can see that 
 ### 2.6.1 Fixing the problem with runbook automation
 >**🚀 <u>Action</u>**
 >
->Click on the  **Overview**  Tab.
+>- Click on the  **Overview**  Tab.
 
 
 ![image](./pics/aiops/image.080.png)
@@ -672,16 +693,16 @@ Let’s execute the Runbook.
 
 >**🚀 <u>Action</u>**
 >
->Click on the three dots and click **Run**
+>- Click on the three dots and click **Run**
 >
->Click **Start Runbook**.
+>- Click **Start Runbook**.
 
 
 ![image](./pics/aiops/image.082.png)
 
 >**🚀 <u>Action</u>**
 >
->Click **Run** in Step 1.
+>- Click **Run** in Step 1.
 
 ![image](./pics/aiops/image.083.png)
 
@@ -703,9 +724,9 @@ The Runbook that I just started kicks off a Playbook on Ansible Tower. I can fol
 
 >**🚀 <u>Action</u>**
 >
->When finished, click **Complete**.
+>- When finished, click **Complete**.
 >
->Open the RobotShop application. Verify that ratings are correctly shown 
+>- Open the RobotShop application. Verify that ratings are correctly shown 
 
 
 
@@ -721,9 +742,9 @@ Before confirming that the runbook worked as expected, I should check the RobotS
 
 >**🚀 <u>Action</u>**
 >
->Rate the Runbook
+>- Rate the Runbook
 >
->Then click **Runbook Worked**.
+>- Then click **Runbook Worked**.
 
 **📣 <u>Narration</u>**
 
@@ -734,11 +755,12 @@ So the runbook has resolved the problem. When I tell IBM AIOps that the Runbook 
 ### 2.6.2 Resolve the Incident
 
 >**🚀 <u>Action</u>**
->Click on **Change Incident Settings.**
 >
->Select **Change Status.**
+>- Click on **Change Incident Settings.**
 >
->Click on  **Resolved**
+>- Select **Change Status.**
+>
+>- Click on  **Resolved**
 
 
 ![image](./pics/aiops/image.079.png)  
