@@ -107,6 +107,7 @@ Obviously, Black Friday is an absolute priority for our end-of-year sales strate
 During the demonstration, we will be using the sample application called RobotShop, which serves as a proxy for any type of app. The application is built on a microservices architecture, and the services are running on Kubernetes cluster. All actions performed on Turbonomic, like adding the RobotShop application, are purely for demonstration purposes and **must not be executed**.
 
 >**🚀 <u>Action</u>**
+>
 >Use the [Click Through PPT](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true) to get started with the demo
 
 **📣 <u>Narration</u>**
@@ -126,8 +127,10 @@ Let’s take a closer look at Turbonomic.
 To get started with the platform, I will log in and get started managing my environment.
 
 >**🚀 <u>Action</u>**
-   - Navigate your Web browser to the Turbonomic installation
-   - Provide the user name and password for your account
+>
+>   - Navigate your Web browser to the Turbonomic installation
+> 
+>   - Provide the user name and password for your account
 
 
 
