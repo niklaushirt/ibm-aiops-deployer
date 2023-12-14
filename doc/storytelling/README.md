@@ -1,7 +1,7 @@
 # IBM IT Automation - Storytelling Demos
 
 
-## 📥 STORY TELLING
+## 📥 STORYTELLING
 
 
 Story-Telling demos showcasing the IBM IT Automation portfolio.
@@ -11,7 +11,9 @@ Different flavours of this demo are available, reaching from a very flexible, Po
 You pick the level which is most applicable for your situation.
 
 
+---
 
+![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/aiops_title.png)
 
 ### 🚀 Storytelling for CloudPak for AIOps
 
@@ -26,6 +28,10 @@ Showcase how CP4AIOps can help you understand and resolve incidents quickly. Wit
 #### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md)
 
 
+---
+
+![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/turbo_title.png)
+
 ### 🚀 Storytelling for Turbonomic
 
 Showcase how Turbonomic can help your operations team proactively optimize performance across mission-critical workloads, while improving cost.
@@ -37,6 +43,10 @@ Showcase how Turbonomic can help your operations team proactively optimize perfo
 **Preparation time**: About 1 hour to get used to the demo flow and click targets.
 
 #### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/TURBONOMIC_PERF_Sample_Demo%20Script.md)
+
+![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/finops_title.png)
+
+---
 
 ### 🚀 Storytelling for Apptio & Turbonomic
 
