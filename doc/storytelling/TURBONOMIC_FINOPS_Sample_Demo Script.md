@@ -1,7 +1,7 @@
 
 
 <center> <h1>Turbonomic - FinOps</h1> </center>
-<center> <h2>Sample Demo Script for the live demo environment</h2> </center>
+<center> <h2>Sample Demo Script for the Click Through PPT</h2> </center>
 
 
 
