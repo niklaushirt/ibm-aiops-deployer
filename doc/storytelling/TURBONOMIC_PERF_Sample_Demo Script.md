@@ -154,7 +154,8 @@ The same goes for virtual machine as well: So we have 946 virtual machines and t
 So we get a complete overview of our infrastructure, be it on-prem or off-prem, in the private or public cloud.
 
 >**🚀 <u>Action</u>**
-In the Demo UI, click **Turbonomic** on the top left
+>
+>In the Demo UI, click **Turbonomic** on the top left
 
 ![image](./pics/turbo/image.001.png)
 
@@ -169,8 +170,10 @@ It's pretty simple to construct this supply chain. Now let's see how we add addi
 ## 2.4 Integrating new Target
 
 >**🚀 <u>Action</u>**
-Click **Settings**
-Click **Target Configuration**
+>
+>Click **Settings**
+>
+>Click **Target Configuration**
 
 
 ![image](./pics/turbo/image.002.png)
@@ -194,11 +197,16 @@ Here we can use a user that already has read and write access.
 When we start off for POVs or POCs for example, we might as well chose a read-only user so that we can just start reading and making recommendations but not change anything in your vSphere or back-end or in your public cloud accounts.
 
 >**🚀 <u>Action</u>**
-Click **New Target**
-Click **Hypervisor**
-Click **vCenter**
-Add **Credentials**
-Click **Add**
+>
+>Click **New Target**
+>
+>Click **Hypervisor**
+>
+>Click **vCenter**
+>
+>Add **Credentials**
+>
+>Click **Add**
 
 **📣 <u>Narration</u>**
 
