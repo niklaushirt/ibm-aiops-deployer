@@ -124,6 +124,7 @@ You’ll see how:
 During the demonstration, we will be using the sample application called RobotShop, which serves as a proxy for any type of app. The application is built on a microservices architecture, and the services are running on Kubernetes cluster.
 
 >**🚀 <u>Action</u>**
+>
 >Use demo [introductory PowerPoint presentation](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/CP4AIOPS_DEMO_2023_V1.pptx?raw=true), to illustrate the narration. Adapt your details on Slide 1 and 13
 
 **📣 <u>Narration</u>**
@@ -203,7 +204,8 @@ Now let's start the demo.
 
 
 >**🚀 <u>Action</u>**
->Open the RobotShop application
+>
+>- Open the RobotShop application
 >
 >The Link can be found in the **Demo UI** under **Third-Party**. Play with the application UI.
 
@@ -226,7 +228,8 @@ Let’s verify what’s going on with the RobotShop site. The application is up 
 
 
 >**🚀 <u>Action</u>**
-Open any robot details to show that there are no ratings displayed.
+>
+>- Open any robot details to show that there are no ratings displayed.
 
 **📣 <u>Narration</u>**
 
@@ -242,7 +245,8 @@ I know that there are many ratings for each of the products that we sell, so whe
 ![image](./pics/aiops/image.054.png)
 
 >**🚀 <u>Action</u>**
-In the Demo UI, click **IBMAIOps `(1)`**
+>
+>- In the Demo UI, click **IBMAIOps `(1)`**
 
 
 
@@ -262,7 +266,8 @@ Let’s take a closer look at the incident that has been created in IBM AIOps.
 ![image](./pics/aiops/image.056.png)  
 
 >**🚀 <u>Action</u>**
-Click the "hamburger menu" on the upper left. Click **Stories and alerts**
+>
+>- Click the "hamburger menu" on the upper left. Click **Stories and alerts**
 
 
 
@@ -282,7 +287,8 @@ The **Incident** contains related log anomalies, topology, similar incidents, re
 ![image](./pics/aiops/image.056.png)  
 
 >**🚀 <u>Action</u>**
-Click the "hamburger menu" on the upper left. Click **Stories and alerts** 
+>
+>- Click the "hamburger menu" on the upper left. Click **Stories and alerts** 
 
 
 
@@ -309,11 +315,11 @@ As I said before, the Incident regroups all relevant information concerning the 
 ### 2.4.4 Acknowledge the Incident
 
 >**🚀 <u>Action</u>**
->Click on **Change Incident Settings.**
+>- Click on **Change Incident Settings.**
 >
->Select **Change Status.**
+>- Select **Change Status.**
 >
->Click on  **In progress**
+>- Click on  **In progress**
 
 
 ![image](./pics/aiops/image.079.png)  
