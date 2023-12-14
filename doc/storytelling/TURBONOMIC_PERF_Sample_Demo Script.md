@@ -3,6 +3,8 @@
 <center> <h1>Turbonomic - Performance</h1> </center>
 <center> <h2>Sample Demo Script for the live demo environment</h2> </center>
 
+![image](./pics/turbo/image.009.png)
+
 
 <center> ©2023 Joël Hartmann/Niklaus Hirt / IBM </center>
 
