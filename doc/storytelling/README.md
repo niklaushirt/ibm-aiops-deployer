@@ -12,10 +12,11 @@ You pick the level which is most applicable for your situation.
 
 
 ---
+### 🚀 Storytelling for CloudPak for AIOps
 
 ![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/aiops_title.png)
 
-### 🚀 Storytelling for CloudPak for AIOps
+
 
 Showcase how CP4AIOps can help you understand and resolve incidents quickly. With integration of Instana, Turbonomic, ELK, Slack and much more. The story explains how a broken website will be fixed.
 
@@ -29,10 +30,11 @@ Showcase how CP4AIOps can help you understand and resolve incidents quickly. Wit
 
 
 ---
+### 🚀 Storytelling for Turbonomic
 
 ![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/turbo_title.png)
 
-### 🚀 Storytelling for Turbonomic
+
 
 Showcase how Turbonomic can help your operations team proactively optimize performance across mission-critical workloads, while improving cost.
 
@@ -44,11 +46,14 @@ Showcase how Turbonomic can help your operations team proactively optimize perfo
 
 #### 🌏 [Access it here](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/doc/storytelling/TURBONOMIC_PERF_Sample_Demo%20Script.md)
 
+---
+### 🚀 Storytelling for Apptio & Turbonomic
+
 ![](https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/dev_latest/doc/storytelling/pics/global/finops_title.png)
 
----
 
-### 🚀 Storytelling for Apptio & Turbonomic
+
+
 
 Showcase how Apptio Cloudability and Turbonomic can help manage and optimize public cloud costs across all phases of the FinOps cycle.
 
