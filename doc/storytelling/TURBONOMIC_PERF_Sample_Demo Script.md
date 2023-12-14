@@ -171,9 +171,9 @@ It's pretty simple to construct this supply chain. Now let's see how we add addi
 
 >**🚀 <u>Action</u>**
 >
->Click **Settings**
+>   - Click **Settings**
 >
->Click **Target Configuration**
+>   - Click **Target Configuration**
 
 
 ![image](./pics/turbo/image.002.png)
@@ -198,15 +198,15 @@ When we start off for POVs or POCs for example, we might as well chose a read-on
 
 >**🚀 <u>Action</u>**
 >
->Click **New Target**
+>   - Click **New Target**
 >
->Click **Hypervisor**
+>   - Click **Hypervisor**
 >
->Click **vCenter**
+>   - Click **vCenter**
 >
->Add **Credentials**
->
->Click **Add**
+>   - Add **Credentials**
+> 
+>   - Click **Add**
 
 **📣 <u>Narration</u>**
 
@@ -218,7 +218,8 @@ Now our RobotShop application will be added as a target. It will take 10-15 minu
 ## 2.5 Explanation Commodities and Optimization 
 
 >**🚀 <u>Action</u>**
-In the Demo UI, click **Turbonomic** on the top left to get back on main page
+>
+>   - In the Demo UI, click **Turbonomic** on the top left to get back on main page
 
 **📣 <u>Narration</u>**
 
@@ -237,9 +238,12 @@ So I can see that my **VM** (here Turbo 897 test) is running in a **VirtualDataC
 Let’s take a closer look at how recommended actions are being created in Turbonomic. 
 
 >**🚀 <u>Action</u>**
-Click **Virtual Machine** on the supply chain
-Click **List of Virtual Machines**
-Click **Turbo_897_Test** to select this VM.
+>
+>   - Click **Virtual Machine** on the supply chain
+> 
+>   - Click **List of Virtual Machines**
+> 
+>   - Click **Turbo_897_Test** to select this VM.
 
 ![image](./pics/turbo/image.003.png)
 
@@ -248,7 +252,8 @@ Click **Turbo_897_Test** to select this VM.
 Let's take a look at **Capacity and Usage**.
 
 >**🚀 <u>Action</u>**
-Click **Capacity and Usage** 
+>
+>   - Click **Capacity and Usage** 
 
 ![image](./pics/turbo/image.004.png)
 
@@ -274,7 +279,8 @@ So as en example:
 
 
 >**🚀 <u>Action</u>**
->Click anywhere in the Clicktrhough demo, or scroll in the live demo to show the Provided resources
+>
+>   - Click anywhere in the Clicktrhough demo, or scroll in the live demo to show the Provided resources
 
 ![image](./pics/turbo/image.005.1.png)
 
@@ -290,7 +296,7 @@ So that's how the optimization works, and this generates what we call actions.
 
 >**🚀 <u>Action</u>**
 >
->Click the **cross** on the top right and Click **Show all** in the Actions section.
+>   - Click the **cross** on the top right and Click **Show all** in the Actions section.
 
 
 
@@ -300,7 +306,7 @@ The actions make suggestions in order to ensure the best possible performance an
 
 >**🚀 <u>Action</u>**
 >
->Click **Details** on the first action
+>   - Click **Details** on the first action
 
 
 
@@ -314,7 +320,7 @@ In the diagram, we observe that the memory utilization on the **VirtualMachine**
 
 >**🚀 <u>Action</u>**
 >
->Click the **right arrow** on the top right to go to the second action
+>   - Click the **right arrow** on the top right to go to the second action
 
 
 
@@ -339,8 +345,10 @@ For instance:
 
 ## 2.6 Zoom into Business Application
 >**🚀 <u>Action</u>**
-Click **Turbonomic**
-Click **Mission Control** in the Top Business Application section
+>
+>   - Click **Turbonomic**
+> 
+>   - Click **Mission Control** in the Top Business Application section
 
 ![image](./pics/turbo/image.009.png)
 
@@ -361,8 +369,10 @@ I've established my Service Level Agreement (SLA) indicated in red. Upon examina
 ## 2.7 Drill-down Actions
 
 >**🚀 <u>Action</u>**
-Click **Actions** on the top bar
-Click **Virtual Machines** in the **Resize** category on the left bar
+>
+>   - Click **Actions** on the top bar
+> 
+>   - Click **Virtual Machines** in the **Resize** category on the left bar
 
 ![image](./pics/turbo/image.010.png)
 
@@ -373,7 +383,8 @@ Here we can see all the actions that have been generated for our business applic
 As you can see here we have several VM's which we need to resize from 1GB to 2GB to ensure continuous performance. Let's focus on resize actions for the vc01-centos-C06 virtual machine. 
 
 >**🚀 <u>Action</u>**
-Click **vc01-centos-C06**
+>
+>   - Click **vc01-centos-C06**
 
 ![image](./pics/turbo/image.011.png)
 
@@ -386,9 +397,12 @@ Next we will have a look at the scaling actions of the VM's.
 <div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
-Click the **cross** on the top right
-Click **Virtual Machines** in the **Scale** category of the left bar
-Click **psl-scale-vm1**
+>
+>   - Click the **cross** on the top right
+> 
+>   - Click **Virtual Machines** in the **Scale** category of the left bar
+> 
+>   - Click **psl-scale-vm1**
 
 ![image](./pics/turbo/image.012.png)
 
@@ -405,8 +419,10 @@ So those actions will help us ensure future performance of our application while
 
 
 >**🚀 <u>Action</u>**
-Click the **cross** on the top right
-Click **Host** in the provision category of the left bar
+>
+>   - Click the **cross** on the top right
+> 
+>   - Click **Host** in the provision category of the left bar
 
 ![image](./pics/turbo/image.013.png)
 
@@ -423,8 +439,10 @@ Let me explain how we can start planning for future scenarios.
 ## 2.8 Explain Plan Management
 
 >**🚀 <u>Action</u>**
-Click **Plan**
-Click **New Plan**
+>
+>   - Click **Plan**
+> 
+>   - Click **New Plan**
 
 ![image](./pics/turbo/image.014.png)
 
@@ -437,10 +455,14 @@ Here we can see the different plan scenarios which we could simulate.
 First I'm focusing on the **Opitmize On-prem** plan type in order to stabilize the performance of the RobotShop Application in the long term.
 
 >**🚀 <u>Action</u>**
-Click **Optimize On-prem **
-Click **all-vCenter-VMs**
-Select **the actions of your choice** to be included in the plan
-Click **Run Plan**
+>
+>   - Click **Optimize On-prem **
+> 
+>   - Click **all-vCenter-VMs**
+> 
+>   - Select **the actions of your choice** to be included in the plan
+> 
+>   - Click **Run Plan**
 
 ![image](./pics/turbo/image.015.png)
 
@@ -454,7 +476,8 @@ On this plan summary we get a good overview of the actions we have to implement 
 The goal is to lower the Host and Storage Density to make room for future needs.
 
 >**🚀 <u>Action</u>**
-Scroll down to **Hosts** (click on the lower part of the slide for the click-through demo)
+>
+>   - Scroll down to **Hosts** (click on the lower part of the slide for the click-through demo)
 
 ![image](./pics/turbo/image.016.png)
 
@@ -469,18 +492,30 @@ For the second half of next year we plan to migrate the on-prem instances to clo
 Let me create a plan to help me get a good overview on how we could do that.
 
 >**🚀 <u>Action</u>**
-Click **Plan**
-Click **New Plan**
-Click **Migrate to Cloud**
-Click **Select all VM's**
-Click **Azure Subscribtions** 
-Click **Pay as you go**
-Click **Azure-Switzerland-North**
-Click **Next: Licensing**
-Click **Include OS cost**
-Click **Next: Discount Settings**
-Select **3 Years**
-Click **Run Plan**
+>
+>   - Click **Plan**
+> 
+>   - Click **New Plan**
+> 
+>   - Click **Migrate to Cloud**
+> 
+>   - Click **Select all VM's**
+> 
+>   - Click **Azure Subscribtions** 
+> 
+>   - Click **Pay as you go**
+> 
+>   - Click **Azure-Switzerland-North**
+> 
+>   - Click **Next: Licensing**
+> 
+>   - Click **Include OS cost**
+> 
+>   - Click **Next: Discount Settings**
+> 
+>   - Select **3 Years**
+> 
+>   - Click **Run Plan**
 
 ![image](./pics/turbo/image.017.png)
 
