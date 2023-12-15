@@ -62,7 +62,7 @@
 
     echo "RESULT:"$result
 
-    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Mitigate RobotShop"))|._runbookId'| head -n 1)
+    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Clear RobotShop Incident"))|._runbookId'| head -n 1)
     echo "RUNBOOK_ID: $RUNBOOK_ID"
 
 
@@ -165,7 +165,7 @@
 
     echo "RESULT:"$result
 
-    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Mitigate SockShop"))|._runbookId'| head -n 1)
+    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Clear SockShop Switch Incident"))|._runbookId'| head -n 1)
     echo "RUNBOOK_ID: $RUNBOOK_ID"
 
 
