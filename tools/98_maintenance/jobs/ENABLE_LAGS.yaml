@@ -59,7 +59,7 @@ spec:
               memory: "2024Mi"
               cpu: "1200m"
           command:
-            - /bin/sh
+            - /bin/bash
             - -c
             - |
               #!/bin/bash
@@ -239,8 +239,11 @@ spec:
               export result=$(curl -X 'PUT' --insecure "https://$AIO_PLATFORM_ROUTE/v3/connections/$connection_id/enable" -H 'accept: application/json' -H 'Content-Type: application/json' -H "authorization: Bearer $ZEN_TOKEN")
               echo $result
 
-       
 
+
+
+       
+              export ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
 
 
               echo "***************************************************************************************************************************************************"
@@ -251,7 +254,7 @@ spec:
 
 
               export GS_DEPLOYMENT=""
-              while [[ $GS_DEPLOYMENT == "" ]]; do
+              while [ $GS_DEPLOYMENT == "" ]; do
                 export GS_DEPLOYMENT=$(oc get deployment -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals)
               done
               echo "GS_DEPLOYMENT: "$GS_DEPLOYMENT
