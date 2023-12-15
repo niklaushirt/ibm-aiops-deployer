@@ -146,5 +146,5 @@ spec:
 
           env:
       restartPolicy: Never
-  backoffLimit: 400
+  backoffLimit: 500
 

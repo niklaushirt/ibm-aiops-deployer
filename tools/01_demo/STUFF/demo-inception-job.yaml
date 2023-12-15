@@ -33,4 +33,4 @@ spec:
               sleep 6000000
       restartPolicy: Never
 
-  backoffLimit: 4
+  backoffLimit: 500

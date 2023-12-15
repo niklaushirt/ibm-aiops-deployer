@@ -81,4 +81,4 @@ spec:
               value : "latest"
       restartPolicy: Never
 
-  backoffLimit: 400
+  backoffLimit: 500

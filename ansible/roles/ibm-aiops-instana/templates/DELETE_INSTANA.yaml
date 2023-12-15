@@ -167,4 +167,4 @@ spec:
           - name: ENTITLED_REGISTRY_KEY
             value : "<REGISTRY_TOKEN>"
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 500
