@@ -447,7 +447,7 @@ Notice, that alerts are sorted by time of occurence, and that the AI engine rank
 >
 >- Click on the first Alert in the list **(1)** 
 
-<div style="page-break-after: always;"></div>
+
 
 **📣 <u>Narration</u>**
 
@@ -521,7 +521,7 @@ What is most important here is the fact that all these correlations happen autom
 
 <div style="page-break-after: always;"></div>
 
-### 2.4.8 Incident timeline
+### 2.4.7 Incident timeline
 
 
 
@@ -575,7 +575,7 @@ Other events are confirming the hypothesis:
 
 <div style="page-break-after: always;"></div>
 
-### 2.4.9 Metric Anomalies
+### 2.4.8 Metric Anomalies
 
 **📣 <u>Narration</u>**
 
@@ -706,6 +706,7 @@ The topology service provides operations teams with complete up-to-date visibili
 
 
 
+<div style="page-break-after: always;"></div>
 
 ### 2.5.2 Examining the Topology in detail (optional)
 
@@ -743,7 +744,7 @@ If the resources contains geographical information (Longitude, Latitude) I can a
 >- Click on the Map to zoom in
 
 
-![image](./pics/aiops/img00012.png)
+![image](./pics/aiops/img00012.jpeg)
 
 
 **📣 <u>Narration</u>** 
@@ -751,6 +752,7 @@ If the resources contains geographical information (Longitude, Latitude) I can a
 Here I can see that the Database is being hosted in the IBM Datacenter in Meyrin near Geneva in Switzerland.
 
 
+<div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
 >
@@ -768,12 +770,15 @@ Here I can see that the Database is being hosted in the IBM Datacenter in Meyrin
 
 IBM AIOps also allows me to create custom menus to integrate with my existing tools. Here I can open a Git Issue and pre-filling it with the Alert information. 
 
+<div style="page-break-after: always;"></div>
 
 ![image](./pics/aiops/img00016.png)
 
 >**🚀 <u>Action</u>**
 >
 >- Click anywhere to close the Git Issue.
+
+<div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
 >
@@ -789,6 +794,7 @@ IBM AIOps also allows me to create custom menus to integrate with my existing to
 
 IBM AIOps also keeps a historic view of the events that happened for a element of the topology. 
 
+<div style="page-break-after: always;"></div>
 
 ![image](./pics/aiops/img00017.png)
 
@@ -809,6 +815,7 @@ I can easily identify the alerts and changes that happened over time for my reso
 
 
 
+<div style="page-break-after: always;"></div>
 
 ### 2.5.3 Examining Applications (optional)
 
@@ -873,6 +880,8 @@ In this case I can find my current Incident and the part of the Topology that is
 >- Click anywhere to go back to the Resource Management page.
 
 
+<div style="page-break-after: always;"></div>
+
 ### 2.5.4 Searching for resources (optional)
 
 
@@ -888,6 +897,12 @@ In this case I can find my current Incident and the part of the Topology that is
 It is very easy and straightforward to search for resources in IBM AIOps.
 
 
+
+
+
+
+
+
 >**🚀 <u>Action</u>**
 >
 >- Click `mysql`.
@@ -901,9 +916,9 @@ It is very easy and straightforward to search for resources in IBM AIOps.
 By looking for a specific name, term or tag.
 
 
->**🚀 <u>Action</u>**
->
->- Click the Alert **(1)**.
+
+
+
 
 
 ![image](./pics/aiops/img00023.png)
@@ -914,15 +929,16 @@ By looking for a specific name, term or tag.
 In this case I can find my MySQL Database with the indication that there are some Alerts present on the resource.
 
 
-
 >**🚀 <u>Action</u>**
 >
 >- Click the `mysql` Database.
 
-
 **📣 <u>Narration</u>** 
 
 From here I can go to the resource details that I have already explored before, so let's head back.
+
+
+![image](./pics/aiops/img00012.jpeg)
 
 >**🚀 <u>Action</u>**
 >
@@ -930,8 +946,9 @@ From here I can go to the resource details that I have already explored before, 
 >
 >- ⚠️ Make sure you are on the **Location** Tab when doing this.
 
+<div style="page-break-after: always;"></div>
 
-### 2.5.4 Searching for geospatial resources (optional)
+### 2.5.5 Searching for geospatial resources (optional)
 
 
 >**🚀 <u>Action</u>**
@@ -1012,6 +1029,7 @@ Now let's narrow it down a bit.
 ![image](./pics/aiops/img00028.png)
 
 
+<div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
 >
@@ -1025,6 +1043,10 @@ Now let's narrow it down a bit.
 **📣 <u>Narration</u>** 
 
 Here I can explore the resource details for the Mile End Tube Station.
+
+
+
+<div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
 >
@@ -1040,6 +1062,7 @@ From here I can zoom in and out of the map to get a more global understanding.
 For example I can see that my first problem is located at Miles end in the North East of London **(1)**.
 But there seems to be an issue also near the London Eye **(2)**.
 
+<div style="page-break-after: always;"></div>
 
 >**🚀 <u>Action</u>**
 >
@@ -1053,6 +1076,9 @@ But there seems to be an issue also near the London Eye **(2)**.
 
 It seems that I also have a problem in one of my London Datacenters. Let me take a look.
 
+
+<div style="page-break-after: always;"></div>
+
 >**🚀 <u>Action</u>**
 >
 >- Click on the Host **(1)**.
@@ -1060,6 +1086,7 @@ It seems that I also have a problem in one of my London Datacenters. Let me take
 ![image](./pics/aiops/img00043.jpeg)
 
 
+<div style="page-break-after: always;"></div>
 
 **📣 <u>Narration</u>** 
 
@@ -1078,20 +1105,6 @@ Seems that there is also an incident with a Switch Outage affecting the SockShop
 >- Click on the **Incident** `Commit in repository...` 
 >
 <div style="page-break-after: always;"></div>
-
-
-
-
-
-
-
-
-<div style="page-break-after: always;"></div>
-
-
-
-
-
 
 
 
@@ -1237,3 +1250,4 @@ Today, I have shown you how IBM AIOps can assist the SRE/Operations team to iden
 
 
 
+****
