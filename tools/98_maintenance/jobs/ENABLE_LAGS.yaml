@@ -269,7 +269,15 @@ spec:
               oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="1200" 
 
 
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "   🧻  RESTART - LAGS POD"
+              oc delete pod -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE|grep golden-signals|awk '{print$1}')
 
+
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "   🚀 🛰️  RE-START - LOAD LOG TRAINING DATA"
+              oc delete pod -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-lags-indexes|awk '{print$1}')
 
               echo ""
               echo ""
@@ -286,4 +294,4 @@ spec:
               done
 
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 500

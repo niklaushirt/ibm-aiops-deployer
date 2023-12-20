@@ -114,5 +114,5 @@ spec:
           - name: INSTALL_REPO
             value: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
       restartPolicy: Never
-  backoffLimit: 400
+  backoffLimit: 500
 

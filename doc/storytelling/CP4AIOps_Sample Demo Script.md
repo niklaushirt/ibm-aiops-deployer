@@ -198,11 +198,11 @@ Let me verify what’s going on with the RobotShop site.
 
 >**🚀 <u>Action</u>**
 >
->- Click at the bottom of the phone (1)
+>- Click at the bottom of the phone **(1)**
 >
->- Open the Safari Browser (2)
+>- Open the Safari Browser **(2)**
 >
->- Click on the RobotShop bookmark (3)
+>- Click on the RobotShop bookmark **(3)**
 >
 
 <div style="page-break-after: always;"></div>
@@ -222,7 +222,7 @@ I know that there are many ratings for each of the products that we sell, so whe
 So now I'm going into my AIOps Incident Management solution to solve the problem as quickly as possible.
 
 
-![image](./pics/aiops/image.094.png)
+![image](./pics/aiops/image.094_icon.png)
 
 >**🚀 <u>Action</u>**
 >
@@ -241,7 +241,7 @@ So now I'm going into my AIOps Incident Management solution to solve the problem
 
 >**🚀 <u>Action</u>**
 >
->- Click the "hamburger menu" on the upper left. Click **Stories and alerts**
+>- Click the **Hamburger Menu** on the upper left. Click **Incidents**
 
 
 
@@ -265,7 +265,7 @@ The **Incident** contains related log anomalies, topology, similar incidents, re
 
 >**🚀 <u>Action</u>**
 >
->- Click on the incident 
+>- Click on the **Incident** `Commit in repository...` 
 
 
 <div style="page-break-after: always;"></div>
@@ -326,9 +326,9 @@ IBM AIOps is showing me the Alerts that are most likely to be at the heart of th
 
 >**🚀 <u>Action</u>**
 >
->- Click on **PodRestarts** in Probable Cause (1). 
+>- Click on `Commit in repository...` in Probable Cause **(1)**. 
 >
->- Click on **Memory Usage** in Probable Cause (1). 
+>- Click on `MySQL - Database...` in Probable Cause **(1)**. 
 
 <div style="page-break-after: always;"></div>
 
@@ -350,7 +350,7 @@ Let me check how the problem was resolved for this incident.
 
 >**🚀 <u>Action</u>**
 >
->- Click the first similar resolution ticket (3)  
+>- Click the first **similar resolution ticket** **(2)**  
 
 
 <div style="page-break-after: always;"></div>
@@ -422,75 +422,10 @@ So let me go back to the incident.
 
 
 
-<div style="page-break-after: always;"></div>
-
-### 2.4.6 Metric Anomalies
-
-![image](./pics/aiops/img00006.png)
-
-**📣 <u>Narration</u>**
-
-* IBM AIOps is capable of collecting metrics from multiple sources and detecting **Metric Anomalies**. It was trained on hundreds or thousands of metrics from the environment and constructs a dynamic baseline (shown in green). The graphic suddenly turns red which relates to detected anomaly when the database is consuming a higher amount of memory than usual.
-
-Let's see the details of what is wrong with my metrics.
-
-
-
->**🚀 <u>Action</u>**
->
->- Click on the button (2) in the upper right of the metrics graph. 
->
 
 <div style="page-break-after: always;"></div>
 
-**📣 <u>Narration</u>**
-
-You can display several alerts at the same time to better understand the temporal dependencies
-
-![image](./pics/aiops/img00002.png)
-
-
->**🚀 <u>Action</u>**
->
->- In **Related Alerts** click on the line **PodRestarts** to add an additional alert.
-
-
-
-
-
-
-
-
-**📣 <u>Narration</u>**
-
-Now let's zoom in to better see the anomalies
-
-![image](./pics/aiops/img00003.png)
-
->**🚀 <u>Action</u>**
->
->- Click on the anomaly in the graph to zoom in
->
->- Click on the anomaly a second time to show the values
-
-<div style="page-break-after: always;"></div>
-
-**📣 <u>Narration</u>**
-
-I can clearly see that the incident caused the **Memory Usage** to skyrocket and the **Pods** have been continuously restarte. This is yet another confirmation of the source of the problem.
-
-![image](./pics/aiops/img00005.png)
-
-
->**🚀 <u>Action</u>**
->
->- Close the Metric anomaly details view by clicking on the cross in the upper right corner. 
->
-
-
-<div style="page-break-after: always;"></div>
-
-### 2.4.7 Examine the Alerts
+### 2.4.6 Examine the Alerts
 
 **📣 <u>Narration</u>**
 
@@ -500,21 +435,19 @@ Let's have a look at the Alerts.
 >**🚀 <u>Action</u>**
 >
 >- Click on the **Alerts** Tab 
->
->- Click on the first **Alert Group** to expand it 
 
 
 ![image](./pics/aiops/image.061.png)  
 
 **📣 <u>Narration</u>**
 
-Notice, that alerts are not sorted by severity, but the AI engine ranked them by relevance. The ones that are likely related to the root cause are at the top. Let’s look at the first row for some more details. 
+Notice, that alerts are sorted by time of occurence, and that the AI engine ranked them by relevance. The ones that are likely related to the root cause have smaller numbers and are coloured. Let’s look at the first alert for some more details. 
 
 >**🚀 <u>Action</u>**
 >
->- Click on the first Alert in the list. 
+>- Click on the first Alert in the list **(1)** 
 
-<div style="page-break-after: always;"></div>
+
 
 **📣 <u>Narration</u>**
 
@@ -562,39 +495,49 @@ Other alerts were grouped because they occurred on the logically or physically r
 
 **📣 <u>Narration</u>**
 
-Finally, the temporal correlation adds to the incident events that previously, in history, are known to occur close to each other in the short time window. What is most important here is the fact that all these correlations happen automatically – there is no need to define any rules or program anything. In highly dynamic and distributed cloud-native applications this is a huge advantage that saves a lot of time and effort.
+Finally, the temporal correlation adds to the incident events that previously, in history, are known to occur close to each other in the short time window. 
 
 
 >**🚀 <u>Action</u>**
 >
->- **Close** the Alert details window. 
+>- Click **More Information**. 
 
-<div style="page-break-after: always;"></div>
 
-### 2.4.8 Incident timeline
 
->**🚀 <u>Action</u>**
->
->- Click on  **Summary** in the Header. 
->
->**Result**: The "Commit in repository robot-shop by Niklaus Hirt on file robot-shop.yaml" should be at the bottom
+![image](./pics/aiops/img00008.png)
 
-![image](./pics/aiops/image.063.png)  
 
 **📣 <u>Narration</u>**
 
-When trying to understand what happened during the incident, I sort the Alerts by occurence. This allows me to understand the chain of events.
+What is most important here is the fact that all these correlations happen automatically – there is no need to define any rules or program anything. In highly dynamic and distributed cloud-native applications this is a huge advantage that saves a lot of time and effort.
+
+
+>**🚀 <u>Action</u>**
+>
+>- **Close** the Temporal Detail window by clicking anywhere in the top half. 
+>
+>- **Close** the Alert details window by clicking on the X at the top right.
+
+
+<div style="page-break-after: always;"></div>
+
+### 2.4.7 Incident timeline
+
+
+
+![image](./pics/aiops/image.061.png)  
+
+**📣 <u>Narration</u>**
+
+When trying to understand what happened during the incident, it helps that the alerst are already sorted by occurence time. This allows me to understand the chain of events.
 
 * I can see that the first event was a code change that had been commited to **GitHub**. 
 
 
 
->**🚀 <u>Action</u>**
+>**🚀 <u>Action</u>** 
 >
->- Click on the Alert line that has **Commit in repository** in the Summary. 
->
->- Click on **Open Link **
->
+>- Click on **GitHub ** to open the link **(2)**
 
 <div style="page-break-after: always;"></div>
 
@@ -613,17 +556,98 @@ I have now confirmation that the Dev team has massively reduced the Buffer Pool 
 
 Other events are confirming the hypothesis:
 
-* I can then see the CI/CD process kick in and deploys the code change to the system detected by the Security tool and 
+* I can then see the CI/CD process kick in and deploys the code change to the system detected by the Security Tool (Falco) and 
 * **Instana** has has detected the memory size change. 
 
 
 * Then **Functional Selenium Tests** start failing and 
+
 * **Turbonomic** tries to scale-up the mysql database.
+
 * **Instana** tells me that the mysql Pod is not running anymore, the replicas are not matching the desired state.
 
+  
+
+  But I can also see that there are anomalies in some metrics for my application.
+
+  Let's have a look.
 
 
-* IBM AIOps has learned the normal, good patterns for logs coming from the applications. The Incident contains a **Log Anomaly** that has been detected in the ratings service that cannot acces the mysql database.
+<div style="page-break-after: always;"></div>
+
+### 2.4.8 Metric Anomalies
+
+**📣 <u>Narration</u>**
+
+* IBM AIOps is capable of collecting metrics from multiple sources and detecting **Metric Anomalies**. It was trained on hundreds or thousands of metrics from the environment and constructs a dynamic baseline (shown in green).
+
+Let's see the details of what is wrong with my metrics.
+
+>**🚀 <u>Action</u>**
+>
+>- Click on `MemoryUsagePercent is Higher than expected...`.
+>
+
+
+
+
+**📣 <u>Narration</u>**
+
+* The graphic suddenly turns red which relates to detected anomaly when the database is consuming a higher amount of memory than usual.
+
+
+![image](./pics/aiops/img00006.png)
+
+
+
+<div style="page-break-after: always;"></div>
+
+**📣 <u>Narration</u>**
+
+You can display several alerts at the same time to better understand the temporal dependencies
+
+![image](./pics/aiops/img00002.png)
+
+
+>**🚀 <u>Action</u>**
+>
+>- In **Related Alerts** click on the line **PodRestarts...** to add an additional alert **(1)**.
+>
+>- Then click on the line **Transactions per Second...** to add a third alert **(2)**.
+
+
+
+
+
+
+
+**📣 <u>Narration</u>**
+
+Now let's zoom in to better see the anomalies
+
+![image](./pics/aiops/img00003.png)
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the anomaly in the graph to zoom in **(1)**
+>
+>- Click on the anomaly a second time to show the values
+
+<div style="page-break-after: always;"></div>
+
+**📣 <u>Narration</u>**
+
+I can clearly see that the incident caused the **Memory Usage** to skyrocket to a constant 100%, there are almost no **Transactions** going through and the **Pods** have been continuously restarted. This is yet another confirmation of the source of the problem.
+
+![image](./pics/aiops/img00005.png)
+
+
+>**🚀 <u>Action</u>**
+>
+>- Close the Metric anomaly details view by clicking on `Incident Alerts` in the upper left corner. 
+> ![image](./pics/aiops/img00009.png)
+
+
 
 
 <div style="page-break-after: always;"></div>
@@ -632,7 +656,7 @@ Other events are confirming the hypothesis:
 
 
 
-### 2.5.1 Examining the Topology
+### 2.5.1 Examining the Alert Topology
 
 
 >**🚀 <u>Action</u>**
@@ -653,6 +677,7 @@ You can see that there are some statuses attached to the different resources, ma
 
 ![image](./pics/aiops/image.068.png)  
 
+
 >**🚀 <u>Action</u>**
 >
 >- Click on the resource which displays resource name “**mysql**”
@@ -671,16 +696,414 @@ You can see that there are some statuses attached to the different resources, ma
 The topology service provides operations teams with complete up-to-date visibility over dynamic infrastructure, resources, and services. The topology service lets you query a specific resource for details, and other relevant information. Here I can see all Alerts for the mysql database resource for example.
 
 
+
+
 >**🚀 <u>Action</u>**
 >
 >- Click the cross in the upper right corner to close the details view.
 >
->- Click on the  **Overview**  Tab.
+>- Click on the **Overview**  Tab.
+
+
+
+<div style="page-break-after: always;"></div>
+
+### 2.5.2 Examining the Topology in detail (optional)
+
+> ##### Instead of going back to Overview you can dig a bit deeper into Topology if it fits the customer interest.
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the different Tabs to show the information (Related Applications, Neighbor Resources, ...)
+
+
+![image](./pics/aiops/img00013.png)
+
+
+**📣 <u>Narration</u>** 
+
+The topology service provides me with additional information for the component I'm looking at, such as the Applications it's part of or the neighbouring resources.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the `Location` Tab
+
+
+![image](./pics/aiops/img00011.png)
+
+
+**📣 <u>Narration</u>** 
+
+If the resources contains geographical information (Longitude, Latitude) I can also see them on a map.
+
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the Map to zoom in
+
+
+![image](./pics/aiops/img00012.jpeg)
+
+
+**📣 <u>Narration</u>** 
+
+Here I can see that the Database is being hosted in the IBM Datacenter in Meyrin near Geneva in Switzerland.
+
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click the cross in the upper right corner to close the details view.
+>
+>- Click on the resource which displays resource name “**mysql**”
+>
+>- Then, click and select **Open Git Issue** 
+
+
+![image](./pics/aiops/img00014.png)
+
+
+**📣 <u>Narration</u>** 
+
+IBM AIOps also allows me to create custom menus to integrate with my existing tools. Here I can open a Git Issue and pre-filling it with the Alert information. 
+
+<div style="page-break-after: always;"></div>
+
+![image](./pics/aiops/img00016.png)
+
+>**🚀 <u>Action</u>**
+>
+>- Click anywhere to close the Git Issue.
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the resource which displays resource name “**mysql**”
+>
+>- Then, click and select **Show last change in timeline** 
+
+
+![image](./pics/aiops/img00015.png)
+
+
+**📣 <u>Narration</u>** 
+
+IBM AIOps also keeps a historic view of the events that happened for a element of the topology. 
+
+<div style="page-break-after: always;"></div>
+
+![image](./pics/aiops/img00017.png)
+
+
+**📣 <u>Narration</u>** 
+
+I can easily identify the alerts and changes that happened over time for my resource (before / after).
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click the cross in the upper right corner to close the details view.
+>
+>- Click on the **Overview**  Tab.
 
 
 
 
 
+
+<div style="page-break-after: always;"></div>
+
+### 2.5.3 Examining Applications (optional)
+
+> ##### Instead of going back to Overview you can dig a bit deeper into Topology if it fits the customer interest.
+
+>**🚀 <u>Action</u>**
+>
+>- Click the cross in the upper right corner to close the details view.
+>
+>- Click the **Hamburger Menu** on the upper left. Click **Resource Management**
+
+
+![image](./pics/aiops/img00020.png)
+
+
+**📣 <u>Narration</u>** 
+
+Applications consists of a collection of resourcs to best represent a specific business application or service.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click the RobotShop Application **(1)**.
+
+
+![image](./pics/aiops/img00030.png)
+
+
+**📣 <u>Narration</u>** 
+
+Those resources make up the complete Topology of the Application.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click the Alert **(1)**.
+
+
+![image](./pics/aiops/img00031.png)
+
+
+**📣 <u>Narration</u>** 
+
+And I can examine all Incidents in the context of my Application.
+
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click the `mysql` Database.
+
+
+![image](./pics/aiops/img00032.png)
+
+
+**📣 <u>Narration</u>** 
+
+In this case I can find my current Incident and the part of the Topology that is affected by it.
+
+>**🚀 <u>Action</u>**
+>
+>- Click anywhere to go back to the Resource Management page.
+
+
+<div style="page-break-after: always;"></div>
+
+### 2.5.4 Searching for resources (optional)
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click in the search bar at the top **(1)**.
+
+![image](./pics/aiops/img00021.png)
+
+
+**📣 <u>Narration</u>** 
+
+It is very easy and straightforward to search for resources in IBM AIOps.
+
+
+
+
+
+
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click `mysql`.
+
+
+![image](./pics/aiops/img00022.png)
+
+
+**📣 <u>Narration</u>** 
+
+By looking for a specific name, term or tag.
+
+
+
+
+
+
+
+![image](./pics/aiops/img00023.png)
+
+
+**📣 <u>Narration</u>** 
+
+In this case I can find my MySQL Database with the indication that there are some Alerts present on the resource.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click the `mysql` Database.
+
+**📣 <u>Narration</u>** 
+
+From here I can go to the resource details that I have already explored before, so let's head back.
+
+
+![image](./pics/aiops/img00012.jpeg)
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the X in the top right corner to go back.
+>
+>- ⚠️ Make sure you are on the **Location** Tab when doing this.
+
+<div style="page-break-after: always;"></div>
+
+### 2.5.5 Searching for geospatial resources (optional)
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the funnel at the top left **(1)**.
+
+![image](./pics/aiops/img00024.png)
+
+
+**📣 <u>Narration</u>** 
+
+It is also very easy and straightforward to search for resources by geography.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click `Geospatial Resources` **(1)**.
+>
+>- Click `Scope` and select `Within Area` **(2)**.
+>
+>- Click `Select Area` **(3)**.
+>
+![image](./pics/aiops/img00025.png)
+
+**📣 <u>Narration</u>** 
+
+I can as an example search all resources in a certain perimeter.
+For this I have to define a search area.
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click several times anywhere in the map to define the area.
+>
+>- You might want to train a little bit to not be completely off when clicking.
+
+
+![image](./pics/aiops/img00035.png)
+
+![image](./pics/aiops/img00036.jpeg)
+
+
+![image](./pics/aiops/img00034.jpeg)
+
+>**🚀 <u>Action</u>**
+>
+>- Click `Apply Selection`.
+
+**📣 <u>Narration</u>** 
+
+In this case I get a list of all London Underground stations that are in the designated ares.
+
+![image](./pics/aiops/img00026.png)
+
+>**🚀 <u>Action</u>**
+>
+>- Click in the search bar at the top **(1)**.
+
+
+
+
+**📣 <u>Narration</u>** 
+
+Now let's narrow it down a bit.
+
+>**🚀 <u>Action</u>**
+>
+>- Click on `Mile End`.
+
+![image](./pics/aiops/img00027.png)
+
+
+
+>**🚀 <u>Action</u>**
+>
+>- Click on `Mile End` **(1)**.
+
+![image](./pics/aiops/img00028.png)
+
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the station Pin on the Map **(1)**.
+
+![image](./pics/aiops/img00040.png)
+
+
+
+
+**📣 <u>Narration</u>** 
+
+Here I can explore the resource details for the Mile End Tube Station.
+
+
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the `-` Magnifying Glass in the upper right corner **(1)**.
+
+![image](./pics/aiops/img00041.jpeg)
+
+
+
+**📣 <u>Narration</u>** 
+
+From here I can zoom in and out of the map to get a more global understanding.
+For example I can see that my first problem is located at Miles end in the North East of London **(1)**.
+But there seems to be an issue also near the London Eye **(2)**.
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the circle that says `40` **(2)**.
+
+![image](./pics/aiops/img00042.jpeg)
+
+
+
+**📣 <u>Narration</u>** 
+
+It seems that I also have a problem in one of my London Datacenters. Let me take a look.
+
+
+<div style="page-break-after: always;"></div>
+
+>**🚀 <u>Action</u>**
+>
+>- Click on the Host **(1)**.
+
+![image](./pics/aiops/img00043.jpeg)
+
+
+<div style="page-break-after: always;"></div>
+
+**📣 <u>Narration</u>** 
+
+Seems that there is also an incident with a Switch Outage affecting the SockShop application. But this one is not in my application portfolio and a story for another time.
+
+![image](./pics/aiops/img00044.png)
+
+
+
+>**🚀 <u>Action</u>**
+>
+> To go back to the initial storyline:
+>
+>- Click the **Hamburger Menu** on the upper left. Click **Incidents**
+>
+>- Click on the **Incident** `Commit in repository...` 
+>
 <div style="page-break-after: always;"></div>
 
 
@@ -707,7 +1130,7 @@ Let’s execute the Runbook.
 
 >**🚀 <u>Action</u>**
 >
->- Click on the Runbook (1)
+>- Click on the Runbook **(1)**
 >
 >- Click **Start Runbook**.
 
@@ -753,9 +1176,9 @@ Before confirming that the runbook worked as expected, I should check the RobotS
 
 >**🚀 <u>Action</u>**
 > 
->- Click on any Robot
+>- Click on any Robot **(1)**
 >
->- Show that ratings are correctly shown 
+>- Show that ratings are correctly shown **(2)**
 
 ![image](./pics/aiops/image.087.png)
 
@@ -792,8 +1215,6 @@ So the runbook has resolved the problem. When I tell IBM AIOps that the Runbook 
 
 >**🚀 <u>Action</u>**
 >
->- Click on **Change Incident Settings.**
->
 >- Select **Change Status.**
 >
 >- Click on  **Resolved**
@@ -814,6 +1235,12 @@ So now as we have resolved the problem,  I will inform the development team of t
 >
 >- Click anywhere to conclude the demo
 
+![image](./pics/aiops/img00010.png)  
+
+
+**📣 <u>Narration</u>**
+
+##### So to conclude: The problem is solved, the RobotShop Application is running as expected and `Christmas is saved`. 
 
 
 # Demonstration summary
@@ -823,3 +1250,4 @@ Today, I have shown you how IBM AIOps can assist the SRE/Operations team to iden
 
 
 
+****

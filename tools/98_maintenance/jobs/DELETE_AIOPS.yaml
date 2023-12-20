@@ -107,4 +107,4 @@ spec:
             value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
 
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 500

@@ -80,6 +80,19 @@ spec:
               echo " ✅ DONE"
               echo "*****************************************************************************************************************************"
 
+              export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+
+              while [ `oc get pod -n $AIOPS_NAMESPACE|egrep "spark|metric"|grep "0/"|grep -v "Completed"| grep -c ""` -gt 0 ]
+              do
+                  echo "-------------------------------------------------------------------------------------------------------------------------"
+                  echo "Waiting for Spark Pods"
+                  oc get pod -n $AIOPS_NAMESPACE|egrep "spark|metric"|grep "0/"|grep -v "Completed"
+                  echo ""
+                  sleep 10
+              done
+
+
 
               while true
               do
@@ -87,4 +100,4 @@ spec:
               done
 
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 500

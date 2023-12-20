@@ -447,5 +447,5 @@ spec:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
-  backoffLimit: 400
+  backoffLimit: 500
 

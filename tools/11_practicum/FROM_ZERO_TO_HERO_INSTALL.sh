@@ -82,5 +82,5 @@ spec:
               done
 
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 500
 EOF

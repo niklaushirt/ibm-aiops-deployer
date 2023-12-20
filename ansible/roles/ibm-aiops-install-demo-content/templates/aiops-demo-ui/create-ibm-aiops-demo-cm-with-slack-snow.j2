@@ -117,7 +117,7 @@ spec:
 
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
-  backoffLimit: 4
+  backoffLimit: 500
 ---
 apiVersion: batch/v1
 kind: Job
@@ -255,7 +255,7 @@ spec:
 
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
-  backoffLimit: 4
+  backoffLimit: 500
 ---
 apiVersion: batch/v1
 kind: Job
@@ -345,7 +345,7 @@ spec:
 
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
-  backoffLimit: 4
+  backoffLimit: 500
 
 ---
 apiVersion: batch/v1
@@ -471,7 +471,7 @@ spec:
               EOF
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
-  backoffLimit: 4
+  backoffLimit: 500
 
 ---
 apiVersion: batch/v1
@@ -513,5 +513,5 @@ spec:
 
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
-  backoffLimit: 4
+  backoffLimit: 500
 ---
