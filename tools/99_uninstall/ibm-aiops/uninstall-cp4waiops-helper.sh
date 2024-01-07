@@ -6,8 +6,6 @@
 . ./uninstall-cp4waiops.props
 
 export OPERATORS_PROJECT=openshift-operators
-export IBM_COMMON_SERVICES_PROJECT=ibm-common-services
-export ZENSERVICE_CR_NAME=iaf-zen-cpdservice
 
 # SLEEP TIMES
 SLEEP_SHORT_LOOP=5
@@ -35,7 +33,7 @@ log () {
 display_help() {
    echo "**************************************** Usage ********************************************"
    echo ""
-   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.2"
+   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.4"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
    echo " - Update uninstall-cp4waiops.props with components that you want to uninstall"
@@ -69,6 +67,26 @@ check_namespaced_install () {
 
 }
 
+check_namespaced_bedrock () {
+    log $INFO "Finding if IBM Cloud Pak Foundational Services is Namespaced or Global"
+
+    # Check the CSV through all NS and grep for "Foundational Services"
+    CSV=$(oc get csv -A | grep "foundational services")
+
+    # Use awk to obtain important info
+    NAMESPACE=$(echo $CSV | awk '{print $1}')
+    NAME=$(echo $CSV | awk '{print $2}')
+
+    # If operator is found in openshift-operators, cpfs is global (false)
+    if [[ "${NAMESPACE}" == "openshift-operators" ]]; then
+        log $INFO "IBM Cloud Pak Foundational Services: Global Scope"
+        return 1
+    else
+        log $INFO "IBM Cloud Pak Foundational Services: Namespaced Scope"
+        return 0
+    fi
+}
+
 check_oc_resource_exists () {
   local resource=$1
   local resource_name=$2
@@ -81,6 +99,60 @@ check_oc_resource_exists () {
   fi
 
   echo "$resource_exists"
+}
+
+finalResourceCheckODLM () {
+    # Check for operandrequest, operandconfig, and operandregistries
+    opreq=$(oc get operandrequest -n $CP4WAIOPS_PROJECT --ignore-not-found=true > /dev/null 2>&1)
+    if [[ "${opreq}" == "0" ]]; then
+        log $INFO "OperandRequests still remain"
+        oc get operandrequests -n $CP4WAIOPS_PROJECT
+    fi
+
+    opcg=$(oc get operandconfig -n $CP4WAIOPS_PROJECT --ignore-not-found > /dev/null 2>&1)
+    if [[ "${opcg}" == "0" ]]; then
+        log $INFO "OperandConfig still remain"
+        oc get operandconfig -n $CP4WAIOPS_PROJECT
+    fi
+
+    opreg=$(oc get operandregistries -n $CP4WAIOPS_PROJECT --ignore-not-found=true > /dev/null 2>&1)
+    if [[ "${opreg}" == "0" ]]; then
+        log $INFO "Operandregistries still remain"
+        oc get operandregistries -n $CP4WAIOPS_PROJECT > /dev/null 2>&1
+    fi
+
+    if [[ "${opreq}" == "0" && "${opcg}" == "0" && "${opreg}" == "0" ]]; then
+        log $ERROR "Some ODLM resources remain. Please remove them manually."
+        return 1
+    else
+        return 0
+    fi
+}
+
+finalBedrockResourceCheck () {
+    BR_FLAG="false"
+
+    for CRD in ${BEDROCK_CRDS[@]}; do
+        echo $CRD > /dev/tty
+        check=$(oc get $CRD -n $CP4WAIOPS_PROJECT --ignore-not-found=true --no-headers=true > /dev/tty)
+        if [[ "${check}" != *"the server doesn't have a resource "* || "${check}" != *"No resources found"* ]]; then
+            BR_FLAG="true"
+            oc get $CRD -n $CP4WAIOPS_PROJECT
+            echo "check: $check"
+            echo "here" > /dev/tty
+        else
+            echo "it's deleted" > /dev/tty
+        fi
+        echo > /dev/tty
+    done
+
+
+    echo "Going to return code here" > /dev/tty
+    if [[ "${BR_FLAG}" == "true" ]]; then
+        return 1
+    else
+        return 0
+    fi
 }
 
 unsubscribe () {
@@ -113,7 +185,6 @@ unsubscribe () {
         
         # Delete Subscription
         log $INFO "Deleting the subscription $operator_name"
-        #oc delete subscription.operators.coreos.com $operator_name -n $dest_namespace
         oc delete $operator_name -n $dest_namespace
 
         # Delete the Installed ClusterServiceVersion
@@ -249,67 +320,6 @@ delete_installation_instance () {
 
 }
 
-delete_zenservice_instance () {
-    local zenservice_name=$1
-    local project=$2
-
-    if  [ `oc get zenservice $zenservice_name -n $project --ignore-not-found | wc -l` -gt 0 ] ; then
-        log $INFO "Found zenservice CR $zenservice_name to delete."
-
-        log $INFO "Checking for ZenClient"
-        oc get client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-cp4waiops 2>>/dev/null
-        if [[ "$?" == "0" ]]; then
-            log $INFO "Deleting ZenClient found"
-            oc patch -n $CP4WAIOPS_PROJECT client.oidc.security.ibm.com zenclient-cp4waiops  --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-            oc delete client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-cp4waiops
-        fi
-
-        oc delete zenservice $zenservice_name -n $project --ignore-not-found;
-    
-        log $INFO "Waiting for $resource instances to be deleted...."
-        LOOP_COUNT=0
-        while [ `oc get zenservice $zenservice_name -n $project --ignore-not-found | wc -l` -gt 0 ]
-        do
-        sleep $SLEEP_EXTRA_LONG_LOOP
-        LOOP_COUNT=`expr $LOOP_COUNT + 1`
-        if [ $LOOP_COUNT -gt 20 ] ; then
-            log $ERROR "Timed out waiting for zenservice instance $zenservice_name to be deleted"
-            exit 1
-        else
-            log $INFO "Waiting for zenservice instance to get deleted... Checking again in $SLEEP_LONG_LOOP seconds"
-        fi
-        done
-        log $INFO "$zenservice_name instance got deleted successfully!"
-
-        log $INFO "Checking if operandrequests are all deleted "
-        LOOP_COUNT=0
-        while [ `oc get operandrequests ibm-commonui-request -n ibm-common-services --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
-              [ `oc get operandrequests ibm-iam-request -n ibm-common-services --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
-              [ `oc get operandrequests ibm-mongodb-request -n ibm-common-services --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
-              [ `oc get operandrequests management-ingress -n ibm-common-services --ignore-not-found --no-headers |  wc -l` -gt 0 ] ||
-              [ `oc get operandrequests platform-api-request -n ibm-common-services --ignore-not-found --no-headers|  wc -l` -gt 0 ] ||
-              [ `oc get operandrequests ibm-iam-service -n ${project} --ignore-not-found --no-headers |  wc -l` -gt 0 ]
-        do
-        sleep $SLEEP_LONG_LOOP
-        LOOP_COUNT=`expr $LOOP_COUNT + 1`
-        if [ $LOOP_COUNT -gt 15 ] ; then
-            log $ERROR "Timed out waiting for operandrequests to be deleted"
-            exit 1
-        elif [ "$LOOP_COUNT" == "10" ] ; then
-            oc delete operandrequest -n ibm-common-services ibm-commonui-request
-        else
-            log $INFO "Found following operandrequests in the project: "
-            log $INFO "$(oc get operandrequests -n ibm-common-services --no-headers)"
-            log $INFO "Waiting for zenservice related operandrequests instances to get deleted... Checking again in $SLEEP_LONG_LOOP seconds"
-        fi
-        done
-        log $INFO "Expected operandrequests got deleted successfully!"
-    else
-        log $INFO "The $zenservice_name zenservice instance is not found, skipping the deletion of $zenservice_name."
-    fi
-
-}
-
 delete_project () {
     local project=$1
 
@@ -338,50 +348,29 @@ delete_project () {
     fi
 }
 
-delete_iaf_bedrock () {
-    log $INFO "Starting uninstall of Bedrock components"
+deleteCertManagerResources () {
+    log $INFO "Deleting Certmanager Resources"
+    oc delete issuer.cert-manager.io cs-ss-issuer -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete issuer.cert-manager.io cs-ca-issuer -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+}
 
-    # Delete Bedrock/Common Services from the projects they were installed in. 
-    # This is a full removal of Bedrock/Common Services operators, resources, and CRDS.
+delete_bedrock () {
+    echo
+    log $INFO "Starting uninstall of IBM Cloud Pak Foundational Services components"
 
-    if [ $ONLY_CLOUDPAK == "true" ]; then 
+    if [[ $IA_ENABLED == "false"  ]]; then
+        # log $info "Delete CommonService kind"
+        oc delete commonservices --all -n $CP4WAIOPS_PROJECT --ignore-not-found=true
 
-        oc patch -n $CP4WAIOPS_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-
-        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebinding/admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding admin -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
-        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebinding/edit -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding edit -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
-        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebinding/view -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc delete rolebinding view -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
-
-        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-automation-elastic.$CP4WAIOPS_PROJECT --ignore-not-found)
-        if [[ "$subscription_check" == "" ]]; then
-            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-automation-elastic.$OPERATORS_PROJECT"
-        else
-            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-automation-elastic.$CP4WAIOPS_PROJECT"
-        fi
-
-        subscription_check=$(oc get subscription.operators.coreos.com -n $CP4WAIOPS_PROJECT -l operators.coreos.com/ibm-automation-flink.$CP4WAIOPS_PROJECT --ignore-not-found)
-        if [[ "$subscription_check" == "" ]]; then
-            unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-automation-flink.$OPERATORS_PROJECT"
-        else
-            unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-automation-flink.$CP4WAIOPS_PROJECT"
-        fi
-
+        # Uninstall cpfs operator
+        log $info "Uninstall CPFS"
         unsubscribe "" $CP4WAIOPS_PROJECT "operators.coreos.com/ibm-common-service-operator.$CP4WAIOPS_PROJECT"
-        unsubscribe "" $OPERATORS_PROJECT "operators.coreos.com/ibm-common-service-operator.$OPERATORS_PROJECT"
 
-        # check if additional subscription exists in CS namespace. If found, unsub and delete csv
-        subscription_check=$(oc get subscription.operators.coreos.com -n $IBM_COMMON_SERVICES_PROJECT -l operators.coreos.com/ibm-common-service-operator.$IBM_COMMON_SERVICES_PROJECT --ignore-not-found)
-        if [[ "$subscription_check" != "" ]]; then
-            unsubscribe "" $IBM_COMMON_SERVICES_PROJECT "operators.coreos.com/ibm-common-service-operator.$IBM_COMMON_SERVICES_PROJECT"
-        fi
-              
+        # Delete all operandrequests in install namespace
         # Note :  Verify there are no operandrequests & operandbindinfo at this point before proceeding.  It may take a few minutes for them to go away.
         log $INFO "Checking if operandrequests are all deleted "
         LOOP_COUNT=0
-        while [ `oc get operandrequests -A --ignore-not-found --no-headers | wc -l ` -gt 0 ]
+        while [ `oc get operandrequests -n $CP4WAIOPS_PROJECT --ignore-not-found --no-headers | wc -l ` -gt 0 ]
         do
         sleep $SLEEP_LONG_LOOP
         LOOP_COUNT=`expr $LOOP_COUNT + 1`
@@ -389,67 +378,109 @@ delete_iaf_bedrock () {
             log $ERROR "Timed out waiting for all operandrequests to be deleted.  Cannot proceed with uninstallation til all operandrequests in ibm-common-services project are deleted."
             exit 1
         elif [ "$LOOP_COUNT" == "15" ]; then
-            oc delete --all operandrequests -n ibm-common-services
+            # oc delete --all operandrequests -n ibm-common-services
             oc delete --all operandrequests -n $CP4WAIOPS_PROJECT       
         else
-            log $INFO "Found following operandrequests in the project: $(oc get operandrequests -A --ignore-not-found --no-headers)"
+            log $INFO "Found following operandrequests in the project: $(oc get operandrequests -n $CP4WAIOPS_PROJECT --ignore-not-found --no-headers)"
             log $INFO "Waiting for operandrequests instances to get deleted... Checking again in $SLEEP_LONG_LOOP seconds"
         fi
         done
         log $INFO "Expected operandrequests got deleted successfully!"
 
-        # Deleting operandbindinfo before namespacescopes as seen in iaf internal uninstall script
-        oc delete operandbindinfo --all -n ibm-common-services --ignore-not-found
-        oc delete namespacescopes common-service -n ibm-common-services --ignore-not-found
-        oc delete namespacescopes nss-managedby-odlm -n ibm-common-services --ignore-not-found
-        oc delete namespacescopes odlm-scope-managedby-odlm -n ibm-common-services --ignore-not-found
-        oc delete namespacescopes nss-odlm-scope -n ibm-common-services --ignore-not-found
+        # Delete all operandconfigs
+        log $info "Check for operandconfigs to delete"
+        oc delete operandconfigs --all -n $CP4WAIOPS_PROJECT --ignore-not-found
 
-        unsubscribe "ibm-cert-manager-operator" $IBM_COMMON_SERVICES_PROJECT ""
-        unsubscribe "ibm-namespace-scope-operator" $IBM_COMMON_SERVICES_PROJECT ""
-        unsubscribe "operand-deployment-lifecycle-manager-app" $IBM_COMMON_SERVICES_PROJECT ""
+        # Delete all operandregistries
+        log $info "Check for operandregistries"
+        oc delete operandregistries --all -n $CP4WAIOPS_PROJECT --ignore-not-found
 
-        log $INFO "Checking that Cloud Pak Platform subscriptions have successfully been removed..."
-        if [ `oc get subs -A | grep -E 'ibm-automation|ibm-cert|ibm-namespace|operand-deployment' | wc -l` -gt 0 ]; then
-            log $ERROR "Some subscriptions for Cloud Pak Platform components remain. Please delete them and try again."
+        finalResourceCheckODLM
+        if [[ "$?" == "0" ]]; then
+            log $info "Uninstall ODLM"
+            unsubscribe "operand-deployment-lifecycle-manager-app" $CP4WAIOPS_PROJECT ""
+        else
+            log $ERROR Please delete all ODLM resources in $CP4WAIOPS_PROJECT namespace, then restart the script.
             exit 1
         fi
-        log $INFO "...Cloud Pak Platform Subscriptions removed successfully."
 
-        oc delete deployment cert-manager-cainjector -n ibm-common-services --ignore-not-found
-        oc delete deployment cert-manager-controller -n ibm-common-services --ignore-not-found
-        oc delete deployment cert-manager-webhook -n ibm-common-services --ignore-not-found
-        oc delete deployment configmap-watcher -n ibm-common-services --ignore-not-found
-        oc delete deployment ibm-common-service-webhook -n ibm-common-services --ignore-not-found
-        oc delete deployment meta-api-deploy -n ibm-common-services --ignore-not-found
-        oc delete deployment secretshare -n ibm-common-services --ignore-not-found
+        oc delete deployment meta-api-deploy -n $CP4WAIOPS_PROJECT --ignore-not-found
+        oc delete service meta-api-svc -n $CP4WAIOPS_PROJECT --ignore-not-found
 
-        oc delete service cert-manager-webhook -n ibm-common-services --ignore-not-found
-        oc delete service ibm-common-service-webhook -n ibm-common-services --ignore-not-found
-        oc delete service meta-api-svc -n ibm-common-services --ignore-not-found
-        oc get role.rbac.authorization.k8s.io --no-headers -o name | grep nss-runtime-managed-role-from-ibm-common-services | while read a b; do oc delete "$a"; done
+        oc delete MutatingWebhookConfiguration ibm-common-service-webhook-configuration -n $CP4WAIOPS_PROJECT --ignore-not-found
 
-        # IAF uninstall instructions say to delete all deployments and services
-        oc delete deployment --all -n $IBM_COMMON_SERVICES_PROJECT
-        oc delete services --all -n $IBM_COMMON_SERVICES_PROJECT
+        # We need to wait a bit before we can perform a check. Perhaps we can keep running this function a finite amount of times before timing out the
+        # script
+        resourceCheckCounter=1
 
-        oc delete apiservice v1beta1.webhook.certmanager.k8s.io --ignore-not-found
-        oc delete apiservice v1.metering.ibm.com --ignore-not-found
+        log $INFO "Checking for Bedrock resources"
+        while [[ "${resourceCheckCounter}" -le "5" ]]; do
+            # At each iteration start with a fresh BR_FLAG variable set to false
+             BR_FLAG="false"
 
-        oc delete ValidatingWebhookConfiguration cert-manager-webhook --ignore-not-found
-        oc delete MutatingWebhookConfiguration cert-manager-webhook ibm-common-service-webhook-configuration namespace-admission-config --ignore-not-found
+            # If attempts reach 5, go ahead and end the script
+            if [[ "${resourceCheckCounter}" -eq "5" ]]; then
+                log $ERROR "Some Bedrock resources remain. Please delete them, then restart the script."
+                exit 1
+            fi
 
-        oc delete --ignore-not-found $(oc get crd -o name | grep "serving.kubeflow.org" || echo "crd no-serving-kubeflow")
+            #  Poll for each CRs for each CRD. If found, set the BR_FLAG to true
+            log $INFO "Resource Check Attempt: $resourceCheckCounter"
+            for CR in ${BEDROCK_CRDS[@]}; do
+                echo $CR
+                check="$(oc get $CR -n $CP4WAIOPS_PROJECT)"
+                if [[ -n "${check}" ]]; then
+                    BR_FLAG="true"
+                    oc get $CR -n $CP4WAIOPS_PROJECT
+                    echo
+                else
+                    echo "None Found"
+                    echo
+                fi
+            done
+            echo
 
-        # TODO (3/23/23): We may need to keep "delete_crd_group "IAF_CRDS"" to delete elasticsearches and flinkclusters
-        delete_crd_group "IAF_CRDS"
-        delete_crd_group "BEDROCK_CRDS"
+            # After all crds have been searched for, if the BR_FLAG is still false -- we know all CRDs are safe to delete. We can
+            # break out of the while-loop now.
+            if [[ "${BR_FLAG}" == "false" ]]; then
+                break
+            fi
 
-        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebindings.authorization.openshift.io/bedrock-admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
-        oc patch -n $IBM_COMMON_SERVICES_PROJECT rolebindings.rbac.authorization.k8s.io/bedrock-admin -p '{"metadata": {"finalizers":null}}' 2>>/dev/null
+            # Otherwise, resources are still left over. If that's the case, let's try this entire thing after 30 seconds
+            echo "Resources found... Trying again in 30 seconds."
+            resourceCheckCounter=$((resourceCheckCounter + 1))
+            sleep 30
+        done
 
-        delete_project $IBM_COMMON_SERVICES_PROJECT
+        log $info "Deleting CPFS CRDS"
+        if [[ "${DELETE_CRDS}" == "true" ]]; then
+            delete_crd_group "BEDROCK_CRDS"
+        fi
 
+        log $INFO "Deleting CPFS leases in $CP4WAIOPS_PROJECT"
+        for LEASE in ${BEDROCK_LEASES[@]}; do
+            log $INFO "Deleting lease $LEASE.."
+            oc delete $LEASE -n $CP4WAIOPS_PROJECT --ignore-not-found
+        done
+
+        log $INFO "Deleting CPFS configmaps in $CP4WAIOPS_PROJECT"
+        for CONFIGMAP in ${BEDROCK_CONFIGMAPS[@]}; do
+            log $INFO "Deleting configmap $CONFIGMAP.."
+            oc delete $CONFIGMAP -n $CP4WAIOPS_PROJECT --ignore-not-found
+        done
+
+        log $INFO "Deleting CPFS PVCs in $CP4WAIOPS_PROJECT"
+        for PVC in ${BEDROCK_PVCS_LABELS[@]}; do
+            log $INFO "Deleting PVC $PVC.."
+            oc delete pvc -l $PVC -n $CP4WAIOPS_PROJECT --ignore-not-found
+        done
+
+        log $INFO "Deleting Namespaced Bedrock Secrets"
+        for s in ${BEDROCK_SECRETS[@]}; do
+            oc delete secret $s -n $CP4WAIOPS_PROJECT --ignore-not-found
+        done
+
+        deleteCertManagerResources
     fi
 }
 
@@ -457,21 +488,17 @@ delete_crd_group () {
     local crd_group=$1
 
     case "$crd_group" in
-    "CP4WAIOPS_CRDS") 
-        for CRD in ${CP4WAIOPS_CRDS[@]}; do
+    "CP4AIOPS_CRDS") 
+        for CRD in ${CP4AIOPS_CRDS[@]}; do
             log $INFO "Deleting CRD $CRD.."
             oc delete crd $CRD --ignore-not-found
         done
     ;;
-    "CP4WAIOPS_DEPENDENT_CRDS") 
-        for CRD in ${CP4WAIOPS_DEPENDENT_CRDS[@]}; do
+    "CP4AIOPS_DEPENDENT_CRDS") 
+        for CRD in ${CP4AIOPS_DEPENDENT_CRDS[@]}; do
             log $INFO "Deleting CRD $CRD.."
             oc delete crd $CRD --ignore-not-found
         done
-    ;;
-    "IAF_CRDS") 
-        log $INFO "Deleting IAF CRDs.."
-        oc delete --ignore-not-found $(oc get crd -o name | grep "automation.ibm.com" || echo "crd no-automation-ibm")
     ;;
     "BEDROCK_CRDS") 
         for CRD in ${BEDROCK_CRDS[@]}; do
@@ -500,11 +527,6 @@ if [[ $DELETE_ALL != "true" ]] && [[ $DELETE_ALL != "false" ]]; then
     exit 1
 fi
 
-if [[ $ONLY_CLOUDPAK != "true" ]] && [[ $ONLY_CLOUDPAK != "false" ]]; then
-    log $ERROR "The ONLY_CLOUDPAK flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
-    exit 1
-fi
-
 if [[ $DELETE_PVCS != "true" ]] && [[ $DELETE_PVCS != "false" ]]; then
     log $ERROR "The DELETE_PVCS flag must have a value of either \"true\" or \"false\". Please review the uninstall-cp4waiops.props file."
     exit 1
@@ -529,7 +551,7 @@ fi
 log $INFO
 log $INFO "CP4WAIOPS_PROJECT=$CP4WAIOPS_PROJECT"
 log $INFO "INSTALLATION_NAME=$INSTALLATION_NAME"
-log $INFO "ONLY_CLOUDPAK=\033[1;36m$ONLY_CLOUDPAK\033[0m"
+log $INFO "IA_ENABLED=$IA_ENABLED"
 log $INFO "DELETE_PVCS=\033[1;36m$DELETE_PVCS\033[0m"
 log $INFO "DELETE_CRDS=\033[1;36m$DELETE_CRDS\033[0m"
 log $INFO
@@ -557,6 +579,18 @@ check_additional_installation_exists(){
      log $INFO "No additional installation resources found in the cluster."
      return 0
   fi
+}
+
+check_additional_asm_exists() {
+    log $INFO "Checking if any additional ASM resources (ie from Event Manager installation) are on the cluster."
+    if [ `oc get asms.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $CP4WAIOPS_PROJECT; done | wc -l`  -gt 0 ] ||
+     [ `oc get asmformations.asm.ibm.com -A --no-headers | while read a b; do echo $a | grep -vw $CP4WAIOPS_PROJECT; done | wc -l` -gt 0 ] ; then
+        log $INFO "ASM resource instances were found outside the $CP4WAIOPS_PROJECT namespace"
+        DELETE_ASM="false"
+    else
+        log $INFO "No ASM resource instances were found outside the $CP4WAIOPS_PROJECT namespace, so the ASM CRDs can be deleted."
+        DELETE_ASM="true"
+    fi
 }
 
 delete_connections() {
@@ -606,70 +640,85 @@ delete_securetunnel(){
         oc delete crd templates.tunnel.management.ibm.com 2>>/dev/null
     fi
     log $INFO "Finished deleting securetunnel resources"
-    # Securetunnel secrets are removed via resource group CP4WAIOPS_INTERNAL_SECRETS
+    # Securetunnel secrets are removed via resource group CP4AIOPS_INTERNAL_SECRETS
 }
 
-delete_IRCoreResources(){
-    # Get the name of the leftover IR Core resource
-    IRCoreName=$(oc get Role | grep ibm-aiops-ir-core | awk '{ print $1 }')
+delete_zenservice() {
+    # Check for client. if exist, then patch finalizer and delete
+    log $INFO "Checking for ZenClient"
+    oc get client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-$CP4WAIOPS_PROJECT
+    if [[ "$?" == "0" ]]; then
+        log $INFO "Deleting ZenClient found"
+        oc patch -n $CP4WAIOPS_PROJECT client.oidc.security.ibm.com zenclient-$CP4WAIOPS_PROJECT  --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+        oc delete client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-$CP4WAIOPS_PROJECT
+    fi
 
-    oc delete role/$IRCoreName --ignore-not-found
-    oc delete rolebinding/$IRCoreName --ignore-not-found
-}
-
-delete_crossplane(){
-    oc get csv -n $IBM_COMMON_SERVICES_PROJECT --no-headers -o name | grep "crossplane" | while read a b; do oc delete "$a" -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found; done
-    oc delete sub ibm-crossplane-operator-app -n $IBM_COMMON_SERVICES_PROJECT --ignore-not-found
-
-    log $INFO "Delete the Crossplane custom resources"
-    # remove finalizers from and delete kafkaclaim, configurationrevisions, composition, objects, provider configs
-    log $INFO "Deleting kafkaclaims in $CP4WAIOPS_PROJECT"
-    for KAFKACLAIM in ${CROSSPLANE_KAFKACLAIMS[@]}; do
-      log $INFO "Deleting $KAFKACLAIM..."
-      oc patch -n $CP4WAIOPS_PROJECT $KAFKACLAIM --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-      oc delete $KAFKACLAIM -n $CP4WAIOPS_PROJECT --ignore-not-found
-    done
-
-    log $INFO "Deleting Object resources at the cluster scope"
-    for OBJECT in ${CROSSPLANE_OBJECTS[@]}; do
-      log $INFO "Deleting $OBJECT..."
-      oc patch $OBJECT --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-      oc delete $OBJECT --ignore-not-found
-    done
-
-    log $INFO "Deleting configurations at the cluster scope"
-    oc delete configuration.pkg.ibm.crossplane.io/ibm-crossplane-bedrock-shim-config --ignore-not-found
-    log $INFO "Deleting configurationrevisions at the cluster scope"
-    oc patch configurationrevision.pkg.ibm.crossplane.io/ibm-crossplane-bedrock-shim-config-ibm-crosspla --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]' && oc delete configurationrevision.pkg.ibm.crossplane.io/ibm-crossplane-bedrock-shim-config-ibm-crosspla --ignore-not-found
     
-    log $INFO "Deleting compositions at the cluster scope"
-    for COMPOSITION in ${CROSSPLANE_COMPOSITIONS[@]}; do
-      log $INFO "Deleting crossplane composition $COMPOSITION.."
-      oc delete $COMPOSITION --ignore-not-found
-    done
-    log $INFO "Deleting ProviderConfig at the cluster scope"
-    oc patch providerconfig.kubernetes.crossplane.io/kubernetes-provider --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]' && oc delete providerconfig.kubernetes.crossplane.io/kubernetes-provider --ignore-not-found
-    log $INFO "Removing finalizers from cluster scoped lock"
-    oc patch lock.pkg.ibm.crossplane.io lock -p '{"metadata":{"finalizers": []}}' --type=merge
 
-    log $INFO "Deleting compositeresourcedefinitions at the cluster scope"
-    for XRD in ${CROSSPLANE_XRDS[@]}; do
-      oc patch $XRD --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-      oc delete $XRD --ignore-not-found
+    # Check for zenextension. Delete all known ze from aiops
+    log $INFO "Deleting all ZenExtensions that has a deletion timestamp"
+    for ze in ${ZENEXTENSIONS[@]}; do
+        oc patch -n $CP4WAIOPS_PROJECT zenextension $ze --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+        oc delete zenextension $ze -n $CP4WAIOPS_PROJECT
     done
 
-    log $INFO "Delete the Crossplane user management resources"
-    for RESOURCE in role rolebinding serviceaccount; do oc get $RESOURCE -A --no-headers -o name; done | grep crossplane | while read a b; do oc delete "$a" -n $IBM_COMMON_SERVICES_PROJECT; done
-    for RESOURCE in clusterrole clusterrolebinding; do oc get $RESOURCE -A --no-headers -o name; done | grep crossplane | while read a b; do oc delete "$a"; done
+    log $INFO "Delete zen setup-job"
+    oc delete job setup-job -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+
+    log $info "Delete Zen Service Account"
+    oc delete serviceaccount ibm-zen-operator-serviceaccount  -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+
+    log $INFO "Delete Zen secrets"
+    oc delete secret ibm-zen-objectstore-cert -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret zen-metastore-edb-replica-client -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret zen-metastore-edb-server -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+}
+
+# Delete cert manager resources found only in cp4aiops namespace
+delete_cert_manager_resources () {
+
+    log $INFO "Deleting certificate cs-ca-certificate in Installation Namespace"
+    oc delete certificate cs-ca-certificate -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret cs-ca-certificate-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+
+    log $INFO "Deleting other cert manager secrets in AIOPS install namespace"
+    oc delete secret common-web-ui-cert -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret saml-auth-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
 }
 
 delete_EDB_related_resources() {
     log $INFO "Delete EDB Connection Secret"
     oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-secret
 
-    log $INFO "Delete EDB Cert related secrets"
+    log $INFO "Delete EDB Cert related resources"
     oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-client-cert   
     oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-server-cert
     oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-ss-cacert
+
+    oc delete certificaterequest -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-client-cert-1
+    oc delete certificaterequest -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-server-cert-1
+    oc delete certificaterequest -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-ss-ca-1
+
+    oc delete certificate -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-client-cert
+    oc delete certificate -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-server-cert
+    oc delete certificate -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-edb-postgres-ss-ca
+
+    log $INFO  "Delete EDB secrets"
+    oc delete secret postgresql-operator-controller-manager-config -n $CP4WAIOPS_PROJECT
 }
 
+delete_redis_resources() {
+    log $INFO "Delete Redis resources in $CP$WAIOPS_PROJECT Namespace"
+    oc delete serviceaccount ibm-redis-cp-operator-serviceaccount -n $CP4WAIOPS_PROJECT
+    oc delete lease.coordination.k8s.io/ibm-redis-cp-operator -n $CP4WAIOPS_PROJECT
+    oc delete configmap ibm-redis-cp-operator -n $CP4WAIOPS_PROJECT
+
+    log $INFO "Delete Redis Secrets"
+    oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-redis-client-cert
+    oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-redis-server-cert
+    oc delete secret -n $CP4WAIOPS_PROJECT $INSTALLATION_NAME-redis-ss-cacert
+
+    log $INFO "Delete Leftover Redis Roles and Role Bindings" 
+    oc delete -n $CP4WAIOPS_PROJECT role -l "operators.coreos.com/ibm-redis-cp.$CP4WAIOPS_PROJECT"
+    oc delete -n $CP4WAIOPS_PROJECT rolebinding -l "operators.coreos.com/ibm-redis-cp.$CP4WAIOPS_PROJECT"
+}
