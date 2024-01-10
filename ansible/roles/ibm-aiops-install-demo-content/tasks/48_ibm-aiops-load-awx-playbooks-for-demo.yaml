@@ -52,6 +52,19 @@
   set_fact: AWX_URL={{ ACT_AWX_URL.stdout }} 
 
 
+
+- name: 🚀 AWX - Wait for AWX UI
+  shell: |
+    sleep 60
+    export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}" -u "admin:{{ AWX_PWD }}" --insecure|grep JavaScript|wc -l| tr -d ' ')
+    echo "$STATUS"
+  ignore_errors: false
+  register: STATUS
+  until: STATUS.stdout == "1"
+  retries: 20
+  delay: 15
+
+
 - name: 🚀 AWX - Get AWX Password
   shell: |
     export ADMIN_PASSWORD=$(oc -n awx get secret awx-admin-password -o jsonpath='{.data.password}' | base64 --decode && echo)
