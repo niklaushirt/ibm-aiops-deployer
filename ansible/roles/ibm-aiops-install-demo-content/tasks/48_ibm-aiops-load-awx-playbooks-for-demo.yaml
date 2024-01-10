@@ -56,7 +56,7 @@
 - name: 🚀 AWX - Wait for AWX UI
   shell: |
     sleep 60
-    export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}" -u "admin:{{ AWX_PWD }}" --insecure|grep JavaScript|wc -l| tr -d ' ')
+    export STATUS=$(curl -X "GET" -s "{{ AWX_URL }}" --insecure|grep JavaScript|wc -l| tr -d ' ')
     echo "$STATUS"
   ignore_errors: false
   register: STATUS
