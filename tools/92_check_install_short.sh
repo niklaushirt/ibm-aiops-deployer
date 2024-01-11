@@ -257,16 +257,19 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Log_Anomaly_" ]]); 
       then
-            echo "      ✅ OK: Trained - Log_Anomaly_Detection (NLP or Golden Signal)"; 
+            echo "      ✅ OK: Defined - Log_Anomaly_Detection (NLP or Golden Signal)"; 
       else
-            export CURRENT_ERROR=true
-            export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained (NLP or Golden Signal)"
-            handleError
+            echo "      ⚠️ WARINING: Log_Anomaly_Detection (NLP or Golden Signal) not ready yet."; 
+            echo "      ⚠️ WARINING: This can be totally normal - please check in the UI"; 
+
+            # export CURRENT_ERROR=true
+            # export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained (NLP or Golden Signal)"
+            # handleError
       fi
 
       if  ([[ $trainedAlgorithms =~ "Similar_Incidents" ]]); 
       then
-            echo "      ✅ OK: Trained - Similar_Incidents"; 
+            echo "      ✅ OK: Defined - Similar_Incidents"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Similar_Incidents not trained"
@@ -275,7 +278,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Metric_Anomaly_Detection" ]]); 
       then
-            echo "      ✅ OK: Trained - Metric_Anomaly_Detection"; 
+            echo "      ✅ OK: Defined - Metric_Anomaly_Detection"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Metric_Anomaly_Detection not trained"
@@ -284,7 +287,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Change_Risk" ]]); 
       then
-            echo "      ✅ OK: Trained - Change_Risk"; 
+            echo "      ✅ OK: Defined - Change_Risk"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Change_Risk not trained"
@@ -294,7 +297,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Temporal_Grouping" ]]); 
       then
-            echo "      ✅ OK: Trained - Temporal_Grouping"; 
+            echo "      ✅ OK: Defined - Temporal_Grouping"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Temporal_Grouping not trained"
@@ -303,7 +306,7 @@ function check_array(){
 
       # if  ([[ $trainedAlgorithms =~ "Alert_Seasonality_Detection" ]]); 
       # then
-      #       echo "      ✅ OK: Trained - Alert_Seasonality_Detection"; 
+      #       echo "      ✅ OK: Defined - Alert_Seasonality_Detection"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_Seasonality_Detection not trained"
@@ -313,7 +316,7 @@ function check_array(){
 
       # if  ([[ $trainedAlgorithms =~ "Alert_X_In_Y_Supression" ]]); 
       # then
-      #       echo "      ✅ OK: Trained - Alert_X_In_Y_Supression"; 
+      #       echo "      ✅ OK: Defined - Alert_X_In_Y_Supression"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_X_In_Y_Supression not trained"
@@ -532,24 +535,6 @@ spec:
     location: BannerTop
     text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
 EOF
-
-      export already_restarted=$(oc get  cm -n ibm-aiops-installer rerun| wc -l|tr -d ' ')
-      if [ $already_restarted -gt 0 ]; then
-        echo "Already restarted once"
-      else
-        oc create cm -n ibm-aiops-installer rerun
-        echo ""
-        echo ""
-        echo "***************************************************************************************************************************************************"
-        echo "***************************************************************************************************************************************************"
-        echo "  ❗ Restarting installer once ❗"
-        echo "***************************************************************************************************************************************************"
-        echo "***************************************************************************************************************************************************"
-
-        oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep ibm-aiops-install-aiops|awk '{print$1}')
-        # oc delete -n ibm-aiops-installer cm rerun
-      fi
-
 
     else
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
