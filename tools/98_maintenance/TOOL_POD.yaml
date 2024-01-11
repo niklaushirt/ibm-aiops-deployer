@@ -38,19 +38,31 @@ subjects:
     name: default
     namespace: ibm-aiops-installer
 ---
-apiVersion: batch/v1
-kind: Job
+
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: aiops-tool-pod
   namespace: ibm-aiops-installer
+  name: ibm-aiops-tool-pod
+  annotations: {}
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  selector:
+    matchLabels:
+      app: test
+  replicas: 1
   template:
+    metadata:
+      labels:
+        app: test
     spec:
       containers:
-        - name: install
+        - name: tools
           image: quay.io/niklaushirt/ibm-aiops-tools:2.0
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env: []
           resources:
             requests:
               memory: "64Mi"
@@ -94,7 +106,7 @@ spec:
               echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"
               echo ""
               echo "*****************************************************************************************************************************"
-              echo " ✅ DONE - WAITING FOREVER"
+              echo " ✅ INITIALIZATION - WAITING FOREVER"
               echo "*****************************************************************************************************************************"
 
 
@@ -103,5 +115,7 @@ spec:
                 sleep 1000
               done
 
-      restartPolicy: Never
-  backoffLimit: 500
+      imagePullSecrets: []
+  paused: false
+
+

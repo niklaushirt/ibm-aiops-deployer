@@ -39,3 +39,8 @@ npm run deploy -- -n  ibm-aiops
 /login?token=P4ssw0rd%21
 
 https://ibm-aiops-demo-ui-ibm-aiops-demo-ui.apps.65702ecd6595ac00115a66e9.cloud.techzone.ibm.com/injectAllTUBEREST
+
+
+
+
+
