@@ -1,4 +1,6 @@
 #!/bin/bash
+podman machine start
+
 podman login quay.io -u niklaushirt@gmail.com
 
 
