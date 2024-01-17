@@ -19,6 +19,7 @@ podman push quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 http://127.0.0.1:8000/injectRESTHeadless?app=clean
 
 
+podman buildx build --platform linux/amd64 -t test --load .
 
 
 

@@ -43,7 +43,7 @@ print ('------------------------------------------------------------------------
 loggedin='false'
 loginip='0.0.0.0'
 
-mod_time=os.path.getmtime('./demouiapp')
+mod_time=os.path.getmtime('./demouiapp/views.py')
 mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
 print('     🛠️ Build Date: '+str(mod_time_readable))
 

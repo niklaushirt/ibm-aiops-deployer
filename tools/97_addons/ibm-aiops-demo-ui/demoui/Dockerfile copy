@@ -1,4 +1,4 @@
-FROM python:3.10.13 as build   
+FROM python:3.8 as build   
 ENV DockerHOME=/home/app/demoui  
 
 # set work directory  
@@ -19,7 +19,7 @@ RUN python -m pip install Django
 RUN pip install confluent-kafka
 
 # Install Openshift Client
-RUN wget  -O oc.tar.gz https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-06-084517/openshift-client-linux-4.14.0-0.okd-2024-01-06-084517.tar.gz && tar xfvz oc.tar.gz && mv oc /usr/local/bin && mv kubectl /usr/local/bin/ && rm oc.tar.gz
+RUN wget https://github.com/openshift/okd/releases/download/4.9.0-0.okd-2022-01-14-230113/openshift-client-linux-4.9.0-0.okd-2022-01-14-230113.tar.gz && tar xfvz openshift-client-linux-4.9.0-0.okd-2022-01-14-230113.tar.gz && mv oc /usr/local/bin && mv kubectl /usr/local/bin/ && rm openshift-client-linux-4.9.0-0.okd-2022-01-14-230113.tar.gz
 
 RUN apt update && apt install -y jq && rm -rf /var/lib/apt/lists/*
 
