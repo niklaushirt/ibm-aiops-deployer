@@ -58,4 +58,56 @@
         </center>
     </div>
 </div>
+
+
+
+<BR>
+
+{% if CONTACT_INFO.strip %}
+
+<div role="main" class="container theme-showcase">
+    <div class="jumbotron container">
+        <center>
+
+            <table style="width:90%; padding-left:50px;">
+                <tbody>
+
+                    <tr>
+                      
+                        <td style="width:90%; padding-left:50px;">
+                          
+                            <div style="  background-color:#ecf0fe; padding: 40px; margin: 0px;">
+
+                                <div role="main" class="container theme-showcase">
+                                    <div class="jumbotron container">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;">
+                                                        {{CONTACT_INFO|safe}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                </p>
+                                <p></p>
+                                <p></p>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+</div>
+{% endif %}
+
+
 {% include "demouiapp/_footer.html" %}
+
+
+
+
