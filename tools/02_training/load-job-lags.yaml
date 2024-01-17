@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-log-indexes
+  name: load-lags-indexes
   namespace: ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
@@ -27,26 +27,43 @@ spec:
               #set -x
 
               echo "*****************************************************************************************************************************"
-              echo " ✅ STARTING: Load log anomaly training files"
+              echo " ✅ STARTING: Load log anomaly Golden Signals training files"
               echo "*****************************************************************************************************************************"
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading log anomaly training files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export AWX_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
-              git clone $AWX_REPO
+              export TRAINING_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
+              git clone $TRAINING_REPO
+              cd ibm-aiops-trainingdata
+
+              echo ""
+              echo ""
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "   🔎 This Repo includes those latestet Commits"
+              git log|head -n 17
+              echo ""
+              echo ""
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              cd ibm-aiops-trainingdata
-              ./training/load-logs-for-training.sh
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "This Repo includes those latestet Commits"
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              git log|head -n 17
+              echo ""
+              echo ""
+
+              ./training/load-gs-logs-kafka.sh
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"
               echo "*****************************************************************************************************************************"
-              sleep 60000
-
+              while true
+              do
+                sleep 1000
+              done
           env:
             - name: INDEX_OVERWRITE
               value : "true"

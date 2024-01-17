@@ -1,8 +1,8 @@
-
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-log-indexes
+  name: load-events-cassandra
   namespace: ibm-aiops-installer
 spec:
   serviceAccountName: demo-admin
@@ -25,13 +25,13 @@ spec:
             - |
               #!/bin/bash
               #set -x
-
+              
               echo "*****************************************************************************************************************************"
-              echo " ✅ STARTING: Load log anomaly training files"
+              echo " ✅ STARTING: Load events anomaly training files"
               echo "*****************************************************************************************************************************"
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              echo "    📥 Downloading log anomaly training files"
+              echo "    📥 Downloading events anomaly training files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               export TRAINING_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
               git clone $TRAINING_REPO
@@ -44,10 +44,11 @@ spec:
               git log|head -n 17
               echo ""
               echo ""
-
+              
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              cd ibm-aiops-trainingdata
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo "This Repo includes those latestet Commits"
               echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -55,7 +56,7 @@ spec:
               echo ""
               echo ""
 
-              ./training/load-logs-for-training.sh
+              ./training/load-events-for-training.sh
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"

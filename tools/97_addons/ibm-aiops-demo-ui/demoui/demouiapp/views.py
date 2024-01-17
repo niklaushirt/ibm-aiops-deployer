@@ -16,6 +16,7 @@ SLACK_PWD=str(os.environ.get('SLACK_PWD'))
 INCIDENT_ACTIVE=False
 ROBOT_SHOP_OUTAGE_ACTIVE=False
 SOCK_SHOP_OUTAGE_ACTIVE=False
+CONTACT_INFO=str(os.environ.get('CONTACT_INFO'))
 
 # print ('*************************************************************************************************')
 # print ('*************************************************************************************************')
@@ -42,7 +43,7 @@ print ('------------------------------------------------------------------------
 loggedin='false'
 loginip='0.0.0.0'
 
-mod_time=os.path.getmtime('./demouiapp')
+mod_time=os.path.getmtime('./demouiapp/views.py')
 mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
 print('     🛠️ Build Date: '+str(mod_time_readable))
 
@@ -389,6 +390,8 @@ METRIC_TOKEN = stream.read().strip()
 print('     ❓ Getting Details IBMAIOps')
 stream = os.popen('oc get route -n '+aimanagerns+' cpd -o jsonpath={.spec.host}')
 aimanager_url = stream.read().strip()
+aimanager_url=os.environ.get('AIOPS_URL_OVERRIDE', default=aimanager_url)
+
 stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_username} | base64 --decode && echo')
 aimanager_user = stream.read().strip()
 stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_password} | base64 --decode')
@@ -399,6 +402,8 @@ aimanager_pwd = stream.read().strip()
 print('     ❓ Getting AWX Connection Details')
 stream = os.popen('oc get route -n awx awx -o jsonpath={.spec.host}')
 awx_url = stream.read().strip()
+awx_url=os.environ.get('AWX_URL_OVERRIDE', default=awx_url)
+
 awx_user = 'admin'
 stream = os.popen('oc -n awx get secret awx-admin-password -o jsonpath={.data.password} | base64 --decode && echo')
 awx_pwd = stream.read().strip()
@@ -454,11 +459,14 @@ spark_url = stream.read().strip()
 print('     ❓ Getting Details RobotShop')
 stream = os.popen('oc get routes -n robot-shop robotshop  -o jsonpath={.spec.host}')
 robotshop_url = stream.read().strip()
+robotshop_url=os.environ.get('ROBOTSHOP_URL_OVERRIDE', default=robotshop_url)
+#print ('🟣🟣🟣🟣🟣🟣🟣🟣'+str(os.environ.get('ROBOTSHOP_URL_OVERRIDE')))
 
 
 print('     ❓ Getting Details SockShop')
 stream = os.popen('oc get routes -n sock-shop front-end  -o jsonpath={.spec.host}')
 sockshop_url = stream.read().strip()
+sockshop_url=os.environ.get('SOCKSHOP_URL_OVERRIDE', default=sockshop_url)
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 # GET ENVIRONMENT VALUES
@@ -554,6 +562,15 @@ print ('🟣           🔐 Datalayer Pwd:                  '+DATALAYER_PWD)
 print ('🟣')   
 print ('🟣           🌏 Metric Route:                   '+METRIC_ROUTE)
 print ('🟣           🔐 Metric Token:                   '+METRIC_TOKEN[:25]+'...')
+print ('🟣')   
+print ('🟣')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣     🌏 URLs')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣           🌏 RobotShop URL:                  '+robotshop_url)
+print ('🟣           🌏 SockShop URL:                   '+sockshop_url)
+print ('🟣           🌏 AWX URL:                        '+awx_url)
+print ('🟣           🌏 AIOPS URL:                      '+aimanager_url)
 print ('🟣')   
 print ('🟣')
 print ('🟣    --------------------------------------------------------------------------------------------------')
@@ -1994,10 +2011,11 @@ def login(request):
 
     response = HttpResponse()
 
+    currentip=request.META.get('REMOTE_ADDR')
     verifyLogin(request)
     currenttoken=request.GET.get("token", "none")
     token=os.environ.get('TOKEN')
-    print ('  🔐 Login attempt with Password/Token: '+currenttoken)
+    print ('  🔐 Login attempt with Password/Token: '+currenttoken + ' from ' +str(currentip))
     if token==currenttoken:
         loggedin='true'
         template = loader.get_template('demouiapp/home.html')
@@ -2499,7 +2517,8 @@ def about(request):
         'PAGE_NAME': 'about',
         'DEMO_IMAGE': demo_image,
         'ALL_LOGINS': ALL_LOGINS,
-        'mod_time_readable': mod_time_readable
+        'mod_time_readable': mod_time_readable,
+        'CONTACT_INFO': CONTACT_INFO
     }
     return HttpResponse(template.render(context, request))
 
