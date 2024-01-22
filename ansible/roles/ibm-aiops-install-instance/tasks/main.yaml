@@ -216,6 +216,12 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL IBM AIOPS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+# Install IBM AIOPS Prerequisites
+- name: 🟡🟡🟡 Install the IBM AIOps Instance
+  include_tasks: 18_ibm-aiops-install-prerequisites.yaml
+
 # Install IBM AIOPS Instance
 - name: 🟡🟡🟡 Install the IBM AIOps Instance
   include_tasks: 19_ibm-aiops-install.yaml
