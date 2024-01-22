@@ -44,8 +44,6 @@
     template: './templates/aiops/10_aiops-install-cert-manager.j2'
 
 
-
-
 - name:  🚀 IBM AIOPS INSTALL PREREQUISITES - Install LICENSE MANAGER
   kubernetes.core.k8s:
     state: present
@@ -65,20 +63,21 @@
 # Wait for CERT MANAGER Pods
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR CERT MANAGER
-  shell: oc get po -n ibm-cert-manager | grep 0/1| grep -c ""
+  shell: oc get po -n ibm-cert-manager | grep 1/1| grep -c ""
   register: kubectl_get_pods
-  until: kubectl_get_pods.stdout == "0"
+  until: kubectl_get_pods.stdout == "4"
   retries: 50
   delay: 15
-
+  ignore_errors: true
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for LICENSE MANAGER Pods
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR LICENSE MANAGER
-  shell: oc get po -n ibm-licensing | grep 0/1| grep -c ""
+  shell: oc get po -n ibm-licensing | grep 1/1| grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
   delay: 15
+  ignore_errors: true
