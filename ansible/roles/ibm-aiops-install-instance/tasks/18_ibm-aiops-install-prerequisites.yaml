@@ -44,6 +44,23 @@
     template: './templates/aiops/10_aiops-install-cert-manager.j2'
 
 
+
+
+- name:  🚀 IBM AIOPS INSTALL PREREQUISITES - Install LICENSE MANAGER
+  kubernetes.core.k8s:
+    state: present
+    template: './templates/aiops/11_aiops-install-license-manager.j2'
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Wait for CERT MANAGER Pods
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR 30 Seconds
+  shell: sleep 30
+
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for CERT MANAGER Pods
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -55,11 +72,6 @@
   delay: 15
 
 
-
-- name:  🚀 IBM AIOPS INSTALL PREREQUISITES - Install LICENSE MANAGER
-  kubernetes.core.k8s:
-    state: present
-    template: './templates/aiops/11_aiops-install-license-manager.j2'
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for LICENSE MANAGER Pods
