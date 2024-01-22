@@ -221,8 +221,10 @@ function check_array(){
     }
 
 
+      export CURRENT_NAMESPACE=ibm-licensing
+      checkNamespace
 
-      export CURRENT_NAMESPACE=ibm-common-services
+      export CURRENT_NAMESPACE=ibm-cert-manager
       checkNamespace
 
       export CURRENT_NAMESPACE=$AIOPS_NAMESPACE

@@ -103,8 +103,9 @@
 
 
 - name: 🚀 LDAPREGISTER - Get CS Server Password
-  shell:         
-    echo $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    echo $(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)
   register: CS_PWD
 
     
