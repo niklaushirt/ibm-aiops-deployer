@@ -59,7 +59,6 @@
 - name:  🚀 IBM AIOPS INSTALL PREREQUISITES - Install LICENSE MANAGER
   kubernetes.core.k8s:
     state: present
-    template: './templates/aiops/4_aiops-install-template.j2'
     template: './templates/aiops/11_aiops-install-license-manager.j2'
 
 # --------------------------------------------------------------------------------------------------------------------------------------
