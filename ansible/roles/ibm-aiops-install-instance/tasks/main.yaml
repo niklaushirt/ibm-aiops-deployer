@@ -139,22 +139,6 @@
 # Run Prerequisites
 - name: 🟡🟡🟡 Initialization of the Installation
   include_tasks: 03_init-initialization.yaml
-  
-
-# ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# TEST
-# ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# - name: 🟡🟡🟡  Create Routes
-#   include_tasks: 30_ibm-aiops-create-routes.yaml
-
-# # Update IBM AIOps Cards
-# - name: 🟡🟡🟡 Update IBM AIOps Cards
-#   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
-
-# ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# TEST
-# ---------------------------------------------------------------------------------------------------------------------------------------------------"
-
 
 
 
@@ -231,25 +215,10 @@
   include_tasks: 19_ibm-aiops-install.yaml
       
 
-# - name: 🟡🟡🟡 HACK Patch NGINX
-#   include_tasks: 99_ibm-aiops-patch-nginx.yaml
-
-
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# WAIT FOR INSTALLATION READY
+# WAIT FOR IBM AIOPS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# Wait for Common Services being completely installed
-- name: 🟡🟡🟡 Wait for CommonServices to be ready
-  include_tasks: 99_ibm-aiops-wait-common-services.yaml
-- name: 🟡🟡🟡 Wait for Zen Initialisation
-  include_tasks: 99_ibm-aiops-wait-for-zen.yaml
-      
-
-# Patching Topology Deployment
-- name: 🟡🟡🟡 Patch IBM AIOPS Topology
-  include_tasks: 20_ibm-aiops-patch-topology.yaml
-
 
 # Wait for IBM AIOPS being completely installed
 - name: 🟡🟡🟡 Wait for IBM AIOps to be ready
