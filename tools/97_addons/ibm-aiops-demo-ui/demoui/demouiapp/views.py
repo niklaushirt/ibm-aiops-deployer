@@ -442,9 +442,9 @@ stream = os.popen('oc get route -n '+aimanagerns+' cpd -o jsonpath={.spec.host}'
 aimanager_url = stream.read().strip()
 aimanager_url=os.environ.get('AIOPS_URL_OVERRIDE', default=aimanager_url)
 
-stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_username} | base64 --decode && echo')
+stream = os.popen('oc -n '+aimanagerns+' get secret platform-auth-idp-credentials -o jsonpath={.data.admin_username} | base64 --decode && echo')
 aimanager_user = stream.read().strip()
-stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_password} | base64 --decode')
+stream = os.popen('oc -n '+aimanagerns+' get secret platform-auth-idp-credentials -o jsonpath={.data.admin_password} | base64 --decode')
 aimanager_pwd = stream.read().strip()
 
 

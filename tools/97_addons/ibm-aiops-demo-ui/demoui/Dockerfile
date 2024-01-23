@@ -1,4 +1,4 @@
-FROM python:3.10.13-slim as build   
+FROM python:3.10.13 as build   
 ENV DockerHOME=/home/app/demoui  
 
 # set work directory  
