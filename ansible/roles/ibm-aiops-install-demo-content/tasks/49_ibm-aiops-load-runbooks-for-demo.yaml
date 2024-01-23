@@ -42,7 +42,6 @@
 
 - name: 🚀 AWX - Get ZEN TOKEN
   shell: |
-
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo ""
