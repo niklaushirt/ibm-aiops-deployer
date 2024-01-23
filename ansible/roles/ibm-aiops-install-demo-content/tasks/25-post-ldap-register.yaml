@@ -198,7 +198,7 @@
 - name: 🟣  OUTPUT
   debug: 
     var: REGLDAP.stdout_lines
-    verbosity: 1
+    #verbosity: 1
 
 
 
