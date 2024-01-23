@@ -96,7 +96,7 @@ spec:
     - description: >-
           1. After a few minutes you should see a blue bar a the top of your OpenShift Web UI.
 
-          saying `Installing IBMAIOps - Demo - Version v4.3 - Open Logs`
+          saying `Installing IBMAIOps - Demo - Version v4.x - Open Logs`
 
           2. Click in `Open Logs`
 
