@@ -52,7 +52,6 @@
     export ZEN_TOKEN=$(curl -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
     -H 'username: cpadmin' \
     -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
-    echo "        ACCESS_TOKEN: $ZEN_TOKEN"
     echo $ZEN_TOKEN
   ignore_errors: true
   register: ACT_ZEN_TOKEN

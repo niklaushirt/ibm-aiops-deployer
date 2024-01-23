@@ -72,29 +72,48 @@ print ('')
 
 
 print('     ❓ Getting Details Datalayer')
-# stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
-# DATALAYER_ROUTE = stream.read().strip()
-# DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default=DATALAYER_ROUTE)
-DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default='aiops-ir-core-ncodl-api.ibm-aiops:10011')
+stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+DATALAYER_ROUTE = stream.read().strip()
+DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default=DATALAYER_ROUTE)
+#DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default='aiops-ir-core-ncodl-api.ibm-aiops:10011')
+#print('          - DATALAYER_ROUTE: '+str(DATALAYER_ROUTE))
 
 stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode")
 DATALAYER_USER = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode")
 DATALAYER_PWD = stream.read().strip()
+#print('          - DATALAYER_USER: '+str(DATALAYER_USER))
+#print('          - DATALAYER_PWD:  '+str(DATALAYER_PWD))
 
 
 url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
+#print('          - url: '+str(url))
+
 auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
 headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+#print('          - headers: '+str(headers))
+
+print('          Trying connection')
+
 try:
     response = requests.get(url, headers=headers, auth=auth, verify=False)
+    #print('          - response:  '+str(response))
+
 except requests.exceptions.RequestException as e:  # This is the correct syntax
     stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
     print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
     raise SystemExit(e)
 
+
 responseJSON=response.json()
 responseStr=str(json.dumps(responseJSON))
+
+#print('          - responseStr:  '+str(responseStr))
+
+
+#print('          Print Status')
+
+
 #if 'pirsoscom.github.io/SNOW_INC' in responseStr and '"closed"' not in responseStr and '"resolved"' not in responseStr:
 if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
     print('     🔴 INCIDENT FOUND')
@@ -382,10 +401,10 @@ stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template=
 KAFKA_USER = stream.read().strip()
 stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template={{.data.password}} | base64 --decode")
 KAFKA_PWD = stream.read().strip()
-# stream = os.popen("oc get routes iaf-system-kafka-0 -n "+aimanagerns+" -o=jsonpath={.status.ingress[0].host}")
-# KAFKA_BROKER = stream.read().strip()+':443'
-# KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default=KAFKA_BROKER)
-KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default='iaf-system-kafka-0.ibm-aiops:9094')
+stream = os.popen("oc get routes iaf-system-kafka-0 -n "+aimanagerns+" -o=jsonpath={.status.ingress[0].host}")
+KAFKA_BROKER = stream.read().strip()+':443'
+KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default=KAFKA_BROKER)
+#KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default='iaf-system-kafka-0.ibm-aiops:9094')
 
 stream = os.popen("oc get secret -n "+aimanagerns+" kafka-secrets  -o jsonpath='{.data.ca\.crt}'| base64 --decode")
 KAFKA_CERT = stream.read().strip()
@@ -396,10 +415,10 @@ KAFKA_CERT = stream.read().strip()
 
 
 print('     ❓ Getting Details Metric Endpoint')
-# stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
-# METRIC_ROUTE = stream.read().strip()
-# METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
-METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default='ibm-nginx-svc.ibm-aiops:443')
+stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
+METRIC_ROUTE = stream.read().strip()
+METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
+#METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default='ibm-nginx-svc.ibm-aiops:443')
 
 stream = os.popen("oc get secret -n "+aimanagerns+" admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode")
 tmppass = stream.read().strip()

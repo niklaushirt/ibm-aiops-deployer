@@ -84,6 +84,7 @@ spec:
                   name:  ibm-aiops-demo-ui-config
                   namespace: {{current_ibmaiops_cluster.project}}-demo-ui
                 data:
+                  GET_CONFIG: $GET_CONFIG
                   TOKEN: $TOKEN
                   INSTANCE_NAME: $INSTANCE_NAME
                   LOG_ITERATIONS: "$LOG_ITERATIONS"
@@ -105,6 +106,14 @@ spec:
                   DEMO_USER: "$DEMO_USER"
                   DEMO_PWD: "$DEMO_PWD"
 
+                  #Override External Links
+                  #AIOPS_URL_OVERRIDE: "https://test.aiops.com"
+                  #ROBOTSHOP_URL_OVERRIDE: "https://test.robotshop.com"
+                  #SOCKSHOP_URL_OVERRIDE: "https://test.sockshop.com"
+                  #AWX_URL_OVERRIDE: "https://test.awx.com"
+
+                  CONTACT_INFO: '<p style="font-size:40px;">Contacts</p><BR><p>Niklaus Hirt - nikh@ch.ibm.com</p><p></p>'
+
                   SLACK_URL_ROSH: "https://pirsoscom.github.io/Slack_ROBOT.html"
                   SLACK_URL_SOSH: "https://pirsoscom.github.io/Slack_SOCK.html"
                   SLACK_URL_ACME: "https://pirsoscom.github.io/Slack_ACME.html"
@@ -112,6 +121,10 @@ spec:
                   SNOW_URL_SOSH: "https://pirsoscom.github.io/INC0010002_ALERTS.html"
                   SNOW_URL_ACME: "https://pirsoscom.github.io/INC0010001_ALERTS.html"
                   INCIDENT_URL_TUBE: "https://pirsoscom.github.io/TUBE_STATUS.html"
+
+                  #KAFKA_BROKER_OVERRIDE: 'iaf-system-kafka-0.ibm-aiops:9094'
+                  #DATALAYER_ROUTE_OVERRIDE: "aiops-ir-core-ncodl-api.ibm-aiops:10011"
+                  #METRIC_ROUTE_OVERRIDE: "ibm-nginx-svc.ibm-aiops:443"
 
               EOF
 
