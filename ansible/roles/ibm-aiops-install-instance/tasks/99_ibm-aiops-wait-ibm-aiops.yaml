@@ -26,7 +26,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM AIOps to become ready (about 10-20 minutes) - Started at $(date +%H:%M) UTC'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM AIOps to become ready (about 60-80 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:

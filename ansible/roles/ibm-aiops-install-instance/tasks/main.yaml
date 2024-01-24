@@ -46,7 +46,7 @@
 
 - name: Log
   shell: |
-    export MESSAGE="Installing Demo Apps"
+    export MESSAGE="Installing IBM AIOps"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log

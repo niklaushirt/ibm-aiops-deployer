@@ -29,7 +29,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - CInstalling IBM AIOps Prerequisites'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Installing IBM AIOps Prerequisites'    
     EOF
   ignore_errors: true
   args:
@@ -57,6 +57,23 @@
   shell: sleep 30
 
 
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM AIOps Prerequisites to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
