@@ -190,7 +190,7 @@ data:
         case_install: false
         case_github_url: "https://github.com/IBM/cloud-pak/raw/master/repo/case"
         case_name: ibm-cp-waiops
-        case_version: 1.6.1
+        case_version: 1.9.0
         case_inventory_setup: cpaiopsSetup
 
 

@@ -40,6 +40,8 @@
 
 - name:  🚀 IBM AIOPS INSTALL - Create Custom Profile ConfigMap
   shell: |
+    pwd
+    ls -al
     oc apply -n {{ current_ibmaiops_cluster.project }} -f {{current_ibmaiops_feature.custom_size_file | default('none')}}
   register: kubectl_get_pods
   when: current_ibmaiops_feature.aiops_size | default('none') == "custom"

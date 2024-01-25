@@ -17,7 +17,7 @@ data:
         replicas: 1
         resources:
           requests:
-            cpu: 264m
+            cpu: 265m
             memory: 1000Mi
           limits:
             cpu: 2000m
@@ -29,14 +29,14 @@ data:
         replicas: 1
         resources:
           requests:
-            cpu: 547m
-            memory: 2050Mi
+            cpu: 794m
+            memory: 2292Mi
           limits:
             cpu: 2000m
-            memory: 2050Mi
+            memory: 2292Mi
         env:
           - name: ES_JAVA_OPTS
-            value: -Xms1025M -Xmx1025M 
+            value: -Xms1146M -Xmx1146M 
         tlsproxy:
           resources:
             requests:
@@ -83,11 +83,11 @@ data:
           replicas: 1
           resources:
             requests:
-              cpu: 510m
-              memory: 2063Mi
+              cpu: 1500m
+              memory: 3548Mi
             limits:
-              cpu: 2000m
-              memory: 2063Mi
+              cpu: 3000m
+              memory: 3548Mi
         properties:
           jobmanager.memory.heap.size: 300mb
           jobmanager.memory.jvm-metaspace.size: 100mb
@@ -106,7 +106,7 @@ data:
               replicas: 3
               resources:
                 requests:
-                  cpu: 102m
+                  cpu: 111m
                   memory: 1024Mi
                 limits:
                   cpu: 2000m
@@ -118,7 +118,7 @@ data:
               replicas: 2
               resources:
                 requests:
-                  cpu: 103m
+                  cpu: 117m
                   memory: 256Mi
                 limits:
                   cpu: 2000m
@@ -130,7 +130,7 @@ data:
               replicas: 2
               resources:
                 requests:
-                  cpu: 102m
+                  cpu: 109m
                   memory: 512Mi
                 limits:
                   cpu: 2000m
@@ -190,7 +190,7 @@ data:
               cassandra:
                 resources:
                   requests:
-                    cpu: 300m
+                    cpu: 305m
                     memory: 5120Mi
                   limits:
                     cpu: 2000m
@@ -251,11 +251,11 @@ data:
           minio:
             customSizing:
               requests:
-                cpu: 250m
-                memory: 526Mi
+                cpu: 253m
+                memory: 540Mi
               limits:
                 cpu: 2000m
-                memory: 526Mi
+                memory: 540Mi
     - name: ir-ai-operator
       spec:
         aiopsanalyticsorchestrator:
@@ -267,8 +267,8 @@ data:
               xms: 614M 
               xmx: 653M 
             metricSpark:
-              xms: 1125M 
-              xmx: 1350M 
+              xms: 1127M 
+              xmx: 1352M 
           customSizing:
             deployments:
             - name: metric-action
@@ -276,7 +276,7 @@ data:
               containers:
               - name: metric-action
                 requests:
-                  cpu: 100m
+                  cpu: 103m
                   memory: 768Mi
                 limits:
                   cpu: 2000m
@@ -297,10 +297,10 @@ data:
               - name: metric-spark
                 requests:
                   cpu: 300m
-                  memory: 1500Mi
+                  memory: 1502Mi
                 limits:
                   cpu: 2000m
-                  memory: 1579Mi
+                  memory: 1582Mi
     - name: ir-core-operator
       spec:
         issueresolutioncore:
@@ -394,7 +394,7 @@ data:
               containers:
               - name: spark-worker
                 requests:
-                  cpu: 1000m
+                  cpu: 1003m
                   memory: 3000Mi
                 limits:
                   cpu: 3000m
