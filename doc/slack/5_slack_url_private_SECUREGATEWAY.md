@@ -127,7 +127,7 @@ The Gateway URL : `sgmanager.us-south.securegateway.cloud.ibm.com`
 
 # Create the Integration URL
 
-1. In the AI Hub (IBMAIOPS) got to `Data and tool integrations`
+1. In the AI Hub (IBMAIOPS) got to `Define`/`Integrations`
 2. Under `Slack` click on `1 integration`
 3. Copy out the URL
 

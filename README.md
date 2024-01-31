@@ -534,7 +534,7 @@ Check that the green notification bar is displayed as follows
 
 
 ### 2.3.4 Check Connections
-1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
 2. Check that the Connections are displayed as follows
 
 ![install](./doc/pics/check06.png)
@@ -754,7 +754,7 @@ In the Slack App:
 
 In the IBM AIOps (IBMAIOPS) 
 
-1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Data and tool integrations`
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
 1. Click `Add connection`
 
 	![K8s CNI](./doc/pics/doc14.png)
@@ -788,7 +788,7 @@ In the IBM AIOps (IBMAIOPS)
 
 In the IBM AIOps (IBMAIOPS) 
 
-1. Go to `Data and tool integrations`
+1. Go to `Define `\`Integrations`
 2. Under `Slack` click on `1 integration`
 3. Copy out the URL
 

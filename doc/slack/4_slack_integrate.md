@@ -9,7 +9,7 @@ In the Slack App:
 
 In the AI Hub (IBMAIOPS) 
 
-1. Go to `Data and tool integrations`
+1. Go to `Define`/`Integrations`
 5. Under `Slack` select `Add integration`
 6. Name it "Slack"
 7. Paste the `Signing Secret` from above
