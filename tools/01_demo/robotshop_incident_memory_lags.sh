@@ -12,7 +12,7 @@ export APP_NAME=robot-shop
 export LOG_TYPE=elk   # humio, elk, splunk, ...
 export EVENTS_TYPE=noi
 export EVENTS_SKEW="-120M"
-export LOGS_SKEW="-90M"
+export LOGS_SKEW="-120M"
 export METRICS_SKEW="+5M"
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -280,173 +280,36 @@ echo "   -----------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# Prepare the Log Inception files
-./tools/01_demo/scripts/prepare-logs-fast.sh
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
+echo ""
+echo " 🚀  Simulation for $APP_NAME running..."
+echo "     Stop with CTRL-C"
+echo ""
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
 
 
-# Inject the Log Inception files
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
+
+# Inject the Events Inception files
+./tools/01_demo/scripts/simulate-events-rest.sh 
+
+
+
+# Inject the Metric Anomalies
+./tools/01_demo/scripts/simulate-metrics.sh &
+
+
+
+while true
+do
+      # Prepare the Log Inception files
+      ./tools/01_demo/scripts/prepare-logs-fast.sh
+      # Inject the Log Inception files
+      ./tools/01_demo/scripts/simulate-logs.sh 
+done
+
+
 
 export result=$(curl "https://$DATALAYER_ROUTE/irdatalayer.aiops.io/active/v1/stories" --insecure --silent -X PATCH -u "${USER_PASS}" -d '{"priority": 1,"state": "inProgress","owner": "demo","team": "All users"}' -H 'Content-Type: application/json' -H "x-username:admin" -H "x-subscription-id:cfd95b7e-3bc7-4006-a4a8-a73a79c71255")
 echo "       Stories assigned: "$(echo $result | jq ".affected")
