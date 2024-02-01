@@ -7,11 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [44.0.2] - 2023-02-01
+### Major changes
+- Support for Version 4.4.0 GA
+- Suppression of ibm-common-services Namespace
+- Installation of Prerequisites
+    - IBM Lincensing
+    - Cert Manager
+
+
+
+## [44.0.1] - 2023-01-22
+### Major changes
+- Support for Version 4.4.0 RC1
+- Suppression of ibm-common-services Namespace
+- Installation of Prerequisites
+    - IBM Lincensing
+    - Cert Manager
+
+
+
 ## [43.0.2] - 2023-12-07
 ### Minor changes
 - Added Runbooks for Incident Creation
 - Added AIOps Dashboard Card for Incident Creation
 - Overhaul of DemoUI
+
 
 
 ## [43.0.1] - 2023-12-06
@@ -20,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixes
 - New format for Policies
+
 
 
 ## [42.0.3] - 2023-10-13

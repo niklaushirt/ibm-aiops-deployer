@@ -55,7 +55,7 @@
         oc project $AIOPS_NAMESPACE 
         oc create serviceaccount -n default demo-admin
         oc create clusterrolebinding test-admin --clusterrole=cluster-admin --serviceaccount=default:demo-admin
-        oc create clusterrolebinding ibm-zen-operator-serviceaccount --clusterrole=cluster-admin --serviceaccount=ibm-common-services:ibm-zen-operator-serviceaccount
+        #oc create clusterrolebinding ibm-zen-operator-serviceaccount --clusterrole=cluster-admin --serviceaccount=ibm-common-services:ibm-zen-operator-serviceaccount
   ignore_errors: true
   register: demo_account
   when: USER_EXISTS.stdout|length == 0

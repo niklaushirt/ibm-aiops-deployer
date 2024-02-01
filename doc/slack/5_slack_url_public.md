@@ -5,7 +5,7 @@
 
 In the AI Hub (IBMAIOPS) 
 
-1. Go to `Data and tool integrations`
+1. Go to `Define`/`Integrations`
 2. Under `Slack` click on `1 integration`
 3. Copy out the URL
 

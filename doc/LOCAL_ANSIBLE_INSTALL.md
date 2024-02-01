@@ -349,7 +349,7 @@ After successful installation, the Playbook creates a file `./LOGINS.txt` in you
 > 
 > This gives you all the parameters needed for creating the connection.
   
-* In the `IBMAIOps` "Hamburger" Menu select `Operate`/`Data and tool integrations`
+* In the `IBMAIOps` "Hamburger" Menu select `Define`/`Integrations
 * Click `Add connection`
 * Under `Netcool`, click on `Add connection`
 * Click `Connect`

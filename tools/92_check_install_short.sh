@@ -161,31 +161,19 @@ function check_array(){
       echo "        Route: $ROUTE"
       echo "   🛠️  Getting ZEN Token"
      
-      ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
-      ZEN_LOGIN_URL="https://${ZEN_API_HOST}/v1/preauth/signin"
-      LOGIN_USER=admin
-      LOGIN_PASSWORD="$(oc get secret admin-user-details -n $AIOPS_NAMESPACE -o jsonpath='{ .data.initial_admin_password }' | base64 --decode)"
 
-      ZEN_LOGIN_RESPONSE=$(
-      curl -k \
-      -H 'Content-Type: application/json' \
-      -XPOST \
-      "${ZEN_LOGIN_URL}" \
-      -d '{
-            "username": "'"${LOGIN_USER}"'",
-            "password": "'"${LOGIN_PASSWORD}"'"
-      }' 2> /dev/null
-      )
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
+      export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+      export CPADMIN_PWD=$(oc -n ibm-aiops get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
+      export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
+      export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
+      export ZEN_TOKEN=$(curl -s -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
+      -H 'username: cpadmin' \
+      -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
+      #echo $ZEN_TOKEN
 
-      ZEN_LOGIN_MESSAGE=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .message)
 
-      if [ "${ZEN_LOGIN_MESSAGE}" != "success" ]; then
-            echo "Login failed: ${ZEN_LOGIN_MESSAGE}"
-            exit 2
-      fi
-
-      ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-      #echo "${ZEN_TOKEN}"
       echo "        Sucessfully logged in" 
 
       echo ""
@@ -221,8 +209,10 @@ function check_array(){
     }
 
 
+      export CURRENT_NAMESPACE=ibm-licensing
+      checkNamespace
 
-      export CURRENT_NAMESPACE=ibm-common-services
+      export CURRENT_NAMESPACE=ibm-cert-manager
       checkNamespace
 
       export CURRENT_NAMESPACE=$AIOPS_NAMESPACE

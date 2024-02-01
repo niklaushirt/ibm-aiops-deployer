@@ -37,3 +37,29 @@ spec:
     automated:
       prune: true
       selfHeal: true
+
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: robot-shop
+  namespace: robot-shop
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/niklaushirt/ibm-aiops-gitops'
+    path: charts/2_addons/robotshop
+    targetRevision: 
+    helm:
+      parameters:
+        - name: version
+          value: '1.0'
+        - name: activeBranch
+          value: main
+  destination:
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+

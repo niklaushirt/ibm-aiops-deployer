@@ -159,7 +159,13 @@ def closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/alerts'
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-    response = requests.patch(url, data=data, headers=headers, auth=auth, verify=False)
+    try:
+        response = requests.patch(url, data=data, headers=headers, auth=auth, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+        print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+        raise SystemExit(e)
+
     print ('    Close Alerts:'+str(response.content))
     print ('✅ END - Close Alerts')
 
@@ -174,10 +180,22 @@ def closeStories(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     print ('📛 START - Set Stories to InProgress')
-    response = requests.patch(url, data=dataInProgress, headers=headers, auth=auth, verify=False)
+    try:
+        response = requests.patch(url, data=dataInProgress, headers=headers, auth=auth, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+        print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+        raise SystemExit(e)
+
     time.sleep(10)
     print ('📛 START - Set Stories to Resolved')
-    response = requests.patch(url, data=dataResolved, headers=headers, auth=auth, verify=False)
+    try:
+        response = requests.patch(url, data=dataResolved, headers=headers, auth=auth, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+        print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+        raise SystemExit(e)
+    
     print ('    Close Stories-:'+str(response.content))
     print ('✅ END - Close Stories')
 
@@ -209,37 +227,49 @@ def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_C
     stream = os.popen('echo "'+KAFKA_CERT+'" > ./demouiapp/ca.crt')
     stream.read().strip()
 
-    conf = {'bootstrap.servers': KAFKA_BROKER+':443',
-            'security.protocol': "SASL_SSL",
-            'sasl.mechanisms': 'SCRAM-SHA-512',
-            'sasl.username': KAFKA_USER,
-            'sasl.password': KAFKA_PWD,
-            'client.id': socket.gethostname(),
-            #'ssl.rejectUnauthorized': 'false',
-            'ssl.ca.location': './demouiapp/ca.crt'
-            }
+    print ('    📛 KAFKA_BROKER  :'+str(KAFKA_BROKER)+':')
 
-#ssl.ca.location
+    try:
 
-    producer = Producer(conf)
-    timestamp = datetime.datetime.now()
-    print('Base timestamp:'+str(timestamp))
+        conf = {'bootstrap.servers': KAFKA_BROKER,
+                'security.protocol': "SASL_SSL",
+                'sasl.mechanisms': 'SCRAM-SHA-512',
+                'sasl.username': KAFKA_USER,
+                'sasl.password': KAFKA_PWD,
+                'client.id': socket.gethostname(),
+                'enable.ssl.certificate.verification': 'false',
+                'ssl.ca.location': './demouiapp/ca.crt'
+                }
 
-    timestamp = timestamp + datetime.timedelta(minutes=LOG_TIME_SKEW)
+    #ssl.ca.location
+        producer = Producer(conf)
 
-    for i in range (1,LOG_ITERATIONS):
-        for line in DEMO_LOGS_GENERIC.split('\n'):
-            timestamp = timestamp + datetime.timedelta(milliseconds=LOG_TIME_STEPS)      
-            epoch = int(timestamp.timestamp())      
-            timestampstr = timestamp.strftime(LOG_TIME_FORMAT)+'+00:00'
-            epochstr = str(epoch)+'000'
-            line = line.replace("MY_TIMESTAMP", timestampstr).strip()
-            line = line.replace("MY_EPOCH", epochstr).strip()
-            #print ('    XX:'+line)
+        timestamp = datetime.datetime.now()
+        print('Base timestamp:'+str(timestamp))
 
-            producer.produce(KAFKA_TOPIC_LOGS, value=line)
-        producer.flush()
-        print('    📝 Logs-Injection: '+str(i)+'  :  '+str(timestamp))
+        timestamp = timestamp + datetime.timedelta(minutes=LOG_TIME_SKEW)
+
+        for i in range (1,LOG_ITERATIONS):
+            for line in DEMO_LOGS_GENERIC.split('\n'):
+                timestamp = timestamp + datetime.timedelta(milliseconds=LOG_TIME_STEPS)      
+                epoch = int(timestamp.timestamp())      
+                timestampstr = timestamp.strftime(LOG_TIME_FORMAT)+'+00:00'
+                epochstr = str(epoch)+'000'
+                line = line.replace("MY_TIMESTAMP", timestampstr).strip()
+                line = line.replace("MY_EPOCH", epochstr).strip()
+                #print ('    XX:'+line)
+                producer.produce(KAFKA_TOPIC_LOGS, value=line)
+
+                    # stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+                    # print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+
+            producer.flush()
+            print('    📝 Logs-Injection: '+str(i)+'  :  '+str(timestamp))
+
+    except KafkaException as e:
+        print("aaaaaaERROR")
+        print( "Kafka: "+str(e) )
+
 
 
     print ('✅ END - Inject Logs')
@@ -307,7 +337,13 @@ def injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS
         timestampstr = timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
         line = line.replace("MY_TIMESTAMP", timestampstr)
-        response = requests.post(url, data=line, headers=headers, auth=auth, verify=False)
+        try:
+            response = requests.post(url, data=line, headers=headers, auth=auth, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+
         print ('    🚀 Events-Injection:'+str(response.content))
 
     print ('✅ END - Inject Events')
@@ -402,13 +438,15 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
     aimanagerns = stream.read().strip()
     #print('        ✅ IBMAIOps Namespace:       '+aimanagerns)
 
-    #print('     ❓ METRICS_TO_SIMULATE' + str(METRICS_TO_SIMULATE))
-    stream = os.popen("oc get route -n "+aimanagerns+" | grep ibm-nginx-svc | awk '{print $2}'")
-    METRIC_ROUTE = stream.read().strip()
-    stream = os.popen("oc get secret  -n "+aimanagerns+" admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode")
-    tmppass = stream.read().strip()
-    stream = os.popen('curl -k -s -X POST https://'+METRIC_ROUTE+'/icp4d-api/v1/authorize -H "Content-Type: application/json" -d "{\\\"username\\\": \\\"admin\\\",\\\"password\\\": \\\"'+tmppass+'\\\"}" | jq .token | sed "s/\\\"//g"')
-    METRIC_TOKEN = stream.read().strip()
+    # #print('     ❓ METRICS_TO_SIMULATE' + str(METRICS_TO_SIMULATE))
+    # stream = os.popen("oc get route -n "+aimanagerns+" | grep ibm-nginx-svc | awk '{print $2}'")
+    # METRIC_ROUTE = stream.read().strip()
+    # METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
+
+    # stream = os.popen("oc get secret  -n "+aimanagerns+" admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode")
+    # tmppass = stream.read().strip()
+    # stream = os.popen('curl -k -s -X POST https://'+METRIC_ROUTE+'/icp4d-api/v1/authorize -H "Content-Type: application/json" -d "{\\\"username\\\": \\\"admin\\\",\\\"password\\\": \\\"'+tmppass+'\\\"}" | jq .token | sed "s/\\\"//g"')
+    # METRIC_TOKEN = stream.read().strip()
 
     requests.packages.urllib3.disable_warnings()
 
@@ -463,7 +501,13 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
         #print (MY_TIMESTAMP_READABLE)
         #print (MY_TIMESTAMP)
 
-        response = requests.post(url, data=output_json, headers=headers, verify=False)
+        try:
+            response = requests.post(url, data=output_json, headers=headers, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE METRIC PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+
         print ('    🚇 Metrics-Injection:'+str(METRIC_NAME)+' - '+str(MY_TIMESTAMP_READABLE)+' - '+str(response.content))
     print ('✅ END - Inject Metrics')
 

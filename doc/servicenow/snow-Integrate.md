@@ -241,7 +241,7 @@ Now that we have created users and configured ServiceNow, we need to configure I
 To create a ServiceNow integration, complete the following steps:
 
 1. Log in to IBM IBM AIOps.
-2. From the console, click the navigation menu (four horizontal bars), then click `Define` > `Data and tool integrations` as shown below:
+2. From the console, click the navigation menu (four horizontal bars), then click `Define` > `ntegrations` as shown below:
 
     ![config-list](./images/define-data-integration.png)
 
@@ -339,7 +339,7 @@ As you can see there is no data yet.
 
 We will enable the incident data flow now. 
 
-1. From the Home page click on Data and tool integrations. 
+1. From the Home page click on Integrations. 
 1. Click on the ServiceNow integration and select Edit. 
 1. From the integration form, we will pull data by selecting "Data Flow" ON, 
 1. Check "Historical data for initial AI training" and 
@@ -431,7 +431,7 @@ For example, on the *CI Classes* column, click on *Hardware*, select the CI List
 
 In IBMAIOPS there are two ways to enable a ServiceNow observer job: the first way is inside the ServiceNow main integration form and the second way is as a regular observer job. In this cookbook, we will follow the second option. 
 
-From the AIOPS home page, click on *Data and tool integrations*, then click on the *Advanced* tab and finally select *Manage observer jobs*. You will see the list of available observers after you click on the *Add a new job* card as shown below (note that the number of observer cards will vary depending on what observers are enabled in your AIOPS instance)
+From the AIOPS home page, click on *Integrations*, then click on the *Advanced* tab and finally select *Manage observer jobs*. You will see the list of available observers after you click on the *Add a new job* card as shown below (note that the number of observer cards will vary depending on what observers are enabled in your AIOPS instance)
 
   ![observer-list](./images/observer-list.png)
 

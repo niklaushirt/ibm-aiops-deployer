@@ -39,6 +39,7 @@ print ('------------------------------------------------------------------------
 print (' 🚀 Warming up')
 print ('-------------------------------------------------------------------------------------------------')
 
+
 #os.system('ls -l')
 loggedin='false'
 loginip='0.0.0.0'
@@ -56,22 +57,62 @@ aimanagerns = stream.read().strip()
 print('        ✅ IBMAIOps Namespace:       '+aimanagerns)
 
 
+
+print ('')
+print ('     🌏 PUBLIC ROUTES')
+
+stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+print('          DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+stream = os.popen("oc get routes iaf-system-kafka-0 -n "+aimanagerns+" -o=jsonpath={.status.ingress[0].host}")
+print('          KAFKA PUBLIC ROUTE: '+str(stream.read().strip())+':443')
+stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
+print('          METRIC PUBLIC ROUTE: '+str(stream.read().strip()))
+print ('')
+
+
 print('     ❓ Getting Details Datalayer')
 stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
 DATALAYER_ROUTE = stream.read().strip()
+DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default=DATALAYER_ROUTE)
+#DATALAYER_ROUTE=os.environ.get('DATALAYER_ROUTE_OVERRIDE', default='aiops-ir-core-ncodl-api.ibm-aiops:10011')
+#print('          - DATALAYER_ROUTE: '+str(DATALAYER_ROUTE))
+
 stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode")
 DATALAYER_USER = stream.read().strip()
 stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode")
 DATALAYER_PWD = stream.read().strip()
+#print('          - DATALAYER_USER: '+str(DATALAYER_USER))
+#print('          - DATALAYER_PWD:  '+str(DATALAYER_PWD))
 
 
 url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
+#print('          - url: '+str(url))
+
 auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
 headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-response = requests.get(url, headers=headers, auth=auth, verify=False)
+#print('          - headers: '+str(headers))
+
+print('          Trying connection')
+
+try:
+    response = requests.get(url, headers=headers, auth=auth, verify=False)
+    #print('          - response:  '+str(response))
+
+except requests.exceptions.RequestException as e:  # This is the correct syntax
+    stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+    print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+    raise SystemExit(e)
+
+
 responseJSON=response.json()
 responseStr=str(json.dumps(responseJSON))
-#print(responseStr)
+
+#print('          - responseStr:  '+str(responseStr))
+
+
+#print('          Print Status')
+
+
 #if 'pirsoscom.github.io/SNOW_INC' in responseStr and '"closed"' not in responseStr and '"resolved"' not in responseStr:
 if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
     print('     🔴 INCIDENT FOUND')
@@ -360,9 +401,16 @@ KAFKA_USER = stream.read().strip()
 stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template={{.data.password}} | base64 --decode")
 KAFKA_PWD = stream.read().strip()
 stream = os.popen("oc get routes iaf-system-kafka-0 -n "+aimanagerns+" -o=jsonpath={.status.ingress[0].host}")
-KAFKA_BROKER = stream.read().strip()
+KAFKA_BROKER = stream.read().strip()+':443'
+KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default=KAFKA_BROKER)
+#KAFKA_BROKER=os.environ.get('KAFKA_BROKER_OVERRIDE', default='iaf-system-kafka-0.ibm-aiops:9094')
+
 stream = os.popen("oc get secret -n "+aimanagerns+" kafka-secrets  -o jsonpath='{.data.ca\.crt}'| base64 --decode")
 KAFKA_CERT = stream.read().strip()
+# stream = os.popen("oc get secret -n "+aimanagerns+" iaf-system-kafka-brokers  -o jsonpath='{.data..iaf-system-kafka-0\.crt}'| base64 --decode")
+# KAFKA_CERT = stream.read().strip()
+
+
 
 
 
@@ -370,14 +418,60 @@ KAFKA_CERT = stream.read().strip()
 print('     ❓ Getting Details Metric Endpoint')
 stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
 METRIC_ROUTE = stream.read().strip()
-stream = os.popen("oc get secret -n "+aimanagerns+" admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode")
+METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
+
+stream = os.popen("oc get route -n "+aimanagerns+" cp-console  -o jsonpath={.spec.host}")
+CONSOLE_ROUTE = stream.read().strip()
+
+stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode")
 tmppass = stream.read().strip()
-stream = os.popen('curl -k -s -X POST https://'+METRIC_ROUTE+'/icp4d-api/v1/authorize -H "Content-Type: application/json" -d "{\\\"username\\\": \\\"admin\\\",\\\"password\\\": \\\"'+tmppass+'\\\"}" | jq .token | sed "s/\\\"//g"')
+print('     🟠 PWD :'+str(tmppass))
+
+stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
+ACCESS_TOKEN = stream.read().strip()
+print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
+
+stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: cpadmin" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
 METRIC_TOKEN = stream.read().strip()
+print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 
 
 
 
+# print('     ❓ Getting Details Metric Endpoint')
+# stream = os.popen("oc get route -n "+aimanagerns+"| grep ibm-nginx-svc | awk '{print $2}'")
+# METRIC_ROUTE = stream.read().strip()
+# METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
+# #METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default='ibm-nginx-svc.ibm-aiops:443')
+
+
+# # export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+# # export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
+# # export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+# # export CPADMIN_PWD=$(oc -n ibm-aiops get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
+# # export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
+# # export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
+# # export ZEN_TOKEN=$(curl -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
+# # -H 'username: cpadmin' \
+# # -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
+# # echo $ZEN_TOKEN
+
+
+# stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode")
+# tmppass = stream.read().strip()
+# print('     🟠 PWD :'+str(tmppass))
+
+
+# stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://'+METRIC_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r ".access_token"')
+# ACCESS_TOKEN = stream.read().strip()
+# print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
+
+
+# stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: cpadmin" -H "iam-token: '+METRIC_ROUTE+'"|jq -r ".accessToken"')
+
+# #stream = os.popen('curl -k -s -X POST https://'+METRIC_ROUTE+'/icp4d-api/v1/authorize -H "Content-Type: application/json" -d "{\\\"username\\\": \\\"admin\\\",\\\"password\\\": \\\"'+tmppass+'\\\"}" | jq .token | sed "s/\\\"//g"')
+# METRIC_TOKEN = stream.read().strip()
+# print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 
 
 
@@ -392,9 +486,9 @@ stream = os.popen('oc get route -n '+aimanagerns+' cpd -o jsonpath={.spec.host}'
 aimanager_url = stream.read().strip()
 aimanager_url=os.environ.get('AIOPS_URL_OVERRIDE', default=aimanager_url)
 
-stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_username} | base64 --decode && echo')
+stream = os.popen('oc -n '+aimanagerns+' get secret platform-auth-idp-credentials -o jsonpath={.data.admin_username} | base64 --decode && echo')
 aimanager_user = stream.read().strip()
-stream = os.popen('oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath={.data.admin_password} | base64 --decode')
+stream = os.popen('oc -n '+aimanagerns+' get secret platform-auth-idp-credentials -o jsonpath={.data.admin_password} | base64 --decode')
 aimanager_pwd = stream.read().strip()
 
 
@@ -614,7 +708,13 @@ def addExternalLinksToIncident(request):
         url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
         auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
         headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-        response = requests.get(url, headers=headers, auth=auth, verify=False)
+        try:    
+            response = requests.get(url, headers=headers, auth=auth, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
         #print ('aaaa'+responseStr)
@@ -769,7 +869,13 @@ def instanaCreateIncident(request):
         url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
         auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
         headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-        response = requests.get(url, headers=headers, auth=auth, verify=False)
+        try:
+            response = requests.get(url, headers=headers, auth=auth, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
         if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
@@ -847,7 +953,13 @@ def instanaMitigateIncident(request):
         url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
         auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
         headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-        response = requests.get(url, headers=headers, auth=auth, verify=False)
+        try:
+            response = requests.get(url, headers=headers, auth=auth, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+        
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
         if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
@@ -2143,7 +2255,13 @@ def index(request):
         url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
         auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
         headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-        response = requests.get(url, headers=headers, auth=auth, verify=False)
+        try:
+            response = requests.get(url, headers=headers, auth=auth, verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+            raise SystemExit(e)
+
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
         if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:

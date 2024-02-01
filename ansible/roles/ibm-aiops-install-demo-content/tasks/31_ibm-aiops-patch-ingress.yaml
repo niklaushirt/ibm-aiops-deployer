@@ -158,6 +158,36 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
+# NEW
+# https://ibmdocs-test.dcs.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=certificates-using-custom-certificate
+# - name: 💊 CERTIFICATES - Patch Certificates for TechZone IPI/UPI
+#   shell: |
+
+#     export PROJECT=<project>
+#     oc get route cp-console -n ${PROJECT} -o jsonpath="{.spec.host}"
+#     oc get route cpd -n ${PROJECT} -o jsonpath="{.spec.host}"
+#     oc project ${PROJECT}
+#     oc create secret generic customer-tls-secret --from-file=ca.crt=./cachain.pem --from-file=tls.crt=./aiops.pem --from-file=tls.key=./aiops.key.pem
+
+
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name: cs-onprem-tenant-config
+#     labels:
+#       cs_onprem_tenant_config: "true"
+#     data:
+#       custom_host_certificate_secret: customer-tls-secret
+
+#     oc delete pod -l component=ibm-nginx
+#     oc patch ZenService/iaf-zen-cpdservice --type merge -p '{"spec":{"zenCustomRoute":{"route_reencrypt":true,"route_secret": "customer-tls-secret"}}}'
+#     oc -n $PROJECT delete pod -l app.kubernetes.io/component=usermgmt
+#     oc delete pod -l app=platform-auth-service;oc -n $PROJECT delete pod -l name=operand-deployment-lifecycle-manager
+
+#     oc get zenservice iaf-zen-cpdservice -o jsonpath='{.status.Progress}'
+#     oc get zenservice iaf-zen-cpdservice -o jsonpath='{.status.ProgressMessage}'
+
+
 
 
 

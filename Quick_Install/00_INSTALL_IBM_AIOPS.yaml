@@ -172,7 +172,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.3
+        subscription_channel: v4.4
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
         # Install Feature Flags
@@ -190,7 +190,7 @@ data:
         case_install: false
         case_github_url: "https://github.com/IBM/cloud-pak/raw/master/repo/case"
         case_name: ibm-cp-waiops
-        case_version: 1.6.1
+        case_version: 1.9.0
         case_inventory_setup: cpaiopsSetup
 
 
