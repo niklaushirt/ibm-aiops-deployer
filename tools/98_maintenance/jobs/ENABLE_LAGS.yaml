@@ -254,7 +254,7 @@ spec:
 
 
               export GS_DEPLOYMENT=""
-              while [ $GS_DEPLOYMENT == "" ]; do
+              while [[ $GS_DEPLOYMENT == "" ]]; do
                 export GS_DEPLOYMENT=$(oc get deployment -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals)
               done
               echo "GS_DEPLOYMENT: "$GS_DEPLOYMENT
