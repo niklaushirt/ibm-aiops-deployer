@@ -63,7 +63,7 @@ spec:
 
               export INSTANCE_NAME=" {{global_config.environment_name | default("Demo")}}"
 
-              export GET_CONFIG='true'
+              export GET_CONFIG='false'
 
               export SLACK_URL="{{current_ibmaiops_feature.demoui_slack_url}}"
               export SLACK_USER="{{current_ibmaiops_feature.demoui_slack_user}}"
