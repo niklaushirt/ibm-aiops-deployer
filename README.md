@@ -220,7 +220,7 @@ If you think that you hit a problem:
 Here is a quick video that walks you through the installation process
 ![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
-## 2.1 Install IBM AIOps 🚀 
+## 2.1 🐣🐥  Install IBM AIOps 🚀 
 
 
 > #### ❗ There is a known race condition with the AWX installation.
@@ -376,8 +376,7 @@ You can chose from the following:
 </details>
 
 
-## 2.2 Install additional IT Automation 🚀 
-
+## 2.2 Install additional IT Automation Components
 
 
 ### 2.2.1 Install Turbonomic
