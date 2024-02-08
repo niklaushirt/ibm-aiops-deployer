@@ -17,6 +17,8 @@
 <details>
 <summary>Read...</summary>
 
+
+
 > ### ❗ This is provided `as-is`:
 > 
 > * I'm sure there are errors
@@ -47,7 +49,7 @@
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 🚀 Quick install
+# 0. Introduction
 ---------------------------------------------------------------
 
 The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
@@ -100,7 +102,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 📱 [Slack integration](#4-slack-integration) (optional)
 
-🚀 Already have a cluster? [Dive right in](#211-install-ibm-aiops-with-demo-content)
+🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
 
 
@@ -217,39 +219,18 @@ If you think that you hit a problem:
 ---------------------------------------------------------------
 
 
+
+## 2.1 🐣 Install IBM AIOps with demo content
+
+#### 🚀 Get IBM AIOps installed and pre-trained in one simple script.
+
 Here is a quick video that walks you through the installation process
 ![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
-## 2.1 Install IBM AIOps 🚀 
 
 
-> ### ❗ There is a known race condition with the AWX installation.
-> ### ❗ If you get a warning (Orange or Red Bar on top) please
-> ### ❗ [re-run the installer Pod](#re-run-the-installer) until you are all green.
-
-
-
-
-### 2.1.1 Install IBM AIOps with demo content
 <details>
-<summary>✅ Instructions</summary>
-
-
-🚀 You get IBM AIOps installed and pre-trained in one simple script.
-
-
-![K8s CNI](./doc/pics/install01.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-
+<summary>📦 Contents</summary>
 
 This installation contains:
 
@@ -279,6 +260,25 @@ This installation contains:
 > 	   - Create Policy Creation for Stories and Runbooks 
 > 	   - Demo Service Account 
 > 
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+<details>
+<summary>✅ Instructions</summary>
+
+![K8s CNI](./doc/pics/install01.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
 
 <div style="page-break-after: always;"></div>
 
@@ -375,80 +375,11 @@ You can chose from the following:
 
 </details>
 
-### 2.1.2 Install Turbonomic
-
-<details>
-<summary>✅ Instructions</summary>
-
-
-You get Turbonomic installed and pre-configured in one simple script.
-Ready to go.
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
 
 
 
-![K8s CNI](./doc/pics/install02.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 61)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-This installation adds:
-
-
-> - **Turbonomic**
-> - **Turbonomic Demo Content**
-> 		- Demo User
-> 		- RobotShop Demo App with synthetic metric
-> 		- Instana target (if Instana is installed - you have to enter the API Token Manually)
-> 		- Groups for vCenter and RobotShop
-> 		- Groups for licensing
-> 		- Resource Hogs
-
-<div style="page-break-after: always;"></div>
-
-
-</details>
-
-
-### 2.1.3 Install Instana (experimental)
-<details>
-<summary>✅ Instructions</summary>
-
-❗ I have tested this and usually it works. But there are occasional hiccups.
-
-
-You get Instana installed in one simple script.
-Ready to go.
-
-
-
-![K8s CNI](./doc/pics/install03.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-This installation adds:
-
-> - **Instana**
-
-
-<div style="page-break-after: always;"></div>
-
-
-</details>
-
-## 2.2 Follow the installation progress 🔎
+## 2.2 🔎 Follow the installation progress 
 <details>
 <summary>✅ Instructions</summary>
 
@@ -481,7 +412,7 @@ This installation adds:
 </details>
 
 
-## 2.3 Verify your installation 🔎
+## 2.3 🔎 Verify your installation
 <details>
 <summary>✅ Instructions</summary>
 
@@ -541,6 +472,83 @@ Check that the green notification bar is displayed as follows
 
 
 ### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
+
+
+</details>
+
+
+## 2.4 🚀 Install additional IT Automation Components
+
+
+### 2.4.1 Install Turbonomic
+
+<details>
+<summary>✅ Instructions</summary>
+
+
+You get Turbonomic installed and pre-configured in one simple script.
+Ready to go.
+
+
+
+![K8s CNI](./doc/pics/install02.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
+5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 61)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+
+This installation adds:
+
+
+> - **Turbonomic**
+> - **Turbonomic Demo Content**
+> 		- Demo User
+> 		- RobotShop Demo App with synthetic metric
+> 		- Instana target (if Instana is installed - you have to enter the API Token Manually)
+> 		- Groups for vCenter and RobotShop
+> 		- Groups for licensing
+> 		- Resource Hogs
+
+<div style="page-break-after: always;"></div>
+
+
+</details>
+
+
+### 2.4.2 Install Instana (experimental)
+<details>
+<summary>✅ Instructions</summary>
+
+❗ I have tested this and usually it works. But there are occasional hiccups.
+
+
+You get Instana installed in one simple script.
+Ready to go.
+
+
+
+![K8s CNI](./doc/pics/install03.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
+4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+
+This installation adds:
+
+> - **Instana**
+
+
+<div style="page-break-after: always;"></div>
 
 
 </details>
