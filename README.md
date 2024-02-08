@@ -376,83 +376,8 @@ You can chose from the following:
 </details>
 
 
-## 2.2 Install additional IT Automation Components
 
-
-### 2.2.1 Install Turbonomic
-
-<details>
-<summary>✅ Instructions</summary>
-
-
-You get Turbonomic installed and pre-configured in one simple script.
-Ready to go.
-
-
-
-![K8s CNI](./doc/pics/install02.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 61)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-This installation adds:
-
-
-> - **Turbonomic**
-> - **Turbonomic Demo Content**
-> 		- Demo User
-> 		- RobotShop Demo App with synthetic metric
-> 		- Instana target (if Instana is installed - you have to enter the API Token Manually)
-> 		- Groups for vCenter and RobotShop
-> 		- Groups for licensing
-> 		- Resource Hogs
-
-<div style="page-break-after: always;"></div>
-
-
-</details>
-
-
-### 2.2.2 Install Instana (experimental)
-<details>
-<summary>✅ Instructions</summary>
-
-❗ I have tested this and usually it works. But there are occasional hiccups.
-
-
-You get Instana installed in one simple script.
-Ready to go.
-
-
-
-![K8s CNI](./doc/pics/install03.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-This installation adds:
-
-> - **Instana**
-
-
-<div style="page-break-after: always;"></div>
-
-
-</details>
-
-## 2.3 Follow the installation progress 🔎
+## 2.2 Follow the installation progress 🔎
 <details>
 <summary>✅ Instructions</summary>
 
@@ -485,7 +410,7 @@ This installation adds:
 </details>
 
 
-## 2.4 Verify your installation 🔎
+## 2.3 Verify your installation 🔎
 <details>
 <summary>✅ Instructions</summary>
 
@@ -550,6 +475,81 @@ Check that the green notification bar is displayed as follows
 </details>
 
 
+## 2.4 Install additional IT Automation Components
+
+
+### 2.4.1 Install Turbonomic
+
+<details>
+<summary>✅ Instructions</summary>
+
+
+You get Turbonomic installed and pre-configured in one simple script.
+Ready to go.
+
+
+
+![K8s CNI](./doc/pics/install02.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
+5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 61)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+
+This installation adds:
+
+
+> - **Turbonomic**
+> - **Turbonomic Demo Content**
+> 		- Demo User
+> 		- RobotShop Demo App with synthetic metric
+> 		- Instana target (if Instana is installed - you have to enter the API Token Manually)
+> 		- Groups for vCenter and RobotShop
+> 		- Groups for licensing
+> 		- Resource Hogs
+
+<div style="page-break-after: always;"></div>
+
+
+</details>
+
+
+### 2.4.2 Install Instana (experimental)
+<details>
+<summary>✅ Instructions</summary>
+
+❗ I have tested this and usually it works. But there are occasional hiccups.
+
+
+You get Instana installed in one simple script.
+Ready to go.
+
+
+
+![K8s CNI](./doc/pics/install03.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
+4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
+
+This installation adds:
+
+> - **Instana**
+
+
+<div style="page-break-after: always;"></div>
+
+
+</details>
 ---------------------------------------------------------------
 # 3. Demo the Solution
 ---------------------------------------------------------------
