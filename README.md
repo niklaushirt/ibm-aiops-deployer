@@ -49,7 +49,7 @@
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 🚀 Quick install
+# 0. Introduction
 ---------------------------------------------------------------
 
 The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
@@ -102,7 +102,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 📱 [Slack integration](#4-slack-integration) (optional)
 
-🚀 Already have a cluster? [Dive right in](#211-install-ibm-aiops-with-demo-content)
+🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
 
 
@@ -222,12 +222,12 @@ If you think that you hit a problem:
 
 ## 2.1 🐣 Install IBM AIOps with demo content
 
+#### 🚀 Get IBM AIOps installed and pre-trained in one simple script.
 
 Here is a quick video that walks you through the installation process
 ![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
 
-#### 🚀 Get IBM AIOps installed and pre-trained in one simple script.
 
 <details>
 <summary>📦 Contents</summary>
