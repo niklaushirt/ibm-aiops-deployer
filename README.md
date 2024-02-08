@@ -223,9 +223,9 @@ Here is a quick video that walks you through the installation process
 ## 2.1 Install IBM AIOps 🚀 
 
 
-> ### ❗ There is a known race condition with the AWX installation.
-> ### ❗ If you get a warning (Orange or Red Bar on top) please
-> ### ❗ [re-run the installer Pod](#re-run-the-installer) until you are all green.
+> #### ❗ There is a known race condition with the AWX installation.
+> #### ❗ If you get a warning (Orange or Red Bar on top) please
+> #### ❗ [re-run the installer Pod](#re-run-the-installer) until you are all green.
 
 
 
@@ -375,7 +375,12 @@ You can chose from the following:
 
 </details>
 
-### 2.1.2 Install Turbonomic
+
+## 2.2 Install additional IT Automation 🚀 
+
+
+
+### 2.2.1 Install Turbonomic
 
 <details>
 <summary>✅ Instructions</summary>
@@ -415,7 +420,7 @@ This installation adds:
 </details>
 
 
-### 2.1.3 Install Instana (experimental)
+### 2.2.2 Install Instana (experimental)
 <details>
 <summary>✅ Instructions</summary>
 
@@ -448,7 +453,7 @@ This installation adds:
 
 </details>
 
-## 2.2 Follow the installation progress 🔎
+## 2.3 Follow the installation progress 🔎
 <details>
 <summary>✅ Instructions</summary>
 
@@ -481,7 +486,7 @@ This installation adds:
 </details>
 
 
-## 2.3 Verify your installation 🔎
+## 2.4 Verify your installation 🔎
 <details>
 <summary>✅ Instructions</summary>
 
