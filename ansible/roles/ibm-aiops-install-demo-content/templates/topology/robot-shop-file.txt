@@ -35,7 +35,7 @@ E:{"_fromUniqueId":"dSwitch-1-vm-network-port-1", "_toUniqueId":"dSwitch-1-vm-ne
 E:{"_fromUniqueId":"dSwitch-1-vm-network-port-2", "_toUniqueId":"dSwitch-1-vm-network","_edgeType":"dependsOn"}
 E:{"_fromUniqueId":"user-http-network", "_toUniqueId":"dSwitch-1-vm-network-port-2","_edgeType":"dependsOn"}
 
-V:{"_operation":"InsertReplace","businessCriticality": "Platinum","app": "robotshop","dataCenter": "demo", "geolocation": {"geometry": {"coordinates": [7.440209090709687,46.957133410234654],"type": "Point"}}, "entityTypes": ["database"],"mergeTokens": ["mysql-db"],"matchTokens": ["mysql-db","mysql-deployment","mysql-github","mysql-instana","mysql-security","mysql-predictive","mysql-turbonomic"],"name": "mysql","tags": ["app:robotshop","namespace:robot-shop"],"vertexType": "resource","uniqueId": "mysql-db"}
+V:{"_operation":"InsertReplace","businessCriticality": "Platinum","app": "robotshop","dataCenter": "demo", "geolocation": {"geometry": {"coordinates": [7.440209090709687,46.957133410234654],"type": "Point"}}, "entityTypes": ["database"],"mergeTokens": ["mysql","mysql-db"],"matchTokens": ["mysql-db","mysql-deployment","mysql-github","mysql-instana","mysql-security","mysql-predictive","mysql-turbonomic"],"name": "mysql","tags": ["app:robotshop","namespace:robot-shop"],"vertexType": "resource","uniqueId": "mysql-db"}
 E:{"_fromUniqueId":"mysql-db", "_toUniqueId":"DCW1-000484","_edgeType":"runsOn"}
 E:{"_fromUniqueId":"mysql-db", "_toUniqueId":"dSwitch-1-vm-network-port-1","_edgeType":"exposedBy"}
 
