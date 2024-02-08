@@ -223,6 +223,10 @@ If you think that you hit a problem:
 ## 2.1 🐣 Install IBM AIOps with demo content
 
 
+Here is a quick video that walks you through the installation process
+![K8s CNI](./doc/pics/JOB_INSTALL.gif)
+
+
 #### 🚀 Get IBM AIOps installed and pre-trained in one simple script.
 
 <details>
@@ -373,8 +377,6 @@ You can chose from the following:
 
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
 
-Here is a quick video that walks you through the installation process
-![K8s CNI](./doc/pics/JOB_INSTALL.gif)
 
 
 ## 2.2 🔎 Follow the installation progress 
