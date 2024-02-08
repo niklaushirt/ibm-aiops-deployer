@@ -227,23 +227,8 @@ Here is a quick video that walks you through the installation process
 
 #### 🚀 Get IBM AIOps installed and pre-trained in one simple script.
 
-
-
 <details>
-<summary>✅ Instructions</summary>
-
-![K8s CNI](./doc/pics/install01.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-
+<summary>📦 Contents</summary>
 
 This installation contains:
 
@@ -273,6 +258,25 @@ This installation contains:
 > 	   - Create Policy Creation for Stories and Runbooks 
 > 	   - Demo Service Account 
 > 
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+<details>
+<summary>✅ Instructions</summary>
+
+![K8s CNI](./doc/pics/install01.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Click `Save`
+
+> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+
 
 <div style="page-break-after: always;"></div>
 
