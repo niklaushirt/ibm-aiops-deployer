@@ -229,7 +229,7 @@ Here is a quick video that walks you through the installation process
 🚀 Get IBM AIOps installed and pre-trained in one simple script.
 
 <details>
-<summary>🚀 Instructions</summary>
+<summary>✅ Instructions</summary>
 
 ![K8s CNI](./doc/pics/install01.png)
 
@@ -544,6 +544,8 @@ This installation adds:
 
 
 </details>
+
+
 ---------------------------------------------------------------
 # 3. Demo the Solution
 ---------------------------------------------------------------
