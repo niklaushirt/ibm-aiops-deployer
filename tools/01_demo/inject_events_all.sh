@@ -8,7 +8,8 @@
 
 
 
-declare -a ALL_APPS=("robot-shop" "sock-shop" "acme" "london-underground")
+#declare -a ALL_APPS=("robot-shop" "sock-shop" "acme" "london-underground")
+declare -a ALL_APPS=("robot-shop")
 
 
 
@@ -188,10 +189,10 @@ do
 
 
             echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
-            echo "     ⏳  Wait 10 minutes - $(date '+%Y-%m-%dT%H:%M:%S')"
+            echo "     ⏳  Wait one minute - $(date '+%Y-%m-%dT%H:%M:%S')"
             echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
 
-            sleep 600
+            sleep 60
 
 
       done
