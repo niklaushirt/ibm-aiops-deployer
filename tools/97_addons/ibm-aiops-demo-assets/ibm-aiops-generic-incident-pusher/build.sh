@@ -1,5 +1,18 @@
 #!/bin/bash
 
+podman machine start
+
+podman login quay.io -u niklaushirt@gmail.com
+
+
+export CONT_VERSION=2.0
+
+podman buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-generic-incident-pusher:$CONT_VERSION --load -f=Containerfile
+podman push quay.io/niklaushirt/ibm-aiops-generic-incident-pusher:$CONT_VERSION
+
+
+
+
 export CONT_VERSION=1.0
 
 # Create the Image
