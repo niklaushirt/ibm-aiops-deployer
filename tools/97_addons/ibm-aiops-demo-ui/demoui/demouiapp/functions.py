@@ -59,6 +59,7 @@ DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
 DEMO_EVENTS_FAN=os.environ.get('DEMO_EVENTS_FAN')
 DEMO_EVENTS_NET=os.environ.get('DEMO_EVENTS_NET')
 DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
+DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
 DEMO_LOGS=os.environ.get('DEMO_LOGS')
 DEMO_LOGS_SOCK=os.environ.get('DEMO_LOGS_SOCK')
 METRICS_TO_SIMULATE_MEM=str(os.environ.get('METRICS_TO_SIMULATE_MEM')).split(';')
@@ -313,9 +314,17 @@ def injectEventsNetSock(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
 
 
 def injectEventsTube(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
-    print ('📛 START - Inject Events - NET SOCKSHOP')
+    print ('📛 START - Inject Events - TUBE')
     injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_TUBE)
     return 'OK'
+
+
+
+def injectEventsTelco(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
+    print ('📛 START - Inject Events - TELCO')
+    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_TELCO)
+    return 'OK'
+
 
 
 
