@@ -7,7 +7,7 @@ mutation createTrainingDefinition {
     promoteOption: whenTrainingComplete
     dataSetIds: []
     trainingSchedule: {
-      frequency: scheduled,
+      frequency: manual,
       repeat: daily,
       timeRangeValidStart: "2022-01-01T12:00:00.000+01:00",
       timeRangeValidEnd: null,
