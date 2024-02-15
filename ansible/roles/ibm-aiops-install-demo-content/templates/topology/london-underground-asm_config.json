@@ -1,24 +1,5 @@
 [
-    {
-       "name":"Show on map",
-       "itemType":"Resource",
-       "description":"",
-       "conditionsScript":"",
-       "priority":5,
-       "script":"// Launch a map showing the latitude and longitude of the resource\nif (asmProperties.hasOwnProperty('latitude') && asmProperties.hasOwnProperty('longitude')) {\n    window.open('https://www.google.com/maps/place/' + \n        asmProperties.latitude + ',' + asmProperties.longitude)\n}",
-       "tags":[
-          "ASM_UI_CONFIG"
-       ],
-       "vertexType":"metadata",
-       "entityTypes":[
-          "ASM_UI_TOPOLOGY_TOOL"
-       ],
-       "validForTypes":[
-          "*"
-       ],
-       "menuLabel":"Show on map",
-       "databaseSource":"metadata"
-    },
+    
     {
        "vertexType":"metadata",
        "definition":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 -40 500 480\">\n  <circle style=\"fill:none;stroke:#0019a8;stroke-width:70\" cx=\"250\" cy=\"202\" r=\"167\"/>\n  <path style=\"fill:none;stroke:#0019a8;stroke-width:77\" d=\"M0 202h500\"/>\n</svg>",
