@@ -395,7 +395,7 @@
           "businessCriticality": "Gold",
           "vertexType": "group",
           "groupTokens": [
-              "appgroup:telco"
+              "app:telco"
           ],
           "correlatable": "true",
           "name": "optical-networks-template",
