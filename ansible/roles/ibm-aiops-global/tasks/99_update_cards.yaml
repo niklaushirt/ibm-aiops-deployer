@@ -198,7 +198,7 @@
       verbosity: 1
              
 
-
+	
 
 
   - name:  🌏 ZEN CARDS - Create Card Incidents
@@ -214,6 +214,7 @@
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshop", "label": "🧨 RobotShop - Memory Problem", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=sockshop", "label": "🧦 SockShop - Network Problem", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=acme", "label": "✈️ ACME - Server Fan Outage", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=telco", "label": "📵 Optical Network - Fiber Cut", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=tube", "label": "🔥 London Tube - Fire Alert", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=clean", "label": "✅ Clear all Incidents and Alerts", "sub_text": ""}'
 

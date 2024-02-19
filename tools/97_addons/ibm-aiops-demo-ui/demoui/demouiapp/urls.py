@@ -31,4 +31,5 @@ urlpatterns = [
     path('instanaCreateIncident', views.instanaCreateIncident, name='instanaCreateIncident'),
     path('instanaMitigateIncident', views.instanaMitigateIncident, name='instanaMitigateIncident'),
     path('injectRESTHeadless', views.injectRESTHeadless, name='injectRESTHeadless'),
+    path('httpCommand', views.httpCommand, name='httpCommand'),
 ]

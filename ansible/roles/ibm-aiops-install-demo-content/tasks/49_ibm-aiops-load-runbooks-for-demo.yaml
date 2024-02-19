@@ -701,6 +701,9 @@
     export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
     export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
+    export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath={.spec.host})          
+
+
 
 
 
@@ -718,7 +721,7 @@
       \"parameters\": [],
       \"tags\": [],
       \"http\": {
-        \"host\": \"https://ibm.com\",
+        \"host\": \"https://$demoURL/httpCommand\",
         \"method\": \"GET\",
         \"headers\": \"{}\",
         \"ignoreCertErrors\": false
@@ -726,6 +729,7 @@
       }")
 
       echo $PAYLOAD>/tmp/action.json
+
 
       
       export result=$(curl -X "POST" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/actions?publish=true" \

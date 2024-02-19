@@ -1113,6 +1113,25 @@ def injectAllREST(request):
 
 
 
+def httpCommand(request):
+    print('🌏 httpCommand')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+
+    currentcommand=request.GET.get("command", '{"command":"resetUplink", "status":"ok"}')
+    print('  🟠 '+currentcommand)
+
+    payload = currentcommand
+    return HttpResponse(payload, content_type="application/json", status=201)
+
+
+
+
+
+
 def injectRESTHeadless(request):
     print('🌏 injectRESTHEadless')
     global loggedin
@@ -1209,7 +1228,24 @@ def injectRESTHeadless(request):
         threadLinks.start()
 
 
-    if currentapp=='all':
+
+    elif currentapp=='telco':
+
+        INCIDENT_ACTIVE=True
+
+        print('🌏 Create Optical Network outage')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        #time.sleep(3)
+
+
+
+    elif currentapp=='all':
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))

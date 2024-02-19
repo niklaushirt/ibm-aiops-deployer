@@ -273,8 +273,9 @@ This installation contains:
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (the Entitlement key from https://myibm.ibm.com)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -496,7 +497,8 @@ Ready to go.
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
 5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 61)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -537,7 +539,8 @@ Ready to go.
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
 4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
 3. Click `Save`
 
 > ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
