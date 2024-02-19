@@ -198,9 +198,6 @@
       verbosity: 1
              
 
-	
-
-
   - name:  🌏 ZEN CARDS - Create Card Incidents
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
