@@ -5,7 +5,7 @@ metadata:
   namespace: instana-datastores
 spec:
   kafka:
-    version: 3.6.0
+    version: 3.4.0
     replicas: 1
     listeners:
       - name: plain
@@ -36,8 +36,4 @@ spec:
       pod:
         tmpDirSizeLimit: 100Mi
     topicOperator: {}
-    userOperator:
-      image: artifact-public.instana.io/self-hosted-images/3rd-party/strimzi/operator:0.38.0_v0.3.0
-
-
-
+    userOperator: {}

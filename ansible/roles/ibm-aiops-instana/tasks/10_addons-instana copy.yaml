@@ -1,12 +1,12 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install Instana
+# Install Turbonomic
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install Instana
+# Install Turbonomic
 # --------------------------------------------------------------------------------------------------------------------------------------
 
 - name: 🛰️  START - INSTALL INSTANA
@@ -51,37 +51,6 @@
 
 
 
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Install Cert Manager if needed
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 INSTANA - Check cert-manager
-  shell: |
-    CERT_MANAGER_CRD=$(oc get pods -A|grep "cert-manager"|grep "1/1"|wc -l|tr -d ' ') 
-    echo $CERT_MANAGER_CRD
-  ignore_errors: true
-  register: cert_check
-
-
-- name: 🚀 INSTANA - Install cert-manager {{cert_check.stdout}}
-  shell: |
-    oc apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.yaml
-    sleep 15
-    oc create clusterrolebinding instana-cert-manager-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
-    oc create clusterrolebinding instana-cert-manager-cainjector-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-cainjector
-    oc create clusterrolebinding instana-cert-manager-webhook-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-webhook
-  when: cert_check.stdout == "0"
-  ignore_errors: true
-
-
-- name:   🕦 INSTANA - Wait for CertManager to become ready
-  shell: oc -n cert-manager get pod | grep cert-manager-webhook
-  register: kubectl_get_pods
-  until: '"1/1" in kubectl_get_pods.stdout'
-  retries: 500
-  delay: 15
-  when: cert_check.stdout == "0"
-
-
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create DataStores
@@ -97,7 +66,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastore Operators'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastores {{current_ibmaiops_feature.instana_version}}'    
     EOF
   ignore_errors: true
   args:
@@ -110,10 +79,6 @@
 - name:   🚀 INSTANA - Create Backend Datastore Namespace
   shell: |
     oc create ns instana-datastores
-    oc -n instana-datastores create secret docker-registry instana-registry \
-    --docker-username=_ \
-    --docker-password={{current_agent_key}} \
-    --docker-server=artifact-public.instana.io   
   ignore_errors: true
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Install Helm
@@ -138,7 +103,7 @@
     # Zookeeper Operator installation
     helm repo add pravega https://charts.pravega.io
     helm repo update
-    helm install instana -n instana-datastores  pravega/zookeeper-operator --version=0.2.15
+    helm install instana -n instana-datastores  pravega/zookeeper-operator --version=0.2.14
   ignore_errors: true
   register: output
   args:
@@ -155,7 +120,7 @@
     # Strimzi Operator installation
     helm repo add strimzi https://strimzi.io/charts/
     helm repo update
-    helm install strimzi strimzi/strimzi-kafka-operator --version 0.36.0 -n instana-datastores
+    helm install strimzi strimzi/strimzi-kafka-operator --version 0.30.0 -n instana-datastores
   ignore_errors: true
   register: output
   args:
@@ -172,7 +137,7 @@
     # Elasticsearch (ECK) Operator installation
     helm repo add elastic https://helm.elastic.co
     helm repo update
-    helm install elastic-operator elastic/eck-operator -n instana-datastores --version=2.8.0
+    helm install elastic-operator elastic/eck-operator -n instana-datastores --version=2.5.0
   ignore_errors: true
   register: output
   args:
@@ -207,60 +172,29 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator Beeinstana
-  shell: |
-    # Beeinstana operator installation
-    helm repo add instana https://helm.instana.io/artifactory/rel-helm-customer-virtual --username _ --password {{current_agent_key}}
-    helm repo update
-    helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-
-
-
-
-
-# - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
-#   kubernetes.core.k8s:
-#     namespace: instana-datastores
-#     state: present
-#     template: ./templates/instana-datastores/cassandra-operator.yaml
-- name: 🚀 INSTANA - Create Cassandra Password Secret
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/cassandra-superuser.yaml
-
-- name: 🚀 INSTANA - Create Cassandra Roles
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/cassandra-scc.yaml
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
-  shell: |
-    # kubectl apply -f ./templates/instana-datastores/cassandra-superuser.yaml
-    helm repo add k8ssandra https://helm.k8ssandra.io/stable
-    helm repo update
-    helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.42.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
-    # Security Context Constraints, needed if you are running on RedHat OpenShift
-    # kubectl apply -f ./templates/instana-datastores/cassandra-scc.yaml
-    # kubectl apply -f ./templates/instana-datastores/cassandra-crb.yaml
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/cassandra-operator.yaml
+
+# - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+#   shell: |
+#     helm repo add k8ssandra https://helm.k8ssandra.io/stable
+#     helm repo update
+#     helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.40.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
+#     # Security Context Constraints, needed if you are running on RedHat OpenShift
+#     kubectl apply -f .roles/ibm-aiops-instana/templates/instana-datastores/cassandra-scc.yaml
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Roles
@@ -275,12 +209,7 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator Clickhouse 
   shell: |
     # Clickhouse Operator installation
-    helm repo add clickhouse-operator https://docs.altinity.com/clickhouse-operator/
-    helm repo update
-    helm install clickhouse-operator clickhouse-operator/altinity-clickhouse-operator -n instana-datastores --version=0.21.3
-
-
-    #curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.22.0/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
+    curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.19.1/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
     # Image pull secrets for Clickhouse image
     kubectl create secret docker-registry clickhouse-image-secret \
       --namespace=instana-datastores \
@@ -297,24 +226,6 @@
     verbosity: 1
 
 
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ff7700'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for DataStore Operators to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
 
 
 
@@ -335,41 +246,22 @@
 
 
 
-# - name:   🕦 INSTANA - Wait for Cassandra Operator to become ready
-#   shell: |
-#     while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
-#     do
-#       sleep 30
-#     done
-#   ignore_errors: true
-#   register: output
-#   args:
-#     executable: /bin/bash
-# - name: 🟣  OUTPUT
-#   debug:
-#     var: output.stdout_lines
-#     verbosity: 1
-
-
-
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+- name:   🕦 INSTANA - Wait for Casstandra Operator to become ready
   shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastores'    
-    EOF
+    while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
+    do
+      sleep 30
+    done
   ignore_errors: true
+  register: output
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+
 
 
 - name: 🚀 INSTANA - Create Backend Datastore cassandra
@@ -414,13 +306,7 @@
     template: ./templates/instana-datastores/zookeeper-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore Beeinstana
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/beeinstana-instance.j2
     
-
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for DataStores being ready
@@ -446,20 +332,20 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
-  shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
-    do
-      sleep 30
-    done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name:   🕦 INSTANA - Wait for at least 27 DataStore Pods
+#   shell: |
+#     while [ `oc -n instana-datastores get pods| grep -c ""` -lt 26 ]
+#     do
+#       sleep 30
+#     done
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
@@ -493,7 +379,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Cert Manager (optional)'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator {{current_ibmaiops_feature.instana_version}}'    
     EOF
   ignore_errors: true
   args:
@@ -501,37 +387,44 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Cert Manager if needed
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🚀 INSTANA - Check cert-manager
+  shell: |
+    CERT_MANAGER_CRD=$(oc get pods -A|grep "cert-manager"|grep "1/1"|wc -l|tr -d ' ') 
+    echo $CERT_MANAGER_CRD
+  ignore_errors: true
+  register: cert_check
+
+
+- name: 🚀 INSTANA - Install cert-manager {{cert_check.stdout}}
+  shell: |
+    oc apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.yaml
+    sleep 15
+    oc create clusterrolebinding instana-cert-manager-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+    oc create clusterrolebinding instana-cert-manager-cainjector-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-cainjector
+    oc create clusterrolebinding instana-cert-manager-webhook-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-webhook
+  when: cert_check.stdout == "0"
+  ignore_errors: true
+
+
+- name:   🕦 INSTANA - Wait for CertManager to become ready
+  shell: oc -n cert-manager get pod | grep cert-manager-webhook
+  register: kubectl_get_pods
+  until: '"1/1" in kubectl_get_pods.stdout'
+  retries: 500
+  delay: 15
+  when: cert_check.stdout == "0"
 
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Instana Kubectl plugin
 # --------------------------------------------------------------------------------------------------------------------------------------
-
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Kubectl Plugin - version: {{current_ibmaiops_feature.instana_version}}'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
   shell: |
-    export MAJ_VERSION=$(echo {{current_ibmaiops_feature.instana_version | default("251-0") }}|cut -f1 -d-)
     # https://self-hosted.instana.io/
     if [ -x "$(command -v kubectl-instana)" ]; then
         echo "Kubectl Instana Plugin already installed"
@@ -539,15 +432,15 @@
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         echo "Installing Kubectl Instana Plugin for $OS"
         if [ "${OS}" == "darwin" ]; then
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
+              wget https://self-hosted.instana.io/kubectl/kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
               tar xfvz kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
               sudo mv kubectl-instana /usr/local/bin/kubectl-instana
               rm kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
         else
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              tar xfvz kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              mv kubectl-instana /usr/local/bin/kubectl-instana
-              rm kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
+            wget https://self-hosted.instana.io/kubectl/kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
+            tar xfvz kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
+            mv kubectl-instana /usr/local/bin/kubectl-instana
+            rm kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
         fi
     fi
     if [ -x "$(command -v kubectl-instana)" ]; then
@@ -571,25 +464,6 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Get Info
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Namespaces and Secrets'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
 - name: 🚀 INSTANA - Get BASE_DOMAIN
   shell: |
     CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
@@ -659,10 +533,6 @@
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
         --docker-server=artifact-public.instana.io  
-    oc -n instana-core create secret docker-registry instana-registry-old \
-        --docker-username=_ \
-        --docker-password={{current_agent_key}} \
-        --docker-server=containers.instana.io  
     oc -n instana-units create secret docker-registry instana-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
@@ -692,33 +562,9 @@
     verbosity: 1
 
 
-
-
-
-
-
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Operator
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator - version: {{current_ibmaiops_feature.instana_version}}'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
 - name: 🚀 INSTANA - Create Operator
   shell: |
     #switch project
@@ -733,25 +579,36 @@
     oc -n instana-operator secrets link instana-operator-webhook instana-registry --for=pull
 
     # Enable Datastores CRD 
-    # cat <<EOF > values.yaml
-    # operator:
-    #   extraArgs:
-    #     - "--datastores=true"
-    #   # securityContext:
-    #   #   allowPrivilegeEscalation: true
-    #   #   readOnlyRootFilesystem: false
-    #   #   runAsNonRoot: false
-    # EOF
-    # #kubectl instana operator apply --namespace=instana-operator --values ./values.yaml
-    
-    
+    cat <<EOF > values.yaml
+    operator:
+      extraArgs:
+        - "--datastores=true"
+      # securityContext:
+      #   allowPrivilegeEscalation: true
+      #   readOnlyRootFilesystem: false
+      #   runAsNonRoot: false
+    EOF
+
+    #kubectl instana operator apply --namespace=instana-operator --values ./values.yaml
     kubectl instana operator apply --namespace=instana-operator
+
+
+
+
+    #get license
+    echo "Current Sales Key: {{current_sales_key}}"
+    kubectl instana license download --sales-key {{current_sales_key}}
+    echo "Downloaded License"
+    echo "-----------------------------------------------------------"
+    cat ./license.json
+    echo "-----------------------------------------------------------"
 
     oc annotate namespace instana-datastores scheduler.alpha.kubernetes.io/defaultTolerations-
     oc annotate namespace instana-datastores openshift.io/node-selector-
 
     kubectl patch -n instana-operator serviceaccount instana-operator-webhook -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
     kubectl patch -n instana-operator serviceaccount instana-operator -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
+
 
   ignore_errors: true
   register: output
@@ -761,53 +618,6 @@
   debug:
     var: output.stdout_lines
     verbosity: 1
-
-
-
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Create Configuration
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Create {{current_ibmaiops_feature.kind}} - Core and Unit Configurations'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-
-
-- name: 🚀 INSTANA - Get License
-  shell: |
-    #get license
-    echo "Current Sales Key: {{current_sales_key}}"
-    kubectl instana license download --sales-key {{current_sales_key}}
-    echo "Downloaded License"
-    echo "-----------------------------------------------------------"
-    cat ./license.json
-    echo "-----------------------------------------------------------"
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    #verbosity: 1
 
 
 - name: 🚀 INSTANA - Create TLS Ingress Secrets
@@ -849,11 +659,8 @@
     dest: ./config.yaml
 
 
-- name: 🚀 INSTANA - Create Core Config
+- name: 🚀 INSTANA - Create Config
   shell: |
-    echo "-----------------------------------------------------------"
-    echo " ✅ Core Config"
-    echo "-----------------------------------------------------------"
     #prep core resources
     #local directory must exist
     cat ./config.yaml
@@ -864,17 +671,12 @@
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
-    #verbosity: 1
+    verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Unit Config
+- name: 🚀 INSTANA - Create License
   shell: |
-    echo "-----------------------------------------------------------"
-    echo " ✅ Instana License"
-    echo "-----------------------------------------------------------"
-    cat ./license.json
-    echo "-----------------------------------------------------------"
-    #cat ./config.yaml
+    cat ./config.yaml
     #create dev unit secret
     export LICENSE_STRING=$(cat license.json | sed -e 's/\[//g' -e 's/\"//g' -e 's/\]//g')
     echo "license: $LICENSE_STRING" > config.yaml
@@ -883,9 +685,7 @@
     echo "  - {{current_agent_key}}" >> config.yaml
     echo "initialAdminPassword: {{current_admin_pass}}" >> config.yaml
     echo "initialAdminUser: {{current_ibmaiops_feature.instana_admin_user}}" >> config.yaml
-    echo "-----------------------------------------------------------"
-    echo " ✅ Unit Config"
-    echo "-----------------------------------------------------------"
+
     oc -n instana-units create secret generic aiops-dev --from-file=./config.yaml
     cat ./config.yaml
 
@@ -897,10 +697,7 @@
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
-    #verbosity: 1
-
-
-
+    verbosity: 1
 
 
 
@@ -911,27 +708,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Operator being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ff7700'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Operator to become ready (about 2-3 minutes)  - If this hangs delete/restart the Pod from instana-operator Namespace'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-
-- name:   🕦 INSTANA - Wait for Operator to become ready (if this hangs delete Pod in instana-operators)
+- name:   🕦 INSTANA - Wait for Operator to become ready
   shell: |
     while [ `oc -n instana-operator get pods| grep '1/1' | grep -c ""` -lt 2 ]
     do
@@ -953,25 +730,6 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Core CR
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Core Instance'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
 - name: 🚀 INSTANA - Create Instana Core Instance
   kubernetes.core.k8s:
     state: present
@@ -1000,19 +758,6 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
-
-- name:   🕦 INSTANA - HACK - Wait for cashier-rollup
-  shell: oc -n instana-core get deployment cashier-rollup --no-headers
-  register: kubectl_get_pods
-  until: '"cashier-rollup" in kubectl_get_pods.stdout'
-  retries: 500
-  delay: 15
-
-
-- name:   🕦 INSTANA - HACK - Scale to 0 for cashier-rollup
-  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=0
-
-
 - name:   🕦 INSTANA - Wait for Core Instance to become ready
   shell: oc -n instana-core get core instana-core -o=custom-columns=STATUS:.status.componentsStatus --no-headers
   register: kubectl_get_pods
@@ -1021,31 +766,12 @@
   delay: 15
 
 
-# oc scale deployment  -n instana-core cashier-rollup --replicas=0
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Unit CR
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Unit Instance'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
 - name: 🚀 INSTANA - Create Instana Unit Instance
   kubernetes.core.k8s:
     state: present
@@ -1117,27 +843,6 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Routes
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Routes and Patches'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-
-
 - name: 🚀 INSTANA - Create Routes
   kubernetes.core.k8s:
     namespace: instana-datastores
@@ -1145,26 +850,24 @@
     template: ./templates/instana/instana-routes.j2
 
 
-- name:   🕦 INSTANA - HACK - Scale to 1 for cashier-rollup
-  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=1
-
-# - name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
-#   shell: |
-#     oc scale deployment  -n instana-operator instana-operator --replicas=0
-#     oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true}}]}}}}'     
-#     oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}') -n instana-core
-#   ignore_errors: true
-#   register: output
-#   args:
-#     executable: /bin/bash
-# - name: 🟣  OUTPUT
-#   debug:
-#     var: output.stdout_lines
-#     verbosity: 1
 
 
 
 
+
+- name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
+  shell: |
+    oc scale deployment  -n instana-operator instana-operator --replicas=0
+    oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true},"image": "containers.instana.io/instana/release/product/appdata-writer:3.261.318-0"}]}}}}'     
+    oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}'):-notfound  --ignore-not-found -n instana-core --ignore-not-found   
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
 
 
 

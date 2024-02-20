@@ -88,7 +88,6 @@ spec:
       default/interval/read_rows: 0
       default/interval/execution_time: 0
     settings:
-
       max_concurrent_queries: 200
       max_table_size_to_drop: 0
       max_partition_size_to_drop: 0
@@ -113,7 +112,7 @@ spec:
         spec:
           containers:
             - name: instana-clickhouse
-              image: artifact-public.instana.io/clickhouse-openssl:23.3.19.32-1-lts-ibm
+              image: artifact-public.instana.io/self-hosted-images/k8s/clickhouse:23.3.10.5-1-lts-ibm_v0.29.0
               command:
                 - clickhouse-server
                 - --config-file=/etc/clickhouse-server/config.xml
@@ -126,7 +125,7 @@ spec:
                 - -c
                 - --      
           imagePullSecrets:
-            - name: instana-registry
+            - name: clickhouse-image-secret
           securityContext:
             fsGroup: 0
             runAsGroup: 0
@@ -142,6 +141,7 @@ spec:
     volumeClaimTemplates:
       - name: instana-clickhouse-data-volume
         spec:
+          storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
           accessModes:
             - ReadWriteOnce
           resources:
@@ -149,11 +149,12 @@ spec:
               storage: 100Gi
       - name: instana-clickhouse-log-volume
         spec:
+          storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
           accessModes:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 1Gi
+              storage: 20Gi
     serviceTemplates:
       - name: service-template
         generateName: "clickhouse-{chi}"
