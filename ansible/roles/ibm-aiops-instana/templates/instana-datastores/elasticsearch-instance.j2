@@ -4,38 +4,24 @@ metadata:
   name: instana
   namespace: instana-datastores
 spec:
-  version: 7.17.12
+  version: 7.17.14
+  image: artifact-public.instana.io/self-hosted-images/3rd-party/elasticsearch:7.17.14_v0.2.0
   nodeSets:
     - name: default
-      count: 1
+      count: 3
       config:
-        node.roles:
-          - master
-          - data
-          - ingest
+        node.master: true
+        node.data: true
+        node.ingest: true
         node.store.allow_mmap: false
-        xpack.security.authc:
-          anonymous:
-            username: anonymous
-            roles: superuser
-            authz_exception: false
       podTemplate:
-        spec:
-          containers:
-            - name: elasticsearch
-              resources:
-                requests:
-                  memory: 4Gi
-                  cpu: 1
-                limits:
-                  memory: 4Gi
-                  cpu: 2
-          serviceAccountName: elastic-operator
+            spec:
+              imagePullSecrets:
+                - name: instana-registry
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.
           spec:
-            storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
             accessModes:
               - ReadWriteOnce
             resources:

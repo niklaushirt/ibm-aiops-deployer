@@ -711,6 +711,7 @@
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8'|grep "DEMO - Reset Uplink"|wc -l|tr -d ' ')
 
+    # https://pirsoscom.github.io/resetUplink.json
     if [[ $result == "0" ]]; then
 
 
@@ -721,7 +722,7 @@
       \"parameters\": [],
       \"tags\": [],
       \"http\": {
-        \"host\": \"https://$demoURL/httpCommand\",
+        \"host\": \"https://ibm.com\",
         \"method\": \"GET\",
         \"headers\": \"{}\",
         \"ignoreCertErrors\": false

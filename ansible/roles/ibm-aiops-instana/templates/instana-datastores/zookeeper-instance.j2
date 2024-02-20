@@ -6,6 +6,12 @@ metadata:
 spec:
   # For all params and defaults, see https://github.com/pravega/zookeeper-operator/tree/master/charts/zookeeper#configuration
   replicas: 1
+  image:
+    repository: artifact-public.instana.io/self-hosted-images/3rd-party/zookeeper
+    tag: 3.8.3_v0.2.0
+  pod:
+    imagePullSecrets: [name: "instana-registry"]
+    serviceAccountName: "zookeeper"
   config:
     tickTime: 2000
     initLimit: 10
