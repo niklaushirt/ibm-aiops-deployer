@@ -1,4 +1,4 @@
-FROM ubuntu:22.10
+FROM ubuntu:23.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -29,7 +29,10 @@ RUN curl -L https://github.com/IBM/cloud-pak-cli/releases/latest/download/cloudc
 # RUN ansible-galaxy collection install community.kubernetes:2.0.1
 #ansible-galaxy collection install community.kubernetes
 RUN npm install elasticdump -g
-RUN pip install slack-cleaner2
+
+
+
+COPY helm /usr/bin/helm
 
 
 # Install k9s

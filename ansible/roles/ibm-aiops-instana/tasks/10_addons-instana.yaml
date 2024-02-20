@@ -122,19 +122,19 @@
     --docker-server=artifact-public.instana.io   
   ignore_errors: true
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator Install Helm
-  shell: |
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-    chmod 700 get_helm.sh
-    ./get_helm.sh
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
+# - name: 🚀 INSTANA - Create Backend Datastore Operator Install Helm
+#   shell: |
+#     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+#     chmod 700 get_helm.sh
+#     ./get_helm.sh
+#   ignore_errors: true
+#   register: output
+#   args:
+#     executable: /bin/bash
+# - name: 🟣  OUTPUT
+#   debug:
+#     var: output.stdout_lines
+#     verbosity: 1
 
 
 
