@@ -465,7 +465,7 @@ spec:
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Clone Repo $INSTALL_REPO"
-              git clone $INSTALL_REPO -b ibm-aiops_stable
+              git clone $INSTALL_REPO -b main
               cd ibm-aiops-deployer
               echo ""
               echo ""
