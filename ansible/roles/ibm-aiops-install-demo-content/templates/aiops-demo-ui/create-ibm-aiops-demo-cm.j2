@@ -521,7 +521,7 @@ spec:
                 apiVersion: v1
                 metadata:
                   name: ibm-aiops-demo-ui-config-logs-sock
-                  namespace: ibm-aiops-demo-ui
+                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
                 data:
                   DEMO_LOGS_SOCK: ''
 
