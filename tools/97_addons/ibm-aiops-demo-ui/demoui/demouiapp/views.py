@@ -423,15 +423,19 @@ METRIC_ROUTE=os.environ.get('METRIC_ROUTE_OVERRIDE', default=METRIC_ROUTE)
 stream = os.popen("oc get route -n "+aimanagerns+" cp-console  -o jsonpath={.spec.host}")
 CONSOLE_ROUTE = stream.read().strip()
 
+stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode")
+tmpusr = stream.read().strip()
+print('     🟠 USR :'+str(tmpusr))
+
 stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode")
 tmppass = stream.read().strip()
 print('     🟠 PWD :'+str(tmppass))
 
-stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
+stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
 ACCESS_TOKEN = stream.read().strip()
 print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
 
-stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: cpadmin" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
+stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: '+tmpusr+'" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
 METRIC_TOKEN = stream.read().strip()
 print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 
@@ -449,10 +453,10 @@ print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 # # export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
 # # export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
 # # export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
-# # export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
+# # export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
 # # export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
 # # export ZEN_TOKEN=$(curl -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
-# # -H 'username: cpadmin' \
+# # -H 'username: '+tmpusr+'' \
 # # -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
 # # echo $ZEN_TOKEN
 
@@ -462,12 +466,12 @@ print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 # print('     🟠 PWD :'+str(tmppass))
 
 
-# stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://'+METRIC_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r ".access_token"')
+# stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password=$CPADMIN_PWD&scope=openid" https://'+METRIC_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r ".access_token"')
 # ACCESS_TOKEN = stream.read().strip()
 # print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
 
 
-# stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: cpadmin" -H "iam-token: '+METRIC_ROUTE+'"|jq -r ".accessToken"')
+# stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: '+tmpusr+'" -H "iam-token: '+METRIC_ROUTE+'"|jq -r ".accessToken"')
 
 # #stream = os.popen('curl -k -s -X POST https://'+METRIC_ROUTE+'/icp4d-api/v1/authorize -H "Content-Type: application/json" -d "{\\\"username\\\": \\\"admin\\\",\\\"password\\\": \\\"'+tmppass+'\\\"}" | jq .token | sed "s/\\\"//g"')
 # METRIC_TOKEN = stream.read().strip()

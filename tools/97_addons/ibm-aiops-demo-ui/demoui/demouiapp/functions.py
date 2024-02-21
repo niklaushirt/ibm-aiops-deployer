@@ -456,15 +456,23 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
     stream = os.popen("oc get route -n "+aimanagerns+" cp-console  -o jsonpath={.spec.host}")
     CONSOLE_ROUTE = stream.read().strip()
 
+
+
+
+
+    stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode")
+    tmpusr = stream.read().strip()
+    print('     🟠 USR :'+str(tmpusr))
+
     stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode")
     tmppass = stream.read().strip()
     print('     🟠 PWD :'+str(tmppass))
 
-    stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
+    stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
     ACCESS_TOKEN = stream.read().strip()
     print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
 
-    stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: cpadmin" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
+    stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: '+tmpusr+'" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
     METRIC_TOKEN = stream.read().strip()
     print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
 
