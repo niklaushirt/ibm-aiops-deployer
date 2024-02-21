@@ -152,6 +152,7 @@ data:
     # CloudPak for AIOps Base Install
 
     #--------------------------------------------------------------------------------------------------------------------------------------
+    # Changing the project name / namespace is at your own risk. some things might break, I do not test this!
 
     - project: ibm-aiops
       instances:
