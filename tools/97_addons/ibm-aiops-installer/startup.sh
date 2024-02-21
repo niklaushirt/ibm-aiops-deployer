@@ -18,7 +18,7 @@ echo ""
 
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
 echo "   🌏  Get Installer files from $INSTALL_REPO"
-git clone $INSTALL_REPO -b ibm-aiops_stable ibm-aiops| sed 's/^/      /'
+git clone $INSTALL_REPO -b main ibm-aiops| sed 's/^/      /'
 cd ibm-aiops/
 pwd| sed 's/^/         /'
 
