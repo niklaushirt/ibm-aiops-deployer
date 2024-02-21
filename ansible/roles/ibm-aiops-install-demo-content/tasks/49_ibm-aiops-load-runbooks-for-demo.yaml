@@ -47,8 +47,6 @@
     export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
     export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
     export CPADMIN_USER=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 -d && echo)
-    echo "        CPADMIN_USER: $CPADMIN_USER"
-    echo "        CPADMIN_PWD: $CPADMIN_PWD"
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$CPADMIN_USER&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
     export ZEN_TOKEN=$(curl -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
@@ -702,20 +700,12 @@
     export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
     export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-    export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath={.spec.host})          
-
-
-
-
 
     export result=$(curl -X "GET" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8'|grep "DEMO - Reset Uplink"|wc -l|tr -d ' ')
 
-    # https://pirsoscom.github.io/resetUplink.json
     if [[ $result == "0" ]]; then
-
-
       export PAYLOAD=$(echo "    {
       \"name\": \"♻️ DEMO - Reset Uplink\",
       \"description\": \"Reset Optical Network Uplink to mitigagte the problem.\",
