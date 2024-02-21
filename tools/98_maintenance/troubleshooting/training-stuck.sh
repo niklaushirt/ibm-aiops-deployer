@@ -1,29 +1,29 @@
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
 
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
 
 
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/TemporalGrouping
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/TemporalGrouping
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/alert_seasonality_detection_configuration
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/alert_x_in_y_supression_configuration
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/alert_seasonality_detection_configuration
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/alert_x_in_y_supression_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/alert_seasonality_detection_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/alert_x_in_y_supression_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/alert_seasonality_detection_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/alert_x_in_y_supression_configuration
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X GET -E trainingdefinition/_doc/
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X GET -E trainingdefinition/_doc/
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
 
 ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
 ./elastic.sh -X DELETE -E trainingdefinition/_doc/TemporalGrouping
@@ -52,17 +52,17 @@ done
 
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/log_anomaly_golden_signal_configuration
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/log_anomaly_golden_signal_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/metric_anomaly_detection_configuration
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/metric_anomaly_detection_configuration
 
 
 
 
 
-oc rsh -n ibm-aiops $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}')  
 
 
 

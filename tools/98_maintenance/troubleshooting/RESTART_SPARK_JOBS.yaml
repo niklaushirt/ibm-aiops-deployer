@@ -91,8 +91,10 @@ spec:
               echo "  ⏳ INSTALLATION START TIMESTAMP: $(date)"
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
-              oc delete pod  -n ibm-aiops --ignore-not-found $(oc get po -n ibm-aiops|grep spark|awk '{print$1}') --force --grace-period=0
-              oc delete pod  -n ibm-aiops --ignore-not-found $(oc get po -n ibm-aiops|grep metric|awk '{print$1}') --force --grace-period=0
+              export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+              oc delete pod  -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n ibm-aiops|grep spark|awk '{print$1}') --force --grace-period=0
+              oc delete pod  -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n ibm-aiops|grep metric|awk '{print$1}') --force --grace-period=0
 
 
               echo "*****************************************************************************************************************************"

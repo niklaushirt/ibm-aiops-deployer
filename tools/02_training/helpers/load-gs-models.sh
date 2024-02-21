@@ -80,8 +80,8 @@ echo "     ---------------------------------------------------------------------
 oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
 
 
-export username=$(oc exec -n ibm-aiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
-export password=$(oc exec -n ibm-aiops -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
+export username=$(oc exec -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
+export password=$(oc exec -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
 
 export WORKING_DIR_ES="./tools/02_training/TRAINING_FILES/ELASTIC/$APP_NAME/$INDEX_TYPE"	
 
