@@ -122,7 +122,7 @@
     export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export CPADMIN_PWD=$(oc -n ibm-aiops get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
+    export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
     echo "        CPADMIN_PWD: $CPADMIN_PWD"
     echo ""
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=cpadmin&password=$CPADMIN_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')

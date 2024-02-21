@@ -5,6 +5,9 @@ echo ""
 echo "  ⏳ INSTALLATION START TIMESTAMP: $(date)"
 echo ""
 
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete CS CSV"
 # oc delete csv --all -n ibm-common-services 
@@ -12,55 +15,55 @@ echo ""
 
 # $echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete AIOPS CSV"
-# oc delete csv --all -n ibm-aiops 
-# oc delete subscription --all -n ibm-aiops 
+# oc delete csv --all -n $AIOPS_NAMESPACE 
+# oc delete subscription --all -n $AIOPS_NAMESPACE 
 
 
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete Stuff"
 # oc delete pods -n ibm-common-services --all &
-# oc delete pods -n ibm-aiops --all &
+# oc delete pods -n $AIOPS_NAMESPACE --all &
 # oc delete csv --all -n ibm-common-services &
 # oc delete subscription --all -n ibm-common-services &
-# oc delete csv --all -n ibm-aiops &
+# oc delete csv --all -n $AIOPS_NAMESPACE &
 # oc delete subscription --all & -n ibm-aiops
-# oc delete deployment -n ibm-aiops --all &
+# oc delete deployment -n $AIOPS_NAMESPACE --all &
 # oc delete deployment -n ibm-common-services --all &
 # oc delete ss -n ibm-common-services --all &
 # oc delete statefulset -n ibm-common-services --all &
-# oc delete statefulset -n ibm-aiops --all &
-# oc delete jobs -n ibm-aiops --all &
+# oc delete statefulset -n $AIOPS_NAMESPACE --all &
+# oc delete jobs -n $AIOPS_NAMESPACE --all &
 # oc delete jobs -n ibm-common-services --all &
-# oc delete cm -n ibm-aiops --all &
+# oc delete cm -n $AIOPS_NAMESPACE --all &
 # oc delete cm -n ibm-common-services --all &
-# oc delete secret -n ibm-aiops --all &
+# oc delete secret -n $AIOPS_NAMESPACE --all &
 # oc delete secret -n ibm-common-services --all &
-# oc delete pvc -n ibm-aiops --all &
+# oc delete pvc -n $AIOPS_NAMESPACE --all &
 # oc delete pvc -n ibm-common-services --all &
-# oc delete cm -n ibm-aiops --all &
+# oc delete cm -n $AIOPS_NAMESPACE --all &
 # oc delete cm -n ibm-common-services --all &
 
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete OPERANDREQUESTS"
-# oc delete operandrequests.operator.ibm.com -n ibm-aiops --all --force --grace-period=0 &
+# oc delete operandrequests.operator.ibm.com -n $AIOPS_NAMESPACE --all --force --grace-period=0 &
 # oc delete operandrequests.operator.ibm.com -n ibm-common-services --all --force --grace-period=0 &
 
-# oc patch operandrequests.operator.ibm.com -n ibm-aiops iaf-core-operator  -p '{"metadata":{"finalizers":null}}' --type=merge          
-# oc patch operandrequests.operator.ibm.com -n ibm-aiops iaf-eventprocessing-operator  -p '{"metadata":{"finalizers":null}}' --type=merge
-# oc patch operandrequests.operator.ibm.com -n ibm-aiops iaf-operator  -p '{"metadata":{"finalizers":null}}' --type=merge               
-# oc patch operandrequests.operator.ibm.com -n ibm-aiops ibm-elastic-operator -p '{"metadata":{"finalizers":null}}' --type=merge       
+# oc patch operandrequests.operator.ibm.com -n $AIOPS_NAMESPACE iaf-core-operator  -p '{"metadata":{"finalizers":null}}' --type=merge          
+# oc patch operandrequests.operator.ibm.com -n $AIOPS_NAMESPACE iaf-eventprocessing-operator  -p '{"metadata":{"finalizers":null}}' --type=merge
+# oc patch operandrequests.operator.ibm.com -n $AIOPS_NAMESPACE iaf-operator  -p '{"metadata":{"finalizers":null}}' --type=merge               
+# oc patch operandrequests.operator.ibm.com -n $AIOPS_NAMESPACE ibm-elastic-operator -p '{"metadata":{"finalizers":null}}' --type=merge       
 
 
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete KAFKA Claims"
-# oc delete kafkaclaims.shim.bedrock.ibm.com -n ibm-aiops --all
+# oc delete kafkaclaims.shim.bedrock.ibm.com -n $AIOPS_NAMESPACE --all
 # oc delete kafkaclaims.shim.bedrock.ibm.com -n ibm-common-services --all
 
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete OIDC Clients"
-# oc delete clients.oidc.security.ibm.com -n ibm-aiops --all --force --grace-period=0 &
+# oc delete clients.oidc.security.ibm.com -n $AIOPS_NAMESPACE --all --force --grace-period=0 &
 # sleep 5
-# oc patch clients.oidc.security.ibm.com $(oc get clients.oidc.security.ibm.com -n ibm-aiops| grep .ibm.com|awk '{print$1}') -n ibm-aiops -p '{"metadata":{"finalizers":null}}' --type=merge 
+# oc patch clients.oidc.security.ibm.com $(oc get clients.oidc.security.ibm.com -n ibm-aiops| grep .ibm.com|awk '{print$1}') -n $AIOPS_NAMESPACE -p '{"metadata":{"finalizers":null}}' --type=merge 
 
 # oc delete clients.oidc.security.ibm.com -n ibm-common-services --all &
 # sleep 5
@@ -69,11 +72,11 @@ echo ""
 
 # echo "------------------------------------------------------------------------------------------------------------------------------"
 # echo " 🧻 Delete ConfigMaps"
-# oc delete cm -n ibm-aiops --all
+# oc delete cm -n $AIOPS_NAMESPACE --all
 # oc delete cm -n ibm-common-services --all
-# oc delete cm -n ibm-aiops --all
+# oc delete cm -n $AIOPS_NAMESPACE --all
 # oc delete cm -n ibm-common-services --all
-# oc delete cm -n ibm-aiops --all
+# oc delete cm -n $AIOPS_NAMESPACE --all
 # oc delete cm -n ibm-common-services --all
 
 
