@@ -52,6 +52,7 @@ spec:
       labels:
         app: ibm-aiops-installer
     spec:
+      serviceAccountName: ibm-aiops-installer-admin
       containers:
       - image: quay.io/niklaushirt/ibm-aiops-installer:2.0
         imagePullPolicy: Always
