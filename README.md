@@ -72,7 +72,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 >       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME, London Underground)
 >		- Dedicated DemoUI that allows you to trigger different scenarios
 >  - **Turbonomic**  (optional)
->  - **Instana**  (optional)
+
 
 > #### ⚠️ **This method creates an in-cluster installation**
 > 
@@ -134,7 +134,7 @@ You'll need:
 - 5x worker nodes with **32 CPU / 128 GB**  ❗
 
 
-You **might** get away with less if you don't install some components (ELK, Turbonomic, Instana,...) but no guarantee.
+You **might** get away with less if you don't install some components (ELK, Turbonomic,...) but no guarantee.
 
 
 
@@ -169,7 +169,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 	- Worker node count: **5**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBM AIOps, Trubonomic and Instana you must select **32 vCPU X 128 GB** 
+	> ❗ If you want to install IBM AIOps and Trubonomic you must select **32 vCPU X 128 GB** 
 
 	![K8s CNI](./doc/pics/roks04.png)
 
@@ -198,7 +198,7 @@ Those scripts have been tested thoroughly on different environments and have pro
 If you think that you hit a problem:
 
 * Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each. If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
-* If you want to install IBM AIOps, Turbonomic and Instana you **must** select **5 worker nodes with 32 CPU and 128 GB**
+* If you want to install IBM AIOps and Turbonomic you **must** select **5 worker nodes with 32 CPU and 128 GB**
 * The complete installation takes about 1.5 to 8 hours depending on your region where and the platform you deployed to.
 * If you see Pods in `CrashLoop` or other error states, try to wait it out (this can be due to dependencies on other componenets that are not ready yet). Chances are that the deployment will eventually go through. If after 8h you are still stuck, ping me.
 ### ❗ So simply put be patient and make sure you have the correct size of cluster provisioned!
@@ -522,34 +522,6 @@ This installation adds:
 </details>
 
 
-### 2.4.2 Install Instana (experimental)
-<details>
-<summary>✅ Instructions</summary>
-
-❗ I have tested this and usually it works. But there are occasional hiccups.
-
-
-You get Instana installed in one simple script.
-Ready to go.
-
-
-
-![K8s CNI](./doc/pics/install03.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-4. Replace `<YOUR_SALES_KEY>` and  `<YOUR_AGENT_KEY>` at the top of the file with your Instana license if you have one
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
-3. Click `Save`
-
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
-
-
-This installation adds:
-
-> - **Instana**
-
 
 <div style="page-break-after: always;"></div>
 
@@ -599,7 +571,7 @@ To access the demo environment:
 ![demo](./doc/pics/demo01.png)
 
 
-> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS or Turbonomic
 > 
 >  ✅ Open the links in a Private/Incognito window and select proceed
 > 
@@ -1012,7 +984,6 @@ It contains the following components (which can be installed independently):
 	- Groups for vCenter and RobotShop
 	- Groups for licensing
 	- Resource Hogs
- - **Instana**  (optional)
 
 ![demo](./doc/pics/aiops_arch_dataflow.jpg)
 
@@ -1102,9 +1073,9 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 </details>
 
 <details>
-<summary>📥 I'm getting a certificate error when opening CP4AIOPS, Instana or Turbonomic</summary>
+<summary>📥 I'm getting a certificate error when opening CP4AIOPS or Turbonomic</summary>
 
-❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS, Instana or Turbonomic
+❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS or Turbonomic
 
 ✅ Open the links in a Private/Incognito window and select proceed
 
@@ -1151,35 +1122,6 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 
 </details>
 
-<details>
-<summary>📥 Instana Installation hanging</summary>
-
-- If the Instana installation is hanging at `Wait for Operator to become ready `
-
-	✅ Please delete/restart the `instana-operator-xxx` Pod from the `instana-operator` Namespace
-
-
-- If the instana installation is hanging at `Wait for Core to become ready` for more than 15 minutes
-	- Check running Pods in the instana-core Namespace
-	- If there are no Pods:
-	
-	✅ Uninstall instana with [this script](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/jobs/DELETE_INSTANA.yaml) (you might have to run it twice - just delete the Pod it will restart)
-	
-	✅Then [re-run the installer Pod](#re-run-the-installer).
-
-
-
-</details>
-
-
-<details>
-<summary>📥 Instana Error on traces</summary>
-
-- If you get `An unexpected error occurred. Please refresh the page or try again later.` when trying to display traces
-
-	✅ Please delete/restart the `action-reader-xxx` Pod from the `instana-core` Namespace
-
-</details>
 
 
 ## Re-Run the installer
