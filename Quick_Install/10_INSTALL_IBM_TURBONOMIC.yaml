@@ -84,8 +84,6 @@ data:
       create_cards: true
       # Create App Menu Items in OCP
       create_ocp_items: true
-      # Integrate OpenShift Login with OpenLDAP
-      integrate_ocp_openldap: false
       # Create Notifications in OCP
       create_ocp_notifications: true
       position_ocp_notifications: BannerBottom

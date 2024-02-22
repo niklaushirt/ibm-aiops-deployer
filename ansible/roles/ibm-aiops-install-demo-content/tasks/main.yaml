@@ -501,7 +501,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (047/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
   include_tasks: 90_integrate-ocp-openldap.yaml
-  when: global_config.integrate_ocp_openldap | default(false) == true  
+  when: current_ibmaiops_feature.integrate_ocp_openldap | default(false) == true  
 
 
 
