@@ -179,8 +179,8 @@ echo "<BR>"
 
     echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
     echo "<h3>    🐣 1.1 Demo UI</h3><BR>"
-    appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")|| true
-    appToken=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui-config -o jsonpath='{.data.TOKEN}')
+    appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+    appToken=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
     echo "<table>"
     echo "<tr><td style=\"min-width:300px\">🌏 URL:</td><td><a target="_blank" href=\"https://$appURL/\">https://$appURL/</a></td></tr>"
     echo "<tr><td style=\"min-width:300px\">🔐 Token:</td><td>$appToken<BR>"

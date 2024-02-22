@@ -21,7 +21,7 @@ echo $ZEN_TOKEN
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui -o jsonpath={.spec.host})
+export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})
 export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
@@ -219,7 +219,7 @@ fi
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui -o jsonpath={.spec.host})
+export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})
 export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
@@ -293,7 +293,7 @@ fi
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui -o jsonpath={.spec.host})
+export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})
 export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
@@ -367,7 +367,7 @@ fi
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui -o jsonpath={.spec.host})
+export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})
 export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
@@ -441,7 +441,7 @@ fi
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui -o jsonpath={.spec.host})
+export DEMOUI_ROUTE=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})
 export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 

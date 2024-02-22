@@ -36,10 +36,10 @@
 - name: 🌏 DEMO-UI - Get DEMO UI LOGINS
   shell: |
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    export DEMOUI_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")
+    export DEMOUI_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")
     echo "                🌏 URL:      http://$DEMOUI_ROUTE"
     echo ""
-    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui-config -o jsonpath='{.data.TOKEN}')"
+    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')"
 
     export URL=http://$DEMOUI_ROUTE
     if [ -x "$(command -v open)" ]; then
