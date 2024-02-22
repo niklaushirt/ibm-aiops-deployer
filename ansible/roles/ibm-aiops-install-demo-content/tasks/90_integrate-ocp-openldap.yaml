@@ -42,7 +42,6 @@
 
 - name: 🌏 OCP INTEGRATION - Integrate OpenShift Login with OpenLDAP
   shell: |
-
     oc patch OAuth/cluster --type merge -p '{"spec": {"identityProviders": [{"ldap": {"attributes": {"email": [],"id": ["dn"],"name": ["cn"],"preferredUsername": ["cn"]},"bindDN": "cn=admin,dc=ibm,dc=com","bindPassword": {"name": "ldap-bind-password-demo"},"insecure": true,"url": "ldap://openldap.openldap:389/dc=ibm,dc=com?uid?sub?(objectclass=Person)"},"mappingMethod": "claim","name": "openldap","type": "LDAP"}]}}'
 
     export LDAP_PASSWORD=$(echo "{{current_ibmaiops_feature.ldap_admin_password  | default( global_config.global_password )}}" | base64)
