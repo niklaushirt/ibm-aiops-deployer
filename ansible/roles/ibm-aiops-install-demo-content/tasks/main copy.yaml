@@ -178,6 +178,16 @@
 
 
 
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Delete lingering Pods before check for install
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name:   🚀 Delete lingering Pods before check for reinstall
+  shell: |
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ContainerStatusUnknown|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
+  register: kubectl_get_pods
+  ignore_errors: true
+
+
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # CHECK FOR INSTALLATION READY
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -191,6 +201,298 @@
 
 - name: (004/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL ADDONS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Install OpenLDAP
+- name: (005/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
+  include_tasks: 21_addons-ldap.yaml
+  when: current_ibmaiops_feature.install_ldap == true
+
+# Create Service Account and USER
+- name: (006/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Admin Service Account
+  include_tasks: 22_addons-user.yaml
+  when: current_ibmaiops_feature.create_account == true
+
+# Create Demo Apps (Robot-Shop)
+- name: (007/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
+  include_tasks: 23_addons-demoapps.yaml
+  when: current_ibmaiops_feature.install_demoapps == true
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE ROUTES
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (008/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Routes
+  include_tasks: 30_ibm-aiops-create-routes.yaml
+  when: current_ibmaiops_feature.create_external_routes == true
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# LOAD MODEL TRAINING DATA ahead of time
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Load data
+- name: (009/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load SNOW Training Data
+  include_tasks: 51_ibm-aiops-training-load-snow.yaml
+  when: current_ibmaiops_feature.training_load_data_snow == true
+
+- name: (010/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load LOGS Training Data
+  include_tasks: 52_ibm-aiops-training-load-logs.yaml
+  when: current_ibmaiops_feature.training_load_data_logs == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
+
+- name: (011/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load METRICS Training Data
+  include_tasks: 53_ibm-aiops-training-load-metric.yaml
+  when: current_ibmaiops_feature.training_load_data_metrics == true
+
+- name: (012/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load EVENTS Training Data
+  include_tasks: 53_ibm-aiops-training-load-events.yaml
+  when: current_ibmaiops_feature.training_load_data_events == true | default('true')
+
+- name: (013/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training Definition for Lags
+  include_tasks: 52_ibm-aiops-training-create-lags-configuration.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE TOPOLOGY (part 1)
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (014/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Topology Observers
+  include_tasks: 41_ibm-aiops-create-observers.yaml
+  when: current_ibmaiops_feature.install_demoapps_observer == true
+
+- name: (015/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load Topology Merge Rules
+  include_tasks: 42_ibm-aiops-load-topology-merge.yaml
+  when: current_ibmaiops_feature.install_custom_topology == true
+
+- name: (016/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Overlay Topology
+  include_tasks: 43_ibm-aiops-create-topology.yaml
+  when: current_ibmaiops_feature.install_custom_topology == true
+
+- name: (017/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Disable Topology Match Rules
+  include_tasks: 44_ibm-aiops-disable-match-token-rule.yaml
+  when: current_ibmaiops_feature.install_custom_topology == true
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL AWX while training data is loading   
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (018/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install AWX
+  include_tasks: 24_addons-awx.yaml   
+  when: current_ibmaiops_feature.install_awx == true
+  
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE TOPOLOGY (part 2)
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (019/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Templates
+  include_tasks: 45_ibm-aiops-create-aiops-application-templates.yaml
+  when: current_ibmaiops_feature.create_topology_templates == true
+
+- name: (020/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Application
+  include_tasks: 45_ibm-aiops-create-aiops-application.yaml
+  when: current_ibmaiops_feature.create_topology_apps == true
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# POSTINSTALL TASKS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Register LDAP Users
+- name: (021/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM AIOPS
+  include_tasks: 25-post-ldap-register.yaml
+  when: current_ibmaiops_feature.install_ldap == true and current_ibmaiops_feature.ldap_register == true
+# Create valid certificate for Ingress (for Slack)
+- name: (022/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
+  include_tasks: 31_ibm-aiops-patch-ingress.yaml
+  when: current_ibmaiops_feature.create_valid_ingress_itz == true | default('false')
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE RUNBOOKS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Runbooks    
+- name: (023/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Wait for AWX to become ready
+  include_tasks: 46_ibm-aiops-wait-awx.yaml
+  when: current_ibmaiops_feature.install_awx == true
+
+- name: (024/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load Demo Playbooks into AWX
+  include_tasks: 48_ibm-aiops-load-awx-playbooks-for-demo.yaml
+  when: current_ibmaiops_feature.load_awx_playbooks == true 
+
+- name: (025/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create AWX Connection in IBM AIOPS
+  include_tasks: 47_ibm-aiops-create-awx-connection.yaml
+  when: current_ibmaiops_feature.integrate_awx == true
+
+# Load Demo Runbooks into IBM AIOps
+- name: (026/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load Demo Runbooks into IBM AIOPS
+  include_tasks: 49_ibm-aiops-load-runbooks-for-demo.yaml
+  when: current_ibmaiops_feature.load_runbooks == true
+
+
+
+
+
+# Restart Anomaly Pods to make anomaly detection workk
+    #- role: 89_ibm-aiops-reset-anomaly-detection
+
+
+
+
+
+ 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE MODEL TRAINING
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Training definitions
+- name: (027/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Check if AI Models exist
+  include_tasks: 54_ibm-aiops-training-check-exists.yaml
+
+- name: (028/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training Definition for Temporal Grouping
+  include_tasks: 55_ibm-aiops-training-create-tg-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_temporal and TRAINING_EXISTS==false
+
+- name: (029/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Metrics
+  include_tasks: 56_ibm-aiops-training-create-metric-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_metrics == true and TRAINING_EXISTS==false
+
+- name: (030/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for SNOW 
+  include_tasks: 57_ibm-aiops-training-create-snow-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_snow == true and TRAINING_EXISTS==false
+
+- name: (031/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Logs
+  include_tasks: 58_ibm-aiops-training-create-logs-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
+
+- name: (032/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Seasonality and XinY
+  include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
+  when: current_ibmaiops_feature.training_create_training_experimental == true | default('false')
+
+- name: (033/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load LAGS Training Data
+  include_tasks: 58_ibm-aiops-training-load-lags.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Policies
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Incident Creation and Runbook Policies
+- name: (034/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Custom Incident Creation Policy
+  include_tasks: 50_ibm-aiops-create-policies-stories.yaml
+  when: current_ibmaiops_feature.create_incident_policy == true
+
+- name: (035/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Custom Runbook Trigger Policy
+  include_tasks: 50_ibm-aiops-create-policies-runbooks.yaml
+  when: current_ibmaiops_feature.create_runbook_policy == true
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# RUN MODEL TRAINING
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Train models
+- name: (036/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Wait for Trainingdata to finish loading
+  include_tasks: 60_ibm-aiops-training-load-wait.yaml
+  when: (current_ibmaiops_feature.training_load_data_logs == true or current_ibmaiops_feature.training_load_data_snow == true or current_ibmaiops_feature.training_load_data_metrics == true) and TRAINING_EXISTS==false
+
+- name: (037/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run SNOW AI Model Training
+  include_tasks: 61_ibm-aiops-training-run-snow.yaml
+  when: current_ibmaiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
+
+- name: (038/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run LAD AI Model Training
+  include_tasks: 62_ibm-aiops-training-run-logs.yaml
+  when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
+
+- name: (039/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run LAGS AI Model Training
+  include_tasks: 62_ibm-aiops-training-run-lags.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true and TRAINING_EXISTS==false
+
+
+
+
+- name: (040/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run METRICS  AI Model Training
+  include_tasks: 63_ibm-aiops-training-run-metric.yaml
+  when: current_ibmaiops_feature.training_run_training_metrics == true and TRAINING_EXISTS==false
+      
+- name: (041/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run TEMPORAL EVENTS  AI Model Training
+  include_tasks: 64_ibm-aiops-training-run-temporal.yaml
+  when: current_ibmaiops_feature.training_run_training_temporal | default('false') == true and TRAINING_EXISTS==false
+      
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE CONNECTIONS FOR INCEPTION
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (042/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Create Kafka ELK connection
+  include_tasks: 65_ibm-aiops-create-kafka-connections.yaml
+  when: current_ibmaiops_feature.create_log_connection == true
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# IJNSTALL WEBHOOK PROBE
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (043/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Turbonomic Probe
+  include_tasks: 70_ibm-aiops-install-turbonomic-probe.yml
+  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
+
+- name: (044/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Generic Webhook Probe
+  include_tasks: 71_ibm-aiops-install-generic-probe.yml
+  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE DEMO UI APP
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (045/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install the Demo UI
+  include_tasks: 26_ibm-aiops-demo-ui.yaml
+  when: current_ibmaiops_feature.install_demo_ui == true
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Delete lingering Luigi Pods 
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name:   ⚠️ HACK - Delete lingering Luigi Pods  (hack)
+  shell: |
+    oc delete pod $(oc get po -n {{ current_ibmaiops_cluster.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound -n {{ current_ibmaiops_cluster.project }} --ignore-not-found
+  register: kubectl_get_pods
+  ignore_errors: true
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ENABLE LAGS TRINING
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (046/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable LAGS Training
+  include_tasks: 80_ibm-aiops-training-enable-lags-configuration.yaml
+  when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
 
 
 

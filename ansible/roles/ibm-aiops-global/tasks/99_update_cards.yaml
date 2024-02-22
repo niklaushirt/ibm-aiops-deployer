@@ -119,7 +119,7 @@
       if [ "${AIOPS_NAMESPACE}" != "" ]; then
 
         export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
-        demoURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")
+        demoURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")
 
         export ROWS=""
 
@@ -203,7 +203,7 @@
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
       if [ "${AIOPS_NAMESPACE}" != "" ]; then
         export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
-        export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath={.spec.host})          
+        export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath={.spec.host})          
 
         export ROWS=""
 

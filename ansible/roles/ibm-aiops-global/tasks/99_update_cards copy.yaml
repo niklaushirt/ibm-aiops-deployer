@@ -119,8 +119,8 @@
       if [ "${AIOPS_NAMESPACE}" != "" ]; then
 
         export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
-        demoURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui  -o jsonpath="{['spec']['host']}")
-        demoToken=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui $AIOPS_NAMESPACE-demo-ui-config -o jsonpath='{.data.TOKEN}')
+        demoURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")
+        demoToken=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
 
         export ROWS=""
 
