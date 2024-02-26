@@ -8,9 +8,9 @@
                 <tbody>
 
                     <tr>
-                      
+
                         <td style="width:90%; padding-left:50px;">
-                          
+
                             <div style="  background-color:#ecf0fe; padding: 40px; margin: 0px;">
 
                                 <div role="main" class="container theme-showcase">
@@ -73,9 +73,9 @@
                 <tbody>
 
                     <tr>
-                      
+
                         <td style="width:90%; padding-left:50px;">
-                          
+
                             <div style="  background-color:#ecf0fe; padding: 40px; margin: 0px;">
 
                                 <div role="main" class="container theme-showcase">
@@ -106,8 +106,75 @@
 {% endif %}
 
 
+
+{% if hasCustomScenario != 1 %}
+<BR>
+<BR>
+<BR>
+<div role="main" class="container theme-showcase">
+    <div class="jumbotron container">
+        <center>
+
+            <table style="width:90%; padding-left:50px;">
+                <tbody>
+
+                    <tr>
+
+                        <td style="width:90%; padding-left:50px;">
+
+                            <div style="  background-color:#ecf0fe; padding: 40px; margin: 0px;">
+
+                                <div role="main" class="container theme-showcase">
+                                    <div class="jumbotron container">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                        CUSTOM_NAME<BR>
+                                                        {{CUSTOM_NAME|safe}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                        CUSTOM_EVENTS<BR>
+                                                            {{CUSTOM_EVENTS|safe}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                        CUSTOM_METRICS<BR>
+                                                            {{CUSTOM_METRICS|safe}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                        CUSTOM_LOGS<BR>
+                                                            {{CUSTOM_LOGS|safe}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                        CUSTOM_TOPOLOGY<BR>
+                                                            {{CUSTOM_TOPOLOGY|safe}}
+                                                    </td>
+                                                </tr>
+                                                                                                 </div>
+
+                                </p>
+                                <p></p>
+                                <p></p>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </center>
+    </div>
+</div>
+{% endif %}
+
+
+
 {% include "demouiapp/_footer.html" %}
-
-
 
 

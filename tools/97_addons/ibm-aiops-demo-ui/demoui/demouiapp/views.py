@@ -3009,7 +3009,14 @@ def about(request):
         'DEMO_IMAGE': demo_image,
         'ALL_LOGINS': ALL_LOGINS,
         'mod_time_readable': mod_time_readable,
-        'CONTACT_INFO': CONTACT_INFO
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
+        'CUSTOM_EVENTS': CUSTOM_EVENTS,
+        'CUSTOM_METRICS': CUSTOM_METRICS,
+        'CUSTOM_LOGS': CUSTOM_LOGS,
+        'CUSTOM_TOPOLOGY': CUSTOM_TOPOLOGY
+
+
     }
     return HttpResponse(template.render(context, request))
 
