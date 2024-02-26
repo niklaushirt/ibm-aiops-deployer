@@ -48,6 +48,106 @@ mod_time=os.path.getmtime('./demouiapp/views.py')
 mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
 print('     🛠️ Build Date: '+str(mod_time_readable))
 
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# Creating Custom Topology
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+cmdTopo = '''                               
+echo \''''+str(CUSTOM_TOPOLOGY)+'''\'  > ./custom-topology.txt
+# echo ":::"
+# cat ./custom-topology.txt
+# echo ":::"
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+# Get FILE_OBSERVER_POD
+FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
+LOAD_FILE_NAME="custom-topology.txt"
+
+FILE_OBSERVER_CAP=$(pwd)"/custom-topology.txt"
+
+TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
+# echo "                     FILE_OBSERVER_POD:"$FILE_OBSERVER_POD
+# echo $FILE_OBSERVER_CAP
+# echo $TARGET_FILE_PATH
+echo "  Copying capture file to file observer pod"
+# echo "oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}"
+oc cp -n $AIOPS_NAMESPACE -c aiops-topology-file-observer ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}
+'''
+
+#ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
+
+ 
+
+if len(CUSTOM_TOPOLOGY)>0:
+    print ('')
+    print ('-------------------------------------------------------------------------------------------------')
+    print ('   🚀 Custom Topology - FileObserver demoui-custom-topology')
+    print ('-------------------------------------------------------------------------------------------------')
+    print('     ❓ Upload Custom Topology - this may take a minute or two')
+    stream = os.popen(cmdTopo)
+    CREATE_TOPO = stream.read().strip()
+    print ('           Upload Custom Topology:              '+CREATE_TOPO)
+
+else:
+    print ('')
+    print('     ❓ Skip Creating Custom Topology')
+    print('     ❗ Has been disabled in the DemoUI configuration')
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# Creating Custom Topology
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+cmdTopo = '''
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+LOAD_FILE_NAME="custom-topology.txt"
+TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
+
+# Get Credentials
+export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
+export JOB_ID=demoui-custom-topology
+
+# echo "  URL: $TOPO_ROUTE"
+# echo "  LOGIN: $LOGIN"
+# echo "  TARGET_FILE_PATH: $TARGET_FILE_PATH"
+# echo "  JOB_ID: $JOB_ID"
+
+echo '{\"unique_id\": \"demoui-custom-topology\",\"description\": \"Automatically created by Nicks scripts\",\"parameters\": {\"file\": \"/opt/ibm/netcool/asm/data/file-observer/custom-topology.txt\"}}' > /tmp/custom-topology-observer.txt
+    
+# Create FILE_OBSERVER JOB
+curl -X "POST" -s "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -H "accept: application/json" \
+    -H "Content-Type: application/json"\
+    -u $LOGIN \
+    -d @/tmp/custom-topology-observer.txt
+'''
+
+#ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
+
+ 
+
+if len(CUSTOM_TOPOLOGY)>0:
+    print('     ❓ Creating Custom Topology - this may take a minute or two')
+    stream = os.popen(cmdTopo)
+    CREATE_TOPO = stream.read().strip()
+    print ('')
+    print ('')
+    print ('-------------------------------------------------------------------------------------------------')
+    print ('   🚀 Get Parameters')
+    print ('-------------------------------------------------------------------------------------------------')
+
+
+
+
+
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 # GET NAMESPACES
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -145,6 +245,8 @@ print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(RO
 
 #assignedToIndividual
 #inProgress
+
+
 
 
 cmd = '''
@@ -433,11 +535,13 @@ print('     🟠 PWD :'+str(tmppass))
 
 stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
 ACCESS_TOKEN = stream.read().strip()
-print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
+print('     🟠 ACCESS_TOKEN :'+ACCESS_TOKEN[:25]+'...')
+
+
 
 stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: '+tmpusr+'" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
 METRIC_TOKEN = stream.read().strip()
-print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
+print('     🟠 METRIC_TOKEN :'+METRIC_TOKEN[:25]+'...')
 
 
 
@@ -645,6 +749,16 @@ print ('🟣               🌏 INCIDENT_URL_TUBE:              '+str(INCIDENT_U
 print ('🟣')
 print ('🟣')
 print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣     🔎 CUSTOM Simulation Parameters')
+print ('🟣    ---------------------------------------------------------------------------------------------')
+print ('🟣           📈 CUSTOM_NAME:                    '+str(CUSTOM_NAME))
+print ('🟣           📈 CUSTOM_EVENTS:                  '+str(len(CUSTOM_EVENTS)))
+print ('🟣           📈 CUSTOM_METRICS:                 '+str(len(CUSTOM_METRICS)-1))
+print ('🟣           📈 CUSTOM_LOGS:                    '+str(len(CUSTOM_LOGS)))
+print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
+print ('🟣')
+print ('🟣')
+print ('🟣    ---------------------------------------------------------------------------------------------')
 print ('🟣     🔎 System Parameters')
 print ('🟣    ---------------------------------------------------------------------------------------------')
 print ('🟣           🌏 KafkaBroker:                    '+KAFKA_BROKER)
@@ -675,6 +789,10 @@ print ('🟣    ----------------------------------------------------------------
 print ('🟣')
 
 print ('')
+
+
+hasCustomScenario= str(len(CUSTOM_EVENTS)+len(CUSTOM_METRICS)+len(CUSTOM_LOGS)+len(CUSTOM_TOPOLOGY)-1)
+print ('hasCustomScenario'+str(hasCustomScenario))
 
 
 SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
@@ -924,6 +1042,8 @@ def instanaCreateIncident(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1010,6 +1130,8 @@ def instanaMitigateIncident(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1106,6 +1228,8 @@ def injectAllREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1429,6 +1553,8 @@ def injectAllFanREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1519,6 +1645,8 @@ def injectAllNetREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1603,6 +1731,8 @@ def injectAllFanACMEREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1690,6 +1820,8 @@ def injectAllNetSOCKREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1766,6 +1898,8 @@ def injectAllTELCOREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1843,6 +1977,8 @@ def injectAllTUBEREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1901,6 +2037,8 @@ def injectLogsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -1958,6 +2096,8 @@ def injectEventsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2014,6 +2154,8 @@ def injectMetricsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2022,6 +2164,95 @@ def injectMetricsREST(request):
         'PAGE_NAME': 'index'
     }
     return HttpResponse(template.render(context, request))
+
+
+def injectCUSTOM(request):
+    print('🌏 injectCUSTOM')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    verifyLogin(request)
+    if loggedin=='true':
+        template = loader.get_template('demouiapp/home.html')
+
+        print ('🟣           📈 CUSTOM_NAME:                    '+str(CUSTOM_NAME))
+        print ('🟣           📈 CUSTOM_EVENTS:                  '+str(len(CUSTOM_EVENTS)))
+        print ('🟣           📈 CUSTOM_METRICS:                 '+str(len(CUSTOM_METRICS)-1))
+        print ('🟣           📈 CUSTOM_LOGS:                    '+str(len(CUSTOM_LOGS)))
+        print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
+
+        if len(CUSTOM_EVENTS)>0:
+            print('  🟠 Create THREADS CUSTOM_EVENTS')
+            threadEvents = Thread(target=injectEventsCUSTOM, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+            print('  🟠 Start THREADS CUSTOM_EVENTS')
+            threadEvents.start()
+
+        if len(CUSTOM_METRICS)>1:
+            print('  🟠 Create THREADS CUSTOM_METRICS')
+            threadMetrics = Thread(target=injectMetricsCUSTOM, args=(METRIC_ROUTE,METRIC_TOKEN,))
+            print('  🟠 Start THREADS CUSTOM_METRICS')
+            threadMetrics.start()
+
+        if len(CUSTOM_LOGS)>0:
+            print('  🟠 Create THREADS CUSTOM_LOGS')
+            threadLogs = Thread(target=injectLogsCUSTOM, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
+            print('  🟠 Start THREADS CUSTOM_LOGS')
+            threadLogs.start()
+
+
+        
+
+    else:
+        template = loader.get_template('demouiapp/loginui.html')
+
+
+    context = {
+        'loggedin': loggedin,
+        'aimanager_url': aimanager_url,
+        'aimanager_user': aimanager_user,
+        'aimanager_pwd': aimanager_pwd,
+        'SLACK_URL': SLACK_URL,
+        'SLACK_USER': SLACK_USER,
+        'SLACK_PWD': SLACK_PWD,
+        'DEMO_USER': DEMO_USER,
+        'DEMO_PWD': DEMO_PWD,
+        'awx_url': awx_url,
+        'awx_user': awx_user,
+        'awx_pwd': awx_pwd,
+        'elk_url': elk_url,
+        'turbonomic_url': turbonomic_url,
+        'instana_url': instana_url,
+        'openshift_url': openshift_url,
+        'openshift_token': openshift_token,
+        'openshift_server': openshift_server,
+        'vault_url': vault_url,
+        'vault_token': vault_token,
+        'ladp_url': ladp_url,
+        'ladp_user': ladp_user,
+        'ladp_pwd': ladp_pwd,
+        'flink_url': flink_url,
+        'flink_url_policy': flink_url_policy,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
+        'spark_url': spark_url,
+        'INSTANCE_NAME': INSTANCE_NAME,
+        'INSTANCE_IMAGE': INSTANCE_IMAGE,
+        'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
+        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
+        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
+        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
+        'SIMULATION_MODE': SIMULATION_MODE,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
+        'PAGE_NAME': 'index'
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
 
 
 def clearAllREST(request):
@@ -2096,6 +2327,8 @@ def clearAllREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2158,6 +2391,8 @@ def clearEventsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2217,6 +2452,8 @@ def clearStoriesREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2265,6 +2502,8 @@ def login(request):
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
             'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
             'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
             'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2296,6 +2535,8 @@ def login(request):
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
             'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
             'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
             'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2418,6 +2659,8 @@ def index(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2427,6 +2670,8 @@ def index(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2479,6 +2724,8 @@ def doc(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2532,6 +2779,8 @@ def apps(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2590,6 +2839,8 @@ def apps_system(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2648,6 +2899,8 @@ def apps_demo(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2706,6 +2959,8 @@ def apps_additional(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2741,6 +2996,8 @@ def about(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2776,6 +3033,8 @@ def config(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': hasCustomScenario,
+        'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
         'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,

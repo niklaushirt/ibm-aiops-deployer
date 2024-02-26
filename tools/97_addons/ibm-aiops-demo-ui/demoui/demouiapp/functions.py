@@ -78,6 +78,15 @@ METRICS_TO_SIMULATE_NET_SOCK=str(os.environ.get('METRICS_TO_SIMULATE_NET_SOCK'))
 DEMO_EVENTS_NET_SOCK=os.environ.get('DEMO_EVENTS_NET_SOCK')
 
 
+#CUSTOM
+CUSTOM_NAME=os.environ.get('CUSTOM_NAME','Custom Scenario')
+CUSTOM_EVENTS=os.environ.get('CUSTOM_EVENTS','')
+CUSTOM_METRICS=str(os.environ.get('CUSTOM_METRICS')).split(';')
+CUSTOM_LOGS=os.environ.get('CUSTOM_LOGS','')
+CUSTOM_TOPOLOGY=os.environ.get('CUSTOM_TOPOLOGY','')
+
+
+
 #SHOW CONFIG
 GET_CONFIG=str(os.environ.get('GET_CONFIG', "false"))
 
@@ -107,6 +116,7 @@ if path.is_file():
     INSTANCE_IMAGE=path
 else:
     INSTANCE_IMAGE="None"
+
 
 
 
@@ -223,6 +233,14 @@ def injectLogsSockShop(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_
     return 'OK'
 
 
+def injectLogsCUSTOM(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,CUSTOM_LOGS):  
+    print ('📛 START - Inject Logs - CUSTOM_LOGS')
+    LOG_TIME_FORMAT="%Y-%m-%d %H:%M:%S.000"
+    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,CUSTOM_LOGS)
+    return 'OK'
+
+
+
 def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_GENERIC):
 
     stream = os.popen('echo "'+KAFKA_CERT+'" > ./demouiapp/ca.crt')
@@ -326,6 +344,10 @@ def injectEventsTelco(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     return 'OK'
 
 
+def injectEventsCUSTOM(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
+    print ('📛 START - Inject Events - CUSTOM')
+    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,CUSTOM_EVENTS)
+    return 'OK'
 
 
 def injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS):
@@ -437,11 +459,21 @@ def injectMetricsSockNet(METRIC_ROUTE,METRIC_TOKEN):
     return 'OK'
 
 
+def injectMetricsCUSTOM(METRIC_ROUTE,METRIC_TOKEN):  
+    print ('📛 START - Inject Metrics - CUSTOM METRICS')
+    METRIC_TIME_SKEW=0
+    METRIC_TIME_STEP=0
+    injectMetrics(METRIC_ROUTE,METRIC_TOKEN,CUSTOM_METRICS,METRIC_TIME_SKEW,METRIC_TIME_STEP,"injectMetricsCUSTOM")
+    return 'OK'
+
+
+
 
 def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW,METRIC_TIME_STEP,METRIC_NAME):
     #print ('📛 START - Inject Metrics')
     #print ('           METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
     #print ('           METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
+    #print ('           METRICS_TO_SIMULATE:               '+str(METRICS_TO_SIMULATE))
     #print('     ❓ Getting IBMAIOps Namespace')
     stream = os.popen("oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}'")
     aimanagerns = stream.read().strip()
@@ -470,14 +502,13 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
 
     stream = os.popen('curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username='+tmpusr+'&password='+tmppass+'&scope=openid" https://'+CONSOLE_ROUTE+'/idprovider/v1/auth/identitytoken|jq -r \'.access_token\'')
     ACCESS_TOKEN = stream.read().strip()
-    print('     🟠 ACCESS_TOKEN :'+str(ACCESS_TOKEN))
+    print('     🟠 ACCESS_TOKEN :'+ACCESS_TOKEN[:25]+'...')
 
     stream = os.popen('curl -s -k -XGET https://'+METRIC_ROUTE+'/v1/preauth/validateAuth -H "username: '+tmpusr+'" -H "iam-token: '+ACCESS_TOKEN+'"|jq -r ".accessToken"')
     METRIC_TOKEN = stream.read().strip()
-    print('     🟠 METRIC_TOKEN :'+str(METRIC_TOKEN))
+    print('     🟠 METRIC_TOKEN :'+METRIC_ROUTE[:25]+'...')
 
 
-    
     # #print('     ❓ METRICS_TO_SIMULATE' + str(METRICS_TO_SIMULATE))
     # stream = os.popen("oc get route -n "+aimanagerns+" | grep ibm-nginx-svc | awk '{print $2}'")
     # METRIC_ROUTE = stream.read().strip()
@@ -519,6 +550,7 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
                 MY_RESOURCE_ID=elements[0]
                 #print (MY_RESOURCE_ID)
                 MY_METRIC_NAME=elements[1]
+
                 MY_GROUP_ID=elements[2]
                 MY_FIX_VALUE=elements[3]
                 MY_VARIATION=elements[4]

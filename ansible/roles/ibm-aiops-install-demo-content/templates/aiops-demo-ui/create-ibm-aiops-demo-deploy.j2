@@ -51,6 +51,8 @@ spec:
             name:  ibm-aiops-demo-ui-config-logs-sock
         - configMapRef:
             name:  ibm-aiops-demo-ui-config-metrics
+        - configMapRef:
+            name:  ibm-aiops-demo-ui-config-custom
         env:
           - name: INSTANA_SERVICE_NAME
             value: ibm-aiops-demo-ui
