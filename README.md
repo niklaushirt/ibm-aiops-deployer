@@ -98,6 +98,8 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 🤓 [Demo Setup - Explained](#5-demo-setup---explained)
 
+📦 [Create a custom Scenario](#6-custom-scenarios)
+
 🧨 [Troubleshooting](#7-troubleshooting)
 
 📱 [Slack integration](#4-slack-integration) (optional)
@@ -1071,7 +1073,7 @@ You have different parts to
 <details>
 <summary>📥 Topology</summary>
 
-### 6.1.1 📥 Topology
+### 6.1.1 Topology
 
 To create a complete Topology/Application, you have to define the following variables:
 
@@ -1122,8 +1124,8 @@ A typical Edge (Link)
 
 <details>
 <summary>📥 Events</summary>         
- 
-### 6.1.2 📥 Events
+
+### 6.1.2 Events
 
 Inject Events to simulate the Custom Scenario.
 
@@ -1180,7 +1182,7 @@ Inject Events to simulate the Custom Scenario.
 <details>
 <summary>📥 Metrics</summary>
 
-### 6.1.3 📥 Metrics
+### 6.1.3 Metrics
 
 Inject Metrics to simulate the Custom Scenario.
 
@@ -1223,7 +1225,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 <details>
 <summary>📥 Logs</summary>
 
-### 6.1.4 >📥 Logs
+### 6.1.4 >Logs
 
 Inject Logs to simulate the Custom Scenario.
 
@@ -1263,11 +1265,11 @@ A typical Vertex (Entity)
 
 
 
+## 6.2 📥 Example
 
 <details>
 <summary>📥 Example</summary>
 
-## 6.2 📥 Example
 
 
 This is a small example containing a Topology, Events, Metrics and Logs.
