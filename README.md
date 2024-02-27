@@ -1091,8 +1091,8 @@ A typical Vertex (Entity)
  V:{
    "name": "test01", "uniqueId": "test01-id",
    "entityTypes": ["device"], 
-   "matchTokens":["test01","test01-id"],
-   "mergeTokens":["test01","test01-id"],				         <-- This should contain the resource name of the event to be matched to 
+   "matchTokens":["test01","test01-id"],                         <-- This should contain the resource name of the event to be matched to 
+   "mergeTokens":["test01","test01-id"],				         
    "tags":["tag1","app:custom-app"], "app":"test" ,
    "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},
    "_references": [],
@@ -1252,10 +1252,12 @@ data:
     test10,DemoMetric1,DemoGroup1,0,1;
     test11,DemoMetric2,DemoGroup2,50,25
   CUSTOM_NAME: Custom Demo
-  CUSTOM_TOPOLOGY: |-
-    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test01-id", "fromFile":"true", "entityTypes": ["device"], "name": "test01", "_references": [],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
-    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test02-id", "fromFile":"true", "entityTypes": ["device"], "name": "test02", "_references": [],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
-    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFile":"true", "entityTypes": ["device"], "name": "test03", "_references": [],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+  CUSTOM_TOPOLOGY_APP_NAME: 'Custom Demo Application'
+  CUSTOM_TOPOLOGY_TAG: 'custom-app'
+  CUSTOM_TOPOLOGY:  |- 
+    V:{"uniqueId": "test01-id", "name": "Deployment1", "entityTypes": ["deployment"], "tags":["tag1","app:custom-app"],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+    V:{"uniqueId": "test02-id", "name": "VM1", "entityTypes": ["vm"], "tags":["tag1","app:custom-app"],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+    V:{"uniqueId": "test03-id", "name": "Database1", "entityTypes": ["database"], "tags":["tag1","app:custom-app"],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
     E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
     E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
     E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}

@@ -153,12 +153,13 @@ export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NA
 export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
 export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
+export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
 
 export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
 
 echo "    TEMPLATE_ID: $TEMPLATE_ID"
 
-if [[ $TEMPLATE_ID == "" ]];
+if [ -z "$TEMPLATE_ID" ]
 then
     echo "  Create Template"
     curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
@@ -238,15 +239,10 @@ if len(CUSTOM_TOPOLOGY_TAG)>0:
 cmdTopo = '''
 echo "Create Custom Topology - Add Members to App"
 
-
-
 export APP_NAME="''' + CUSTOM_TOPOLOGY_APP_NAME + '''"
-
 export APP_NAME_ID=$(echo $APP_NAME| tr '[:upper:]' '[:lower:]'| tr ' ' '-')
 
-
 echo $APP_NAME
-
 echo $APP_NAME_ID
 
 
@@ -270,7 +266,7 @@ echo "Create Custom Topology - Create App"
 echo '{\"keyIndexName\": \"'$APP_NAME_ID'\",\"_correlationEnabled\": \"true\",\"iconId\": \"cluster\",\"businessCriticality\": \"Platinum\",\"vertexType\": \"group\",\"correlatable\": \"true\",\"disruptionCostPerMin\": \"1000\",\"name\": \"'$APP_NAME'\",\"entityTypes\": [\"waiopsApplication\"],\"tags\": [\"app:'$APP_NAME_ID'\"]}' > /tmp/custom-topology-app.txt
 
 
-if [[ $APP_ID == "" ]];
+if [ -z "$APP_ID" ]
 then    
     echo "  Creating Application"
     curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
