@@ -1129,7 +1129,7 @@ Inject Events to simulate the Custom Scenario.
 {
 	"id": "1a2a6787-59ad-4acd-bd0d-000000000000",    <-- Optional
 	"occurrenceTime": "MY_TIMESTAMP",                <-- Do not modify
-	"summary": "Summary - Problem test01",
+	"summary": "Summary - Problem test01",           <-- The text of the event
 	"severity": 6,
 	"expirySeconds": 6000000,
 	"links": [{
@@ -1175,7 +1175,8 @@ Inject Metrics to simulate the Custom Scenario.
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
 
 
-- ResourceName, MetricName, GroupName, BaseValue, Variance
+`ResourceName, MetricName, GroupName, BaseValue, Variance?
+
 - ResourceName: The resource name that will be matched to Topology (see MatchTokens)
 - MetricName: Name of the Metric  (ex. MemoryUsageAverage)
 - GroupName: Name of the Metric Group  (ex. MemoryUsage)
@@ -1203,9 +1204,6 @@ Inject Logs to simulate the Custom Scenario.
 
 
 #### 🛠️ Format
-
-
-You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
 
 A typical Vertex (Entity)
 
