@@ -1067,6 +1067,222 @@ By default the custom scenario is disabled. In order to enable it you have to mo
 You have different parts to 
 
 
+### 6.1.1 📥 Topology
+
+To create a complete Topology/Application, yopu have to define the following variables:
+
+- `CUSTOM_TOPOLOGY_APP_NAME` : Name for the Application (if this is left empty, no Application is created)
+- `CUSTOM_TOPOLOGY_TAG` : Tag used to create the Topology Template (if this is left empty, no Template is created)
+- `CUSTOM_TOPOLOGY`: Topology definition, will be loaded through a File Explorer (make sure that you have a corresponding tag to create the Template)
+
+❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+
+
+
+### Topology format
+
+
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+
+A typical Vertex (Entity)
+
+```json
+ V:{
+   "name": "test01", "uniqueId": "test01-id",
+   "entityTypes": ["device"], 
+   "matchTokens":["test01","test01-id"],
+   "mergeTokens":["test01","test01-id"],				         <-- This should contain the resource name of the event to be matched to 
+   "tags":["tag1","app:custom-app"], "app":"test" ,
+   "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},
+   "_references": [],
+   "fromFile":"true", "_operation": "InsertUpdate"
+  }
+```
+
+A typical Edge (Link)
+
+```json
+ E:{
+	"_fromUniqueId":"test01-id",
+	"_toUniqueId":"test02-id",
+	"_edgeType":"connectedTo", 
+	"fromFile":"true"
+  }
+```
+
+                
+### 6.1.2 📥 Events
+
+Inject Events to simulate the Custom Scenario.
+
+- `CUSTOM_EVENTS` : List of Events to be injected sequentially (order is being respected)
+
+
+### Event format
+
+![demo](./doc/pics/custom02.png)
+
+
+
+```json
+{
+	"id": "1a2a6787-59ad-4acd-bd0d-000000000000",    <-- Optional
+	"occurrenceTime": "MY_TIMESTAMP",                <-- Do not modify
+	"summary": "Summary - Problem test01",
+	"severity": 6,
+	"expirySeconds": 6000000,
+	"links": [{
+		"linkType": "webpage",
+		"name": "LinkName",
+		"description": "LinkDescription",
+		"url": "https://ibm.com/index.html"
+	}],
+	"sender": {
+		"type": "host",
+		"name": "SenderName",
+		"sourceId": "SenderSource"
+	},
+	"resource": {
+		"type": "host",
+		"name": "test01",                            <-- This is the resource name that will be matched to Topology (see MatchTokens)
+		"sourceId": "ResourceSorce"
+	},
+	"details": {
+		"Tag1Name": "Tag1",
+		"Tag2Name": "Tag2"
+	},
+		"type": {
+		"eventType": "problem",
+		"classification": "EventType"
+	}
+}
+
+```
+         
+### 6.1.3 📥 Metrics
+
+Inject Metrics to simulate the Custom Scenario.
+
+- `CUSTOM_METRICS` : List of Metrics to be simulated
+
+❗ IMPORTANT: You need a trained Metric Model for this to create anomalies
+
+
+### Metrics format
+
+
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
+
+
+- ResourceName, MetricName, GroupName, BaseValue, Variance
+- ResourceName: The resource name that will be matched to Topology (see MatchTokens)
+- MetricName: Name of the Metric  (ex. MemoryUsageAverage)
+- GroupName: Name of the Metric Group  (ex. MemoryUsage)
+- Base Value: Mean value
+- Variance: Variance around mean value
+
+Example: 
+- MeanValue: 97
+- Variance: 3
+- Will create random values between 94 and 100
+
+
+```
+test10,DemoMetric1,DemoGroup1,0,1;
+test11,DemoMetric2,DemoGroup2,50,25'
+```
+         
+### 6.1.4 >📥 Logs
+
+Inject Logs to simulate the Custom Scenario.
+
+- `CUSTOM_LOGS` : List of Log lines to be injected sequentially (order is being respected)
+
+❗ IMPORTANT: You need a trained Log Model for this to create anomalies
+
+
+### Logs format
+
+
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+
+A typical Vertex (Entity)
+
+```json
+{
+    "timestamp": MY_EPOCH,                           <-- Do not modify
+    "utc_timestamp": "MY_TIMESTAMP",                 <-- Do not modify
+    "instance_id": "test20",                         <-- This is the resource name that will be matched to Topology (see MatchTokens)
+    "message": "Demo Log Message",                   <-- The text of the log line
+    "entities": {
+        "pod": "test20",
+        "cluster": null,
+        "container": "test20",
+        "node": "test21"
+    },
+    "application_group_id": "1000",
+    "application_id": "1000",
+    "level": 1,
+    "type": "StandardLog",
+	"features": [],
+    "meta_features": []
+}
+
+```
+         
+
+
+## 6.2 📥 Example
+
+
+This is a small example containing a Topology, Events, Metrics and Logs.
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ibm-aiops-demo-ui-config-custom
+  namespace: ibm-aiops-demo-ui
+data:
+  CUSTOM_EVENTS: |-
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test01", "severity": 6, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test01", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test02", "severity": 5, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test02", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test03", "severity": 4, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test03", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+  CUSTOM_LOGS: '{"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},'
+  CUSTOM_METRICS: |-
+    test10,DemoMetric1,DemoGroup1,0,1;
+    test11,DemoMetric2,DemoGroup2,50,25
+  CUSTOM_NAME: Custom Demo
+  CUSTOM_TOPOLOGY: |-
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test01-id", "fromFile":"true", "entityTypes": ["device"], "name": "test01", "_references": [],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test02-id", "fromFile":"true", "entityTypes": ["device"], "name": "test02", "_references": [],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFile":"true", "entityTypes": ["device"], "name": "test03", "_references": [],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+```
+
+
+
+
+
+
+
+<div style="page-break-after: always;"></div>
+---------------------------------------------------------------
+# 6. Custom Scenarios
+---------------------------------------------------------------
+
+![demo](./doc/pics/custom01.png)
+
+This feature allows you to easily create custom scenarios for the IBM AIOps Demo UI.
+
+By default the custom scenario is disabled. In order to enable it you have to modify the `ibm-aiops-demo-ui-config-custom` ConfigMap in the `ibm-aiops-demo-ui` Namespace.
+
+
+You have different parts to 
+
+
 <details>
 <summary>📥 Topology</summary>
 
@@ -1194,12 +1410,12 @@ You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak
 - Variance: Variance around mean value
 
 Example: 
-MeanValue: 97
-Variance: 3
-Will create random values between 94 and 100
+- MeanValue: 97
+- Variance: 3
+- Will create random values between 94 and 100
 
 
-```json
+```
 test10,DemoMetric1,DemoGroup1,0,1;
 test11,DemoMetric2,DemoGroup2,50,25'
 ```
@@ -1225,9 +1441,24 @@ You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak
 A typical Vertex (Entity)
 
 ```json
-
-
-{"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},
+{
+    "timestamp": MY_EPOCH,                           <-- Do not modify
+    "utc_timestamp": "MY_TIMESTAMP",                 <-- Do not modify
+    "instance_id": "test20",                         <-- This is the resource name that will be matched to Topology (see MatchTokens)
+    "message": "Demo Log Message",                   <-- The text of the log line
+    "entities": {
+        "pod": "test20",
+        "cluster": null,
+        "container": "test20",
+        "node": "test21"
+    },
+    "application_group_id": "1000",
+    "application_id": "1000",
+    "level": 1,
+    "type": "StandardLog",
+	"features": [],
+    "meta_features": []
+}
 
 ```
          
