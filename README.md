@@ -1225,7 +1225,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 <details>
 <summary>📥 Logs</summary>
 
-### 6.1.4 >Logs
+### 6.1.4 Logs
 
 Inject Logs to simulate the Custom Scenario.
 
@@ -1308,18 +1308,6 @@ data:
 
 
 
-
-
-
-<details>
-<summary>📥 CP4AIOPS Base installation Failing</summary>
-
-
-If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
-
-✅ Please get help on Slack.
-
-</details>
 
 
 
