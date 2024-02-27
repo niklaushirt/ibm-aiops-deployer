@@ -1076,17 +1076,36 @@ To create a complete Topology/Application, yopu have to define the following var
 - `CUSTOM_TOPOLOGY_TAG` : Tag used to create the Topology Template (if this is left empty, no Template is created)
 - `CUSTOM_TOPOLOGY`: Topology definition, will be loaded through a File Explorer (make sure that you have a corresponding tag to create the Template)
 
+### Topology format
 
 
-                  CUSTOM_TOPOLOGY_APP_NAME: 'Custom Demo Application'
-                  CUSTOM_TOPOLOGY_TAG: 'custom-app'
-                  CUSTOM_TOPOLOGY:  |- 
-                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test01-id", "fromFile":"true", "entityTypes": ["device"], "name": "test01", "_references": [],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
-                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test02-id", "fromFile":"true", "entityTypes": ["device"], "name": "test02", "_references": [],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
-                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFile":"true", "entityTypes": ["device"], "name": "test03", "_references": [],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
-                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
-                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
-                    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+You can more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+
+
+```json
+ V:{
+ "name": "test01", "uniqueId": "test01-id",
+ "entityTypes": ["device"], 
+ "matchTokens":["test01","test01-id"],
+ "mergeTokens":["test01","test01-id"],
+ "tags":["tag1","app:custom-app"], "app":"test" ,
+ "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}},
+ "_references": [],
+ "fromFile":"true", "_operation": "InsertUpdate"
+ }
+```
+
+
+```json
+ E:{
+	"_fromUniqueId":"test01-id",
+	"_toUniqueId":"test02-id",
+	"_edgeType":"connectedTo", 
+	"fromFile":"true"
+	}
+```
+
+                   
 
 
 
