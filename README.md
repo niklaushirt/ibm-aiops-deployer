@@ -1094,7 +1094,7 @@ A typical Vertex (Entity)
    "matchTokens":["test01","test01-id"],
    "mergeTokens":["test01","test01-id"],				         <-- This should contain the resource name of the event to be matched to 
    "tags":["tag1","app:custom-app"], "app":"test" ,
-   "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}},
+   "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},
    "_references": [],
    "fromFile":"true", "_operation": "InsertUpdate"
   }
@@ -1120,7 +1120,7 @@ A typical Edge (Link)
 <details>
 <summary>📥 Events</summary>
 
-To create a complete Topology/Application, yopu have to define the following variables:
+Inject Events to simulate the Custom Scenario.
 
 - `CUSTOM_EVENTS` : List of Events to be injected sequentially (order is being respected)
 
@@ -1173,25 +1173,35 @@ To create a complete Topology/Application, yopu have to define the following var
 <details>
 <summary>📥 Metrics</summary>
 
-To create a complete Topology/Application, yopu have to define the following variables:
+Inject Metrics to simulate the Custom Scenario.
 
-- `CUSTOM_METRICS` : Name for the Application (if this is left empty, no Application is created)
+- `CUSTOM_METRICS` : List of Metrics to be simulated
 
-❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+❗ IMPORTANT: You need a trained Metric Model for this to create anomalies
 
 
-### Event format
+### Metrics format
 
 
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
 
-A typical Vertex (Entity)
+
+- ResourceName, MetricName, GroupName, BaseValue, Variance
+- ResourceName: The resource name that will be matched to Topology (see MatchTokens)
+- MetricName: Name of the Metric  (ex. MemoryUsageAverage)
+- GroupName: Name of the Metric Group  (ex. MemoryUsage)
+- Base Value: Mean value
+- Variance: Variance around mean value
+
+Example: 
+MeanValue: 97
+Variance: 3
+Will create random values between 94 and 100
+
 
 ```json
 test10,DemoMetric1,DemoGroup1,0,1;
 test11,DemoMetric2,DemoGroup2,50,25'
-
-
 ```
          
 </details>
@@ -1200,14 +1210,14 @@ test11,DemoMetric2,DemoGroup2,50,25'
 <details>
 <summary>📥 Logs</summary>
 
-To create a complete Topology/Application, yopu have to define the following variables:
+Inject Logs to simulate the Custom Scenario.
 
-- `CUSTOM_LOGS` : Name for the Application (if this is left empty, no Application is created)
+- `CUSTOM_LOGS` : List of Log lines to be injected sequentially (order is being respected)
 
-❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+❗ IMPORTANT: You need a trained Log Model for this to create anomalies
 
 
-### Event format
+### Logs format
 
 
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
