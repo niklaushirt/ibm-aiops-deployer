@@ -1121,7 +1121,8 @@ A typical Edge (Link)
 
 
 <details>
-<summary>📥 Events</summary>          
+<summary>📥 Events</summary>         
+ 
 ### 6.1.2 📥 Events
 
 Inject Events to simulate the Custom Scenario.
@@ -1178,6 +1179,7 @@ Inject Events to simulate the Custom Scenario.
 
 <details>
 <summary>📥 Metrics</summary>
+
 ### 6.1.3 📥 Metrics
 
 Inject Metrics to simulate the Custom Scenario.
@@ -1220,6 +1222,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 
 <details>
 <summary>📥 Logs</summary>
+
 ### 6.1.4 >📥 Logs
 
 Inject Logs to simulate the Custom Scenario.
@@ -1263,6 +1266,7 @@ A typical Vertex (Entity)
 
 <details>
 <summary>📥 Example</summary>
+
 ## 6.2 📥 Example
 
 
