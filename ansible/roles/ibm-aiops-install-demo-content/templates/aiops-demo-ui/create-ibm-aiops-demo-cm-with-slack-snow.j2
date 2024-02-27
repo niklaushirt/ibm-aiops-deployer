@@ -548,3 +548,48 @@ spec:
       serviceAccountName: ibm-aiops-demo-ui-admin
   backoffLimit: 500
 ---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ibm-aiops-demo-ui-create-config-custom
+  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+spec:
+  template:
+    spec:
+      containers:
+        - name: config
+          image: quay.io/openshift/origin-cli:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -x
+
+
+              cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
+                kind: ConfigMap
+                apiVersion: v1
+                metadata:
+                  name: ibm-aiops-demo-ui-config-custom
+                  namespace: {{current_ibmaiops_cluster.project}}-demo-ui
+                data:
+                  CUSTOM_NAME: ''
+                  CUSTOM_EVENTS: ''
+                  CUSTOM_METRICS: ''
+                  CUSTOM_LOGS: ''
+                  CUSTOM_TOPOLOGY_APP_NAME: ''
+                  CUSTOM_TOPOLOGY_TAG: ''
+                  CUSTOM_TOPOLOGY: ''
+              EOF
+
+      restartPolicy: Never
+      serviceAccountName: ibm-aiops-demo-ui-admin
+  backoffLimit: 500

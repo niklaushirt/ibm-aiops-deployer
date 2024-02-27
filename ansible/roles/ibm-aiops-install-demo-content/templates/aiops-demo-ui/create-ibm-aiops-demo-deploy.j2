@@ -17,7 +17,7 @@ spec:
         app: ibm-aiops-demo-ui
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-demo-ui:3.3
+      - image: quay.io/niklaushirt/ibm-aiops-demo-ui:4.1
         imagePullPolicy: Always
         name: ibm-aiops-demo-ui
         command:
@@ -51,6 +51,8 @@ spec:
             name:  ibm-aiops-demo-ui-config-logs-sock
         - configMapRef:
             name:  ibm-aiops-demo-ui-config-metrics
+        - configMapRef:
+            name:  ibm-aiops-demo-ui-config-custom
         env:
           - name: INSTANA_SERVICE_NAME
             value: ibm-aiops-demo-ui

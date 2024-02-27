@@ -69,6 +69,14 @@ spec:
               export SLACK_USER="{{current_ibmaiops_feature.demoui_slack_user}}"
               export SLACK_PWD="{{current_ibmaiops_feature.demoui_slack_pwd}}"
 
+              export SLACK_URL_ROSH="https://pirsoscom.github.io/Slack_ROBOT.html"
+              export SLACK_URL_SOSH="https://pirsoscom.github.io/Slack_SOCK.html"
+              export SLACK_URL_ACME="https://pirsoscom.github.io/Slack_ACME.html"
+              export SNOW_URL_ROSH="https://pirsoscom.github.io/INC0010003_ALERTS.html"
+              export SNOW_URL_SOSH="https://pirsoscom.github.io/INC0010002_ALERTS.html"
+              export SNOW_URL_ACME="https://pirsoscom.github.io/INC0010001_ALERTS.html"
+
+
               export ADMIN_MODE='{{current_ibmaiops_feature.demoui_admin_mode}}'
               export SIMULATION_MODE='{{current_ibmaiops_feature.demoui_simulation_mode}}'
 
@@ -98,6 +106,13 @@ spec:
                   SLACK_URL: "$SLACK_URL"
                   SLACK_USER: "$SLACK_USER"
                   SLACK_PWD: "$SLACK_PWD"
+
+                  SLACK_URL_ROSH: "https://pirsoscom.github.io/Slack_ROBOT.html"
+                  SLACK_URL_SOSH: "https://pirsoscom.github.io/Slack_SOCK.html"
+                  SLACK_URL_ACME: "https://pirsoscom.github.io/Slack_ACME.html"
+                  SNOW_URL_ROSH: "https://pirsoscom.github.io/INC0010003_ALERTS.html"
+                  SNOW_URL_SOSH: "https://pirsoscom.github.io/INC0010002_ALERTS.html"
+                  SNOW_URL_ACME: "https://pirsoscom.github.io/INC0010001_ALERTS.html"
 
 
                   ADMIN_MODE: "$ADMIN_MODE"
@@ -266,6 +281,7 @@ spec:
                     { "id": "1a2a6787-59ad-4acd-bd0d-46c1ddfd8e63", "occurrenceTime": "MY_TIMESTAMP", "summary": "LAG failure on nyca01[ port 1/1/22", "severity": 4, "type": { "eventType": "problem", "classification": "LAG" }, "expirySeconds": 6000000, "sender": { "type": "host", "name": "Nokia Netact", "sourceId": "nokianetact" }, "resource": { "type": "host", "name": "nyca011", "application": "telco-demo1" }, "details": {  }}
                     { "id": "1a2a6787-59ad-4acd-bd0d-46c1ddfd8e64", "occurrenceTime": "MY_TIMESTAMP", "summary": "LAG failure on nyca01[ port 8/1/22", "severity": 4, "type": { "eventType": "problem", "classification": "LAG" }, "expirySeconds": 6000000, "sender": { "type": "host", "name": "Nokia Netact", "sourceId": "nokianetact" }, "resource": { "type": "host", "name": "nyca012", "application": "telco-demo1" }, "details": {  }}
                     { "id": "1a2a6787-59ad-4acd-bd0d-46c1ddfd8e65", "occurrenceTime": "MY_TIMESTAMP", "summary": "LAG failure on nyca01[ port 2/1/22", "severity": 4, "type": { "eventType": "problem", "classification": "LAG" }, "expirySeconds": 6000000, "sender": { "type": "host", "name": "Nokia Netact", "sourceId": "nokianetact" }, "resource": { "type": "host", "name": "nyca013", "application": "telco-demo1" }, "details": {  }}
+
 
 
               EOF
@@ -523,6 +539,7 @@ spec:
                   name: ibm-aiops-demo-ui-config-logs-sock
                   namespace: {{current_ibmaiops_cluster.project}}-demo-ui
                 data:
+                data:
                   DEMO_LOGS_SOCK: ''
 
               EOF
@@ -556,7 +573,6 @@ spec:
             - |
               set -x
 
-
               cat <<EOF | oc apply -n {{current_ibmaiops_cluster.project}}-demo-ui -f -
                 kind: ConfigMap
                 apiVersion: v1
@@ -564,16 +580,27 @@ spec:
                   name: ibm-aiops-demo-ui-config-custom
                   namespace: {{current_ibmaiops_cluster.project}}-demo-ui
                 data:
-                  CUSTOM_NAME: ''
-                  CUSTOM_EVENTS: ''
-                  CUSTOM_METRICS: ''
-                  CUSTOM_LOGS: ''
-                  CUSTOM_TOPOLOGY_APP_NAME: ''
-                  CUSTOM_TOPOLOGY_TAG: ''
-                  CUSTOM_TOPOLOGY: ''
+                  CUSTOM_NAME: 'Custom Demo'
+                  CUSTOM_EVENTS: |-
+                    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test01", "severity": 6, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test01", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+                    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test02", "severity": 5, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test02", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+                    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test03", "severity": 4, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test03", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+                  CUSTOM_METRICS:  |- 
+                    test10,DemoMetric1,DemoGroup1,0,1;
+                    test11,DemoMetric2,DemoGroup2,50,25
+                  CUSTOM_LOGS:  |- 
+                    {"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},
+                  CUSTOM_TOPOLOGY_APP_NAME: 'Custom Demo Application'
+                  CUSTOM_TOPOLOGY_TAG: 'app:custom-app'
+                  CUSTOM_TOPOLOGY:  |- 
+                    V:{"uniqueId": "test01-id", "name": "Deployment1", "entityTypes": ["deployment"], "tags":["tag1","app:custom-app"],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+                    V:{"uniqueId": "test02-id", "name": "VM1", "entityTypes": ["vm"], "tags":["tag1","app:custom-app"],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+                    V:{"uniqueId": "test03-id", "name": "Database1", "entityTypes": ["database"], "tags":["tag1","app:custom-app"],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
+                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+                    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
               EOF
 
       restartPolicy: Never
       serviceAccountName: ibm-aiops-demo-ui-admin
   backoffLimit: 500
-

@@ -5,7 +5,9 @@
 # Integrate OpenShift Login with OpenLDAP
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
-    
+#
+# oc delete identity --all
+# oc delete user --all  
 
 - name: 🛰️  START - OCP CONSOLE
   debug: 
@@ -44,8 +46,9 @@
   shell: |
     oc patch OAuth/cluster --type merge -p '{"spec": {"identityProviders": [{"ldap": {"attributes": {"email": [],"id": ["dn"],"name": ["cn"],"preferredUsername": ["cn"]},"bindDN": "cn=admin,dc=ibm,dc=com","bindPassword": {"name": "ldap-bind-password-demo"},"insecure": true,"url": "ldap://openldap.openldap:389/dc=ibm,dc=com?uid?sub?(objectclass=Person)"},"mappingMethod": "claim","name": "openldap","type": "LDAP"}]}}'
 
-    export LDAP_PASSWORD=$(echo "{{current_ibmaiops_feature.ldap_admin_password  | default( global_config.global_password )}}" | base64)
-    echo $LDAP_PASSWORD
+    export LDAP_PASSWORD={{current_ibmaiops_feature.ldap_admin_password  | default( global_config.global_password )}}
+    export LDAP_PASSWORD_64=$(echo -n $LDAP_PASSWORD | base64)
+    echo ":"$LDAP_PASSWORD_64":"
 
     cat <<EOF | oc apply -f -
     ---
@@ -55,7 +58,7 @@
       name: ldap-bind-password-demo
       namespace: openshift-config
     data:
-      bindPassword: $LDAP_PASSWORD
+      bindPassword: $LDAP_PASSWORD_64
     type: Opaque
     ---
     kind: User
@@ -70,7 +73,7 @@
     kind: ClusterRoleBinding
     apiVersion: rbac.authorization.k8s.io/v1
     metadata:
-      name: admin
+      name: admin-demo-user
     subjects:
       - kind: User
         apiGroup: rbac.authorization.k8s.io
@@ -92,7 +95,7 @@
     kind: ClusterRoleBinding
     apiVersion: rbac.authorization.k8s.io/v1
     metadata:
-      name: admin-nik
+      name: admin-nik-user
     subjects:
       - kind: User
         apiGroup: rbac.authorization.k8s.io
