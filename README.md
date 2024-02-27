@@ -1066,10 +1066,11 @@ By default the custom scenario is disabled. In order to enable it you have to mo
 
 You have different parts to 
 
+## 6.1 📥 Custom Scenario Parameters
 
 ### 6.1.1 📥 Topology
 
-To create a complete Topology/Application, yopu have to define the following variables:
+To create a complete Topology/Application, you have to define the following variables:
 
 - `CUSTOM_TOPOLOGY_APP_NAME` : Name for the Application (if this is left empty, no Application is created)
 - `CUSTOM_TOPOLOGY_TAG` : Tag used to create the Topology Template (if this is left empty, no Template is created)
@@ -1079,7 +1080,7 @@ To create a complete Topology/Application, yopu have to define the following var
 
 
 
-### Topology format
+#### 🛠️ Format
 
 
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
@@ -1118,7 +1119,7 @@ Inject Events to simulate the Custom Scenario.
 - `CUSTOM_EVENTS` : List of Events to be injected sequentially (order is being respected)
 
 
-### Event format
+#### 🛠️ Format
 
 ![demo](./doc/pics/custom02.png)
 
@@ -1168,7 +1169,7 @@ Inject Metrics to simulate the Custom Scenario.
 ❗ IMPORTANT: You need a trained Metric Model for this to create anomalies
 
 
-### Metrics format
+#### 🛠️ Format
 
 
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
@@ -1201,7 +1202,7 @@ Inject Logs to simulate the Custom Scenario.
 ❗ IMPORTANT: You need a trained Log Model for this to create anomalies
 
 
-### Logs format
+#### 🛠️ Format
 
 
 You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
