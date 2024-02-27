@@ -33,4 +33,5 @@ urlpatterns = [
     path('injectRESTHeadless', views.injectRESTHeadless, name='injectRESTHeadless'),
     path('injectCUSTOM', views.injectCUSTOM, name='injectCUSTOM'),
     path('httpCommand', views.httpCommand, name='httpCommand'),
+    path('reloadTopology', views.reloadTopology, name='reloadTopology'),
 ]

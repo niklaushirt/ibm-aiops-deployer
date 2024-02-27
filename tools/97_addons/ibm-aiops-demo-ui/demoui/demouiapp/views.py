@@ -2380,6 +2380,74 @@ def clearStoriesREST(request):
     return HttpResponse(template.render(context, request))
 
 
+
+
+def reloadTopology(request):
+    print('🌏 reloadTopology')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    verifyLogin(request)
+    if loggedin=='true':
+        template = loader.get_template('demouiapp/home.html')
+        loadTopology()
+    else:
+        template = loader.get_template('demouiapp/loginui.html')
+        INCIDENT_ACTIVE=False
+        ROBOT_SHOP_OUTAGE_ACTIVE=False
+        SOCK_SHOP_OUTAGE_ACTIVE=False
+
+    context = {
+        'loggedin': loggedin,
+        'aimanager_url': aimanager_url,
+        'aimanager_user': aimanager_user,
+        'aimanager_pwd': aimanager_pwd,
+        'SLACK_URL': SLACK_URL,
+        'SLACK_USER': SLACK_USER,
+        'SLACK_PWD': SLACK_PWD,
+        'DEMO_USER': DEMO_USER,
+        'DEMO_PWD': DEMO_PWD,
+        'awx_url': awx_url,
+        'awx_user': awx_user,
+        'awx_pwd': awx_pwd,
+        'elk_url': elk_url,
+        'turbonomic_url': turbonomic_url,
+        'instana_url': instana_url,
+        'openshift_url': openshift_url,
+        'openshift_token': openshift_token,
+        'openshift_server': openshift_server,
+        'vault_url': vault_url,
+        'vault_token': vault_token,
+        'ladp_url': ladp_url,
+        'ladp_user': ladp_user,
+        'ladp_pwd': ladp_pwd,
+        'flink_url': flink_url,
+        'flink_url_policy': flink_url_policy,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
+        'spark_url': spark_url,
+        'INSTANCE_NAME': INSTANCE_NAME,
+        'INSTANCE_IMAGE': INSTANCE_IMAGE,
+        'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': int(hasCustomScenario),
+        'CUSTOM_NAME': CUSTOM_NAME,
+        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
+        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
+        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
+        'SIMULATION_MODE': SIMULATION_MODE,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
+        'PAGE_NAME': 'index'
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
+
+
+
+
 def login(request):
     print('🌏 login')
 
@@ -2928,7 +2996,9 @@ def about(request):
         'CUSTOM_EVENTS': CUSTOM_EVENTS,
         'CUSTOM_METRICS': CUSTOM_METRICS,
         'CUSTOM_LOGS': CUSTOM_LOGS,
-        'CUSTOM_TOPOLOGY': CUSTOM_TOPOLOGY
+        'CUSTOM_TOPOLOGY': CUSTOM_TOPOLOGY,
+        'CUSTOM_TOPOLOGY_APP_NAME': CUSTOM_TOPOLOGY_APP_NAME,
+        'CUSTOM_TOPOLOGY_TAG': CUSTOM_TOPOLOGY_TAG
 
 
     }
