@@ -1076,25 +1076,31 @@ To create a complete Topology/Application, yopu have to define the following var
 - `CUSTOM_TOPOLOGY_TAG` : Tag used to create the Topology Template (if this is left empty, no Template is created)
 - `CUSTOM_TOPOLOGY`: Topology definition, will be loaded through a File Explorer (make sure that you have a corresponding tag to create the Template)
 
+❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+
+
+
 ### Topology format
 
 
-You can more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
 
+A typical Vertex (Entity)
 
 ```json
  V:{
- "name": "test01", "uniqueId": "test01-id",
- "entityTypes": ["device"], 
- "matchTokens":["test01","test01-id"],
- "mergeTokens":["test01","test01-id"],
- "tags":["tag1","app:custom-app"], "app":"test" ,
- "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}},
- "_references": [],
- "fromFile":"true", "_operation": "InsertUpdate"
- }
+   "name": "test01", "uniqueId": "test01-id",
+   "entityTypes": ["device"], 
+   "matchTokens":["test01","test01-id"],
+   "mergeTokens":["test01","test01-id"],				         <-- This should contain the resource name of the event to be matched to 
+   "tags":["tag1","app:custom-app"], "app":"test" ,
+   "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}},
+   "_references": [],
+   "fromFile":"true", "_operation": "InsertUpdate"
+  }
 ```
 
+A typical Edge (Link)
 
 ```json
  E:{
@@ -1102,13 +1108,119 @@ You can more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aio
 	"_toUniqueId":"test02-id",
 	"_edgeType":"connectedTo", 
 	"fromFile":"true"
-	}
+  }
 ```
 
-                   
+                
+</details>
 
 
 
+
+<details>
+<summary>📥 Events</summary>
+
+To create a complete Topology/Application, yopu have to define the following variables:
+
+- `CUSTOM_EVENTS` : List of Events to be injected sequentially (order is being respected)
+
+
+### Event format
+
+![demo](./doc/pics/custom02.png)
+
+
+
+```json
+{
+	"id": "1a2a6787-59ad-4acd-bd0d-000000000000",    <-- Optional
+	"occurrenceTime": "MY_TIMESTAMP",                <-- Do not modify
+	"summary": "Summary - Problem test01",
+	"severity": 6,
+	"expirySeconds": 6000000,
+	"links": [{
+		"linkType": "webpage",
+		"name": "LinkName",
+		"description": "LinkDescription",
+		"url": "https://ibm.com/index.html"
+	}],
+	"sender": {
+		"type": "host",
+		"name": "SenderName",
+		"sourceId": "SenderSource"
+	},
+	"resource": {
+		"type": "host",
+		"name": "test01",                            <-- This is the resource name that will be matched to Topology (see MatchTokens)
+		"sourceId": "ResourceSorce"
+	},
+	"details": {
+		"Tag1Name": "Tag1",
+		"Tag2Name": "Tag2"
+	},
+		"type": {
+		"eventType": "problem",
+		"classification": "EventType"
+	}
+}
+
+```
+         
+</details>
+
+
+
+<details>
+<summary>📥 Metrics</summary>
+
+To create a complete Topology/Application, yopu have to define the following variables:
+
+- `CUSTOM_METRICS` : Name for the Application (if this is left empty, no Application is created)
+
+❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+
+
+### Event format
+
+
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
+
+A typical Vertex (Entity)
+
+```json
+test10,DemoMetric1,DemoGroup1,0,1;
+test11,DemoMetric2,DemoGroup2,50,25'
+
+
+```
+         
+</details>
+
+
+<details>
+<summary>📥 Logs</summary>
+
+To create a complete Topology/Application, yopu have to define the following variables:
+
+- `CUSTOM_LOGS` : Name for the Application (if this is left empty, no Application is created)
+
+❗ IMPORTANT: The complete topology is loaded each time the DemoUI Pod is restarting
+
+
+### Event format
+
+
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+
+A typical Vertex (Entity)
+
+```json
+
+
+{"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},
+
+```
+         
 </details>
 
 
