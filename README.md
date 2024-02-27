@@ -98,7 +98,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 🤓 [Demo Setup - Explained](#5-demo-setup---explained)
 
-🧨 [Troubleshooting](#6-troubleshooting)
+🧨 [Troubleshooting](#7-troubleshooting)
 
 📱 [Slack integration](#4-slack-integration) (optional)
 
@@ -417,7 +417,7 @@ You can chose from the following:
 <details>
 <summary>✅ Instructions</summary>
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
 
 
 ### 2.3.1 Check Overall
@@ -472,7 +472,7 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check06.png)
 
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#6-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
 
 
 </details>
@@ -1054,7 +1054,102 @@ Incidents are being created by using the high level APIs in order to simulate a 
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 6. Troubleshooting
+# 6. Custom Scenarios
+---------------------------------------------------------------
+
+![demo](./doc/pics/custom01.png)
+
+This feature allows you to easily create custom scenarios for the IBM AIOps Demo UI.
+
+By default the custom scenario is disabled. In order to enable it you have to modify the `ibm-aiops-demo-ui-config-custom` ConfigMap in the `ibm-aiops-demo-ui` Namespace.
+
+
+You have different parts to 
+
+
+<details>
+<summary>📥 Topology</summary>
+
+To create a complete Topology/Application, yopu have to define the following variables:
+
+- `CUSTOM_TOPOLOGY_APP_NAME` : Name for the Application (if this is left empty, no Application is created)
+- `CUSTOM_TOPOLOGY_TAG` : Tag used to create the Topology Template (if this is left empty, no Template is created)
+- `CUSTOM_TOPOLOGY`: Topology definition, will be loaded through a File Explorer (make sure that you have a corresponding tag to create the Template)
+
+
+
+                  CUSTOM_TOPOLOGY_APP_NAME: 'Custom Demo Application'
+                  CUSTOM_TOPOLOGY_TAG: 'custom-app'
+                  CUSTOM_TOPOLOGY:  |- 
+                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test01-id", "fromFile":"true", "entityTypes": ["device"], "name": "test01", "_references": [],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test02-id", "fromFile":"true", "entityTypes": ["device"], "name": "test02", "_references": [],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+                    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFile":"true", "entityTypes": ["device"], "name": "test03", "_references": [],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"],"tags":["tag1","app:custom-app"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
+                    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+                    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+
+
+
+</details>
+
+
+
+<details>
+<summary>📥 Example</summary>
+
+
+This is a small example containing a Topology, Events, Metrics and Logs.
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ibm-aiops-demo-ui-config-custom
+  namespace: ibm-aiops-demo-ui
+data:
+  CUSTOM_EVENTS: |-
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test01", "severity": 6, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test01", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test02", "severity": 5, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test02", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+    { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test03", "severity": 4, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test03", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
+  CUSTOM_LOGS: '{"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},'
+  CUSTOM_METRICS: |-
+    test10,DemoMetric1,DemoGroup1,0,1;
+    test11,DemoMetric2,DemoGroup2,50,25
+  CUSTOM_NAME: Custom Demo
+  CUSTOM_TOPOLOGY: |-
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test01-id", "fromFile":"true", "entityTypes": ["device"], "name": "test01", "_references": [],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test02-id", "fromFile":"true", "entityTypes": ["device"], "name": "test02", "_references": [],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFile":"true", "entityTypes": ["device"], "name": "test03", "_references": [],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"],"tags":["tag1","app:tag2"], "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}}}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+```
+
+
+</details>
+
+
+
+
+
+<details>
+<summary>📥 CP4AIOPS Base installation Failing</summary>
+
+
+If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
+
+✅ Please get help on Slack.
+
+</details>
+
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+---------------------------------------------------------------
+# 7. Troubleshooting
 ---------------------------------------------------------------
 
 > ### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)

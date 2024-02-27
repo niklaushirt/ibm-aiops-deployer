@@ -107,7 +107,7 @@
 
 
 
-{% if hasCustomScenario != 1 %}
+{% if hasCustomScenario > 1 %}
 <BR>
 <BR>
 <BR>
@@ -129,40 +129,45 @@
                                         <table>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR>
+                                                        <HR>
                                                         CUSTOM_NAME<BR>
                                                         {{CUSTOM_NAME|safe}}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR>
+                                                        <HR>
                                                         CUSTOM_EVENTS<BR>
-                                                            {{CUSTOM_EVENTS|safe}}
+                                                        {{CUSTOM_EVENTS|safe}}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR>
+                                                        <HR>
                                                         CUSTOM_METRICS<BR>
-                                                            {{CUSTOM_METRICS|safe}}
+                                                        {{CUSTOM_METRICS|safe}}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR>
+                                                        <HR>
                                                         CUSTOM_LOGS<BR>
-                                                            {{CUSTOM_LOGS|safe}}
+                                                        {{CUSTOM_LOGS|safe}}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width:90%; padding-left:50px;"><BR><BR><HR>
+                                                    <td style="width:90%; padding-left:50px;"><BR><BR>
+                                                        <HR>
                                                         CUSTOM_TOPOLOGY<BR>
-                                                            {{CUSTOM_TOPOLOGY|safe}}
+                                                        {{CUSTOM_TOPOLOGY|safe}}
                                                     </td>
                                                 </tr>
-                                                                                                 </div>
+                                    </div>
 
-                                </p>
-                                <p></p>
-                                <p></p>
+                                    </p>
+                                    <p></p>
+                                    <p></p>
                         </td>
                     </tr>
 
@@ -176,5 +181,3 @@
 
 
 {% include "demouiapp/_footer.html" %}
-
-

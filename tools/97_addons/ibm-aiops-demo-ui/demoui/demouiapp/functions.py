@@ -84,6 +84,8 @@ CUSTOM_EVENTS=os.environ.get('CUSTOM_EVENTS','')
 CUSTOM_METRICS=str(os.environ.get('CUSTOM_METRICS')).split(';')
 CUSTOM_LOGS=os.environ.get('CUSTOM_LOGS','')
 CUSTOM_TOPOLOGY=os.environ.get('CUSTOM_TOPOLOGY','')
+CUSTOM_TOPOLOGY_TAG=os.environ.get('CUSTOM_TOPOLOGY_TAG','')
+CUSTOM_TOPOLOGY_APP_NAME=os.environ.get('CUSTOM_TOPOLOGY_APP_NAME','')
 
 
 

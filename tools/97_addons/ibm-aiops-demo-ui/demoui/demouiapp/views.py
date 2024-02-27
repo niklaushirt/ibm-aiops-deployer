@@ -99,7 +99,7 @@ else:
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
-# Creating Custom Topology
+# Creating Custom Topology File Observer
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 cmdTopo = '''
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -130,20 +130,202 @@ curl -X "POST" -s "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
     -d @/tmp/custom-topology-observer.txt
 '''
 
-#ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
-
- 
-
 if len(CUSTOM_TOPOLOGY)>0:
-    print('     ❓ Creating Custom Topology - this may take a minute or two')
+    print('     ❓ Creating Custom Topology File Observer - this may take a minute or two')
     stream = os.popen(cmdTopo)
     CREATE_TOPO = stream.read().strip()
+    #print (''+CREATE_TOPO)
+
+
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# Creating Custom Topology Template
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+cmdTopo = '''
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+# Get Credentials
+export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
+
+export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+
+echo "    TEMPLATE_ID: $TEMPLATE_ID"
+
+if [[ $TEMPLATE_ID == "" ]];
+then
+    echo "  Create Template"
+    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -d '  {
+        "keyIndexName": "custom-template",
+        "_correlationEnabled": "true",
+        "iconId": "application",
+        "businessCriticality": "Gold",
+        "vertexType": "group",
+        "groupTokens": [
+            "''' + CUSTOM_TOPOLOGY_TAG + '''"
+        ],
+        "correlatable": "true",
+        "name": "custom-template",
+        "entityTypes": [
+            "completeGroup",
+            "compute"
+        ],
+        "tags": [
+            "demo"
+        ]
+    }'
+else
+    echo "  Recreate Template"
+    curl -s -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$TEMPLATE_ID" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
+
+    
+    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -d '  {
+        "keyIndexName": "custom-template",
+        "_correlationEnabled": "true",
+        "iconId": "application",
+        "businessCriticality": "Gold",
+        "vertexType": "group",
+        "groupTokens": [
+            "''' + CUSTOM_TOPOLOGY_TAG + '''"
+        ],
+        "correlatable": "true",
+        "name": "custom-template",
+        "entityTypes": [
+            "completeGroup",
+            "compute"
+        ],
+        "tags": [
+            "demo"
+        ]
+    }'
+fi
+
+
+'''
+
+if len(CUSTOM_TOPOLOGY_TAG)>0:
+    print('     ❓ Creating Custom Topology Template - this may take a minute or two')
+    stream = os.popen(cmdTopo)
+    CREATE_TOPO = stream.read().strip()
+    #print (''+CREATE_TOPO)
+
+
+
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# Creating Custom Topology Application
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+cmdTopo = '''
+echo "Create Custom Topology - Add Members to App"
+
+
+
+export APP_NAME="''' + CUSTOM_TOPOLOGY_APP_NAME + '''"
+
+export APP_NAME_ID=$(echo $APP_NAME| tr '[:upper:]' '[:lower:]'| tr ' ' '-')
+
+
+echo $APP_NAME
+
+echo $APP_NAME_ID
+
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+
+export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+
+export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
+
+echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+echo "    LOGIN: $LOGIN"
+
+export APP_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3D$APP_NAME_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+echo "    APP_ID:     "$APP_ID
+echo "    TEMPLATE_ID:"$TEMPLATE_ID
+echo "Create Custom Topology - Create App"
+
+echo '{\"keyIndexName\": \"'$APP_NAME_ID'\",\"_correlationEnabled\": \"true\",\"iconId\": \"cluster\",\"businessCriticality\": \"Platinum\",\"vertexType\": \"group\",\"correlatable\": \"true\",\"disruptionCostPerMin\": \"1000\",\"name\": \"'$APP_NAME'\",\"entityTypes\": [\"waiopsApplication\"],\"tags\": [\"app:'$APP_NAME_ID'\"]}' > /tmp/custom-topology-app.txt
+
+
+if [[ $APP_ID == "" ]];
+then    
+    echo "  Creating Application"
+    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -d @/tmp/custom-topology-app.txt
+else
+    echo "  Application already exists"
+    echo "  Re-Creating Application"
+    curl -s -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
+
+
+    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+    -u $LOGIN \
+    -H 'Content-Type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -d @/tmp/custom-topology-app.txt
+fi
+
+export APP_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3D$APP_NAME_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+echo "    APP_ID:     "$APP_ID
+
+# # -------------------------------------------------------------------------------------------------------------------------------------------------
+# # CREATE EDGES
+# # -------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+echo "  Add Template (File Observer) Resources"
+curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
+-u $LOGIN \
+-H 'Content-Type: application/json' \
+-H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-d '{
+    \"_id\": \"'$TEMPLATE_ID'\"
+}'
+
+
+
+
+'''
+ 
+if len(CUSTOM_TOPOLOGY_APP_NAME)>0:
+    print('     ❓ Creating Custom Topology Application - this may take a minute or two')
+    stream = os.popen(cmdTopo)
+    CREATE_TOPO = stream.read().strip()
+    #print (''+CREATE_TOPO)
     print ('')
     print ('')
     print ('-------------------------------------------------------------------------------------------------')
     print ('   🚀 Get Parameters')
     print ('-------------------------------------------------------------------------------------------------')
-
 
 
 
@@ -1042,7 +1224,7 @@ def instanaCreateIncident(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1130,7 +1312,7 @@ def instanaMitigateIncident(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1228,7 +1410,7 @@ def injectAllREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1553,7 +1735,7 @@ def injectAllFanREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1645,7 +1827,7 @@ def injectAllNetREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1731,7 +1913,7 @@ def injectAllFanACMEREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1820,7 +2002,7 @@ def injectAllNetSOCKREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1898,7 +2080,7 @@ def injectAllTELCOREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -1977,7 +2159,7 @@ def injectAllTUBEREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2037,7 +2219,7 @@ def injectLogsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2096,7 +2278,7 @@ def injectEventsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2154,7 +2336,7 @@ def injectMetricsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2240,7 +2422,7 @@ def injectCUSTOM(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2327,7 +2509,7 @@ def clearAllREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2391,7 +2573,7 @@ def clearEventsREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2452,7 +2634,7 @@ def clearStoriesREST(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2502,7 +2684,7 @@ def login(request):
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
             'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
             'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2535,7 +2717,7 @@ def login(request):
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
             'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
             'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2659,7 +2841,6 @@ def index(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2670,7 +2851,7 @@ def index(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2724,7 +2905,7 @@ def doc(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2779,7 +2960,7 @@ def apps(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2839,7 +3020,7 @@ def apps_system(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2899,7 +3080,7 @@ def apps_demo(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2959,7 +3140,7 @@ def apps_additional(request):
         'SLACK_USER': SLACK_USER,
         'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -2996,7 +3177,6 @@ def about(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
@@ -3009,7 +3189,7 @@ def about(request):
         'DEMO_IMAGE': demo_image,
         'ALL_LOGINS': ALL_LOGINS,
         'mod_time_readable': mod_time_readable,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'CUSTOM_EVENTS': CUSTOM_EVENTS,
         'CUSTOM_METRICS': CUSTOM_METRICS,
@@ -3040,7 +3220,7 @@ def config(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': hasCustomScenario,
+        'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
         'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
