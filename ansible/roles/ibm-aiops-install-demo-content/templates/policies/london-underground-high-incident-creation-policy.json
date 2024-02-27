@@ -70,7 +70,7 @@
             "entity": {
               "$variable": "alert"
             },
-            "priority": 1,
+            "priority": 3,
             "retentionDays": 30,
             "title": {
               "$template": "{{ alert.summary }}"

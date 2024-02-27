@@ -16,7 +16,7 @@
       "ibm.com/is-default": "false"
     }
   },
-  "state": "enabled",
+  "state": "disabled",
   "executionPriority": 25,
   "spec": {
     "triggers": [{

@@ -52,10 +52,15 @@ print ('')
 
 
 hasCustomScenario= str(len(CUSTOM_EVENTS)+len(CUSTOM_METRICS)+len(CUSTOM_LOGS)+len(CUSTOM_TOPOLOGY)-1)
+hasCustomTopology= str(len(CUSTOM_TOPOLOGY_TAG)+len(CUSTOM_TOPOLOGY_APP_NAME)+len(CUSTOM_TOPOLOGY))
 
 
-if int(hasCustomScenario) > 0:
-    print ('     ✅ Custom Scenario detected  ('+str(hasCustomScenario)+')')
+
+
+
+
+if int(hasCustomTopology) > 0:
+    print ('     ✅ Custom Scenario detected  ('+str(hasCustomTopology)+')')
     if (len(checkTopology()) > 0) and (CUSTOM_TOPOLOGY_FORCE_RELOAD == 'False'):
         print ('        ✅ Topology already exists - skipping creation')
         print ('')
@@ -64,6 +69,8 @@ if int(hasCustomScenario) > 0:
     else:
         print ('        ✅ No Topology found - creating')
         loadTopology()
+else:
+    print ('        ✅ No Custom Topology found - skipping')
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
