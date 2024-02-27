@@ -1070,6 +1070,7 @@ You have different parts to
 
 <details>
 <summary>📥 Topology</summary>
+
 ### 6.1.1 📥 Topology
 
 To create a complete Topology/Application, you have to define the following variables:
@@ -1116,6 +1117,7 @@ A typical Edge (Link)
       </details>
 
 
+</details>
 
 
 <details>
@@ -1171,6 +1173,7 @@ Inject Events to simulate the Custom Scenario.
 		 </details>
 
 
+</details>
 
 
 <details>
@@ -1212,6 +1215,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 		 </details>
 
 
+</details>
 
 
 <details>
