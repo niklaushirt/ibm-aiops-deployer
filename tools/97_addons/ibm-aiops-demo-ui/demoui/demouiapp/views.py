@@ -38,6 +38,7 @@ CONTACT_INFO=str(os.environ.get('CONTACT_INFO'))
 print ('-------------------------------------------------------------------------------------------------')
 print (' 🚀 Warming up')
 print ('-------------------------------------------------------------------------------------------------')
+print ('')
 
 
 #os.system('ls -l')
@@ -47,283 +48,22 @@ loginip='0.0.0.0'
 mod_time=os.path.getmtime('./demouiapp/views.py')
 mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
 print('     🛠️ Build Date: '+str(mod_time_readable))
+print ('')
 
 
+hasCustomScenario= str(len(CUSTOM_EVENTS)+len(CUSTOM_METRICS)+len(CUSTOM_LOGS)+len(CUSTOM_TOPOLOGY)-1)
 
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# Creating Custom Topology
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-cmdTopo = '''                               
-echo \''''+str(CUSTOM_TOPOLOGY)+'''\'  > ./custom-topology.txt
-# echo ":::"
-# cat ./custom-topology.txt
-# echo ":::"
 
-export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-
-# Get FILE_OBSERVER_POD
-FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
-LOAD_FILE_NAME="custom-topology.txt"
-
-FILE_OBSERVER_CAP=$(pwd)"/custom-topology.txt"
-
-TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-# echo "                     FILE_OBSERVER_POD:"$FILE_OBSERVER_POD
-# echo $FILE_OBSERVER_CAP
-# echo $TARGET_FILE_PATH
-echo "  Copying capture file to file observer pod"
-# echo "oc cp -n $AIOPS_NAMESPACE ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}"
-oc cp -n $AIOPS_NAMESPACE -c aiops-topology-file-observer ${FILE_OBSERVER_CAP} ${FILE_OBSERVER_POD}:${TARGET_FILE_PATH}
-'''
-
-#ALL_LOGINS = check_output(cmd, shell=True, executable='/bin/bash')
-
- 
-
-if len(CUSTOM_TOPOLOGY)>0:
-    print ('')
-    print ('-------------------------------------------------------------------------------------------------')
-    print ('   🚀 Custom Topology - FileObserver demoui-custom-topology')
-    print ('-------------------------------------------------------------------------------------------------')
-    print('     ❓ Upload Custom Topology - this may take a minute or two')
-    stream = os.popen(cmdTopo)
-    CREATE_TOPO = stream.read().strip()
-    print ('           Upload Custom Topology:              '+CREATE_TOPO)
-
-else:
-    print ('')
-    print('     ❓ Skip Creating Custom Topology')
-    print('     ❗ Has been disabled in the DemoUI configuration')
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# Creating Custom Topology File Observer
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-cmdTopo = '''
-export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-LOAD_FILE_NAME="custom-topology.txt"
-TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
-
-# Get Credentials
-export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-export JOB_ID=demoui-custom-topology
-
-# echo "  URL: $TOPO_ROUTE"
-# echo "  LOGIN: $LOGIN"
-# echo "  TARGET_FILE_PATH: $TARGET_FILE_PATH"
-# echo "  JOB_ID: $JOB_ID"
-
-echo '{\"unique_id\": \"demoui-custom-topology\",\"description\": \"Automatically created by Nicks scripts\",\"parameters\": {\"file\": \"/opt/ibm/netcool/asm/data/file-observer/custom-topology.txt\"}}' > /tmp/custom-topology-observer.txt
-    
-# Create FILE_OBSERVER JOB
-curl -X "POST" -s "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -H "accept: application/json" \
-    -H "Content-Type: application/json"\
-    -u $LOGIN \
-    -d @/tmp/custom-topology-observer.txt
-'''
-
-if len(CUSTOM_TOPOLOGY)>0:
-    print('     ❓ Creating Custom Topology File Observer - this may take a minute or two')
-    stream = os.popen(cmdTopo)
-    CREATE_TOPO = stream.read().strip()
-    #print (''+CREATE_TOPO)
-
-
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# Creating Custom Topology Template
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-cmdTopo = '''
-export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-
-# Get Credentials
-export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
-
-export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-
-echo "    TEMPLATE_ID: $TEMPLATE_ID"
-
-if [ -z "$TEMPLATE_ID" ]
-then
-    echo "  Create Template"
-    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -d '  {
-        "keyIndexName": "custom-template",
-        "_correlationEnabled": "true",
-        "iconId": "application",
-        "businessCriticality": "Gold",
-        "vertexType": "group",
-        "groupTokens": [
-            "''' + CUSTOM_TOPOLOGY_TAG + '''"
-        ],
-        "correlatable": "true",
-        "name": "custom-template",
-        "entityTypes": [
-            "completeGroup",
-            "compute"
-        ],
-        "tags": [
-            "demo"
-        ]
-    }'
-else
-    echo "  Recreate Template"
-    curl -s -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$TEMPLATE_ID" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
-
-    
-    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -d '  {
-        "keyIndexName": "custom-template",
-        "_correlationEnabled": "true",
-        "iconId": "application",
-        "businessCriticality": "Gold",
-        "vertexType": "group",
-        "groupTokens": [
-            "''' + CUSTOM_TOPOLOGY_TAG + '''"
-        ],
-        "correlatable": "true",
-        "name": "custom-template",
-        "entityTypes": [
-            "completeGroup",
-            "compute"
-        ],
-        "tags": [
-            "demo"
-        ]
-    }'
-fi
-
-
-'''
-
-if len(CUSTOM_TOPOLOGY_TAG)>0:
-    print('     ❓ Creating Custom Topology Template - this may take a minute or two')
-    stream = os.popen(cmdTopo)
-    CREATE_TOPO = stream.read().strip()
-    #print (''+CREATE_TOPO)
-
-
-
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# Creating Custom Topology Application
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-cmdTopo = '''
-echo "Create Custom Topology - Add Members to App"
-
-export APP_NAME="''' + CUSTOM_TOPOLOGY_APP_NAME + '''"
-export APP_NAME_ID=$(echo $APP_NAME| tr '[:upper:]' '[:lower:]'| tr ' ' '-')
-
-echo $APP_NAME
-echo $APP_NAME_ID
-
-
-export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-
-export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
-
-export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
-
-echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
-echo "    LOGIN: $LOGIN"
-
-export APP_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3D$APP_NAME_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-echo "    APP_ID:     "$APP_ID
-echo "    TEMPLATE_ID:"$TEMPLATE_ID
-echo "Create Custom Topology - Create App"
-
-echo '{\"keyIndexName\": \"'$APP_NAME_ID'\",\"_correlationEnabled\": \"true\",\"iconId\": \"cluster\",\"businessCriticality\": \"Platinum\",\"vertexType\": \"group\",\"correlatable\": \"true\",\"disruptionCostPerMin\": \"1000\",\"name\": \"'$APP_NAME'\",\"entityTypes\": [\"waiopsApplication\"],\"tags\": [\"app:'$APP_NAME_ID'\"]}' > /tmp/custom-topology-app.txt
-
-
-if [ -z "$APP_ID" ]
-then    
-    echo "  Creating Application"
-    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -d @/tmp/custom-topology-app.txt
-else
-    echo "  Application already exists"
-    echo "  Re-Creating Application"
-    curl -s -X "DELETE" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'
-
-
-    curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
-    -u $LOGIN \
-    -H 'Content-Type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -d @/tmp/custom-topology-app.txt
-fi
-
-export APP_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3D$APP_NAME_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-echo "    APP_ID:     "$APP_ID
-
-# # -------------------------------------------------------------------------------------------------------------------------------------------------
-# # CREATE EDGES
-# # -------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-echo "  Add Template (File Observer) Resources"
-curl -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
--u $LOGIN \
--H 'Content-Type: application/json' \
--H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
--d '{
-    \"_id\": \"'$TEMPLATE_ID'\"
-}'
-
-
-
-
-'''
- 
-if len(CUSTOM_TOPOLOGY_APP_NAME)>0:
-    print('     ❓ Creating Custom Topology Application - this may take a minute or two')
-    stream = os.popen(cmdTopo)
-    CREATE_TOPO = stream.read().strip()
-    #print (''+CREATE_TOPO)
-    print ('')
-    print ('')
-    print ('-------------------------------------------------------------------------------------------------')
-    print ('   🚀 Get Parameters')
-    print ('-------------------------------------------------------------------------------------------------')
-
-
+if int(hasCustomScenario) > 0:
+    print ('     ✅ Custom Scenario detected  ('+str(hasCustomScenario)+')')
+    if (len(checkTopology()) > 0) and (CUSTOM_TOPOLOGY_FORCE_RELOAD == 'False'):
+        print ('        ✅ Topology already exists - skipping creation')
+        print ('')
+        print ('')
+        print ('')
+    else:
+        print ('        ✅ No Topology found - creating')
+        loadTopology()
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -969,8 +709,6 @@ print ('🟣')
 print ('')
 
 
-hasCustomScenario= str(len(CUSTOM_EVENTS)+len(CUSTOM_METRICS)+len(CUSTOM_LOGS)+len(CUSTOM_TOPOLOGY)-1)
-print ('hasCustomScenario'+str(hasCustomScenario))
 
 
 SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
