@@ -6,7 +6,7 @@
       "ibm.com/aiops/uitemplate": "alert:createstory",
       "ibm.com/is-default": "false"
     },
-    "name": "DEMO Incident - telco",
+    "name": "DEMO Incident - tube",
     "description": "",
     "createdBy": {
       "id": "demo",
@@ -72,7 +72,7 @@
                 {
                   "actionId": "lang/condition/template",
                   "arguments": {
-                    "template": "({{alert.resource.application}} == \"telco-demo1\")"
+                    "template": "({{alert.resource.application}} == \"tube\")"
                   }
                 }
               ]
@@ -85,7 +85,7 @@
                 "entity": {
                   "$variable": "alert"
                 },
-                "priority": 2,
+                "priority": 3,
                 "retentionDays": 30,
                 "title": {
                   "$template": "{{ alert.summary }}"
@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 1,
+                "holdoffSec": 3,
                 "notification": [
                   {
                     "type": "snow",

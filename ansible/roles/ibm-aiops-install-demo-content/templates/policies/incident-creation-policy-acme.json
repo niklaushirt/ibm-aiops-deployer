@@ -85,7 +85,7 @@
                 "entity": {
                   "$variable": "alert"
                 },
-                "priority": 4,
+                "priority": 3,
                 "retentionDays": 30,
                 "title": {
                   "$template": "{{ alert.summary }}"
@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 5,
+                "holdoffSec": 3,
                 "notification": [
                   {
                     "type": "snow",

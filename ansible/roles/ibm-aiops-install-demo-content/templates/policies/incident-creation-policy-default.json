@@ -16,7 +16,7 @@
       "ibm.com/is-default": "false"
     }
   },
-  "state": "enabled",
+  "state": "disabled",
   "executionPriority": 25,
   "spec": {
     "triggers": [{
@@ -62,11 +62,12 @@
           "actionId": "lang/condition/and",
           "arguments": {
             "conditions": [{
-              "actionId": "lang/condition/template",
-              "arguments": {
-                "template": "({{alert.severity}} >= 2)"
+                "actionId": "lang/condition/template",
+                "arguments": {
+                  "template": "({{alert.severity}} >= 2)"
+                }
               }
-            }]
+            ]
           }
         },
         "then": [{

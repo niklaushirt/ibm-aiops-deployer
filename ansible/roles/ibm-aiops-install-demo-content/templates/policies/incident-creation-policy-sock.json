@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 5,
+                "holdoffSec": 3,
                 "notification": [
                   {
                     "type": "snow",

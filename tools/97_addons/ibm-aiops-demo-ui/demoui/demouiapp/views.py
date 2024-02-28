@@ -34,6 +34,12 @@ CONTACT_INFO=str(os.environ.get('CONTACT_INFO'))
 # print ('       Provided by:')
 # print ('        🇨🇭 Niklaus Hirt (nikh@ch.ibm.com)')
 # print ('')
+mod_time=os.path.getmtime('./demouiapp/views.py')
+mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
+print(' 🛠️ Build Date: '+str(mod_time_readable) + ' UTC')
+print ('')
+print ('')
+
 
 print ('-------------------------------------------------------------------------------------------------')
 print (' 🚀 Warming up')
@@ -45,10 +51,6 @@ print ('')
 loggedin='false'
 loginip='0.0.0.0'
 
-mod_time=os.path.getmtime('./demouiapp/views.py')
-mod_time_readable = datetime.datetime.fromtimestamp(mod_time)
-print('     🛠️ Build Date: '+str(mod_time_readable))
-print ('')
 
 
 hasCustomScenario= str(len(CUSTOM_EVENTS)+len(CUSTOM_METRICS)+len(CUSTOM_LOGS)+len(CUSTOM_TOPOLOGY)-1)
@@ -647,9 +649,11 @@ print ('🟣           🔐 LOG_TIME_ZONE Cert:             '+str(LOG_TIME_ZONE)
 print ('🟣')
 print ('🟣           🕦 EVENTS_TIME_SKEW:               '+str(EVENTS_TIME_SKEW))
 print ('🟣           📝 DEMO_EVENTS_MEM:                '+str(len(DEMO_EVENTS_MEM)))
-print ('🟣           📝 DEMO_EVENTS_FAN:                '+str(len(DEMO_EVENTS_FAN)))
-print ('🟣           📝 DEMO_EVENTS_NET:                '+str(len(DEMO_EVENTS_NET)))
+print ('🟣           📝 DEMO_EVENTS_SOCK:               '+str(len(DEMO_EVENTS_NET_SOCK)))
+print ('🟣           📝 DEMO_EVENTS_ACME:               '+str(len(DEMO_EVENTS_FAN_ACME)))
 print ('🟣           📝 DEMO_EVENTS_TUBE:               '+str(len(DEMO_EVENTS_TUBE)))
+print ('🟣           📝 DEMO_EVENTS_TELCO:              '+str(len(DEMO_EVENTS_TELCO)))
+print ('🟣           📝 DEMO_EVENTS_BUSY:               '+str(len(DEMO_EVENTS_BUSY)))
 print ('🟣')
 print ('🟣           🕦 METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
 print ('🟣           🔄 METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
@@ -680,6 +684,8 @@ print ('🟣           📈 CUSTOM_NAME:                    '+str(CUSTOM_NAME))
 print ('🟣           📈 CUSTOM_EVENTS:                  '+str(len(CUSTOM_EVENTS)))
 print ('🟣           📈 CUSTOM_METRICS:                 '+str(len(CUSTOM_METRICS)-1))
 print ('🟣           📈 CUSTOM_LOGS:                    '+str(len(CUSTOM_LOGS)))
+print ('🟣           📈 CUSTOM_TOPOLOGY_APP_NAME:       '+str(CUSTOM_TOPOLOGY_APP_NAME))
+print ('🟣           📈 CUSTOM_TOPOLOGY_TAG:            '+str(CUSTOM_TOPOLOGY_TAG))
 print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
 print ('🟣')
 print ('🟣')
@@ -1391,193 +1397,6 @@ def injectRESTHeadless(request):
     return HttpResponse("Status OK :"+currentapp, content_type="application/json", status=201)
 
 
-
-
-
-def injectAllFanREST(request):
-    print('🌏 injectAllFanREST')
-    global loggedin
-    global INCIDENT_ACTIVE
-    global ROBOT_SHOP_OUTAGE_ACTIVE
-    global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
-    verifyLogin(request)
-    if loggedin=='true':
-        template = loader.get_template('demouiapp/home.html')
-
-        print('🌏 Create RobotShop MySQL outage')
-        os.system('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
-        os.system('oc set env deployment load -n robot-shop ERROR=1')
-
-        INCIDENT_ACTIVE=True
-        ROBOT_SHOP_OUTAGE_ACTIVE=True
-
-
-        # injectMetricsFanTemp(METRIC_ROUTE,METRIC_TOKEN)
-        # #time.sleep(3)
-        # injectEventsFan(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
-        # injectMetricsFan(METRIC_ROUTE,METRIC_TOKEN)
-        # injectLogs(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
-
-
-        print('  🟠 Create THREADS')
-        threadMetrics1 = Thread(target=injectMetricsFanTemp, args=(METRIC_ROUTE,METRIC_TOKEN,))
-        threadEvents = Thread(target=injectEventsFan, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
-        threadMetrics2 = Thread(target=injectEventsFan, args=(METRIC_ROUTE,METRIC_TOKEN,DATALAYER_PWD))
-        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
-
-        print('  🟠 Start THREADS')
-        # start the threads
-        threadMetrics1.start()
-        threadEvents.start()
-        threadMetrics2.start()
-        threadLogs.start()
-        #time.sleep(3)
-
-        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
-        threadLinks.start()
-
-        #addExternalLinksToIncident(request)
-        
-
-    else:
-        template = loader.get_template('demouiapp/loginui.html')
-
-
-    context = {
-        'loggedin': loggedin,
-        'aimanager_url': aimanager_url,
-        'aimanager_user': aimanager_user,
-        'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
-        'DEMO_USER': DEMO_USER,
-        'DEMO_PWD': DEMO_PWD,
-        'awx_url': awx_url,
-        'awx_user': awx_user,
-        'awx_pwd': awx_pwd,
-        'elk_url': elk_url,
-        'turbonomic_url': turbonomic_url,
-        'instana_url': instana_url,
-        'openshift_url': openshift_url,
-        'openshift_token': openshift_token,
-        'openshift_server': openshift_server,
-        'vault_url': vault_url,
-        'vault_token': vault_token,
-        'ladp_url': ladp_url,
-        'ladp_user': ladp_user,
-        'ladp_pwd': ladp_pwd,
-        'flink_url': flink_url,
-        'flink_url_policy': flink_url_policy,
-        'robotshop_url': robotshop_url,
-        'sockshop_url': sockshop_url,
-        'spark_url': spark_url,
-        'INSTANCE_NAME': INSTANCE_NAME,
-        'INSTANCE_IMAGE': INSTANCE_IMAGE,
-        'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': int(hasCustomScenario),
-        'CUSTOM_NAME': CUSTOM_NAME,
-        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
-        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
-        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
-        'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Welcome to your Demo UI',
-        'PAGE_NAME': 'index'
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def injectAllNetREST(request):
-    print('🌏 injectAllNetREST')
-    global loggedin
-    global INCIDENT_ACTIVE
-    global ROBOT_SHOP_OUTAGE_ACTIVE
-    global SOCK_SHOP_OUTAGE_ACTIVE
-    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
-
-    verifyLogin(request)
-    if loggedin=='true':
-        template = loader.get_template('demouiapp/home.html')
-
-        print('🌏 Create RobotShop Network outage')
-        #os.system('oc patch service mysql -n robot-shop --patch "{\\"spec\\": {\\"selector\\": {\\"service\\": \\"mysql-outage\\"}}}"')
-
-        print('  🟠 Create THREADS')
-        threadMetrics1 = Thread(target=injectMetricsNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
-        threadEvents = Thread(target=injectEventsNet, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
-        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
-
-        print('  🟠 Start THREADS')
-        # start the threads
-        threadMetrics1.start()
-        threadEvents.start()
-        threadLogs.start()
-        #time.sleep(3)
-
-        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
-        threadLinks.start()
-
-        #addExternalLinksToIncident(request)
-        
-
-        INCIDENT_ACTIVE=True
-
-        stream = os.popen("oc get deployment  -n robot-shop ratings  -o yaml")
-        RATINGS_YAML = stream.read().strip()
-        if 'ratings-dev' in RATINGS_YAML:
-            print('     🔴 ROBOT SHOP OUTAGE ACTIVE')
-            ROBOT_SHOP_OUTAGE_ACTIVE=True
-        else:
-            print('     🟢 ROBOT SHOP OUTAGE INACTIVE')
-            ROBOT_SHOP_OUTAGE_ACTIVE=True
-
-    else:
-        template = loader.get_template('demouiapp/loginui.html')
-
-
-    context = {
-        'loggedin': loggedin,
-        'aimanager_url': aimanager_url,
-        'aimanager_user': aimanager_user,
-        'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
-        'DEMO_USER': DEMO_USER,
-        'DEMO_PWD': DEMO_PWD,
-        'awx_url': awx_url,
-        'awx_user': awx_user,
-        'awx_pwd': awx_pwd,
-        'elk_url': elk_url,
-        'turbonomic_url': turbonomic_url,
-        'instana_url': instana_url,
-        'openshift_url': openshift_url,
-        'openshift_token': openshift_token,
-        'openshift_server': openshift_server,
-        'vault_url': vault_url,
-        'vault_token': vault_token,
-        'ladp_url': ladp_url,
-        'ladp_user': ladp_user,
-        'ladp_pwd': ladp_pwd,
-        'flink_url': flink_url,
-        'flink_url_policy': flink_url_policy,
-        'robotshop_url': robotshop_url,
-        'sockshop_url': sockshop_url,
-        'spark_url': spark_url,
-        'INSTANCE_NAME': INSTANCE_NAME,
-        'INSTANCE_IMAGE': INSTANCE_IMAGE,
-        'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': int(hasCustomScenario),
-        'CUSTOM_NAME': CUSTOM_NAME,
-        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
-        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
-        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
-        'SIMULATION_MODE': SIMULATION_MODE,
-        'PAGE_TITLE': 'Welcome to your Demo UI',
-        'PAGE_NAME': 'index'
-    }
-    return HttpResponse(template.render(context, request))
 
 
 def injectAllFanACMEREST(request):
@@ -2451,6 +2270,79 @@ def reloadTopology(request):
 
 
 
+
+def injectBusy(request):
+    print('🌏 injectBusy')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    verifyLogin(request)
+    if loggedin=='true':
+        template = loader.get_template('demouiapp/home.html')
+
+        INCIDENT_ACTIVE=True
+
+        print('🌏 Simulate Busy Environment')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsBusy, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        #time.sleep(3)
+
+
+    else:
+        template = loader.get_template('demouiapp/loginui.html')
+        INCIDENT_ACTIVE=False
+        ROBOT_SHOP_OUTAGE_ACTIVE=False
+        SOCK_SHOP_OUTAGE_ACTIVE=False
+
+    context = {
+        'loggedin': loggedin,
+        'aimanager_url': aimanager_url,
+        'aimanager_user': aimanager_user,
+        'aimanager_pwd': aimanager_pwd,
+        'SLACK_URL': SLACK_URL,
+        'SLACK_USER': SLACK_USER,
+        'SLACK_PWD': SLACK_PWD,
+        'DEMO_USER': DEMO_USER,
+        'DEMO_PWD': DEMO_PWD,
+        'awx_url': awx_url,
+        'awx_user': awx_user,
+        'awx_pwd': awx_pwd,
+        'elk_url': elk_url,
+        'turbonomic_url': turbonomic_url,
+        'instana_url': instana_url,
+        'openshift_url': openshift_url,
+        'openshift_token': openshift_token,
+        'openshift_server': openshift_server,
+        'vault_url': vault_url,
+        'vault_token': vault_token,
+        'ladp_url': ladp_url,
+        'ladp_user': ladp_user,
+        'ladp_pwd': ladp_pwd,
+        'flink_url': flink_url,
+        'flink_url_policy': flink_url_policy,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
+        'spark_url': spark_url,
+        'INSTANCE_NAME': INSTANCE_NAME,
+        'INSTANCE_IMAGE': INSTANCE_IMAGE,
+        'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': int(hasCustomScenario),
+        'CUSTOM_NAME': CUSTOM_NAME,
+        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
+        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
+        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
+        'SIMULATION_MODE': SIMULATION_MODE,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
+        'PAGE_NAME': 'index'
+    }
+    return HttpResponse(template.render(context, request))
 
 
 

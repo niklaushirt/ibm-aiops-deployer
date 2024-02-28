@@ -56,8 +56,6 @@ LOG_TIME_ZONE="-1"
 
 #ROBOTSHOP
 DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
-DEMO_EVENTS_FAN=os.environ.get('DEMO_EVENTS_FAN')
-DEMO_EVENTS_NET=os.environ.get('DEMO_EVENTS_NET')
 DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
 DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
 DEMO_LOGS=os.environ.get('DEMO_LOGS')
@@ -77,6 +75,8 @@ DEMO_EVENTS_FAN_ACME=os.environ.get('DEMO_EVENTS_FAN_ACME')
 METRICS_TO_SIMULATE_NET_SOCK=str(os.environ.get('METRICS_TO_SIMULATE_NET_SOCK')).split(';')
 DEMO_EVENTS_NET_SOCK=os.environ.get('DEMO_EVENTS_NET_SOCK')
 
+#BUSY
+DEMO_EVENTS_BUSY=os.environ.get('DEMO_EVENTS_BUSY','')
 
 #CUSTOM
 CUSTOM_NAME=os.environ.get('CUSTOM_NAME','Custom Scenario')
@@ -311,17 +311,6 @@ def injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     return 'OK'
 
 
-def injectEventsFan(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
-    print ('📛 START - Inject Events - FAN ROBOTSHOP')
-    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_FAN)
-    return 'OK'
-
-
-def injectEventsNet(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
-    print ('📛 START - Inject Events - NET ROBOTSHOP')
-    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_NET)
-    return 'OK'
-
 def injectEventsFanACME(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
     print ('📛 START - Inject Events - FAN ACME')
     injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_FAN_ACME)
@@ -344,6 +333,11 @@ def injectEventsTube(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
 def injectEventsTelco(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
     print ('📛 START - Inject Events - TELCO')
     injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_TELCO)
+    return 'OK'
+
+def injectEventsBusy(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
+    print ('📛 START - Inject Events - BUSY')
+    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_BUSY)
     return 'OK'
 
 
