@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "name": "DEMO Incident creation policy for all alerts",
+    "name": "DEMO Incident - all alerts",
     "description": "Created by Nicks scripts",
     "createdBy": {
       "id": "demo",
@@ -16,7 +16,7 @@
       "ibm.com/is-default": "false"
     }
   },
-  "state": "enabled",
+  "state": "disabled",
   "executionPriority": 25,
   "spec": {
     "triggers": [{

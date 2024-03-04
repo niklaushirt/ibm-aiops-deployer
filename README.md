@@ -1065,8 +1065,10 @@ This feature allows you to easily create custom scenarios for the IBM AIOps Demo
 
 By default the custom scenario is disabled. In order to enable it you have to modify the `ibm-aiops-demo-ui-config-custom` ConfigMap in the `ibm-aiops-demo-ui` Namespace.
 
+> ℹ️ The Topology will be loaded only the first time. Once the Application exists it will not update.
+>
+> ℹ️ If you want to update the Topology after a modification of the CustomMap, you can use the `Reload Topolgy` Button on the `About` Tab.
 
-You have different parts to 
 
 ## 6.1 📥 Custom Scenario Parameters
 
