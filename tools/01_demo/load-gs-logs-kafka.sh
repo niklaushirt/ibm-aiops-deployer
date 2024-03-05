@@ -170,7 +170,7 @@ do
             #cd /tmp/lags-logs/
 
             export my_timestamp=$(date $DATE_FORMAT_LOGS)
-            #echo "       LOG Base Date: $my_timestamp"
+            echo "       LOG Base Date: $my_timestamp"
             sed -i -e "s/MY_TIMESTAMP/$my_timestamp/g" /tmp/lags-logs/timestampedErrorFile.json
 
             ACT_COUNT=`expr $ACT_COUNT + 1`
