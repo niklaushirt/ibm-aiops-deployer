@@ -65,7 +65,7 @@
 ,{"name":"Platinum","keyIndexName":"waiopsBusinessCriticalityMetadata::platinum","vertexType":"metadata","description":"Platinum priority","entityTypes":["WAIOPS_BUSINESS_CRITICALITY"],"businessCriticalityValue":100,"tags":["ASM_UI_CONFIG"],"databaseSource":"metadata"}
 ,{"name":"Gold","keyIndexName":"waiopsBusinessCriticalityMetadata::gold","vertexType":"metadata","description":"Gold priority","entityTypes":["WAIOPS_BUSINESS_CRITICALITY"],"businessCriticalityValue":75,"de   scription":"Gold priority","tags":["ASM_UI_CONFIG"],"databaseSource":"metadata"}
 ,{"name":"Silver","keyIndexName":"waiopsBusinessCriticalityMetadata::silver","vertexType":"metadata","description":"Silver priority","entityTypes":["WAIOPS_BUSINESS_CRITICALITY"],"businessCriticalityValue":50,"tags":["ASM_UI_CONFIG"],"databaseSource":"metadata"}
-,{ "tags": [ "ASM_UI_CONFIG" ], "vertexType": "metadata", "mapTileUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "entityTypes": [ "ASM_UI_GLOBAL_SETTINGS" ], "uniqueId": "globalSettings" }  
+,{ "tags": [ "ASM_UI_CONFIG" ], "vertexType": "metadata", "mapClusterPixelSize": "60", "mapTileAttribution": "&copy;ibm.com", "mapTileUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "entityTypes": [ "ASM_UI_GLOBAL_SETTINGS" ], "uniqueId": "globalSettings" }  
 ]
 
 
