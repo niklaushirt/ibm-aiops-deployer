@@ -925,120 +925,120 @@
       echo "POLICY_ROUTE: "$POLICY_ROUTE
 
 
-      export POLICY_ID=london-underground-high
-      export POLICY_NAME="DEMO London-Underground - No service"
+      # export POLICY_ID=london-underground-high
+      # export POLICY_NAME="DEMO London-Underground - No service"
 
-      echo "----------------------------------------------------------------------------------------------------------"
-      echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
+      # echo "----------------------------------------------------------------------------------------------------------"
+      # echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
 
-      echo "Upload Topology Customization"
-      OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [[ "${OS}" == "darwin" ]]; then
-            echo "MAC"
-            POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      fi    
+      # echo "Upload Topology Customization"
+      # OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+      # if [[ "${OS}" == "darwin" ]]; then
+      #       echo "MAC"
+      #       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # else
+      #       POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # fi    
 
-      echo $POLICY_FILE
-      cp $POLICY_FILE /tmp/incident_policy.json
-
-
-      export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
-
-      if [[ $result == "0" ]]; then
-          export result="Create Incident Creation Policy "
-          export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN \
-          -d @/tmp/incident_policy.json)
-      else 
-          export result="Already exists"
-      fi 
-      echo $result
+      # echo $POLICY_FILE
+      # cp $POLICY_FILE /tmp/incident_policy.json
 
 
+      # export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
 
-
-      export POLICY_ID=london-underground-med
-      export POLICY_NAME="DEMO London-Underground - Severe delays"
-
-      echo "----------------------------------------------------------------------------------------------------------"
-      echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
-
-      echo "Upload Topology Customization"
-      OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [[ "${OS}" == "darwin" ]]; then
-            echo "MAC"
-            POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      fi    
-
-      echo $POLICY_FILE
-      cp $POLICY_FILE /tmp/incident_policy.json
-
-
-      export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
-
-      if [[ $result == "0" ]]; then
-          export result="Create Incident Creation Policy "
-          export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN \
-          -d @/tmp/incident_policy.json)
-      else 
-          export result="Already exists"
-      fi 
-      echo $result
+      # if [[ $result == "0" ]]; then
+      #     export result="Create Incident Creation Policy "
+      #     export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN \
+      #     -d @/tmp/incident_policy.json)
+      # else 
+      #     export result="Already exists"
+      # fi 
+      # echo $result
 
 
 
 
+      # export POLICY_ID=london-underground-med
+      # export POLICY_NAME="DEMO London-Underground - Severe delays"
 
-      export POLICY_ID=london-underground-low
-      export POLICY_NAME="DEMO London-Underground - Catch All"
+      # echo "----------------------------------------------------------------------------------------------------------"
+      # echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
 
-      echo "----------------------------------------------------------------------------------------------------------"
-      echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
+      # echo "Upload Topology Customization"
+      # OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+      # if [[ "${OS}" == "darwin" ]]; then
+      #       echo "MAC"
+      #       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # else
+      #       POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # fi    
 
-      echo "Upload Topology Customization"
-      OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-      if [[ "${OS}" == "darwin" ]]; then
-            echo "MAC"
-            POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      else
-            POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
-      fi    
-
-      echo $POLICY_FILE
-      cp $POLICY_FILE /tmp/incident_policy.json
+      # echo $POLICY_FILE
+      # cp $POLICY_FILE /tmp/incident_policy.json
 
 
-      export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
+      # export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
 
-      if [[ $result == "0" ]]; then
-          export result="Create Incident Creation Policy "
-          export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
-          -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-          -H 'content-type: application/json' \
-          -u $POLICY_LOGIN \
-          -d @/tmp/incident_policy.json)
-      else 
-          export result="Already exists"
-      fi 
-      echo $result
+      # if [[ $result == "0" ]]; then
+      #     export result="Create Incident Creation Policy "
+      #     export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN \
+      #     -d @/tmp/incident_policy.json)
+      # else 
+      #     export result="Already exists"
+      # fi 
+      # echo $result
+
+
+
+
+
+      # export POLICY_ID=london-underground-low
+      # export POLICY_NAME="DEMO London-Underground - Catch All"
+
+      # echo "----------------------------------------------------------------------------------------------------------"
+      # echo "🛠️  POLICIES - Create Incident Creation Policy - $POLICY_NAME"
+
+      # echo "Upload Topology Customization"
+      # OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+      # if [[ "${OS}" == "darwin" ]]; then
+      #       echo "MAC"
+      #       POLICY_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # else
+      #       POLICY_FILE="{{role_path}}/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
+      # fi    
+
+      # echo $POLICY_FILE
+      # cp $POLICY_FILE /tmp/incident_policy.json
+
+
+      # export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN|grep "$POLICY_NAME"|wc -l|tr -d ' ')
+
+      # if [[ $result == "0" ]]; then
+      #     export result="Create Incident Creation Policy "
+      #     export result=$(curl -XPOST -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/policies"  \
+      #     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      #     -H 'content-type: application/json' \
+      #     -u $POLICY_LOGIN \
+      #     -d @/tmp/incident_policy.json)
+      # else 
+      #     export result="Already exists"
+      # fi 
+      # echo $result
 
 
 
