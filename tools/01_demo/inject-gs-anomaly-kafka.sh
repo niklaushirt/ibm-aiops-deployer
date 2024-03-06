@@ -27,6 +27,7 @@ export LOG_TYPE=lags   # humio, elk, splunk, ...
 export INDEX_TYPE=lags
 export LOGS_SKEW="-60M"
 
+export ITERATIONS=100
 
 
 
@@ -153,27 +154,31 @@ echo "     Stop with CTRL-C"
 echo ""
 echo "***************************************************************************************************************************************************"
 echo "***************************************************************************************************************************************************"
-ACT_COUNT=0
 
-for FILE in $WORKING_DIR_LOGS/*.json; do 
-      #echo $FILE
+for i in `seq 1 $ITERATIONS`;
+do
 
-      mkdir /tmp/lags-logs/ >/tmp/demo.log 2>&1  || true
-      rm /tmp/lags-logs/*.json  >/tmp/demo.log 2>&1  || true
-      rm /tmp/lags-logs/timestampedErrorFile.json    >/tmp/demo.log 2>&1  || true
-      rm /tmp/lags-logs/timestampedErrorFile.json-e    >/tmp/demo.log 2>&1  || true
-      cp $FILE /tmp/lags-logs/timestampedErrorFile.json  >/tmp/demo.log 2>&1  || true
-      #cd /tmp/lags-logs/
+      ACT_COUNT=0
 
-      export my_timestamp=$(date $DATE_FORMAT_LOGS)
-      echo "       LOG Base Date: $my_timestamp"
-      sed -i -e "s/MY_TIMESTAMP/$my_timestamp/g" /tmp/lags-logs/timestampedErrorFile.json
+      for FILE in $WORKING_DIR_LOGS/*.json; do 
+            #echo $FILE
 
-      ACT_COUNT=`expr $ACT_COUNT + 1`
-      echo "          Injecting file ($ACT_COUNT/$(($NUM_FILES-1))) - $FILE - $my_timestamp"
-      #echo "                 ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=token -X sasl.password=$KAFKA_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE   "
-      ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l /tmp/lags-logs/timestampedErrorFile.json || true 
+            mkdir /tmp/lags-logs/ >/tmp/demo.log 2>&1  || true
+            rm /tmp/lags-logs/*.json  >/tmp/demo.log 2>&1  || true
+            rm /tmp/lags-logs/timestampedErrorFile.json    >/tmp/demo.log 2>&1  || true
+            rm /tmp/lags-logs/timestampedErrorFile.json-e    >/tmp/demo.log 2>&1  || true
+            cp $FILE /tmp/lags-logs/timestampedErrorFile.json  >/tmp/demo.log 2>&1  || true
+            #cd /tmp/lags-logs/
+
+            export my_timestamp=$(date $DATE_FORMAT_LOGS)
+            echo "       LOG Base Date: $my_timestamp"
+            sed -i -e "s/MY_TIMESTAMP/$my_timestamp/g" /tmp/lags-logs/timestampedErrorFile.json
+
+            ACT_COUNT=`expr $ACT_COUNT + 1`
+            echo "          Injecting file ($ACT_COUNT/$(($NUM_FILES-1))) - $FILE - $my_timestamp"
+            #echo "                 ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=token -X sasl.password=$KAFKA_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE   "
+            ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l /tmp/lags-logs/timestampedErrorFile.json || true 
+      done
 done
-
 
 
