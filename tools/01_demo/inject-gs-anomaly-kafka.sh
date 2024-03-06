@@ -65,12 +65,12 @@ fi
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 if [ "${OS}" == "darwin" ]; then
       # Suppose we're on Mac
-      export DATE_FORMAT_LOGS="-v$LOGS_SKEW +%Y-%m-%dT%H:%M:%S.000000+00:00"
+      export DATE_FORMAT_LOGS="+%Y-%m-%dT%H:%M:%S.000000+00:00"
       #export DATE_FORMAT_LOGS="-v$LOGS_SKEW +%Y-%m-%dT%H:%M:%S.000000+00:00"
       # HUMIO export DATE_FORMAT_LOGS="+%s000"
 else
       # Suppose we're on a Linux flavour
-      export DATE_FORMAT_LOGS="-d$LOGS_SKEW +%Y-%m-%dT%H:%M:%S.000000+00:00"
+      export DATE_FORMAT_LOGS="+%Y-%m-%dT%H:%M:%S.000000+00:00"
       #export DATE_FORMAT_LOGS="-d$LOGS_SKEW +%Y-%m-%dT%H:%M:%S.000000+00:00" 
       # HUMIO export DATE_FORMAT_LOGS="+%s000"
 fi
