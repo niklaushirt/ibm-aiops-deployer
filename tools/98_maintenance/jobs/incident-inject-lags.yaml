@@ -1,3 +1,4 @@
+     
 ---
 apiVersion: batch/v1
 kind: Job
@@ -29,7 +30,7 @@ spec:
               #!/bin/bash
               #set -x
 
-              export INSTALL_REPO="https://github.com/niklaushirt/ibm-aiops-deployer.git -b main"
+              export INSTALL_REPO="https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest"
               export ITERATIONS=10
 
 
@@ -58,12 +59,13 @@ spec:
               echo ""
               echo ""
 
-              for i in {1..$ITERATIONS}
+              echo "ITERATIONS: $ITERATIONS"
+              for i in `seq 1 $ITERATIONS`;
               do
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
-                echo "    📶 Injecting Data "
+                echo "    📶 Injecting Data $i/$ITERATIONS"
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
-                #./tools/01_demo/inject-gs-anomaly-kafka.sh
+                ./tools/01_demo/inject-gs-anomaly-kafka.sh
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
                 echo "    ⏳ Wait 30 seconds"
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
@@ -73,19 +75,12 @@ spec:
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"
               echo "*****************************************************************************************************************************"
-              while true
-              do
-                sleep 3600
-              done
-
-
-
-              while true
-              do
-                sleep 1000
-              done
+            
+              sleep 15
+              oc delete job  -n ibm-aiops-demo-ui ibm-aiops-inject-lags-anomly 
 
 
       restartPolicy: Never
   backoffLimit: 500
+
 
