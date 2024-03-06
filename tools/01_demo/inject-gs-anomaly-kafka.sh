@@ -27,7 +27,7 @@ export LOG_TYPE=lags   # humio, elk, splunk, ...
 export INDEX_TYPE=lags
 export LOGS_SKEW="-60M"
 
-export ITERATIONS=100
+export ITERATIONS=60
 
 
 
@@ -178,6 +178,7 @@ do
             echo "          Injecting file ($ACT_COUNT/$(($NUM_FILES-1))) - $FILE - $my_timestamp"
             #echo "                 ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=token -X sasl.password=$KAFKA_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $FILE   "
             ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l /tmp/lags-logs/timestampedErrorFile.json || true 
+            sleep 1
       done
 done
 
