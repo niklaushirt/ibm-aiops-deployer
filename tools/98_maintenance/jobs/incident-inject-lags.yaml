@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-inject-lags-anomly
+  name: ibm-aiops-inject-lags-anomaly
   namespace: ibm-aiops-demo-ui
 spec:
   template:

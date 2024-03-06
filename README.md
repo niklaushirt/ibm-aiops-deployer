@@ -133,7 +133,7 @@ You'll need:
 
 - OpenShift Cluster (VMware on IBM Cloud) - IPI
 - OpenShift Cluster (VMware on IBM Cloud) - UPI
-- 5x worker nodes with **32 CPU / 128 GB**  ❗
+- 4x worker nodes with **32 CPU / 128 GB**  ❗
 
 
 You **might** get away with less if you don't install some components (ELK, Turbonomic,...) but no guarantee.
@@ -150,9 +150,10 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number
 
-1. Select your preferred Geograpy
+	![K8s CNI](./doc/pics/roks05.png)
 
-  	![K8s CNI](./doc/pics/roks01.png)
+1. Select your preferred Geograpy (I recommend Dallas or London)
+
 
 1. Select the maximum end date that fits your needs (you can extend the duration once after creation)
 
@@ -160,20 +161,20 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Select Openshift Storage
 
-   - Storage OCS/ODF Size: **5TB** or Managed NFS **2TB**
+   - Storage OCS/ODF Size: **500GB** or Managed NFS **2TB**
 
    - OpenShift Version: **4.14**
 
-	![K8s CNI](./doc/pics/roks02.png)
+  	![K8s CNI](./doc/pics/roks06.png)
 
 1. Select the Cluster Size
 
-	- Worker node count: **5**
+	- Worker node count: **4**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBM AIOps and Trubonomic you must select **32 vCPU X 128 GB** 
+	> ❗ If you want to install IBM AIOps and Trubonomic you must select **5 x 32 vCPU X 128 GB** 
 
-	![K8s CNI](./doc/pics/roks04.png)
+
 
 1. Click `Submit`
 1. Once the cluster is provisioned, don't forget to extend it as needed.
@@ -199,7 +200,8 @@ Those scripts have been tested thoroughly on different environments and have pro
 
 If you think that you hit a problem:
 
-* Make sure that you have provisioned a cluster with **5 worker nodes with 32 CPU and 128 GB** each. If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
+* If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/98_maintenance/troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. If not, please [re-run the installer Pod](#re-run-the-installer).
+* Make sure that you have provisioned a cluster with **4 worker nodes with 32 CPU and 128 GB** each. If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
 * If you want to install IBM AIOps and Turbonomic you **must** select **5 worker nodes with 32 CPU and 128 GB**
 * The complete installation takes about 1.5 to 8 hours depending on your region where and the platform you deployed to.
 * If you see Pods in `CrashLoop` or other error states, try to wait it out (this can be due to dependencies on other componenets that are not ready yet). Chances are that the deployment will eventually go through. If after 8h you are still stuck, ping me.
@@ -1325,9 +1327,18 @@ data:
 > ### ❗ 99% of the time this corrects the problem
 
 
+<details>
+<summary>📥 CP4AIOPS Base installation Failing at 10-20 pods</summary>
+
+
+If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state in the `ibm-aiops` Namespace, verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/98_maintenance/troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. 
+If not, please [re-run the installer Pod](#re-run-the-installer).
+
+</details>
+
 
 <details>
-<summary>📥 CP4AIOPS Base installation Failing</summary>
+<summary>📥 CP4AIOPS Base installation Failing at 60-90 pods</summary>
 
 
 If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
@@ -1335,6 +1346,13 @@ If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespac
 ✅ Please get help on Slack.
 
 </details>
+
+
+
+
+
+
+
 
 <details>
 <summary>📥 I'm getting a certificate error when opening CP4AIOPS or Turbonomic</summary>
