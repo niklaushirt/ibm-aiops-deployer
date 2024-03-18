@@ -287,8 +287,8 @@
     # Wednesday, 8 November 2023 10:27:00
     # 20 hours of previous data
     # https://www.epochconverter.com
-    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1699439220000') }}" 
-    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1699439220000" 
+    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1710118860000') }}" 
+    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1710118860000" 
     oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="{{ current_ibmaiops_feature.training_golden_signals_previousminutes | default('1200') }}" 
   register: output_string
   ignore_errors: true
