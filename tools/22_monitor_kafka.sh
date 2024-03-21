@@ -97,7 +97,7 @@ menu_option_2() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t cp4waiops-cartridge.lifecycle.input.alerts
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t cp4waiops-cartridge.lifecycle.input.alerts
 
 }
 
@@ -107,7 +107,7 @@ menu_option_3() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t cp4waiops-cartridge.lifecycle.input.stories 
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t cp4waiops-cartridge.lifecycle.input.stories 
 
 }
 
@@ -117,7 +117,7 @@ menu_option_4() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t $EVENTS_TOPIC
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t $EVENTS_TOPIC
 
 }
 
@@ -147,7 +147,7 @@ menu_option_7() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t cp4waiops-cartridge.lifecycle.input.alerts
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t cp4waiops-cartridge.lifecycle.input.alerts
 
 }
 
@@ -156,7 +156,7 @@ menu_option_8() {
   
   echo "	Press CTRL-C to stop "
 
-  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -C -t cp4waiops-cartridge.connector-instana.infra_topology.connector_response
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t cp4waiops-cartridge.connector-instana.infra_topology.connector_response
 
 }
 

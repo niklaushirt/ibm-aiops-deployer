@@ -284,9 +284,14 @@ spec:
               # Wednesday, 8 November 2023 10:27:00
               # 20 hours of previous data
               # https://www.epochconverter.com
-              oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1710118860000"
-              # HISTORIC_TIME_RANGE="360"  //60 minutes
-              oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="1200" 
+              oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite BUCKET_SIZE_IN_MILLIS="3600000" 
+              oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP-
+              oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE-
+
+
+              # oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1710118860000"
+              # # HISTORIC_TIME_RANGE="360"  //60 minutes
+              # oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="9000" 
 
 
               echo "------------------------------------------------------------------------------------------------------------------------------"

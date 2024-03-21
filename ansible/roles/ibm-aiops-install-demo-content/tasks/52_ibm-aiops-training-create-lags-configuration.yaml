@@ -287,9 +287,9 @@
     # Wednesday, 8 November 2023 10:27:00
     # 20 hours of previous data
     # https://www.epochconverter.com
-    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1710118860000') }}" 
+    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1710118860000') }}" 
     #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1710118860000" 
-    oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="{{ current_ibmaiops_feature.training_golden_signals_previousminutes | default('1200') }}" 
+    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="{{ current_ibmaiops_feature.training_golden_signals_previousminutes | default('9000') }}" 
   register: output_string
   ignore_errors: true
   args:
@@ -315,5 +315,25 @@
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1
+
+- name: 📥 TRAINING LOAD LAD - DELETE EXISTING JOB
+  kubernetes.core.k8s:
+    state: absent
+    namespace: turbonomic
+    template: ./templates/training/stream-inject-lags.j2
+
+
+- name: 📥 TRAINING LOAD LAD - CREATE CLUSTERROLE
+  kubernetes.core.k8s:
+    state: present
+    namespace: default
+    src: ./templates/training/default-clusterrole.yaml
+    
+
+- name: 📥 TRAINING LOAD LAD - LOAD KAFKA LAGS DATA 
+  kubernetes.core.k8s:
+    state: present
+    namespace: turbonomic
+    template: ./templates/training/stream-inject-lags.j2
 
 
