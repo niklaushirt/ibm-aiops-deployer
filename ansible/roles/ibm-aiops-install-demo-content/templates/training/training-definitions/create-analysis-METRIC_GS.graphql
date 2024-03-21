@@ -9,8 +9,8 @@ mutation createTrainingDefinition {
 		enableLADGoldenSignal: true
     trainingSchedule: {
       frequency: scheduled,
-      repeat: daily,
-      timeRangeValidStart: "2022-01-01T12:00:00.000+01:00",
+      repeat: monthly,
+      timeRangeValidStart: "2027-01-01T12:00:00.000+01:00",
       timeRangeValidEnd: null,
       noEndDate: true
     }
