@@ -77,13 +77,28 @@
 
 
     echo "***************************************************************************************************************************************************"
-    echo "   🛠️   RESTART - LAGS POD"
+    echo "   🛠️   CONFIG - LAGS POD"
     oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite BUCKET_SIZE_IN_MILLIS="3600000" 
     oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP-
     oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE-
 
+    echo "***************************************************************************************************************************************************"
+    echo "   🛠️   RESTART - LAGS POD"
+    oc delete pod -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE|grep golden-signals|awk '{print$1}')
+
+
+
+    echo "***************************************************************************************************************************************************"
+    echo "   🛠️   RESTART - LOG INJECTION POD"
     oc delete pod -n $AIOPS_NAMESPACE-demo-ui --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE-demo-ui|grep ibm-aiops-stream-lags-normal|awk '{print$1}')
 
+
+
+    echo "  ***************************************************************************************************************************************************"
+    echo "   🛠️   RERUN - MetricAnomaly"
+    export FILE_NAME=run-analysis-METRIC.graphql
+    export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
+    {{role_path}}/templates/training/scripts/execute-graphql.sh
 
 
   register: output_string
