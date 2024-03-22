@@ -213,12 +213,8 @@ data:
         training_run_training_temporal: true
 
         # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
-        training_enable_log_golden_signals: false
-        #training_golden_signals_enddate: 1699439220000
-        # Friday, March 15, 2024 11:59:00 PM - 6 days 
-        training_golden_signals_enddate: 1710118860000
-        training_golden_signals_previousminutes: 9000
-        
+        training_enable_log_golden_signals: true
+
         # LAD-NLP Training (disabled if training_enable_log_golden_signals is true)
         training_load_data_logs: true
         training_create_training_logs: true
