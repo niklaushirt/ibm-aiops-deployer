@@ -269,6 +269,7 @@ def injectLogsContinuous(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFK
         for i in range (1,LOG_ITERATIONS):
             for line in DEMO_LOGS_GENERIC.split('\n'):
                 timestamp = datetime.datetime.now()
+                timestamp = timestamp + datetime.timedelta(minutes=10)
                 timestampstr = timestamp.strftime(LOG_TIME_FORMAT)+'+00:00'
                 line = line.replace("MY_TIMESTAMP", timestampstr).strip()
                 #print ('    XX:'+line)
