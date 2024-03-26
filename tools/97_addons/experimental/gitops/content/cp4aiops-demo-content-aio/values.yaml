@@ -17,9 +17,7 @@ cp4aiops:
 
     training_create_training_temporal: false
 
-    training_load_data_logs: false
-    training_create_training_logs: false
-    training_run_training_logs: false
+
 
     training_load_data_snow: false
     training_create_training_snow: false
@@ -30,7 +28,7 @@ cp4aiops:
     training_run_training_metrics: false
 
     # Create feature flag Training (Seasonality and XinY)
-    training_create_training_experimental: false
+    training_create_season_xiny: false
 
     training_data_url: https://github.com/niklaushirt/
     training_data_repo: ibm-aiops-additionaldata
@@ -115,9 +113,7 @@ cp4aiops:
     # Create Service Account
     create_account: false
 
-    # Install Webhook Probe
-    install_webhook_probe: false
-    subscription_channel: v3.7
+
 
 
 

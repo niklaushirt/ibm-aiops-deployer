@@ -110,9 +110,6 @@ data:
 
         training_create_training_temporal: {{ .Values.cp4aiops.training.temporal_enabled }}
 
-        training_load_data_logs: {{ .Values.cp4aiops.training.log_enabled }}
-        training_create_training_logs: {{ .Values.cp4aiops.training.log_enabled }}
-        training_run_training_logs: {{ .Values.cp4aiops.training.log_enabled }}
 
         training_load_data_snow: {{ .Values.cp4aiops.training.snow_enabled }}
         training_create_training_snow: {{ .Values.cp4aiops.training.snow_enabled }}
@@ -123,7 +120,7 @@ data:
         training_run_training_metrics: {{ .Values.cp4aiops.training.metric_enabled }}
 
         # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: {{ .Values.cp4aiops.training.experimental_enabled }}
+        training_create_season_xiny: {{ .Values.cp4aiops.training.experimental_enabled }}
 
         training_data_url: {{ .Values.cp4aiops.training.training_data_url }}
         training_data_repo: {{ .Values.cp4aiops.training.training_data_repo }}
@@ -202,9 +199,6 @@ data:
         # Create Service Account
         create_account: {{ .Values.cp4aiops.additional.create_account }}
 
-        # Install Webhook Probe
-        install_webhook_probe: {{ .Values.cp4aiops.additional.install_webhook_probe }}
-        subscription_channel: v3.7
 
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'

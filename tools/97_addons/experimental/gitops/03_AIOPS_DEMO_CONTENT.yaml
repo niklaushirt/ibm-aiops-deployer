@@ -23,8 +23,6 @@ spec:
           value: "false"
         - name: cp4aiops.additional.create_valid_ingress_certificate
           value: "false"
-        - name: cp4aiops.additional.install_webhook_probe
-          value: "false"
         - name: cp4aiops.additional.subscription_channel
           value: v4.x
         - name: cp4aiops.demoui.demoui_admin_mode

@@ -282,14 +282,6 @@
     echo "GS_DEPLOYMENT: "$GS_DEPLOYMENT
 
 
-    # echo "***************************************************************************************************************************************************"
-    # echo "   🛠️   Patch Golden Signals Pod for Historical Data"
-    # Wednesday, 8 November 2023 10:27:00
-    # 20 hours of previous data
-    # https://www.epochconverter.com
-    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="{{ current_ibmaiops_feature.training_golden_signals_enddate | default('1710118860000') }}" 
-    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP="1710118860000" 
-    #oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE="{{ current_ibmaiops_feature.training_golden_signals_previousminutes | default('9000') }}" 
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   CONFIG - LAGS POD"

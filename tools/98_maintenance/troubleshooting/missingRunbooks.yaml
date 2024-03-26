@@ -13,7 +13,7 @@
 #
 #  CloudPak for AIOps
 #
-#  ©2023 nikh@ch.ibm.com
+#  ©2024 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -156,9 +156,7 @@ data:
         training_enable_log_golden_signals: false
 
         # LAD-NLP Training (disabled if training_enable_log_golden_signals is false)
-        training_load_data_logs: false
-        training_create_training_logs: false
-        training_run_training_logs: false
+
 
         training_load_data_snow: false
         training_create_training_snow: false
@@ -169,7 +167,7 @@ data:
         training_run_training_metrics: false
 
         # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: false
+        training_create_season_xiny: false
 
         training_data_url: https://github.com/niklaushirt/
         training_data_repo: ibm-aiops-trainingdata

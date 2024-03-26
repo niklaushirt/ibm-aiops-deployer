@@ -122,14 +122,6 @@ else:
 
 
 
-
-
-SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
-SLACK_USER=str(os.environ.get('SLACK_USER', "NONE"))
-SLACK_PWD=str(os.environ.get('SLACK_PWD', "NONE"))
-
-
-
 SLACK_URL_ROSH=str(os.environ.get('SLACK_URL_ROSH', "NONE"))
 SLACK_URL_SOSH=str(os.environ.get('SLACK_URL_SOSH', "NONE"))
 SLACK_URL_ACME=str(os.environ.get('SLACK_URL_ACME', "NONE"))

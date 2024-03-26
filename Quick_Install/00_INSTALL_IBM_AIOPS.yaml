@@ -13,7 +13,7 @@
 #
 #  CloudPak for AIOps
 #
-#  ©2023 nikh@ch.ibm.com
+#  ©2024 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -22,7 +22,7 @@
 #   Type:               VMWare on IBM Cloud / UPI Public
 #   Worker node count:  4
 #   Flavour:            b3c.32x128 ❗ 
-#   OpenShift Version:  4.14
+#   OpenShift Version:  4.15
 #   Storage:            ODF 500GB or Managed NFS - 2TB 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -36,9 +36,9 @@
 #     - Demo Service Account 
 #     - AWX (Open Source Ansible Tower) with preloaded Playbooks
 #     - Train Models
-#       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
-#       - Create Training Data (LAD, SNOW, MET) 
-#       - Train Models (TG, LAD, CR, SI, MET) 
+#       - Create Training Definitions (TG, LAGS, CR, SI, MET) 
+#       - Create Training Data (LAGS, SNOW, MET) 
+#       - Train Models (TG, LAGS, CR, SI, MET) 
 #     - Topology
 #       - Create K8s Observer
 #       - Create ASM merge rules
@@ -208,32 +208,33 @@ data:
         # TRAINING
         # Train the Models based on pre-canned content
 
+        # Where to get the training data from
+        training_data_url: https://github.com/niklaushirt/
+        training_data_repo: ibm-aiops-trainingdata
+
+        # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
+        create_log_connection: true
+
+        # Enable Log Anomaly Golden Signals
+        training_enable_log_golden_signals: true
+
+        # Enable Event Temporal Grouping
         training_load_data_events: true
         training_create_training_temporal: true
         training_run_training_temporal: true
 
-        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
-        training_enable_log_golden_signals: true
-
-        # LAD-NLP Training (disabled if training_enable_log_golden_signals is true)
-        training_load_data_logs: true
-        training_create_training_logs: true
-        training_run_training_logs: true
-
-
+        # Enable Similar Incidents
         training_load_data_snow: true
         training_create_training_snow: true
         training_run_training_snow: true
 
+        # Enable Metric Anomaly
         training_load_data_metrics: true
         training_create_training_metrics: true
         training_run_training_metrics: true
 
-        # Create feature flag Training (Seasonality and XinY)
-        training_create_training_experimental: false
-
-        training_data_url: https://github.com/niklaushirt/
-        training_data_repo: ibm-aiops-trainingdata
+        # Create Training for Seasonality and XinY
+        training_create_season_xiny: true
 
 
         # ---------------------------------------------------------------------
@@ -264,19 +265,15 @@ data:
         # ---------------------------------------------------------------------
         # Demo UI
         install_demo_ui: true
-        demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
-        # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-        demoui_slack_user: ibm-aiopsdemo@gmail.com
-        demoui_slack_pwd: CHANGEME
         demoui_admin_mode: "true"
         demoui_simulation_mode: "true"
+        demoui_user: demo
+        # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
+        #demoui_pwd: CHANGEME
 
         # Create incident links to static Slack and Snow pages
         demoui_create_slack_snow: true
 
-        demoui_user: demo
-        # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
-        #demoui_pwd: CHANGEME
 
 
         # ---------------------------------------------------------------------
@@ -306,18 +303,11 @@ data:
         create_valid_ingress_itz: true
 
         # Create Policy for Story Creation
-        create_incident_policy: true
+        create_incident_policy: false
 
-        # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-        create_log_connection: true
 
         # Create Service Account
         create_account: true
-
-        # Install Webhook Probe
-        install_webhook_probe: false
-        subscription_channel: v3.7
-
 
 
 
@@ -335,6 +325,16 @@ data:
 
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+
+
+
+
+
+
+
+
+
+
 
 
 

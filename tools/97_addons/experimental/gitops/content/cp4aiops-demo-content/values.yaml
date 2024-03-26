@@ -93,9 +93,3 @@ cp4aiops:
     # Create Service Account
     create_account: false
 
-    # Install Webhook Probe
-    install_webhook_probe: false
-    subscription_channel: v4.x
-
-
-

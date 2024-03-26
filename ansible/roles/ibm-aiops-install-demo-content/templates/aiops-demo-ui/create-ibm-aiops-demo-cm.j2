@@ -65,10 +65,6 @@ spec:
 
               export GET_CONFIG='false'
 
-              export SLACK_URL="{{current_ibmaiops_feature.demoui_slack_url}}"
-              export SLACK_USER="{{current_ibmaiops_feature.demoui_slack_user}}"
-              export SLACK_PWD="{{current_ibmaiops_feature.demoui_slack_pwd}}"
-
               export ADMIN_MODE='{{current_ibmaiops_feature.demoui_admin_mode}}'
               export SIMULATION_MODE='{{current_ibmaiops_feature.demoui_simulation_mode}}'
 
@@ -95,9 +91,7 @@ spec:
                   METRIC_TIME_STEP: "$METRIC_TIME_STEP"
                   METRIC_ITERATIONS: "$METRIC_ITERATIONS"
 
-                  SLACK_URL: "$SLACK_URL"
-                  SLACK_USER: "$SLACK_USER"
-                  SLACK_PWD: "$SLACK_PWD"
+
 
 
                   ADMIN_MODE: "$ADMIN_MODE"
