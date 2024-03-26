@@ -224,8 +224,8 @@ from confluent_kafka import Producer
 import socket
 
 def injectLogsRobotShop(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS): 
-    print ('📛 START - Inject Logs - ROBOTSHOP')
-    injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
+    print ('📛 START - Inject Logs CONT - ROBOTSHOP')
+    injectLogsContinuous(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
     return 'OK'
 
 
@@ -240,6 +240,50 @@ def injectLogsCUSTOM(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CE
     print ('📛 START - Inject Logs - CUSTOM_LOGS')
     LOG_TIME_FORMAT="%Y-%m-%d %H:%M:%S.000"
     injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,CUSTOM_LOGS)
+    return 'OK'
+
+
+
+def injectLogsContinuous(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_GENERIC):
+
+    stream = os.popen('echo "'+KAFKA_CERT+'" > ./demouiapp/ca.crt')
+    stream.read().strip()
+
+    print ('    📛 KAFKA_BROKER  :'+str(KAFKA_BROKER)+':')
+
+    try:
+
+        conf = {'bootstrap.servers': KAFKA_BROKER,
+                'security.protocol': "SASL_SSL",
+                'sasl.mechanisms': 'SCRAM-SHA-512',
+                'sasl.username': KAFKA_USER,
+                'sasl.password': KAFKA_PWD,
+                'client.id': socket.gethostname(),
+                'enable.ssl.certificate.verification': 'false',
+                'ssl.ca.location': './demouiapp/ca.crt'
+                }
+
+    #ssl.ca.location
+        producer = Producer(conf)
+
+        for i in range (1,LOG_ITERATIONS):
+            for line in DEMO_LOGS_GENERIC.split('\n'):
+                timestamp = datetime.datetime.now()
+                timestampstr = timestamp.strftime(LOG_TIME_FORMAT)+'+00:00'
+                line = line.replace("MY_TIMESTAMP", timestampstr).strip()
+                #print ('    XX:'+line)
+                producer.produce(KAFKA_TOPIC_LOGS, value=line)
+
+                # stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+                # print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+                time.sleep((LOG_TIME_STEPS/10000))
+            producer.flush()
+            print('    📝 Logs-Injection: '+str(i)+'  :  '+str(timestamp))
+            time.sleep(5)
+    except KafkaException as e:
+        print( "Kafka: "+str(e) )
+    print ('✅ END - Inject Logs')
+
     return 'OK'
 
 
@@ -297,7 +341,6 @@ def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_C
     print ('✅ END - Inject Logs')
 
     return 'OK'
-
 
 
 
