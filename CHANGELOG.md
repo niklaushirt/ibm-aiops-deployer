@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [44.0.1] - 2023-02-01
+### Major changes
+- Support for Version 4.5.0 GA
+- Suppression of Log Anomaly RSA and NLP
+- New LogAnomaly Golden Signals (LAGS) Scenarios
+- HAck for bug in topology for loading customization
+
+
+
 ## [44.0.6] - 2023-02-27
 ### Major changes
 - DemoUI now supports custom scenarios
