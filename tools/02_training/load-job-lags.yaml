@@ -2,12 +2,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-lags-indexes
+  name: ibm-aiops-load-lags-normal
   namespace: ibm-aiops-installer
 spec:
-  serviceAccountName: demo-admin
   template:
     spec:
+      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccount: ibm-aiops-installer-admin
+
       containers:
         - name: load
           image: quay.io/niklaushirt/ibm-aiops-tools:2.0
@@ -33,7 +35,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading log files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export TRAINING_REPO={{ current_ibmaiops_feature.training_data_url }}{{ current_ibmaiops_feature.training_data_repo }}.git
+              export TRAINING_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
               git clone $TRAINING_REPO
               cd ibm-aiops-trainingdata
 
@@ -59,14 +61,17 @@ spec:
               echo "    📶 Stream Data "
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               ./training/load-gs-logs-kafka_date.sh
+              echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              echo "    ⏳ Wait 5 minutes"
+              echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              sleep 300
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"
               echo "*****************************************************************************************************************************"
-
               while true
               do
-                sleep 1000
+                sleep 600
               done
           env:
             - name: INDEX_OVERWRITE

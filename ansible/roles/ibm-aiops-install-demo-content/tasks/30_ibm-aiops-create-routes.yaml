@@ -120,6 +120,26 @@
       verbosity: 1
 
 
+  - name: 🚀 ROUTES - Create Topology Route - topology-kubernetes
+    shell: |
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      existing=$(oc get route topology-kubernetes -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
+      if [[ $existing == "" ]]; then
+        echo "Create Route"
+        oc create route passthrough topology-kubernetes -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-admin
+      fi
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+
+
+
+
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
   - name: 🚀 ROUTES - Create Topology Route - topology-manage
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -145,6 +165,24 @@
       if [[ $existing == "" ]]; then
         echo "Create Route"
         oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+      fi
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
+
+
+  - name: 🚀 ROUTES - Create Topology Route - topology-kubernetes-api
+    shell: |
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      existing=$(oc get route topology-kubernetes-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
+      if [[ $existing == "" ]]; then
+        echo "Create Route"
+        oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
       fi
     ignore_errors: true
     register: output

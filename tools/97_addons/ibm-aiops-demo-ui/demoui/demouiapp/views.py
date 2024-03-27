@@ -803,6 +803,7 @@ def addExternalLinksToIncident(request):
 
 
 
+
                 if 'Switch Outage' in i['title']:
                     current_id=str(i['id'])
                     # print(i['title'])

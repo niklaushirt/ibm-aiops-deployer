@@ -290,9 +290,9 @@ data:
         # ldap namespace
         ldap_namespace: openldap
         # Integrate AIOps Login with OpenLDAP 
-        ldap_register: false
+        ldap_register: true
         # Integrate OpenShift Login with OpenLDAP
-        integrate_ocp_openldap: false
+        integrate_ocp_openldap: true
 
         # ---------------------------------------------------------------------
         # MISC PARAMETERS (you should not modify those)
@@ -303,7 +303,7 @@ data:
         create_valid_ingress_itz: true
 
         # Create Policy for Story Creation
-        create_incident_policy: false
+        create_incident_policy: true
 
 
         # Create Service Account

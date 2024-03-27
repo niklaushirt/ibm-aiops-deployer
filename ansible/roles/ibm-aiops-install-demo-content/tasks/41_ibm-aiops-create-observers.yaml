@@ -49,46 +49,20 @@
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     echo "Creating K8s Observer"
-    oc create route passthrough -n $AIOPS_NAMESPACE --service aimanager-aio-controller --port extport
 
 
-    export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
-    export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
+    # Create Route
+    oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
 
-    echo "        Namespace:          $AIOPS_NAMESPACE"
-    echo "        AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
-    echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
-    echo ""
+    # Get Credentials
+    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
-    echo "       🛠️   Getting ZEN Token"
+    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-kubernetes-api -o jsonpath={.spec.host})
 
-    ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
-    ZEN_LOGIN_URL="https://${ZEN_API_HOST}/v1/preauth/signin"
-    LOGIN_USER=admin
-    LOGIN_PASSWORD="$(oc get secret admin-user-details -n $AIOPS_NAMESPACE -o jsonpath='{ .data.initial_admin_password }' | base64 --decode)"
-
-    ZEN_LOGIN_RESPONSE=$(
-    curl -k \
-    -H 'Content-Type: application/json' \
-    -XPOST \
-    "${ZEN_LOGIN_URL}" \
-    -d '{
-        "username": "'"${LOGIN_USER}"'",
-        "password": "'"${LOGIN_PASSWORD}"'"
-    }' 2> /dev/null
-    )
-
-    ZEN_LOGIN_MESSAGE=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .message)
-
-    if [ "${ZEN_LOGIN_MESSAGE}" != "success" ]; then
-        echo "Login failed: ${ZEN_LOGIN_MESSAGE}"
-
-    fi
-
-    ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-    # echo "${ZEN_TOKEN}"
-    # echo "        AI_PLATFORM_ROUTE:  $ZEN_TOKEN"
-
+    echo "  URL: $TOPO_ROUTE"
+    echo "  LOGIN: $LOGIN"
 
     echo "Getting local K8s API"
 
@@ -102,71 +76,43 @@
     echo "            🌏 API PORT:              $API_PORT"
     echo "            🔐 API Token:             $API_TOKEN"
 
-
-
-    echo "Sucessfully logged in" 
     echo ""
     echo "Creating OBSERVER"
 
-    curl -X 'POST' --insecure \
-      "https://$AIO_PLATFORM_ROUTE/v1/observer/connections?connection_id=robot-shop" \
-      -H 'accept: application/json' \
-      -H 'Content-Type: application/json' \
-      -H "authorization: Bearer $ZEN_TOKEN"  \
-      -d "
-      {
-          \"connection_config\": {
-              \"job_type\": \"load\",
-              \"observer_parameters\": {
-                  \"parameters\": {
-                      \"trust_all_certificate\": true,
-                      \"ssl_hostname_validation\": true,
-                      \"hide_terminated_pods\": true,
-                      \"namespaceGroupParameters\": {
-                          \"correlate\": true
-                      },
-                      \"data_center\": \"robot-shop\",
-                      \"token\": \"$API_TOKEN\",
-                      \"master_ip\": \"$API_SERVER\",
-                      \"api_port\": \"$API_PORT\",
-                      \"connect_read_timeout_ms\": \"5000\",
-                      \"namespace\": \"robot-shop\"
-                  },
-                  \"scheduleRequest\": false,
-                  \"unique_id\": \"demo-robot-shop\",
-                  \"description\": \"Automatically created by Nicks scripts\"
-              }
+
+    curl -k -X POST "$TOPO_ROUTE/1.0/kubernetes-observer/jobs/load" --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' --header 'Accept: application/json' -u $LOGIN --header "Content-Type: application/json" \
+      -d "{
+        \"unique_id\": \"demo-robot-shop\",
+        \"type\": \"load\",
+        \"description\": \"Automatically created by Nicks scripts\",
+        \"parameters\": {
+          \"data_center\": \"robot-shop\",
+          \"master_ip\": \"$API_SERVER\",
+          \"api_port\": \"$API_PORT\",
+          \"token\": {
+            \"hiddenString\": \"$API_TOKEN\",
+            \"encrypted\": false
           },
-          \"connection_type\": \"kubernetes_observer\",
-          \"datasource_type\": \"topology\"
-        }"
-
-
-    # curl -X 'POST' --insecure \
-    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/connections?connection_id=robot-shop" \
-    #   -H 'accept: application/json' \
-    #   -H 'Content-Type: application/json' \
-    #     -H "authorization: Bearer $ZEN_TOKEN"  \
-    #   -d '{ 
-    #   "connection_config": { 
-    #     "job_type": "local", 
-    #     "observer_parameters": { 
-    #       "parameters": { 
-    #         "hide_terminated_pods": true, 
-    #         "namespaceGroupParameters": { 
-    #           "correlate": true 
-    #         }, 
-    #         "data_center": "robot-shop", 
-    #         "namespace": "robot-shop" 
-    #       }, 
-    #       "scheduleRequest": false, 
-    #       "unique_id": "mariapp-robot-shop", 
-    #       "description": "Automatically created by Nicks scripts" 
-    #     } 
-    #   }, 
-    #   "connection_type": "kubernetes_observer", 
-    #   "datasource_type": "topology" 
-    # }'
+          \"trust_all_certificate\": true,
+          \"hide_terminated_pods\": false,
+          \"connect_read_timeout_ms\": 5000,
+          \"custom_resource_definitions\": [
+            \"string\"
+          ],
+          \"role_token\": false,
+          \"namespace\": \"robot-shop\",
+          \"namespaceGroupParameters\": {
+            \"correlate\": true
+          }
+        },
+        \"schedule\": {
+            \"interval\": null,
+            \"units\": null,
+            \"nextRunTime\": null
+          },
+        \"write_file_observer_file\": false,
+        \"scheduleRequest\": true
+      }"
 
 
   register: output_string
@@ -194,46 +140,20 @@
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     echo "Creating K8s Observer"
-    oc create route passthrough -n $AIOPS_NAMESPACE --service aimanager-aio-controller --port extport
 
 
-    export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
-    export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
+    # Create Route
+    oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
 
-    echo "        Namespace:          $AIOPS_NAMESPACE"
-    echo "        AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
-    echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
-    echo ""
+    # Get Credentials
+    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
-    echo "       🛠️   Getting ZEN Token"
+    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-kubernetes-api -o jsonpath={.spec.host})
 
-    ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
-    ZEN_LOGIN_URL="https://${ZEN_API_HOST}/v1/preauth/signin"
-    LOGIN_USER=admin
-    LOGIN_PASSWORD="$(oc get secret admin-user-details -n $AIOPS_NAMESPACE -o jsonpath='{ .data.initial_admin_password }' | base64 --decode)"
-
-    ZEN_LOGIN_RESPONSE=$(
-    curl -k \
-    -H 'Content-Type: application/json' \
-    -XPOST \
-    "${ZEN_LOGIN_URL}" \
-    -d '{
-        "username": "'"${LOGIN_USER}"'",
-        "password": "'"${LOGIN_PASSWORD}"'"
-    }' 2> /dev/null
-    )
-
-    ZEN_LOGIN_MESSAGE=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .message)
-
-    if [ "${ZEN_LOGIN_MESSAGE}" != "success" ]; then
-        echo "Login failed: ${ZEN_LOGIN_MESSAGE}"
-
-    fi
-
-    ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-    # echo "${ZEN_TOKEN}"
-    # echo "        AI_PLATFORM_ROUTE:  $ZEN_TOKEN"
-
+    echo "  URL: $TOPO_ROUTE"
+    echo "  LOGIN: $LOGIN"
 
     echo "Getting local K8s API"
 
@@ -247,44 +167,43 @@
     echo "            🌏 API PORT:              $API_PORT"
     echo "            🔐 API Token:             $API_TOKEN"
 
-
-
-    echo "Sucessfully logged in" 
     echo ""
     echo "Creating OBSERVER"
 
-    curl -X 'POST' --insecure \
-      "https://$AIO_PLATFORM_ROUTE/v1/observer/connections?connection_id=sock-shop" \
-      -H 'accept: application/json' \
-      -H 'Content-Type: application/json' \
-      -H "authorization: Bearer $ZEN_TOKEN"  \
-      -d "
-      {
-          \"connection_config\": {
-              \"job_type\": \"load\",
-              \"observer_parameters\": {
-                  \"parameters\": {
-                      \"trust_all_certificate\": true,
-                      \"ssl_hostname_validation\": true,
-                      \"hide_terminated_pods\": true,
-                      \"namespaceGroupParameters\": {
-                          \"correlate\": true
-                      },
-                      \"data_center\": \"sock-shop\",
-                      \"token\": \"$API_TOKEN\",
-                      \"master_ip\": \"$API_SERVER\",
-                      \"api_port\": \"$API_PORT\",
-                      \"connect_read_timeout_ms\": \"5000\",
-                      \"namespace\": \"sock-shop\"
-                  },
-                  \"scheduleRequest\": false,
-                  \"unique_id\": \"demo-sock-shop\",
-                  \"description\": \"Automatically created by Nicks scripts\"
-              }
+
+    curl -k -X POST "$TOPO_ROUTE/1.0/kubernetes-observer/jobs/load" --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' --header 'Accept: application/json' -u $LOGIN --header "Content-Type: application/json" \
+      -d "{
+        \"unique_id\": \"demo-sock-shop\",
+        \"type\": \"load\",
+        \"description\": \"Automatically created by Nicks scripts\",
+        \"parameters\": {
+          \"data_center\": \"sock-shop\",
+          \"master_ip\": \"$API_SERVER\",
+          \"api_port\": \"$API_PORT\",
+          \"token\": {
+            \"hiddenString\": \"$API_TOKEN\",
+            \"encrypted\": false
           },
-          \"connection_type\": \"kubernetes_observer\",
-          \"datasource_type\": \"topology\"
-        }"
+          \"trust_all_certificate\": true,
+          \"hide_terminated_pods\": false,
+          \"connect_read_timeout_ms\": 5000,
+          \"custom_resource_definitions\": [
+            \"string\"
+          ],
+          \"role_token\": false,
+          \"namespace\": \"sock-shop\",
+          \"namespaceGroupParameters\": {
+            \"correlate\": true
+          }
+        },
+        \"schedule\": {
+            \"interval\": null,
+            \"units\": null,
+            \"nextRunTime\": null
+          },
+        \"write_file_observer_file\": false,
+        \"scheduleRequest\": true
+      }"
 
 
 
