@@ -1,15 +1,12 @@
-
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-load-lags-normal
+  name: load-lags-indexes
   namespace: ibm-aiops-installer
 spec:
+  serviceAccountName: demo-admin
   template:
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
-      serviceAccount: ibm-aiops-installer-admin
-
       containers:
         - name: load
           image: quay.io/niklaushirt/ibm-aiops-tools:2.0
@@ -75,9 +72,10 @@ spec:
               done
           env:
             - name: INDEX_OVERWRITE
-              value : "true"
+              value : "false"
             - name: VERSION
               value : "latest"
       restartPolicy: Never
 
   backoffLimit: 500
+
