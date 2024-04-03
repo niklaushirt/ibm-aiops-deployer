@@ -17,9 +17,9 @@ allowHostIPC: true
 allowHostPID: true
 readOnlyRootFilesystem: false
 users:
-  - system:serviceaccount:instana-clickhouse:clickhouse-operator
-  - system:serviceaccount:instana-clickhouse:clickhouse-operator-altinity-clickhouse-operator
-  - system:serviceaccount:instana-clickhouse:default
+  - system:serviceaccount:instana-datastore:clickhouse-operator
+  - system:serviceaccount:instana-datastore:clickhouse-operator-altinity-clickhouse-operator
+  - system:serviceaccount:instana-datastore:default
 ---
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
@@ -112,7 +112,7 @@ spec:
         spec:
           containers:
             - name: instana-clickhouse
-              image: artifact-public.instana.io/self-hosted-images/k8s/clickhouse:23.3.10.5-1-lts-ibm_v0.29.0
+              image: artifact-public.instana.io/self-hosted-images/k8s/clickhouse:23.3.2.37-1-lts-ibm_v0.27.0
               command:
                 - clickhouse-server
                 - --config-file=/etc/clickhouse-server/config.xml
