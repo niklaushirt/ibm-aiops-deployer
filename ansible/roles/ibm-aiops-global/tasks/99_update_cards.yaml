@@ -78,7 +78,7 @@
     ignore_errors: true
     register: output   
   - name: 🚀 ZEN CARDS - Set ZEN_TOKEN
-    set_fact: ZEN_TOKEN={{ output.stdout_lines[0] }} 
+    set_fact: ZEN_TOKEN={{ output.stdout_lines[0] | default("NONE")}} 
   - name: 🟣  OUTPUT
     debug:
       var: ZEN_TOKEN
