@@ -71,8 +71,6 @@ spec:
       enabled: true
     - name: feature.powervc.enabled
       enabled: true
-    - enabled: true
-      name: feature.synthetics.enabled
   agentAcceptorConfig:
     host: agent.{{BASE_DOMAIN}}
     port: 443
@@ -90,22 +88,6 @@ spec:
   baseDomain: {{BASE_DOMAIN}}
   storageConfigs:
     rawSpans:
-      pvcConfig:
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 300Gi
-        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
-    synthetics:
-      pvcConfig:
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 300Gi
-        storageClassName: {{ AIOPS_STORAGE_CLASS_FILE }}
-    syntheticsKeystore:
       pvcConfig:
         accessModes:
           - ReadWriteMany
