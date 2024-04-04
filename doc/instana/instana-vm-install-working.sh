@@ -1,6 +1,6 @@
 export downloadKey=xyz
 export salesKey=xyz
-export adminPassword=P4ssw0rd!
+export adminPassword=CHANGEME
 export licenseFile=./license.json
 export dhparamspem=./dhparams.pem
 export tokensecret=uQOkH+Y4wU_0

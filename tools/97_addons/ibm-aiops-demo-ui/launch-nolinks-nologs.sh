@@ -1,4 +1,4 @@
-export DEMO_PWD=P4ssw0rd!
+export DEMO_PWD=CHANGEME
 export DEMO_USER=demo
 export ADMIN_MODE='true'
 export INSTANCE_NAME=Demo

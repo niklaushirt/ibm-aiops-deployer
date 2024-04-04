@@ -14,7 +14,7 @@ spec:
         - name: cp4aiops.demoui.install_demo_ui
           value: "true"
         - name: cp4aiops.global.globalPassword
-          value: P4ssw0rd!
+          value: CHANGEME
         - name: cp4aiops.additional.create_account
           value: "true"
         - name: cp4aiops.additional.create_cards

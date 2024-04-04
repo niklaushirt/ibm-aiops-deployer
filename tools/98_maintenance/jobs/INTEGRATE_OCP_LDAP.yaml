@@ -190,7 +190,7 @@ spec:
 
           env:
           - name: LDAP_PASSWORD
-            value : P4ssw0rd!
+            value : CHANGEME
 
       restartPolicy: Never
   backoffLimit: 500

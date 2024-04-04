@@ -61,7 +61,7 @@ metadata:
   name: ibm-aiops-demo-ui-config
   namespace: ibm-aiops-demo-ui
 data:
-  TOKEN: P4ssw0rd!
+  TOKEN: CHANGEME
   INSTANCE_NAME: Bear
   SLACK_URL: 'https://aiopsdemohq.slack.com/sign_in_with_password'
   LOG_TIME_SKEW: '0'
@@ -69,12 +69,12 @@ data:
   METRIC_ITERATIONS: '40'
   SNOW_URL_ACME: 'https://pirsoscom.github.io/INC0010001_ALERTS.html'
   DEMO_USER: demo
-  DEMO_PWD: P4ssw0rd!
+  DEMO_PWD: CHANGEME
   GET_CONFIG: 'false'
   CONTACT_INFO: '<p style="font-size:40px;">Contacts</p><BR><p>Niklaus Hirt - nikh@ch.ibm.com</p><p></p>'
   METRIC_TIME_SKEW: '300'
   LOG_TIME_FORMAT: '%Y-%m-%dT%H:%M:%S.000000'
-  SLACK_PWD: P4ssw0rd!
+  SLACK_PWD: CHANGEME
   METRIC_TIME_STEP: '20'
   SLACK_URL_SOSH: 'https://pirsoscom.github.io/Slack_SOCK.html'
   LOG_TIME_STEPS: '1000'
