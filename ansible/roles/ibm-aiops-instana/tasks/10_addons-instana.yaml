@@ -280,7 +280,7 @@
     # helm repo update
     # helm install clickhouse-operator clickhouse-operator/altinity-clickhouse-operator -n instana-datastores --version=0.23.4
     helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v0.1.2 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="instana-registry"
-    # test
+    # test1
 
     #curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.22.0/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
     # Image pull secrets for Clickhouse image
