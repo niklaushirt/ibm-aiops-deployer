@@ -112,7 +112,7 @@ spec:
         spec:
           containers:
             - name: instana-clickhouse
-              image: artifact-public.instana.io/clickhouse-openssl:23.8.9.54-1-lts-ibm
+              image: artifact-public.instana.io/self-hosted-images/k8s/clickhouse:23.3.2.37-1-lts-ibm_v0.27.0
               command:
                 - clickhouse-server
                 - --config-file=/etc/clickhouse-server/config.xml
@@ -125,7 +125,7 @@ spec:
                 - -c
                 - --      
           imagePullSecrets:
-            - name: instana-registry
+            - name: clickhouse-image-secret
           securityContext:
             fsGroup: 0
             runAsGroup: 0
@@ -140,7 +140,7 @@ spec:
         #     memory: 2Gi
     volumeClaimTemplates:
       - name: instana-clickhouse-data-volume
-        spec:          
+        spec:
           storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
           accessModes:
             - ReadWriteOnce
