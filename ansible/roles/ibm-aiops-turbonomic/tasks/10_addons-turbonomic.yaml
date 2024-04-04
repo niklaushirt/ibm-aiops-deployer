@@ -155,7 +155,7 @@
 
 
 - name: 🕦 TURBONOMIC - Wait for turbonomic to become ready
-  shell: oc get po -n turbonomic | grep -v Running |grep -v Completed|grep -v Error|grep -v prometheus-server | grep -c ""
+  shell: oc get po -n turbonomic | grep -v Running |grep -v Completed|grep -v Error|grep -v prometheus-server |grep -v postgres-0| grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
