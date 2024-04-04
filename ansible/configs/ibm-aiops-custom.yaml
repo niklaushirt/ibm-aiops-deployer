@@ -93,7 +93,7 @@ ibmaiops:
     # Name of the ibm-aiops instance
     aiops_name: ibm-aiops
     # Version of the catalog subscription
-    subscription_channel: v4.4
+    subscription_channel: v4.5
     # Freeze the version of the Catalog image by patching CatalogSource
     freeze_catalog: true
     # Install Feature Flags
@@ -134,10 +134,7 @@ ibmaiops:
     # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training)
     training_enable_log_golden_signals: false
 
-    # LAD-NLP Training - disabled if training_enable_log_golden_signals is true
-    training_load_data_logs: true
-    training_create_training_logs: true
-    training_run_training_logs: true
+
 
 
     training_load_data_snow: true
@@ -149,7 +146,7 @@ ibmaiops:
     training_run_training_metrics: true
 
     # Create feature flag Training (Seasonality and XinY)
-    training_create_training_experimental: false
+    training_create_season_xiny: false
 
     training_data_url: https://github.com/niklaushirt/
     training_data_repo: ibm-aiops-trainingdata
@@ -183,10 +180,7 @@ ibmaiops:
     # ---------------------------------------------------------------------
     # Demo UI
     install_demo_ui: true
-    demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
-    # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-    demoui_slack_user: ibm-aiopsdemo@gmail.com
-    demoui_slack_pwd: CHANGEME
+
     demoui_admin_mode: "true"
     demoui_simulation_mode: "true"
 
@@ -231,9 +225,7 @@ ibmaiops:
     # Create Service Account
     create_account: true
 
-    # Install Webhook Probe
-    install_webhook_probe: false
-    subscription_channel: v3.7
+
 
 
 

@@ -10,9 +10,6 @@ import hashlib
 from threading import Thread
 sys.path.append(os.path.abspath("demouiapp"))
 from functions import *
-SLACK_URL=str(os.environ.get('SLACK_URL'))
-SLACK_USER=str(os.environ.get('SLACK_USER'))
-SLACK_PWD=str(os.environ.get('SLACK_PWD'))
 INCIDENT_ACTIVE=False
 ROBOT_SHOP_OUTAGE_ACTIVE=False
 SOCK_SHOP_OUTAGE_ACTIVE=False
@@ -45,6 +42,7 @@ print ('------------------------------------------------------------------------
 print (' 🚀 Warming up')
 print ('-------------------------------------------------------------------------------------------------')
 print ('')
+
 
 
 #os.system('ls -l')
@@ -724,9 +722,6 @@ print ('')
 
 
 
-SLACK_URL=str(os.environ.get('SLACK_URL', "NONE"))
-SLACK_USER=str(os.environ.get('SLACK_USER', "NONE"))
-SLACK_PWD=str(os.environ.get('SLACK_PWD', "NONE"))
 print ('')
 print ('')
 print ('')
@@ -805,6 +800,7 @@ def addExternalLinksToIncident(request):
                         print(str(response.content))
                     else:
                         print ('    ❌ Skipping SNOW_URL_ROSH')
+
 
 
 
@@ -944,9 +940,6 @@ def instanaCreateIncident(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1032,9 +1025,6 @@ def instanaMitigateIncident(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1129,9 +1119,6 @@ def injectAllREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1446,9 +1433,6 @@ def injectAllFanACMEREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1535,9 +1519,6 @@ def injectAllNetSOCKREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1613,9 +1594,6 @@ def injectAllTELCOREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1692,9 +1670,6 @@ def injectAllTUBEREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1752,9 +1727,6 @@ def injectLogsREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1811,9 +1783,6 @@ def injectEventsREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1869,9 +1838,6 @@ def injectMetricsREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -1955,9 +1921,6 @@ def injectCUSTOM(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2042,9 +2005,6 @@ def clearAllREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2106,9 +2066,6 @@ def clearEventsREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2167,9 +2124,6 @@ def clearStoriesREST(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2230,9 +2184,6 @@ def reloadTopology(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2306,9 +2257,6 @@ def injectBusy(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'DEMO_USER': DEMO_USER,
         'DEMO_PWD': DEMO_PWD,
         'awx_url': awx_url,
@@ -2379,9 +2327,6 @@ def login(request):
             'aimanager_url': aimanager_url,
             'aimanager_user': aimanager_user,
             'aimanager_pwd': aimanager_pwd,
-            'SLACK_URL': SLACK_URL,
-            'SLACK_USER': SLACK_USER,
-            'SLACK_PWD': SLACK_PWD,
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
@@ -2412,9 +2357,6 @@ def login(request):
             'aimanager_url': aimanager_url,
             'aimanager_user': aimanager_user,
             'aimanager_pwd': aimanager_pwd,
-            'SLACK_URL': SLACK_URL,
-            'SLACK_USER': SLACK_USER,
-            'SLACK_PWD': SLACK_PWD,
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
@@ -2538,9 +2480,6 @@ def index(request):
         'aimanager_url': aimanager_url,
         'aimanager_user': aimanager_user,
         'aimanager_pwd': aimanager_pwd,
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
@@ -2657,9 +2596,6 @@ def apps(request):
         'sockshop_url': sockshop_url,
         'spark_url': spark_url,
 
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
         'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
@@ -2717,9 +2653,6 @@ def apps_system(request):
         'sockshop_url': sockshop_url,
         'spark_url': spark_url,
 
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
         'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
@@ -2777,9 +2710,6 @@ def apps_demo(request):
         'sockshop_url': sockshop_url,
         'spark_url': spark_url,
 
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
         'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
@@ -2837,9 +2767,6 @@ def apps_additional(request):
         'sockshop_url': sockshop_url,
         'spark_url': spark_url,
 
-        'SLACK_URL': SLACK_URL,
-        'SLACK_USER': SLACK_USER,
-        'SLACK_PWD': SLACK_PWD,
         'ADMIN_MODE': ADMIN_MODE,
         'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,

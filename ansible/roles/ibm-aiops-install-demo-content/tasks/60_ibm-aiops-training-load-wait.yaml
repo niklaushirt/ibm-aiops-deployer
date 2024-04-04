@@ -106,7 +106,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION LAD LOAD
   shell: |
       while : ; do
-          READY=$(oc get jobs -n ibm-aiops-installer --ignore-not-found load-log-indexes)
+          READY=$(oc get jobs -n ibm-aiops-installer --ignore-not-found load-lags-indexes)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -122,16 +122,4 @@
     executable: /bin/bash
 
 
-# - name: 🧻 TRAINING WAIT - CLEANUP JOB LAD LOAD
-#   kubernetes.core.k8s:
-#     state: absent
-#     template: ./templates/training/load-job-logs.j2
-  
-
-
-# - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS LAD LOAD
-#   shell: |
-#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-log-indexes|awk '{print$1}')
-#   register: ES_READY
-#   ignore_errors: true
 

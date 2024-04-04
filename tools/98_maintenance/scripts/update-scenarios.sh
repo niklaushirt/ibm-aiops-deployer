@@ -83,7 +83,6 @@ data:
   ADMIN_MODE: 'true'
   EVENTS_TIME_SKEW: '30'
   SLACK_URL_ACME: 'https://pirsoscom.github.io/Slack_ACME.html'
-  SLACK_USER: ibm-aiopsdemo@gmail.com
   SIMULATION_MODE: 'true'
   SNOW_URL_SOSH: 'https://pirsoscom.github.io/INC0010002_ALERTS.html'
   SNOW_URL_ROSH: 'https://pirsoscom.github.io/INC0010003_ALERTS.html'

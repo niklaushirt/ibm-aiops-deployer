@@ -14,7 +14,7 @@
 #
 #  IBM AIOps
 #
-#  ©2023 nikh@ch.ibm.com
+#  ©2024 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -120,16 +120,13 @@
     - "     🔽 Load Data for Event Temporal Training:    {{current_ibmaiops_feature.training_load_data_events | default('false')}}"
     - "     ✅ Create Training for Temp Grouping:        {{current_ibmaiops_feature.training_create_training_temporal}}"
     - "     ✅ Enable Log Anomaly - Golden Signals:      {{current_ibmaiops_feature.training_enable_log_golden_signals}}"
-    - "     🔽 Load Data for Log Anomaly:                {{current_ibmaiops_feature.training_load_data_logs}}"
-    - "     ✅ Create Training for Log Anomaly:          {{current_ibmaiops_feature.training_create_training_logs}}"
-    - "     🚀 Run Training for Log Anomaly:             {{current_ibmaiops_feature.training_run_training_logs}}"
     - "     🔽 Load Data for Metric Anomaly:             {{current_ibmaiops_feature.training_load_data_metrics}}"
     - "     ✅ Create Training for Metric Anomaly:       {{current_ibmaiops_feature.training_create_training_metrics}}"
     - "     🚀 Run Training for Metric Anomaly:          {{current_ibmaiops_feature.training_run_training_metrics}}"
     - "     🔽 Load Data for Similar Incidents:          {{current_ibmaiops_feature.training_load_data_snow}}"
     - "     ✅ Create Training for Similar Incidents:    {{current_ibmaiops_feature.training_create_training_snow}}"
     - "     🚀 Run Training for Similar Incidents:       {{current_ibmaiops_feature.training_run_training_snow}}"
-    - "     ✅ Create Training for Season/XinY:          {{current_ibmaiops_feature.training_create_training_experimental | default('not defined') }}"
+    - "     ✅ Create Training for Season/XinY:          {{current_ibmaiops_feature.training_create_season_xiny | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 TOPOLOGY"
     - "     🈸 Install Demo Applications:                {{current_ibmaiops_feature.install_demoapps}}"
@@ -167,7 +164,6 @@
     - "     🛠️ Create Policy for Incident Creation:      {{current_ibmaiops_feature.create_incident_policy}}"
     - "     🛠️ Create Kafka Log connection:              {{current_ibmaiops_feature.create_log_connection}}"
     - "     🛠️ Create Service Account:                   {{current_ibmaiops_feature.create_account}}"
-    - "     🛠️ Create Webhook Probe:                     {{current_ibmaiops_feature.install_webhook_probe  | default('not defined')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
     - "-----------------------------------------------------------------------------------------------"
@@ -235,10 +231,6 @@
 - name: (009/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load SNOW Training Data
   include_tasks: 51_ibm-aiops-training-load-snow.yaml
   when: current_ibmaiops_feature.training_load_data_snow == true
-
-- name: (010/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load LOGS Training Data
-  include_tasks: 52_ibm-aiops-training-load-logs.yaml
-  when: current_ibmaiops_feature.training_load_data_logs == true and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
 
 - name: (011/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load METRICS Training Data
   include_tasks: 53_ibm-aiops-training-load-metric.yaml
@@ -371,13 +363,10 @@
   include_tasks: 57_ibm-aiops-training-create-snow-configuration.yaml
   when: current_ibmaiops_feature.training_create_training_snow == true and TRAINING_EXISTS==false
 
-- name: (031/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Logs
-  include_tasks: 58_ibm-aiops-training-create-logs-configuration.yaml
-  when: current_ibmaiops_feature.training_create_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
 
 - name: (032/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Seasonality and XinY
   include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
-  when: current_ibmaiops_feature.training_create_training_experimental == true | default('false')
+  when: current_ibmaiops_feature.training_create_season_xiny == true | default('false')
 
 - name: (033/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load LAGS Training Data
   include_tasks: 58_ibm-aiops-training-load-lags.yaml
@@ -406,15 +395,11 @@
 # Train models
 - name: (036/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Wait for Trainingdata to finish loading
   include_tasks: 60_ibm-aiops-training-load-wait.yaml
-  when: (current_ibmaiops_feature.training_load_data_logs == true or current_ibmaiops_feature.training_load_data_snow == true or current_ibmaiops_feature.training_load_data_metrics == true) and TRAINING_EXISTS==false
+  when: (current_ibmaiops_feature.training_enable_log_golden_signals == true or current_ibmaiops_feature.training_load_data_snow == true or current_ibmaiops_feature.training_load_data_metrics == true) and TRAINING_EXISTS==false
 
 - name: (037/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run SNOW AI Model Training
   include_tasks: 61_ibm-aiops-training-run-snow.yaml
   when: current_ibmaiops_feature.training_run_training_snow == true and TRAINING_EXISTS==false
-
-- name: (038/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run LAD AI Model Training
-  include_tasks: 62_ibm-aiops-training-run-logs.yaml
-  when: current_ibmaiops_feature.training_run_training_logs == true and TRAINING_EXISTS==false and current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == false
 
 - name: (039/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run LAGS AI Model Training
   include_tasks: 62_ibm-aiops-training-run-lags.yaml
@@ -446,13 +431,13 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # IJNSTALL WEBHOOK PROBE
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (043/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Turbonomic Probe
-  include_tasks: 70_ibm-aiops-install-turbonomic-probe.yml
-  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
+# - name: (043/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Turbonomic Probe
+#   include_tasks: 70_ibm-aiops-install-turbonomic-probe.yml
+#   when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
 
-- name: (044/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Generic Webhook Probe
-  include_tasks: 71_ibm-aiops-install-generic-probe.yml
-  when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
+# - name: (044/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Install the Generic Webhook Probe
+#   include_tasks: 71_ibm-aiops-install-generic-probe.yml
+#   when: current_ibmaiops_feature.install_webhook_probe | default('false') == true
 
 
 

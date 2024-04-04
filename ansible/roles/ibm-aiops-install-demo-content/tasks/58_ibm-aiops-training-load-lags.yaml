@@ -33,11 +33,11 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 📥 TRAINING LOAD LAD - DELETE EXISTING JOB
-  kubernetes.core.k8s:
-    state: absent
-    namespace: turbonomic
-    template: ./templates/training/load-job-lags.j2
+# - name: 📥 TRAINING LOAD LAD - DELETE EXISTING JOB
+#   kubernetes.core.k8s:
+#     state: absent
+#     namespace: turbonomic
+#     template: ./templates/training/stream-inject-lags.j2
 
 
 - name: 📥 TRAINING LOAD LAD - CREATE CLUSTERROLE
@@ -51,5 +51,5 @@
   kubernetes.core.k8s:
     state: present
     namespace: turbonomic
-    template: ./templates/training/load-job-lags.j2
+    template: ./templates/training/stream-inject-lags.j2
 

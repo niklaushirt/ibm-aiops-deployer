@@ -1,11 +1,8 @@
-export SLACK_URL='https://aiopsdemohq.slack.com/sign_in_with_password'
 export DEMO_PWD=P4ssw0rd!
 export DEMO_USER=demo
-export SLACK_PWD=P4ssw0rd!
 export ADMIN_MODE='true'
 export INSTANCE_NAME=Demo
 export TOKEN=test
-export SLACK_USER=ibm-aiopsdemo@gmail.com
 export SIMULATION_MODE='true'
 
 export LOG_TIME_STEPS='1000'

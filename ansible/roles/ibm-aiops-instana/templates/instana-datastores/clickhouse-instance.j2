@@ -17,9 +17,9 @@ allowHostIPC: true
 allowHostPID: true
 readOnlyRootFilesystem: false
 users:
-  - system:serviceaccount:instana-clickhouse:clickhouse-operator
-  - system:serviceaccount:instana-clickhouse:clickhouse-operator-altinity-clickhouse-operator
-  - system:serviceaccount:instana-clickhouse:default
+  - system:serviceaccount:instana-datastore:clickhouse-operator
+  - system:serviceaccount:instana-datastore:clickhouse-operator-altinity-clickhouse-operator
+  - system:serviceaccount:instana-datastore:default
 ---
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
@@ -112,7 +112,7 @@ spec:
         spec:
           containers:
             - name: instana-clickhouse
-              image: artifact-public.instana.io/self-hosted-images/k8s/clickhouse:23.3.10.5-1-lts-ibm_v0.29.0
+              image: artifact-public.instana.io/clickhouse-openssl:23.8.9.54-1-lts-ibm
               command:
                 - clickhouse-server
                 - --config-file=/etc/clickhouse-server/config.xml
@@ -125,7 +125,7 @@ spec:
                 - -c
                 - --      
           imagePullSecrets:
-            - name: clickhouse-image-secret
+            - name: instana-registry
           securityContext:
             fsGroup: 0
             runAsGroup: 0
@@ -140,7 +140,7 @@ spec:
         #     memory: 2Gi
     volumeClaimTemplates:
       - name: instana-clickhouse-data-volume
-        spec:
+        spec:          
           storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
           accessModes:
             - ReadWriteOnce

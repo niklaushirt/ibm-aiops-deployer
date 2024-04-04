@@ -51,8 +51,6 @@ spec:
           value: false
         - name: cp4aiops.content.install_ldap
           value: false
-        - name: cp4aiops.content.install_webhook_probe
-          value: false
         - name: cp4aiops.content.integrate_awx
           value: false
         - name: cp4aiops.content.ldap_base
@@ -71,9 +69,7 @@ spec:
           value: white
         - name: cp4aiops.content.subscription_channel
           value: v4.x
-        - name: cp4aiops.content.training_create_training_experimental
-          value: false
-        - name: cp4aiops.content.training_create_training_logs
+        - name: cp4aiops.content.training_create_season_xiny
           value: false
         - name: cp4aiops.content.training_create_training_metrics
           value: false
@@ -85,13 +81,9 @@ spec:
           value: ibm-aiops-additionaldata
         - name: cp4aiops.content.training_data_url
           value: 'https://github.com/niklaushirt/'
-        - name: cp4aiops.content.training_load_data_logs
-          value: false
         - name: cp4aiops.content.training_load_data_metrics
           value: false
         - name: cp4aiops.content.training_load_data_snow
-          value: false
-        - name: cp4aiops.content.training_run_training_logs
           value: false
         - name: cp4aiops.content.training_run_training_metrics
           value: false

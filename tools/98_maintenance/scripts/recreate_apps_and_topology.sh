@@ -1,5 +1,5 @@
 
-
+cd ansible
 # --------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------------
 # LOAD TOPOLOGY CONFIGURATION
@@ -347,8 +347,8 @@
       -u $LOGIN \
       -H 'Content-Type: application/json' \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -d '  {
-          "keyIndexName": "robot-shop-template",
+      -D '  {
+          "KEYINDExName": "robot-shop-template",
           "_correlationEnabled": "true",
           "iconId": "application",
           "businessCriticality": "Gold",
