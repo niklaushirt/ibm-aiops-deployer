@@ -79,4 +79,4 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.current_supported_aiops_version | default(v4.5) ==  current_ibmaiops_feature.subscription_channel 
+  when: global_config.current_supported_aiops_version | default(v4.5) !=  current_ibmaiops_feature.subscription_channel 
