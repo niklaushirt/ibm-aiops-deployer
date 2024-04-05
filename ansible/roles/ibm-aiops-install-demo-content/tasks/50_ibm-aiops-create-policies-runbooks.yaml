@@ -153,7 +153,7 @@
 
     echo "RESULT:"$result
 
-    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Clear RobotShop Incident"))|._runbookId'| head -n 1)
+    export RUNBOOK_ID=$(echo $result| sed 's/\\\\"/\"/g'|jq -r '.[]| select(.name|contains("Clear SockShop Switch Incident"))|._runbookId'| head -n 1)
     echo "RUNBOOK_ID: $RUNBOOK_ID"
 
 
@@ -256,7 +256,9 @@
 
 
     # Create Runbook Trigger Policy
-    export POLICY_FILE="{{role_path}}/templates/policies/runbook-trigger-policy-telco.json"
+
+
+    export POLICY_FILE="./ansible/roles/ibm-aiops-install-demo-content/templates/policies/runbook-trigger-policy-telco.json"
     cp $POLICY_FILE /tmp/runbook_policy.json
     cat /tmp/runbook_policy.json
     echo "RUNBOOK_ID: $RUNBOOK_ID"
@@ -278,7 +280,7 @@
     export policyID=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
       -H 'content-type: application/json' \
-      -u $POLICY_LOGIN|jq -r '.[] | select(.metadata |  contains("DEMO Fiber Mitigation" ) )| .policyid')
+      -u $POLICY_LOGIN|jq -r '.[] | select(.metadata |  contains("DEMO Reset Uplink" ) )| .policyid')
       
     if [[ -z $policyID  ]]; then
       echo "Create Policy"
