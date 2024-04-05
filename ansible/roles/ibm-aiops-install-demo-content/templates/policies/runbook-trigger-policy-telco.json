@@ -77,7 +77,7 @@
                             "$variable": "alert"
                         },
                         "runbookId": "MY_RUNBOOK_ID",
-                        "isAutomated": false,
+                        "isAutomated": true,
                         "mappings": [{
                             "mappingType": "useDefault",
                             "runbookParameterName": "clusterCredentials",
