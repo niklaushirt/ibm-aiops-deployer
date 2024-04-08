@@ -251,21 +251,22 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # CREATE TOPOLOGY (part 1)
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (014/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Topology Observers
+- name: (014/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Disable Topology Match Rules
+  include_tasks: 44_ibm-aiops-disable-match-token-rule.yaml
+  when: current_ibmaiops_feature.install_custom_topology == true
+
+- name: (015/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Topology Observers
   include_tasks: 41_ibm-aiops-create-observers.yaml
   when: current_ibmaiops_feature.install_demoapps_observer == true
 
-- name: (015/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load Topology Merge Rules
+- name: (016/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load Topology Merge Rules
   include_tasks: 42_ibm-aiops-load-topology-merge.yaml
   when: current_ibmaiops_feature.install_custom_topology == true
 
-- name: (016/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Overlay Topology
+- name: (017/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Overlay Topology
   include_tasks: 43_ibm-aiops-create-topology.yaml
   when: current_ibmaiops_feature.install_custom_topology == true
 
-- name: (017/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Disable Topology Match Rules
-  include_tasks: 44_ibm-aiops-disable-match-token-rule.yaml
-  when: current_ibmaiops_feature.install_custom_topology == true
 
 
 
