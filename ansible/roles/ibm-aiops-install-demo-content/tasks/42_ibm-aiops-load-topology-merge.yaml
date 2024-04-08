@@ -276,6 +276,41 @@
           ]
         }' 
 
+
+    echo "  Disable RULE instana-observer-events-kubernetes-service..."
+
+    export RULE_ID=$(curl "$MERGE_ROUTE/1.0/merge/rules?ruleType=matchTokensRule&_filter=name=instana-observer-events-kubernetes-service&_include_count=false&_field=*" -s --insecure \
+        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+        -u $LOGIN| jq -r "._items[0]._id")
+
+
+
+    curl -XPUT "$MERGE_ROUTE/1.0/merge/rules/$RULE_ID" -s --insecure \
+        --header 'Content-Type: application/json' \
+        --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+        -u $LOGIN \
+        -d '{
+          "name": "k8ServiceName",
+          "keyIndexName": "k8ServiceName",
+          "ruleType": "matchTokensRule",
+          "entityTypes": [
+            "service"
+          ],
+          "tokens": [
+            "name"
+          ],
+          "ruleStatus": "disabled",
+          
+          "observers": [
+            "kubernetes-observer"
+          ],
+          "providers": [
+            "*"
+          ]
+        }' 
+
+
+
   register: output_string
   ignore_errors: true
   args:
