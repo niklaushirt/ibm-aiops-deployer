@@ -464,11 +464,23 @@
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# ENABLE LAGS TRINING
+# ENABLE LAGS TRAINING
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (046/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable LAGS Training
   include_tasks: 80_ibm-aiops-training-enable-lags-configuration.yaml
   when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE TOPOLOGY (redo hack)
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (019/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Templates
+  include_tasks: 45_ibm-aiops-create-aiops-application-templates.yaml
+  when: current_ibmaiops_feature.create_topology_templates == true
+
+- name: (020/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Application
+  include_tasks: 45_ibm-aiops-create-aiops-application.yaml
+  when: current_ibmaiops_feature.create_topology_apps == true
 
 
 
