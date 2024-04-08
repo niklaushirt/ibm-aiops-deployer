@@ -34,6 +34,7 @@
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
       text: 'Installing {{current_ibmaiops_feature.kind}} - Create IBM AIOps Application'    
     EOF
+    sleep 180
   ignore_errors: true
   args:
     executable: /bin/bash
