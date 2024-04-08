@@ -258,7 +258,7 @@
     # Create Runbook Trigger Policy
 
 
-    export POLICY_FILE="./ansible/roles/ibm-aiops-install-demo-content/templates/policies/runbook-trigger-policy-telco.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/runbook-trigger-policy-telco.json"
     cp $POLICY_FILE /tmp/runbook_policy.json
     cat /tmp/runbook_policy.json
     echo "RUNBOOK_ID: $RUNBOOK_ID"
