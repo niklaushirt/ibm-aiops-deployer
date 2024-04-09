@@ -15,3 +15,5 @@ E:{"_fromUniqueId":"NYCA01[ Port 1/1/22 ]", "fromFile":"true","_edgeType":"conne
 E:{"_fromUniqueId":"NYCA01[ Port 2/1/22 ]", "fromFile":"true","_edgeType":"connectedTo", "_toUniqueId":"NYFBOP01"}
 E:{"_fromUniqueId":"NYCA01[ Port 8/1/22 ]", "fromFile":"true","_edgeType":"connectedTo", "_toUniqueId":"NYFBOP01"}
 E:{"_fromUniqueId":"RCHMDFBOP01", "fromFile":"true","_edgeType":"connectedTo", "_toUniqueId":"NYFBOP01"}
+V:{"_operation":"InsertReplace","businessCriticality": "Platinum","uniqueId":"dcwest1-switch025","namespace": "sock-shop","matchTokens":["dcwest1-switch025"],"tags":["Network Topology","app:sockshop","namespace:sock-shop"],"name":"DCWest1-Switch025","geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["router"]}
+E:{"_fromUniqueId":"dcwest1-switch025", "fromFile":"true","_edgeType":"connectedTo", "_toUniqueId":"NYCA01"}
