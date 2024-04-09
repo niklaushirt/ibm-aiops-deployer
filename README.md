@@ -541,7 +541,7 @@ This installation adds:
 
 📹 The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
 
-📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/a4zbl8rjevxqfe48yxgatgmhomsiu8wl) that you can watch to get an idea on how to do the demo (based on 3.2). 
+📹 I have also added a short [Demo Walkthrough video](https://ibm.box.com/s/4km7gvuqz83z6ciw51vm7f2hgvo4oxok) that you can watch to get an idea on how to do the demo (based on 3.2). 
 
 
 <details>
