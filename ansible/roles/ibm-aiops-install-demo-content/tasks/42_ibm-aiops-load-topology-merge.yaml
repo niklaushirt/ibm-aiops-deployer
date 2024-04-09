@@ -222,7 +222,7 @@
         -d $'{
         "name": "MergeTokenDeployName",
         "ruleType": "mergeRule",
-        "entityTypes": ["deployment","statefulset","container"],
+        "entityTypes": ["deployment","statefulset","container","router"],
         "tokens": ["name"],
         "ruleStatus": "enabled",
         "observers": ["*"],
