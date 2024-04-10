@@ -1082,7 +1082,6 @@ def injectAllREST(request):
         # injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
         # injectMetricsMem(METRIC_ROUTE,METRIC_TOKEN)
         # injectLogs(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
-        modifyMYSQL()
 
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
@@ -1110,6 +1109,7 @@ def injectAllREST(request):
 
         INCIDENT_ACTIVE=True
         ROBOT_SHOP_OUTAGE_ACTIVE=True
+        modifyMYSQL()
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -1194,7 +1194,6 @@ def injectRESTHeadless(request):
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
-        modifyMYSQL()
 
         print('  🟠 Start THREADS')
         threadEvents.start()
@@ -1209,6 +1208,7 @@ def injectRESTHeadless(request):
         addExternalLinksToIncident(request)
         INCIDENT_ACTIVE=True
         ROBOT_SHOP_OUTAGE_ACTIVE=True
+        modifyMYSQL()
 
 
     elif currentapp=='sockshop':
@@ -1297,7 +1297,6 @@ def injectRESTHeadless(request):
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
-        modifyMYSQL()
 
         print('  🟠 Start THREADS')
         threadEvents.start()
@@ -1362,6 +1361,7 @@ def injectRESTHeadless(request):
 
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
         threadLinks.start()
+        modifyMYSQL()
 
 
 
@@ -1975,7 +1975,6 @@ def clearAllREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
 
-        resetMYSQL()
 
 
         # closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
@@ -2000,6 +1999,7 @@ def clearAllREST(request):
         INCIDENT_ACTIVE=False
         ROBOT_SHOP_OUTAGE_ACTIVE=False
         SOCK_SHOP_OUTAGE_ACTIVE=False
+        resetMYSQL()
 
 
     else:
