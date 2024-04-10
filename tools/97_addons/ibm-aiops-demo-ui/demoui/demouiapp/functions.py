@@ -661,6 +661,78 @@ def checkTopology():
     return CHECK_APP
 
 
+def modifyMYSQL():
+
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    # Modify innodb_buffer_pool_size for Demo
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    cmdTopo = '''   
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "🚀 Modify innodb_buffer_pool_size for Demo"
+    echo "----------------------------------------------------------------------------------------------------------"
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+    echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+    echo "    LOGIN: $LOGIN"
+
+    export MYSQL_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name%3Dmysql&_filter=entityTypes%3Ddeployment&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+    echo $MYSQL_ID
+
+    export result=$(curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$MYSQL_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d '{"innodb_buffer_pool_size": "1GB"}')
+    echo $result
+    '''
+ 
+    print ('')
+    print ('-------------------------------------------------------------------------------------------------')
+    print ('   🚀 Modify innodb_buffer_pool_size for Demo')
+    print ('-------------------------------------------------------------------------------------------------')
+    stream = os.popen(cmdTopo)
+    RES = stream.read().strip()
+    print ('           DONE:              '+RES)
+
+
+
+def resetMYSQL():
+
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    # Reset innodb_buffer_pool_size for Demo
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    cmdTopo = '''   
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "🚀 Reset innodb_buffer_pool_size for Demo"
+    echo "----------------------------------------------------------------------------------------------------------"
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+    echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+    echo "    LOGIN: $LOGIN"
+
+    export MYSQL_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name%3Dmysql&_filter=entityTypes%3Ddeployment&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+    echo $MYSQL_ID
+
+    export result=$(curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$MYSQL_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d '{"innodb_buffer_pool_size": "8GB"}')
+    echo $result
+    '''
+ 
+    print ('')
+    print ('-------------------------------------------------------------------------------------------------')
+    print ('   🚀 Reset innodb_buffer_pool_size for Demo')
+    print ('-------------------------------------------------------------------------------------------------')
+    stream = os.popen(cmdTopo)
+    RES = stream.read().strip()
+    print ('           DONE:              '+RES)
+
+
+
 
 
 

@@ -1082,6 +1082,7 @@ def injectAllREST(request):
         # injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
         # injectMetricsMem(METRIC_ROUTE,METRIC_TOKEN)
         # injectLogs(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
+        modifyMYSQL()
 
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
@@ -1193,6 +1194,7 @@ def injectRESTHeadless(request):
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        modifyMYSQL()
 
         print('  🟠 Start THREADS')
         threadEvents.start()
@@ -1295,6 +1297,7 @@ def injectRESTHeadless(request):
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+        modifyMYSQL()
 
         print('  🟠 Start THREADS')
         threadEvents.start()
@@ -1368,6 +1371,7 @@ def injectRESTHeadless(request):
         threadMitigateIssues = Thread(target=mitigateIssues, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadCloseAlerts = Thread(target=closeAlerts, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadCloseStories = Thread(target=closeStories, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        resetMYSQL()
 
         print('  🟠 Start THREADS')
         # start the threads
@@ -1971,6 +1975,7 @@ def clearAllREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
 
+        resetMYSQL()
 
 
         # closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
@@ -2058,6 +2063,8 @@ def clearEventsREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
         closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
+        resetMYSQL()
+
     else:
         template = loader.get_template('demouiapp/loginui.html')
 
@@ -2113,6 +2120,7 @@ def clearStoriesREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
         closeStories(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
+        resetMYSQL()
     else:
         template = loader.get_template('demouiapp/loginui.html')
         INCIDENT_ACTIVE=False

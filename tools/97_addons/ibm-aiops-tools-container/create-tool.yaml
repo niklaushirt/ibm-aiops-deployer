@@ -16,7 +16,7 @@ spec:
         app: ibm-aiops-tools
     spec:
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-tools:2.0
+      - image: quay.io/niklaushirt/ibm-aiops-tools:2.1
         imagePullPolicy: IfNotPresent
         name: tools
         command:
