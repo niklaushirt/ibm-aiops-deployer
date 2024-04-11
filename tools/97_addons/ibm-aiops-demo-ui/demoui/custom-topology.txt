@@ -4,5 +4,4 @@ V:{"_operation": "InsertUpdate", "app":"test" ,"uniqueId": "test03-id", "fromFil
 E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
 E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
 E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
-E:{"_fromUniqueId":"dcwest1-switch025","_toUniqueId":"RCHMDRE01[ Port 10/1/1 ]","_edgeType":"connectedTo", "fromFile":"true"}
 

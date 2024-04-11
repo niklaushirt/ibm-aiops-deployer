@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: license
-          image: quayniklaushirt/ibm-aiops-tools:2.0
+          image: quayniklaushirt/ibm-aiops-tools:2.1
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
