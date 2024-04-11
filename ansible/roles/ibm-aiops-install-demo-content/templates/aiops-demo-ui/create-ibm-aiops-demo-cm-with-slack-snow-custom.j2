@@ -127,6 +127,10 @@ spec:
                   #DATALAYER_ROUTE_OVERRIDE: "aiops-ir-core-ncodl-api.ibm-aiops:10011"
                   #METRIC_ROUTE_OVERRIDE: "ibm-nginx-svc.ibm-aiops:443"
 
+                  ROBOTSHOP_PROPERTY_RESOURCE_NAME: 'mysql'
+                  ROBOTSHOP_PROPERTY_RESOURCE_TYPE: 'deployment'
+                  ROBOTSHOP_PROPERTY_VALUES_NOK: '{"innodb_buffer_pool_size": "1GB","last_change_by": "Niklaus Hirt"}'
+                  ROBOTSHOP_PROPERTY_VALUES_OK: '{"innodb_buffer_pool_size": "8GB","last_change_by": "Scott James"}'
 
 
               EOF
@@ -548,3 +552,7 @@ data:
     E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
     E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
     E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+  CUSTOM_PROPERTY_RESOURCE_NAME: 'test01'
+  CUSTOM_PROPERTY_RESOURCE_TYPE: 'device'
+  CUSTOM_PROPERTY_VALUES_NOK: '{"test1": "NOK","test2": "NOK","test3": "NOK"}'
+  CUSTOM_PROPERTY_VALUES_OK: '{"test1": "OK","test2": "OK","test3": "OK"}'

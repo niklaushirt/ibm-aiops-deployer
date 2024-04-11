@@ -661,6 +661,11 @@ print ('🟣           📈 METRICS_TO_SIMULATE_FAN_TEMP:   '+str(len(METRICS_TO
 print ('🟣           📈 METRICS_TO_SIMULATE_FAN:        '+str(len(METRICS_TO_SIMULATE_FAN)))
 print ('🟣           📈 METRICS_TO_SIMULATE_NET:        '+str(len(METRICS_TO_SIMULATE_NET)))
 print ('🟣')
+print ('🟣           📈 ROBOTSHOP_PROPERTY_RESOURCE_NAME:  '+str(ROBOTSHOP_PROPERTY_RESOURCE_NAME))
+print ('🟣           📈 ROBOTSHOP_PROPERTY_RESOURCE_TYPE:  '+str(ROBOTSHOP_PROPERTY_RESOURCE_TYPE))
+print ('🟣           📈 ROBOTSHOP_PROPERTY_VALUES_NOK:     '+str(ROBOTSHOP_PROPERTY_VALUES_NOK))
+print ('🟣           📈 ROBOTSHOP_PROPERTY_VALUES_OK:      '+str(ROBOTSHOP_PROPERTY_VALUES_OK))
+
 print ('🟣')
 print ('🟣           📥 URLs for static Slack and SNOW Integration (set to NONE if not needed): ')
 print ('🟣')
@@ -685,6 +690,10 @@ print ('🟣           📈 CUSTOM_LOGS:                    '+str(len(CUSTOM_LOG
 print ('🟣           📈 CUSTOM_TOPOLOGY_APP_NAME:       '+str(CUSTOM_TOPOLOGY_APP_NAME))
 print ('🟣           📈 CUSTOM_TOPOLOGY_TAG:            '+str(CUSTOM_TOPOLOGY_TAG))
 print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
+print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_NAME:  '+str(CUSTOM_PROPERTY_RESOURCE_NAME))
+print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_TYPE:  '+str(CUSTOM_PROPERTY_RESOURCE_TYPE))
+print ('🟣           📈 CUSTOM_PROPERTY_VALUES_NOK:     '+str(CUSTOM_PROPERTY_VALUES_NOK))
+print ('🟣           📈 CUSTOM_PROPERTY_VALUES_OK:      '+str(CUSTOM_PROPERTY_VALUES_OK))
 print ('🟣')
 print ('🟣')
 print ('🟣    ---------------------------------------------------------------------------------------------')
@@ -766,7 +775,7 @@ def addExternalLinksToIncident(request):
         #print ('aaaa'+responseStr)
         print ('    ---------------------------------------------------------------------------------------------')
         print ('    Checking Incidents')
-        print ('    ---------------------------------------------------------------------------------------------')
+        print ('    ---------------------------------------------------------------------------------------------'  )
         for i in responseJSON.get('stories'):
             if 'assignedToIndividual' in i['state']:
                 print(i['title'])
@@ -1109,7 +1118,13 @@ def injectAllREST(request):
 
         INCIDENT_ACTIVE=True
         ROBOT_SHOP_OUTAGE_ACTIVE=True
-        modifyMYSQL()
+
+
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -1208,7 +1223,11 @@ def injectRESTHeadless(request):
         addExternalLinksToIncident(request)
         INCIDENT_ACTIVE=True
         ROBOT_SHOP_OUTAGE_ACTIVE=True
-        modifyMYSQL()
+        
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
 
 
     elif currentapp=='sockshop':
@@ -1361,7 +1380,11 @@ def injectRESTHeadless(request):
 
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
         threadLinks.start()
-        modifyMYSQL()
+
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
 
 
 
@@ -1371,7 +1394,16 @@ def injectRESTHeadless(request):
         threadMitigateIssues = Thread(target=mitigateIssues, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadCloseAlerts = Thread(target=closeAlerts, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadCloseStories = Thread(target=closeStories, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
-        resetMYSQL()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+        if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
+            print('  🟠 Create THREADS CUSTOM_PROPS')
+            threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
+            print('  🟠 Start THREADS CUSTOM_PROPS')
+            threadLogs.start()
+
 
         print('  🟠 Start THREADS')
         # start the threads
@@ -1895,6 +1927,12 @@ def injectCUSTOM(request):
         print ('🟣           📈 CUSTOM_LOGS:                    '+str(len(CUSTOM_LOGS)))
         print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
 
+
+        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_NAME:    '+str(len(CUSTOM_PROPERTY_RESOURCE_NAME)))
+        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_TYPE:    '+str(len(CUSTOM_PROPERTY_RESOURCE_TYPE)))
+        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_NOK:     '+str(len(CUSTOM_PROPERTY_VALUES_NOK)))
+        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_OK:      '+str(len(CUSTOM_PROPERTY_VALUES_OK)))
+
         if len(CUSTOM_EVENTS)>0:
             print('  🟠 Create THREADS CUSTOM_EVENTS')
             threadEvents = Thread(target=injectEventsCUSTOM, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
@@ -1913,6 +1951,11 @@ def injectCUSTOM(request):
             print('  🟠 Start THREADS CUSTOM_LOGS')
             threadLogs.start()
 
+        if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
+            print('  🟠 Create THREADS CUSTOM_PROPS')
+            threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_NOK,))
+            print('  🟠 Start THREADS CUSTOM_PROPS')
+            threadLogs.start()
 
         
 
@@ -1999,7 +2042,16 @@ def clearAllREST(request):
         INCIDENT_ACTIVE=False
         ROBOT_SHOP_OUTAGE_ACTIVE=False
         SOCK_SHOP_OUTAGE_ACTIVE=False
-        resetMYSQL()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+        if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
+            print('  🟠 Create THREADS CUSTOM_PROPS')
+            threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
+            print('  🟠 Start THREADS CUSTOM_PROPS')
+            threadLogs.start()
+
 
 
     else:
@@ -2063,7 +2115,15 @@ def clearEventsREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
         closeAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
-        resetMYSQL()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+        if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
+            print('  🟠 Create THREADS CUSTOM_PROPS')
+            threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
+            print('  🟠 Start THREADS CUSTOM_PROPS')
+            threadLogs.start()
 
     else:
         template = loader.get_template('demouiapp/loginui.html')
@@ -2120,7 +2180,16 @@ def clearStoriesREST(request):
     if loggedin=='true':
         template = loader.get_template('demouiapp/home.html')
         closeStories(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
-        resetMYSQL()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+        if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
+            print('  🟠 Create THREADS CUSTOM_PROPS')
+            threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
+            print('  🟠 Start THREADS CUSTOM_PROPS')
+            threadLogs.start()
+
     else:
         template = loader.get_template('demouiapp/loginui.html')
         INCIDENT_ACTIVE=False

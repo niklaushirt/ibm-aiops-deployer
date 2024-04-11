@@ -65,6 +65,13 @@ METRICS_TO_SIMULATE_FAN_TEMP=str(os.environ.get('METRICS_TO_SIMULATE_FAN_TEMP'))
 METRICS_TO_SIMULATE_FAN=str(os.environ.get('METRICS_TO_SIMULATE_FAN')).split(';')
 METRICS_TO_SIMULATE_NET=str(os.environ.get('METRICS_TO_SIMULATE_NET')).split(';')
 
+ROBOTSHOP_PROPERTY_RESOURCE_NAME=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_NAME','mysql')
+ROBOTSHOP_PROPERTY_RESOURCE_TYPE=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_TYPE','deployment')
+ROBOTSHOP_PROPERTY_VALUES_NOK=os.environ.get('ROBOTSHOP_PROPERTY_VALUES_NOK','{"innodb_buffer_pool_size": "8GB","last_change_by": "Niklaus Hirt"}')
+ROBOTSHOP_PROPERTY_VALUES_OK=os.environ.get('ROBOTSHOP_PROPERTY_VALUES_OK','{"innodb_buffer_pool_size": "8GB","last_change_by": "Scott James"}')
+
+
+
 #ACME
 METRICS_TO_SIMULATE_FAN_TEMP_ACME=str(os.environ.get('METRICS_TO_SIMULATE_FAN_TEMP_ACME')).split(';')
 METRICS_TO_SIMULATE_FAN_ACME=str(os.environ.get('METRICS_TO_SIMULATE_FAN_ACME')).split(';')
@@ -87,6 +94,12 @@ CUSTOM_TOPOLOGY=os.environ.get('CUSTOM_TOPOLOGY','')
 CUSTOM_TOPOLOGY_TAG=os.environ.get('CUSTOM_TOPOLOGY_TAG','')
 CUSTOM_TOPOLOGY_APP_NAME=os.environ.get('CUSTOM_TOPOLOGY_APP_NAME','')
 CUSTOM_TOPOLOGY_FORCE_RELOAD=os.environ.get('CUSTOM_TOPOLOGY_FORCE_RELOAD','False')
+
+CUSTOM_PROPERTY_RESOURCE_NAME=os.environ.get('CUSTOM_PROPERTY_RESOURCE_NAME','')
+CUSTOM_PROPERTY_RESOURCE_TYPE=os.environ.get('CUSTOM_PROPERTY_RESOURCE_TYPE','')
+CUSTOM_PROPERTY_VALUES_NOK=os.environ.get('CUSTOM_PROPERTY_VALUES_NOK','')
+CUSTOM_PROPERTY_VALUES_OK=os.environ.get('CUSTOM_PROPERTY_VALUES_OK','')
+
 
 
 
@@ -580,8 +593,8 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
                 elements=line.split(',')
                 #print('     ❓ line' + str(elements))
 
-                MY_RESOURCE_ID=elements[0]
-                #print (MY_RESOURCE_ID)
+                MY_RESOURCE_NAME=elements[0]
+                #print (MY_RESOURCE_NAME)
                 MY_METRIC_NAME=elements[1]
 
                 MY_GROUP_ID=elements[2]
@@ -594,12 +607,12 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
                 else:
                     CURRENT_VALUE = str(random.randint(int(MY_FIX_VALUE), int(MY_FIX_VALUE)+int(MY_VARIATION)))
 
-                CURRENT_LINE='{"timestamp":"'+MY_TIMESTAMP+'","resourceID":"'+MY_RESOURCE_ID+'","metrics":{"'+MY_METRIC_NAME+'":'+CURRENT_VALUE+'},"attributes":{"group":"'+MY_GROUP_ID+'","node":"'+MY_RESOURCE_ID+'"} },'
+                CURRENT_LINE='{"timestamp":"'+MY_TIMESTAMP+'","resourceID":"'+MY_RESOURCE_NAME+'","metrics":{"'+MY_METRIC_NAME+'":'+CURRENT_VALUE+'},"attributes":{"group":"'+MY_GROUP_ID+'","node":"'+MY_RESOURCE_NAME+'"} },'
 
                 output_json=output_json+CURRENT_LINE
 
 
-        LAST_LINE='{"timestamp":"'+MY_TIMESTAMP+'","resourceID":"'+MY_RESOURCE_ID+'","metrics":{"'+MY_METRIC_NAME+'":'+CURRENT_VALUE+'},"attributes":{"group":"'+MY_GROUP_ID+'","node":"'+MY_RESOURCE_ID+'"} }'
+        LAST_LINE='{"timestamp":"'+MY_TIMESTAMP+'","resourceID":"'+MY_RESOURCE_NAME+'","metrics":{"'+MY_METRIC_NAME+'":'+CURRENT_VALUE+'},"attributes":{"group":"'+MY_GROUP_ID+'","node":"'+MY_RESOURCE_NAME+'"} }'
         output_json=output_json+LAST_LINE
         output_json=output_json+']}'
         #print (output_json)
@@ -660,6 +673,37 @@ def checkTopology():
 
     return CHECK_APP
 
+def modifyProperty(RESOURCE_NAME,RESOURCE_TYPE,VALUES,):
+
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    # Modify innodb_buffer_pool_size for Demo
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    cmdTopo = '''   
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "🚀 Modify ''' + RESOURCE_NAME + ''' for Demo"
+    echo "----------------------------------------------------------------------------------------------------------"
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+    echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+    echo "    LOGIN: $LOGIN"
+
+    export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name%3D''' + RESOURCE_NAME + '''&_filter=entityTypes%3D''' + RESOURCE_TYPE + '''&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+    echo $OBJ_ID
+    echo "    OBJ_ID: $OBJ_ID"
+
+    export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d ' ''' + VALUES + ''' ')
+    echo "    result: $result"
+    '''
+
+    stream = os.popen(cmdTopo)
+    RES = stream.read().strip()
+    print ('           DONE:              '+RES)
+
 
 def modifyMYSQL():
 
@@ -686,7 +730,7 @@ def modifyMYSQL():
     export result=$(curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$MYSQL_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d '{"innodb_buffer_pool_size": "1GB"}')
     echo $result
     '''
- 
+    
     print ('')
     print ('-------------------------------------------------------------------------------------------------')
     print ('   🚀 Modify innodb_buffer_pool_size for Demo')
