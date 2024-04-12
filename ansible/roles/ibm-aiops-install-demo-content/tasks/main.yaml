@@ -442,12 +442,19 @@
 
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# CREATE CUSTOM VIEWS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (045/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Custom Views for Alerts
+  include_tasks: 72_ibm-aiops-create-custom-views.yaml
+
+
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # CREATE DEMO UI APP
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (045/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install the Demo UI
+- name: (046/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install the Demo UI
   include_tasks: 26_ibm-aiops-demo-ui.yaml
   when: current_ibmaiops_feature.install_demo_ui == true
 
@@ -467,7 +474,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ENABLE LAGS TRAINING
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (046/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable LAGS Training
+- name: (047/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable LAGS Training
   include_tasks: 80_ibm-aiops-training-enable-lags-configuration.yaml
   when: current_ibmaiops_feature.training_enable_log_golden_signals | default(false) == true
 
@@ -475,11 +482,11 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # CREATE TOPOLOGY (redo hack)
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (046.1/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Templates
+- name: (047.1/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Templates
   include_tasks: 45_ibm-aiops-create-aiops-application-templates.yaml
   when: current_ibmaiops_feature.create_topology_templates == true
 
-- name: (046.2/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Application
+- name: (047.2/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Application
   include_tasks: 45_ibm-aiops-create-aiops-application.yaml
   when: current_ibmaiops_feature.create_topology_apps == true
 
@@ -488,7 +495,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Integrate OpenShift Login with OpenLDAP
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: (047/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
+- name: (048/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
   include_tasks: 90_integrate-ocp-openldap.yaml
   when: current_ibmaiops_feature.integrate_ocp_openldap | default(false) == true  
 
@@ -498,16 +505,16 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Openshift WebConsole Menu Item
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: (048/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Demo Menu Item
+- name: (049/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Demo Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-demo-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
-- name: (049/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+- name: (050/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
 # Update IBM AIOps Cards
-- name: (060/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards
+- name: (050/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
 
 
