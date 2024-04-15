@@ -235,7 +235,7 @@ data:
         training_run_training_metrics: true
 
         # Create Training for Seasonality and XinY
-        training_create_season_xiny: true
+        training_create_season_xiny: false
 
 
         # ---------------------------------------------------------------------
