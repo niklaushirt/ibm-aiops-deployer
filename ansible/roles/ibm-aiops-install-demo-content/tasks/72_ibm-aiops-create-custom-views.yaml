@@ -66,6 +66,9 @@
 
   register: output_string
   ignore_errors: true
+  args:
+    executable: /bin/bash
+
 - name: 🟣  OUTPUT
   debug:
     var: output_string.stdout_lines
