@@ -1,0 +1,16 @@
+ 0 - start time
+ 1 - duration
+ 2 - initiator type
+ 3 - cached type
+ 4 - encoded body size
+ 5 - decoded body size
+ 6 - transfer size
+ 7 - redirect time
+ 8 - app cache time
+ 9 - dns time
+10 - tcp time
+11 - ssl time
+12 - req time
+13 - res time
+14 - backend trace id
+15 - time to first byte

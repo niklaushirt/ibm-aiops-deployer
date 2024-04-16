@@ -13,6 +13,8 @@ curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPO
 
 
 
+curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPOST https://$ES_ROUTE/trainingstatus/_delete_by_query -d '{"query": {"match": {"name":"TemporalGrouping"}}}'
+curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPOST https://$ES_ROUTE/trainingsrunning/_delete_by_query -d '{"query": {"match": {"algorithmName":"Temporal_Grouping"}}}'
 
 
 
@@ -22,6 +24,7 @@ curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPO
 
 
 
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X GET -E trainingsrunning/_doc
 
 
 
