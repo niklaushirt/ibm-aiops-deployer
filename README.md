@@ -32,9 +32,8 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.12 and 4.14 on:**
+> **❗The installation has been tested on OpenShift 4.14 and 4.15 on:**
 > 
-> - OpenShift Cluster (VMware on IBM Cloud) - IPI
 > - OpenShift Cluster (VMware on IBM Cloud) - UPI
 > 
 > But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
@@ -62,16 +61,22 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 >  - **IBM AIOps**
 >  - **IBM AIOps Demo Content**  (optional)
 >     - **OpenLDAP** & Register with IBM AIOps
->     - **AWX** (Open Source Ansible Tower) with preloaded Playbooks and AIOps Runbooks
+>     - **Runbooks** AWX (Open Source Ansible Tower) with preloaded Playbooks and AIOps Runbooks
 >     - **AI Models** - Load and Train 
-> 	  - Load Training Data (LAD, SNOW, MET, TG) 
->       - Create Training Definitions (TG, LAD, CR, SI, MET. Turn off RSA) 
->       - Train Models (TG, LAD, CR, SI, MET) 
+> 	    - Load Training Data (LAGS, SNOW, MET, TG) 
+>       - Create Training Definitions (TG, LAGS, CR, SI, MET. Turn off RSA) 
+>       - Train Models (TG, LAGS, CR, SI, MET) 
 >     - **Topology**
->       - Demo Apps (RobotShop. SockShop)
->       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME, London Underground)
+>       - Live Demo Apps (RobotShop. SockShop)
+>       - Create IBM AIOps Topology and Applications (RobotShop. SockShop, ACME, London Underground, Telecom FiberCut)
 >		- Dedicated DemoUI that allows you to trigger different scenarios
+>		- Custom Icons (styling and dynamic)
+>     - **Configs**
+>		- Policies for Incident creation
+>		- Custom Alert View
+>
 >  - **Turbonomic**  (optional)
+>  - **Instana**  (optional)
 
 
 > #### ⚠️ **This method creates an in-cluster installation**
@@ -152,7 +157,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 	![K8s CNI](./doc/pics/roks05.png)
 
-1. Select your preferred Geograpy (I recommend Dallas or London)
+1. Select your preferred Geograpy
 
 
 1. Select the maximum end date that fits your needs (you can extend the duration once after creation)
@@ -161,9 +166,9 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
 1. Select Openshift Storage
 
-   - Storage OCS/ODF Size: **500GB** or Managed NFS **2TB**
+   - Storage OCS/ODF Size: **1TB** or Managed NFS **2TB**
 
-   - OpenShift Version: **4.14**
+   - OpenShift Version: **4.14** or **4.15**
 
   	![K8s CNI](./doc/pics/roks06.png)
 
@@ -258,6 +263,8 @@ This installation contains:
 >      - Load Overlay Topology
 >      - Create IBM AIOps Application
 >    - **Misc**
+>	   - Policies for Incident creation
+>	   - Custom Alert View
 > 	   - Creates valid certificate for Ingress (Slack) 
 > 	   - External Routes (Flink, Topology, ...)
 > 	   - Disables ASM Service match rule 
