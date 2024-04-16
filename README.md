@@ -74,8 +74,6 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 >     - **Configs**
 >		- Policies for Incident creation
 >		- Custom Alert View
->		- Custom Alert Viewe
->		- Custom Alert Viewe
 >
 >  - **Turbonomic**  (optional)
 >  - **Instana**  (optional)
@@ -265,6 +263,8 @@ This installation contains:
 >      - Load Overlay Topology
 >      - Create IBM AIOps Application
 >    - **Misc**
+>	   - Policies for Incident creation
+>	   - Custom Alert View
 > 	   - Creates valid certificate for Ingress (Slack) 
 > 	   - External Routes (Flink, Topology, ...)
 > 	   - Disables ASM Service match rule 
