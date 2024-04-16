@@ -26,7 +26,6 @@ export result=$(curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$MYSQL_ID
 echo $result
 
 
-
 if (asmProperties.name == "mysql" && asmProperties.innodb_buffer_pool_size){
   return asmProperties.namespace+'.'+asmProperties.name+' : '+asmProperties.innodb_buffer_pool_size;
 }
@@ -36,6 +35,20 @@ else
 }
 
 
+
+
+
+# Label function
+if (asmProperties.name == "mysql" && asmProperties.innodb_buffer_pool_size){
+  return asmProperties.name+' : '+asmProperties.innodb_buffer_pool_size;
+}
+else
+{
+  return asmProperties.name;
+}
+
+
+# Border color function
 if (asmProperties.name == "mysql" && asmProperties.innodb_buffer_pool_size != "8GB"){
   return '#882222';
 }
@@ -45,6 +58,8 @@ else
 }
 
 
+
+# Background color function
 
 
 if (asmProperties.name == "mysql" && asmProperties.innodb_buffer_pool_size != "8GB"){
