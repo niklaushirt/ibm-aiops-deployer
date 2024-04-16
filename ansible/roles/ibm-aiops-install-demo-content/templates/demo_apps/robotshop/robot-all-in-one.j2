@@ -662,21 +662,23 @@ spec:
           httpGet:
             path: /health
             port: 8080
-          initialDelaySeconds: 5
+          initialDelaySeconds: 50
           periodSeconds: 5
-          failureThreshold: 30
+          failureThreshold: 300
           successThreshold: 1
         livenessProbe:
           httpGet:
             path: /health
             port: 8080
             scheme: HTTP
-          initialDelaySeconds: 5
+          initialDelaySeconds: 50
           timeoutSeconds: 1
           periodSeconds: 5
           successThreshold: 1
-          failureThreshold: 3
-
+          failureThreshold: 300
+        env:
+          - name: JAVA_OPTS
+            value: '-Xmx1g'
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/user-deployment.yaml

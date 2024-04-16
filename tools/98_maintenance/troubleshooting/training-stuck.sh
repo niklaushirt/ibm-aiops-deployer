@@ -1,8 +1,91 @@
+export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
+
+export ES_ROUTE=`oc get route -n $WAIOPS_NAMESPACE iaf-system-es -o jsonpath={.spec.host}`
+export ES_USERNAME=$(oc exec -n $WAIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
+export ES_PASSWORD=$(oc exec -n $WAIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
+
+echo $ES_ROUTE
+echo $ES_USERNAME
+echo $ES_PASSWORD
+
+curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPOST https://$ES_ROUTE/trainingstatus/_delete_by_query -d '{"query": {"match": {"name":"MetricAnomaly"}}}'
+curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPOST https://$ES_ROUTE/trainingsrunning/_delete_by_query -d '{"query": {"match": {"algorithmName":"Metric_Anomaly_Detection"}}}'
+
+
+
+
+
+
+# curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPOST https://$ES_ROUTE/trainingdefinition/_delete_by_query -d '{"query": {"match": {"definitionName":"MetricAnomaly"}}}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+usr=$(cat "$ELASTIC_SECRET_PATH/username")
+pwd=$(cat "$ELASTIC_SECRET_PATH/password")
+
+endpoint="$ES_URL/trainingstatus/_delete_by_query"
+curl -XPOST -k -u $usr:$pwd $endpoint -H 'Content-Type: application/json' -d '
+{
+  "query": {
+    "match": {
+      "name":"MetricAnomaly"
+    }
+  }
+}'
+
+
+
+
+
+
+oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
+
+
+
+
 
 
 oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/MetricAnomaly
-oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingstatus/_doc/MetricAnomaly
-
 
 
 oc rsh -n $AIOPS_NAMESPACE $(oc get po -n ibm-aiops|grep aimanager-aio-ai-platform-api-server|awk '{print$1}') ./elastic.sh -X DELETE -E trainingdefinition/_doc/metric_anomaly_detection_configuration

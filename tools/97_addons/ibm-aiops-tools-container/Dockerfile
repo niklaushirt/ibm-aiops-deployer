@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
   curl \
   nano \
   unzip \
+  python3-kubernetes \
+  python3-openshift \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Openshift Client
@@ -44,3 +46,4 @@ COPY startup.sh /ibm-aiops/startup.sh
 RUN chmod +x /ibm-aiops/startup.sh
 
 ENTRYPOINT /ibm-aiops/startup.sh
+
