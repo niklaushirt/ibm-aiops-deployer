@@ -146,7 +146,7 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 100Gi
+              storage: 300Gi
       - name: instana-clickhouse-log-volume
         spec:
           storageClassName: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
@@ -154,7 +154,7 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 20Gi
+              storage: 50Gi
     serviceTemplates:
       - name: service-template
         generateName: "clickhouse-{chi}"

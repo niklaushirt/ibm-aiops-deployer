@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobile-simulator
+  namespace: robot-shop
+  labels:
+    app: mobile-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mobile-simulator
+  template:
+    metadata:
+      labels:
+        app: mobile-simulator
+    spec:
+      containers:
+      - name: mobile-simulator
+        image: docker.io/niklaushirt/eum-sim-mobile:1.0
+        imagePullPolicy: Always
+        env:
+          - name: INSTANA_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: REPORT_ENV
+            value: demoeu
+          - name: APIURL
+            value: https://dev-aiops.apps.CHANGEME.cloud.techzone.ibm.com
+          - name: APITOKEN
+            value: CHANGEME
+          - name: REPORTINGURL
+            value: https://eum.apps.CHANGEME.cloud.techzone.ibm.com/mobile
+          - name: REPORTINGKEY
+            value: CHANGEME
+        resources:
+          limits:
+            cpu: 200m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+#
+# export REPORT_ENV=demoeu
+#export APITOKEN=GHbJ4UMBSi6Y6MLZFzHioA
+
+# export REPORT_ENV=demoeu                     INT ✘  3s  09:45:25
+# export APIURL='https://dev-aiops.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com'
+# export APITOKEN=GHbJ4UMBSi6Y6MLZFzHioA
+# export REPORTINGURL='https://eum.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com/mobile'
+# export REPORTINGKEY=yjsmEMrvSwqyq3fcuWFmrw
+
+
+
+
+# export REPORT_ENV=demoeu
+# export APIURL='https://dev-aiops.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com'
+# export APITOKEN=GHbJ4UMBSi6Y6MLZFzHioA
+# export REPORTINGURL='https://eum.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com/mobile'
+# export REPORTINGKEY=yjsmEMrvSwqyq3fcuWFmrw
+
+
+#   const reportingTarget = config.reportingTargets[process.env.REPORT_ENV];
+#   const apitoken = config.reportingTargets[process.env.APITOKEN];  
+#   const apiserver = config.reportingTargets[process.env.APIURL];  
+#   const reportingURL = config.reportingTargets[process.env.REPORTINGURL];  
+#   const reportingKEY = config.reportingTargets[process.env.REPORTINGKEY];  
+
+
+
+# https://eum.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com/mobile': {
+#         keys: [process.env.REPORTINGKEY],
+#         playbook: 'warehouse',
+#         apiserver: 'https://dev-aiops.apps.661ce247548608001edc5f96.cloud.techzone.ibm.com',
+#         apitoken: process.env.APITOKEN,
+#         crashStartInterval: ['3:37:23'],
