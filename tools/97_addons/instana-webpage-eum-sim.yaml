@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eum-sim
+  name: instana-webpage-eum-sim
+  namespace: robot-shop
   labels:
-    app: eum-sim
+    app: instana-webpage-eum-sim
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eum-sim
+      app: instana-webpage-eum-sim
   template:
     metadata:
       labels:
-        app: eum-sim
+        app: instana-webpage-eum-sim
     spec:
       containers:
-      - name: eum-sim
+      - name: instana-webpage-eum-sim
         image: docker.io/niklaushirt/eum-sim:1.0
         env:
           - name: API_URL
@@ -59,11 +60,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eum-sim-service
+  name: instana-webpage-eum-sim-service
   namespace: robot-shop
 spec:
   selector:
-    app: eum-sim
+    app: instana-webpage-eum-sim
   ports:
     - protocol: TCP
       port: 8000
@@ -72,12 +73,12 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: eum-sim
+  name: instana-webpage-eum-sim
   namespace: robot-shop
 spec:
   to:
     kind: Service
-    name: eum-sim-service
+    name: instana-webpage-eum-sim-service
     weight: 100
   port:
     targetPort: 8000
