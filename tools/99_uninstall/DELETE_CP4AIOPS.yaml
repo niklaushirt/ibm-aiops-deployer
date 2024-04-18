@@ -196,6 +196,10 @@ spec:
               oc delete ns ibm-aiops
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🧻 Restart OLM Pod"
+              oc -n openshift-operator-lifecycle-manager delete $(oc get pods  -l app=catalog-operator -o NAME -n openshift-operator-lifecycle-manager)
+
+              echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🧻 Delete Namespace ibm-aiops-installer"
               oc delete ns ibm-aiops-installer &
               oc delete ClusterRoleBinding ibm-aiops-installer-default-admin &

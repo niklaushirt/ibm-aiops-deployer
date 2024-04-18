@@ -4,10 +4,12 @@ kind: Namespace
 metadata:
   name: robot-shop
 ---
+---
 # Source: robot-shop/templates/web-service.yaml
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
+  namespace: robot-shop
   name: web
 spec:
   to:
@@ -17,103 +19,8 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
+  namespace: robot-shop
   name: robotshop
-  namespace: robot-shop
-spec:
-  to:
-    kind: Service
-    name: web
-    weight: 100
-  port:
-    targetPort: http
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Allow
-  wildcardPolicy: None
----
-# Source: robot-shop/templates/clusterrolebinding.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: robot-shop-default
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: robot-shop
----
-# Source: robot-shop/templates/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: robot-shop
-  namespace: robot-shop
----
-# Source: robot-shop/templates/clusterrolebinding.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: robot-shop
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: robot-shop
-  namespace: robot-shop
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: default-robotinfo1-admin
-subjects:
-  - kind: ServiceAccount
-    name: robot-shop
-    namespace: robot-shop
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: default-robotinfo2-admin
-  uid: cf1d64dd-5270-49b9-82ea-e4bffabb586a
-subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: robot-shop
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: robot-shop
----
-# Source: robot-shop/templates/web-service.yaml
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: web
-spec:
-  to:
-    kind: Service
-    name: web
----
-kind: Route
-apiVersion: route.openshift.io/v1
-metadata:
-  name: robotshop
-  namespace: robot-shop
 spec:
   to:
     kind: Service
@@ -131,8 +38,8 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: robot-shop
   namespace: robot-shop
+  name: robot-shop
 ---
 # Source: robot-shop/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -147,13 +54,14 @@ subjects:
 - kind: ServiceAccount
   name: robot-shop
   namespace: robot-shop
+
 ---
 # Source: robot-shop/templates/cart-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: cart
   namespace: robot-shop
+  name: cart
 spec:
   ports:
   - name: http
@@ -166,11 +74,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
     app: robot-shop
     service: catalogue
   name: catalogue
-  namespace: robot-shop
 spec:
   ports:
   - name: http
@@ -185,8 +93,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dispatch
   namespace: robot-shop
+  name: dispatch
   labels:
     app: robot-shop
     service: dispatch
@@ -203,11 +111,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
     app: robot-shop
     service: mongodb
   name: mongodb
-  namespace: robot-shop
 spec:
   ports:
   - name: mongo
@@ -220,11 +128,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
     app: robot-shop
     service: mysql
   name: mysql
-  namespace: robot-shop
 spec:
   ports:
   - name: mysql
@@ -237,8 +145,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment
   namespace: robot-shop
+  name: payment
   labels:
     app: robot-shop
     service: payment
@@ -254,8 +162,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
   namespace: robot-shop
+  name: rabbitmq
   labels:
     app: robot-shop
     service: rabbitmq
@@ -277,8 +185,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ratings
   namespace: robot-shop
+  name: ratings
   labels:
     app: robot-shop
     service: ratings
@@ -294,11 +202,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
     app: robot-shop
     service: redis
   name: redis
-  namespace: robot-shop
 spec:
   ports:
   - name: redis
@@ -311,8 +219,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipping
   namespace: robot-shop
+  name: shipping
   labels:
     app: robot-shop
     service: shipping
@@ -328,8 +236,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user
   namespace: robot-shop
+  name: user
   labels:
     app: robot-shop
     service: user
@@ -345,8 +253,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
   namespace: robot-shop
+  name: web
   labels:
     app: robot-shop
     service: web
@@ -364,8 +272,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cart
   namespace: robot-shop
+  name: cart
   labels:
     app: robot-shop
     version: v1
@@ -410,8 +318,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalogue
   namespace: robot-shop
+  name: catalogue
   labels:
     app: robot-shop
     version: v1
@@ -458,8 +366,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dispatch
   namespace: robot-shop
+  name: dispatch
   labels:
     app: robot-shop
     version: v1
@@ -504,8 +412,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
   namespace: robot-shop
+  name: mongodb
   labels:
     app: robot-shop
     version: v1
@@ -546,8 +454,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
   namespace: robot-shop
+  name: mysql
   labels:
     app: robot-shop
     version: v1
@@ -592,8 +500,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment
   namespace: robot-shop
+  name: payment
   labels:
     app: robot-shop
     version: v1
@@ -643,8 +551,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
   namespace: robot-shop
+  name: rabbitmq
   labels:
     app: robot-shop
     version: v1
@@ -686,8 +594,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ratings
   namespace: robot-shop
+  name: ratings
   labels:
     app: robot-shop
     version: v2
@@ -742,8 +650,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shipping
   namespace: robot-shop
+  name: shipping
   labels:
     app: robot-shop
     version: v1
@@ -783,29 +691,31 @@ spec:
           httpGet:
             path: /health
             port: 8080
-          initialDelaySeconds: 5
+          initialDelaySeconds: 50
           periodSeconds: 5
-          failureThreshold: 30
+          failureThreshold: 300
           successThreshold: 1
         livenessProbe:
           httpGet:
             path: /health
             port: 8080
             scheme: HTTP
-          initialDelaySeconds: 5
+          initialDelaySeconds: 50
           timeoutSeconds: 1
           periodSeconds: 5
           successThreshold: 1
-          failureThreshold: 3
-
+          failureThreshold: 300
+        env:
+          - name: JAVA_OPTS
+            value: '-Xmx1g'
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/user-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user
   namespace: robot-shop
+  name: user
   labels:
     app: robot-shop
     version: v1
@@ -854,8 +764,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
   namespace: robot-shop
+  name: web
   labels:
     app: robot-shop
     version: v1
@@ -901,12 +811,12 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: robot-shop
   labels:
     app: robot-shop
     version: v1
     service: redis
   name: redis
-  namespace: robot-shop
 spec:
   replicas: 1
   selector:
@@ -951,62 +861,3 @@ spec:
         resources:
           requests:
             storage: 1Gi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: load
-  namespace: robot-shop
-  labels:
-    service: load
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: robot-shop
-      version: v1
-      service: load
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/inject: "true"
-      labels:
-        app: robot-shop
-        version: v1
-        service: load
-    spec:
-      containers:
-      - name: load
-        env:
-          - name: HOST
-            value: "http://web:8080/"
-          - name: NUM_CLIENTS
-            value: "15"
-          - name: SILENT
-            value: "1"
-          - name: ERROR
-            value: "0"
-        image: quay.io/niklaushirt/rs-load:1.0
-        resources:
-          limits:
-            cpu: 500m
-            memory: 500Mi
-          requests:
-            cpu: 100m
-            memory: 100Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: load
-  namespace: robot-shop
-spec:
-  ports:
-    - name: load
-      protocol: TCP
-      port: 80
-      targetPort: 80
-  selector:
-    service: load
-  type: ClusterIP
-  sessionAffinity: None
