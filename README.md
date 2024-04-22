@@ -1274,6 +1274,35 @@ A typical Vertex (Entity)
 
 </details>
 
+<details>
+<summary>📥 Logs</summary>
+
+### 6.1.5 Property Change
+
+Simulate change in an Topology Objects Propoerties.
+
+- `CUSTOM_PROPERTY_RESOURCE_NAME` : The Name of the resource to be affected 
+- `CUSTOM_PROPERTY_RESOURCE_TYPE` : The Type of the resource to be affected
+- `CUSTOM_PROPERTY_VALUES_NOK` : The values to be added/created when the Incident is being simulated
+- `CUSTOM_PROPERTY_VALUES_OK` : The values to be added/created when the Incident is being mitigaged
+
+
+
+#### 🛠️ Format
+
+A typical Entry
+
+```yaml
+  CUSTOM_PROPERTY_RESOURCE_NAME: 'test01'
+  CUSTOM_PROPERTY_RESOURCE_TYPE: 'device'
+  CUSTOM_PROPERTY_VALUES_NOK: '{"test1": "NOK","test2": "NOK","test3": "NOK"}'
+  CUSTOM_PROPERTY_VALUES_OK: '{"test1": "OK","test2": "OK","test3": "OK"}'
+}
+
+```
+         
+
+</details>
 
 
 ## 6.2 📥 Example
@@ -1292,21 +1321,32 @@ metadata:
   name: ibm-aiops-demo-ui-config-custom
   namespace: ibm-aiops-demo-ui
 data:
+  CUSTOM_NAME: 'Custom Demo'
   CUSTOM_EVENTS: |-
     { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test01", "severity": 6, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test01", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
     { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test02", "severity": 5, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test02", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
     { "id": "1a2a6787-59ad-4acd-bd0d-000000000000", "occurrenceTime": "MY_TIMESTAMP", "summary": "Summary - Problem test03", "severity": 4, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 6000000, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "host", "name": "test03", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}
-  CUSTOM_LOGS: '{"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},'
-  CUSTOM_METRICS: |-
+  CUSTOM_METRICS:  |- 
     test10,DemoMetric1,DemoGroup1,0,1;
     test11,DemoMetric2,DemoGroup2,50,25
-  CUSTOM_NAME: Custom Demo
+  CUSTOM_LOGS:  |- 
+    {"timestamp": MY_EPOCH,"utc_timestamp": "MY_TIMESTAMP", "features": [], "meta_features": [],"instance_id": "test20","application_group_id": "1000","application_id": "1000","level": 1,"message": "Demo Log Message","entities": {"pod": "test20","cluster": null,"container": "test20","node": "test21"},"type": "StandardLog"},
+  CUSTOM_TOPOLOGY_FORCE_RELOAD: 'False'
   CUSTOM_TOPOLOGY_APP_NAME: 'Custom Demo Application'
   CUSTOM_TOPOLOGY_TAG: 'app:custom-app'
   CUSTOM_TOPOLOGY:  |- 
-    V:{"uniqueId": "test01-id", "name": "Deployment1", "entityTypes": ["deployment"], "tags":["tag1","app:custom-app"],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": [{"_toUniqueId":"test02-id","_edgeType":"connectedTo"}, {"_toUniqueId":"test03-id","_edgeType":"connectedTo"}]}
-    V:{"uniqueId": "test02-id", "name": "VM1", "entityTypes": ["vm"], "tags":["tag1","app:custom-app"],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": [{"_toUniqueId":"test03-id","_edgeType":"connectedTo"}]}
-    V:{"uniqueId": "test03-id", "name": "Database1", "entityTypes": ["database"], "tags":["tag1","app:custom-app"],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}```
+    V:{"uniqueId": "test01-id", "name": "Deployment1", "entityTypes": ["deployment"], "tags":["tag1","app:custom-app"],"matchTokens":["test01","test01-id"],"mergeTokens":["test01","test01-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+    V:{"uniqueId": "test02-id", "name": "VM1", "entityTypes": ["vm"], "tags":["tag1","app:custom-app"],"matchTokens":["test02","test02-id"],"mergeTokens":["test02","test02-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+    V:{"uniqueId": "test03-id", "name": "Database1", "entityTypes": ["database"], "tags":["tag1","app:custom-app"],"matchTokens":["test03","test03-id"],"mergeTokens":["test03","test03-id"], "city":"Richmond", "area": "Broad Meadows", "geolocation": { "geometry": { "coordinates": [-77.56121810464228, 37.64360674606608],"type": "Point"}},"_operation": "InsertUpdate", "app":"test", "fromFile":"true", "_references": []}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test02-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test01-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+    E:{"_fromUniqueId":"test02-id","_toUniqueId":"test03-id","_edgeType":"connectedTo", "fromFile":"true"}
+  CUSTOM_PROPERTY_RESOURCE_NAME: 'test01'
+  CUSTOM_PROPERTY_RESOURCE_TYPE: 'device'
+  CUSTOM_PROPERTY_VALUES_NOK: '{"test1": "NOK","test2": "NOK","test3": "NOK"}'
+  CUSTOM_PROPERTY_VALUES_OK: '{"test1": "OK","test2": "OK","test3": "OK"}'
+
+```
 
 
 
