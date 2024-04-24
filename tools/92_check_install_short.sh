@@ -194,7 +194,7 @@ function check_array(){
 
 
       export PODS_COUNT=$(oc get pods -n $AIOPS_NAMESPACE | grep -v "Completed"| grep "Running" | grep -c "")
-      if  ([[ $ERROR_PODS_COUNT -lt 125 ]]); 
+      if  ([[ $PODS_COUNT -lt 125 ]]); 
       then 
             echo "       ❗ FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"; 
 
