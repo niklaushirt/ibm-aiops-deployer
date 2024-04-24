@@ -1928,10 +1928,10 @@ def injectCUSTOM(request):
         print ('🟣           📈 CUSTOM_TOPOLOGY:                '+str(len(CUSTOM_TOPOLOGY)))
 
 
-        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_NAME:    '+str(len(CUSTOM_PROPERTY_RESOURCE_NAME)))
-        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_TYPE:    '+str(len(CUSTOM_PROPERTY_RESOURCE_TYPE)))
-        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_NOK:     '+str(len(CUSTOM_PROPERTY_VALUES_NOK)))
-        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_OK:      '+str(len(CUSTOM_PROPERTY_VALUES_OK)))
+        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_NAME:    '+str(CUSTOM_PROPERTY_RESOURCE_NAME))
+        print ('🟣           📈 CUSTOM_PROPERTY_RESOURCE_TYPE:    '+str(CUSTOM_PROPERTY_RESOURCE_TYPE))
+        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_NOK:     '+str(CUSTOM_PROPERTY_VALUES_NOK))
+        print ('🟣           📈 CUSTOM_PROPERTY_VALUES_OK:      '+str(CUSTOM_PROPERTY_VALUES_OK))
 
         if len(CUSTOM_EVENTS)>0:
             print('  🟠 Create THREADS CUSTOM_EVENTS')
@@ -2042,10 +2042,11 @@ def clearAllREST(request):
         INCIDENT_ACTIVE=False
         ROBOT_SHOP_OUTAGE_ACTIVE=False
         SOCK_SHOP_OUTAGE_ACTIVE=False
-        print('  🟠 Create THREADS CUSTOM_PROPS')
+        print('  🟠 Create THREADS ROBOTSHOP_PROPS')
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
-        print('  🟠 Start THREADS CUSTOM_PROPS')
+        print('  🟠 Start THREADS ROBOTSHOP_PROPS')
         threadLogs.start()
+        time.sleep(5)
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
@@ -2096,10 +2097,7 @@ def clearAllREST(request):
         'PAGE_NAME': 'index'
 
 
-        
-
-
-
+    
     }
     return HttpResponse(template.render(context, request))
 
