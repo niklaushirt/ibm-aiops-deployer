@@ -53,9 +53,13 @@
     export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
     export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
+    export LOGIN_TOKEN=$(echo -n $LOGIN|base64)
+    export TOPO_MGT_HOST=$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
 
-    echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
-    echo "    LOGIN: $LOGIN"
+    echo "    HOST:         $TOPO_MGT_HOST"
+    echo "    URL:          $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+    echo "    LOGIN:        $LOGIN"
+    echo "    LOGIN_TOKEN:  $LOGIN_TOKEN"
 
     # kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/backup_ui_config -out backup.json
     # kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
@@ -86,6 +90,7 @@
 
 
 
+
     echo "Upload Topology Customization"
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
@@ -94,7 +99,13 @@
     else
           TOPOLOGY_CUSTOM_FILE="{{role_path}}/templates/topology/asm_config.json"
     fi    
-    kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
+
+    cp $TOPOLOGY_CUSTOM_FILE /tmp/asm_config.json
+    ${SED} -i -e "s/MY_TOPO_URL/$TOPO_MGT_HOST/g" /tmp/asm_config.json
+    ${SED} -i -e "s/MY_TOKEN/$LOGIN_TOKEN/g" /tmp/asm_config.json
+
+
+    kubectl cp /tmp/asm_config.json -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
     
     sleep 30 
 

@@ -9,7 +9,7 @@
       "validForTypes": [
          "*"
       ],
-      "script": "var name = prompt(\"property name\", \"name\");\nvar value = prompt(\"property value\", \"value\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic base64TOKEN'==\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"' + name + '\": \"' + value + '\"}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://asm-develop-svt.fyre.ibm.com/1.0/topology/resources/' + asmProperties._fromId + '/references/out/' + asmProperties._edgeType + '/' + asmProperties._toId, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"normal\", \"Resource updated.\")\n}\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
+      "script": "var name = prompt(\"property name\", \"name\");\nvar value = prompt(\"property value\", \"value\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic MY_TOKEN\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"' + name + '\": \"' + value + '\"}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://MY_TOPO_URL/1.0/topology/resources/' + asmProperties._fromId + '/references/out/' + asmProperties._edgeType + '/' + asmProperties._toId, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"normal\", \"Resource updated.\")\n}\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
       "menuLabel": "Add Vertex Property",
       "tags": [
          "ASM_UI_CONFIG"
@@ -27,7 +27,7 @@
       "validForTypes": [
          "*"
       ],
-      "script": "var name = prompt(\"property name\", \"name\");\nvar value = prompt(\"property value\", \"value\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic base64TOKEN'==\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"' + name + '\": \"' + value + '\"}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://asm-develop-svt.fyre.ibm.com/1.0/topology/resources/' + asmProperties._id, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"normal\", \"Resource updated.\")\n}\n\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
+      "script": "var name = prompt(\"property name\", \"name\");\nvar value = prompt(\"property value\", \"value\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic MY_TOKEN\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"' + name + '\": \"' + value + '\"}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://MY_TOPO_URL/1.0/topology/resources/' + asmProperties._id, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"normal\", \"Resource updated.\")\n}\n\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
       "menuLabel": "Add Vertex Property",
       "tags": [
          "ASM_UI_CONFIG"
@@ -45,7 +45,7 @@
       "validForTypes": [
          "*"
       ],
-      "script": "var options = {\n    method: 'DELETE',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic base64TOKEN'==\",\n        \"Content-type\": \"application/json\"\n    },\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://asm-develop-svt.fyre.ibm.com/1.0/topology/resources/' + asmProperties._id, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"Information\", \"Resource '\" + asmProperties.name + \"' deleted.\")\n}\n\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
+      "script": "var options = {\n    method: 'DELETE',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic MY_TOKEN\",\n        \"Content-type\": \"application/json\"\n    },\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://MY_TOPO_URL/1.0/topology/resources/' + asmProperties._id, options);\n\nfunction _onSuccess(response, status, headers) {\n  asmFunctions.showToasterMessage(\"Information\", \"Resource '\" + asmProperties.name + \"' deleted.\")\n}\n\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
       "menuLabel": "Delete Vertex",
       "tags": [
          "ASM_UI_CONFIG"
@@ -63,7 +63,7 @@
       "validForTypes": [
          "*"
       ],
-      "script": "var name = prompt(\"Name\", \"name\");\nvar type = prompt(\"Type\", \"host\");\nvar edgeType = prompt(\"Edge type\", \"connectedTo\");\nvar toOrFrom = prompt(\"Edge 'to' or 'from' the selected node?\", \"to\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic base64TOKEN'==\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"name\":\"' + name + '\", \"entityTypes\": [\"' + type + '\"], \"_references\":[{\"_' + toOrFrom + 'Id\": \"' + asmProperties._id +'\",\"_edgeType\": \"' + edgeType + '\"}]}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://asm-develop-svt.fyre.ibm.com/1.0/topology/resources', options);\n\n\nfunction _onSuccess(response, status, headers) {\n    asmFunctions.showToasterMessage('information', status + ': Created resource ' + headers.entityid);\n}\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
+      "script": "var name = prompt(\"Name\", \"name\");\nvar type = prompt(\"Type\", \"host\");\nvar edgeType = prompt(\"Edge type\", \"connectedTo\");\nvar toOrFrom = prompt(\"Edge 'to' or 'from' the selected node?\", \"to\");\nvar options = {\n    method: 'POST',\n    headers: {\n        \"X-TenantID\": \"cfd95b7e-3bc7-4006-a4a8-a73a79c71255\",\n        \"Authorization\": \"Basic MY_TOKEN\",\n        \"Content-type\": \"application/json\"\n    },\n    body: '{ \"name\":\"' + name + '\", \"entityTypes\": [\"' + type + '\"], \"_references\":[{\"_' + toOrFrom + 'Id\": \"' + asmProperties._id +'\",\"_edgeType\": \"' + edgeType + '\"}]}',\n    onSuccess: _onSuccess,\n    onError: _onError\n};\nasmFunctions.sendHttpRequest('https://MY_TOPO_URL/1.0/topology/resources', options);\n\n\nfunction _onSuccess(response, status, headers) {\n    asmFunctions.showToasterMessage('information', status + ': Created resource ' + headers.entityid);\n}\nfunction _onError(response, status, headers) {\n  var msg = JSON.parse(response);\n  asmFunctions.showToasterMessage(\"critical\", msg._error.description );\n}",
       "menuLabel": "Add Vertex",
       "tags": [
          "ASM_UI_CONFIG"
@@ -82,7 +82,7 @@
          "image",
          "network"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/\", \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/\", \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer",
       "tags": [
          "ASM_UI_CONFIG"
@@ -99,7 +99,7 @@
       "validForTypes": [
          "container"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/console\", \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/console\", \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Launch Console",
       "tags": [
          "ASM_UI_CONFIG"
@@ -116,7 +116,7 @@
       "validForTypes": [
          "container"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/stats\", \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId + \"/stats\", \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer Stats",
       "tags": [
          "ASM_UI_CONFIG"
@@ -133,7 +133,7 @@
       "validForTypes": [
          "application"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + \"nodes/\" + asmProperties.uniqueId + \"/\", \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + \"nodes/\" + asmProperties.uniqueId + \"/\", \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer",
       "tags": [
          "ASM_UI_CONFIG"
@@ -150,7 +150,7 @@
       "validForTypes": [
          "service"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"/\" + asmProperties.dockerId + \"/\", \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"/\" + asmProperties.dockerId + \"/\", \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer",
       "tags": [
          "ASM_UI_CONFIG"
@@ -168,7 +168,7 @@
          "container",
          "volume"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId, \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"s/\" + asmProperties.dockerId, \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer",
       "tags": [
          "ASM_UI_CONFIG"
@@ -185,11 +185,25 @@
       "validForTypes": [
          "task"
       ],
-      "script": "var portainerUrl = \"http://asm-develop-svt.fyre.ibm.com:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"/\" + asmProperties.dockerId, \"portainer\", \"width=1200,height=800\");",
+      "script": "var portainerUrl = \"http://MY_TOPO_URL:9000/#/\";\nwindow.open(portainerUrl + asmProperties.entityTypes[0] + \"/\" + asmProperties.dockerId, \"portainer\", \"width=1200,height=800\");",
       "menuLabel": "Portainer",
       "tags": [
          "ASM_UI_CONFIG"
       ]
+   },
+   {
+      "entityTypes": [
+         "ASM_UI_GLOBAL_SETTINGS"
+      ],
+      "uniqueId": "globalSettings",
+      "trustedSites": [
+         "asm-develop-svt.fyre.ibm.com",
+         "MY_TOPO_URL"
+      ],
+      "tags": [
+         "ASM_UI_CONFIG"
+      ]
    }
+
   
 ]
