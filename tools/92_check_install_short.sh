@@ -193,6 +193,41 @@ function check_array(){
 
 
 
+      export PODS_COUNT=$(oc get pods -n $AIOPS_NAMESPACE | grep -v "Completed"| grep "Running" | grep -c "")
+      if  ([[ $ERROR_PODS_COUNT -lt 125 ]]); 
+      then 
+            echo "       ❗ FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"; 
+
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-fatal
+spec:
+    backgroundColor: '#ff0000'
+    color: '#fff'
+    location: BannerTop
+    text: " 💣 FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"
+EOF
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-help
+spec:
+    backgroundColor: '#dd4500'
+    color: '#fff'
+    location: BannerTop
+    link:
+        href: "https://github.com/niklaushirt/ibm-aiops-deployer?tab=readme-ov-file#7-troubleshooting"
+        text: Troubleshooting
+
+    text: " Nothing the script can do here. Check the Link or Slack to see if this is a known problem."
+EOF
+
+            exit 1
+      fi
 
 
 
