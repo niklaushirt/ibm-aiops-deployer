@@ -8,8 +8,11 @@
 <center> ©2024 Niklaus Hirt / IBM </center>
 
 
-# ❗ CP4AIOPS INSTALLATION IS BROKEN DUE TO A REGRESSION INTRODUCED BY BEDROCK
-## Dev are on it, check back soon
+# ❗ CP4AIOPS INSTALLATION HAS SOME PROBLEMS DUE TO A REGRESSION INTRODUCED BY BEDROCK
+
+✅ Please [try this YAML](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/troubleshooting/CP4AIOPS_INSTALL_HACK.yaml) if you're stuck.
+
+
 
 <div style="page-break-after: always;"></div>
 
@@ -1377,7 +1380,7 @@ If not, please [re-run the installer Pod](#re-run-the-installer).
 
 If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
 
-✅ Please get help on Slack.
+✅ Please [try this YAML](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/troubleshooting/CP4AIOPS_INSTALL_HACK.yaml)
 
 </details>
 
