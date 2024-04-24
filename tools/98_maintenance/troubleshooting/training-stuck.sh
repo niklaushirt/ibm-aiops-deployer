@@ -23,6 +23,7 @@ curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XPO
 
 
 
+curl -s -k -u $ES_USERNAME:$ES_PASSWORD -H "Content-Type: application/json" -XGET https://$ES_ROUTE/'
 
 
 

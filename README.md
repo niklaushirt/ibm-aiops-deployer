@@ -8,11 +8,6 @@
 <center> ©2024 Niklaus Hirt / IBM </center>
 
 
-# ❗ CP4AIOPS INSTALLATION HAS SOME PROBLEMS DUE TO A REGRESSION INTRODUCED BY BEDROCK
-
-✅ Please [try this YAML](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/troubleshooting/CP4AIOPS_INSTALL_HACK.yaml) if you're stuck.
-
-
 
 <div style="page-break-after: always;"></div>
 
