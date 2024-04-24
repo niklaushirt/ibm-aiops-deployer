@@ -634,6 +634,8 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
 
 
 def checkTopology():
+    print('🛠️ checkTopology')
+
     print('     ❓ Check if topology already exists')
 
 
@@ -674,10 +676,16 @@ def checkTopology():
     return CHECK_APP
 
 def modifyProperty(RESOURCE_NAME,RESOURCE_TYPE,VALUES,):
+    print('🛠️ modifyProperty')
 
     # ----------------------------------------------------------------------------------------------------------------------------------------------------
     # Modify innodb_buffer_pool_size for Demo
     # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    print ('🟣           📈 DCUSTOM_PROPERTY_RESOURCE_NAME:    '+str(RESOURCE_NAME))
+    print ('🟣           📈 DCUSTOM_PROPERTY_RESOURCE_TYPE:    '+str(RESOURCE_TYPE))
+    print ('🟣           📈 DCUSTOM_PROPERTY_VALUES_NOK:       '+str(VALUES))
+
+    
     cmdTopo = '''   
     echo "----------------------------------------------------------------------------------------------------------"
     echo "----------------------------------------------------------------------------------------------------------"
@@ -700,12 +708,20 @@ def modifyProperty(RESOURCE_NAME,RESOURCE_TYPE,VALUES,):
     echo "    result: $result"
     '''
 
-    stream = os.popen(cmdTopo)
-    RES = stream.read().strip()
-    print ('           DONE:              '+RES)
+    print ('           cmdTopo:              '+cmdTopo)
+
+     
+    try:    
+        stream = os.popen(cmdTopo)
+        RES = stream.read().strip()
+        print ('           modifyProperty DONE:              '+RES)
+    except os.CalledProcessError as error:
+        print ('           🟥 modifyProperty ERROR:              '+ str(error.output))
+
 
 
 def modifyMYSQL():
+    print('🛠️ modifyMYSQL')
 
     # ----------------------------------------------------------------------------------------------------------------------------------------------------
     # Modify innodb_buffer_pool_size for Demo
@@ -742,6 +758,7 @@ def modifyMYSQL():
 
 
 def resetMYSQL():
+    print('🛠️ resetMYSQL')
 
     # ----------------------------------------------------------------------------------------------------------------------------------------------------
     # Reset innodb_buffer_pool_size for Demo
@@ -781,6 +798,7 @@ def resetMYSQL():
 
 
 def loadTopology():
+    print('🛠️ loadTopology')
 
     # ----------------------------------------------------------------------------------------------------------------------------------------------------
     # Creating Custom Topology
