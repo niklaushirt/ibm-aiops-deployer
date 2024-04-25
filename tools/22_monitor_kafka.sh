@@ -164,6 +164,9 @@ menu_option_8() {
 menu_option_9() {
   echo "Monitor Specific Topic"
   oc get kafkatopic -n $AIOPS_NAMESPACE
+  echo "     📥 Get Kafka Topics"
+  ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' 
+
   read -p "Copy Paste Topic from above: " MY_TOPIC
 
   ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -o -200 -C -t $MY_TOPIC
@@ -214,8 +217,11 @@ fi
 echo "***************************************************************************************************************************************************"
 echo "  "
 
-export LOGS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | grep logs-$LOG_TYPE| awk '{print $1;}')
-export EVENTS_TOPIC=$(oc get kafkatopics.ibmevents.ibm.com -n $AIOPS_NAMESPACE | grep -v noi-integration| grep -v ibm-aiopsibm-aiops | grep alerts-$EVENT_TYPE| awk '{print $1;}')
+export LOGS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' | grep cp4waiops-cartridge-logs-elk| head -n 1)
+export EVENTS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' | grep alerts-$EVENT_TYPE| head -n 1)
+
+
+
 
 
 until [ "$selection" = "0" ]; do

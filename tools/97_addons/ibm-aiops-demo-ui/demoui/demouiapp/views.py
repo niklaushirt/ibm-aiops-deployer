@@ -417,10 +417,14 @@ else:
 # GET CONNECTIONS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 print('     ❓ Getting Details Kafka')
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
-KAFKA_TOPIC_LOGS = stream.read().strip()
-stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-none| awk '{print $1;}'")
-KAFKA_TOPIC_LOGS_NONE = stream.read().strip()
+# stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-elk| awk '{print $1;}'")
+# KAFKA_TOPIC_LOGS = stream.read().strip()
+KAFKA_TOPIC_LOGS=os.environ.get('KAFKA_TOPIC_LOGS', 'cp4waiops-cartridge-logs-elk-iuacrepx')
+
+# stream = os.popen("oc get kafkatopics -n "+aimanagerns+"  | grep -v cp4waiopscp4waiops| grep cp4waiops-cartridge-logs-none| awk '{print $1;}'")
+# KAFKA_TOPIC_LOGS_NONE = stream.read().strip()
+KAFKA_TOPIC_LOGS_NONE=os.environ.get('KAFKA_TOPIC_LOGS_NONE', 'cp4waiops-cartridge-logs-none-fanxygx9')
+
 stream = os.popen("oc get secret -n "+aimanagerns+" |grep '\-kafka-secret'|awk '{print$1}'")
 KAFKA_SECRET = stream.read().strip()
 stream = os.popen("oc get secret "+KAFKA_SECRET+" -n "+aimanagerns+" --template={{.data.username}} | base64 --decode")
