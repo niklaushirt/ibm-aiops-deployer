@@ -75,6 +75,12 @@
     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
     -u $LOGIN|jq -r '._items[] | select(.maxLabelLength=="")|._id'>/tmp/customItems.json
 
+    curl -XGET -k \
+    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*" \
+    -H 'accept: application/json' \
+    -H 'content-type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -u $LOGIN|jq -r '._items[] | select(.uniqueId=="globalSettings")|._id'>>/tmp/customItems.json  
     cat /tmp/customItems.json
 
     while read line; 
@@ -101,8 +107,8 @@
     fi    
 
     cp $TOPOLOGY_CUSTOM_FILE /tmp/asm_config.json
-    ${SED} -i -e "s/MY_TOPO_URL/$TOPO_MGT_HOST/g" /tmp/asm_config.json
-    ${SED} -i -e "s/MY_TOKEN/$LOGIN_TOKEN/g" /tmp/asm_config.json
+    sed -i -e "s/MY_TOPO_URL/$TOPO_MGT_HOST/g" /tmp/asm_config.json
+    sed -i -e "s/MY_TOKEN/$LOGIN_TOKEN/g" /tmp/asm_config.json
 
 
     kubectl cp /tmp/asm_config.json -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
