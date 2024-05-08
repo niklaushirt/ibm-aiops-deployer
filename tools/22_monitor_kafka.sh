@@ -103,7 +103,7 @@ menu_option_2() {
 
 
 menu_option_3() {
-  echo "Monitor Stories"
+  echo "Monitor Incidents"
   
   echo "	Press CTRL-C to stop "
 
@@ -218,7 +218,7 @@ echo "**************************************************************************
 echo "  "
 
 export LOGS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' | grep cp4waiops-cartridge-logs-elk| head -n 1)
-export EVENTS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' | grep alerts-$EVENT_TYPE| head -n 1)
+export EVENTS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $BROKER -L -J| jq -r '.topics[].topic' | grep lifecycle.input.events| head -n 1)
 
 
 
@@ -226,17 +226,16 @@ export EVENTS_TOPIC=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca
 
 until [ "$selection" = "0" ]; do
   
-  echo ""
   
   echo "  🔎 Observe Kafka Topics "
   echo "    	1  - Get Kafka Topics"
   echo "    	2  - Monitor Alerts"
-  echo "    	3  - Monitor Stories"
+  echo "    	3  - Monitor Incidents"
   echo "    	4  - Monitor Events $EVENTS_TOPIC"
   echo "    	5  - Monitor Logs $LOGS_TOPIC"
   echo "    	6  - Monitor Metrics Ingestion"
-  echo "    	7  - Monitor Alerts"
-  echo "    	8  - Monitor Instana Connector Response"
+  #echo "    	7  - Monitor Alerts"
+  #echo "    	8  - Monitor Instana Connector Response"
   echo "    	9  - Monitor Specific Topic"
   echo "      "
   echo "    	0  -  Exit"
