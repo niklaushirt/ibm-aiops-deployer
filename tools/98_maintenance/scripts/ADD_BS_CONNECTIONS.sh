@@ -385,6 +385,45 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 }'
 
 
+# --------------------------------------------------------------------------------------------------------
+# ADD SlackDemo
+# --------------------------------------------------------------------------------------------------------
+curl -X 'POST' --insecure \
+"https://$AIO_PLATFORM_ROUTE/v3/connections" \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+  -H "authorization: Bearer $ZEN_TOKEN"  \
+-d '{
+    "aiopsedge_id": "null",
+    "application_group_id": "1000",
+    "application_id": "1000",
+    "connection_config": {
+      "connection_type": "slack",
+      "creator_user_name": "",
+      "reactive_channel": "reactivechannel",
+      "using_proxy": false,
+      "proactive_channel": "proactivechannel",
+      "lang_id": "en",
+      "bot_token": "bottoken",
+      "secret": "signingsecret",
+      "display_name": "SlackDemo"
+    },
+    "connection_id": "443ad7c9-4b99-4172-85a5-9411c0073196",
+    "connection_type": "slack",
+    "connection_updated_at": "2024-05-24T07:39:08.249386Z",
+    "created_at": "null",
+    "created_by": "null",
+    "data_flow": false,
+    "datasource_type": "slack",
+    "global_id": "4",
+    "mapping": {},
+    "name": "null",
+    "request_action": "get",
+    "state": "null",
+    "updated_by": "null"
+  }'
+
+
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -402,10 +441,10 @@ curl -X 'POST' --insecure \
       "connection_config": {
         "connection_type": "teams",
         "creator_user_name": "",
-        "reactive_channel": "asdg",
+        "reactive_channel": "reactivechannel",
         "using_proxy": false,
-        "app_password": "asdgasdsgd",
-        "proactive_channel": "asdg",
+        "app_password": "apppassword",
+        "proactive_channel": "proactivechannel",
         "lang_id": "en",
         "display_name": "Teams",
         "app_id": "dsafads"
@@ -424,7 +463,6 @@ curl -X 'POST' --insecure \
       "state": "null",
       "updated_by": "null"
     }'
-
 
 
 

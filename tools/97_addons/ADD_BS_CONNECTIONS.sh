@@ -34,7 +34,7 @@ echo ""
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD GITHUB
+# ADD GitHub-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -43,7 +43,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-  "displayName": "GitHubDemo",
+  "displayName": "GitHub-Demo",
   "connection_type": "github",
   "connection_config": {
     "collectionMode": "live",
@@ -55,7 +55,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
     "token": "",
     "url": "https://github.com/",
     "username": "niklaushirt",
-    "display_name": "GitHubDemo",
+    "display_name": "GitHub-Demo",
+    "description": "Automatically created by Nicks scripts",
     "deploymentType": "local"
   },
   "connection_id": "github-demo"
@@ -63,7 +64,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD oiObjectserverDemo1
+# ADD NOI-Objectserver-Test-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -72,7 +73,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NoiObjectserverDemoTest",
+    "displayName": "NOI-Objectserver-Test-Demo",
+    "description": "Automatically created by Nicks scripts",
     "status": "Disabled",
     "connection_type": "netcool-connector",
     "connection_config": {
@@ -89,7 +91,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         },
         "tls": false,
         "username": "nhirt",
-        "display_name": "NoiObjectserverDemoTest",
+        "display_name": "NOI-Objectserver-Test-Demo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
     "connection_id": "noiobjectserver-demo-test"
@@ -97,7 +100,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD oiObjectserverDemo2
+# ADD NOI-Objectserver-Prod-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -106,7 +109,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NoiObjectserverDemoProd",
+    "displayName": "NOI-Objectserver-Prod-Demo",
+    "description": "Automatically created by Nicks scripts",
     "status": "Disabled",
     "connection_type": "netcool-connector",
     "connection_config": {
@@ -123,14 +127,15 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         },
         "tls": false,
         "username": "nhirt",
-        "display_name": "NoiObjectserverDemoProd",
+        "display_name": "NOI-Objectserver-Prod-Demo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
     "connection_id": "noiobjectserver-demo-prod"
 }'
 
 # --------------------------------------------------------------------------------------------------------
-# ADD NOIImpactDemo
+# ADD NOI-Impact-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -139,23 +144,23 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NOIImpactDemo",
+    "displayName": "NOI-Impact-Demo",
     "connection_type": "ibm-grpc-impact-connector",
     "connection_config": {
         "backendUrl": "https://primary-objectserver.demo.ibm.com",
         "password": "",
         "url": "https://impact.demo.ibm.com",
         "username": "admin",
-        "display_name": "NOIImpactDemo",
+        "display_name": "NOI-Impact-Demo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
-    "connection_id": "impact-demo"
-}
-'
+    "connection_id": "noi-impact-demo"
+}'
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD InstanaDemo
+# ADD Instana-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -184,9 +189,10 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "aggregation_interval": 5
         },
         "using_proxy": false,
-        "display_name": "InstanaDemo",
+        "display_name": "Instana-Demo",
+        "description": "Automatically created by Nicks scripts",
         "endpoint": "https://instana.demo.ibm.com",
-        "api_token": "aaaaaaaa"
+        "api_token": "apitoken"
     },
     "connectorConfig": {
         "AIModelTypeList": ["{{sidePanel.AIModelTypes.probableCause}}", "{{sidePanel.AIModelTypes.temporalCorrelation}}"],
@@ -220,7 +226,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD GenericWebhookDemo
+# ADD GenericWebhook-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -243,8 +249,9 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "mappings": "(\n    {\n        \"severity\": risk.severity = \"MINOR\" ? 3 : risk.severity = \"MAJOR\" ? 4 : risk.severity = \"CRITICAL\" ? 6 : risk.severity= \"UNKNOWN\" ? 1 : 2,\n        \"summary\": details,\n        \"resource\": {\n            \"name\": target.displayName,\n            \"sourceId\": target.uuid\n        },\n        \"type\": {\n            \"classification\": target.className,\n            \"eventType\": actionState = \"CLEARED\" ? \"resolution\":actionState = \"SUCCEEDED\" ? \"resolution\" : \"problem\",\n            \"condition\": risk.subCategory\n        },\n        \"sender\": {\n            \"name\": \"IBM Turbonomic\",\n            \"type\": \"Webhook Connector\"\n        }\n    }\n)"
         },
         "deploymentType": "local",
-        "display_name": "GenericWebhookDemo",
-        "connectionName": "GenericWebhookDemo"
+        "display_name": "GenericWebhook-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "GenericWebhook-Demo"
     },
     "connectorConfig": {
         "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
@@ -273,7 +280,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD EmailDemo
+# ADD Email-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -287,10 +294,11 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         "deploymentType": "local",
         "createMappings": "({\n    \"subject\": $join([\"Incident Created: \", $string(incident.title)]),\n    \"message\": $join([\"AIOPS Incident Overview URL: https://\", $string(URL_PREFIX), \"/aiops/default/resolution-hub/incidents/all/\", $string(incident.id), \"/overview\",\n                      \"\\nPriority: \", $string(incident.priority),\n                      \"\\nStatus: \", $string(incident.state),\n                      \"\\nTime opened: \", $string(incident.createdTime),\n                      \"\\nGroup: \", $string(incident.team),\n                      \"\\nOwner: \", $string(incident.owner),\n                      \"\\nDescription: \", $string(incident.description)])\n})\n",
         "closeMappings": "({\n    \"subject\": $join([\"Incident Closed: \", $string(incident.title)]),\n    \"message\": $join([\"Incident ID: \", $string(incident.id),\n                      \"\\nPriority: \", $string(incident.priority),\n                      \"\\nStatus: \", $string(incident.state),\n                      \"\\nTime opened: \", $string(incident.createdTime),\n                      \"\\nGroup: \", $string(incident.team),\n                      \"\\nOwner: \", $string(incident.owner),\n                      \"\\nDescription: \", $string(incident.description)])\n})\n",
-        "display_name": "EmailDemo",
+        "display_name": "Email-Demo",
+        "description": "Automatically created by Nicks scripts",
         "emailHost": "mysmtp.ibm.com",
         "emailSource": "demo@ibm.com",
-        "emailSecret": "aaaaa",
+        "emailSecret": "emailsecret",
         "recipients": "demo@ibm.com"
     },
     "connectorConfig": {
@@ -317,7 +325,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD DynatraceDemo
+# ADD Dynatrace-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -338,10 +346,11 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "enabled": true,
             "poll_rate": 60
         },
-        "display_name": "DynatraceDemo",
+        "display_name": "Dynatrace-Demo",
+        "description": "Automatically created by Nicks scripts",        
         "dataSourceBaseUrl": "https://dynatrace.demo.ibm.com",
         "zone": "demo",
-        "accessToken": "aaaa",
+        "accessToken": "accesstoken",
         "sensorName": "com.instana.plugin.dynatrace"
     },
     "connectorConfig": {
@@ -385,10 +394,50 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 }'
 
 
+# --------------------------------------------------------------------------------------------------------
+# ADD Slack-Demo
+# --------------------------------------------------------------------------------------------------------
+curl -X 'POST' --insecure \
+"https://$AIO_PLATFORM_ROUTE/v3/connections" \
+-H 'accept: application/json' \
+-H 'Content-Type: application/json' \
+  -H "authorization: Bearer $ZEN_TOKEN"  \
+-d '{
+    "aiopsedge_id": "null",
+    "application_group_id": "1000",
+    "application_id": "1000",
+    "connection_config": {
+      "connection_type": "slack",
+      "creator_user_name": "",
+      "reactive_channel": "reactivechannel",
+      "using_proxy": false,
+      "proactive_channel": "proactivechannel",
+      "lang_id": "en",
+      "bot_token": "bottoken",
+      "secret": "signingsecret",
+      "display_name": "Slack-Demo",
+      "description": "Automatically created by Nicks scripts"
+    },
+    "connection_id": "443ad7c9-4b99-4172-85a5-9411c0073196",
+    "connection_type": "slack",
+    "connection_updated_at": "2024-05-24T07:39:08.249386Z",
+    "created_at": "null",
+    "created_by": "null",
+    "data_flow": false,
+    "datasource_type": "slack",
+    "global_id": "4",
+    "mapping": {},
+    "name": "null",
+    "request_action": "get",
+    "state": "null",
+    "updated_by": "null"
+  }'
+
+
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD TeamsDemo
+# ADD Teams-Demo
 # --------------------------------------------------------------------------------------------------------
 curl -X 'POST' --insecure \
 "https://$AIO_PLATFORM_ROUTE/v3/connections" \
@@ -402,12 +451,13 @@ curl -X 'POST' --insecure \
       "connection_config": {
         "connection_type": "teams",
         "creator_user_name": "",
-        "reactive_channel": "asdg",
+        "reactive_channel": "reactivechannel",
         "using_proxy": false,
-        "app_password": "asdgasdsgd",
-        "proactive_channel": "asdg",
+        "app_password": "apppassword",
+        "proactive_channel": "proactivechannel",
         "lang_id": "en",
-        "display_name": "Teams",
+        "display_name": "Teams-Demo",
+        "description": "Automatically created by Nicks scripts",
         "app_id": "dsafads"
       },
       "connection_id": "3be692db-0fac-4649-baed-9643b0495efd",
@@ -424,7 +474,6 @@ curl -X 'POST' --insecure \
       "state": "null",
       "updated_by": "null"
     }'
-
 
 
 
