@@ -33,4 +33,4 @@ curl -k -X 'GET' \
   'https://topology-manage-ibm-aiops.apps.664c9df0dbc10e001e9ab754.cloud.techzone.ibm.com/1.0/topology/resources?_filter=tags%3Awesteurope&_field=*&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false' \
   -H 'accept: application/json' \
   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-  -H 'authorization: Basic YWlvcHMtdG9wb2xvZ3ktaWJtLWFpb3BzLXVzZXI6VWExcCtOM0dwblh4QlhWendKM0VDekNMNlJvOVdJb2syKzVLYXdOY05nYz0='
+  -H 'authorization: Basic yyyyyy='
