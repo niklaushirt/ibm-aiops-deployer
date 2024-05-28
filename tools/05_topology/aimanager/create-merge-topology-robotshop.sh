@@ -9,17 +9,22 @@ export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOP
 oc delete route topology-rest -n $AIOPS_NAMESPACE 
 oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-api
 
-export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-rest -o jsonpath={.spec.host})
+export REST_TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-rest -o jsonpath={.spec.host})
+export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
 
 
 export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
 echo "Wait 5 seconds"
 sleep 5
+echo "URL: $TOPO_ROUTE/1.0/topology/swagger"
+echo "USR: $TOPOLOGY_REST_USR"
+echo "PWD: $TOPOLOGY_REST_PWD"
+echo "TENANT ID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255"
 
-echo "URL: $TOPO_ROUTE/1.0/rest-observer/rest/resources"
+echo "URL: $REST_TOPO_ROUTE/1.0/rest-observer/rest/resources"
 echo "LOGIN: $LOGIN"
-
+cfd95b7e-3bc7-4006-a4a8-a73a79c71255
 
 #echo curl -X "POST" "$TOPO_ROUTE/1.0/rest-observer/rest/resources" --insecure -H 'Content-Type: application/json' -u $LOGIN -H 'JobId: restTopology' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d $'{"app": "robotshop","availableReplicas": 1,"createdReplicas": 1,"dataCenter": "demo","desiredReplicas": 1,"entityTypes": ["deployment"],"mergeTokens": ["web"],"matchTokens": ["web","web-deployment"],"name": "web","namespace": "robot-shop","readyReplicas": 1,"tags": ["app:robotshop","namespace:robot-shop"],"vertexType": "resource","uniqueId": "web-id"}'
 

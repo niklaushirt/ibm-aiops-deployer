@@ -34,7 +34,6 @@ else
   return asmProperties.namespace+'.'+asmProperties.name;
 }
 
-YWlvcHMtdG9wb2xvZ3ktaWJtLWFpb3BzLXVzZXI6VnZRa2RzVEZzOUlNdmozMEg4VnFkc3dRemxlVmpKcmRIODg2bW93azBCaz0
 
 
 
