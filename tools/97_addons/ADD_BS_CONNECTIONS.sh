@@ -151,7 +151,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         "password": "",
         "url": "https://impact.demo.ibm.com",
         "username": "admin",
-        "display_name": "NOI-Impact-Demo",
+        "display_name": "NOIImpactDemo",
         "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
