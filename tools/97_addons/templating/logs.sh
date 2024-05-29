@@ -1,0 +1,382 @@
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#         ________  __  ___     ___    ________       
+#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
+#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
+#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
+#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
+#                                           /_/
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------"
+#  Train on Log Templates
+#
+#  CloudPak for AIOps
+#
+#  ©2024 nikh@ch.ibm.com
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+
+# Paths to find info in JSON
+export entityIDString="kubernetes.container_name"
+export messagePayloadString="message"
+
+DAYS_TO_INJECT=7
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# DO NOT MODIFY BELOW
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+clear
+
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "         ________  __  ___     ___    ________       "     
+echo "        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____"
+echo "        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/"
+echo "      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) "
+echo "     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  "
+echo "                                           /_/            "
+echo ""
+echo ""
+echo ""
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
+echo ""
+echo " 🚀  Train on Log Templates"
+echo ""
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
+echo ""
+
+echo "  📦 Parameters"
+echo ""
+
+echo "       entityIDString:         $entityIDString"
+echo "       messagePayloadString:   $messagePayloadString"
+
+export TEMPLATE_DIR_LOGS=./templates/logs
+export WORKING_DIR_LOGS=/tmp/lags
+
+echo ""
+echo ""
+
+# Read Template File template.tpl
+echo "  📦 Template File"
+templateFile=$(<$TEMPLATE_DIR_LOGS/template.tpl)
+echo $templateFile|jq | sed 's/^/          /'
+
+mkdir -p $WORKING_DIR_LOGS
+mkdir -p /tmp/training-files-logs
+
+
+
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  📦 Creating Template File"
+
+currentLine=0
+
+if [[ -f $WORKING_DIR_LOGS/logs.json ]] ;
+then
+  echo "Skipping"
+else
+    echo "">$WORKING_DIR_LOGS/logs.json
+
+    # Loop over all *.log files in the TEMPLATE_DIR_LOGS directory
+    for actFile in $(ls -1 $TEMPLATE_DIR_LOGS | grep "log");
+    do
+        totalLines=$(cat $TEMPLATE_DIR_LOGS/$actFile|wc -l| tr -d ' ')
+        export componentName=${actFile%.*}
+        echo ""
+        echo "   --------------------------------------------------------------------------------------------------"
+        echo "     🛠️ Treating File: $componentName"
+
+          if [[ $actFile =~ ".log" ]] ;
+          then
+            # Read Line by Line
+            while IFS= read -r line
+            do
+
+            ((currentLine++))
+
+              # Get Entity ID
+              entityID=$(jq -r ".$entityIDString" <<< "$line")
+              echo "         🌶️ Component ($currentLine/$totalLines): $entityID"
+
+              if [[ ! -z $entityID ]] ;
+              then
+                # Get Message Payload (some trickery involved to handle escaped embedded JSON)
+                messagePayload=$(echo $line | sed 's/\\"/@@@@/g'| sed 's/\\/!!!!!!/g'| jq ".$messagePayloadString")
+                echo $templateFile | sed "s^{{entityID}}^$entityID^g"| sed "s^{{messagePayload}}^$messagePayload^g" | sed 's/\"\"/\"/g'  >>$WORKING_DIR_LOGS/logs.json
+                
+                
+                #messagePayload=$(jq ".$messagePayloadString" <<< "$line")
+                #echo $messagePayload
+                #echo $templateFile | sed "s^{{entityID}}^$entityID^"| sed "s^{{messagePayload}}^$messagePayload^"   >>$WORKING_DIR_LOGS/logs.json
+                #echo "${templateFile//@@entityID@@/$entityID}"
+                #echo $templateFile | sed "s/{{entityID}}/$entityID/"| sed "s&{{messagePayload}}&${messagePayload}&"  #>>$WORKING_DIR_LOGS/logs.json
+                #echo $line |jq ".$entityID"
+                #echo "${line//\\\\/\\\\\\}" |jq ".$entityID"
+                #echo $line|jq ".$entityID"
+                #echo $line|jq ".$messagePayload"
+              fi
+            done < "$TEMPLATE_DIR_LOGS/$actFile"
+          fi
+    done
+
+
+    # Restore escaped embedded JSON
+    gsed -i 's/@@@@/\\\"/g' $WORKING_DIR_LOGS/logs.json
+fi
+
+echo ""
+echo ""
+echo ""
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------------"
+echo "--------------------------------------------------------------------------------------------------"
+echo "  ❤️‍🩹 Entity Count"
+echo ""
+cat $WORKING_DIR_LOGS/logs.json|jq '.["kubernetes"].container_name' | sort | uniq -c
+echo ""
+echo ""
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  👨‍🎤 Entity Example"
+echo ""
+head -n 2 $WORKING_DIR_LOGS/logs.json|jq | sed 's/^/          /'
+
+echo ""
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  ✅ DONE"
+echo "--------------------------------------------------------------------------------------------------"
+
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  📦 Creating Hourly Template File"
+
+if [[ -f $WORKING_DIR_LOGS/logs_TS.json ]] ;
+then
+  echo "Skipping"
+else
+
+    # Read Line by Line
+    ITERATIONS=11
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    SECONDS=0
+
+    echo "" > $WORKING_DIR_LOGS/logs_TS.json
+
+    #while [[ ! $my_date =~ "2023-12-31T22" ]]; do
+    while [ $SECONDS -lt 3600 ]; do
+    while IFS= read -r line
+    do
+        if [ $ITERATIONS -gt 3 ]; then
+            ITERATIONS=0
+
+            if [ "${OS}" == "darwin" ]; then
+              # Suppose we're on Mac
+              export my_date=$(date -v-${SECONDS}S -j -f %Y%m%d-%H%M%S 20240101-000000 "+:%M:%S.000000+00:00.00") 
+              #export my_date=$(date -v-${SECONDS}S -j -f %Y%m%d-%H%M%S 20240101-000000 "+%Y-%m-%dT%H:%M:%S.000000+00:00.00") 
+            else
+              export my_date=$(date -d ${SECONDS}' seconds ago' "+%Y-%m-%dT%H:%M:%S.000000+00:00.00" - d 2011-07-04)
+              export my_date=$(date -d ${SECONDS}' seconds ago' "+%Y-%m-%dT%H:%M:%S.000000+00:00.00" - d 2011-07-04)
+            fi
+            ((SECONDS++))
+            echo $SECONDS"/3600"
+        fi
+        ((ITERATIONS++))
+
+      #echo $my_date
+
+      #echo "         🌶️ Component ($currentLine/$totalLines): $line"
+      echo $line|sed "s/@MY_TIMESTAMP/@MY_TIMESTAMP$my_date/g" >> $WORKING_DIR_LOGS/logs_TS.json
+    done < "$WORKING_DIR_LOGS/logs.json"
+    done
+
+    echo ""
+    echo ""
+    echo "--------------------------------------------------------------------------------------------------"
+    echo "  ✅ DONE"
+    echo "--------------------------------------------------------------------------------------------------"
+fi 
+
+
+
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  📦 Creating Hourly Template File"
+
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+MAX_HOURS=$(($DAYS_TO_INJECT*24))
+#echo "MAX_HOURS:   $MAX_HOURS"
+HOURS=0
+mkdir -p $WORKING_DIR_LOGS/to_inject
+
+while [ $HOURS -lt $MAX_HOURS ];
+do
+  ((HOURS++))
+  if [ "${OS}" == "darwin" ]; then
+    # Suppose we're on Mac
+    export my_date=$(date -v-${HOURS}H "+%Y-%m-%dT%H")
+  else
+    export my_date=$(date -d ${HOURS}' hours ago' "+%Y-%m-%dT%H")
+  fi
+
+  echo "         📂 File ($HOURS/$MAX_HOURS)"
+
+  #echo $WORKING_DIR_LOGS/to_inject/$my_date.log
+  cp $WORKING_DIR_LOGS/logs_TS.json $WORKING_DIR_LOGS/to_inject/$my_date.log
+  sed -i -e "s/@MY_TIMESTAMP/$my_date/g" $WORKING_DIR_LOGS/to_inject/$my_date.log
+  
+done
+
+rm -f $WORKING_DIR_LOGS/to_inject/*.log-e
+ls -1 $WORKING_DIR_LOGS/to_inject
+
+echo ""
+echo ""
+echo "--------------------------------------------------------------------------------------------------"
+echo "  ✅ DONE"
+echo "--------------------------------------------------------------------------------------------------"
+
+
+
+
+echo ""
+echo ""
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
+echo ""
+echo " 🚀  Log injection"
+echo ""
+echo "***************************************************************************************************************************************************"
+echo "***************************************************************************************************************************************************"
+
+echo "   ------------------------------------------------------------------------------------------------------------------------------"
+read  -t 5 -p "    ❓ Do you want to inject the Logs❓ [y,N] " DO_COMM
+echo "   ------------------------------------------------------------------------------------------------------------------------------"
+if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
+    echo " "
+    echo "   ------------------------------------------------------------------------------------------------------------------------------"
+    echo "   🚀  Initializing..."
+    echo "   ------------------------------------------------------------------------------------------------------------------------------"
+
+    cd $WORKING_DIR_LOGS/to_inject
+
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    echo "       ✅ OK - IBMAIOps:    $AIOPS_NAMESPACE"
+
+
+    echo "     🔐 Get Kafka Password"
+    export KAFKA_SECRET=$(oc get secret -n $AIOPS_NAMESPACE |grep 'aiops-kafka-secret'|awk '{print$1}')
+    export SASL_USER=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.username}} | base64 --decode)
+    export SASL_PASSWORD=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.password}} | base64 --decode)
+    export KAFKA_BROKER=$(oc get routes iaf-system-kafka-0 -n $AIOPS_NAMESPACE -o=jsonpath='{.status.ingress[0].host}{"\n"}'):443
+
+    #------------------------------------------------------------------------------------------------------------------------------------
+    #  Get the cert for kafkacat
+    #------------------------------------------------------------------------------------------------------------------------------------
+    echo "     🥇 Getting Kafka Cert"
+    oc extract secret/kafka-secrets -n $AIOPS_NAMESPACE --keys=ca.crt --confirm| sed 's/^/            /'
+    echo ""
+    echo ""
+
+    #------------------------------------------------------------------------------------------------------------------------------------
+    #  Get Kafkacat executable
+    #------------------------------------------------------------------------------------------------------------------------------------
+    echo "     📥  Getting Kafkacat executable"
+    if [ -x "$(command -v kafkacat)" ]; then
+          export KAFKACAT_EXE=kafkacat
+    else
+          if [ -x "$(command -v kcat)" ]; then
+                export KAFKACAT_EXE=kcat
+          else
+                echo "     ❗ ERROR: kafkacat is not installed."
+                echo "     ❌ Aborting..."
+                exit 1
+          fi
+    fi
+    echo " "
+
+
+
+
+    echo "     📥 Get Kafka Topics"
+    #export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-elk| awk '{print $1;}')
+    export KAFKA_TOPIC_LOGS=$(${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512 -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -L -J| jq -r '.topics[].topic' | grep cp4waiops-cartridge-logs-elk| head -n 1)
+
+
+    if [[ "${KAFKA_TOPIC_LOGS}" == "" ]]; then
+        echo "          ❗ Please define a Kafka connection in IBMAIOps of type $LOG_TYPE."
+        echo "          ❗ Existing Log Topics are:"
+        oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-| awk '{print $1;}'| sed 's/^/                /'
+        echo ""
+        echo "          ❌ Exiting....."
+        #exit 1 
+
+    else
+        echo "        🟢 OK"
+    fi
+
+
+
+
+
+    echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
+    echo "     🔎  Parameters for Incident Simulation for $APP_NAME"
+    echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
+    echo "     "
+    echo "       🗂  Log Topic                   : $KAFKA_TOPIC_LOGS"
+    echo "       🌏 Kafka Broker URL            : $KAFKA_BROKER"
+    echo "       🔐 Kafka User                  : $SASL_USER"
+    echo "       🔐 Kafka Password              : $SASL_PASSWORD"
+    echo "       🖥️  Kafka Executable           : $KAFKACAT_EXE"
+    echo "     "
+    echo "       📂 Directory for Logs          : $WORKING_DIR_LOGS"
+    echo "   ----------------------------------------------------------------------------------------------------------------------------------------"
+    echo "   "
+
+    echo "   "
+  
+
+
+
+
+    for actFile in $(ls -1 $WORKING_DIR_LOGS/to_inject | grep "log"); 
+    do 
+            if [[ $actFile =~ ".log"  ]]; then
+                    echo "   🚀  Injecting $actFile"
+                    split -l 1500 -a 6 $actFile
+                    for actFileSplit in $(ls -1 $WORKING_DIR_LOGS/to_inject | grep "xa"); 
+                    do 
+                      echo "              $actFileSplit"
+
+                      #cat $FILE
+                      #tail $FILE
+                      ${KAFKACAT_EXE} -v -X security.protocol=SASL_SSL -X ssl.ca.location=./ca.crt -X sasl.mechanisms=SCRAM-SHA-512  -X sasl.username=$SASL_USER -X sasl.password=$SASL_PASSWORD -b $KAFKA_BROKER -P -t $KAFKA_TOPIC_LOGS -l $actFileSplit
+                    done
+                    rm -f xa*
+            fi
+    done
+
+
+
+fi
+
+exit 1
