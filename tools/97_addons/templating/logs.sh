@@ -27,6 +27,15 @@ export messagePayloadString="message"
 
 DAYS_TO_INJECT=7
 
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+SED="sed"
+if [ "${OS}" == "darwin" ]; then
+    SED="gsed"
+    if [ ! -x "$(command -v ${SED})"  ]; then
+    __output "This script requires $SED, but it was not found.  Perform \"brew install gnu-sed\" and try again."
+    exit
+    fi
+fi
 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -75,7 +84,7 @@ echo ""
 # Read Template File template.tpl
 echo "  📦 Template File"
 templateFile=$(<$TEMPLATE_DIR_LOGS/template.tpl)
-echo $templateFile|jq | sed 's/^/          /'
+echo $templateFile|jq | ${SED} 's/^/          /'
 
 mkdir -p $WORKING_DIR_LOGS
 mkdir -p /tmp/training-files-logs
@@ -118,8 +127,8 @@ else
               if [[ ! -z $entityID ]] ;
               then
                 # Get Message Payload (some trickery involved to handle escaped embedded JSON)
-                messagePayload=$(echo $line | sed 's/\\"/@@@@/g'| sed 's/\\/!!!!!!/g'| jq ".$messagePayloadString")
-                echo $templateFile | sed "s^{{entityID}}^$entityID^g"| sed "s^{{messagePayload}}^$messagePayload^g" | sed 's/\"\"/\"/g'  >>$WORKING_DIR_LOGS/logs.json
+                messagePayload=$(echo $line | ${SED} 's/\\"/@@@@/g'| ${SED} 's/\\/!!!!!!/g'| jq ".$messagePayloadString")
+                echo $templateFile | ${SED} "s^{{entityID}}^$entityID^g"| ${SED} "s^{{messagePayload}}^$messagePayload^g" | ${SED} 's/\"\"/\"/g'  >>$WORKING_DIR_LOGS/logs.json
                 
                 
                 #messagePayload=$(jq ".$messagePayloadString" <<< "$line")
@@ -138,7 +147,7 @@ else
 
 
     # Restore escaped embedded JSON
-    gsed -i 's/@@@@/\\\"/g' $WORKING_DIR_LOGS/logs.json
+    ${SED} -i 's/@@@@/\\\"/g' $WORKING_DIR_LOGS/logs.json
 fi
 
 echo ""
@@ -157,7 +166,7 @@ echo ""
 echo "--------------------------------------------------------------------------------------------------"
 echo "  👨‍🎤 Entity Example"
 echo ""
-head -n 2 $WORKING_DIR_LOGS/logs.json|jq | sed 's/^/          /'
+head -n 2 $WORKING_DIR_LOGS/logs.json|jq | ${SED} 's/^/          /'
 
 echo ""
 echo ""
@@ -204,7 +213,7 @@ else
       #echo $my_date
 
       #echo "         🌶️ Component ($currentLine/$totalLines): $line"
-      echo $line|sed "s/@MY_TIMESTAMP/@MY_TIMESTAMP$my_date/g" >> $WORKING_DIR_LOGS/logs_TS.json
+      echo $line|${SED} "s/@MY_TIMESTAMP/@MY_TIMESTAMP$my_date/g" >> $WORKING_DIR_LOGS/logs_TS.json
     done < "$WORKING_DIR_LOGS/logs.json"
     done
 
@@ -242,7 +251,7 @@ do
 
   #echo $WORKING_DIR_LOGS/to_inject/$my_date.log
   cp $WORKING_DIR_LOGS/logs_TS.json $WORKING_DIR_LOGS/to_inject/$my_date.log
-  sed -i -e "s/@MY_TIMESTAMP/$my_date/g" $WORKING_DIR_LOGS/to_inject/$my_date.log
+  ${SED} -i -e "s/@MY_TIMESTAMP/$my_date/g" $WORKING_DIR_LOGS/to_inject/$my_date.log
   
 done
 
@@ -293,7 +302,7 @@ if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
     #  Get the cert for kafkacat
     #------------------------------------------------------------------------------------------------------------------------------------
     echo "     🥇 Getting Kafka Cert"
-    oc extract secret/kafka-secrets -n $AIOPS_NAMESPACE --keys=ca.crt --confirm| sed 's/^/            /'
+    oc extract secret/kafka-secrets -n $AIOPS_NAMESPACE --keys=ca.crt --confirm| ${SED} 's/^/            /'
     echo ""
     echo ""
 
@@ -325,7 +334,7 @@ if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
     if [[ "${KAFKA_TOPIC_LOGS}" == "" ]]; then
         echo "          ❗ Please define a Kafka connection in IBMAIOps of type $LOG_TYPE."
         echo "          ❗ Existing Log Topics are:"
-        oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-| awk '{print $1;}'| sed 's/^/                /'
+        oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-| awk '{print $1;}'| ${SED} 's/^/                /'
         echo ""
         echo "          ❌ Exiting....."
         #exit 1 
