@@ -390,12 +390,17 @@ if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
   
 
 
-
+    FILES_COUNT=0
+    MAX_FILES_COUNT=$(($DAYS_TO_INJECT*24))
 
     for actFile in $(ls -1 $WORKING_DIR_LOGS/to_inject | grep "log"); 
     do 
             if [[ $actFile =~ ".log"  ]]; then
-                    echo "   🚀  Injecting $actFile"
+                    ((FILES_COUNT++))
+
+                    #echo "   🚀  Injecting $actFile"
+                    printf "\r         🚀 Injecting $actFile ($FILES_COUNT/$MAX_FILES_COUNT)                    "\\r
+
                     split -l 1500 -a 6 $actFile
                     for actFileSplit in $(ls -1 $WORKING_DIR_LOGS/to_inject | grep "xa"); 
                     do 
