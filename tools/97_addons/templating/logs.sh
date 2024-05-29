@@ -202,7 +202,7 @@ else
               export my_date=$(date -v-${SECONDS}S -j -f %Y%m%d-%H%M%S 20240101-000000 "+:%M:%S.000000+00:00.00") 
               #export my_date=$(date -v-${SECONDS}S -j -f %Y%m%d-%H%M%S 20240101-000000 "+%Y-%m-%dT%H:%M:%S.000000+00:00.00") 
             else
-              export my_date=$(date -d ${SECONDS}' seconds ago' "+:%M:%S.000000+00:00.00" -d 2024-01-01)
+              export my_date=$(date -d ${SECONDS}' seconds ago' "+:%M:%S.000000+00:00.00")
               #export my_date=$(date -d ${SECONDS}' seconds ago' "+%Y-%m-%dT%H:%M:%S.000000+00:00.00" -d 2024-01-01)
             fi
             ((SECONDS++))
