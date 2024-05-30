@@ -102,6 +102,13 @@ echo ""
     echo ""
     echo "   --------------------------------------------------------------------------------------------------"
     echo "     🛠️ AIOps Namespace:        $AIOPS_NAMESPACE"
+    echo "     🛠️ Create Routes"
+    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
+    oc create route reencrypt datalayer-api -n $AIOPS_NAMESPACE  --service=aiops-ir-core-ncodl-api --port=secure-port --insecure-policy=Redirect --wildcard-policy=None
+    echo ""
+    echo "   --------------------------------------------------------------------------------------------------"
+    echo "     🛠️ Get Connection Details"
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
