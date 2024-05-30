@@ -7,6 +7,28 @@
 # See here: https://github.com/niklaushirt/ibm-aiops-deployer?tab=readme-ov-file#6-custom-scenarios
 #
 # ****************************************************************************************************************************************************
+# 🚀 USAGE
+#
+#  STEP 1: Initializaion of Customization
+#          Loads cusotm Topology and sets the custom properties to OK
+#
+#          Run ./1_customize-init.sh
+#
+#
+#  STEP 2: Create Custom Incident
+#          Injects Events and sets the custom properties to NOK
+#
+#          Run ./2_create-incident.sh
+#
+#
+#  STEP 3: Clear Custom Incident
+#          Clears Alerts and Incidents and sets the custom properties back to OK
+#
+#          Run ./3_clear-incident.sh
+#
+#
+
+
 
 
 
