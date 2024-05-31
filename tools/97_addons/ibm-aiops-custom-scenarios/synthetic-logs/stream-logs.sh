@@ -287,7 +287,8 @@ echo ""
           messagePayload=$(jq -r ".$messagePayloadString" <<< "$line")
 
           export my_date=$(date  "+%Y-%m-%dT%H:%M:%S.000000+00:00.00") 
-          printf "\r         🌶️ Injecting    $my_date  -       ${entityID:0:15} : ${messagePayload:0:20}                                        "\\r
+          echo "         🌶️ Injecting    $my_date  -       ${entityID:0:15} : ${messagePayload:0:30}"
+          #printf "\r         🌶️ Injecting    $my_date  -       ${entityID:0:15} : ${messagePayload:0:20}                                        "\\r
 
           export lineTS=$(echo $line|${SED} "s/@MY_TIMESTAMP/$my_date/g")
           #echo $lineTS
