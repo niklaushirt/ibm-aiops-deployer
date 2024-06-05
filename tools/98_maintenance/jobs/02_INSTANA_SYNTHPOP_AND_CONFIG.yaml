@@ -40,8 +40,8 @@ spec:
               echo " ✅ STARTING: CREATE INSTANA ANOMALY"
               echo "*****************************************************************************************************************************"
 
-              oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"'
-              oc set env deployment load -n robot-shop ERROR=1'
+              oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql-dev;dbname=ratings-dev;charset=utf8mb4"
+              oc set env deployment load -n robot-shop ERROR=1
 
 
               echo "*****************************************************************************************************************************"
@@ -100,8 +100,8 @@ spec:
               echo " ✅ STARTING: MITIGATE INSTANA ANOMALY"
               echo "*****************************************************************************************************************************"
 
-              oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings;charset=utf8mb4"'
-              oc set env deployment load -n robot-shop ERROR=0'
+              oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings;charset=utf8mb4"
+              oc set env deployment load -n robot-shop ERROR=0
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE - WAITING FOREVER"
