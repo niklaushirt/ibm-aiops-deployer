@@ -17,11 +17,10 @@ spec:
       name: applicationManager
     - enabled: true
       name: connection
-    - enabled: true
+    - enabled: {{ current_ibmaiops_feature.logAnomalyDetection | default(true)}}
       name: logAnomalyDetection
-    - enabled: '{{ current_ibmaiops_feature.topologyModel | default("application") }}'
-      name: topologyModel
   size: {{ current_ibmaiops_feature.aiops_size }}
   storageClass: '{{ AIOPS_STORAGE_CLASS_FILE }}'
   storageClassLargeBlock: '{{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}'
+  topologyModel: {{ current_ibmaiops_feature.topologyModel | default("application") }}
   #resourceOverrides: aiops-custom-size-profile
