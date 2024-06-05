@@ -52,7 +52,7 @@
 
 
     # Create Route
-    oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
+    oc create route passthrough topology-kubernetes-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
 
     # Get Credentials
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
@@ -143,7 +143,7 @@
 
 
     # Create Route
-    oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
+    oc create route passthrough topology-kubernetes-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
 
     # Get Credentials
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)

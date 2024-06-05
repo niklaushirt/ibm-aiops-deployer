@@ -6,7 +6,7 @@ export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{
 export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
 export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
 
-oc delete route topology-rest -n $AIOPS_NAMESPACE 
+#oc delete route topology-rest -n $AIOPS_NAMESPACE 
 oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-api
 
 export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-rest -o jsonpath={.spec.host})

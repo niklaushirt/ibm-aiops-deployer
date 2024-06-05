@@ -109,7 +109,7 @@
     rm admin-ca
     oc delete route  elasticsearch -n openshift-logging
     oc extract secret/elasticsearch -n openshift-logging --to=. --keys=admin-ca --confirm
-    oc create route reencrypt elasticsearch -n openshift-logging --service=elasticsearch --port=elasticsearch --dest-ca-cert=admin-ca
+    oc create route passthrough --insecure-policy="Redirect" elasticsearch -n openshift-logging --service=elasticsearch --port=elasticsearch --dest-ca-cert=admin-ca
     rm admin-ca  
         
 

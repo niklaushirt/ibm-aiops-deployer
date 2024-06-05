@@ -164,7 +164,7 @@
       existing=$(oc get route topology-file-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+        oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
       fi
     ignore_errors: true
     register: output
@@ -182,7 +182,7 @@
       existing=$(oc get route topology-kubernetes-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route reencrypt topology-kubernetes-api -n $AIOPS_NAMESPACE --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
+        oc create route passthrough topology-kubernetes-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
       fi
     ignore_errors: true
     register: output
@@ -264,7 +264,7 @@
       existing=$(oc get route datalayer-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route reencrypt datalayer-api -n $AIOPS_NAMESPACE  --service=aiops-ir-core-ncodl-api --port=secure-port --insecure-policy=Redirect --wildcard-policy=None
+        oc create route passthrough datalayer-api -n $AIOPS_NAMESPACE  --service=aiops-ir-core-ncodl-api --port=secure-port --insecure-policy=Redirect --wildcard-policy=None
       fi
     ignore_errors: true
     register: output

@@ -400,7 +400,7 @@ else
       POLICY_FILE="ibm-aiops-deployer/ansible/roles/ibm-aiops-install-demo-content/templates/policies/"$POLICY_ID"-incident-creation-policy.json"
 fi    
 
-oc create route reencrypt policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
+oc create route passthrough --insecure-policy="Redirect" policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
 
 export POLICY_ROUTE=""
 while [[ $POLICY_ROUTE == "" ]]; do
