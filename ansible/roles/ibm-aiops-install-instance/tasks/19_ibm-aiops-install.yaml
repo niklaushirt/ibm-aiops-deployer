@@ -66,11 +66,11 @@
   kubernetes.core.k8s:
     state: present
     template: './templates/aiops/4_aiops-install-template-base.j2'
-  when: current_ibmaiops_feature.aiops_size != "custom" and current_ibmaiops_feature.logAnomalyDetection=false
+  when: current_ibmaiops_feature.aiops_size != "custom" and current_ibmaiops_feature.logAnomalyDetection = false
 
 
 - name:  🚀 IBM AIOPS INSTALL - Install Custom Resource - INSTALL IBM AIOPS EXTENDED
   kubernetes.core.k8s:
     state: present
     template: './templates/aiops/4_aiops-install-template-extended.j2'
-  when: current_ibmaiops_feature.aiops_size != "custom" and current_ibmaiops_feature.logAnomalyDetection=true
+  when: current_ibmaiops_feature.aiops_size != "custom" and current_ibmaiops_feature.logAnomalyDetection = true
