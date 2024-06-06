@@ -277,7 +277,7 @@
     #{{role_path}}/templates/training/scripts/execute-graphql.sh
     export result="algorithm not found"
     while [[ $result =~ "algorithm not found" ]]; do
-      export result=$({role_path}}/templates/training/scripts/execute-graphql.sh)
+      export result=$({{role_path}}/templates/training/scripts/execute-graphql.sh)
       echo $result
     done
 
