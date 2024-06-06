@@ -274,7 +274,12 @@
     echo "   🛠️   Create Analysis Definiton: Log Anomaly Golden Signals"
     export FILE_NAME=create-analysis-LAGS.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
-    {{role_path}}/templates/training/scripts/execute-graphql.sh
+    #{{role_path}}/templates/training/scripts/execute-graphql.sh
+    export result="algorithm not found"
+    while [[ $result =~ "algorithm not found" ]]; do
+      export result=$({role_path}}/templates/training/scripts/execute-graphql.sh)
+      echo $result
+    done
 
 
     export GS_DEPLOYMENT=""
@@ -303,11 +308,7 @@
     var: output_string.stdout_lines
     #verbosity: 1
 
-    
-- name: 🟣 TRAINING CREATE LAGS - RESULT
-  debug: 
-    var: output_string.stdout_lines
-    #verbosity: 1
+  
 
 - name: 📥 TRAINING LOAD LAD - DELETE EXISTING JOB
   kubernetes.core.k8s:
