@@ -662,7 +662,7 @@ export POLICY_PASSWORD=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-po
 export POLICY_LOGIN="$POLICY_USERNAME:$POLICY_PASSWORD"
 echo $POLICY_LOGIN
 
-oc create route reencrypt policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
+oc create route passthrough --insecure-policy="Redirect" policy-api -n $AIOPS_NAMESPACE --service aiops-ir-lifecycle-policy-registry-svc --port ssl-port
 
 export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
 echo $POLICY_ROUTE

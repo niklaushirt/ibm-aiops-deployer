@@ -39,7 +39,7 @@ SED="sed"
 if [ "${OS}" == "darwin" ]; then
     SED="gsed"
     if [ ! -x "$(command -v ${SED})"  ]; then
-    __output "This script requires $SED, but it was not found.  Perform \"brew install gnu-sed\" and try again."
+    echo "This script requires $SED, but it was not found.  Perform \"brew install gnu-sed\" and try again."
     exit
     fi
 fi
@@ -103,9 +103,9 @@ echo ""
     echo "   --------------------------------------------------------------------------------------------------"
     echo "     🛠️ AIOps Namespace:        $AIOPS_NAMESPACE"
     echo "     🛠️ Create Routes"
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
     oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
-    oc create route reencrypt datalayer-api -n $AIOPS_NAMESPACE  --service=aiops-ir-core-ncodl-api --port=secure-port --insecure-policy=Redirect --wildcard-policy=None
+    oc create route passthrough --insecure-policy="Redirect" datalayer-api -n $AIOPS_NAMESPACE  --service=aiops-ir-core-ncodl-api --port=secure-port --insecure-policy=Redirect --wildcard-policy=None
     echo ""
     echo "   --------------------------------------------------------------------------------------------------"
     echo "     🛠️ Get Connection Details"

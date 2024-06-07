@@ -55,13 +55,8 @@
   when: current_ibmaiops_feature.aiops_size == "custom"
 
 
-
-
-
 - name:  🚀 IBM AIOPS INSTALL - Install Custom Resource - INSTALL IBM AIOPS
   kubernetes.core.k8s:
     state: present
     template: './templates/aiops/4_aiops-install-template.j2'
-  when: current_ibmaiops_feature.aiops_size != "custom"
-
-    
+  when: current_ibmaiops_feature.aiops_size != "custom" 

@@ -79,7 +79,7 @@ cd ansible
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get FILE_OBSERVER_POD
     FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
@@ -113,7 +113,7 @@ cd ansible
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
 
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get Credentials
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
@@ -158,7 +158,7 @@ cd ansible
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get FILE_OBSERVER_POD
     FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
@@ -192,7 +192,7 @@ cd ansible
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
 
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get Credentials
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
@@ -235,7 +235,7 @@ cd ansible
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get FILE_OBSERVER_POD
     FILE_OBSERVER_POD=$(oc get po -n $AIOPS_NAMESPACE -l app.kubernetes.io/instance=aiops-topology,app.kubernetes.io/name=file-observer -o jsonpath='{.items[0].metadata.name}')
@@ -271,7 +271,7 @@ cd ansible
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
 
     # Create Route
-    oc create route reencrypt topology-file-api -n $AIOPS_NAMESPACE --service=aiops-topology-file-observer --port=https-file-observer-api
+    oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
 
     # Get Credentials
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)

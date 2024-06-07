@@ -785,7 +785,7 @@ def addExternalLinksToIncident(request):
                 print(i['title'])
                 print(i['state'])
 
-                if 'Optimise Buffer Pool ' in i['title'] or 'Commit in repository' in i['title'] or 'Resize up vMEM' in i['title'] or 'MySQL' in i['title'] or 'Robot' in i['title'] or 'Erroneous call rate' in i['title']:
+                if 'Optimise Buffer Pool ' in i['title'] or 'Commit in repository' in i['title'] or 'Resize up vMEM' in i['title'] or 'MySQL' in i['title'] or 'Robot' in i['title'] or 'Erroneous call rate' in i['title'] or 'ArgoCD' in i['title'] or 'Database' in i['title'] or 'Erroneous' in i['title'] or 'Jenkins' in i['title']:
                     current_id=str(i['id'])
                     # print(i['title'])
                     # print(current_id)
