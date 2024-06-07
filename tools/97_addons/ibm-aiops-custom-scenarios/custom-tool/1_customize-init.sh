@@ -39,7 +39,7 @@ SED="sed"
 if [ "${OS}" == "darwin" ]; then
     SED="gsed"
     if [ ! -x "$(command -v ${SED})"  ]; then
-    __output "This script requires $SED, but it was not found.  Perform \"brew install gnu-sed\" and try again."
+    echo "This script requires $SED, but it was not found.  Perform \"brew install gnu-sed\" and try again."
     exit
     fi
 fi
