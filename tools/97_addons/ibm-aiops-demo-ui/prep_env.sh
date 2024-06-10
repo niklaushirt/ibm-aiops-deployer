@@ -281,7 +281,7 @@ export LOG_TIME_SKEW=60
 export LOG_TIME_ZONE="-1"
 export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
 export DATALAYER_USER=$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode)
-export DATALAYER_PWD=$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)
+export DATALAYER_PWD=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)
 
 
 export METRIC_ROUTE=$(oc get route | grep ibm-nginx-svc | awk '{print $2}')

@@ -9,10 +9,9 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
-#  Create Custom Incident
+#  Simulate Change
 #
-#    - Inject Events
-#    - Set/Reset NOK Custom Properties
+#    - Set/Reset Custom Properties
 #
 #
 #
@@ -75,7 +74,7 @@ echo ""
 echo "***************************************************************************************************************************************************"
 echo "***************************************************************************************************************************************************"
 echo ""
-echo " 🚀  Create Custom Incident"
+echo " 🚀  Simulate Change"
 echo ""
 echo "***************************************************************************************************************************************************"
 echo "***************************************************************************************************************************************************"
@@ -90,10 +89,6 @@ echo "--------------------------------------------------------------------------
 echo "🟣    ---------------------------------------------------------------------------------------------"
 echo "🟣     🔎 CUSTOM Simulation Parameters"
 echo "🟣    ---------------------------------------------------------------------------------------------"
-echo "🟣           ❗ CUSTOM_EVENTS:                  Number of events: $(echo "$CUSTOM_EVENTS" | wc -l|tr -d ' ')"
-echo "🟣           📦 CUSTOM_TOPOLOGY_APP_NAME:       $CUSTOM_TOPOLOGY_APP_NAME"
-echo "🟣           📛 CUSTOM_TOPOLOGY_TAG:            $CUSTOM_TOPOLOGY_TAG"
-echo "🟣           🧾 CUSTOM_TOPOLOGY:                Number of entities: $(echo "$CUSTOM_TOPOLOGY" | wc -l|tr -d ' ')"
 echo "🟣           📥 CUSTOM_PROPERTY_RESOURCE_NAME:  $CUSTOM_PROPERTY_RESOURCE_NAME"
 echo "🟣           🛠️ CUSTOM_PROPERTY_RESOURCE_TYPE:  $CUSTOM_PROPERTY_RESOURCE_TYPE"
 echo "🟣           🟩 CUSTOM_PROPERTY_VALUES_OK:      $CUSTOM_PROPERTY_VALUES_OK"
@@ -118,61 +113,14 @@ echo ""
 
     export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
 
-    export USER_PASS="$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
-    export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
 
     echo ""
     echo "   --------------------------------------------------------------------------------------------------"
     echo "     🛠️ Topology Mgt URL:       $TOPO_MGT_ROUTE"
     echo "     🛠️ TopologyLogin:          $LOGIN"
-    echo "     🛠️ Datalayer URL:          $DATALAYER_ROUTE"
-    echo "     🛠️ Datalayer Login:        $USER_PASS"
 
  
 
-echo ""
-echo ""
-echo ""
-echo ""
-echo "🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣"
-echo ""
-echo "  🚀 STEP 1: Injecting Events"
-echo ""
-    echo ""
-    echo "   --------------------------------------------------------------------------------------------------"
-    echo "     🌶️ Injecting Events"
-
-    echo "$CUSTOM_EVENTS"  > /tmp/custom-events.txt
-
-    EVENTS_SECONDS=10
-    COUNTER=1
-
-
-    while IFS= read -r line
-    do
-        COUNTER=$((COUNTER+1))
-        EVENTS_SECONDS=$((EVENTS_SECONDS+1))
-        EVENTS_SECONDS=$((EVENTS_SECONDS+60))
-        EVENTS_SECONDS_SKEW="-v+"$EVENTS_SECONDS"S"
-
-        # Get timestamp in ELK format
-        export my_timestamp=$(date $EVENTS_SECONDS_SKEW $DATE_FORMAT_EVENTS)".000Z"
-        export myID=$(date "+%s")$COUNTER
-
-        #echo "aaaaa: "$myID
-        # Replace in line
-        line=${line//MY_TIMESTAMP/$my_timestamp}
-        line=${line//MY_ID/$myID}
-        line=${line//\"/\\\"}
-
-        export c_string=$(echo "curl \"https://$DATALAYER_ROUTE/irdatalayer.aiops.io/active/v1/events\" --insecure -s  -X POST -u \"${USER_PASS}\" -H 'Content-Type: application/json' -H 'x-username:admin' -H 'x-subscription-id:cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d \"${line}\"")
-        #echo "       Q:$c_string"
-        export result=$(eval $c_string)
-        myId=$(echo $result|jq ".deduplicationKey")
-        echo "        🌶️ Event created: $myId"
-
-    done < /tmp/custom-events.txt
-
 
 echo ""
 echo ""
@@ -180,19 +128,35 @@ echo ""
 echo ""
 echo "🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣"
 echo ""
-echo "  🚀 STEP 2: Set Custom Incident Properties"
+echo "  🚀 STEP 1: Starting"
 echo ""
+
+export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name=$CUSTOM_PROPERTY_RESOURCE_NAME&_filter=entityTypes=$CUSTOM_PROPERTY_RESOURCE_TYPE&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+echo ""
+echo "   --------------------------------------------------------------------------------------------------"
+echo "     🛠️ ID for Entitiy:         $OBJ_ID"
+
+
+while true; 
+do
+
+    export RANDOM_DELAY=$(( ( RANDOM % $RANDOM_DELAY_VALUE )  + ${RANDOM_DELAY_SKEW} ))
+    #echo $RANDOM_DELAY
+
+    export RANDOM_TPS=$(( ( RANDOM % $RANDOM_TPS_VALUE )  + ${RANDOM_TPS_SKEW} ))
+    #echo $RANDOM_TPS
+
+    export my_timestamp=$(date $EVENTS_SECONDS_SKEW $DATE_FORMAT_EVENTS)".000Z"
 
     echo "----------------------------------------------------------------------------------------------------------"
-    echo "     🌶️ Set Custom Properties for $CUSTOM_PROPERTY_RESOURCE_NAME "
+    echo "     🌶️ Reset Custom Properties for $CUSTOM_PROPERTY_RESOURCE_NAME : $my_timestamp"
+    export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "{\"timestamp\": \"$my_timestamp\",\"Transactions per Second\": \"$RANDOM_TPS\",\"test\": \"$RANDOM_DELAY\"}")
+    #echo $result
 
-    export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name=$CUSTOM_PROPERTY_RESOURCE_NAME&_filter=entityTypes=$CUSTOM_PROPERTY_RESOURCE_TYPE&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-    
-    echo ""
-    echo "   --------------------------------------------------------------------------------------------------"
-    echo "     🛠️ ID for Entitiy:         $OBJ_ID"
+    echo "     ⏳ Waiting $RANDOM_DELAY s"
+    sleep $RANDOM_DELAY
 
-    export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "$CUSTOM_PROPERTY_VALUES_NOK")
+done
 
 echo ""
 echo ""
