@@ -17,11 +17,15 @@
 #   - `CUSTOM_PROPERTY_VALUES_OK` : The values to be added/created when the Incident is being mitigaged
 #
 
-export CUSTOM_PROPERTY_RESOURCE_NAME='mysql'
-export CUSTOM_PROPERTY_RESOURCE_TYPE='deployment'
-export CUSTOM_PROPERTY_VALUES_NOK='{"test1": "NOK","test2": "NOK","test3": "NOK"}'
-export CUSTOM_PROPERTY_VALUES_OK='{"test1": "OK","test2": "OK","test3": "OK"}'
 
+declare -a  CUSTOM_PROPERTY_RESOURCES=(
+                "mysql:deployment"
+                "ratings:deployment" 
+                "payment:deployment" 
+                "shipping:deployment" 
+                "catalogue:deployment" 
+                "web:deployment"
+            )
 
 export RANDOM_DELAY_VALUE=15
 export RANDOM_DELAY_SKEW=0

@@ -54,7 +54,7 @@ fi
 
 
 
-clear
+#clear
 
 echo "***************************************************************************************************************************************************"
 echo "***************************************************************************************************************************************************"
@@ -86,14 +86,14 @@ echo "--------------------------------------------------------------------------
 
 
 
+
+
+
 echo "🟣    ---------------------------------------------------------------------------------------------"
 echo "🟣     🔎 CUSTOM Simulation Parameters"
 echo "🟣    ---------------------------------------------------------------------------------------------"
 echo "🟣           📥 CUSTOM_PROPERTY_RESOURCE_NAME:  $CUSTOM_PROPERTY_RESOURCE_NAME"
 echo "🟣           🛠️ CUSTOM_PROPERTY_RESOURCE_TYPE:  $CUSTOM_PROPERTY_RESOURCE_TYPE"
-echo "🟣           🟩 CUSTOM_PROPERTY_VALUES_OK:      $CUSTOM_PROPERTY_VALUES_OK"
-echo "🟣           🟥 CUSTOM_PROPERTY_VALUES_NOK:     $CUSTOM_PROPERTY_VALUES_NOK"
-
 
 echo ""
 echo ""
@@ -114,10 +114,16 @@ echo ""
     export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
 
 
+    export USER_PASS="$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
+    export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
+
     echo ""
     echo "   --------------------------------------------------------------------------------------------------"
     echo "     🛠️ Topology Mgt URL:       $TOPO_MGT_ROUTE"
     echo "     🛠️ TopologyLogin:          $LOGIN"
+    echo "     🛠️ Datalayer URL:          $DATALAYER_ROUTE"
+    echo "     🛠️ Datalayer Login:        $USER_PASS"
+
 
  
 
@@ -131,10 +137,10 @@ echo ""
 echo "  🚀 STEP 1: Starting"
 echo ""
 
-export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name=$CUSTOM_PROPERTY_RESOURCE_NAME&_filter=entityTypes=$CUSTOM_PROPERTY_RESOURCE_TYPE&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
-echo ""
-echo "   --------------------------------------------------------------------------------------------------"
-echo "     🛠️ ID for Entitiy:         $OBJ_ID"
+
+
+
+
 
 
 while true; 
@@ -148,13 +154,49 @@ do
 
     export my_timestamp=$(date $EVENTS_SECONDS_SKEW $DATE_FORMAT_EVENTS)".000Z"
 
-    echo "----------------------------------------------------------------------------------------------------------"
-    echo "     🌶️ Reset Custom Properties for $CUSTOM_PROPERTY_RESOURCE_NAME : $my_timestamp"
-    export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "{\"timestamp\": \"$my_timestamp\",\"Transactions per Second\": \"$RANDOM_TPS\",\"test\": \"$RANDOM_DELAY\"}")
-    #echo $result
+    for RESOURCE in "${CUSTOM_PROPERTY_RESOURCES[@]}"
+    do
+        export CUSTOM_PROPERTY_RESOURCE_NAME=$(echo $RESOURCE| cut -d ":" -f 1)
+        export CUSTOM_PROPERTY_RESOURCE_TYPE=$(echo $RESOURCE| cut -d ":" -f 2)
+        export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name=$CUSTOM_PROPERTY_RESOURCE_NAME&_filter=entityTypes=$CUSTOM_PROPERTY_RESOURCE_TYPE&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=false" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
+        echo "----------------------------------------------------------------------------------------------------------"
+        echo "     🌶️ Update Properties for $CUSTOM_PROPERTY_RESOURCE_NAME : $CUSTOM_PROPERTY_RESOURCE_TYPE : $OBJ_ID"
+        export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "{\"timestamp\": \"$my_timestamp\",\"Transactions per Second\": \"$RANDOM_TPS\",\"test\": \"$RANDOM_DELAY\"}")
+        #echo $result
 
+
+
+        # echo "----------------------------------------------------------------------------------------------------------"
+        # echo "     🌶️ Create Alert for $CUSTOM_PROPERTY_RESOURCE_NAME : $my_timestamp"
+        # export line='{ "id": "1a2a6787-59ad-4acd-bd0d-MY_ID",  "occurrenceTime": "MY_TIMESTAMP", "summary": "Info -  Received MY_ID", "severity": 1, "type": { "eventType": "problem", "classification": "EventType" }, "expirySeconds": 2, "links": [ { "linkType": "webpage", "name": "LinkName", "description": "LinkDescription", "url": "https://pirsoscom.github.io/git-commit-mysql-vm.html" } ], "sender": { "type": "host", "name": "SenderName", "sourceId": "SenderSource" }, "resource": { "type": "deployment", "name": "mysql", "sourceId": "ResourceSorce" }, "details": { "Tag1Name": "Tag1", "Tag2Name": "Tag2" }}'
+
+
+        # export my_timestamp=$(date $EVENTS_SECONDS_SKEW $DATE_FORMAT_EVENTS)".000Z"
+        # export myID=$(date "+%s")$COUNTER
+
+        # #echo "aaaaa: "$myID
+        # # Replace in line
+        # line=${line//MY_TIMESTAMP/$my_timestamp}
+        # line=${line//MY_ID/$myID}
+        # line=${line//\"/\\\"}
+
+        # #echo $line
+
+        # export c_string=$(echo "curl \"https://$DATALAYER_ROUTE/irdatalayer.aiops.io/active/v1/events\" --insecure -s  -X POST -u \"${USER_PASS}\" -H 'Content-Type: application/json' -H 'x-username:admin' -H 'x-subscription-id:cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d \"${line}\"")
+        # #echo "       Q:$c_string"
+        # export result=$(eval $c_string)
+
+
+    done
+
+
+
+
+    echo "----------------------------------------------------------------------------------------------------------"
     echo "     ⏳ Waiting $RANDOM_DELAY s"
     sleep $RANDOM_DELAY
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "----------------------------------------------------------------------------------------------------------"
 
 done
 
