@@ -25,6 +25,13 @@ declare -a  CUSTOM_PROPERTY_RESOURCES=(
                 "shipping:deployment" 
                 "catalogue:deployment" 
                 "web:deployment"
+                "mysql:container"
+                "ratings:container" 
+                "payment:container" 
+                "shipping:container" 
+                "catalogue:container" 
+                "web:container"
+                "mysql:database"
             )
 
 export RANDOM_DELAY_VALUE=15
