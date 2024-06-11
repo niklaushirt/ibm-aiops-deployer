@@ -72,7 +72,7 @@
       existing=$(oc get route topology-merge -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
+        # oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
       fi
     ignore_errors: true
     register: output
@@ -90,7 +90,7 @@
       existing=$(oc get route topology-rest -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-admin
+        # oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-admin
       fi
     ignore_errors: true
     register: output
@@ -108,7 +108,7 @@
       existing=$(oc get route topology-file -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-file -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
+        # oc create route passthrough topology-file -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
       fi
     ignore_errors: true
     register: output
@@ -126,7 +126,7 @@
       existing=$(oc get route topology-kubernetes -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-kubernetes -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-admin
+        # oc create route passthrough topology-kubernetes -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-admin
       fi
     ignore_errors: true
     register: output
@@ -146,7 +146,7 @@
       existing=$(oc get route topology-manage -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
+        # oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
       fi
     ignore_errors: true
     register: output
@@ -164,7 +164,7 @@
       existing=$(oc get route topology-file-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
+        # oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
       fi
     ignore_errors: true
     register: output
@@ -176,13 +176,13 @@
       verbosity: 1
 
 
-  - name: 🚀 ROUTES - Create Topology Route - topology-kubernetes-api
+  - name: 🚀 ROUTES - Create Topology Route - aiops-topology-kubernetes-observer
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-      existing=$(oc get route topology-kubernetes-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
+      existing=$(oc get route aiops-topology-kubernetes-observer -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route passthrough topology-kubernetes-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
+        oc create route passthrough aiops-topology-kubernetes-observer -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
       fi
     ignore_errors: true
     register: output

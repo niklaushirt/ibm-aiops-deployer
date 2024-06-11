@@ -654,7 +654,7 @@ def checkTopology():
     export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
 
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
 
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
@@ -694,7 +694,7 @@ def modifyProperty(RESOURCE_NAME,RESOURCE_TYPE,VALUES,):
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
     echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
@@ -734,7 +734,7 @@ def modifyMYSQL():
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
     echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
@@ -771,7 +771,7 @@ def resetMYSQL():
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
     echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
@@ -861,7 +861,7 @@ def loadTopology():
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
-    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
+    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-file-observer -o jsonpath={.spec.host})
     export JOB_ID=demoui-custom-topology
 
     # echo "  URL: $TOPO_ROUTE"
@@ -902,8 +902,8 @@ def loadTopology():
     export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
     export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
 
-    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-file-api -o jsonpath={.spec.host})
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-file-observer -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
 
     export TEMPLATE_ID=$(curl -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*&_filter=keyIndexName%3Dcustom-template" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
 
@@ -1000,7 +1000,7 @@ def loadTopology():
     export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
 
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
 
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 

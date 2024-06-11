@@ -14,10 +14,10 @@
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
     export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
     export LOGIN_TOKEN=$(echo -n $LOGIN|base64)
-    export TOPO_MGT_HOST=$(oc get route -n $AIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+    export TOPO_MGT_HOST=$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
 
     echo "    HOST:         $TOPO_MGT_HOST"
     echo "    URL:          $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
