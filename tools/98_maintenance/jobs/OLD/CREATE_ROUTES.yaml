@@ -104,35 +104,35 @@ spec:
               existing=$(oc get route topology-merge -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
+                # oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
               fi
 
 
               existing=$(oc get route topology-rest -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-admin
+                # oc create route passthrough topology-rest -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-admin
               fi
 
 
               existing=$(oc get route topology-file -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route passthrough topology-file -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
+                # oc create route passthrough topology-file -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
               fi
 
 
               existing=$(oc get route topology-manage -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
+                # oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
               fi
 
 
               existing=$(oc get route topology-file-api -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
+                # oc create route passthrough topology-file-api -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-api
               fi
 
 

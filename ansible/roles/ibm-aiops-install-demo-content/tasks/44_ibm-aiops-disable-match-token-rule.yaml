@@ -58,7 +58,7 @@
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
     #oc delete route  topology-merge -n $AIOPS_NAMESPACE
-    oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
+    # oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
 
 
     echo "URL: https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/"

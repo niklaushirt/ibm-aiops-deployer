@@ -10,8 +10,8 @@ export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOP
 export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
 #oc delete route  topology-merge -n $AIOPS_NAMESPACE
-oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
-export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-merge -o jsonpath={.spec.host})
+# oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
+export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-merge -o jsonpath={.spec.host})
 
 
 echo "URL: $MERGE_ROUTE/1.0/merge/"

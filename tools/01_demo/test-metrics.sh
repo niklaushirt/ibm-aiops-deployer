@@ -98,7 +98,7 @@ oc project $AIOPS_NAMESPACE  >/tmp/demo.log 2>&1  || true
 
 
 
-export USER_PASS="$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
+export USER_PASS="$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
 oc apply -n $AIOPS_NAMESPACE -f ./tools/01_demo/scripts/datalayer-api-route.yaml >/tmp/demo.log 2>&1  || true
 sleep 2
 export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
@@ -124,7 +124,7 @@ export WORKING_DIR_METRICS="./tools/01_demo/INCIDENT_FILES/$APP_NAME/metrics"
 echo "     📥 Get ASM Connection"
 export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
 export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE topology-rest -o jsonpath={.spec.host})
+export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-rest-observer -o jsonpath={.spec.host})
 export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
 
