@@ -38,6 +38,19 @@
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
+# Patch ASM Routes
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🛠️ PATCH -  ASM Routes
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    oc patch ASM aiops-topology -n $AIOPS_NAMESPACE -p '{"spec":{"helmValuesASM":{"global.enableAllRoutes":true}}}' --type=merge
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
 # Patch Ingress
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 🚀 ROUTES - Patch Ingress policy-group
