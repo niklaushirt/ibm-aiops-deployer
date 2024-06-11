@@ -89,11 +89,6 @@ echo "--------------------------------------------------------------------------
 
 
 
-echo "🟣    ---------------------------------------------------------------------------------------------"
-echo "🟣     🔎 CUSTOM Simulation Parameters"
-echo "🟣    ---------------------------------------------------------------------------------------------"
-echo "🟣           📥 CUSTOM_PROPERTY_RESOURCE_NAME:  $CUSTOM_PROPERTY_RESOURCE_NAME"
-echo "🟣           🛠️ CUSTOM_PROPERTY_RESOURCE_TYPE:  $CUSTOM_PROPERTY_RESOURCE_TYPE"
 
 echo ""
 echo ""
@@ -161,7 +156,7 @@ do
         export OBJ_ID=$(curl -k -s -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/resources?_filter=name=$CUSTOM_PROPERTY_RESOURCE_NAME&_filter=entityTypes=$CUSTOM_PROPERTY_RESOURCE_TYPE&_field=uniqueId&_include_global_resources=false&_include_count=false&_include_status=false&_include_status_severity=false&_include_metadata=false&_return_composites=true" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]|._id'| tail -1)
         echo "----------------------------------------------------------------------------------------------------------"
         echo "     🌶️ Update Properties for $CUSTOM_PROPERTY_RESOURCE_NAME : $CUSTOM_PROPERTY_RESOURCE_TYPE : $OBJ_ID"
-        export result=$(curl -k -s -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "{\"timestamp\": \"$my_timestamp\",\"Transactions per Second\": \"$RANDOM_TPS\",\"test\": \"$RANDOM_DELAY\"}")
+        export result=$(curl -k -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/resources/$OBJ_ID" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -d "{\"timestamp\": \"$my_timestamp\",\"Transactions per Second\": \"$RANDOM_TPS\",\"test\": \"$RANDOM_DELAY\"}")
         #echo $result
 
 
