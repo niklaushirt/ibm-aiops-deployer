@@ -768,11 +768,11 @@
               "singleLine": false
             }]
           },
-          "Container": {
+          "Namespace": {
             "dynamicConnectionCriteria": [{
-              "expVal": "robot-shop",
-              "expType": "EQ",
-              "filterType": "containersByNamespace",
+              "expVal": ".*robot.*",
+              "expType": "RXEQ",
+              "filterType": "namespacesByName",
               "caseSensitive": false,
               "entityType": null,
               "singleLine": false
@@ -783,16 +783,6 @@
               "expVal": ".*demo.*|.*robot.*",
               "expType": "RXEQ",
               "filterType": "vmsByName",
-              "caseSensitive": false,
-              "entityType": null,
-              "singleLine": false
-            }]
-          },
-          "ContainerPod": {
-            "dynamicConnectionCriteria": [{
-              "expVal": "robot-shop",
-              "expType": "EQ",
-              "filterType": "containerPodsByNamespace",
               "caseSensitive": false,
               "entityType": null,
               "singleLine": false

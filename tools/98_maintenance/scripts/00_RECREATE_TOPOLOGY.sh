@@ -12,6 +12,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------------
 
+export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-merge -o jsonpath={.spec.host})
 
 
 # 🚀 TOPOLOGY - Disable Match Token RULE for Services
@@ -26,20 +27,18 @@
     export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
     export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
 
-    #oc delete route  topology-merge -n $AIOPS_NAMESPACE
-    # oc create route passthrough topology-merge -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api
+    export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-merge -o jsonpath={.spec.host})
 
 
-    echo "URL: https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/"
+    echo "URL: $MERGE_ROUTE/1.0/merge/"
     echo "LOGIN: $LOGIN"
 
 
-    echo "Wait 5 seconds"
-    sleep 5
+
 
     echo "Disable Match Token RULE for Services..."
 
-    export result=$(curl -X "GET" "https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/rules?_filter=name%3Dk8sGenericNameMatchTokens&ruleType=matchTokensRule" --insecure \
+    export result=$(curl -X "GET" "$MERGE_ROUTE/1.0/merge/rules?_filter=name%3Dk8sGenericNameMatchTokens&ruleType=matchTokensRule" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN)
@@ -47,7 +46,7 @@
 
     export ruleID=$(echo $ruleIDs| jq -r ".[0]._id")
 
-    curl -X "POST" "https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/rules/$ruleID/?ruleType=matchTokensRule" --insecure \
+    curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules/$ruleID/?ruleType=matchTokensRule" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
@@ -57,7 +56,7 @@
 
     echo "Disable Match Token RULE for Instana Services..."
 
-    export result=$(curl -X "GET" "https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/rules?_filter=name%3Dinstana-observer-events-kubernetes-service&ruleType=matchTokensRule" --insecure \
+    export result=$(curl -X "GET" "$MERGE_ROUTE/1.0/merge/rules?_filter=name%3Dinstana-observer-events-kubernetes-service&ruleType=matchTokensRule" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN)
@@ -65,7 +64,7 @@
 
     export ruleID=$(echo $ruleIDs| jq -r ".[0]._id")
 
-    curl -X "POST" "https://topology-merge-$AIOPS_NAMESPACE.$CLUSTER_NAME/1.0/merge/rules/$ruleID/?ruleType=matchTokensRule" --insecure \
+    curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules/$ruleID/?ruleType=matchTokensRule" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
