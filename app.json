@@ -1,0 +1,775 @@
+{
+  "_executionTime": 37,
+  "_offset": 0,
+  "_limit": 50,
+  "_items": [
+    {
+      "correlate": "true",
+      "_id": "ZySZaE7VSBSfRXp91awOwA",
+      "_correlationEnabled": "true",
+      "_timeSinceLastUpdate": 435880,
+      "dataCenter": "robot-shop",
+      "_observedAt": "2024-06-12T16:46:34.956Z",
+      "accessScopeTokens": [
+        "kubernetes.observer:robot-shop",
+        "robot-shop"
+      ],
+      "observedTime": 1718210794956,
+      "vertexType": "group",
+      "createTime": 1718183036197,
+      "_createdAt": "2024-06-12T09:03:56.197Z",
+      "name": "robot-shop",
+      "memberTypes": [
+        "server",
+        "pod",
+        "service",
+        "statefulset",
+        "daemonset",
+        "deployment"
+      ],
+      "entityTypes": [
+        "namespace"
+      ],
+      "uniqueId": "robot-shop::kubernetes::namespace::robot-shop"
+    },
+    {
+      "correlate": "true",
+      "_id": "bWSLVHAtQcek7a_VFWoPig",
+      "_correlationEnabled": "true",
+      "_timeSinceLastUpdate": 431281,
+      "dataCenter": "sock-shop",
+      "_observedAt": "2024-06-12T16:46:39.556Z",
+      "accessScopeTokens": [
+        "kubernetes.observer:sock-shop",
+        "sock-shop"
+      ],
+      "observedTime": 1718210799556,
+      "vertexType": "group",
+      "createTime": 1718183047796,
+      "_createdAt": "2024-06-12T09:04:07.796Z",
+      "name": "sock-shop",
+      "memberTypes": [
+        "server",
+        "pod",
+        "service",
+        "statefulset",
+        "daemonset",
+        "deployment"
+      ],
+      "entityTypes": [
+        "namespace"
+      ],
+      "uniqueId": "sock-shop::kubernetes::namespace::sock-shop"
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 1+2",
+      "_id": "7_NPSX-FTPuO0kpGvaYtKw",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:45.237Z",
+      "_timeSinceLastUpdate": 28085600,
+      "_observedAt": "2024-06-12T09:05:45.237Z",
+      "observedTime": 1718183145237,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183145237,
+      "vertexType": "group",
+      "createTime": 1718183145237,
+      "_createdAt": "2024-06-12T09:05:45.237Z",
+      "correlatable": "true",
+      "name": "Tube zone 1+2",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "underground-central-app",
+      "_id": "rEDoOCMxQp-X0B8wT5AfLA",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_timeSinceLastUpdate": 28078150,
+      "businessCriticality": "Platinum",
+      "_observedAt": "2024-06-12T09:05:52.688Z",
+      "disruptionCostPerMin": "200",
+      "observedTime": 1718183152688,
+      "tags": [
+        "London",
+        "underground"
+      ],
+      "vertexType": "group",
+      "createTime": 1718183152688,
+      "_createdAt": "2024-06-12T09:05:52.688Z",
+      "correlatable": "true",
+      "name": "Central London stations",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "underground-inner-app",
+      "_id": "-LJHuD7kTEOAumxle_7BYQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_timeSinceLastUpdate": 28066545,
+      "businessCriticality": "Platinum",
+      "_observedAt": "2024-06-12T09:06:04.294Z",
+      "disruptionCostPerMin": "200",
+      "observedTime": 1718183164294,
+      "tags": [
+        "London",
+        "underground"
+      ],
+      "vertexType": "group",
+      "createTime": 1718183164294,
+      "_createdAt": "2024-06-12T09:06:04.294Z",
+      "correlatable": "true",
+      "name": "Inner London stations",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "robot-shop-template",
+      "_id": "qlvKMx51QcGXq5c3Uu34lw",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "_timeSinceLastUpdate": 343321,
+      "businessCriticality": "Gold",
+      "_observedAt": "2024-06-12T16:48:07.519Z",
+      "observedTime": 1718210887519,
+      "tags": [
+        "robot-shop-template"
+      ],
+      "vertexType": "group",
+      "groupTokens": [
+        "namespace:robot-shop"
+      ],
+      "createTime": 1718210887519,
+      "_createdAt": "2024-06-12T16:48:07.519Z",
+      "correlatable": "true",
+      "name": "robot-shop-template",
+      "entityTypes": [
+        "completeGroup",
+        "namespace"
+      ]
+    },
+    {
+      "keyIndexName": "incidentToGroup:ac7d3e9b-f5a4-40bd-9e26-235d89b066ff",
+      "_id": "zpawDJRWR3mKoebC3HbkOA",
+      "_correlationEnabled": "false",
+      "vertexType": "group",
+      "waiopsPriority": 2,
+      "_timeSinceLastUpdate": 253165,
+      "createTime": 1718210972059,
+      "storyStartTime": "2024-06-12T16:49:47.000Z",
+      "_observedAt": "2024-06-12T16:49:37.675Z",
+      "_createdAt": "2024-06-12T16:49:32.059Z",
+      "name": "\"ac7d3e9b-f5a4-40bd-9e26-235d89b066ff\"",
+      "entityTypes": [
+        "waiopsStory"
+      ],
+      "observedTime": 1718210977675
+    },
+    {
+      "keyIndexName": "sock-shop-template",
+      "_id": "OrEgS40TTc-Y8jMsw1OdQA",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "_timeSinceLastUpdate": 339064,
+      "businessCriticality": "Gold",
+      "_observedAt": "2024-06-12T16:48:11.777Z",
+      "observedTime": 1718210891777,
+      "tags": [
+        "sock-shop-template"
+      ],
+      "vertexType": "group",
+      "groupTokens": [
+        "namespace:sock-shop"
+      ],
+      "createTime": 1718210891777,
+      "_createdAt": "2024-06-12T16:48:11.777Z",
+      "correlatable": "true",
+      "name": "sock-shop-template",
+      "entityTypes": [
+        "completeGroup",
+        "namespace"
+      ]
+    },
+    {
+      "keyIndexName": "incidentToGroup:dd5c028b-4c96-472e-b460-8fe76776bb92",
+      "_id": "OF9mPBnOT6Cof2tszfEXgQ",
+      "_correlationEnabled": "false",
+      "vertexType": "group",
+      "waiopsPriority": 3,
+      "_timeSinceLastUpdate": 259195,
+      "createTime": 1718210956826,
+      "storyStartTime": "2024-06-12T16:53:07.000Z",
+      "_observedAt": "2024-06-12T16:49:31.647Z",
+      "_createdAt": "2024-06-12T16:49:16.826Z",
+      "name": "\"dd5c028b-4c96-472e-b460-8fe76776bb92\"",
+      "entityTypes": [
+        "waiopsStory"
+      ],
+      "observedTime": 1718210971647
+    },
+    {
+      "keyIndexName": "sock-shop-app",
+      "_id": "ntx_vhjeTDiXxTDE4XFvgg",
+      "_correlationEnabled": "true",
+      "iconId": "swarm",
+      "_timeSinceLastUpdate": 316767,
+      "businessCriticality": "Gold",
+      "_observedAt": "2024-06-12T16:48:34.075Z",
+      "disruptionCostPerMin": "50",
+      "observedTime": 1718210914075,
+      "tags": [
+        "app:sock-shop",
+        "app:sockshop"
+      ],
+      "vertexType": "group",
+      "createTime": 1718210914075,
+      "_createdAt": "2024-06-12T16:48:34.075Z",
+      "correlatable": "true",
+      "name": "SockShop",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "incidentToGroup:c6df3bd3-6f27-4c05-acad-5335527b33f1",
+      "_id": "tE-HX8OyQ3yXR5gy9TM25A",
+      "_correlationEnabled": "false",
+      "vertexType": "group",
+      "waiopsPriority": 3,
+      "_timeSinceLastUpdate": 246204,
+      "createTime": 1718210973502,
+      "storyStartTime": "2024-06-12T16:49:48.000Z",
+      "_observedAt": "2024-06-12T16:49:44.639Z",
+      "_createdAt": "2024-06-12T16:49:33.502Z",
+      "name": "\"c6df3bd3-6f27-4c05-acad-5335527b33f1\"",
+      "entityTypes": [
+        "waiopsStory"
+      ],
+      "observedTime": 1718210984639
+    },
+    {
+      "keyIndexName": "optical-networks-template",
+      "_id": "Jvp6KDzrTUWqQPmckdJ-Ww",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "_timeSinceLastUpdate": 330746,
+      "businessCriticality": "Gold",
+      "_observedAt": "2024-06-12T16:48:20.098Z",
+      "observedTime": 1718210900098,
+      "tags": [
+        "optical-networks-template"
+      ],
+      "vertexType": "group",
+      "groupTokens": [
+        "app:telco"
+      ],
+      "createTime": 1718210900098,
+      "_createdAt": "2024-06-12T16:48:20.098Z",
+      "correlatable": "true",
+      "name": "optical-networks-template",
+      "entityTypes": [
+        "completeGroup",
+        "device",
+        "port"
+      ]
+    },
+    {
+      "keyIndexName": "robot-shop-app",
+      "_id": "hTnsT4sJQRK01JCi2rehfw",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "_timeSinceLastUpdate": 325912,
+      "businessCriticality": "Platinum",
+      "_observedAt": "2024-06-12T16:48:24.932Z",
+      "disruptionCostPerMin": "100",
+      "observedTime": 1718210904932,
+      "tags": [
+        "app:robot-shop",
+        "app:robotshop"
+      ],
+      "vertexType": "group",
+      "createTime": 1718210904932,
+      "_createdAt": "2024-06-12T16:48:24.932Z",
+      "correlatable": "true",
+      "name": "RobotShop",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "optical-networks",
+      "_id": "fXt2D0NsTFWuJU2IzlL7fA",
+      "_correlationEnabled": "true",
+      "iconId": "cluster",
+      "_timeSinceLastUpdate": 302538,
+      "businessCriticality": "Platinum",
+      "_observedAt": "2024-06-12T16:48:48.307Z",
+      "disruptionCostPerMin": "1000",
+      "observedTime": 1718210928307,
+      "tags": [
+        "app:optical-networks",
+        "app:telco"
+      ],
+      "vertexType": "group",
+      "createTime": 1718210928307,
+      "_createdAt": "2024-06-12T16:48:48.307Z",
+      "correlatable": "true",
+      "name": "Optical Networks",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "incidentToGroup:1a7e5b42-20b7-4bbf-917f-67090adb3aff",
+      "_id": "Cw2Je8hqTP--7kKnWi_8sg",
+      "_correlationEnabled": "false",
+      "vertexType": "group",
+      "waiopsPriority": 2,
+      "_timeSinceLastUpdate": 265152,
+      "createTime": 1718210964966,
+      "storyStartTime": "2024-06-12T16:49:37.000Z",
+      "_observedAt": "2024-06-12T16:49:25.694Z",
+      "_createdAt": "2024-06-12T16:49:24.966Z",
+      "name": "\"1a7e5b42-20b7-4bbf-917f-67090adb3aff\"",
+      "entityTypes": [
+        "waiopsStory"
+      ],
+      "observedTime": 1718210965694
+    },
+    {
+      "keyIndexName": "acme-template",
+      "_id": "5BigRl1fRBKTuIuxlxbMjg",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "_timeSinceLastUpdate": 334886,
+      "businessCriticality": "Gold",
+      "_observedAt": "2024-06-12T16:48:15.961Z",
+      "observedTime": 1718210895961,
+      "tags": [
+        "acme-template"
+      ],
+      "vertexType": "group",
+      "groupTokens": [
+        "namespace:acme"
+      ],
+      "createTime": 1718210895961,
+      "_createdAt": "2024-06-12T16:48:15.961Z",
+      "correlatable": "true",
+      "name": "acme-template",
+      "entityTypes": [
+        "completeGroup",
+        "namespace"
+      ]
+    },
+    {
+      "keyIndexName": "incidentToGroup:fcf42096-2b28-43b7-afd9-c427bb77e263",
+      "_id": "ARHxWPoPR5e-yHEp3GJRig",
+      "_correlationEnabled": "false",
+      "vertexType": "group",
+      "waiopsPriority": 3,
+      "_timeSinceLastUpdate": 265787,
+      "createTime": 1718210965060,
+      "storyStartTime": "2024-06-12T16:49:37.000Z",
+      "_observedAt": "2024-06-12T16:49:25.060Z",
+      "_createdAt": "2024-06-12T16:49:25.060Z",
+      "name": "\"fcf42096-2b28-43b7-afd9-c427bb77e263\"",
+      "entityTypes": [
+        "waiopsStory"
+      ],
+      "observedTime": 1718210965060
+    },
+    {
+      "keyIndexName": "acme-app",
+      "_id": "RPYHeA_VSgqTqJBJOepEQQ",
+      "_correlationEnabled": "true",
+      "iconId": "cluster",
+      "_timeSinceLastUpdate": 307354,
+      "businessCriticality": "Silver",
+      "_observedAt": "2024-06-12T16:48:43.494Z",
+      "disruptionCostPerMin": "25",
+      "observedTime": 1718210923494,
+      "tags": [
+        "app:acme-air",
+        "app:acmeair"
+      ],
+      "vertexType": "group",
+      "createTime": 1718210923494,
+      "_createdAt": "2024-06-12T16:48:43.494Z",
+      "correlatable": "true",
+      "name": "ACME Air",
+      "entityTypes": [
+        "waiopsApplication"
+      ]
+    },
+    {
+      "keyIndexName": "test",
+      "_id": "nxebXTvERnCMCXX2jcczKg",
+      "_correlationEnabled": "true",
+      "iconId": "application",
+      "vertexType": "group",
+      "_timeSinceLastUpdate": 164047,
+      "createTime": 1718211066802,
+      "_observedAt": "2024-06-12T16:51:06.802Z",
+      "_createdAt": "2024-06-12T16:51:06.802Z",
+      "correlatable": "true",
+      "name": "test",
+      "disruptionCostPerMin": "",
+      "entityTypes": [
+        "waiopsApplication"
+      ],
+      "observedTime": 1718211066802
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 2+3",
+      "_id": "D-eKfA7TS3usTILfuzZwuQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:45.237Z",
+      "_timeSinceLastUpdate": 28085612,
+      "_observedAt": "2024-06-12T09:05:45.237Z",
+      "observedTime": 1718183145237,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183145237,
+      "vertexType": "group",
+      "createTime": 1718183145237,
+      "_createdAt": "2024-06-12T09:05:45.237Z",
+      "correlatable": "true",
+      "name": "Tube zone 2+3",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 2",
+      "_id": "-gZOx6fOQKuxBg6a73ZIsA",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:45.237Z",
+      "_timeSinceLastUpdate": 28085613,
+      "_observedAt": "2024-06-12T09:05:45.237Z",
+      "observedTime": 1718183145237,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183145237,
+      "vertexType": "group",
+      "createTime": 1718183145237,
+      "_createdAt": "2024-06-12T09:05:45.237Z",
+      "correlatable": "true",
+      "name": "Tube zone 2",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 6+7",
+      "_id": "n66iie8lTJSwyFvxpSPdYQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:51.201Z",
+      "_timeSinceLastUpdate": 28079650,
+      "_observedAt": "2024-06-12T09:05:51.201Z",
+      "observedTime": 1718183151201,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183151201,
+      "vertexType": "group",
+      "createTime": 1718183151201,
+      "_createdAt": "2024-06-12T09:05:51.201Z",
+      "correlatable": "true",
+      "name": "Tube zone 6+7",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 4",
+      "_id": "AvS-9d1fQB2FhUpFPlXUMg",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:46.310Z",
+      "_timeSinceLastUpdate": 28084542,
+      "_observedAt": "2024-06-12T09:05:46.310Z",
+      "observedTime": 1718183146310,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183146310,
+      "vertexType": "group",
+      "createTime": 1718183146310,
+      "_createdAt": "2024-06-12T09:05:46.310Z",
+      "correlatable": "true",
+      "name": "Tube zone 4",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 2/3",
+      "_id": "yOWvthB5QgSPKSbF15ki4w",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:54.001Z",
+      "_timeSinceLastUpdate": 28076850,
+      "_observedAt": "2024-06-12T09:05:54.002Z",
+      "observedTime": 1718183154002,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183154001,
+      "vertexType": "group",
+      "createTime": 1718183154002,
+      "_createdAt": "2024-06-12T09:05:54.002Z",
+      "correlatable": "true",
+      "name": "Tube zone 2/3",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 5",
+      "_id": "_e0J_pnLRgOoP587kBmLXg",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:45.514Z",
+      "_timeSinceLastUpdate": 28085339,
+      "_observedAt": "2024-06-12T09:05:45.514Z",
+      "observedTime": 1718183145514,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183145514,
+      "vertexType": "group",
+      "createTime": 1718183145514,
+      "_createdAt": "2024-06-12T09:05:45.514Z",
+      "correlatable": "true",
+      "name": "Tube zone 5",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 7",
+      "_id": "BvBaW-drR3ab0KvMJSXuiQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:48.403Z",
+      "_timeSinceLastUpdate": 28082451,
+      "_observedAt": "2024-06-12T09:05:48.403Z",
+      "observedTime": 1718183148403,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183148403,
+      "vertexType": "group",
+      "createTime": 1718183148403,
+      "_createdAt": "2024-06-12T09:05:48.403Z",
+      "correlatable": "true",
+      "name": "Tube zone 7",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 1",
+      "_id": "qTSFugFySO6c4POoOW-KCg",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:45.513Z",
+      "_timeSinceLastUpdate": 28085342,
+      "_observedAt": "2024-06-12T09:05:45.513Z",
+      "observedTime": 1718183145513,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183145513,
+      "vertexType": "group",
+      "createTime": 1718183145513,
+      "_createdAt": "2024-06-12T09:05:45.513Z",
+      "correlatable": "true",
+      "name": "Tube zone 1",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone ",
+      "_id": "Rzx5gCcNSyOKfbZHpm24JQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:47.202Z",
+      "_timeSinceLastUpdate": 28083654,
+      "_observedAt": "2024-06-12T09:05:47.202Z",
+      "observedTime": 1718183147202,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183147202,
+      "vertexType": "group",
+      "createTime": 1718183147202,
+      "_createdAt": "2024-06-12T09:05:47.202Z",
+      "correlatable": "true",
+      "name": "Tube zone ",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 3",
+      "_id": "GUFs0ILhTHmf5O7BgFO4Sw",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:44.428Z",
+      "_timeSinceLastUpdate": 28086428,
+      "_observedAt": "2024-06-12T09:05:44.428Z",
+      "observedTime": 1718183144428,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183144428,
+      "vertexType": "group",
+      "createTime": 1718183144428,
+      "_createdAt": "2024-06-12T09:05:44.428Z",
+      "correlatable": "true",
+      "name": "Tube zone 3",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 8",
+      "_id": "lgf5DjqeTK2ZZMuaSkbsWg",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:49.304Z",
+      "_timeSinceLastUpdate": 28081552,
+      "_observedAt": "2024-06-12T09:05:49.305Z",
+      "observedTime": 1718183149305,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183149304,
+      "vertexType": "group",
+      "createTime": 1718183149305,
+      "_createdAt": "2024-06-12T09:05:49.305Z",
+      "correlatable": "true",
+      "name": "Tube zone 8",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 9",
+      "_id": "aYeMf8MERU2qkmA8E0zcgg",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:46.310Z",
+      "_timeSinceLastUpdate": 28084548,
+      "_observedAt": "2024-06-12T09:05:46.310Z",
+      "observedTime": 1718183146310,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183146310,
+      "vertexType": "group",
+      "createTime": 1718183146310,
+      "_createdAt": "2024-06-12T09:05:46.310Z",
+      "correlatable": "true",
+      "name": "Tube zone 9",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 3+4",
+      "_id": "3WbXN0ztS9uxCs9q3y-IuA",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:47.206Z",
+      "_timeSinceLastUpdate": 28083653,
+      "_observedAt": "2024-06-12T09:05:47.206Z",
+      "observedTime": 1718183147206,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183147206,
+      "vertexType": "group",
+      "createTime": 1718183147206,
+      "_createdAt": "2024-06-12T09:05:47.206Z",
+      "correlatable": "true",
+      "name": "Tube zone 3+4",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 6",
+      "_id": "Dr0XDyPdSzK5qYhiPzmLrw",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:05:47.202Z",
+      "_timeSinceLastUpdate": 28083658,
+      "_observedAt": "2024-06-12T09:05:47.202Z",
+      "observedTime": 1718183147202,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183147202,
+      "vertexType": "group",
+      "createTime": 1718183147202,
+      "_createdAt": "2024-06-12T09:05:47.202Z",
+      "correlatable": "true",
+      "name": "Tube zone 6",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    },
+    {
+      "keyIndexName": "groupPerTokenRule::tube zone 5+6",
+      "_id": "RWwroaOWRRaOXKIEbO1KYQ",
+      "_correlationEnabled": "true",
+      "iconId": "Underground",
+      "_modifiedAt": "2024-06-12T09:06:05.505Z",
+      "_timeSinceLastUpdate": 28065355,
+      "_observedAt": "2024-06-12T09:06:05.506Z",
+      "observedTime": 1718183165506,
+      "tags": [
+        "Tube groups"
+      ],
+      "changeTime": 1718183165505,
+      "vertexType": "group",
+      "createTime": 1718183165506,
+      "_createdAt": "2024-06-12T09:06:05.506Z",
+      "correlatable": "true",
+      "name": "Tube zone 5+6",
+      "entityTypes": [
+        "TFL",
+        "completeGroup"
+      ]
+    }
+  ]
+}
