@@ -12,7 +12,9 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-merge -o jsonpath={.spec.host})
+
+# export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+# oc patch ASM aiops-topology -n $AIOPS_NAMESPACE -p '{"spec":{"helmValuesASM":{"global.enableAllRoutes":true}}}' --type=merge 
 
 
 # 🚀 TOPOLOGY - Disable Match Token RULE for Services
@@ -597,7 +599,7 @@ export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-m
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          TOPOLOGY_CUSTOM_FILE=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
+          TOPOLOGY_CUSTOM_FILE=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
     else
           TOPOLOGY_CUSTOM_FILE="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
     fi    
@@ -651,7 +653,7 @@ export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-m
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
@@ -735,7 +737,7 @@ export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-m
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
@@ -817,7 +819,7 @@ export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-m
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
@@ -902,7 +904,7 @@ export MERGE_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-m
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
           FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
