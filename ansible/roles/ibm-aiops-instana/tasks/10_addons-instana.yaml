@@ -194,9 +194,10 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator Postgres
   shell: |
     # Postgres operator installation
+    helm repo add instana https://helm.instana.io/artifactory/rel-helm-customer-virtual --username _ --password {{current_agent_key}}
     helm repo add postgres https://opensource.zalando.com/postgres-operator/charts/postgres-operator
     helm repo update
-    helm install postgres-operator postgres/postgres-operator  --version=1.10.0 --set configGeneral.kubernetes_use_configmaps=true --set securityContext.runAsUser=1000860000 --namespace=instana-datastores
+    helm install postgres-operator postgres/postgres-operator  --version=1.12.2 --set configGeneral.kubernetes_use_configmaps=true --set securityContext.runAsUser=1000860000 --namespace=instana-datastores
   ignore_errors: true
   register: output
   args:
@@ -210,7 +211,6 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator Beeinstana
   shell: |
     # Beeinstana operator installation
-    helm repo add instana https://helm.instana.io/artifactory/rel-helm-customer-virtual --username _ --password {{current_agent_key}}
     helm repo update
     # HACK!!!!
     helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault --version v1.48.0
@@ -449,7 +449,7 @@
 
 - name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 18 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
