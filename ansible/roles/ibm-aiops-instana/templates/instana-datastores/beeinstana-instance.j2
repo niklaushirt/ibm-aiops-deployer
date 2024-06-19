@@ -49,13 +49,13 @@ spec:
     cpu: 4
     memory: 16Gi
     limitMemory: true
-    mirrors: 2
+    mirrors: {{current_ibmaiops_feature.instana_beeinstana_mirrors  | default("2")}}
     shards: 1
     volumes:
       live:
         size: 2000Gi
         # Uncomment the line below to specify your own storage class.
-        storageClass: ocs-storagecluster-ceph-rbd
+        storageClass: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
     image:
       name: beeinstana/aggregator
       tag: v1.85.35-release
