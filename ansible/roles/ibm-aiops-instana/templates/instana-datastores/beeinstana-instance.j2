@@ -31,6 +31,10 @@ spec:
   kafkaSettings:
     brokers:
       - cluster.kafka.svc:9092
+  config:
+    cpu: 200m
+    memory: 200Mi
+    replicas: 1
   ingestor:
     cpu: 8
     memory: 4Gi
@@ -45,13 +49,13 @@ spec:
     cpu: 4
     memory: 16Gi
     limitMemory: true
-    mirrors: {{current_ibmaiops_feature.instana_beeinstana_mirrors  | default("2")}}
+    mirrors: 2
     shards: 1
     volumes:
       live:
         size: 2000Gi
         # Uncomment the line below to specify your own storage class.
-        storageClass: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
+        storageClass: ocs-storagecluster-ceph-rbd
     image:
       name: beeinstana/aggregator
       tag: v1.85.35-release
