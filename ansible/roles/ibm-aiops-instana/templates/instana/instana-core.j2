@@ -46,6 +46,23 @@ metadata:
   name: instana-core
   namespace: instana-core
 spec:
+  componentConfigs:
+    - name: appdata-writer
+      resources:
+        requests:
+          cpu: 2500m
+          memory: 5000Mi
+        limits:
+          cpu: 4000m
+          memory: 20001Mi
+    - name: appdata-reader
+      resources:
+        limits:
+          cpu: 4000m
+          memory: 20001Mi
+        requests:
+          cpu: 2500m
+          memory: 5000Mi
   imagePullSecrets:
     - name: instana-registry
   operationScopes:
