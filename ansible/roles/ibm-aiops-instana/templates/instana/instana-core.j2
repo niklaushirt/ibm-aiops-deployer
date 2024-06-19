@@ -53,26 +53,32 @@ spec:
     - global
   operationMode: normal
   featureFlags:
-    - name: feature.logging.enabled
-      enabled: true
-    - name: feature.beeinstana.enabled
+    - name: feature.automation.enabled
       enabled: true
     - name: feature.beeinstana.infra.metrics.enabled
       enabled: true
-    - name: feature.infra.explore.presentation.enabled
+    - name: feature.business.observability.enabled
       enabled: true
-    - name: feature.vsphere.enabled
-      enabled: true
-    - name: feature.automation.enabled
-      enabled: true
-    - name: feature.action.automation.enabled
+    - name: feature.logging.enabled
       enabled: true
     - name: feature.phmc.enabled
       enabled: true
     - name: feature.powervc.enabled
       enabled: true
-    - enabled: true
-      name: feature.synthetics.enabled
+    - name: feature.zhmc.enabled
+      enabled: true
+    - name: feature.openstack.enabled
+      enabled: true
+    - name: feature.pcf.enabled
+      enabled: true
+    - name: feature.sap.enabled
+      enabled: true
+    - name: feature.synthetics.enabled
+      enabled: true
+    - name: feature.vsphere.enabled
+      enabled: true
+    - name: feature.infra.explore.presentation.enabled
+      enabled: true
   agentAcceptorConfig:
     host: agent.{{BASE_DOMAIN}}
     port: 443
