@@ -706,28 +706,44 @@
         -H 'Content-Type: application/json; charset=utf-8'|grep "DEMO - Reset Uplink"|wc -l|tr -d ' ')
 
     if [[ $result == "0" ]]; then
-      export PAYLOAD=$(echo "    {
-      \"name\": \"♻️ DEMO - Reset Uplink\",
-      \"description\": \"Reset Optical Network Uplink to mitigagte the problem.\",
-      \"prerequisites\": \"\",
-      \"parameters\": [],
-      \"tags\": [],
-      \"http\": {
-        \"host\": \"https://ibm.com\",
-        \"method\": \"GET\",
-        \"headers\": \"{}\",
-        \"ignoreCertErrors\": false
-      }
-      }")
+      export PAYLOAD=$(echo "{
+              \"tags\": [],
+              \"steps\": [
+                {
+                  \"mappings\": [
+                    {
+                      \"parameterMappingType\": \"parameter\",
+                      \"parameterValue\": \"clusterCredentials\",
+                      \"automationParameterName\": \"extraVariables\"
+                    }
+                  ],
+                  \"number\": 1,
+                  \"title\": \"♻️ DEMO - Reset Uplink\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Mitigate Robotshop Ratings Outage\",
+                  \"type\": \"automation\"
+                }
+              ],
+              \"name\": \"♻️ DEMO - Reset Uplink\",
+              \"description\": \"Reset Optical Network Uplink to mitigagte the problem.\",
+              \"parameters\": [
+                {
+                  \"minLength\": 0,
+                  \"format\": \"multiline\",
+                  \"name\": \"clusterCredentials\",
+                        \"default\": \"{ \\\"my_k8s_apiurl\\\": \\\"$DEMO_URL\\\", \\\"my_k8s_apikey\\\": \\\"$DEMO_TOKEN\\\" }\",
+                  \"description\": \"Cluster Credentials encoded as JSON..\",
+                  \"type\": \"string\"
+                }
+              ]
+          }")
 
-      echo $PAYLOAD>/tmp/action.json
-
+      echo $PAYLOAD>/tmp/runbook.json
 
       
-      export result=$(curl -X "POST" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/actions?publish=true" \
+      export result=$(curl -X "POST" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
           -H "Authorization: bearer $ZEN_TOKEN" \
           -H 'Content-Type: application/json; charset=utf-8' \
-          -d @/tmp/action.json)
+          -d @/tmp/runbook.json)
       echo $result
       rm /tmp/action.json
 

@@ -19,6 +19,7 @@ urlpatterns = [
     path('injectEventsREST', views.injectEventsREST, name='injectEventsREST'),
     path('injectMetricsREST', views.injectMetricsREST, name='injectMetricsREST'),
     path('injectAllREST', views.injectAllREST, name='injectAllREST'),
+    path('injectAllRobotNetREST', views.injectAllRobotNetREST, name='injectAllRobotNetREST'),
     path('injectAllFanACMEREST', views.injectAllFanACMEREST, name='injectAllFanACMEREST'),
     path('injectAllNetSOCKREST', views.injectAllNetSOCKREST, name='injectAllNetSOCKREST'),
     path('injectAllTUBEREST', views.injectAllTUBEREST, name='injectAllTUBEREST'),
