@@ -563,9 +563,9 @@
     echo "    URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
     echo "    LOGIN: $LOGIN"
 
-    # kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/backup_ui_config -out backup.json
-    # kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
-    # open ./backup.json
+   kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/backup_ui_config -force -out backup.json
+   kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
+   #open ./backup.json
 
 
 
@@ -575,7 +575,7 @@
     -H 'accept: application/json' \
     -H 'content-type: application/json' \
     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -u $LOGIN|jq -r '._items[] | select(.maxLabelLength=="")|._id'>/tmp/customItems.json
+    -u $LOGIN|jq -r '._items[] |._id'>/tmp/customItems.json
 
     cat /tmp/customItems.json
 
