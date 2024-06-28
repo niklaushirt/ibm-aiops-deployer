@@ -17,6 +17,7 @@
 ,{"name":"cluster","keyIndexName":"ASM::entityType::resource::cluster","vertexType":"entityType","icon":"cluster","description":"resource","databaseSource":"types"}
 ,{"name":"container","keyIndexName":"ASM::entityType::resource::container","vertexType":"entityType","icon":"container","description":"resource","databaseSource":"types"}
 ,{"name":"cpu","keyIndexName":"ASM::entityType::resource::cpu","vertexType":"entityType","icon":"cpu","description":"resource","databaseSource":"types"}
+,{"name":"device","keyIndexName":"ASM::entityType::resource::device","vertexType":"entityType","icon":"device","description":"resource","databaseSource":"types"}
 ,{"name":"database","keyIndexName":"ASM::entityType::resource::database","vertexType":"entityType","icon":"database","description":"resource","databaseSource":"types"}
 ,{"name":"deployment","keyIndexName":"ASM::entityType::resource::deployment","vertexType":"entityType","icon":"deployment","description":"resource","databaseSource":"types"}
 ,{"name":"host","keyIndexName":"ASM::entityType::resource::host","vertexType":"entityType","icon":"chassis","description":"resource","databaseSource":"types"}
