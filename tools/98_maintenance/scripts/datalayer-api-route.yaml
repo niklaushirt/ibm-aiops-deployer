@@ -7,8 +7,8 @@ spec:
   port:
     targetPort: secure-port
   tls:
+    termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
-    termination: reencrypt
   to:
     kind: Service
     name: aiops-ir-core-ncodl-api

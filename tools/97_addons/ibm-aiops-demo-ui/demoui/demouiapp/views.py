@@ -650,7 +650,8 @@ print ('🟣           🔄 LOG_TIME_SKEW Logs:             '+str(LOG_TIME_SKEW)
 print ('🟣           🔐 LOG_TIME_ZONE Cert:             '+str(LOG_TIME_ZONE))
 print ('🟣')
 print ('🟣           🕦 EVENTS_TIME_SKEW:               '+str(EVENTS_TIME_SKEW))
-print ('🟣           📝 DEMO_EVENTS_MEM:                '+str(len(DEMO_EVENTS_MEM)))
+print ('🟣           📝 DEMO_EVENTS_ROBO_MEM:           '+str(len(DEMO_EVENTS_MEM)))
+print ('🟣           📝 DEMO_EVENTS_ROBO_NET:           '+str(len(DEMO_EVENTS_ROBO_NET)))
 print ('🟣           📝 DEMO_EVENTS_SOCK:               '+str(len(DEMO_EVENTS_NET_SOCK)))
 print ('🟣           📝 DEMO_EVENTS_ACME:               '+str(len(DEMO_EVENTS_FAN_ACME)))
 print ('🟣           📝 DEMO_EVENTS_TUBE:               '+str(len(DEMO_EVENTS_TUBE)))
@@ -663,7 +664,6 @@ print ('🟣           🔄 METRIC_ITERATIONS:              '+str(METRIC_ITERATI
 print ('🟣           📈 METRICS_TO_SIMULATE_MEM:        '+str(len(METRICS_TO_SIMULATE_MEM)))
 print ('🟣           📈 METRICS_TO_SIMULATE_FAN_TEMP:   '+str(len(METRICS_TO_SIMULATE_FAN_TEMP)))
 print ('🟣           📈 METRICS_TO_SIMULATE_FAN:        '+str(len(METRICS_TO_SIMULATE_FAN)))
-print ('🟣           📈 METRICS_TO_SIMULATE_NET:        '+str(len(METRICS_TO_SIMULATE_NET)))
 print ('🟣')
 print ('🟣           📈 ROBOTSHOP_PROPERTY_RESOURCE_NAME:  '+str(ROBOTSHOP_PROPERTY_RESOURCE_NAME))
 print ('🟣           📈 ROBOTSHOP_PROPERTY_RESOURCE_TYPE:  '+str(ROBOTSHOP_PROPERTY_RESOURCE_TYPE))
@@ -1092,12 +1092,12 @@ def injectAllREST(request):
         template = loader.get_template('demouiapp/home.html')
         
         
-        # injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
+        # injectEventsMemRobot(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
         # injectMetricsMem(METRIC_ROUTE,METRIC_TOKEN)
         # injectLogs(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
 
         print('  🟠 Create THREADS')
-        threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadEvents = Thread(target=injectEventsMemRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
@@ -1177,6 +1177,108 @@ def injectAllREST(request):
 
 
 
+
+
+def injectAllRobotNetREST(request):
+    print('🌏 injectAllRobotNetREST')
+    global loggedin
+    global INCIDENT_ACTIVE
+    global ROBOT_SHOP_OUTAGE_ACTIVE
+    global SOCK_SHOP_OUTAGE_ACTIVE
+    print('     🟣 OUTAGE - Incident:'+str(INCIDENT_ACTIVE)+' - RS-OUTAGE:'+str(ROBOT_SHOP_OUTAGE_ACTIVE)+' - SOCK-OUTAGE:'+str(SOCK_SHOP_OUTAGE_ACTIVE))
+    verifyLogin(request)
+
+    if loggedin=='true':
+        template = loader.get_template('demouiapp/home.html')
+        
+        
+        # injectEventsMemRobot(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
+        # injectMetricsMem(METRIC_ROUTE,METRIC_TOKEN)
+        # injectLogs(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS)
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsNetRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        threadMetrics.start()
+        threadLogs.start()
+        threadLinks.start()
+        # print('  🟠 Join THREADS')
+        # # wait for the threads to complete
+        # threadEvents.join()
+        # threadMetrics.join()
+        # threadLogs.join()
+        #time.sleep(3)
+        print('🌏 Create RobotShop MySQL outage')
+        os.system('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
+        os.system('oc set env deployment load -n robot-shop ERROR=1')
+
+        #addExternalLinksToIncident(request)
+
+        INCIDENT_ACTIVE=True
+        ROBOT_SHOP_OUTAGE_ACTIVE=True
+
+
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs.start()
+
+
+    else:
+        template = loader.get_template('demouiapp/loginui.html')
+
+
+    context = {
+        'loggedin': loggedin,
+        'aimanager_url': aimanager_url,
+        'aimanager_user': aimanager_user,
+        'aimanager_pwd': aimanager_pwd,
+        'DEMO_USER': DEMO_USER,
+        'DEMO_PWD': DEMO_PWD,
+        'awx_url': awx_url,
+        'awx_user': awx_user,
+        'awx_pwd': awx_pwd,
+        'elk_url': elk_url,
+        'turbonomic_url': turbonomic_url,
+        'instana_url': instana_url,
+        'instana_url': instana_url,
+        'openshift_url': openshift_url,
+        'openshift_token': openshift_token,
+        'openshift_server': openshift_server,
+        'vault_url': vault_url,
+        'vault_token': vault_token,
+        'ladp_url': ladp_url,
+        'ladp_user': ladp_user,
+        'ladp_pwd': ladp_pwd,
+        'flink_url': flink_url,
+        'flink_url_policy': flink_url_policy,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
+        'spark_url': spark_url,
+        'INSTANCE_NAME': INSTANCE_NAME,
+        'INSTANCE_IMAGE': INSTANCE_IMAGE,
+        'ADMIN_MODE': ADMIN_MODE,
+        'hasCustomScenario': int(hasCustomScenario),
+        'CUSTOM_NAME': CUSTOM_NAME,
+        'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
+        'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
+        'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
+        'SIMULATION_MODE': SIMULATION_MODE,
+        'PAGE_TITLE': 'Welcome to your Demo UI',
+        'PAGE_NAME': 'index'
+    }
+    return HttpResponse(template.render(context, request))
+
+
+
+
+
 def httpCommand(request):
     print('🌏 httpCommand')
     global loggedin
@@ -1209,7 +1311,7 @@ def injectRESTHeadless(request):
 
     if currentapp=='robotshop':
         print('  🟠 Create THREADS')
-        threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadEvents = Thread(target=injectEventsMemRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
@@ -1240,6 +1342,8 @@ def injectRESTHeadless(request):
         SOCK_SHOP_OUTAGE_ACTIVE=True
 
         print('🌏 Create Sockshop Catalog outage')
+        print('🌏 Create Optical Network outage')
+
         os.system('oc patch service catalogue -n sock-shop --patch "{\\"spec\\": {\\"selector\\": {\\"name\\": \\"catalog-outage\\"}}}"')
 
 
@@ -1247,16 +1351,20 @@ def injectRESTHeadless(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
+        threadEvents1.start()
+
         #time.sleep(3)
 
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
         threadLinks.start()
+
 
 
     elif currentapp=='acme':
@@ -1316,7 +1424,7 @@ def injectRESTHeadless(request):
 
     elif currentapp=='all':
         print('  🟠 Create THREADS')
-        threadEvents = Thread(target=injectEventsMem, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadEvents = Thread(target=injectEventsMemRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
@@ -1536,16 +1644,20 @@ def injectAllNetSOCKREST(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
+        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
+        threadEvents1.start()
+
         #time.sleep(3)
 
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
         threadLinks.start()
+
 
         #addExternalLinksToIncident(request)
         
@@ -1813,7 +1925,7 @@ def injectEventsREST(request):
     verifyLogin(request)
 
     if loggedin=='true':
-        injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
+        injectEventsMemRobot(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD)
         template = loader.get_template('demouiapp/home.html')
     else:
         template = loader.get_template('demouiapp/loginui.html')

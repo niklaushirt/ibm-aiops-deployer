@@ -25,11 +25,14 @@ apiVersion: beeinstana.instana.com/v1beta1
 kind: BeeInstana
 metadata:
   name: instance
-  namespace: instana-datastores
+  namespace: beeinstana
 spec:
-  version: 1.4.0
+  version: 1.3.12
+  adminCredentials:
+    secretName: beeinstana-admin-creds
   kafkaSettings:
     brokers:
+      # Update KAFKA_NAMESPACE to the namespace where Kafka is installed
       - cluster.kafka.svc:9092
   config:
     cpu: 200m
@@ -42,9 +45,6 @@ spec:
     env: on-prem
     metricsTopic: raw_metrics
     replicas: 1
-    image:
-      name: beeinstana/ingestor
-      tag: v1.85.35-release
   aggregator:
     cpu: 4
     memory: 16Gi
@@ -56,10 +56,5 @@ spec:
         size: 2000Gi
         # Uncomment the line below to specify your own storage class.
         storageClass: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
-    image:
-      name: beeinstana/aggregator
-      tag: v1.85.35-release
   # Should set useMultiArchImages to true for s390x and ppc64le
   useMultiArchImages: false
-
-

@@ -8,7 +8,7 @@
 
 
 
-export APP_NAME=network-switch
+export APP_NAME=robot-shop-network
 export LOG_TYPE=elk   # humio, elk, splunk, ...
 export EVENTS_TYPE=noi
 export EVENTS_SKEW="-120M"
@@ -98,10 +98,15 @@ fi
 oc project $AIOPS_NAMESPACE  >/tmp/demo.log 2>&1  || true
 
 
-export USER_PASS="$(oc get secret aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
-oc apply -n $AIOPS_NAMESPACE -f ./tools/01_demo/scripts/datalayer-api-route.yaml >/tmp/demo.log 2>&1  || true
-sleep 2
-export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
+    export USER_PASS="$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.username}' | base64 --decode):$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-core-ncodl-api-secret -o jsonpath='{.data.password}' | base64 --decode)"
+    export DATALAYER_ROUTE=$(oc get route  -n $AIOPS_NAMESPACE datalayer-api  -o jsonpath='{.status.ingress[0].host}')
+
+    echo ""
+    echo "   --------------------------------------------------------------------------------------------------"
+    echo "     🛠️ Topology Mgt URL:       $TOPO_MGT_ROUTE"
+    echo "     🛠️ TopologyLogin:          $LOGIN"
+    echo "     🛠️ Datalayer URL:          $DATALAYER_ROUTE"
+    echo "     🛠️ Datalayer Login:        $USER_PASS"
 
 
 echo ""
@@ -246,6 +251,13 @@ else
 fi
 echo " "
 
+echo " "
+echo "     🔐 Get Kafka Password"
+export KAFKA_SECRET=$(oc get secret -n $AIOPS_NAMESPACE |grep 'aiops-kafka-secret'|awk '{print$1}')
+export SASL_USER=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.username}} | base64 --decode)
+export SASL_PASSWORD=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.password}} | base64 --decode)
+export KAFKA_BROKER=$(oc get routes iaf-system-kafka-0 -n $AIOPS_NAMESPACE -o=jsonpath='{.status.ingress[0].host}{"\n"}'):443
+echo " "
 
 echo "     📥 Get Kafka Topics"
 #export KAFKA_TOPIC_LOGS=$(oc get kafkatopics -n $AIOPS_NAMESPACE | grep cp4waiops-cartridge-logs-elk| awk '{print $1;}')
@@ -265,13 +277,6 @@ else
 fi
 
 
-echo " "
-echo "     🔐 Get Kafka Password"
-export KAFKA_SECRET=$(oc get secret -n $AIOPS_NAMESPACE |grep 'aiops-kafka-secret'|awk '{print$1}')
-export SASL_USER=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.username}} | base64 --decode)
-export SASL_PASSWORD=$(oc get secret $KAFKA_SECRET -n $AIOPS_NAMESPACE --template={{.data.password}} | base64 --decode)
-export KAFKA_BROKER=$(oc get routes iaf-system-kafka-0 -n $AIOPS_NAMESPACE -o=jsonpath='{.status.ingress[0].host}{"\n"}'):443
-echo " "
 
 echo "     📥 Get Working Directories"
 export WORKING_DIR_LOGS="./tools/01_demo/INCIDENT_FILES/$APP_NAME/logs"
@@ -416,19 +421,19 @@ echo "   -----------------------------------------------------------------------
 # Inject the Events Inception files
 ./tools/01_demo/scripts/simulate-events-rest.sh
 
-# Prepare the Log Inception files
-./tools/01_demo/scripts/prepare-logs-fast.sh
+# # Prepare the Log Inception files
+# ./tools/01_demo/scripts/prepare-logs-fast.sh
 
-# Inject the Log Inception files
-./tools/01_demo/scripts/simulate-logs.sh 
+# # Inject the Log Inception files
+# ./tools/01_demo/scripts/simulate-logs.sh 
 
-# Inject the Metric Anomalies
-./tools/01_demo/scripts/simulate-metrics-network.sh
+# # Inject the Metric Anomalies
+# ./tools/01_demo/scripts/simulate-metrics-network.sh
 
-# Inject the Log Inception files
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
-./tools/01_demo/scripts/simulate-logs.sh 
+# # Inject the Log Inception files
+# ./tools/01_demo/scripts/simulate-logs.sh 
+# ./tools/01_demo/scripts/simulate-logs.sh 
+# ./tools/01_demo/scripts/simulate-logs.sh 
 
 export result=$(curl "https://$DATALAYER_ROUTE/irdatalayer.aiops.io/active/v1/stories" --insecure --silent -X PATCH -u "${USER_PASS}" -d '{"priority": 1,"state": "inProgress","owner": "demo","team": "All users"}' -H 'Content-Type: application/json' -H "x-username:admin" -H "x-subscription-id:cfd95b7e-3bc7-4006-a4a8-a73a79c71255")
 echo "       Stories assigned: "$(echo $result | jq ".affected")

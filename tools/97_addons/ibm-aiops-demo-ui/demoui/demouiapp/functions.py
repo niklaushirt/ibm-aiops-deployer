@@ -56,14 +56,10 @@ LOG_TIME_ZONE="-1"
 
 #ROBOTSHOP
 DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
-DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
-DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
+DEMO_EVENTS_ROBO_NET=os.environ.get('DEMO_EVENTS_ROBO_NET')
 DEMO_LOGS=os.environ.get('DEMO_LOGS')
-DEMO_LOGS_SOCK=os.environ.get('DEMO_LOGS_SOCK')
 METRICS_TO_SIMULATE_MEM=str(os.environ.get('METRICS_TO_SIMULATE_MEM')).split(';')
-METRICS_TO_SIMULATE_FAN_TEMP=str(os.environ.get('METRICS_TO_SIMULATE_FAN_TEMP')).split(';')
-METRICS_TO_SIMULATE_FAN=str(os.environ.get('METRICS_TO_SIMULATE_FAN')).split(';')
-METRICS_TO_SIMULATE_NET=str(os.environ.get('METRICS_TO_SIMULATE_NET')).split(';')
+#METRICS_TO_SIMULATE_NET=str(os.environ.get('METRICS_TO_SIMULATE_NET')).split(';')
 
 ROBOTSHOP_PROPERTY_RESOURCE_NAME=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_NAME','mysql')
 ROBOTSHOP_PROPERTY_RESOURCE_TYPE=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_TYPE','deployment')
@@ -76,11 +72,23 @@ ROBOTSHOP_PROPERTY_VALUES_OK=os.environ.get('ROBOTSHOP_PROPERTY_VALUES_OK','{"in
 METRICS_TO_SIMULATE_FAN_TEMP_ACME=str(os.environ.get('METRICS_TO_SIMULATE_FAN_TEMP_ACME')).split(';')
 METRICS_TO_SIMULATE_FAN_ACME=str(os.environ.get('METRICS_TO_SIMULATE_FAN_ACME')).split(';')
 DEMO_EVENTS_FAN_ACME=os.environ.get('DEMO_EVENTS_FAN_ACME')
+METRICS_TO_SIMULATE_FAN_TEMP=str(os.environ.get('METRICS_TO_SIMULATE_FAN_TEMP')).split(';')
+METRICS_TO_SIMULATE_FAN=str(os.environ.get('METRICS_TO_SIMULATE_FAN')).split(';')
 
 
 #SOCKESHOP
+DEMO_LOGS_SOCK=os.environ.get('DEMO_LOGS_SOCK')
 METRICS_TO_SIMULATE_NET_SOCK=str(os.environ.get('METRICS_TO_SIMULATE_NET_SOCK')).split(';')
 DEMO_EVENTS_NET_SOCK=os.environ.get('DEMO_EVENTS_NET_SOCK')
+
+#TUBE
+DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
+
+
+#TELCO
+DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
+
+
 
 #BUSY
 DEMO_EVENTS_BUSY=os.environ.get('DEMO_EVENTS_BUSY','')
@@ -354,11 +362,15 @@ def injectLogsGeneric(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_C
 # INJECT EVENTS
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-def injectEventsMem(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD): 
+def injectEventsMemRobot(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD): 
     print ('📛 START - Inject Events - MEM ROBOTSHOP')
     injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_MEM)
     return 'OK'
 
+def injectEventsNetRobot(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD): 
+    print ('📛 START - Inject Events - NET ROBOTSHOP')
+    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_ROBO_NET)
+    return 'OK'
 
 def injectEventsFanACME(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
     print ('📛 START - Inject Events - FAN ACME')
@@ -472,12 +484,6 @@ def injectMetricsFan(METRIC_ROUTE,METRIC_TOKEN):
     return 'OK'
 
 
-def injectMetricsNet(METRIC_ROUTE,METRIC_TOKEN):  
-    print ('📛 START - Inject Metrics - NET ROBOTSHOP')
-    METRIC_TIME_SKEW=int(os.environ.get('METRIC_TIME_SKEW'))
-    METRIC_TIME_STEP=int(os.environ.get('METRIC_TIME_STEP'))
-    injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE_NET,METRIC_TIME_SKEW,METRIC_TIME_STEP,"injectMetricsNet")
-    return 'OK'
 
 
 
