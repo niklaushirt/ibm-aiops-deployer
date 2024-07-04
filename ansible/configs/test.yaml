@@ -58,7 +58,7 @@ ibm-aiops:
     install: false
 
     # current_ibmaiops_feature
-    # IBMAIOPS Size of the install (small: PoC/Demo, tall: Production)
+    # IBMAIOPS Size of the install (small: PoC/Demo, large: Production)
     aiops_size: small
     # Custom Sizing File (aiops_size must be set to "custom")
     custom_size_file: none    # Name of the IBMAIOPS instance
