@@ -28,25 +28,6 @@ kind: Namespace
 metadata:
   name: ibm-aiops-installer
 ---
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: nfs-client-provisioner
-subjects:
-  - kind: ServiceAccount
-    name: nfs-client-provisioner
-    namespace: nfs-provisioner
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
----
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: nfs-client-provisioner
-  namespace: nfs-provisioner
----
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -65,9 +46,21 @@ data:
     #*************************************************************************************************************************************************
 
     global_config:
-      # Available Names: Test, Demo, AIOPS, CP4AIOPS, Arya,Bear,Cersei,Cersei1,Daenerys,Groot,Hodor,Hofstadter,Howard,Jimmy,John,King,Lemmy,Nightking,Penny,Raj,Robot1,Robot2,Robot3,Robot4,Robot5,Sansa,Sheldon,Sherlock,Slash,Tormund,Tyrion,Walker,Watson
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Passwords and Licenses
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Use this Password for all Instances
+      global_password: CHANGEME
+
+ 
+      # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
       environment_name: Bear
       cloud_platform: existing-ocp
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
+      # Key to decrypt Licenses
+      #license_token: NONE
+
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
@@ -75,6 +68,7 @@ data:
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      current_supported_aiops_version: v4.6
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -89,15 +83,7 @@ data:
       position_final_ocp_notification: BannerTop
 
 
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Passwords and Licenses
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Use this Password for all Instances
-      global_password: CHANGEME
-      # Set this value to True to accept all licenses
-      accept_all_licenses: False
-      # Key to decrypt Licenses
-      #license_token: NONE
+
 
 
     # *************************************************************************************************************************************************
@@ -138,9 +124,11 @@ data:
     # CloudPak for AIOps Base Install
 
     #--------------------------------------------------------------------------------------------------------------------------------------
+    # Changing the project name / namespace is at your own risk. some things might break, I do not test this!
 
     - project: ibm-aiops
       instances:
+
     #--------------------------------------------------------------------------------------------------------------------------------------
     # CloudPak for AIOps Demo Content Install
     #--------------------------------------------------------------------------------------------------------------------------------------
@@ -153,27 +141,33 @@ data:
         # TRAINING
         # Train the Models based on pre-canned content
 
+        # Where to get the training data from
+        training_data_url: https://github.com/niklaushirt/
+        training_data_repo: ibm-aiops-trainingdata
+
+        # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
+        create_log_connection: true
+
+        # Enable Log Anomaly Golden Signals
+        training_enable_log_golden_signals: false
+
+        # Enable Event Temporal Grouping
         training_load_data_events: true
         training_create_training_temporal: false
         training_run_training_temporal: false
 
-        # Enable Log Anomaly Golden Signals (Disables LAD-NLP Training - ❗ HIGHLY EXPERIMENTAL)
-        training_enable_log_golden_signals: false
-
-
+        # Enable Similar Incidents
         training_load_data_snow: true
         training_create_training_snow: false
         training_run_training_snow: false
 
+        # Enable Metric Anomaly
         training_load_data_metrics: true
         training_create_training_metrics: false
         training_run_training_metrics: false
 
-        # Create feature flag Training (Seasonality and XinY)
+        # Create Training for Seasonality and XinY
         training_create_season_xiny: false
-
-        training_data_url: https://github.com/niklaushirt/
-        training_data_repo: ibm-aiops-trainingdata
 
 
         # ---------------------------------------------------------------------
@@ -204,19 +198,15 @@ data:
         # ---------------------------------------------------------------------
         # Demo UI
         install_demo_ui: true
-        demoui_slack_url: https://aiopsdemohq.slack.com/sign_in_with_password
-        # demoui_slack_url: https://aiops-fry2953.slack.com/x-p1624757694871-3716524482480-3705437209041/messages/C01JZLFJFMJ
-        demoui_slack_user: ibm-aiopsdemo@gmail.com
-        demoui_slack_pwd: CHANGEME
         demoui_admin_mode: "true"
         demoui_simulation_mode: "true"
-
-        # Create incident links to static Slack and Snow pages
-        demoui_create_slack_snow: true
-        
         demoui_user: demo
         # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
         #demoui_pwd: CHANGEME
+
+        # Create incident links to static Slack and Snow pages
+        demoui_create_slack_snow: true
+
 
 
         # ---------------------------------------------------------------------
@@ -248,14 +238,9 @@ data:
         # Create Policy for Story Creation
         create_incident_policy: false
 
-        # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-        create_log_connection: false
 
         # Create Service Account
         create_account: false
-
-
-
 
 
 
@@ -271,7 +256,18 @@ data:
 
 
 
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest'
+
+  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -332,7 +328,7 @@ metadata:
   name: ibm-aiops-install-training-step2
   namespace: ibm-aiops-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+
   template:
     metadata:
       labels:
@@ -359,7 +355,7 @@ spec:
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
               echo "                                                                                                                                                   "
-              echo " 🚀 Install IBM AIOps Training Prerequisites Step 2                                                                                                                                               "
+              echo " 🚀 Install IBM AIOps Training Prerequisites Step 2                                                                                                                                                  "
               echo "                                                                                                                                                   "
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
@@ -400,11 +396,12 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo ""
 
-              echo "------------------------------------------------------------------------------------------------------------------------------"
-              echo " 🚀 Prepare Ansible"
-              pip -q install openshift pyyaml kubernetes
-              echo ""
-              echo ""
+              # echo "------------------------------------------------------------------------------------------------------------------------------"
+              # echo " 🚀 Prepare Ansible"
+              #pip -q install openshift pyyaml kubernetes
+              #apt update && apt install -fy python3-kubernetes python3-openshift
+              # echo ""
+              # echo ""
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
@@ -436,11 +433,11 @@ spec:
               echo ""
 
 
-
-              while false
+              while true
               do
                 sleep 1000
               done
+
 
           env:
           - name: INSTALL_REPO
@@ -453,6 +450,7 @@ spec:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-prerequisites-step-2
                 key: ENTITLED_REGISTRY_KEY
+                optional: true
           volumeMounts:
             - name: config-file
               mountPath: /tmp/config-file
@@ -465,7 +463,4 @@ spec:
               path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
   backoffLimit: 500
-
-
-
 
