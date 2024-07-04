@@ -213,7 +213,7 @@
         oc get secret -n openshift-ingress letsencrypt-certs -o jsonpath='{.data.tls\.key}'| base64 -d > cert.key
         sed -e '1,33d' cert.crt > ca.crt
 
-        oc -n ibm-common-services patch managementingress default --type merge --patch '{"spec":{"ignoreRouteCert":true}}'
+        #oc -n ibm-common-services patch managementingress default --type merge --patch '{"spec":{"ignoreRouteCert":true}}'
         oc -n ibm-common-services get secret route-tls-secret -o yaml > backup/route-tls-secret.yaml 
         echo "Common Service signed cert"
 

@@ -164,7 +164,7 @@ data:
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Install Sizing
         # current_ibm-aiops_feature
-        # ibm-aiops Size of the install (small: PoC/Demo, tall: Production)
+        # ibm-aiops Size of the install (small: PoC/Demo, large: Production)
         aiops_size: small
         # Custom Sizing File (aiops_size must be set to "custom")
         #custom_size_file: none
