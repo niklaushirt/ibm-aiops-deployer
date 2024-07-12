@@ -28,7 +28,7 @@
  
  
  
-- name: 🟣🟣🟣 INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: 🟣🟣🟣🟣🟣🟣  INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -104,7 +104,7 @@
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
-- name: ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+- name: 🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
   debug: 
     msg:  
 
