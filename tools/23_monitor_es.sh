@@ -129,7 +129,7 @@ if [[ $existingIndexes == "" ]] ;
 then
       echo "❗ Please start port forward in separate terminal."
       echo "❗ Run:"
-      echo "    ./tools/28_access_elastic.sh"
+      echo "    ./tools/24_access_elastic.sh"
       echo "❗ or run the following:"
       echo "    while true; do oc port-forward statefulset/$(oc get statefulset | grep iaf-system-elasticsearch-es-aiops | awk '{print $1}') 9200; done"
       echo "❌ Aborting..."

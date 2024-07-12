@@ -18,39 +18,25 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-clear
-
-
-echo "***************************************************************************************************************************************************"
-echo "***************************************************************************************************************************************************"
-echo "***************************************************************************************************************************************************"
-echo "***************************************************************************************************************************************************"
-echo ""
-echo "       ________  __  ___     ___    ________       "
-echo "      /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____"
-echo "      / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/"
-echo "    _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) "
-echo "   /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  "
-echo "                                         /_/"
-echo ""
-
-echo "  "
-echo "  🚀 IBM AIOps - Check Installation"
-echo "  "
-echo "***************************************************************************************************************************************************"
-echo "***************************************************************************************************************************************************"
-echo "***************************************************************************************************************************************************"
-echo "  "
-echo "  "
-
-
 
 
 export TEMP_PATH=~/aiops-install
 export ERROR_STRING=""
 export ERROR=false
 
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#1122aa'
+    color: '#fff'
+    location: BannerTop
+    text: "🔎 FINALIZING: Checking IBM AIOps Installation"
+EOF
 
 
 
@@ -85,8 +71,6 @@ function handleError(){
 
 function check_array_crd(){
 
-      echo ""
-      echo ""
       echo "    --------------------------------------------------------------------------------------------"
       echo "    🔎 Check $CHECK_NAME"
       echo "    --------------------------------------------------------------------------------------------"
@@ -112,8 +96,6 @@ function check_array_crd(){
 
 function check_array(){
 
-      echo ""
-      echo ""
       echo "    --------------------------------------------------------------------------------------------"
       echo "    🔎 Check $CHECK_NAME"
       echo "    --------------------------------------------------------------------------------------------"
@@ -149,57 +131,22 @@ function check_array(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # EXAMINE INSTALLATION
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    echo "*************************************************************************************************************************************"
-    echo " 🚀  Examining IBMAIOPS IBMAIOps Configuration...." 
-    echo "*************************************************************************************************************************************"
       echo ""
-      echo "  ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "  ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "  🚀 Initializing"
       echo "  ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
-      echo "    ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "   🛠️  Get Namespaces"
 
         export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      echo "        IBM AIOps Namespace: $AIOPS_NAMESPACE"
 
-      echo ""
-      echo "    ------------------------------------------------------------------------------------------------------------------------------------------------------"
+
       echo "   🛠️  Get Cluster Route"
 
         CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
@@ -208,58 +155,37 @@ function check_array(){
 
 
 
-      echo ""
-      echo "    ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "   🛠️  Get API Route"
       oc create route passthrough ai-platform-api -n $AIOPS_NAMESPACE  --service=aimanager-aio-ai-platform-api-server --port=4000 --insecure-policy=Redirect --wildcard-policy=None>/dev/null 2>/dev/null
       export ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
       echo "        Route: $ROUTE"
-      echo ""
-      echo ""
-      echo "    ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "   🛠️  Getting ZEN Token"
      
-      ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
-      ZEN_LOGIN_URL="https://${ZEN_API_HOST}/v1/preauth/signin"
-      LOGIN_USER=admin
-      LOGIN_PASSWORD="$(oc get secret admin-user-details -n $AIOPS_NAMESPACE -o jsonpath='{ .data.initial_admin_password }' | base64 --decode)"
 
-      ZEN_LOGIN_RESPONSE=$(
-      curl -k \
-      -H 'Content-Type: application/json' \
-      -XPOST \
-      "${ZEN_LOGIN_URL}" \
-      -d '{
-            "username": "'"${LOGIN_USER}"'",
-            "password": "'"${LOGIN_PASSWORD}"'"
-      }' 2> /dev/null
-      )
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
+      export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+      export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
+      export CPADMIN_USER=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 -d && echo)
+      echo "        CPADMIN_USER: $CPADMIN_USER"
+      echo "        CPADMIN_PWD: $CPADMIN_PWD"
+      export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$CPADMIN_USER&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
+      export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
+      export ZEN_TOKEN=$(curl -s -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
+      -H "username: $CPADMIN_USER" \
+      -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
+      #echo $ZEN_TOKEN
 
-      ZEN_LOGIN_MESSAGE=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .message)
 
-      if [ "${ZEN_LOGIN_MESSAGE}" != "success" ]; then
-            echo "Login failed: ${ZEN_LOGIN_MESSAGE}"
-            exit 2
-      fi
+      echo "        Sucessfully logged in" 
 
-      ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-      #echo "${ZEN_TOKEN}"
-      echo "        ✅ Sucessfully logged in" 
-
-      echo ""
-      echo ""
-      echo ""
-      echo ""
       echo ""
       echo ""
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "   🚀  CHECK IBMAIOPS basic Installation...." 
+      echo "   🚀  CHECK IBMAIOPS Basic Installation...." 
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
-      echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "    🔎 Installed Openshift Operator Versions"
-      echo ""
       oc get -n $AIOPS_NAMESPACE ClusterServiceVersion | sed 's/^/       /'
       echo ""
 
@@ -267,31 +193,64 @@ function check_array(){
 
 
 
+      export PODS_COUNT=$(oc get pods -n $AIOPS_NAMESPACE | grep -v "Completed"| grep "Running" | grep -c "")
+      if  ([[ $PODS_COUNT -lt 125 ]]); 
+      then 
+            echo "       ❗ FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"; 
+
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-fatal
+spec:
+    backgroundColor: '#ff0000'
+    color: '#fff'
+    location: BannerTop
+    text: " 💣 FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"
+EOF
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-help
+spec:
+    backgroundColor: '#dd4500'
+    color: '#fff'
+    location: BannerTop
+    link:
+        href: "https://github.com/niklaushirt/ibm-aiops-deployer?tab=readme-ov-file#7-troubleshooting"
+        text: Troubleshooting
+
+    text: " Nothing the script can do here. Check the Link or Slack to see if this is a known problem."
+EOF
+
+            exit 1
+      fi
 
 
 
     checkNamespace () {
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
       echo "    🔎 Pods not ready in Namespace $CURRENT_NAMESPACE"
-      echo ""
 
       export ERROR_PODS=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" | grep "0/"|awk '{print$1}')
-      export ERROR_PODS_COUNT=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" | grep "0/"| grep -c "")
+      export ERROR_PODS_COUNT=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" |grep -v nginx-ingress-controller| grep "0/"| grep -c "")
       if  ([[ $ERROR_PODS_COUNT -gt 0 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="$ERROR_PODS_COUNT Pods not running in Namespace "$CURRENT_NAMESPACE"  \n"$ERROR_PODS
             handleError
       else  
-            echo "      ✅ OK: All Pods running and ready in Namespace $CURRENT_NAMESPACE"; 
+            echo "       ✅ OK: All Pods running and ready in Namespace $CURRENT_NAMESPACE"; 
       fi
     }
 
 
+      export CURRENT_NAMESPACE=ibm-licensing
+      checkNamespace
 
-      export CURRENT_NAMESPACE=ibm-common-services
+      export CURRENT_NAMESPACE=ibm-cert-manager
       checkNamespace
 
       export CURRENT_NAMESPACE=$AIOPS_NAMESPACE
@@ -312,13 +271,9 @@ function check_array(){
 # EXAMINE TRAINING
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
       echo ""
       echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo "  🚀 CHECK Trained Models"
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -328,18 +283,21 @@ function check_array(){
       export trainedAlgorithms=$(echo $result |jq -r ".data.getTrainingDefinitions[].algorithmName")
       
 
-      if  ([[ $trainedAlgorithms =~ "Log_Anomaly_Detection" ]]); 
+      if  ([[ $trainedAlgorithms =~ "Log_Anomaly_" ]]); 
       then
-            echo "      ✅ OK: Trained - Log_Anomaly_Detection"; 
+            echo "      ✅ OK: Defined - Log_Anomaly_Detection (NLP or Golden Signal)"; 
       else
-            export CURRENT_ERROR=true
-            export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained"
-            handleError
+            echo "      ⚠️ WARINING: Log_Anomaly_Detection (NLP or Golden Signal) not ready yet."; 
+            echo "      ⚠️ WARINING: This can be totally normal - please check in the UI"; 
+
+            # export CURRENT_ERROR=true
+            # export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained (NLP or Golden Signal)"
+            # handleError
       fi
 
       if  ([[ $trainedAlgorithms =~ "Similar_Incidents" ]]); 
       then
-            echo "      ✅ OK: Trained - Similar_Incidents"; 
+            echo "      ✅ OK: Defined - Similar_Incidents"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Similar_Incidents not trained"
@@ -348,7 +306,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Metric_Anomaly_Detection" ]]); 
       then
-            echo "      ✅ OK: Trained - Metric_Anomaly_Detection"; 
+            echo "      ✅ OK: Defined - Metric_Anomaly_Detection"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Metric_Anomaly_Detection not trained"
@@ -357,7 +315,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Change_Risk" ]]); 
       then
-            echo "      ✅ OK: Trained - Change_Risk"; 
+            echo "      ✅ OK: Defined - Change_Risk"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Change_Risk not trained"
@@ -367,7 +325,7 @@ function check_array(){
 
       if  ([[ $trainedAlgorithms =~ "Temporal_Grouping" ]]); 
       then
-            echo "      ✅ OK: Trained - Temporal_Grouping"; 
+            echo "      ✅ OK: Defined - Temporal_Grouping"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Temporal_Grouping not trained"
@@ -376,7 +334,7 @@ function check_array(){
 
       # if  ([[ $trainedAlgorithms =~ "Alert_Seasonality_Detection" ]]); 
       # then
-      #       echo "      ✅ OK: Trained - Alert_Seasonality_Detection"; 
+      #       echo "      ✅ OK: Defined - Alert_Seasonality_Detection"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_Seasonality_Detection not trained"
@@ -386,7 +344,7 @@ function check_array(){
 
       # if  ([[ $trainedAlgorithms =~ "Alert_X_In_Y_Supression" ]]); 
       # then
-      #       echo "      ✅ OK: Trained - Alert_X_In_Y_Supression"; 
+      #       echo "      ✅ OK: Defined - Alert_X_In_Y_Supression"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_X_In_Y_Supression not trained"
@@ -404,28 +362,19 @@ function check_array(){
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # EXAMINE AWX
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  🚀 CHECK Runbooks"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo ""
 
-      echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "    🔎 CHECK AWX Configuration"
-      echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK AWX"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
 
     export AWX_ROUTE=$(oc get route -n awx awx -o jsonpath={.spec.host})
     export AWX_URL=$(echo "https://$AWX_ROUTE")
     export AWX_PWD=$(oc -n awx get secret awx-admin-password -o jsonpath='{.data.password}' | base64 --decode && echo)
 
 
-    echo "      ------------------------------------------------------------------------------------------------------------------------------------------------------"
     echo "      🔎 Check AWX Project"
     export AWX_PROJECT_STATUS=$(curl -X "GET" -s "$AWX_URL/api/v2/projects/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|jq|grep successful|grep -c "")
     if  ([[ $AWX_PROJECT_STATUS -lt 4 ]]); 
@@ -434,22 +383,20 @@ function check_array(){
             export CURRENT_ERROR_STRING="AWX Project not ready"
             handleError
       else  
-            echo "      ✅ OK"; 
+            echo "         ✅ OK"; 
       fi
 
-    echo "      ------------------------------------------------------------------------------------------------------------------------------------------------------"
     echo "      🔎 Check AWX Inventory"
-    export AWX_INVENTORY_COUNT=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|grep "IBMAIOPS Runbooks"|wc -l|tr -d ' ')
+    export AWX_INVENTORY_COUNT=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|grep "IBM AIOPS Runbooks"|wc -l|tr -d ' ')
     if  ([[ $AWX_INVENTORY_COUNT -lt 1 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="AWX Inventory not ready"
             handleError
       else  
-            echo "      ✅ OK"; 
+            echo "         ✅ OK"; 
       fi
 
-    echo "      ------------------------------------------------------------------------------------------------------------------------------------------------------"
     echo "      🔎 Check AWX Templates"
     export AWX_TEMPLATE_COUNT=$(curl -X "GET" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'| jq ".count")
     if  ([[ $AWX_TEMPLATE_COUNT -lt 5 ]]); 
@@ -458,367 +405,192 @@ function check_array(){
             export CURRENT_ERROR_STRING="AWX Templates not ready"
             handleError
       else  
-            echo "      ✅ OK"; 
+            echo "         ✅ OK ($AWX_TEMPLATE_COUNT Templates)"; 
+            curl -X "GET" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|jq -r '.results[].name'| sed 's/^/          - /'
+
+
+
+            
       fi
 
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "    🔎 CHECK Runbooks in IBMAIOps"
-      echo "    --------------------------------------------------------------------------------------------------------------------------------------------------------"
-          CPD_ROUTE=$(oc get route cpd -n $AIOPS_NAMESPACE  -o jsonpath={.spec.host} || true) 
 
-    
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE POLICIES
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK IBM AIOps Runbooks"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+    CPD_ROUTE=$(oc get route cpd -n $AIOPS_NAMESPACE  -o jsonpath={.spec.host} || true) 
+
+    echo "      🔎 Check IBMAIOPS Runbooks"
+
     export result=$(curl -X "GET" -s -k "https://$CPD_ROUTE/aiops/api/story-manager/rba/v1/runbooks" \
         -H "Authorization: bearer $ZEN_TOKEN" \
         -H 'Content-Type: application/json; charset=utf-8')
     export RB_COUNT=$(echo $result|jq ".[].name"|grep -c "")
-    if  ([[ $AWX_TEMPLATE_COUNT -lt 3 ]]); 
+    if  ([[ $RB_COUNT -lt 7 ]]); 
       then 
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="IBMAIOps Runbooks not ready"
+            echo $result|jq -r '.[].name'| sed 's/^/          - /'
             handleError
       else  
-            echo "      ✅ OK"; 
-      fi
-
-
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# CHECK MORE IN DETAIL
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "   🚀  CHECK IBMAIOPS Detailed Installation...." 
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo ""
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Pods with Image Pull Errors in Namespace $AIOPS_NAMESPACE"
-      echo ""
-
-      export IMG_PULL_ERROR=$(oc get pods -n $AIOPS_NAMESPACE | grep "ImagePull")
-
-      if  ([[ ! $IMG_PULL_ERROR == "" ]]); 
-      then 
-            echo "      ⭕ There are Image Pull Errors:"; 
-            echo "$IMG_PULL_ERROR"
-            echo ""
-            echo ""
-
-            echo "      🔎 Check your Pull Secrets:"; 
-            echo ""
-            echo ""
-            echo "ibm-entitlement-key Pull Secret"
-            oc get secret/ibm-entitlement-key -n $AIOPS_NAMESPACE --template='{{index .data ".dockerconfigjson" | base64decode}}'
-
-            echo ""
-            echo ""
-            echo "ibm-entitlement-key Pull Secret"
-            oc get secret/ibm-entitlement-key -n $AIOPS_NAMESPACE --template='{{index .data ".dockerconfigjson" | base64decode}}'
-
-      else
-            echo "      ✅ OK: All images can be pulled"; 
+            echo "         ✅ OK ($RB_COUNT Runbooks)"; 
+            echo $result|jq -r '.[].name'| sed 's/^/          - /'
       fi
 
 
 
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE POLICIES
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
       echo ""
       echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check ZEN Operator"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK IBM AIOps Policies"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
 
-      export ZEN_LOGS=$(oc logs $(oc get po -n ibm-common-services|grep ibm-zen-operator|awk '{print$1}') -c ibm-zen-operator -n ibm-common-services|grep "failed=1")
-      export ZEN_FAILED=$(echo $ZEN_LOGS|grep -i -w "failed=[1-9]")
-      if  ([[ $ZEN_FAILED == "" ]]); 
+
+    export POLICY_USERNAME=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.username}' | base64 --decode)
+    export POLICY_PASSWORD=$(oc get secret -n $AIOPS_NAMESPACE aiops-ir-lifecycle-policy-registry-svc -o jsonpath='{.data.password}' | base64 --decode)
+    export POLICY_LOGIN="$POLICY_USERNAME:$POLICY_PASSWORD"
+    export POLICY_ROUTE=$(oc get routes -n $AIOPS_NAMESPACE policy-api -o jsonpath="{['spec']['host']}")
+
+    echo "      🔎 Check Policies"
+    export POLICY_COUNT=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+      -H 'content-type: application/json' \
+      -u $POLICY_LOGIN|grep "DEMO"|wc -l|tr -d ' ')
+
+    if  ([[ $POLICY_COUNT -lt 5 ]]); 
       then 
-            echo "      ✅ OK: ZEN Operator has run successfully"; 
-        else
-            echo ""
             export CURRENT_ERROR=true
-            export CURRENT_ERROR_STRING="Zen has errors"
+            export CURRENT_ERROR_STRING="Policies Missing"
             handleError
-        fi
-
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check Topology"
-      echo ""
-
-      CP4AIOPS_CHECK_LIST=(
-        "aiops-topology-file-observer"
-        "aiops-topology-kubernetes-observer"
-        "aiops-topology-layout"
-        "aiops-topology-merge"
-        "aiops-topology-observer-service"
-        "aiops-topology-rest-observer"
-        "aiops-topology-servicenow-observer"
-        "aiops-topology-status"
-        "aiops-topology-topology"
-        "aiops-topology-ui-api"
-        "aiops-topology-vmvcenter-observer")
-      for ELEMENT in ${CP4AIOPS_CHECK_LIST[@]}; do
-        #echo "     Check $ELEMENT.."
-            ELEMENT_OK=$(oc get pod -n $AIOPS_NAMESPACE --ignore-not-found | grep $ELEMENT || true) 
-            if  ([[ ! $ELEMENT_OK =~ "1/1" ]]); 
-            then 
-                echo "      ⭕ Pod $ELEMENT not running successfully"; 
-                echo ""
-                export CURRENT_ERROR=true
-                export CURRENT_ERROR_STRING="Pod $ELEMENT not runing successfully"
-                handleError
-            else
-                  echo "      ✅ OK: Pod $ELEMENT"; 
-
-            fi
-
-      done
-
-
-
-
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check Data Stores"
-      echo ""
-
-      CP4AIOPS_CHECK_LIST=(
-        "aimanager-aio-luigi-daemon-0"
-        "aimanager-ibm-minio-0"
-        "aiops-topology-cassandra-0"
-        "c-example-couchdbcluster-m-0"
-        "c-example-redis-m-0"
-        "c-example-redis-m-1"
-        "c-example-redis-m-2"
-        "c-example-redis-s-0"
-        "c-example-redis-s-1"
-        "c-example-redis-s-2"
-        "ibm-aiops-postgres-keeper-0"
-        "iaf-system-kafka-0"
-        "iaf-system-zookeeper-0"
-        "ibm-cp-watson-aiops-edb-postgres-1"
-        "ibm-vault-deploy-consul-0"
-        "ibm-vault-deploy-vault-0"
-        "sre-tunnel-controller-0"
-        "zen-metastoredb-0"
-        "zen-metastoredb-1"
-        "zen-metastoredb-2")
-      for ELEMENT in ${CP4AIOPS_CHECK_LIST[@]}; do
-        #echo "     Check $ELEMENT.."
-            ELEMENT_OK=$(oc get pod -n $AIOPS_NAMESPACE --ignore-not-found | grep $ELEMENT || true) 
-            if  ([[ ! $ELEMENT_OK =~ "0/" ]]); 
-            then
-                echo "      ✅ OK: Pod $ELEMENT";  
-            else
-                  
-                echo "      ⭕ Pod $ELEMENT not running successfully"; 
-                echo ""
-                export CURRENT_ERROR=true
-                export CURRENT_ERROR_STRING="Pod $ELEMENT not runing successfully"
-                handleError
-
-            fi
-
-      done
-
-
-
-
-
-
-
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check AIO"
-      echo ""
-
-      CP4AIOPS_CHECK_LIST=(
-        "aimanager-aio-ai-platform-api-server"
-        "aimanager-aio-change-risk"
-        "aimanager-aio-chatops-orchestrator"
-        "aimanager-aio-chatops-slack-integrator"
-        "aimanager-aio-chatops-teams-integrator"
-        "aimanager-aio-controller"
-        "aimanager-aio-cr-api"
-        "aimanager-aio-log-anomaly-detector"
-        "aimanager-aio-luigi-daemon-0"
-        "aimanager-aio-oob-recommended-actions"
-        "aimanager-aio-similar-incidents-service"
-        "aimanager-ibm-minio-0")
-      for ELEMENT in ${CP4AIOPS_CHECK_LIST[@]}; do
-        #echo "     Check $ELEMENT.."
-            ELEMENT_OK=$(oc get pod -n $AIOPS_NAMESPACE --ignore-not-found | grep $ELEMENT || true) 
-            if  ([[ ! $ELEMENT_OK =~ "1/1" ]]); 
-            then 
-                echo "      ⭕ Pod $ELEMENT not running successfully"; 
-                echo ""
-                export CURRENT_ERROR=true
-                export CURRENT_ERROR_STRING="Pod $ELEMENT not runing successfully"
-                handleError
-            else
-                  echo "      ✅ OK: Pod $ELEMENT"; 
-
-            fi
-
-      done
-
-
-
-
-
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check IR"
-      echo ""
-
-      CP4AIOPS_CHECK_LIST=(
-        "aiops-ir-analytics-classifier"
-        "aiops-ir-analytics-metric-action"
-        "aiops-ir-analytics-metric-api"
-        "aiops-ir-analytics-metric-spark"
-        "aiops-ir-analytics-probablecause"
-        "aiops-ir-analytics-spark-master"
-        "aiops-ir-analytics-spark-pipeline-composer"
-        "aiops-ir-analytics-spark-worker"
-        "aiops-ir-analytics-spark-worker"
-        "aiops-ir-core-archiving"
-        "aiops-ir-core-cem-users"
-        "aiops-ir-core-datarouting"
-        "aiops-ir-core-esarchiving"
-        "aiops-ir-core"
-        "aiops-ir-core-ncodl-api"
-        "aiops-ir-core-ncodl-if"
-        "aiops-ir-core-ncodl-jobmgr"
-        "aiops-ir-core-ncodl-std"
-        "aiops-ir-core-ncodl-std"
-        "aiops-ir-core"
-        "aiops-ir-core-rba-as"
-        "aiops-ir-core-rba-rbs"
-        "aiops-ir-core-usercfg"
-        "aiops-ir-lifecycle-datarouting"
-        "aiops-ir-lifecycle-eventprocessor-ep"
-        "aiops-ir-lifecycle-eventprocessor-ep"
-        "aiops-ir-lifecycle-policy-grpc-svc"
-        "aiops-ir-lifecycle-policy-registry-svc"
-        "aiops-ir-ui-api-graphql")
-      for ELEMENT in ${CP4AIOPS_CHECK_LIST[@]}; do
-        #echo "     Check $ELEMENT.."
-            ELEMENT_OK=$(oc get pod -n $AIOPS_NAMESPACE --ignore-not-found | grep $ELEMENT || true) 
-            if  ([[ ! $ELEMENT_OK =~ "1/1" ]]); 
-            then 
-                echo "      ⭕ Pod $ELEMENT not running successfully"; 
-                echo ""
-                export CURRENT_ERROR=true
-                export CURRENT_ERROR_STRING="Pod $ELEMENT not runing successfully"
-                handleError
-            else
-                  echo "      ✅ OK: Pod $ELEMENT"; 
-
-            fi
-
-      done
-
-
-
-
-
-      echo ""
-      echo ""
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check Routes"
-      echo ""
-      ROUTE_OK=$(oc get route job-manager -n $AIOPS_NAMESPACE || true) 
-      if  ([[ ! $ROUTE_OK =~ "job-manager" ]]); 
-      then 
-        echo "      ⭕ job-manager Route does not exist"; 
-        echo "      ⭕ (You may want to run option: 12  - Recreate custom Routes)";  
-        echo ""
-        export CURRENT_ERROR=true
-        export CURRENT_ERROR_STRING="job-manager Route does not exist"
-        handleError
-      else
-        echo "      ✅ OK: job-manager Route exists"; 
+      else  
+            echo "         ✅ OK ($POLICY_COUNT Policies)"; 
+            curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
+            -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+            -H 'content-type: application/json' \
+            -u $POLICY_LOGIN|jq -r ".[].metadata"|jq -r '.name'|grep "DEMO"| sed 's/^/          - /'
       fi
 
-  
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# WRAP UP
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-
-
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo ""
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "  🚀 CHECK Various things"
-      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo ""
-
-      echo "    --------------------------------------------------------------------------------------------"
-      echo "    🔎 Check Error Events"
-      echo ""
-      oc get events -A|grep Error| sed 's/^/       /'
-
-
-      echo ""
-      echo ""
-      echo ""
-      echo ""
       echo ""
       echo ""
     if  ([[ $ERROR == true ]]); 
     then
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ERROR
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        shopt -s xpg_echo
         echo ""
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
-        echo "  ❗ Your installation has the following errors ❗"
+        echo "  ❗ Your installation has the following problems ❗"
         echo ""
         echo "      $ERROR_STRING" | sed 's/^/       /'
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
         echo ""
-        echo ""
-    else
-        echo ""
-        echo ""
-        echo "***************************************************************************************************************************************************"
-        echo "***************************************************************************************************************************************************"
-        echo "  "
-        echo ""
-        echo "      ✅ Your installation seems to be fine"
+        echo "  🚀 Try to re-run the installer to see if this solves the problem"
+        echo "  🛠️  To do this just delete the ibm-aiops-install-aiops pod in the ibm-aiop Namespace"
+        echo "  🛠️  Explained in detail here: https://github.com/niklaushirt/ibm-aiops-deployer/tree/main#re-run-the-installer"
         echo ""
         echo "***************************************************************************************************************************************************"
         echo "***************************************************************************************************************************************************"
-        echo ""
         echo ""
 
+        echo ""
+        echo ""
+        OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-warning
+spec:
+    backgroundColor: '#dd4500'
+    color: '#fff'
+    location: "BannerTop"
+    text: "⚠️ WARNING: Your Installation has some problems. Please check the Installation Logs and re-run the installer by deleting the Pod"
+    link:
+        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+        text: Open Logs
+EOF
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#009a00'
+    color: '#fff'
+    link:
+        href: "https://$appURL"
+        text: DemoUI
+    location: BannerTop
+    text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
+EOF
+
+    else
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# NO ERROR
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        echo ""
+        echo "  🟢🟢🟢 Your installation looks fine"
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#009a00'
+    color: '#fff'
+    link:
+        href: "https://$appURL"
+        text: DemoUI
+    location: BannerTop
+    text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
+EOF
+
     fi
+
+
+

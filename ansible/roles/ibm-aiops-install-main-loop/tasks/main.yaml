@@ -39,9 +39,6 @@
 
 
 
-# - name: Show Config
-#   debug:
-#     var: ibm-aiops_cluster
 - name: 🟣  Show Config File
   debug:
     var: all_config

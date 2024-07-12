@@ -1,6 +1,6 @@
 #*************************************************************************************************************************************************
 #--------------------------------------------------------------------------------------------------------------------------------------
-# IBMAIOPS PRACTICUM WPREREQUISITES
+# IBMAIOPS INSTANCE WITHOUT DEMO CONTENT
 #--------------------------------------------------------------------------------------------------------------------------------------
 #*************************************************************************************************************************************************
 
@@ -87,131 +87,51 @@ ibmaiops:
 
 - project: ibm-aiops
   instances:
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-# CloudPak for AIOps Demo Content Install
-#--------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-demo-content
-    kind: IBMAIOpsDemoContent
+  - name: ibm-aiops
+    kind: IBMAIOps
     install: true
 
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # Install Sizing
+    # current_ibm-aiops_feature
+    # ibm-aiops Size of the install (small: PoC/Demo, large: Production)
+    aiops_size: small
+    # Custom Sizing File (aiops_size must be set to "custom")
+    #custom_size_file: none
 
-    # ---------------------------------------------------------------------
-    # TRAINING
-    # Train the Models based on pre-canned content
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # Install Details
+    # Name of the ibm-aiops instance
+    aiops_name: ibm-aiops
+    # Version of the catalog subscription
+    subscription_channel: v4.6
+    # Freeze the version of the Catalog image by patching CatalogSource
+    freeze_catalog: true
 
-    # Where to get the training data from
-    training_data_url: https://github.com/niklaushirt/
-    training_data_repo: ibm-aiops-trainingdata
-
-    # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-    create_log_connection: true
-
-    # Enable Log Anomaly Golden Signals
-    training_enable_log_golden_signals: false
-
-    # Enable Event Temporal Grouping
-    training_load_data_events: false
-    training_create_training_temporal: false
-    training_run_training_temporal: false
-
-    # Enable Similar Incidents
-    training_load_data_snow: false
-    training_create_training_snow: false
-    training_run_training_snow: false
-
-    # Enable Metric Anomaly
-    training_load_data_metrics: false
-    training_create_training_metrics: false
-    training_run_training_metrics: false
-
-    # Create Training for Seasonality and XinY
-    training_create_season_xiny: false
+    # Enable Log Anomaly and Similar Tickets
+    logAnomalyDetection: true
+    # Topology Model (application/service)
+    topologyModel: application
 
 
-    # ---------------------------------------------------------------------
-    # TOPOLOGY
-    # Install DemoApps Application
-    install_demoapps: true
-    # RobotShop interface color (classic/white)
-    robotshop_color: white
-    # Install DemoApps K8s Observer
-    install_demoapps_observer: false
-    # Create Topology
-    create_topology_templates: false
-    create_topology_apps: false
-    # Create Custom overlay topology
-    install_custom_topology: false
+    
+    
+    # Install Feature Flags
+    install_feature_flags: true
 
 
-    # ---------------------------------------------------------------------
-    # RUNBOOKS
-    # Install AWX and create Runbooks
-    install_awx: true
-    load_awx_playbooks: true
-    integrate_awx: false
-    load_runbooks: false
-    create_runbook_policy: false
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # Storage Classes Override for this Instance
+    #storage_class_file: automatic
+    #storage_class_block: automatic
 
-
-    # ---------------------------------------------------------------------
-    # Demo UI
-    install_demo_ui: false
-    demoui_admin_mode: "false"
-    demoui_simulation_mode: "false"
-    demoui_user: demo
-    # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
-    #demoui_pwd: CHANGEME
-
-    # Create incident links to static Slack and Snow pages
-    demoui_create_slack_snow: false
-
-
-
-    # ---------------------------------------------------------------------
-    # LDAP
-    install_ldap: true
-    # ldap domain
-    ldap_domain: ibm.com
-    # ldap base
-    ldap_base: dc=ibm,dc=com
-    # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
-    #ldap_admin_password: CHANGEME
-    # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
-    #ldap_user_password: CHANGEME
-    # ldap namespace
-    ldap_namespace: openldap
-    # Integrate AIOps Login with OpenLDAP 
-    ldap_register: false
-    # Integrate OpenShift Login with OpenLDAP
-    integrate_ocp_openldap: false
-
-    # ---------------------------------------------------------------------
-    # MISC PARAMETERS (you should not modify those)
-    # Create external routes (needed to create demo content)
-    create_external_routes: false
-
-    # Create a valid ingress certificate when on ITZ
-    create_valid_ingress_itz: false
-
-    # Create Policy for Story Creation
-    create_incident_policy: false
-
-
-    # Create Service Account
-    create_account: true
-
-
-
-- project: ibm-aiops-addons
-  instances:
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # CP4WAIOPS ELK
-  # --------------------------------------------------------------------------------------------------------------------------------------
-
-  - name: ibm-aiops-elk
-    kind: ELK
-    install: true
-
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # Install with CASE Files
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    case_install: false
+    case_github_url: "https://github.com/IBM/cloud-pak/raw/master/repo/case"
+    case_name: ibm-cp-waiops
+    case_version: 1.11.0
+    case_inventory_setup: cpaiopsSetup
 
 
