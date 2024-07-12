@@ -297,6 +297,21 @@ This installation contains:
 
 </details>
 
+
+<details>
+<summary>✅ Post Install</summary>
+
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
+2. Check that the Training are displayed as follows
+
+![install](./doc/pics/check02.png)
+
+### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
 <details>
 <summary>👩‍💻 Characters to chose from</summary>
 
@@ -390,6 +405,8 @@ You can chose from the following:
 
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
 
+> ####  ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
+
 
 
 ## 2.2 🔎 Follow the installation progress 
@@ -442,6 +459,8 @@ Check that the green notification bar is displayed as follows
 2. Check that the Training are displayed as follows
 
 ![install](./doc/pics/check02.png)
+
+### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
 
 
 ### 2.3.3 Check Automations
