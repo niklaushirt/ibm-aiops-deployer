@@ -1,26 +1,20 @@
-
----
 apiVersion: cassandra.datastax.com/v1beta1
 kind: CassandraDatacenter
 metadata:
   name: cassandra
+  namespace: instana-datastores
 spec:
+  superuserSecretName: superuser-secret
   clusterName: instana
   serverType: cassandra
+  configBuilderImage: docker.io/datastax/cass-config-builder:1.0-ubi7
   serverImage: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cassandra:4.1.4_v0.17.0
   systemLoggerImage: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.3.0
   k8ssandraClientImage: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.3.0
   serverVersion: "4.1.4"
-  imagePullPolicy: Always
-  podTemplateSpec:
-    spec:
-      imagePullSecrets:
-      - name: instana-registry
-      containers:
-      - name: cassandra
   managementApiAuth:
     insecure: {}
-  size: 3
+  size: 1
   allowMultipleNodesPerWorker: false
   resources:
     requests:
@@ -52,4 +46,5 @@ spec:
       otc_coalescing_strategy: DISABLED
       memtable_allocation_type: offheap_objects
       num_tokens: 256
-      drop_compact_storage_enabled: true
+      enable_drop_compact_storage: true
+

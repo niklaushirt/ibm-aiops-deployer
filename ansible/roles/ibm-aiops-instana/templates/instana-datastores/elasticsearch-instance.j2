@@ -2,35 +2,26 @@ apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
   name: instana
-  namespace: instana-datastores
 spec:
-  version: 7.17.12
+  version: 7.17.20
+  image: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/elasticsearch:7.17.20_v0.9.0
   nodeSets:
     - name: default
       count: 1
       config:
-        node.roles:
-          - master
-          - data
-          - ingest
+        node.master: true
+        node.data: true
+        node.ingest: true
         node.store.allow_mmap: false
-        xpack.security.authc:
-          anonymous:
-            username: anonymous
-            roles: superuser
-            authz_exception: false
       podTemplate:
         spec:
-          containers:
-            - name: elasticsearch
-              resources:
-                requests:
-                  memory: 4Gi
-                  cpu: 1
-                limits:
-                  memory: 4Gi
-                  cpu: 2
-          serviceAccountName: elastic-operator
+          imagePullSecrets:
+            - name: instana-registry
+          # Add the following securityContext snippet for Kubernetes offerings other than OCP.
+          # securityContext:
+          #   fsGroup: 1000
+          #   runAsGroup: 1000
+          #   runAsUser: 1000
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.
