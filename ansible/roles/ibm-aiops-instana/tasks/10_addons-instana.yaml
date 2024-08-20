@@ -233,27 +233,13 @@
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator ZOOKEEPER
-  shell: |
-    helm install zookeeper-operator -n instana-datastores instana/zookeeper-operator --create-namespace --version=0.2.15 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/zookeeper --set image.tag=0.2.15_v0.11.0 --set global.imagePullSecrets={"instana-registry"}
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-
-
-
-
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Postgres
   shell: |
     # Postgres operator installation
-    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=1000860000 -n instana-datastores
+    # oc get project -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"
+    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=1000830000 --set containerSecurityContext.runAsGroup=1000830000 -n instana-postgres
   ignore_errors: true
   register: output
   args:
