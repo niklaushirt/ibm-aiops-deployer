@@ -238,8 +238,8 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator Postgres
   shell: |
     # Postgres operator installation
-    # oc get project -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"
-    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=1000830000 --set containerSecurityContext.runAsGroup=1000830000 -n instana-postgres
+    export uidrange=$(oc get project instana-datastores -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"|cut -d "/" -f 1)
+    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=$uidrange --set containerSecurityContext.runAsGroup=$uidrange -n instana-datastores
   ignore_errors: true
   register: output
   args:
