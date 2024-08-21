@@ -7,16 +7,20 @@ metadata:
 spec:
   kafka:
     version: 3.6.2
-    replicas: 1
+    replicas: 3
     listeners:
-      - name: plain
+      - name: scram
         port: 9092
         type: internal
         tls: false
+        authentication:
+          type: scram-sha-512
+        configuration:
+          useServiceDnsDomain: true
     authorization:
       type: simple
       superUsers:
-        - instana-superuser
+        - strimzi-kafka-user
     storage:
       type: jbod
       class: {{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}

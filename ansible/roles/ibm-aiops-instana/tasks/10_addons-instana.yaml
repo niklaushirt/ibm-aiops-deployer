@@ -192,6 +192,8 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator ELASTICSEARCH
   shell: |
     helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry"
+    helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry" 
+ 
   ignore_errors: true
   register: output
   args:
