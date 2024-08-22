@@ -42,13 +42,52 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
-  
-- name: 🚀 AWX - Create AWX Operator
-  kubernetes.core.k8s:
-    state: present
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# AWX Operator REMOVED BY REDHAT
+# --------------------------------------------------------------------------------------------------------------------------------------
+
+# - name: 🚀 AWX - Create AWX Operator
+#   kubernetes.core.k8s:
+#     state: present
+#     namespace: awx
+#     src: ./templates/awx/operator-install.yaml
+#   ignore_errors: true
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# AWX Operator Install official https://github.com/ansible/awx-operator
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🕦 CHECK -  Wait AWX Operator
+  shell: |
+    mkdir awx
+    cd awx
+    git clone https://github.com/ansible/awx-operator.git
+    cd awx-operator
+
+    git checkout tags/2.19.1
+
+    cat <<EOF >>kustomization.yaml
+    apiVersion: kustomize.config.k8s.io/v1beta1
+    kind: Kustomization
+    resources:
+      # Find the latest tag here: https://github.com/ansible/awx-operator/releases
+      - github.com/ansible/awx-operator/config/default?ref=2.19.1
+
+    # Set the image tags to match the git version from above
+    images:
+      - name: quay.io/ansible/awx-operator
+        newTag: 2.19.1
+
+    # Specify a custom namespace in which to install AWX
     namespace: awx
-    src: ./templates/awx/operator-install.yaml
-  ignore_errors: true
+    EOF
+
+    kubectl apply -k .
+  register: kubectl_num_pods
+  until: kubectl_num_pods.stdout|int >= 1
+  retries: 100
+  delay: 15
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------

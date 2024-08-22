@@ -131,7 +131,7 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Prepare Helm Charts
+- name: 🚀 INSTANA - Create Backend Datastore TEST
   shell: |
     # Zookeeper Operator installation
     helm repo add instana https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual --username=_ --password={{current_agent_key}}
@@ -154,18 +154,9 @@
 
 
 
-
-- name: 🚀 INSTANA - Create Backend Datastore  SCC
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/scc.yaml
-
-
-
 - name: 🚀 INSTANA - Create Backend Datastore Operator CASSANDRA
   shell: |
-    helm install cass-operator instana/cass-operator -n instana-datastores --version=0.45.2 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999 --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator/cass-operator --set image.tag=1.18.2_v0.12.0 --set imagePullSecrets[0].name=instana-registry --set appVersion=1.18.2 --set imageConfig.systemLogger=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.3.0 --set imageConfig.k8ssandraClient=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.3.0
+    helm install cass-operator instana/cass-operator -n instana-cassandra --version=0.45.2 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999 --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator/cass-operator --set image.tag=1.18.2_v0.12.0 --set imagePullSecrets[0].name=instana-registry --set appVersion=1.18.2 --set imageConfig.systemLogger=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.3.0 --set imageConfig.k8ssandraClient=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.3.0
   ignore_errors: true
   register: output
   args:
@@ -178,7 +169,7 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator CLICKHOUSE
   shell: |
-    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v0.1.2 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="instana-registry"
+    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-clickhouse --version=v0.1.2 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="instana-registry"
   ignore_errors: true
   register: output
   args:
@@ -191,9 +182,7 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator ELASTICSEARCH
   shell: |
-    helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry"
-    helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry" 
- 
+    helm install elastic-operator instana/eck-operator -n instana-elastic --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry"
   ignore_errors: true
   register: output
   args:
@@ -207,7 +196,7 @@
     
 - name: 🚀 INSTANA - Create Backend Datastore Operator KAFKA
   shell: |
-    helm install strimzi-kafka-operator instana/strimzi-kafka-operator --version 0.41.0 -n instana-datastores --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator --set image.name=strimzi --set image.tag=0.41.0_v0.9.0 --set image.imagePullSecrets[0].name="instana-registry" --set kafka.image.registry=artifact-public.instana.io --set kafka.image.repository=self-hosted-images/3rd-party/datastore --set kafka.image.name=kafka --set kafka.image.tag=0.41.0-kafka-3.6.2_v0.8.0
+    helm install strimzi-kafka-operator instana/strimzi-kafka-operator --version 0.41.0 -n instana-kafka --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator --set image.name=strimzi --set image.tag=0.41.0_v0.9.0 --set image.imagePullSecrets[0].name="instana-registry" --set kafka.image.registry=artifact-public.instana.io --set kafka.image.repository=self-hosted-images/3rd-party/datastore --set kafka.image.name=kafka --set kafka.image.tag=0.41.0-kafka-3.6.2_v0.8.0
   ignore_errors: true
   register: output
   args:
@@ -222,7 +211,7 @@
     
 - name: 🚀 INSTANA - Create Backend Datastore Operator ZOOKEEPER
   shell: |
-    helm install zookeeper-operator -n instana-datastores instana/zookeeper-operator --create-namespace --version=0.2.15 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/zookeeper --set image.tag=0.2.15_v0.11.0 --set global.imagePullSecrets={"instana-registry"}
+    helm install zookeeper-operator -n instana-zookeeper instana/zookeeper-operator --create-namespace --version=0.2.15 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/zookeeper --set image.tag=0.2.15_v0.11.0 --set global.imagePullSecrets={"instana-registry"}
   ignore_errors: true
   register: output
   args:
@@ -235,13 +224,90 @@
 
 
 
+- name: 🚀 INSTANA - Create Backend Datastore Operator XXXXX
+  shell: |
+    hhhhhh
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+  
+
+
+
+
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Zookeeper
+  shell: |
+    # Zookeeper Operator installation
+    helm repo add pravega https://charts.pravega.io
+    helm repo update
+    helm install instana -n instana-datastores  pravega/zookeeper-operator --version=0.2.15
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Strimzi
+  shell: |
+    # Strimzi Operator installation
+    helm repo add strimzi https://strimzi.io/charts/
+    helm repo update
+    helm install strimzi strimzi/strimzi-kafka-operator --version 0.36.0 -n instana-datastores
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Elasticsearch
+  shell: |
+    # Elasticsearch (ECK) Operator installation
+    helm repo add elastic https://helm.elastic.co
+    helm repo update
+    helm install elastic-operator elastic/eck-operator -n instana-datastores --version=2.8.0
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Postgres SCC
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/cassandra-scc.yaml
+
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Postgres
   shell: |
     # Postgres operator installation
-    export uidrange=$(oc get project instana-datastores -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"|cut -d "/" -f 1)
-    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=$uidrange --set containerSecurityContext.runAsGroup=$uidrange -n instana-datastores
+    helm repo add instana https://helm.instana.io/artifactory/rel-helm-customer-virtual --username _ --password {{current_agent_key}}
+    helm repo add postgres https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+    helm repo update
+    helm install postgres-operator postgres/postgres-operator  --version=1.12.2 --set configGeneral.kubernetes_use_configmaps=true --set securityContext.runAsUser=1000860000 --namespace=instana-datastores
   ignore_errors: true
   register: output
   args:
@@ -257,7 +323,7 @@
     # Beeinstana operator installation
     helm repo update
     # HACK!!!!
-    helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault
+    helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault --version v1.48.0
   ignore_errors: true
   register: output
   args:
@@ -271,12 +337,75 @@
 
 
 
+# - name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+#   kubernetes.core.k8s:
+#     namespace: instana-datastores
+#     state: present
+#     template: ./templates/instana-datastores/cassandra-operator.yaml
+- name: 🚀 INSTANA - Create Cassandra Password Secret
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/cassandra-superuser.yaml
+
+- name: 🚀 INSTANA - Create Cassandra Roles
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/cassandra-scc.yaml
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Cassandra
+  shell: |
+    # kubectl apply -f ./templates/instana-datastores/cassandra-superuser.yaml
+    helm repo add k8ssandra https://helm.k8ssandra.io/stable
+    helm repo update
+    helm install cass-operator k8ssandra/cass-operator -n instana-datastores --create-namespace --version=0.42.0 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999
+    # Security Context Constraints, needed if you are running on RedHat OpenShift
+    # kubectl apply -f ./templates/instana-datastores/cassandra-scc.yaml
+    # kubectl apply -f ./templates/instana-datastores/cassandra-crb.yaml
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
+
+
 - name: 🚀 INSTANA - Create Backend Datastore Roles
   kubernetes.core.k8s:
     namespace: instana-datastores
     state: present
     template: ./templates/instana-datastores/roles.yaml
     
+
+
+
+- name: 🚀 INSTANA - Create Backend Datastore Operator Clickhouse 
+  shell: |
+    # Clickhouse Operator installation
+    # helm repo add clickhouse-operator https://docs.altinity.com/clickhouse-operator/
+    # helm repo update
+    # helm install clickhouse-operator clickhouse-operator/altinity-clickhouse-operator -n instana-datastores --version=0.23.4
+    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v0.1.2 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="instana-registry"
+
+    #curl --silent https://raw.githubusercontent.com/Altinity/clickhouse-operator/0.22.0/deploy/operator/clickhouse-operator-install-bundle.yaml | sed 's|kube-system|instana-datastores|g' | kubectl apply --filename -
+    # Image pull secrets for Clickhouse image
+    kubectl create secret docker-registry clickhouse-image-secret \
+      --namespace=instana-datastores \
+      --docker-username=_ \
+      --docker-password={{current_agent_key}} \
+      --docker-server=artifact-public.instana.io
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT
+  debug:
+    var: output.stdout_lines
+    verbosity: 1
 
 
 
@@ -428,9 +557,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 24 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 24 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
@@ -822,19 +951,6 @@
 - name: 🚀 INSTANA - Save POSTGRES PASSWORD {{ POSTGRES_PWD.stdout }} 
   set_fact: POSTGRES_PWD={{ POSTGRES_PWD.stdout }} 
 
-- name: 🚀 INSTANA - Get CASSANDRA PASSWORD
-  shell: |
-    CASSANDRA_PWD=$(oc get secret instana-superuser -o json -n instana-datastores | jq -r .data.password | base64 -d)
-    echo $CASSANDRA_PWD
-  ignore_errors: true
-  register: CASSANDRA_PWD
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT 
-  debug:
-    var: CASSANDRA_PWD.stdout
-- name: 🚀 INSTANA - Save CASSANDRA PASSWORD {{ CASSANDRA_PWD.stdout }} 
-  set_fact: CASSANDRA_PWD={{ CASSANDRA_PWD.stdout }} 
 
 
 

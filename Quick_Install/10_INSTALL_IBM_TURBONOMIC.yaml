@@ -136,7 +136,7 @@ data:
       - name: ibm-aiops-turbonomic
         kind: Turbonomic
         install: true
-        turbo_version: 8.12.4
+        turbo_version: 8.13.2
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)

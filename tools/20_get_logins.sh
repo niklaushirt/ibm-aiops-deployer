@@ -106,21 +106,12 @@ echo "      📥 IBMAIOps"
 echo ""
 echo "                🌏 URL:           https://$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})"
 echo ""    
-echo "                🧑 User:          $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)"
-echo "                🔐 Password:      $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)"
+echo "                🧑 User:          $(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)"
+echo "                🔐 Password:      $(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)"
 echo "     "    
 echo "     "    
 echo "     "           
-echo "      📥 Administration hub / Common Services"
-echo ""    
-echo "                🌏 URL:           https://$(oc get route -n ibm-common-services cp-console -o jsonpath={.spec.host})"
-echo ""    
-echo "                🧑 User:          $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode && echo)"
-echo "                🔐 Password:      $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)"
-echo "    "
-echo "    "
-echo "    "
-echo "    "
+
     
 
 
@@ -632,7 +623,7 @@ echo "    "
 echo "                🌏 URL:                   https://$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})    (URL for IBM IBM AIOps connection)"
 echo "                📛 Instance Name:         aimanager"
 echo "                🧑 User:                  admin"
-echo "                🔐 Password:              $(oc -n ibm-common-services get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)"
+echo "                🔐 Password:              $(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 --decode)"
 echo ""
 echo ""
 echo ""
@@ -660,16 +651,16 @@ echo "        ------------------------------------------------------------------
 echo "        -----------------------------------------------------------------------------------------------------------------------------------------------"
 
 
-apiURL=$(oc get routes -n $AIOPS_NAMESPACE topology-merge  -o jsonpath="{['spec']['host']}")
+apiURL=$(oc get routes -n $AIOPS_NAMESPACE aiops-topology-merge  -o jsonpath="{['spec']['host']}")
 echo "                🌏 Topology Merge:           https://$apiURL/"
 echo "    "
-apiURL=$(oc get routes -n $AIOPS_NAMESPACE topology-rest  -o jsonpath="{['spec']['host']}")
+apiURL=$(oc get routes -n $AIOPS_NAMESPACE aiops-topology-rest-observer  -o jsonpath="{['spec']['host']}")
 echo "                🌏 Topology REST:            https://$apiURL/"
 echo "    "
-apiURL=$(oc get routes -n $AIOPS_NAMESPACE topology-file  -o jsonpath="{['spec']['host']}")
+apiURL=$(oc get routes -n $AIOPS_NAMESPACE aiops-topology-file-observer  -o jsonpath="{['spec']['host']}")
 echo "                🌏 Topology File:            https://$apiURL/"
 echo "    "
-apiURL=$(oc get routes -n $AIOPS_NAMESPACE  topology-manage  -o jsonpath="{['spec']['host']}")
+apiURL=$(oc get routes -n $AIOPS_NAMESPACE  aiops-topology-topology  -o jsonpath="{['spec']['host']}")
 echo "                🌏 Topology Manage:          https://$apiURL/"
 echo "                🌏 Topology SWAGGER:         https://$apiURL/1.0/topology/swagger"
 echo "    "
@@ -693,85 +684,5 @@ echo ""
 echo ""
 echo ""
 echo ""
-
-
-
-echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "    🚀 AIOPS Licensing "
-echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "    " 
-echo "            📥 Login License Portal:"
-echo "    " 
-echo "                🌏 URL:                   https://$(oc get routes -n ibm-common-services | grep ibm-licensing-service-instance | awk '{print $2}')"
-echo "                🔐 Password:              $(oc get secret ibm-licensing-token -o jsonpath={.data.token} -n ibm-common-services | base64  --decode)"
-echo ""
-
-echo "        -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "        -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "        🚀 AI Platform API - GRAPHQL Playground "
-echo "        -----------------------------------------------------------------------------------------------------------------------------------------------"
-echo "        -----------------------------------------------------------------------------------------------------------------------------------------------"
-apiURL=$(oc get routes -n $AIOPS_NAMESPACE ai-platform-api -o jsonpath="{['spec']['host']}")
-ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
-ZEN_LOGIN_URL="https://${ZEN_API_HOST}/v1/preauth/signin"
-LOGIN_USER=admin
-LOGIN_PASSWORD="$(oc get secret admin-user-details -n $AIOPS_NAMESPACE -o jsonpath='{ .data.initial_admin_password }' | base64 --decode)"
-
-ZEN_LOGIN_RESPONSE=$(
-curl -k \
--H 'Content-Type: application/json' \
--XPOST \
-"${ZEN_LOGIN_URL}" \
--d '{
-    "username": "'"${LOGIN_USER}"'",
-    "password": "'"${LOGIN_PASSWORD}"'"
-}' 2> /dev/null
-)
-
-
-ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-
-
-echo "        " 
-echo "                📥 Playground:"
-echo "        " 
-echo "                    🌏 URL:                   https://$apiURL/graphql"
-echo "    "
-echo "    "
-echo "        " 
-echo "                    🔐 HTTP HEADERS"
-echo "                            {"
-echo "                            \"authorization\": \"Bearer $ZEN_TOKEN\""
-echo "                            }"
-echo "        " 
-echo "        " 
-echo "        " 
-echo "                    📥 Example Payload"
-echo "                            query {"
-echo "                                getTrainingDefinitions {"
-echo "                                  definitionName"
-echo "                                  algorithmName"
-echo "                                  version"
-echo "                                  deployedVersion"
-echo "                                  description"
-echo "                                  createdBy"
-echo "                                  modelDeploymentDate"
-echo "                                  promoteOption"
-echo "                                  trainingSchedule {"
-echo "                                    frequency"
-echo "                                    repeat"
-echo "                                    timeRangeValidStart"
-echo "                                    timeRangeValidEnd"
-echo "                                    noEndDate"
-echo "                                  }"
-echo "                                }"
-echo "                              }"
-echo "        " 
-echo "        " 
-echo "        " 
-echo "                    🔐 ZEN Token:             $ZEN_TOKEN"
-
 
 

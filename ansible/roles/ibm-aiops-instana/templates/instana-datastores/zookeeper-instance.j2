@@ -6,6 +6,16 @@ metadata:
 spec:
   # For all params and defaults, see https://github.com/pravega/zookeeper-operator/tree/master/charts/zookeeper#configuration
   replicas: 1
+  image:
+    repository: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/zookeeper
+    tag: 3.8.3_v0.12.0
+  pod:
+    imagePullSecrets: [name: "instana-registry"]
+    serviceAccountName: "zookeeper"
+    # Add the following securityContext snippet for Kubernetes offerings other than OCP.
+    # securityContext:
+    #   runAsUser: 1000
+    #   fsGroup: 1000
   config:
     tickTime: 2000
     initLimit: 10

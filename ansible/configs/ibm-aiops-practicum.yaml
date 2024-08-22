@@ -1,32 +1,58 @@
-
+#*************************************************************************************************************************************************
+#--------------------------------------------------------------------------------------------------------------------------------------
+# IBMAIOPS PRACTICUM
+#--------------------------------------------------------------------------------------------------------------------------------------
+#*************************************************************************************************************************************************
 
 global_config:
-  environment_name: ibm-aiops
-  cloud_platform: existing-ocp
   # --------------------------------------------------------------------------------------------------------------------------------------
-  # IBMAIOPS Pull Registires
+  # Passwords and Licenses
+  # --------------------------------------------------------------------------------------------------------------------------------------
+  # Use this Password for all Instances
+  global_password: CHANGEME
+
+
+  # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
+  environment_name: Bear
+  cloud_platform: existing-ocp
+  # Set this value to True to accept all licenses
+  accept_all_licenses: False
+  # Key to decrypt Licenses
+  #license_token: NONE
+
+
+  # --------------------------------------------------------------------------------------------------------------------------------------
+  # Pull Registires
   # --------------------------------------------------------------------------------------------------------------------------------------
   entitled_registry: cp.icr.io
   entitled_registry_user: cp
   catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
-  # Create Welcome Cards in IBMAIOps
+  current_supported_aiops_version: v4.6
+
+  # --------------------------------------------------------------------------------------------------------------------------------------
+  # Notifications and Cards
+  # --------------------------------------------------------------------------------------------------------------------------------------
+  # Create Welcome Cards in ibm-aiops
   create_cards: true
   # Create App Menu Items in OCP
   create_ocp_items: true
-  # Use this Password for all Instances
-  # Deployment will not work if these aren't changed
-  global_password: CHANGEME
-  # Set this value to True to accept all licenses
-  accept_all_licenses: False
   # Create Notifications in OCP
   create_ocp_notifications: true
-  position_ocp_notifications: BannerTop
+  position_ocp_notifications: BannerBottom
   position_final_ocp_notification: BannerTop
-  # Key to decrypt Licenses
-  # license_token: NONE
 
+
+
+
+
+# *************************************************************************************************************************************************
+# -------------------------------------------------------------------------------------------------------------------------------------
+# OpenShift Configuration
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
 
 openshift:
+
 - name: "mycluster"
   ocp_version: "4.15"
   cluster_name: "mycluster"
@@ -41,47 +67,30 @@ openshift:
     #ocp_storage_class_block: ibmc-block-gold
 
 
-ibm-aiops:
+
+
+#*************************************************************************************************************************************************
+#--------------------------------------------------------------------------------------------------------------------------------------
+# IBM AIOPS Configuration
+#--------------------------------------------------------------------------------------------------------------------------------------
+#*************************************************************************************************************************************************
+
+ibmaiops:
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+# CloudPak for AIOps Base Install
+
+#--------------------------------------------------------------------------------------------------------------------------------------
+# Changing the project name / namespace is at your own risk. some things might break, I do not test this!
+
 - project: ibm-aiops
   instances:
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # INSTALL IBMAIOPS
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops
-    kind: IBMAIOps
-    install: false
-    # IBMAIOPS Size of the install (small: PoC/Demo, large: Production)
-    aiops_size: small
-    # Custom Sizing File (aiops_size must be set to "custom")
-    custom_size_file: none
-    # Name of the IBMAIOPS instance
-    aiops_name: ibm-aiops
-    # Version of the catalog subscription
-    subscription_channel: v3.7
-    # Freeze the version of the Catalog image by patching CatalogSource
-    freeze_catalog: false
 
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # Storage Classes Override for this Instance (see comment below)
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    #storage_class_file: automatic
-    #storage_class_block: automatic
-
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # Install with CASE Files
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    case_install: false
-    case_github_url: "https://github.com/IBM/cloud-pak/raw/master/repo/case"
-    case_name: ibm-cp-aiops
-    case_version: 1.5.0
-    case_inventory_setup: cpaiopsSetup
-    
-
-
-    
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # INSTALL IBMAIOPS Demo Content
-  # --------------------------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------------------------
+# CloudPak for AIOps Demo Content Install
+#--------------------------------------------------------------------------------------------------------------------------------------
   - name: ibm-aiops-demo-content
     kind: IBMAIOpsDemoContent
     install: true
@@ -91,26 +100,41 @@ ibm-aiops:
     # TRAINING
     # Train the Models based on pre-canned content
 
+    # Where to get the training data from
+    training_data_url: https://github.com/niklaushirt/
+    training_data_repo: ibm-aiops-trainingdata
+
+    # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
+    create_log_connection: true
+
+    # Enable Log Anomaly Golden Signals
+    training_enable_log_golden_signals: false
+
+    # Enable Event Temporal Grouping
+    training_load_data_events: true
     training_create_training_temporal: false
+    training_run_training_temporal: false
 
-
-
+    # Enable Similar Incidents
     training_load_data_snow: true
     training_create_training_snow: false
     training_run_training_snow: false
 
+    # Enable Metric Anomaly
     training_load_data_metrics: true
     training_create_training_metrics: false
     training_run_training_metrics: false
 
-    training_data_url: https://github.com/niklaushirt/
-    training_data_repo: ibm-aiops-trainingdata
+    # Create Training for Seasonality and XinY
+    training_create_season_xiny: false
 
 
     # ---------------------------------------------------------------------
     # TOPOLOGY
     # Install DemoApps Application
     install_demoapps: true
+    # RobotShop interface color (classic/white)
+    robotshop_color: white
     # Install DemoApps K8s Observer
     install_demoapps_observer: false
     # Create Topology
@@ -118,6 +142,7 @@ ibm-aiops:
     create_topology_apps: false
     # Create Custom overlay topology
     install_custom_topology: true
+
 
     # ---------------------------------------------------------------------
     # RUNBOOKS
@@ -132,13 +157,15 @@ ibm-aiops:
     # ---------------------------------------------------------------------
     # Demo UI
     install_demo_ui: true
-
     demoui_admin_mode: "true"
     demoui_simulation_mode: "true"
-
     demoui_user: demo
     # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
     #demoui_pwd: CHANGEME
+
+    # Create incident links to static Slack and Snow pages
+    demoui_create_slack_snow: true
+
 
 
     # ---------------------------------------------------------------------
@@ -154,128 +181,36 @@ ibm-aiops:
     #ldap_user_password: CHANGEME
     # ldap namespace
     ldap_namespace: openldap
-    # ldap namespace
+    # Integrate AIOps Login with OpenLDAP 
     ldap_register: false
+    # Integrate OpenShift Login with OpenLDAP
+    integrate_ocp_openldap: false
 
     # ---------------------------------------------------------------------
     # MISC PARAMETERS (you should not modify those)
     # Create external routes (needed to create demo content)
     create_external_routes: true
 
-    # Create a valid ingress certificate (needed for Slack integration)
-    create_valid_ingress_certificate: false
-    create_valid_ingress_itz: false
+    # Create a valid ingress certificate when on ITZ
+    create_valid_ingress_itz: true
 
-    # Create Policy for Incident Creation
+    # Create Policy for Story Creation
     create_incident_policy: false
 
-    # Create Kafka connection for Log inception (needed to create log anomalies in the demo environment)
-    create_log_connection: true
 
     # Create Service Account
-    create_account: true
-
-
-
-    # ---------------------------------------------------------------------
-    # OUTPUT
-    # Print all logins
-    print_logins: false
-    # Open the relevant Web UIs
-    open_web_ui: false
-
+    create_account: false
 
 
 
 - project: ibm-aiops-addons
   instances:
   # --------------------------------------------------------------------------------------------------------------------------------------
-  # IBMAIOPS ELK
+  # CP4WAIOPS ELK
   # --------------------------------------------------------------------------------------------------------------------------------------
+
   - name: ibm-aiops-elk
     kind: ELK
     install: true
-
-
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # IBMAIOPS INSTANA
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-instana
-    kind: Instana
-    install: false
-    version: 241-3
-
-    # ---------------------------------------------------------------------
-    # INSTANA LICENSE
-    sales_key: 'NONE'
-    agent_key: 'NONE'
-
-    # ---------------------------------------------------------------------
-    # INSTANA ADMIN LOGIN
-    # Admin User Name
-    instana_admin_user: "admin@instana.local"
-    # Admin User Password (OVERRIDES GLOBAL PASSWORD)
-    #instana_admin_pass: 'CHANGEME'
-    
-    # ---------------------------------------------------------------------
-    # INSTALL INSTANA AGENT
-    install_agent: true
-
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # INTEGRATIONS
-    integrate_ibm-aiops: false
-    #integrate_turbonomic: true
-    
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # Storage Classes Override for this Instance (see comment below)
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    #storage_class_file: automatic
-    #storage_class_block: automatic
-
-
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # IBMAIOPS TURBONOMIC
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-turbonomic
-    kind: Turbonomic
-    install: false
-    turbo_version: 8.8.3
-
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    # Storage Classes Override for this Instance (see comment below)
-    # --------------------------------------------------------------------------------------------------------------------------------------
-    #storage_class_file: automatic
-    #storage_class_block: automatic
-
-  - name: ibm-aiops-turbonomic-demo-content
-    kind: TurbonomicDemoContent
-    install: false
-    # Admin User Password (OVERRIDES GLOBAL PASSWORD)
-    #turbo_admin_password: CHANGEME
-    # ---------------------------------------------------------------------
-    # Create Demo User
-    create_user: true
-    # Demo User Name
-    demo_user: demo
-    # Demo User Password (OVERRIDES GLOBAL PASSWORD)
-    #turbo_demo_password: CHANGEME
-    # ---------------------------------------------------------------------
-    # Create Groups
-    group_vcenter_vms: true
-    group_robotshop: true
-    group_licensing: true
-
-    # ---------------------------------------------------------------------
-    # Create Targets
-    target_instana: true
-    # ---------------------------------------------------------------------
-    # Create Memory and CPU hogs
-    resource_hogs: true
-    # ---------------------------------------------------------------------
-    # Create Metrics server, DIF integration and RobotShop BuisnessApp
-    metrics_dif: true
-
-
-
 
 

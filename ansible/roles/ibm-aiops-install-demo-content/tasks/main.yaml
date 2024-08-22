@@ -44,7 +44,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
  
 
-- name: 🟣🟣🟣 INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
+- name: 🟣🟣🟣🟣🟣🟣  INSTALLATION MODULE START - {{current_ibmaiops_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -535,7 +535,7 @@
 
 
 
-- name:  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
+- name:  🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
   debug: 
     msg:  
 

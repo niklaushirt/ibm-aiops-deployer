@@ -38,7 +38,7 @@
       - "***************************************************************************************************************************************************"
       - "***************************************************************************************************************************************************"
       - "                                                                                                                                                   "
-      - "       🟢🟢🟢 IBM AIOps - INSTALLATION -  CUSTOM INSTALLATION                                                                      "
+      - "       🟣🟣🟣🟣🟣🟣🟣🟢🟢🟢 IBM AIOps - INSTALLATION                                                                      "
       - "                                                                                                                                                   "
       - "***************************************************************************************************************************************************"
       - "***************************************************************************************************************************************************"
@@ -70,27 +70,6 @@
     include_vars:
       file: "{{config_file_path}}"
       name: all_config
-
-  # - name: 🟢🟢🟢  Show Config File
-  #   debug:
-  #     var: all_config
-  #     verbosity: 2
-
-
-  # - name: 🛠️  Get Global Config
-  #   set_fact: global_config={{ all_config.global_config | default([]) }}
-  # - name: 🟢🟢🟢  Show Global Config
-  #   debug:
-  #     var: global_config
-  #     verbosity: 2
-
-
-  # - name: 🛠️  Get Openshift Config
-  #   set_fact: openshift_cluster={{ all_config.openshift | default([]) }}
-  # - name: 🟢🟢🟢  Show Openshift Config
-  #   debug:
-  #     var: openshift_cluster
-  #     verbosity: 2
 
 
   # Loop over all Clusters
