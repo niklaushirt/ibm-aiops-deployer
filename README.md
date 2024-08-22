@@ -13,6 +13,10 @@
 
 <BR>
 
+## FIX for Deleted AWX Operator from OpenShift Catalog
+### Instana installation is not working right now. Working on it.
+
+<BR>
 ### ⚠️ Disclaimer
 
 <details>
