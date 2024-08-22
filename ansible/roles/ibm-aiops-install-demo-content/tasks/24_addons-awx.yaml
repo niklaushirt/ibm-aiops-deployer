@@ -57,7 +57,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # AWX Operator Install official https://github.com/ansible/awx-operator
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🕦 CHECK -  Wait AWX Operator
+- name: 🚀 AWX - Create AWX Operator
   shell: |
     mkdir awx
     cd awx
@@ -83,10 +83,9 @@
     EOF
 
     kubectl apply -k .
-  register: kubectl_num_pods
-  until: kubectl_num_pods.stdout|int >= 1
-  retries: 100
-  delay: 15
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 
