@@ -131,7 +131,7 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore TEST
+- name: 🚀 INSTANA - Create Backend Datastore Prepare Helm Charts
   shell: |
     # Zookeeper Operator installation
     helm repo add instana https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual --username=_ --password={{current_agent_key}}
@@ -428,9 +428,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 24 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 24 ]
     do
       sleep 30
     done
@@ -822,6 +822,19 @@
 - name: 🚀 INSTANA - Save POSTGRES PASSWORD {{ POSTGRES_PWD.stdout }} 
   set_fact: POSTGRES_PWD={{ POSTGRES_PWD.stdout }} 
 
+- name: 🚀 INSTANA - Get CASSANDRA PASSWORD
+  shell: |
+    CASSANDRA_PWD=$(oc get secret instana-superuser -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    echo $CASSANDRA_PWD
+  ignore_errors: true
+  register: CASSANDRA_PWD
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT 
+  debug:
+    var: CASSANDRA_PWD.stdout
+- name: 🚀 INSTANA - Save CASSANDRA PASSWORD {{ CASSANDRA_PWD.stdout }} 
+  set_fact: CASSANDRA_PWD={{ CASSANDRA_PWD.stdout }} 
 
 
 
