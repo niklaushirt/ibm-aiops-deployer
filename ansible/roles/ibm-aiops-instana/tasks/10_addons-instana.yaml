@@ -837,6 +837,20 @@
   set_fact: CASSANDRA_PWD={{ CASSANDRA_PWD.stdout }} 
 
 
+- name: 🚀 INSTANA - Get KAFKA PASSWORD
+  shell: |
+    KAFKA_PWD=$(kubectl get secret strimzi-kafka-user -n instana-datastores --template='{{index .data.password | base64decode}}' && echo)
+    echo $KAFKA_PWD
+  ignore_errors: true
+  register: KAFKA_PWD
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT 
+  debug:
+    var: KAFKA_PWD.stdout
+- name: 🚀 INSTANA - Save KAFKA PASSWORD {{ KAFKA_PWD.stdout }} 
+  set_fact: KAFKA_PWD={{ KAFKA_PWD.stdout }} 
+
 
 - name: 🚀 INSTANA - Get Config File
   ansible.builtin.template:

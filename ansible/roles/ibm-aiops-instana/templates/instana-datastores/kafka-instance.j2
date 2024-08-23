@@ -42,4 +42,30 @@ spec:
         #   fsGroup: 1000
     userOperator:
       image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.41.0_v0.9.0
-
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: strimzi-kafka-user
+  namespace: instana-datastores
+  labels:
+    strimzi.io/cluster: instana
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: '*'
+          patternType: literal
+        operation: All
+        host: "*"
+      - resource:
+          type: group
+          name: '*'
+          patternType: literal
+        operation: All
+        host: "*"
+        
