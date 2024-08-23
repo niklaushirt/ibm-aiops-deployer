@@ -839,7 +839,7 @@
 
 - name: 🚀 INSTANA - Get KAFKA PASSWORD
   shell: |
-    KAFKA_PWD=$(kubectl get secret strimzi-kafka-user -n instana-datastores --template='{{index .data.password | base64decode}}' && echo)
+    KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores | jq -r .data.password | base64 -d)
     echo $KAFKA_PWD
   ignore_errors: true
   register: KAFKA_PWD
