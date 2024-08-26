@@ -398,25 +398,6 @@
     template: ./templates/instana-datastores/beeinstana-instance.j2
     
 
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Wait for Kafka being ready
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🕦 INSTANA - Wait for Kafka to be ready
-  shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 29 ]
-    do
-      sleep 30
-    done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-
-
 
 
 - name: 🚀 INSTANA - Create Backend Datastore zookeeper
