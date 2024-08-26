@@ -1,11 +1,11 @@
 apiVersion: "zookeeper.pravega.io/v1beta1"
 kind: "ZookeeperCluster"
 metadata:
-  name: "instana-zookeeper-clickhouse"
+  name: "instana-zookeeper"
   namespace: instana-datastores
 spec:
-  # For all params and defaults, see https://github.com/pravega/zookeeper-operator/tree/master/charts/zookeeper#configuration
-  replicas: 1
+  # For parameters and default values, see https://github.com/pravega/zookeeper-operator/tree/master/charts/zookeeper#configuration
+  replicas: 3
   image:
     repository: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/zookeeper
     tag: 3.8.3_v0.12.0
