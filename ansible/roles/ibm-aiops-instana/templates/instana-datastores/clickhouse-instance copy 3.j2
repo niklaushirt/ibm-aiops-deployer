@@ -2,6 +2,7 @@ apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
   name: "instana"
+  namespace: instana-datastores
 spec:
   defaults:
     templates:
@@ -55,7 +56,7 @@ spec:
         shard: None
   zookeeper:
     nodes:
-    - host: instana-zookeeper-clickhouse-headless.instana-datastores
+      - host: instana-zookeeper-clickhouse-headless.instana-datastores
   profiles:
     default/max_memory_usage: 10000000000 # If memory limits are set, this value must be adjusted according to the limits.
     default/joined_subquery_requires_alias: 0
