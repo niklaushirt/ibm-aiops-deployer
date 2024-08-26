@@ -150,8 +150,10 @@ spec:
         authEnabled: true
     clickhouseConfigs:
       - clusterName: local
+        authEnabled: true
         hosts:
           - chi-instana-cluster-0-0.instana-datastores.svc
+          - chi-instana-cluster-0-1.instana-datastores.svc
         ports:
           - name: tcp
             port: 9000
