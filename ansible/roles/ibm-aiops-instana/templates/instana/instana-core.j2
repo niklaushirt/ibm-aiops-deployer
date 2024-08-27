@@ -150,6 +150,7 @@ spec:
         authEnabled: true
     clickhouseConfigs:
       - clusterName: local
+        authEnabled: true
         hosts:
           - chi-instana-local-0-0.instana-datastores.svc
           - chi-instana-local-0-1.instana-datastores.svc
@@ -180,7 +181,9 @@ spec:
         - name: tcp
           port: 9092
       replicationFactor: 1
-      saslMechanism: PLAIN
+      saslMechanism: SCRAM-SHA-512
+      authEnabled: true
+
     postgresConfigs:
       - databases:
           - butlerdb

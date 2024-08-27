@@ -1,9 +1,8 @@
-
----
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
   name: "instana"
+  namespace: instana-datastores
 spec:
   defaults:
     templates:
@@ -51,7 +50,7 @@ spec:
           podTemplate: clickhouse
         layout:
           shardsCount: 1
-          replicasCount: 2 # The the replication count of 2 is fixed for Instana backend installations
+          replicasCount: 2 # The replication count of 2 is fixed for Instana backend installations
         schemaPolicy:
           replica: None
           shard: None
@@ -83,12 +82,16 @@ spec:
       default/interval/read_rows: 0
       default/interval/execution_time: 0
     settings:
+      remote_servers/all-sharded/secret: clickhouse-default-pass
+      remote_servers/all-replicated/secret: clickhouse-default-pass
+      remote_servers/local/secret: clickhouse-default-pass
       max_concurrent_queries: 200
       max_table_size_to_drop: 0
       max_partition_size_to_drop: 0
     users:
-      default/networks/ip: "::/0"
-      default/no_password: "" 
+      default/password: "clickhouse-default-pass"
+      clickhouse-user/networks/ip: "::/0"
+      clickhouse-user/password: "clickhouse-pass"
       # Or
       # Generate password and the corresponding SHA256 hash with:
       # $ PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
@@ -171,6 +174,3 @@ spec:
             - name: tcp
               port: 9000
           type: ClusterIP
-          
-          
-  

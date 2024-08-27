@@ -192,8 +192,6 @@
 - name: 🚀 INSTANA - Create Backend Datastore Operator ELASTICSEARCH
   shell: |
     helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry"
-    helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry" 
- 
   ignore_errors: true
   register: output
   args:
@@ -389,11 +387,6 @@
     template: ./templates/instana-datastores/postgres-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore zookeeper
-  kubernetes.core.k8s:
-    namespace: instana-datastores
-    state: present
-    template: ./templates/instana-datastores/zookeeper-instance.j2
     
 
 - name: 🚀 INSTANA - Create Backend Datastore Beeinstana
@@ -402,6 +395,16 @@
     state: present
     template: ./templates/instana-datastores/beeinstana-instance.j2
     
+
+
+
+- name: 🚀 INSTANA - Create Backend Datastore zookeeper
+  kubernetes.core.k8s:
+    namespace: instana-datastores
+    state: present
+    template: ./templates/instana-datastores/zookeeper-instance.j2
+
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -428,9 +431,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 24 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 24 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
@@ -836,6 +839,20 @@
 - name: 🚀 INSTANA - Save CASSANDRA PASSWORD {{ CASSANDRA_PWD.stdout }} 
   set_fact: CASSANDRA_PWD={{ CASSANDRA_PWD.stdout }} 
 
+
+- name: 🚀 INSTANA - Get KAFKA PASSWORD
+  shell: |
+    KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    echo $KAFKA_PWD
+  ignore_errors: true
+  register: KAFKA_PWD
+  args:
+    executable: /bin/bash
+- name: 🟣  OUTPUT 
+  debug:
+    var: KAFKA_PWD.stdout
+- name: 🚀 INSTANA - Save KAFKA PASSWORD {{ KAFKA_PWD.stdout }} 
+  set_fact: KAFKA_PWD={{ KAFKA_PWD.stdout }} 
 
 
 - name: 🚀 INSTANA - Get Config File
