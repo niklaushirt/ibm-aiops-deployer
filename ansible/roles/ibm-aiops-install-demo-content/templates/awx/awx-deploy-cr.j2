@@ -1,3 +1,41 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: awx-default-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: awx
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: awx-operator-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: awx-operator-controller-manager
+    namespace: awx
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: awx-awx-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: awx
+    namespace: awx
 ---
 apiVersion: awx.ansible.com/v1beta1
 kind: AWX
@@ -26,7 +64,7 @@ spec:
   web_manage_replicas: true
   projects_storage_size: 8Gi
   auto_upgrade: true
-  task_privileged: false
+  task_privileged: true
   task_readiness_period: 0
   web_liveness_timeout: 1
   postgres_keepalives: true
@@ -50,17 +88,11 @@ spec:
   loadbalancer_protocol: http
   metrics_utility_cronjob_gather_schedule: '@hourly'
   task_liveness_timeout: 1
-  ingress_type: route
+  service_type: clusterip
+  ingress_type: Route  
   postgres_data_volume_init: true
   postgres_security_context_settings:
-    fsGroup: 26
     fsGroupChangePolicy: Always
-    runAsGroup: 26
-    privileged: true
-    runAsNonRoot: false
-    runAsUser: 26
-    supplementalGroups:
-      - 26
   init_postgres_extra_commands: |
     mkdir /var/lib/pgsql/data/userdata
     chown 26:26 /var/lib/pgsql/data/userdata
