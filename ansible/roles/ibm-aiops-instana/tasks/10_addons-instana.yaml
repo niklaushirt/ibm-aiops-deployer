@@ -431,9 +431,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 32 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 21 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 32 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 21 ]
     do
       sleep 30
     done

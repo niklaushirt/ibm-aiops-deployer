@@ -8,7 +8,7 @@ metadata:
 spec:
   kafka:
     version: 3.6.2
-    replicas: 3
+    replicas: {{current_ibmaiops_feature.instana_backend_scale  | default(3)}}
     listeners:
       - name: scram
         port: 9092
@@ -31,7 +31,7 @@ spec:
           size: 50Gi
           deleteClaim: true
   zookeeper:
-    replicas: 3
+    replicas: {{current_ibmaiops_feature.instana_backend_scale  | default(3)}}
     storage:
       type: persistent-claim
       size: 10Gi

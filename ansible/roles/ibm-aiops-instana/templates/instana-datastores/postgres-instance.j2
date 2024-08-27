@@ -15,7 +15,7 @@ metadata:
   name: postgres
   namespace: instana-datastores
 spec:
-  instances: 3
+  instances: {{current_ibmaiops_feature.instana_backend_scale  | default(3)}}
   imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.6.0
   imagePullPolicy: IfNotPresent
   imagePullSecrets:

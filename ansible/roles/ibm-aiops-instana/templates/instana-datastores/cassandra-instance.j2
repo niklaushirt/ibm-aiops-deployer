@@ -20,7 +20,7 @@ spec:
       - name: cassandra
   managementApiAuth:
     insecure: {}
-  size: 3
+  size: {{current_ibmaiops_feature.instana_backend_scale  | default(3)}}
   allowMultipleNodesPerWorker: false
   resources:
     requests:

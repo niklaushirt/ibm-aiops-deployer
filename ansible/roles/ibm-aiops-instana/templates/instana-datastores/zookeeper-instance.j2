@@ -5,7 +5,7 @@ metadata:
   namespace: instana-datastores
 spec:
   # For parameters and default values, see https://github.com/pravega/zookeeper-operator/tree/master/charts/zookeeper#configuration
-  replicas: 3
+  replicas: {{current_ibmaiops_feature.instana_backend_scale  | default(3)}}
   image:
     repository: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/zookeeper
     tag: 3.8.3_v0.12.0
