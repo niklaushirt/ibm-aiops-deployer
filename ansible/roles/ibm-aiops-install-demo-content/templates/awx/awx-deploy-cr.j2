@@ -5,8 +5,6 @@ metadata:
   name: awx
   namespace: awx
 spec:
-  postgres_security_context_settings:
-    runAsUser: {{ AWX_UIDRANGE }}
   web_readiness_timeout: 1
   postgres_keepalives_count: 5
   web_readiness_period: 0
@@ -53,3 +51,17 @@ spec:
   metrics_utility_cronjob_gather_schedule: '@hourly'
   task_liveness_timeout: 1
   ingress_type: route
+  postgres_data_volume_init: true
+  postgres_security_context_settings:
+    fsGroup: 26
+    fsGroupChangePolicy: Always
+    runAsGroup: 26
+    privileged: true
+    runAsNonRoot: false
+    runAsUser: 26
+    supplementalGroups:
+      - 26
+  init_postgres_extra_commands: |
+    mkdir /var/lib/pgsql/data/userdata
+    chown 26:26 /var/lib/pgsql/data/userdata
+    chmod 700 /var/lib/pgsql/data/userdata
