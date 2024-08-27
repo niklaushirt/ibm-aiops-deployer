@@ -134,6 +134,8 @@ data:
         instana_version: 277-2
         # Can be large, medium (default), small 
         instana_size: medium
+        # Can be 1 or 3 (default is 3) 
+        instana_backend_scale: 3 
 
         # ---------------------------------------------------------------------
         # INSTANA LICENSE

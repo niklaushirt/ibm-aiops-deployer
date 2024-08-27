@@ -92,33 +92,6 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA AGENT - Create Operator
-  shell: |
-    kubectl apply -f https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-
-
-
-- name:   🕦 INSTANA - Wait for Operator to become ready
-  shell: |
-    while [ `oc -n instana-agent get pods| grep '1/1' | grep -c ""` -lt 2 ]
-    do
-      sleep 10
-    done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
 
 
 
@@ -126,6 +99,6 @@
   kubernetes.core.k8s:
     namespace: instana-agent
     state: present
-    template: ./templates/instana-agent/instana-agent-cr.j2
+    template: ./templates/instana-agent/instana-agent-standalone.j2
 
 
