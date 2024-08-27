@@ -116,10 +116,27 @@
   ignore_errors: true
 
 
+
+- name:  🌏 AWX  - Getting AWX UID
+  shell: |
+    export uidrange=$(oc get project awx -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"|cut -d "/" -f 1)
+    echo $uidrange
+  ignore_errors: true
+  register: output   
+- name: 🚀 AWX  - Set AWX UID
+  set_fact: AWX_UIDRANGE={{ output.stdout_lines[0] | default(1000810000)}} 
+- name: 🟣  OUTPUT
+  debug:
+    var: AWX_UIDRANGE
+    verbosity: 1
+        
+
+
+
 - name: 🚀 AWX - Create AWX Instance (while waiting for IBM AIOPS Installation to progress)
   kubernetes.core.k8s:
     state: present
     namespace: awx
-    src: ./templates/awx/awx-deploy-cr.yml
+    template: ./templates/awx/awx-deploy-cr.j2
   ignore_errors: true
 
