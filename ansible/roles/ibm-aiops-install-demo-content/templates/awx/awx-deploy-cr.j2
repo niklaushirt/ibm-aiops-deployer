@@ -5,6 +5,8 @@ metadata:
   name: awx
   namespace: awx
 spec:
+  postgres_security_context_settings:
+    runAsUser: {{ AWX_UIDRANGE }}
   web_readiness_timeout: 1
   postgres_keepalives_count: 5
   web_readiness_period: 0
