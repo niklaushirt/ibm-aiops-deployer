@@ -47,12 +47,12 @@
 # AWX Operator REMOVED BY REDHAT
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-# - name: 🚀 AWX - Create AWX Operator
-#   kubernetes.core.k8s:
-#     state: present
-#     namespace: awx
-#     src: ./templates/awx/operator-install.yaml
-#   ignore_errors: true
+- name: 🚀 AWX - Prepare AWX Operator
+  kubernetes.core.k8s:
+    state: present
+    namespace: awx
+    src: ./templates/awx/prep-install.yaml
+  ignore_errors: true
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # AWX Operator Install official https://github.com/ansible/awx-operator
