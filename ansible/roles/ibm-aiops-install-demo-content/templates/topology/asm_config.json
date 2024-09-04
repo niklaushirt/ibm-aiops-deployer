@@ -89,10 +89,6 @@
 ,{"name":"fiberConnection","keyIndexName":"ASM::entityType::resource::fiberConnection","vertexType":"entityType","icon":"fiberConnectionIcon","description":"resource","databaseSource":"types"}
 ,{"name":"fiberDevice","vertexType":"metadata","shape":"","size":"","maxLabelLength":"","resourceLabel":"","style":{"stroke":"#e130ff","strokeDasharray":"","fill":"#fa74ff"},"entityTypes":["ASM_UI_RESOURCE_TYPE_DEFINITION"],"tags":["ASM_UI_CONFIG"],"databaseSource":"metadata"}
 ,{"name":"fiberPort","vertexType":"metadata","shape":"","size":"","maxLabelLength":"","resourceLabel":"","style":{"stroke":"#f563fa","strokeDasharray":"","fill":"#fedbff"},"entityTypes":["ASM_UI_RESOURCE_TYPE_DEFINITION"],"tags":["ASM_UI_CONFIG"],"databaseSource":"metadata"}
-,{"name":"fiberConnection","shape":"hexV","maxLabelLength":"","resourceLabel":"if (asmProperties.Equipment ==  \"FC9565US30 \" && asmProperties.availability){return asmProperties.name+' : '+asmProperties.availability;}else{return asmProperties.name+' : OK';}","tags":["ASM_UI_CONFIG"],"vertexType":"metadata","size":"","style":{"stroke":"#f370f2","strokeDasharray":"","fill":"#d306ff"},"entityTypes":["ASM_UI_RESOURCE_TYPE_DEFINITION"],"databaseSource":"metadata"}
+,{"name":"fiberConnection","shape":"hexV","maxLabelLength":"","resourceLabel":"if (asmProperties.Equipment ==  \"FC9565US30\" && asmProperties.availability){return asmProperties.name+' : '+asmProperties.availability;}else{return asmProperties.name;}","tags":["ASM_UI_CONFIG"],"vertexType":"metadata","size":"","style":{"stroke":"#f370f2","strokeDasharray":"","fill": "if (asmProperties.Equipment == \"FC9565US30\" && asmProperties.availability != \"ERROR\"){\nreturn '#d306ff';\n    \n}\nelse{\n    return '#ff6b7f';\n}\n\n"},"entityTypes":["ASM_UI_RESOURCE_TYPE_DEFINITION"],"databaseSource":"metadata"}
 
 ]
-
-
-
-

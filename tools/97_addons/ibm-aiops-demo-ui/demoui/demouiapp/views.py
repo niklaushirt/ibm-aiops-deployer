@@ -1225,9 +1225,15 @@ def injectAllRobotNetREST(request):
 
 
         print('  🟠 Create THREADS CUSTOM_PROPS')
-        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=(f'rapod01','fiberConnection','{"availability": "ERROR"}',))
         print('  🟠 Start THREADS CUSTOM_PROPS')
-        threadLogs.start()
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=(f'bepod01','fiberConnection','{"availability": "ERROR"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
 
 
     else:
@@ -1510,6 +1516,17 @@ def injectRESTHeadless(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=(f'rapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=(f'bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
@@ -2162,6 +2179,17 @@ def clearAllREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS ROBOTSHOP_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=(f'rapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=(f'bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         time.sleep(5)
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
@@ -2233,6 +2261,17 @@ def clearEventsREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=(f'rapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=(f'bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
@@ -2298,6 +2337,17 @@ def clearStoriesREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=(f'rapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=(f'bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+        
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
