@@ -147,6 +147,94 @@
       
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL CATALOG with YAML FILE
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (009/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Classic Way (skipped if CASE selected)
+  include_tasks: 10_ibm-aiops-catalog.yaml
+  when: current_ibmaiops_feature.case_install==false
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL CATALOG with CASE FILE
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (010/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
+  include_role:
+    name: ibm-aiops-case-save
+  when: current_ibmaiops_feature.case_install==true
+
+
+- name: (011/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
+  include_role:
+    name: ibm-aiops-case-catalog-source
+  when: current_ibmaiops_feature.case_install==true
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL IBM AIOPS PREREQUISITES
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+# Install IBM AIOPS Prerequisites
+- name: (012/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install the IBM AIOps Instance
+  include_tasks: 18_ibm-aiops-install-prerequisites.yaml
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL IBM AIOPS OPERATOR
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (013/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install the IBM AIOps Operator
+  include_tasks: 11_ibm-aiops-operator.yaml
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL FEATURE FLAGS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Install  Feature Flags
+- name: (014/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install IBM AIOPS Feature Flags
+  include_tasks: 12_ibm-aiops-featureflags.yaml
+  when: current_ibmaiops_feature.install_feature_flags == true | default('false')
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL IBM AIOPS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+# Install IBM AIOPS Instance
+- name: (015/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install the IBM AIOps Instance
+  include_tasks: 19_ibm-aiops-install.yaml
+      
+
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# # WAIT FOR IBM AIOPS HACK
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+# # Wait for IBM AIOPS HACK
+# - name: (016/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Wait for IBM AIOps to apply HACK
+#   include_tasks: 99_ibm-aiops-wait-ibm-HACK.yaml
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# WAIT FOR IBM AIOPS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+# Wait for IBM AIOPS being completely installed
+- name: (016/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Wait for IBM AIOps to be ready
+  include_tasks: 99_ibm-aiops-wait-ibm-aiops.yaml
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Create Openshift WebConsole Menu Item
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: (017/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create IBM AIOps Openshift WebConsole Menu Item
+  include_tasks: 91_ibm-aiops-create-ocp-menu.yaml
+  when: global_config.create_ocp_items | default(true) == true  
+
+# Update IBM AIOps Cards
+- name: (018/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards
+  include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/99_update_cards.yaml"
+
+
 - name: (019/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
