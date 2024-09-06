@@ -146,6 +146,9 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
+
+
+
 - name:   🚀 IBM Concert - Getting Installation source from GitHub
   shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -158,7 +161,6 @@
     cd ibm-concert
     wget https://raw.githubusercontent.com/IBM/Concert/main/Software/manage/ibm-concert-manage.sh
     chmod +x ibm-concert-manage.sh
-
   ignore_errors: true
 
 
@@ -166,7 +168,7 @@
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# xxxxxx
+# Prepare Installation
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
@@ -179,7 +181,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert xxxxxx'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Prepare Installation'    
     EOF
   ignore_errors: true
   args:
@@ -187,9 +189,98 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name:   🚀 IBM Concert - xxxxx
+- name:   🚀 IBM Concert - Prepare Installation
   shell: |
-    xxxxxxx
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_ibmaiops_feature.registry.prod_registry| default('not defined')}}
+    export PROD_USER={{current_ibmaiops_feature.registry.prod_user| default('not defined')}}
+    export PRIVATE_REGISTRY_LOCATION={{current_ibmaiops_feature.registry.private_registry_location| default('not defined')}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_ibmaiops_feature.installation.project_operator| default('not defined')}} 
+    export PROJECT_INSTANCE={{current_ibmaiops_feature.installation.project_instance}}
+    export STG_CLASS_BLOCK=ocs-storagecluster-ceph-rbd
+    export STG_CLASS_FILE=ocs-storagecluster-cephfs
+
+
+    - "     ✅ IBM Concert Project Instance Name:        {{current_ibmaiops_feature.installation.project_instance}}"
+    - "     🔎 IBM Concert Namespace:                    {{current_ibmaiops_feature.project}}"
+    - "     📣 IBM Concert prod_registry:                {{current_ibmaiops_feature.registry.prod_registry| default('not defined')}}"
+    - "     📣 IBM Concert prod_user:                    {{current_ibmaiops_feature.registry.prod_user| default('not defined')}}"
+    - "     📣 IBM Concert private_registry_location:    {{current_ibmaiops_feature.registry.private_registry_location| default('not defined')}}"
+    - "     📣 IBM Concert project_operator:             {{current_ibmaiops_feature.installation.project_operator| default('not defined')}}"
+    - "     📣 IBM Concert docker_exe:                   {{current_ibmaiops_feature.installation.docker_exe| default('not defined')}}"
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Create Pull Secrets"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    oc create secret docker-registry mysercret \
+        --docker-server=${PROD_REGISTRY} \
+        --docker-username=${PROD_USER} \
+        --docker-password=${IBM_ENTITLEMENT_KEY} \
+        --dry-run=client \
+        --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode > myregistryconfigjson
+
+    oc get secret pull-secret -n openshift-config \
+      --output="jsonpath={.data.\.dockerconfigjson}" | base64 \
+      --decode > dockerconfigjson
+
+    jq -s '.[0] * .[1]' dockerconfigjson myregistryconfigjson > dockerconfigjson-merged
+
+    oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=dockerconfigjson-merged
+    oc get secret pull-secret -n openshift-config \
+      --output="jsonpath={.data.\.dockerconfigjson}" | base64 \
+      --decode
+
+
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Initialize Concert Installer"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh initialize
+
+
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Login for Concert Installer"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export OCP_URL=https://api.66d97927684f19a4a8b06c46.ocp.techzone.ibm.com:6443
+    export OCP_TOKEN="sha256~AYZbHEPMwvzeqBTPMTa9zyZuFydJagZUbTTMpFno1QI"
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🔐 Token:             $OCP_TOKEN"
+    echo ""
+    echo "            🧑 Login:   oc login --token=$OCP_TOKEN --server=$OCP_URL"
+    echo ""
+
+    ./ibm-concert-manage.sh login-to-ocp --token=${OCP_TOKEN} --server=${OCP_URL}
+
+
+
   ignore_errors: true
 
 
