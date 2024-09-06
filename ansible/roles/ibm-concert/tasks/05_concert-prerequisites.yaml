@@ -41,7 +41,7 @@
 
 
 - name: 🚀 IBM Concert - Set IBM Concert Password 
-  set_fact: current_admin_pass={{current_ibmaiops_feature.IBM Concert_admin_pass  | default( global_config.global_password )}}
+  set_fact: current_admin_pass={{global_config.global_password}}
 
 
 - name: 🟣  IBM Concert -  IBM Concert Password {{current_admin_pass}}
