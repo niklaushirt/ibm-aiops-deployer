@@ -75,3 +75,9 @@
     name: ibm-aiops-turbonomic-demo-content
   when: current_ibmaiops_feature.kind=="TurbonomicDemoContent" and current_ibmaiops_feature.install==true
 
+
+- name: ibm-aiops-install-modules-loop 🌡   CHECK for - IBM Concert
+  include_role:
+    name: ibm-concert
+  when: current_ibmaiops_feature.kind=="IBMConcert" and current_ibmaiops_feature.install==true
+
