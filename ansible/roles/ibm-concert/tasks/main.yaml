@@ -140,6 +140,26 @@
 
 
 
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# # INSTALL PREREQUISITES
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# # Install OpenLDAP
+# - name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
+#   include_tasks: 21_addons-ldap.yaml
+#   when: current_ibmaiops_feature.install_ldap == true
+
+
+
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# # INSTALL CONCERT
+# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# - name: (008/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+#   include_tasks: 05_concert-prerequisites.yaml
+      
+# - name: (009/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+#   include_tasks: 10_concert-install.yaml
+
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # POSTINSTALL TASKS
@@ -177,3 +197,42 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
+
+
+- name:   🚀 IBM Concert -  LOGINS
+  shell: |
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_ibmaiops_feature.prod_registry}}
+    export PROD_USER={{current_ibmaiops_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_ibmaiops_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_ibmaiops_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_ibmaiops_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ AIOPS_STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ LOGINS"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh get-concert-instance-details
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🫅 User:              kubeadmin"
+    echo "            🔐 Token:             $OCP_TOKEN"
+
+
