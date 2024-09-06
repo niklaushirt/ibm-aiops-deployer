@@ -148,11 +148,11 @@
 
 
 
-# - name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
-#   include_tasks: 05_concert-prerequisites.yaml
+- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+  include_tasks: 05_concert-prerequisites.yaml
       
-# - name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
-#   include_tasks: 10_concert-install.yaml
+- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+  include_tasks: 10_concert-install.yaml
 
 
 - name: (019/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
