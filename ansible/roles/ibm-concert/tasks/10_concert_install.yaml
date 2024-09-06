@@ -1,22 +1,22 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install Instana
+# Install IBM Concert
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install Instana
+# Install IBM Concert
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-- name: 🛰️  START - INSTALL INSTANA
+- name: 🛰️  START - INSTALL IBM Concert
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
 
 - name: Log
   shell: |
-    export MESSAGE="Installing INSTANA"
+    export MESSAGE="Installing IBM Concert"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
@@ -40,11 +40,11 @@
 
 
 
-- name: 🚀 INSTANA - Set INSTANA Password 
-  set_fact: current_admin_pass={{current_ibmaiops_feature.instana_admin_pass  | default( global_config.global_password )}}
+- name: 🚀 IBM Concert - Set IBM Concert Password 
+  set_fact: current_admin_pass={{current_ibmaiops_feature.IBM Concert_admin_pass  | default( global_config.global_password )}}
 
 
-- name: 🟣  INSTANA -  INSTANA Password {{current_admin_pass}}
+- name: 🟣  IBM Concert -  IBM Concert Password {{current_admin_pass}}
   debug:
     var: current_admin_pass
     verbosity: 1
@@ -54,7 +54,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Cert Manager if needed
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 INSTANA - Check cert-manager
+- name: 🚀 IBM Concert - Check cert-manager
   shell: |
     CERT_MANAGER_CRD=$(oc get pods -A|grep "cert-manager"|grep "1/1"|wc -l|tr -d ' ') 
     echo $CERT_MANAGER_CRD
@@ -62,18 +62,18 @@
   register: cert_check
 
 
-- name: 🚀 INSTANA - Install cert-manager {{cert_check.stdout}}
+- name: 🚀 IBM Concert - Install cert-manager {{cert_check.stdout}}
   shell: |
     oc apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.yaml
     sleep 15
-    oc create clusterrolebinding instana-cert-manager-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
-    oc create clusterrolebinding instana-cert-manager-cainjector-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-cainjector
-    oc create clusterrolebinding instana-cert-manager-webhook-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-webhook
+    oc create clusterrolebinding IBM Concert-cert-manager-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+    oc create clusterrolebinding IBM Concert-cert-manager-cainjector-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-cainjector
+    oc create clusterrolebinding IBM Concert-cert-manager-webhook-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-webhook
   when: cert_check.stdout == "0"
   ignore_errors: true
 
 
-- name:   🕦 INSTANA - Wait for CertManager to become ready
+- name:   🕦 IBM Concert - Wait for CertManager to become ready
   shell: oc -n cert-manager get pod | grep cert-manager-webhook
   register: kubectl_get_pods
   until: '"1/1" in kubectl_get_pods.stdout'
@@ -97,7 +97,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastore Operators'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Datastore Operators'    
     EOF
   ignore_errors: true
   args:
@@ -107,16 +107,16 @@
 
 
 # Create aiops-topology-service-account
-- name:   🚀 INSTANA - Create Backend Datastore Namespace
+- name:   🚀 IBM Concert - Create Backend Datastore Namespace
   shell: |
-    oc create ns instana-datastores
-    oc -n instana-datastores create secret docker-registry instana-registry \
+    oc create ns IBM Concert-datastores
+    oc -n IBM Concert-datastores create secret docker-registry IBM Concert-registry \
     --docker-username=_ \
     --docker-password={{current_agent_key}} \
-    --docker-server=artifact-public.instana.io   
+    --docker-server=artifact-public.IBM Concert.io   
   ignore_errors: true
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator Install Helm
+- name: 🚀 IBM Concert - Create Backend Datastore Operator Install Helm
   shell: |
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
     chmod 700 get_helm.sh
@@ -131,19 +131,19 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Prepare Helm Charts
+- name: 🚀 IBM Concert - Create Backend Datastore Prepare Helm Charts
   shell: |
     # Zookeeper Operator installation
-    helm repo add instana https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual --username=_ --password={{current_agent_key}}
+    helm repo add IBM Concert https://artifact-public.IBM Concert.io/artifactory/rel-helm-customer-virtual --username=_ --password={{current_agent_key}}
     helm repo update  ignore_errors: true
-    helm pull instana/ibm-clickhouse-operator --version=v0.1.2
-    helm pull instana/zookeeper-operator --version=0.2.15
-    helm pull instana/strimzi-kafka-operator --version=0.41.0
-    helm pull instana/eck-operator --version=2.9.0
-    helm pull instana/cloudnative-pg --version=0.20.0
-    helm pull instana/postgres-operator --version=1.10.1
-    helm pull instana/cass-operator --version=0.45.2
-    helm pull instana/cert-manager --version=1.13.2
+    helm pull IBM Concert/ibm-clickhouse-operator --version=v0.1.2
+    helm pull IBM Concert/zookeeper-operator --version=0.2.15
+    helm pull IBM Concert/strimzi-kafka-operator --version=0.41.0
+    helm pull IBM Concert/eck-operator --version=2.9.0
+    helm pull IBM Concert/cloudnative-pg --version=0.20.0
+    helm pull IBM Concert/postgres-operator --version=1.10.1
+    helm pull IBM Concert/cass-operator --version=0.45.2
+    helm pull IBM Concert/cert-manager --version=1.13.2
   register: output
   args:
     executable: /bin/bash
@@ -155,17 +155,17 @@
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore  SCC
+- name: 🚀 IBM Concert - Create Backend Datastore  SCC
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/scc.yaml
+    template: ./templates/IBM Concert-datastores/scc.yaml
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator CASSANDRA
+- name: 🚀 IBM Concert - Create Backend Datastore Operator CASSANDRA
   shell: |
-    helm install cass-operator instana/cass-operator -n instana-datastores --version=0.45.2 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999 --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator/cass-operator --set image.tag=1.18.2_v0.12.0 --set imagePullSecrets[0].name=instana-registry --set appVersion=1.18.2 --set imageConfig.systemLogger=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.3.0 --set imageConfig.k8ssandraClient=artifact-public.instana.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.3.0
+    helm install cass-operator IBM Concert/cass-operator -n IBM Concert-datastores --version=0.45.2 --set securityContext.runAsGroup=999 --set securityContext.runAsUser=999 --set image.registry=artifact-public.IBM Concert.io --set image.repository=self-hosted-images/3rd-party/operator/cass-operator --set image.tag=1.18.2_v0.12.0 --set imagePullSecrets[0].name=IBM Concert-registry --set appVersion=1.18.2 --set imageConfig.systemLogger=artifact-public.IBM Concert.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.3.0 --set imageConfig.k8ssandraClient=artifact-public.IBM Concert.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.3.0
   ignore_errors: true
   register: output
   args:
@@ -176,9 +176,9 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator CLICKHOUSE
+- name: 🚀 IBM Concert - Create Backend Datastore Operator CLICKHOUSE
   shell: |
-    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v0.1.2 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="instana-registry"
+    helm install clickhouse-operator IBM Concert/ibm-clickhouse-operator -n IBM Concert-datastores --version=v0.1.2 --set operator.image.repository=artifact-public.IBM Concert.io/clickhouse-operator --set operator.image.tag=v0.1.2 --set imagePullSecrets[0].name="IBM Concert-registry"
   ignore_errors: true
   register: output
   args:
@@ -189,9 +189,9 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator ELASTICSEARCH
+- name: 🚀 IBM Concert - Create Backend Datastore Operator ELASTICSEARCH
   shell: |
-    helm install elastic-operator instana/eck-operator -n instana-datastores --version=2.9.0 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="instana-registry"
+    helm install elastic-operator IBM Concert/eck-operator -n IBM Concert-datastores --version=2.9.0 --set image.repository=artifact-public.IBM Concert.io/self-hosted-images/3rd-party/operator/elasticsearch --set image.tag=2.9.0_v0.11.0 --set imagePullSecrets[0].name="IBM Concert-registry"
   ignore_errors: true
   register: output
   args:
@@ -203,9 +203,9 @@
 
     
     
-- name: 🚀 INSTANA - Create Backend Datastore Operator KAFKA
+- name: 🚀 IBM Concert - Create Backend Datastore Operator KAFKA
   shell: |
-    helm install strimzi-kafka-operator instana/strimzi-kafka-operator --version 0.41.0 -n instana-datastores --set image.registry=artifact-public.instana.io --set image.repository=self-hosted-images/3rd-party/operator --set image.name=strimzi --set image.tag=0.41.0_v0.9.0 --set image.imagePullSecrets[0].name="instana-registry" --set kafka.image.registry=artifact-public.instana.io --set kafka.image.repository=self-hosted-images/3rd-party/datastore --set kafka.image.name=kafka --set kafka.image.tag=0.41.0-kafka-3.6.2_v0.8.0
+    helm install strimzi-kafka-operator IBM Concert/strimzi-kafka-operator --version 0.41.0 -n IBM Concert-datastores --set image.registry=artifact-public.IBM Concert.io --set image.repository=self-hosted-images/3rd-party/operator --set image.name=strimzi --set image.tag=0.41.0_v0.9.0 --set image.imagePullSecrets[0].name="IBM Concert-registry" --set kafka.image.registry=artifact-public.IBM Concert.io --set kafka.image.repository=self-hosted-images/3rd-party/datastore --set kafka.image.name=kafka --set kafka.image.tag=0.41.0-kafka-3.6.2_v0.8.0
   ignore_errors: true
   register: output
   args:
@@ -218,9 +218,9 @@
 
 
     
-- name: 🚀 INSTANA - Create Backend Datastore Operator ZOOKEEPER
+- name: 🚀 IBM Concert - Create Backend Datastore Operator ZOOKEEPER
   shell: |
-    helm install zookeeper-operator -n instana-datastores instana/zookeeper-operator --create-namespace --version=0.2.15 --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/zookeeper --set image.tag=0.2.15_v0.11.0 --set global.imagePullSecrets={"instana-registry"}
+    helm install zookeeper-operator -n IBM Concert-datastores IBM Concert/zookeeper-operator --create-namespace --version=0.2.15 --set image.repository=artifact-public.IBM Concert.io/self-hosted-images/3rd-party/operator/zookeeper --set image.tag=0.2.15_v0.11.0 --set global.imagePullSecrets={"IBM Concert-registry"}
   ignore_errors: true
   register: output
   args:
@@ -235,11 +235,11 @@
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator Postgres
+- name: 🚀 IBM Concert - Create Backend Datastore Operator Postgres
   shell: |
     # Postgres operator installation
-    export uidrange=$(oc get project instana-datastores -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"|cut -d "/" -f 1)
-    helm install cnpg instana/cloudnative-pg --set image.repository=artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=instana-registry --set containerSecurityContext.runAsUser=$uidrange --set containerSecurityContext.runAsGroup=$uidrange -n instana-datastores
+    export uidrange=$(oc get project IBM Concert-datastores -o jsonpath="{.metadata.annotations.openshift\.io/sa\.scc\.uid-range}"|cut -d "/" -f 1)
+    helm install cnpg IBM Concert/cloudnative-pg --set image.repository=artifact-public.IBM Concert.io/self-hosted-images/3rd-party/operator/cloudnative-pg --set image.tag=v1.21.1_v0.5.0 --version=0.20.0 --set imagePullSecrets[0].name=IBM Concert-registry --set containerSecurityContext.runAsUser=$uidrange --set containerSecurityContext.runAsGroup=$uidrange -n IBM Concert-datastores
   ignore_errors: true
   register: output
   args:
@@ -250,12 +250,12 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Operator Beeinstana
+- name: 🚀 IBM Concert - Create Backend Datastore Operator BeeIBM Concert
   shell: |
-    # Beeinstana operator installation
+    # BeeIBM Concert operator installation
     helm repo update
     # HACK!!!!
-    helm install beeinstana instana/beeinstana-operator --namespace=instana-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault
+    helm install beeIBM Concert IBM Concert/beeIBM Concert-operator --namespace=IBM Concert-datastores --set operator.securityContext.seccompProfile.type=RuntimeDefault
   ignore_errors: true
   register: output
   args:
@@ -269,11 +269,11 @@
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore Roles
+- name: 🚀 IBM Concert - Create Backend Datastore Roles
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/roles.yaml
+    template: ./templates/IBM Concert-datastores/roles.yaml
     
 
 
@@ -298,9 +298,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for DataStores Operators to become ready
+- name:   🕦 IBM Concert - Wait for DataStores Operators to become ready
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -v '1/1' | grep -v '2/2' | grep -v '3/3' | grep -c ""` -gt 1 ]
+    while [ `oc -n IBM Concert-datastores get pods| grep -v '1/1' | grep -v '2/2' | grep -v '3/3' | grep -c ""` -gt 1 ]
     do
       sleep 30
     done
@@ -315,9 +315,9 @@
 
 
 
-# - name:   🕦 INSTANA - Wait for Cassandra Operator to become ready
+# - name:   🕦 IBM Concert - Wait for Cassandra Operator to become ready
 #   shell: |
-#     while [ `oc -n instana-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
+#     while [ `oc -n IBM Concert-datastores get csv|grep DataStax|grep Succeeded| grep -c ""` -lt 1 ]
 #     do
 #       sleep 30
 #     done
@@ -344,7 +344,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Datastores'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Datastores'    
     EOF
   ignore_errors: true
   args:
@@ -352,57 +352,57 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 INSTANA - Create Backend Datastore cassandra
+- name: 🚀 IBM Concert - Create Backend Datastore cassandra
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/cassandra-instance.j2
+    template: ./templates/IBM Concert-datastores/cassandra-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore clickhouse
+- name: 🚀 IBM Concert - Create Backend Datastore clickhouse
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/clickhouse-instance.j2
+    template: ./templates/IBM Concert-datastores/clickhouse-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore elasticsearch
+- name: 🚀 IBM Concert - Create Backend Datastore elasticsearch
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/elasticsearch-instance.j2
+    template: ./templates/IBM Concert-datastores/elasticsearch-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore kafka
+- name: 🚀 IBM Concert - Create Backend Datastore kafka
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/kafka-instance.j2
+    template: ./templates/IBM Concert-datastores/kafka-instance.j2
     
 
-- name: 🚀 INSTANA - Create Backend Datastore postgres
+- name: 🚀 IBM Concert - Create Backend Datastore postgres
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/postgres-instance.j2
+    template: ./templates/IBM Concert-datastores/postgres-instance.j2
     
 
     
 
-- name: 🚀 INSTANA - Create Backend Datastore Beeinstana
+- name: 🚀 IBM Concert - Create Backend Datastore BeeIBM Concert
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/beeinstana-instance.j2
+    template: ./templates/IBM Concert-datastores/beeIBM Concert-instance.j2
     
 
 
 
-- name: 🚀 INSTANA - Create Backend Datastore zookeeper
+- name: 🚀 IBM Concert - Create Backend Datastore zookeeper
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana-datastores/zookeeper-instance.j2
+    template: ./templates/IBM Concert-datastores/zookeeper-instance.j2
 
 
 
@@ -431,9 +431,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
+- name:   🕦 IBM Concert - Wait for at least 20 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
+    while [ `oc -n IBM Concert-datastores get pods| grep -c ""` -lt 20 ]
     do
       sleep 30
     done
@@ -449,9 +449,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for all DataStores to become ready
+- name:   🕦 IBM Concert - Wait for all DataStores to become ready
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -v '1/1' | grep -v '2/2' | grep -v '3/3' | grep -c ""` -gt 1 ]
+    while [ `oc -n IBM Concert-datastores get pods| grep -v '1/1' | grep -v '2/2' | grep -v '3/3' | grep -c ""` -gt 1 ]
     do
       sleep 30
     done
@@ -490,7 +490,7 @@
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install Instana Kubectl plugin
+# Install IBM Concert Kubectl plugin
 # --------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -505,7 +505,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Kubectl Plugin - version: {{current_ibmaiops_feature.instana_version}}'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Kubectl Plugin - version: {{current_ibmaiops_feature.IBM Concert_version}}'    
     EOF
   ignore_errors: true
   args:
@@ -514,33 +514,33 @@
 
 
 
-- name: 🚀 INSTANA - Install Kubectl Instana Plugin
+- name: 🚀 IBM Concert - Install Kubectl IBM Concert Plugin
   shell: |
-    export MAJ_VERSION=$(echo {{current_ibmaiops_feature.instana_version | default("251-0") }}|cut -f1 -d-)
-    # https://self-hosted.instana.io/
-    if [ -x "$(command -v kubectl-instana)" ]; then
-        echo "Kubectl Instana Plugin already installed"
+    export MAJ_VERSION=$(echo {{current_ibmaiops_feature.IBM Concert_version | default("251-0") }}|cut -f1 -d-)
+    # https://self-hosted.IBM Concert.io/
+    if [ -x "$(command -v kubectl-IBM Concert)" ]; then
+        echo "Kubectl IBM Concert Plugin already installed"
     else
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-        echo "Installing Kubectl Instana Plugin for $OS"
+        echo "Installing Kubectl IBM Concert Plugin for $OS"
         if [ "${OS}" == "darwin" ]; then
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              tar xfvz kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
-              sudo mv kubectl-instana /usr/local/bin/kubectl-instana
-              rm kubectl-instana-darwin_amd64-release-{{current_ibmaiops_feature.instana_version | default("241-0") }}.tar.gz
+              wget  --user _ --password {{current_agent_key}} https://artifact-public.IBM Concert.io/artifactory/rel-generic-IBM Concert-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-IBM Concert-darwin_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("251-0") }}.tar.gz
+              tar xfvz kubectl-IBM Concert-darwin_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("241-0") }}.tar.gz
+              sudo mv kubectl-IBM Concert /usr/local/bin/kubectl-IBM Concert
+              rm kubectl-IBM Concert-darwin_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("241-0") }}.tar.gz
         else
-              wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              tar xfvz kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
-              mv kubectl-instana /usr/local/bin/kubectl-instana
-              rm kubectl-instana-linux_amd64-release-{{current_ibmaiops_feature.instana_version | default("251-0") }}.tar.gz
+              wget  --user _ --password {{current_agent_key}} https://artifact-public.IBM Concert.io/artifactory/rel-generic-IBM Concert-virtual/infrastructure/kubectl/release-${MAJ_VERSION}/kubectl-IBM Concert-linux_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("251-0") }}.tar.gz
+              tar xfvz kubectl-IBM Concert-linux_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("251-0") }}.tar.gz
+              mv kubectl-IBM Concert /usr/local/bin/kubectl-IBM Concert
+              rm kubectl-IBM Concert-linux_amd64-release-{{current_ibmaiops_feature.IBM Concert_version | default("251-0") }}.tar.gz
         fi
     fi
-    if [ -x "$(command -v kubectl-instana)" ]; then
-        /usr/local/bin/kubectl-instana -v
-        echo "✅ Kubectl Instana Plugin installed"
+    if [ -x "$(command -v kubectl-IBM Concert)" ]; then
+        /usr/local/bin/kubectl-IBM Concert -v
+        echo "✅ Kubectl IBM Concert Plugin installed"
     else
-        echo "❗❗❗ Kubectl Instana Plugin NOT installed. ERROR!!!!!"
-        echo "❗❗❗ Probably wrong instana_version. Check at https://self-hosted.instana.io"
+        echo "❗❗❗ Kubectl IBM Concert Plugin NOT installed. ERROR!!!!!"
+        echo "❗❗❗ Probably wrong IBM Concert_version. Check at https://self-hosted.IBM Concert.io"
         exit 1
     fi
   register: output
@@ -575,21 +575,21 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 INSTANA - Get BASE_DOMAIN
+- name: 🚀 IBM Concert - Get BASE_DOMAIN
   shell: |
     CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
     CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
     CLUSTER_NAME=${CLUSTER_FQDN##*console.}
 
 
-    #BASE_DOMAIN="dev-aiops-instana-core.$CLUSTER_NAME"
+    #BASE_DOMAIN="dev-aiops-IBM Concert-core.$CLUSTER_NAME"
     BASE_DOMAIN="$CLUSTER_NAME"
     echo $BASE_DOMAIN
     
   ignore_errors: true
   register: output
         
-- name: 🚀 INSTANA - Set BASE_DOMAIN - {{ output.stdout_lines }} 
+- name: 🚀 IBM Concert - Set BASE_DOMAIN - {{ output.stdout_lines }} 
   set_fact: BASE_DOMAIN={{ output.stdout_lines[0] }} 
 
 
@@ -597,31 +597,31 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Namespaces
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 INSTANA - Create Namespaces
+- name: 🚀 IBM Concert - Create Namespaces
   shell: |
     # namespaces
     # operator
-    oc create ns instana-operator
-    oc -n instana-operator adm policy add-scc-to-user privileged -z instana-selfhosted-operator
-    oc -n instana-operator adm policy add-cluster-role-to-user cluster-admin -z instana-selfhosted-operator
+    oc create ns IBM Concert-operator
+    oc -n IBM Concert-operator adm policy add-scc-to-user privileged -z IBM Concert-selfhosted-operator
+    oc -n IBM Concert-operator adm policy add-cluster-role-to-user cluster-admin -z IBM Concert-selfhosted-operator
     #core
-    oc create ns instana-core
-    oc label ns instana-core app.kubernetes.io/name=instana-core
-    oc -n instana-core adm policy add-scc-to-user anyuid -z default
-    oc -n instana-core adm policy add-scc-to-user anyuid -z instana-core
+    oc create ns IBM Concert-core
+    oc label ns IBM Concert-core app.kubernetes.io/name=IBM Concert-core
+    oc -n IBM Concert-core adm policy add-scc-to-user anyuid -z default
+    oc -n IBM Concert-core adm policy add-scc-to-user anyuid -z IBM Concert-core
     #units
-    oc create ns instana-units
-    oc label ns instana-units app.kubernetes.io/name=instana-units
-    oc -n instana-units adm policy add-scc-to-user anyuid -z default
+    oc create ns IBM Concert-units
+    oc label ns IBM Concert-units app.kubernetes.io/name=IBM Concert-units
+    oc -n IBM Concert-units adm policy add-scc-to-user anyuid -z default
     #datastores
-    oc create ns instana-datastores
-    oc label ns instana-datastores app.kubernetes.io/name=instana-datastores
-    oc -n instana-datastores adm policy add-scc-to-user anyuid -z default
-    oc -n instana-datastores adm policy add-scc-to-group anyuid -z instana-datastores
-    oc adm policy add-scc-to-user privileged system:serviceaccount:instana-datastores:default
-    oc adm policy add-scc-to-group privileged system:serviceaccount:instana-datastores
-    oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:instana-datastores:default
-    oc adm policy add-scc-to-group hostmount-anyuid system:serviceaccount:instana-datastores
+    oc create ns IBM Concert-datastores
+    oc label ns IBM Concert-datastores app.kubernetes.io/name=IBM Concert-datastores
+    oc -n IBM Concert-datastores adm policy add-scc-to-user anyuid -z default
+    oc -n IBM Concert-datastores adm policy add-scc-to-group anyuid -z IBM Concert-datastores
+    oc adm policy add-scc-to-user privileged system:serviceaccount:IBM Concert-datastores:default
+    oc adm policy add-scc-to-group privileged system:serviceaccount:IBM Concert-datastores
+    oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:IBM Concert-datastores:default
+    oc adm policy add-scc-to-group hostmount-anyuid system:serviceaccount:IBM Concert-datastores
 
   ignore_errors: true
   register: output
@@ -634,38 +634,38 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Create Pull Secrets
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 INSTANA - Create Pull Secrets
+- name: 🚀 IBM Concert - Create Pull Secrets
   shell: |
-    oc -n instana-operator create secret docker-registry instana-registry \
+    oc -n IBM Concert-operator create secret docker-registry IBM Concert-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.io    
-    oc -n instana-core create secret docker-registry instana-registry \
+        --docker-server=artifact-public.IBM Concert.io    
+    oc -n IBM Concert-core create secret docker-registry IBM Concert-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.io  
-    oc -n instana-core create secret docker-registry instana-registry-old \
+        --docker-server=artifact-public.IBM Concert.io  
+    oc -n IBM Concert-core create secret docker-registry IBM Concert-registry-old \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=containers.instana.io  
-    oc -n instana-units create secret docker-registry instana-registry \
+        --docker-server=containers.IBM Concert.io  
+    oc -n IBM Concert-units create secret docker-registry IBM Concert-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.io  
-    oc -n instana-datastores create secret docker-registry instana-registry \
+        --docker-server=artifact-public.IBM Concert.io  
+    oc -n IBM Concert-datastores create secret docker-registry IBM Concert-registry \
         --docker-username=_ \
         --docker-password={{current_agent_key}} \
-        --docker-server=artifact-public.instana.io  
+        --docker-server=artifact-public.IBM Concert.io  
 
     # create core secrets
-    oc -n instana-core label secret instana-registry app.kubernetes.io/name=instana
-    oc -n instana-units label secret instana-registry app.kubernetes.io/name=instana
-    oc -n instana-datastores label secret instana-registry app.kubernetes.io/name=instana
+    oc -n IBM Concert-core label secret IBM Concert-registry app.kubernetes.io/name=IBM Concert
+    oc -n IBM Concert-units label secret IBM Concert-registry app.kubernetes.io/name=IBM Concert
+    oc -n IBM Concert-datastores label secret IBM Concert-registry app.kubernetes.io/name=IBM Concert
 
-    kubectl patch -n instana-operator serviceaccount default -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
-    kubectl patch -n instana-datastores serviceaccount default -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
-    kubectl patch -n instana-units serviceaccount default -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
-    kubectl patch -n instana-core serviceaccount default -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
+    kubectl patch -n IBM Concert-operator serviceaccount default -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
+    kubectl patch -n IBM Concert-datastores serviceaccount default -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
+    kubectl patch -n IBM Concert-units serviceaccount default -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
+    kubectl patch -n IBM Concert-core serviceaccount default -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
 
 
 
@@ -696,7 +696,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Operator - version: {{current_ibmaiops_feature.instana_version}}'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Operator - version: {{current_ibmaiops_feature.IBM Concert_version}}'    
     EOF
   ignore_errors: true
   args:
@@ -704,18 +704,18 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 INSTANA - Create Operator
+- name: 🚀 IBM Concert - Create Operator
   shell: |
     #switch project
-    oc project instana-operator
+    oc project IBM Concert-operator
 
     sleep 15
 
-    oc create clusterrolebinding instana-operator-admin --clusterrole=cluster-admin --serviceaccount=instana-operator:instana-operator
+    oc create clusterrolebinding IBM Concert-operator-admin --clusterrole=cluster-admin --serviceaccount=IBM Concert-operator:IBM Concert-operator
 
     # deploy operator
-    oc -n instana-operator secrets link instana-operator instana-registry --for=pull
-    oc -n instana-operator secrets link instana-operator-webhook instana-registry --for=pull
+    oc -n IBM Concert-operator secrets link IBM Concert-operator IBM Concert-registry --for=pull
+    oc -n IBM Concert-operator secrets link IBM Concert-operator-webhook IBM Concert-registry --for=pull
 
     # Enable Datastores CRD 
     # cat <<EOF > values.yaml
@@ -727,16 +727,16 @@
     #   #   readOnlyRootFilesystem: false
     #   #   runAsNonRoot: false
     # EOF
-    # #kubectl instana operator apply --namespace=instana-operator --values ./values.yaml
+    # #kubectl IBM Concert operator apply --namespace=IBM Concert-operator --values ./values.yaml
     
     
-    kubectl instana operator apply --namespace=instana-operator
+    kubectl IBM Concert operator apply --namespace=IBM Concert-operator
 
-    oc annotate namespace instana-datastores scheduler.alpha.kubernetes.io/defaultTolerations-
-    oc annotate namespace instana-datastores openshift.io/node-selector-
+    oc annotate namespace IBM Concert-datastores scheduler.alpha.kubernetes.io/defaultTolerations-
+    oc annotate namespace IBM Concert-datastores openshift.io/node-selector-
 
-    kubectl patch -n instana-operator serviceaccount instana-operator-webhook -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
-    kubectl patch -n instana-operator serviceaccount instana-operator -p '{"imagePullSecrets": [{"name": "instana-registry"}]}'
+    kubectl patch -n IBM Concert-operator serviceaccount IBM Concert-operator-webhook -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
+    kubectl patch -n IBM Concert-operator serviceaccount IBM Concert-operator -p '{"imagePullSecrets": [{"name": "IBM Concert-registry"}]}'
 
   ignore_errors: true
   register: output
@@ -776,11 +776,11 @@
 
 
 
-- name: 🚀 INSTANA - Get License
+- name: 🚀 IBM Concert - Get License
   shell: |
     #get license
     echo "Current Sales Key: {{current_sales_key}}"
-    kubectl instana license download --sales-key {{current_sales_key}}
+    kubectl IBM Concert license download --sales-key {{current_sales_key}}
     echo "Downloaded License"
     echo "-----------------------------------------------------------"
     cat ./license.json
@@ -795,12 +795,12 @@
     #verbosity: 1
 
 
-- name: 🚀 INSTANA - Create TLS Ingress Secrets
+- name: 🚀 IBM Concert - Create TLS Ingress Secrets
   shell: |
-    oc -n instana-core delete secret  instana-tls
+    oc -n IBM Concert-core delete secret  IBM Concert-tls
     openssl req -x509 -newkey rsa:2048 -keyout tls.key -out tls.crt -days 365 -nodes -subj "/O=IBM/CN=*.{{BASE_DOMAIN}}" -addext "subjectAltName = DNS:{{BASE_DOMAIN}}"
-    oc -n instana-core create secret tls instana-tls --cert=./tls.crt --key=./tls.key
-    oc -n instana-core label secret instana-tls app.kubernetes.io/name=instana
+    oc -n IBM Concert-core create secret tls IBM Concert-tls --cert=./tls.crt --key=./tls.key
+    oc -n IBM Concert-core label secret IBM Concert-tls app.kubernetes.io/name=IBM Concert
   ignore_errors: true
   register: output
   args:
@@ -811,9 +811,9 @@
     verbosity: 1
 
 
-- name: 🚀 INSTANA - Get POSTGRES PASSWORD
+- name: 🚀 IBM Concert - Get POSTGRES PASSWORD
   shell: |
-    POSTGRES_PWD=$(oc get secret postgres.postgres.credentials.postgresql.acid.zalan.do -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    POSTGRES_PWD=$(oc get secret postgres.postgres.credentials.postgresql.acid.zalan.do -o json -n IBM Concert-datastores | jq -r .data.password | base64 -d)
     echo $POSTGRES_PWD
   ignore_errors: true
   register: POSTGRES_PWD
@@ -822,12 +822,12 @@
 - name: 🟣  OUTPUT 
   debug:
     var: POSTGRES_PWD.stdout
-- name: 🚀 INSTANA - Save POSTGRES PASSWORD {{ POSTGRES_PWD.stdout }} 
+- name: 🚀 IBM Concert - Save POSTGRES PASSWORD {{ POSTGRES_PWD.stdout }} 
   set_fact: POSTGRES_PWD={{ POSTGRES_PWD.stdout }} 
 
-- name: 🚀 INSTANA - Get CASSANDRA PASSWORD
+- name: 🚀 IBM Concert - Get CASSANDRA PASSWORD
   shell: |
-    CASSANDRA_PWD=$(oc get secret instana-superuser -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    CASSANDRA_PWD=$(oc get secret IBM Concert-superuser -o json -n IBM Concert-datastores | jq -r .data.password | base64 -d)
     echo $CASSANDRA_PWD
   ignore_errors: true
   register: CASSANDRA_PWD
@@ -836,13 +836,13 @@
 - name: 🟣  OUTPUT 
   debug:
     var: CASSANDRA_PWD.stdout
-- name: 🚀 INSTANA - Save CASSANDRA PASSWORD {{ CASSANDRA_PWD.stdout }} 
+- name: 🚀 IBM Concert - Save CASSANDRA PASSWORD {{ CASSANDRA_PWD.stdout }} 
   set_fact: CASSANDRA_PWD={{ CASSANDRA_PWD.stdout }} 
 
 
-- name: 🚀 INSTANA - Get KAFKA PASSWORD
+- name: 🚀 IBM Concert - Get KAFKA PASSWORD
   shell: |
-    KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n IBM Concert-datastores | jq -r .data.password | base64 -d)
     echo $KAFKA_PWD
   ignore_errors: true
   register: KAFKA_PWD
@@ -851,17 +851,17 @@
 - name: 🟣  OUTPUT 
   debug:
     var: KAFKA_PWD.stdout
-- name: 🚀 INSTANA - Save KAFKA PASSWORD {{ KAFKA_PWD.stdout }} 
+- name: 🚀 IBM Concert - Save KAFKA PASSWORD {{ KAFKA_PWD.stdout }} 
   set_fact: KAFKA_PWD={{ KAFKA_PWD.stdout }} 
 
 
-- name: 🚀 INSTANA - Get Config File
+- name: 🚀 IBM Concert - Get Config File
   ansible.builtin.template:
-    src: ./templates/instana/instana-config.j2
+    src: ./templates/IBM Concert/IBM Concert-config.j2
     dest: ./config.yaml
 
 
-- name: 🚀 INSTANA - Create Core Config
+- name: 🚀 IBM Concert - Create Core Config
   shell: |
     echo "-----------------------------------------------------------"
     echo " ✅ Core Config"
@@ -869,8 +869,8 @@
     #prep core resources
     #local directory must exist
     cat ./config.yaml
-    oc -n instana-core delete secret instana-core --ignore-not-found
-    oc -n instana-core create secret generic instana-core --namespace instana-core --from-file=./config.yaml
+    oc -n IBM Concert-core delete secret IBM Concert-core --ignore-not-found
+    oc -n IBM Concert-core create secret generic IBM Concert-core --namespace IBM Concert-core --from-file=./config.yaml
   ignore_errors: false
   register: output
 - name: 🟣  OUTPUT
@@ -879,10 +879,10 @@
     #verbosity: 1
 
 
-- name: 🚀 INSTANA - Create Unit Config
+- name: 🚀 IBM Concert - Create Unit Config
   shell: |
     echo "-----------------------------------------------------------"
-    echo " ✅ Instana License"
+    echo " ✅ IBM Concert License"
     echo "-----------------------------------------------------------"
     cat ./license.json
     echo "-----------------------------------------------------------"
@@ -894,11 +894,11 @@
     echo "agentKeys:" >> config.yaml
     echo "  - {{current_agent_key}}" >> config.yaml
     echo "initialAdminPassword: {{current_admin_pass}}" >> config.yaml
-    echo "initialAdminUser: {{current_ibmaiops_feature.instana_admin_user}}" >> config.yaml
+    echo "initialAdminUser: {{current_ibmaiops_feature.IBM Concert_admin_user}}" >> config.yaml
     echo "-----------------------------------------------------------"
     echo " ✅ Unit Config"
     echo "-----------------------------------------------------------"
-    oc -n instana-units create secret generic aiops-dev --from-file=./config.yaml
+    oc -n IBM Concert-units create secret generic aiops-dev --from-file=./config.yaml
     cat ./config.yaml
 
     # rm -f config.yaml
@@ -934,7 +934,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Operator to become ready (about 2-3 minutes)  - If this hangs delete/restart the Pod from instana-operator Namespace'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for Operator to become ready (about 2-3 minutes)  - If this hangs delete/restart the Pod from IBM Concert-operator Namespace'    
     EOF
   ignore_errors: true
   args:
@@ -943,12 +943,12 @@
 
 
 
-- name:   🕦 INSTANA - Wait for Operator to become ready (if this hangs delete Pod in instana-operators)
+- name:   🕦 IBM Concert - Wait for Operator to become ready (if this hangs delete Pod in IBM Concert-operators)
   shell: |
-    while [ `oc -n instana-operator get pods| grep '1/1' | grep -c ""` -lt 2 ]
+    while [ `oc -n IBM Concert-operator get pods| grep '1/1' | grep -c ""` -lt 2 ]
     do
       sleep 45
-      oc delete pod $(oc -n instana-operator get pods --no-headers| grep -v 'Running' |awk '{print$1}'):-notfound  --ignore-not-found -n instana-operator
+      oc delete pod $(oc -n IBM Concert-operator get pods --no-headers| grep -v 'Running' |awk '{print$1}'):-notfound  --ignore-not-found -n IBM Concert-operator
     done
   ignore_errors: true
   register: output
@@ -976,7 +976,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Core Instance'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Core Instance'    
     EOF
   ignore_errors: true
   args:
@@ -984,10 +984,10 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 INSTANA - Create Instana Core Instance
+- name: 🚀 IBM Concert - Create IBM Concert Core Instance
   kubernetes.core.k8s:
     state: present
-    template: ./templates/instana/instana-core.j2
+    template: ./templates/IBM Concert/IBM Concert-core.j2
 
 
   
@@ -1013,27 +1013,27 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name:   🕦 INSTANA - HACK - Wait for cashier-rollup
-  shell: oc -n instana-core get deployment cashier-rollup --no-headers
+- name:   🕦 IBM Concert - HACK - Wait for cashier-rollup
+  shell: oc -n IBM Concert-core get deployment cashier-rollup --no-headers
   register: kubectl_get_pods
   until: '"cashier-rollup" in kubectl_get_pods.stdout'
   retries: 500
   delay: 15
 
 
-- name:   🕦 INSTANA - HACK - Scale to 0 for cashier-rollup
-  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=0
+- name:   🕦 IBM Concert - HACK - Scale to 0 for cashier-rollup
+  shell: oc scale deployment  -n IBM Concert-core cashier-rollup --replicas=0
 
 
-- name:   🕦 INSTANA - Wait for Core Instance to become ready
-  shell: oc -n instana-core get core instana-core -o=custom-columns=STATUS:.status.componentsStatus --no-headers
+- name:   🕦 IBM Concert - Wait for Core Instance to become ready
+  shell: oc -n IBM Concert-core get core IBM Concert-core -o=custom-columns=STATUS:.status.componentsStatus --no-headers
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "Ready"
   retries: 500
   delay: 15
 
 
-# oc scale deployment  -n instana-core cashier-rollup --replicas=0
+# oc scale deployment  -n IBM Concert-core cashier-rollup --replicas=0
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -1050,7 +1050,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Instana Unit Instance'    
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Unit Instance'    
     EOF
   ignore_errors: true
   args:
@@ -1058,10 +1058,10 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
-- name: 🚀 INSTANA - Create Instana Unit Instance
+- name: 🚀 IBM Concert - Create IBM Concert Unit Instance
   kubernetes.core.k8s:
     state: present
-    template: ./templates/instana/instana-unit.j2
+    template: ./templates/IBM Concert/IBM Concert-unit.j2
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -1085,8 +1085,8 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
-- name:   🕦 INSTANA - Wait for Unit Instance to become ready
-  shell: oc -n instana-units get unit aiops-dev -o=custom-columns=STATUS:.status.componentsStatus --no-headers
+- name:   🕦 IBM Concert - Wait for Unit Instance to become ready
+  shell: oc -n IBM Concert-units get unit aiops-dev -o=custom-columns=STATUS:.status.componentsStatus --no-headers
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "Ready"
   retries: 500
@@ -1108,14 +1108,14 @@
 #       oc get secret -n openshift-ingress letsencrypt-certs -o jsonpath='{.data.tls\.key}' | base64 --decode > cert.key
 #       sed -e '1,34d' cert.crt > ca.crt
 
-#       oc -n instana-core get secret instana-tls -o yaml > backup_instana-tls.yaml
+#       oc -n IBM Concert-core get secret IBM Concert-tls -o yaml > backup_IBM Concert-tls.yaml
 
-#       oc -n instana-core delete secret instana-tls
-#       oc -n instana-core create secret tls instana-tls  --cert=./cert.crt --key=./cert.key
+#       oc -n IBM Concert-core delete secret IBM Concert-tls
+#       oc -n IBM Concert-core create secret tls IBM Concert-tls  --cert=./cert.crt --key=./cert.key
 
 
-#       oc delete pod $(oc -n instana-core get pods| grep acceptor|awk '{print$1}'):-notfound  --ignore-not-found -n instana-core --ignore-not-found
-#       oc delete pod $(oc -n instana-core get pods| grep gateway|awk '{print$1}'):-notfound  --ignore-not-found -n instana-core --ignore-not-found
+#       oc delete pod $(oc -n IBM Concert-core get pods| grep acceptor|awk '{print$1}'):-notfound  --ignore-not-found -n IBM Concert-core --ignore-not-found
+#       oc delete pod $(oc -n IBM Concert-core get pods| grep gateway|awk '{print$1}'):-notfound  --ignore-not-found -n IBM Concert-core --ignore-not-found
 #     else
 #         echo "✅ Seems that you're NOT on Techzone IPI"  
 #         echo "✅ No need to patch the certificates any further"  
@@ -1150,21 +1150,21 @@
 
 
 
-- name: 🚀 INSTANA - Create Routes
+- name: 🚀 IBM Concert - Create Routes
   kubernetes.core.k8s:
-    namespace: instana-datastores
+    namespace: IBM Concert-datastores
     state: present
-    template: ./templates/instana/instana-routes.j2
+    template: ./templates/IBM Concert/IBM Concert-routes.j2
 
 
-- name:   🕦 INSTANA - HACK - Scale to 1 for cashier-rollup
-  shell: oc scale deployment  -n instana-core cashier-rollup --replicas=1
+- name:   🕦 IBM Concert - HACK - Scale to 1 for cashier-rollup
+  shell: oc scale deployment  -n IBM Concert-core cashier-rollup --replicas=1
 
-# - name: 🚀 INSTANA - Scale Operator to 0 and Patch Appdata-Writer 
+# - name: 🚀 IBM Concert - Scale Operator to 0 and Patch Appdata-Writer 
 #   shell: |
-#     oc scale deployment  -n instana-operator instana-operator --replicas=0
-#     oc patch Deployment -n instana-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true}}]}}}}'     
-#     oc delete pod $(oc -n instana-core get pods| grep appdata-reader-|awk '{print$1}') -n instana-core
+#     oc scale deployment  -n IBM Concert-operator IBM Concert-operator --replicas=0
+#     oc patch Deployment -n IBM Concert-core appdata-writer  -p '{"spec": {"template": {"spec": {"containers": [{"name": "appdata-writer","securityContext": {"capabilities": {"drop": ["ALL"]},"privileged": true,"runAsNonRoot": false,"readOnlyRootFilesystem": false,"allowPrivilegeEscalation": true}}]}}}}'     
+#     oc delete pod $(oc -n IBM Concert-core get pods| grep appdata-reader-|awk '{print$1}') -n IBM Concert-core
 #   ignore_errors: true
 #   register: output
 #   args:

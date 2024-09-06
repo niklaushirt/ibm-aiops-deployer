@@ -129,17 +129,30 @@ data:
       # IBM CONCERT
       # --------------------------------------------------------------------------------------------------------------------------------------
 
-      - name: ibm-aiops-instana
+      - name: ibm-concert
         kind: IBMConcert
         install: true
         
+        registry:
+        - prod_registry: cp.icr.io
+          private_registry_location: cp.icr.io
+          prod_user: cp
+
+        project:
+        - project_operator: ibm-concert-operators 
+          project_instance: ibm-concert 
+
+        installation:
+        - docker_exe: podman 
+
+
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
         # --------------------------------------------------------------------------------------------------------------------------------------
         #storage_class_file: automatic
         #storage_class_block: automatic
 
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
+  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest'
 
 
 
@@ -197,14 +210,14 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-instana
+  name: ibm-aiops-install-concert
   namespace: ibm-aiops-installer
 spec:
 
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibm-aiops-concert
     spec:
       serviceAccountName: ibm-aiops-installer-admin
       containers:
@@ -303,24 +316,6 @@ spec:
               configMapKeyRef:
                 name: ibm-aiops-install-configuration-concert
                 key: INSTALL_REPO
-          - name: TURBO_LICENSE
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-concert
-                key: TURBO_LICENSE
-                optional: true
-          - name: INSTANA_SALES_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-concert
-                key: INSTANA_SALES_KEY
-                optional: true
-          - name: INSTANA_AGENT_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-aiops-install-configuration-concert
-                key: INSTANA_AGENT_KEY
-                optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
