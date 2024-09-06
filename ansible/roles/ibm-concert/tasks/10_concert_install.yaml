@@ -51,40 +51,9 @@
 
 
 
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Install Cert Manager if needed
-# --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 IBM Concert - Check cert-manager
-  shell: |
-    CERT_MANAGER_CRD=$(oc get pods -A|grep "cert-manager"|grep "1/1"|wc -l|tr -d ' ') 
-    echo $CERT_MANAGER_CRD
-  ignore_errors: true
-  register: cert_check
-
-
-- name: 🚀 IBM Concert - Install cert-manager {{cert_check.stdout}}
-  shell: |
-    oc apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.yaml
-    sleep 15
-    oc create clusterrolebinding IBM Concert-cert-manager-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
-    oc create clusterrolebinding IBM Concert-cert-manager-cainjector-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-cainjector
-    oc create clusterrolebinding IBM Concert-cert-manager-webhook-admin --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager-webhook
-  when: cert_check.stdout == "0"
-  ignore_errors: true
-
-
-- name:   🕦 IBM Concert - Wait for CertManager to become ready
-  shell: oc -n cert-manager get pod | grep cert-manager-webhook
-  register: kubectl_get_pods
-  until: '"1/1" in kubectl_get_pods.stdout'
-  retries: 500
-  delay: 15
-  when: cert_check.stdout == "0"
-
-
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Create DataStores
+# Install Podman
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
@@ -115,6 +84,199 @@
     --docker-password={{current_agent_key}} \
     --docker-server=artifact-public.IBM Concert.io   
   ignore_errors: true
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Podman
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - Install Podman'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
+- name:   🚀 IBM Concert - Installing Podman
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Installing Podman"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    apt-get -qq update
+    apt-get -y install podman  > /dev/null
+  ignore_errors: true
+
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Getting Installation source from GitHub
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert Getting Installation source from GitHub'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name:   🚀 IBM Concert - Getting Installation source from GitHub
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Getting Installation source from GitHub"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    mkdir -p /tmp/concert
+    cd  /tmp/concert/
+
+    mkdir ibm-concert
+    cd ibm-concert
+    wget https://raw.githubusercontent.com/IBM/Concert/main/Software/manage/ibm-concert-manage.sh
+    chmod +x ibm-concert-manage.sh
+
+  ignore_errors: true
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# xxxxxx
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert xxxxxx'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name:   🚀 IBM Concert - xxxxx
+  shell: |
+    xxxxxxx
+  ignore_errors: true
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# xxxxxx
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert xxxxxx'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name:   🚀 IBM Concert - xxxxx
+  shell: |
+    xxxxxxx
+  ignore_errors: true
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# xxxxxx
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - IBM Concert xxxxxx'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name:   🚀 IBM Concert - xxxxx
+  shell: |
+    xxxxxxx
+  ignore_errors: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - name: 🚀 IBM Concert - Create Backend Datastore Operator Install Helm
   shell: |

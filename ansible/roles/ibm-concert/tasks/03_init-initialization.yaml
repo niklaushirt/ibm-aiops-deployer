@@ -69,14 +69,14 @@
   debug:
     msg:
     - "** IBM Concert Parameters ***********************************************************************"
-    - " IBM Concert Installation Name:      {{current_ibmaiops_feature.aiops_name}}"
-    - " IBM Concert Namespace:              {{current_ibmaiops_cluster.project }}"
-    - " IBM Concert prod_registry:      {{current_ibmaiops_feature.registry.prod_registry}}"
-    - " IBM Concert prod_user:      {{current_ibmaiops_feature.registry.prod_user}}"
-    - " IBM Concert private_registry_location:      {{current_ibmaiops_feature.registry.private_registry_location}}"
-    - " IBM Concert project_operator:      {{current_ibmaiops_feature.project.project_operator}}"
-    - " IBM Concert project_instance:      {{current_ibmaiops_feature.project.project_instance}}"
-    - " IBM Concert docker_exe:      {{current_ibmaiops_feature.installation.docker_exe}}"
+    - " IBM Concert Installation Name:          {{current_ibmaiops_feature.installation.project_instance}}"
+    - " IBM Concert Namespace:                  {{current_ibmaiops_cluster.project }}"
+    - " IBM Concert prod_registry:              {{current_ibmaiops_feature.registry.prod_registry}}"
+    - " IBM Concert prod_user:                  {{current_ibmaiops_feature.registry.prod_user}}"
+    - " IBM Concert private_registry_location:  {{current_ibmaiops_feature.registry.private_registry_location}}"
+    - " IBM Concert project_operator:           {{current_ibmaiops_feature.installation.project_operator}}"
+    - " IBM Concert project_instance:           {{current_ibmaiops_feature.installation.project_instance}}"
+    - " IBM Concert docker_exe:                 {{current_ibmaiops_feature.installation.docker_exe}}"
     - ""
     verbosity: 1
   
