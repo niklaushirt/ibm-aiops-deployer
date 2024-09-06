@@ -234,5 +234,16 @@
     echo "            🌏 URL:               $OCP_URL"
     echo "            🫅 User:              kubeadmin"
     echo "            🔐 Token:             $OCP_TOKEN"
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: (012/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
 
 
