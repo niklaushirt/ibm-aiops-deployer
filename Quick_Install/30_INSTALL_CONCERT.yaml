@@ -54,9 +54,20 @@ data:
     #*************************************************************************************************************************************************
 
     global_config:
-      # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
-      environment_name: Bear
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Passwords and Licenses
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Use this Password for all Instances
+      global_password: CHANGEME
+
+
+      environment_name: Demo
       cloud_platform: existing-ocp
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
+      # Key to decrypt Licenses
+      #license_token: NONE
+
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
@@ -82,12 +93,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Passwords and Licenses
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # Use this Password for all Instances
-      global_password: CHANGEME
       # Set this value to True to accept all licenses
       accept_all_licenses: False
-      # Key to decrypt Licenses
-      #license_token: NONE
 
 
     # *************************************************************************************************************************************************
@@ -133,17 +140,40 @@ data:
         kind: IBMConcert
         install: true
         
-        registry:
-        - prod_registry: cp.icr.io
-          private_registry_location: cp.icr.io
-          prod_user: cp
+        # ---------------------------------------------------------------------
+        # CONCERT REGISTRY
+        prod_registry: cp.icr.io
+        private_registry_location: cp.icr.io
+        prod_user: cp
 
-        project:
-        - project_operator: ibm-concert-operators 
-          project_instance: ibm-concert 
+        # ---------------------------------------------------------------------
+        # PROJECT SETTINGS
+        project_operator: ibm-concert-operators 
+        project_instance: ibm-concert 
 
-        installation:
-        - docker_exe: podman 
+        # ---------------------------------------------------------------------
+        # CONTAINER RUNTIME
+        docker_exe: podman 
+
+
+        # ---------------------------------------------------------------------
+        # LDAP
+        install_ldap: true
+        # ldap domain
+        ldap_domain: ibm.com
+        # ldap base
+        ldap_base: dc=ibm,dc=com
+        # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
+        #ldap_admin_password: CHANGEME
+        # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
+        #ldap_user_password: CHANGEME
+        # ldap namespace
+        ldap_namespace: openldap
+        # Integrate AIOps Login with OpenLDAP 
+        ldap_register: true
+        # Integrate OpenShift Login with OpenLDAP
+        integrate_ocp_openldap: true
+
 
 
         # --------------------------------------------------------------------------------------------------------------------------------------
@@ -224,6 +254,13 @@ spec:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
           imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+            runAsUser: 0
+            capabilities:
+              add: 
+              - ALL
           resources:
             requests:
               memory: "64Mi"
@@ -281,11 +318,13 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo ""
 
-              echo "------------------------------------------------------------------------------------------------------------------------------"
-              echo " 🚀 Prepare Ansible"
-              pip -q install openshift pyyaml kubernetes
-              echo ""
-              echo ""
+              # echo "------------------------------------------------------------------------------------------------------------------------------"
+              # echo " 🚀 Prepare Ansible"
+              #pip -q install openshift pyyaml kubernetes
+              #apt update && apt install -fy python3-kubernetes python3-openshift
+              # echo ""
+              # echo ""
+
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
