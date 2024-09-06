@@ -126,7 +126,7 @@
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/01_init-logging.yaml"
     
 - name: (003/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
-  include_tasks: 02_init_checks.yaml
+  include_tasks: 02_init-checks.yaml
 # Start block
 - name: (004/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
