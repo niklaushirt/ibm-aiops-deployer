@@ -208,6 +208,25 @@
 
 
 
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 60-80 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
 
 - name:   🚀 IBM Concert -  Installation
   shell: |
@@ -251,26 +270,6 @@
     var: output_string.stdout_lines
     #verbosity: 1
 
-
-
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ff7700'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 60-80 minutes) - Started at $(date +%H:%M) UTC'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
 
 
 - name: 🕦 CHECK -  Wait for all Pods in {{ current_ibmaiops_cluster.project }} to become ready (this might take some time)
