@@ -84,7 +84,19 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     apt-get -qq update
     apt-get -y install podman  > /dev/null
+    podman version
+    podman ps
+  register: output_string
   ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    verbosity: 1
+  #when: PRINT_LOGINS == true
+
 
 
 
