@@ -275,7 +275,7 @@
 - name: 🕦 CHECK -  Wait for all Pods in {{ current_ibmaiops_cluster.project }} to become ready (this might take some time)
   shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
   register: kubectl_get_pods
-  until: kubectl_get_pods.stdout > 17
+  until: kubectl_get_pods.stdout|int > 17
   retries: 500
   delay: 15
 

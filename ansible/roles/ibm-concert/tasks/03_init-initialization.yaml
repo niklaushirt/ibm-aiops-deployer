@@ -62,7 +62,7 @@
 
 
 - name:   🚀 INITIALIZATION - Installing in Namespace "{{ current_ibmaiops_cluster.project }}" "
-  set_fact: AIOPS_NAMESPACE_GLOBAL={{ current_ibmaiops_cluster.project }} 
+  set_fact: CONCERT_NAMESPACE_GLOBAL={{ current_ibmaiops_cluster.project }} 
 
 
 - name:   🚀 INITIALIZATION - Installation Parameters"

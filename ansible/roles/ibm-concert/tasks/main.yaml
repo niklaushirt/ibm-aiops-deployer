@@ -55,8 +55,6 @@
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-    appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
     OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
     INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-concert --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
@@ -127,7 +125,7 @@
     
 - name: (003/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
   include_tasks: 02_init-checks.yaml
-# Start block
+ 
 - name: (004/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/90-log-start.yaml"
 
@@ -136,26 +134,32 @@
   include_tasks: 03_init-initialization.yaml
 
 
-
 - name: (006/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
-# Install OpenLDAP
-- name: (005/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
-  include_tasks: 21_addons-ldap.yaml
-  when: current_ibmaiops_feature.install_ldap == true
 
 
 
-- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
-  include_tasks: 05_concert-prerequisites.yaml
-      
-- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
-  include_tasks: 10_concert-install.yaml
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# POSTINSTALL TASKS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Register LDAP Users
+- name: (010/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM Concert
+  include_tasks: 25-post-ldap-register.yaml
+  when: current_ibmaiops_feature.install_ldap == true and current_ibmaiops_feature.ldap_register == true
+
+- name: (011/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
+  include_tasks: 90_integrate-ocp-openldap.yaml
+  when: current_ibmaiops_feature.integrate_ocp_openldap | default(false) == true  
 
 
-- name: (019/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+- name: (012/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+  include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
+  when: global_config.create_ocp_items | default(true) == true  
+
+
+- name: (013/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
