@@ -47,7 +47,6 @@
 - name: 🟣  IBM Concert -  IBM Concert Password {{current_admin_pass}}
   debug:
     var: current_admin_pass
-    verbosity: 1
 
 
 
@@ -92,8 +91,7 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
+    #verbosity: 1
 
 
 
@@ -110,8 +108,7 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-    verbosity: 1
-  #when: PRINT_LOGINS == true
+    #verbosity: 1
 
 
 
