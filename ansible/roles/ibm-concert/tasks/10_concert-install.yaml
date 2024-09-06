@@ -209,3 +209,128 @@
 
 
 
+- name:   🚀 IBM Concert -  Installation
+  shell: |
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_ibmaiops_feature.prod_registry}}
+    export PROD_USER={{current_ibmaiops_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_ibmaiops_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_ibmaiops_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_ibmaiops_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ AIOPS_STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Start Concert Installation"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh concert-setup
+
+
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_ibmaiops_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 60-80 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name: 🕦 CHECK -  Wait for all Pods in {{ current_ibmaiops_cluster.project }} to become ready (this might take some time)
+  shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout > 17
+  retries: 500
+  delay: 15
+
+
+
+
+- name:   🚀 IBM Concert -  Finalize
+  shell: |
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_ibmaiops_feature.prod_registry}}
+    export PROD_USER={{current_ibmaiops_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_ibmaiops_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_ibmaiops_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_ibmaiops_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ AIOPS_STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ AIOPS_STORAGE_CLASS_LARGE_BLOCK }}
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ LOGINS"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh get-concert-instance-details
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🫅 User:              kubeadmin"
+    echo "            🔐 Token:             $OCP_TOKEN"
+
+
+
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+

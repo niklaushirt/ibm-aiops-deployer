@@ -141,11 +141,18 @@
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/05_init-get-storage-class.yaml"
 
 
-- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
-  include_tasks: 05_concert-prerequisites.yaml
+# Install OpenLDAP
+- name: (005/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
+  include_tasks: 21_addons-ldap.yaml
+  when: current_ibmaiops_feature.install_ldap == true
+
+
+
+# - name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+#   include_tasks: 05_concert-prerequisites.yaml
       
-- name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
-  include_tasks: 10_concert-install.yaml
+# - name: (007/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+#   include_tasks: 10_concert-install.yaml
 
 
 - name: (019/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
