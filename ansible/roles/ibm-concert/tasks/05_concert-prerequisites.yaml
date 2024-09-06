@@ -84,8 +84,6 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     apt-get -qq update
     apt-get -y install podman  > /dev/null
-    podman version
-    podman ps
   register: output_string
   ignore_errors: true
   args:
@@ -97,6 +95,23 @@
     verbosity: 1
   #when: PRINT_LOGINS == true
 
+
+
+
+- name:   🚀 IBM Concert - Testing Podman Rights
+  shell: |
+    podman version
+    podman ps
+  register: output_string
+  ignore_errors: false
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    verbosity: 1
+  #when: PRINT_LOGINS == true
 
 
 
