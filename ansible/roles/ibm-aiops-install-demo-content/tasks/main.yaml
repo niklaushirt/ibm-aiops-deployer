@@ -536,6 +536,36 @@
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+
+
+    oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export appURL=$(oc get routes -n ibm-concert concert  -o jsonpath="{['spec']['host']}")|| true
+    export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+        name: ibm-aiops-notification-main
+    spec:
+        backgroundColor: '#009a00'
+        color: '#fff'
+        link:
+            href: "https://$appURL"
+            text: DemoUI
+        location: BannerTop
+        text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
+    EOF
+
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+
 
 - name:  🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONE - {{current_ibmaiops_feature.kind}}
   debug: 
