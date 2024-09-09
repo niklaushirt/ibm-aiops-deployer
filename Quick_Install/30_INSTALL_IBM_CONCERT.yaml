@@ -20,8 +20,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images
 #   Type:               VMWare on IBM Cloud / UPI Public
-#   Worker node count:  4
-#   Flavour:            b3c.32x128 ❗ 
+#   Worker node count:  3
+#   Flavour:            16x64 ❗ 
 #   OpenShift Version:  4.14
 #   Storage:            ODF 500GB or Managed NFS - 2TB 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -35,13 +35,13 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibm-concert-installer
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration-concert
-  namespace: ibm-aiops-installer
+  name: ibm-concert-install-configuration
+  namespace: ibm-concert-installer
 immutable: false
 data:
   ENTITLED_REGISTRY_KEY: >-
@@ -141,19 +141,8 @@ data:
         install: true
         
         # ---------------------------------------------------------------------
-        # CONCERT REGISTRY
-        prod_registry: cp.icr.io
-        private_registry_location: cp.icr.io
-        prod_user: cp
-
-        # ---------------------------------------------------------------------
-        # PROJECT SETTINGS
-        project_operator: ibm-concert-operators 
-        project_instance: ibm-concert 
-
-        # ---------------------------------------------------------------------
-        # CONTAINER RUNTIME
-        docker_exe: podman 
+        # DEMO CONTENT
+        install_demo_content: true
 
 
         # ---------------------------------------------------------------------
@@ -176,13 +165,29 @@ data:
 
 
 
+
+        # ---------------------------------------------------------------------
+        # CONCERT REGISTRY
+        prod_registry: cp.icr.io
+        private_registry_location: cp.icr.io
+        prod_user: cp
+
+        # ---------------------------------------------------------------------
+        # PROJECT SETTINGS
+        project_operator: ibm-concert-operators 
+        project_instance: ibm-concert 
+
+        # ---------------------------------------------------------------------
+        # CONTAINER RUNTIME
+        docker_exe: podman 
+
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
         # --------------------------------------------------------------------------------------------------------------------------------------
         #storage_class_file: automatic
         #storage_class_block: automatic
 
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest'
+  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
 
 
 
@@ -208,26 +213,26 @@ data:
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: ibm-aiops-installer-admin
-  namespace: ibm-aiops-installer
+  name: ibm-concert-installer-admin
+  namespace: ibm-concert-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibm-concert-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: ibm-aiops-installer-admin
-    namespace: ibm-aiops-installer
+    name: ibm-concert-installer-admin
+    namespace: ibm-concert-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-default-admin
+  name: ibm-concert-installer-default-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -235,21 +240,21 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibm-concert-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-concert
-  namespace: ibm-aiops-installer
+  name: ibm-concert-install
+  namespace: ibm-concert-installer
 spec:
 
   template:
     metadata:
       labels:
-        app: ibm-aiops-concert
+        app: ibm-concert
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccountName: ibm-concert-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -288,8 +293,8 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Housekeeping"
               oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
-              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
-              oc delete pod  -n ibm-aiops-installer $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete job  -n ibm-concert-installer --ignore-not-found $(oc get job -n ibm-concert-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete pod  -n ibm-concert-installer $(oc get po -n ibm-concert-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
               echo ""
               echo ""
 
@@ -353,12 +358,12 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-concert
+                name: ibm-concert-install-configuration
                 key: INSTALL_REPO
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-concert
+                name: ibm-concert-install-configuration
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -367,7 +372,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration-concert
+            name: ibm-concert-install-configuration
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

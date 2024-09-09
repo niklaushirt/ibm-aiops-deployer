@@ -177,7 +177,18 @@
   include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
-- name: (013/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL DEMO CONTENT
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Install Demo Content
+- name: (013/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install Demo Content
+  include_tasks: 30_concert-install-demo-content.yaml
+  when: current_ibmaiops_feature.install_demo_content == true | default(false)
+
+
+
+- name: (014/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-aiops-global/tasks/91-log-end.yaml"
 
 
