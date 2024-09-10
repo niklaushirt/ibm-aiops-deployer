@@ -538,8 +538,6 @@
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
-
-
     oc delete ConsoleNotification --all>/dev/null 2>/dev/null
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export appURL=$(oc get routes -n ibm-concert concert  -o jsonpath="{['spec']['host']}")|| true
