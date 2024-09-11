@@ -378,7 +378,7 @@
                     "value": "private"
                 }
             ]
-        }
+        },
         {
             "bom-ref": "appapi:web",
             "name": "web",

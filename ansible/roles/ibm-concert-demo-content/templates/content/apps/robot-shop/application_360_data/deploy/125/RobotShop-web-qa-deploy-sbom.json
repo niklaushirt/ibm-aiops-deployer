@@ -56,6 +56,10 @@
                 {
                     "name": "base_url",
                     "value": "https://robot-shop.com/web"
+                },
+                {
+                    "name": "network_exposure",
+                    "value": "public"
                 }
             ]
         },

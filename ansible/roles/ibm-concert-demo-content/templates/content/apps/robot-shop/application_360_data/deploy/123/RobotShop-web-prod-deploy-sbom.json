@@ -50,12 +50,16 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:web",
+            "bom-ref": "service:appapi:web",
             "name": "web",
             "properties": [
                 {
                     "name": "base_url",
                     "value": "https://robot-shop.com/web"
+                } ,
+                {
+                    "name": "network_exposure",
+                    "value": "public"
                 }
             ]
         },
@@ -92,9 +96,10 @@
     ],
     "dependencies": [
         {
-            "ref": "deploy:web",
+            "ref": "service:appapi:web",
             "dependsOn": [
-                "appapi:web"
+                "appapi:web",
+                "deploy:web"
             ]
         }
     ]
