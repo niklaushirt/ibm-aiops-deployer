@@ -212,8 +212,19 @@
 # INSTALL TURBONOMIC DEMO CONTENT
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Install TURBONOMIC
-- name: 📥 Install Turbonomic
+- name: (001/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install Turbonomic Demo Content
   include_tasks: 10_addons-turbonomic-demo-content.yaml
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL DEMO APPS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Demo Apps
+- name: (002/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
+  include_tasks: 23_addons-demoapps.yaml
+  when: current_feature.install_demoapps | default(false) == true
+
 
 
 # Update IBMAIOps Cards

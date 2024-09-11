@@ -172,7 +172,7 @@
 # Create Demo Apps
 - name: (010/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
-  when: current_feature.install_demoapps == true
+  when: current_feature.install_demoapps | default(false) == true
 
 
 

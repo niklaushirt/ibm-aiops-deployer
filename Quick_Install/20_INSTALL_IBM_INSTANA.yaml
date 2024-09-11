@@ -181,6 +181,7 @@ data:
         kind: IBMInstanaDemoContent
         install: true
 
+        install_demoapps: true
 
 
 
