@@ -14,6 +14,14 @@
 
 <BR>
 
+## Changelog
+
+- ❗ Complete overhaul of file structures and configuration files - Old ConfigMaps won't work anymore
+- Support for **IBM Concert 1.0.1**
+- Support for CP4AIOps Version 4.7.0 FVT
+
+
+<BR>
 ### ⚠️ Disclaimer
 
 <details>
@@ -109,29 +117,19 @@ Basically:
 
 ### 🐥 Quick Install
 
-🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
+- 🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
+- 🚀 [Quick Install - IBM Concert](#22--install-ibm-concert-with-demo-content)
+- 🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
+- 🚀 [Quick Install - IBM Instana](#24--install-ibm-instana-with-demo-content)
 
-🚀 [Quick Install - IBM Concert](#22--install-ibm-concert-with-demo-content)
+- 🧨 [Troubleshooting](#4-troubleshooting)
+- 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
-🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
 
-🚀 [Quick Install - IBM Instana](#24--install-ibm-instana-with-demo-content)
-
-🧨 [Troubleshooting](#4-troubleshooting)
-
-🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
-
-### 🐥 CloudPak for AIOps specific
-🚀 [Demo the Solution](#31-demo-the-solution)
-
-🤓 [Demo Setup - Explained](#33-demo-setup---explained)
-
-📦 [Create a custom Scenario](#34-demo-setup---explained)
-
-🧨 [Troubleshooting](#4-troubleshooting)
-
-🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
-
+### 🐥 IBM AIOps specific
+- 🚀 [Demo the Solution](#31-demo-the-solution)
+- 🤓 [Demo Setup - Explained](#33-demo-setup---explained)
+- 📦 [Create a custom Scenario](#34-demo-setup---explained)
 
 
 <div style="page-break-after: always;"></div>
