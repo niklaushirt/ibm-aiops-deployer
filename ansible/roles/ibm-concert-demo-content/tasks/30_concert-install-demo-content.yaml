@@ -177,7 +177,7 @@
           -H 'accept: application/json' \
           -H 'instanceId: 0000-0000-0000-0000' \
           -H 'Content-Type: multipart/form-data' \
-          -F 'file=@./roles/ibm-concert/templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json'
+          -F 'file=@./roles/ibm-concert-demo-content/templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json'
 
     echo ""
     echo ""
@@ -192,7 +192,7 @@
           -H 'accept: application/json' \
           -H 'instanceId: 0000-0000-0000-0000' \
           -H 'Content-Type: multipart/form-data' \
-          -F 'file=@./roles/ibm-concert/templates/content/compliance/sample-compliance/profileupload.json;type=application/json'
+          -F 'file=@./roles/ibm-concert-demo-content/templates/content/compliance/sample-compliance/profileupload.json;type=application/json'
 
     echo ""
     echo ""
@@ -208,7 +208,7 @@
         -H "Authorization: Bearer $ZEN_TOKEN" \
         -H 'Content-Type: multipart/form-data' \
         -F "data_type=compliance" \
-        -F "filename=@./roles/ibm-concert/templates/content/compliance/sample-compliance/posture_results.json"
+        -F "filename=@./roles/ibm-concert-demo-content/templates/content/compliance/sample-compliance/posture_results.json"
 
   register: output_string
   ignore_errors: true
@@ -277,7 +277,7 @@
         -H 'Content-Type: multipart/form-data' \
         -F "data_type=certificate" \
         -F 'metadata={"env_name": "prod"}' \
-        -F "filename=@./roles/ibm-concert/templates/content/certificates/certificates-demo.json"
+        -F "filename=@./roles/ibm-concert-demo-content/templates/content/certificates/certificates-demo.json"
 
   register: output_string
   ignore_errors: true
@@ -364,7 +364,7 @@
     echo " 🚀 Upload RobotShop Application"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_definition/RobotShop-app-definition-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_definition/RobotShop-app-definition-sbom.json"
     upload_files
 
 
@@ -379,27 +379,27 @@
     echo " 🚀 Upload RobotShop Build 123"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-web-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-web-build-sbom.json"
     upload_files
 
     echo ""
@@ -411,25 +411,25 @@
     echo " 🚀 Upload RobotShop Code Scan 123"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=package_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-codescan-cyclonedx-sbom.json"
     upload_files
 
     echo ""
@@ -441,25 +441,25 @@
     echo " 🚀 Upload RobotShop Container Scan 123"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=package_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-ratings-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-user-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-web-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-web-imagescan-cyclonedx-sbom.json"
     upload_files
 
 
@@ -472,21 +472,21 @@
     echo " 🚀 Upload RobotShop CSV Scan 123"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=image_scan
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-cart-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-catalogue-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-dispatch-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-load-gen-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mongo-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-mysql-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-payment-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/123/RobotShop-shipping-cve-scan.csv"
     upload_vulnerability
 
 
@@ -499,49 +499,49 @@
     echo " 🚀 Upload RobotShop Deploy 123"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-cart-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-cart-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-cart-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-cart-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-catalogue-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-catalogue-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-catalogue-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-catalogue-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-dispatch-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-dispatch-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-dispatch-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-dispatch-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-load-gen-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-load-gen-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-load-gen-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-load-gen-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mongo-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mongo-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mongo-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mongo-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mysql-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mysql-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mysql-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-mysql-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-payment-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-payment-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-payment-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-payment-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-ratings-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-ratings-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-ratings-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-ratings-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-shipping-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-shipping-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-shipping-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-shipping-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-user-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-user-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-user-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-user-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-web-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-web-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-web-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/123/RobotShop-web-qa-deploy-sbom.json"
     upload_files
 
   register: output_string
@@ -631,7 +631,7 @@
     echo " 🚀 Upload RobotShop Application"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_definition/RobotShop-app-definition-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_definition/RobotShop-app-definition-sbom.json"
     upload_files
 
 
@@ -646,27 +646,27 @@
     echo " 🚀 Upload RobotShop Build 125"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-build-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-web-build-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-web-build-sbom.json"
     upload_files
 
     echo ""
@@ -678,25 +678,25 @@
     echo " 🚀 Upload RobotShop Code Scan 125"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=package_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-codescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-codescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-codescan-cyclonedx-sbom.json"
     upload_files
 
     echo ""
@@ -708,25 +708,25 @@
     echo " 🚀 Upload RobotShop Container Scan 125"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=package_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-ratings-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-user-imagescan-cyclonedx-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-web-imagescan-cyclonedx-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-web-imagescan-cyclonedx-sbom.json"
     upload_files
 
 
@@ -739,21 +739,21 @@
     echo " 🚀 Upload RobotShop CSV Scan 125"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=image_scan
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-cart-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-catalogue-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-dispatch-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-load-gen-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mongo-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-mysql-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-payment-cve-scan.csv"
     upload_vulnerability
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-cve-scan.csv"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/build/125/RobotShop-shipping-cve-scan.csv"
     upload_vulnerability
 
 
@@ -766,49 +766,49 @@
     echo " 🚀 Upload RobotShop Deploy 125"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     export DATA_TYPE=application_sbom
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-cart-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-cart-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-cart-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-cart-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-catalogue-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-catalogue-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-catalogue-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-catalogue-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-dispatch-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-dispatch-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-dispatch-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-dispatch-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-load-gen-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-load-gen-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-load-gen-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-load-gen-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mongo-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mongo-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mongo-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mongo-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mysql-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mysql-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mysql-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-mysql-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-payment-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-payment-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-payment-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-payment-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-ratings-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-ratings-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-ratings-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-ratings-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-shipping-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-shipping-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-shipping-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-shipping-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-user-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-user-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-user-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-user-qa-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-web-prod-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-web-prod-deploy-sbom.json"
     upload_files
-    export DATA_PATH="./roles/ibm-concert/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-web-qa-deploy-sbom.json"
+    export DATA_PATH="./roles/ibm-concert-demo-content/templates/content/apps/robot-shop/application_360_data/deploy/125/RobotShop-web-qa-deploy-sbom.json"
     upload_files
 
   register: output_string
