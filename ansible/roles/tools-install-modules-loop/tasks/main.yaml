@@ -70,7 +70,7 @@
     name: ibm-turbonomic-install
   when: current_feature.kind=="IBMTurbonomic" and current_feature.install==true
 
-- name: tools-install-modules-loop 🌡   CHECK for - IBM Turbonomic Demo Contnet
+- name: tools-install-modules-loop 🌡   CHECK for - IBM Turbonomic Demo Content
   include_role:
     name: ibm-turbonomic-demo-content
   when: current_feature.kind=="IBMTurbonomicDemoContent" and current_feature.install==true
