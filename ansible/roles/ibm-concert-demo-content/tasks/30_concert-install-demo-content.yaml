@@ -104,16 +104,13 @@
     set -x
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 TEST aaaaaaaaa"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    curl -X "POST" -k "https://$ZEN_API_HOST/ibm/concert/compliance/api/v1/import_catalogs" \
-          -H "Authorization: Bearer $ZEN_TOKEN" \
-          -H 'accept: application/json' \
-          -H 'instanceId: 0000-0000-0000-0000' \
-          -H 'Content-Type: multipart/form-data' \
-          -F 'file=@./roles/ibm-concert/templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json'
-    cat ./roles/ibm-concert/templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json
+    echo "1------------------------------------------------------------------------------------------------------------------------------"
+
+    cat ./templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json
+    echo "2------------------------------------------------------------------------------------------------------------------------------"
 
     pwd
+    echo "3------------------------------------------------------------------------------------------------------------------------------"
 
     ls
   register: output_string
