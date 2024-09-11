@@ -247,7 +247,7 @@ ibmaiops:
   # IBM AIOPS TURBONOMIC
   # --------------------------------------------------------------------------------------------------------------------------------------
 
-  - name: ibm-aiops-turbonomic
+  - name: ibm-turbonomic
     kind: Turbonomic
     install: true
     turbo_version: 8.10.3
@@ -258,7 +258,7 @@ ibmaiops:
     #storage_class_file: automatic
     #storage_class_block: automatic
 
-  - name: ibm-aiops-turbonomic-demo-content
+  - name: ibm-turbonomic-demo-content
     kind: TurbonomicDemoContent
     install: true
     # Admin User Password (OVERRIDES GLOBAL PASSWORD)
@@ -297,7 +297,7 @@ ibmaiops:
   # IBM AIOPS INSTANA
   # --------------------------------------------------------------------------------------------------------------------------------------
 
-  - name: ibm-aiops-instana
+  - name: ibm-instana
     kind: Instana
     install: true
     # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/

@@ -10,8 +10,8 @@
   shell: |
     export MESSAGE="Create Temporal Grouping Training Definition"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -25,7 +25,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Temporal Grouping Training Definition'    
+      text: 'Installing {{current_feature.kind}} - Create Temporal Grouping Training Definition'    
     EOF
   ignore_errors: true
   args:
@@ -42,7 +42,7 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Create Analysis Definiton: Temporal Grouping"
-    export FILE_NAME=create-analysis-TG{{current_ibmaiops_feature.training_suffix | default("") }}.graphql
+    export FILE_NAME=create-analysis-TG{{current_feature.training_suffix | default("") }}.graphql
     export FILE_PATH="{{role_path}}/templates/training/training-definitions/"
     {{role_path}}/templates/training/scripts/execute-graphql.sh
 

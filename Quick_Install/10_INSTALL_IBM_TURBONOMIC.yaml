@@ -1,17 +1,17 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#         ________  __  ___     ___    ________       
-#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
-#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
-#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
-#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
-#                                           /_/
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
-#  Installing IBM AIOps
+#  Installing IBM IT Automation Solutoions
 #
-#  Turbonomic
+#  IBM Turbonomic
 #
 #  ©2024 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -28,7 +28,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - Turbonomic
+#  - IBM Turbonomic
+#  - IBM Turbonomic Demo Content
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
@@ -40,7 +41,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration-turbo
+  name: ibm-install-configuration-turbo
   namespace: ibm-aiops-installer
 immutable: false
 data:
@@ -120,23 +121,21 @@ data:
 
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
-    # IBM AIOPS Configuration
+    # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
+    ibmitautomation:
 
-    ibmaiops:
-
-    
-    - project: ibm-aiops-addons
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # IBM TURBONOMIC
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    - project: ibm-turbonomic
       instances:
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # IBM AIOPS TURBONOMIC
-      # --------------------------------------------------------------------------------------------------------------------------------------
 
-      - name: ibm-aiops-turbonomic
-        kind: Turbonomic
-        install: true
-        turbo_version: 8.13.2
+      - name: ibm-turbonomic
+        kind: IBMTurbonomic
+        install: false
+        turbo_version: 8.13.3
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
@@ -144,9 +143,10 @@ data:
         #storage_class_file: automatic
         #storage_class_block: automatic
 
-      - name: ibm-aiops-turbonomic-demo-content
-        kind: TurbonomicDemoContent
-        install: true
+
+      - name: ibm-turbonomic-demo-content
+        kind: IBMTurbonomicDemoContent
+        install: false
         # Admin User Password (OVERRIDES GLOBAL PASSWORD)
         #turbo_admin_password: CHANGEME
         # ---------------------------------------------------------------------
@@ -177,6 +177,8 @@ data:
         # ---------------------------------------------------------------------
         # Create a valid ingress certificate when on ITZ
         create_valid_ingress_itz: false
+
+
 
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
@@ -318,7 +320,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
               echo ""
               echo ""
 
@@ -342,30 +344,30 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-turbo
+                name: ibm-install-configuration-turbo
                 key: INSTALL_REPO
           - name: TURBO_LICENSE
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-turbo
+                name: ibm-install-configuration-turbo
                 key: TURBO_LICENSE
                 optional: true
           - name: INSTANA_SALES_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-turbo
+                name: ibm-install-configuration-turbo
                 key: INSTANA_SALES_KEY
                 optional: true
           - name: INSTANA_AGENT_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-turbo
+                name: ibm-install-configuration-turbo
                 key: INSTANA_AGENT_KEY
                 optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-turbo
+                name: ibm-install-configuration-turbo
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -374,7 +376,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration-turbo
+            name: ibm-install-configuration-turbo
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

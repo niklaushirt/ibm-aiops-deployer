@@ -200,7 +200,7 @@ ibm-aiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS INSTANA
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-instana
+  - name: ibm-instana
     kind: Instana
     install: false
     version: 241-3
@@ -236,7 +236,7 @@ ibm-aiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS TURBONOMIC
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-turbonomic
+  - name: ibm-turbonomic
     kind: Turbonomic
     install: false
     turbo_version: 8.8.3
@@ -247,7 +247,7 @@ ibm-aiops:
     #storage_class_file: automatic
     #storage_class_block: automatic
 
-  - name: ibm-aiops-turbonomic-demo-content
+  - name: ibm-turbonomic-demo-content
     kind: TurbonomicDemoContent
     install: false
     # Admin User Password (OVERRIDES GLOBAL PASSWORD)

@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Create DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -31,7 +31,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create DEMO UI'    
+      text: 'Installing {{current_feature.kind}} - Create DEMO UI'    
     EOF
   ignore_errors: true
   args:
@@ -72,7 +72,7 @@
     state: present
     template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm.j2
   ignore_errors: true
-  when: current_ibmaiops_feature.demoui_create_slack_snow == false | default('false')
+  when: current_feature.demoui_create_slack_snow == false | default('false')
 
 
 - name: 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITH Slack and SNOW Simulation
@@ -80,7 +80,7 @@
     state: present
     template: ./templates/aiops-demo-ui/create-ibm-aiops-demo-cm-with-slack-snow.j2
   ignore_errors: true
-  when: current_ibmaiops_feature.demoui_create_slack_snow == true | default('false')
+  when: current_feature.demoui_create_slack_snow == true | default('false')
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -120,10 +120,10 @@
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export MESSAGE="Installing DEMO UI"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "              📥 DEMO UI Login:"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo ""  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "              📥 DEMO UI Login:"  >> ../install_{{current_feature.kind}}.log
+    echo ""  >> ../install_{{current_feature.kind}}.log
+    echo "                🌏 URL:      http://$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui -o jsonpath={.spec.host})"  >> ../install_{{current_feature.kind}}.log
+    echo "                🔐 Token:    $(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}' && echo)"  >> ../install_{{current_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 

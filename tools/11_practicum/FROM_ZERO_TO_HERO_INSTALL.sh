@@ -88,7 +88,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Starting Installation"
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=./configs/ibm-aiops-practicum.yaml"
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=./configs/ibm-aiops-practicum.yaml"
               echo ""
               echo ""
               echo "*****************************************************************************************************************************"

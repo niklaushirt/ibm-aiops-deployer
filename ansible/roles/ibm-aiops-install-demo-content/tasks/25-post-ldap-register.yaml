@@ -19,8 +19,8 @@
   shell: |
     export MESSAGE="Integrate IBM AIOps with LDAP"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -34,7 +34,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Integrate IBM AIOps with LDAP'    
+      text: 'Installing {{current_feature.kind}} - Integrate IBM AIOps with LDAP'    
     EOF
   ignore_errors: true
   args:
@@ -50,7 +50,7 @@
 
 
 - name: 🚀 LDAPREGISTER - Set LDAP ADMIN Password from instance configuration
-  set_fact: current_ldap_admin_password={{current_ibmaiops_feature.ldap_admin_password  | default('CHANGEME')}}
+  set_fact: current_ldap_admin_password={{current_feature.ldap_admin_password  | default('CHANGEME')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -66,7 +66,7 @@
 
 
 - name: 🚀 LDAPREGISTER - Set LDAP USERS Password from instance configuration
-  set_fact: current_ldap_user_password={{current_ibmaiops_feature.ldap_user_password  | default('CHANGEME')}}
+  set_fact: current_ldap_user_password={{current_feature.ldap_user_password  | default('CHANGEME')}}
   when: global_config.global_password is undefined or global_config.global_password=="NONE"
 
 
@@ -86,7 +86,7 @@
   shell: |
     export MESSAGE="   Register OpenLDAP Server"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -100,7 +100,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Register OpenLDAP Server'    
+      text: 'Installing {{current_feature.kind}} - Register OpenLDAP Server'    
     EOF
   ignore_errors: true
   args:
@@ -185,7 +185,7 @@
   shell: |
     export MESSAGE="   Create Users and Groups"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -199,7 +199,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create Users and Groups'    
+      text: 'Installing {{current_feature.kind}} - Create Users and Groups'    
     EOF
   ignore_errors: true
   args:

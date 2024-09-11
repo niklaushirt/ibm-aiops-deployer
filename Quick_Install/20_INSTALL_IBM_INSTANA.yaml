@@ -1,17 +1,17 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#         ________  __  ___     ___    ________       
-#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
-#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
-#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
-#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
-#                                           /_/
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
-#  Installing IBM AIOps
+#  Installing IBM IT Automation Solutoions
 #
-#  Instana
+#  IBM Instana
 #
 #  ©2024 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -28,7 +28,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - Instana
+#  - IBM Instana
+#  - IBM Instana Demo Content
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
@@ -40,7 +41,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration-instana
+  name: ibm-install-configuration-instana
   namespace: ibm-aiops-installer
 immutable: false
 data:
@@ -114,37 +115,25 @@ data:
 
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
-    # IBM AIOPS Configuration
+    # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
+    ibmitautomation:
 
-    ibmaiops:
-
-
-    - project: ibm-aiops-addons
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # IBM INSTANA
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    - project: ibm-instana
       instances:
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # IBM AIOPS INSTANA
-      # --------------------------------------------------------------------------------------------------------------------------------------
 
-      - name: ibm-aiops-instana
-        kind: Instana
-        install: true
-        # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
-        instana_version: 277-2
-        # Can be large, medium (default), small 
-        instana_size: medium
-        # Can be 1 or 3 (default is 3) 
-        instana_backend_scale: 3 
+      - name: ibm-instana
+        kind: IBMInstana
+        install: false
 
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
         sales_key: 'NONE'
         agent_key: 'NONE'
-
-        # ---------------------------------------------------------------------
-        # INSTANA DATASTORE
-        instana_beeinstana_mirrors: 2  # Set to 1 for single node installations
 
         # ---------------------------------------------------------------------
         # INSTANA ADMIN LOGIN
@@ -168,6 +157,25 @@ data:
         # --------------------------------------------------------------------------------------------------------------------------------------
         #storage_class_file: automatic
         #storage_class_block: automatic
+
+        # ---------------------------------------------------------------------
+        # INSTANA PARAMETERS
+        # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
+        instana_version: 277-2
+        # Can be large, medium (default), small 
+        instana_size: medium
+        # Can be 1 or 3 (default is 3) 
+        instana_backend_scale: 3 
+        instana_beeinstana_mirrors: 2  # Set to 1 for single node installations
+
+
+
+      - name: ibm-instana-demo-content
+        kind: IBMInstanaDemoContent
+        install: false
+
+
+
 
   INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
 
@@ -308,7 +316,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
               echo ""
               echo ""
 
@@ -332,30 +340,30 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-instana
+                name: ibm-install-configuration-instana
                 key: INSTALL_REPO
           - name: TURBO_LICENSE
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-instana
+                name: ibm-install-configuration-instana
                 key: TURBO_LICENSE
                 optional: true
           - name: INSTANA_SALES_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-instana
+                name: ibm-install-configuration-instana
                 key: INSTANA_SALES_KEY
                 optional: true
           - name: INSTANA_AGENT_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-instana
+                name: ibm-install-configuration-instana
                 key: INSTANA_AGENT_KEY
                 optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-instana
+                name: ibm-install-configuration-instana
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -364,7 +372,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration-instana
+            name: ibm-install-configuration-instana
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

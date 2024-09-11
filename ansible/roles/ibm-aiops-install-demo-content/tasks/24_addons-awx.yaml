@@ -20,8 +20,8 @@
   shell: |
     export MESSAGE="Installing AWX"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -35,7 +35,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - AWX'    
+      text: 'Installing {{current_feature.kind}} - AWX'    
     EOF
   ignore_errors: true
   args:
@@ -109,7 +109,7 @@
     echo $default
     if [ $default -lt 1 ]; then
         echo "Patching"
-        kubectl patch storageclass {{ AIOPS_STORAGE_CLASS_FILE }} -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+        kubectl patch storageclass {{ STORAGE_CLASS_FILE }} -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
       else
         echo "Patching not needed"
       fi

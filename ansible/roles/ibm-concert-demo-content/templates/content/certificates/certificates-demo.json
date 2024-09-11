@@ -1,0 +1,163 @@
+{
+    "components": [{
+            "type": "certificate",
+            "ref": "certificate:416730047297653093060437355272553080019035",
+            "serial_number": "416730047297653093060437355272553080019035",
+            "properties": [{
+                    "name": "subject",
+                    "value": "CN=test-ca-tor-1-ww.ca-tor.qq.appdomain.cloud"
+                },
+                {
+                    "name": "issuer",
+                    "value": "CN=R11,O=Test,C=AB"
+                },
+                {
+                    "name": "validity_start_date",
+                    "value": "2024-06-25 09:51:22 +0000 UTC"
+                },
+                {
+                    "name": "validity_end_date",
+                    "value": "2024-06-26 09:51:22 +0000 UTC"
+                },
+                {
+                    "name": "certificate_type",
+                    "value": "der"
+                },
+                {
+                    "name": "owner",
+                    "value": "mDkfg1ufap@domain.com"
+                },
+                {
+                    "name": "dns_names",
+                    "value": "*.test-ca-tor-1-ww.ca-tor.qq.appdomain.cloud"
+                },
+                {
+                    "name": "metadata",
+                    "value": "{\"certificate_host\": \"\", \"service_info\": \"289****\", \"dn\": \"\\\\VED\\\\Policy\\\\Aperture\\\\1CMB-CESD-IT\\\\AI\\\\Non-******************************************\", \"senior_manager_contact\": \"mDkfg1ufap@domain.com\"}"
+                }
+            ],
+            "access_points": [{
+                    "name": "appapi:ratings",
+                    "is_public": "false",
+                    "url": "https://robot-shop.com/ratings"
+                },
+                {
+                    "name": "appapi:web",
+                    "is_public": "true",
+                    "url": "https://robot-shop.com/web"
+                }
+            ]
+        },
+        {
+            "type": "certificate",
+            "ref": "certificate:202430047297653093060437355272553080011032",
+            "serial_number": "202430047297653093060437355272553080011032",
+            "properties": [{
+                    "name": "subject",
+                    "value": "CN=guest-ca-tor-1-ww.ca-tor.qq.appdomain.cloud"
+                },
+                {
+                    "name": "issuer",
+                    "value": "CN=A11,O=Test,C=AB"
+                },
+                {
+                    "name": "validity_start_date",
+                    "value": "2024-06-25 09:51:22 +0000 UTC"
+                },
+                {
+                    "name": "validity_end_date",
+                    "value": "2024-06-26 09:51:22 +0000 UTC"
+                },
+                {
+                    "name": "certificate_type",
+                    "value": "pfx"
+                },
+                {
+                    "name": "dns_names",
+                    "value": "*.guest-ca-tor-1-ww.ca-tor.qq.appdomain.cloud"
+                },
+                {
+                    "name": "owner",
+                    "value": "xyzgTp@domain.com"
+                },
+                {
+                    "name": "namespace",
+                    "value": "openshift-config"
+                },
+                {
+                    "name": "metadata",
+                    "value": "{\"certificate_host\": \"\", \"service_info\": \"289****\", \"dn\": \"\\\\VED\\\\Policy\\\\Aperture\\\\1CMB-CESD-IT\\\\AI\\\\Non-******************************************\", \"senior_manager_contact\": \"mDkfg1ufap@domain.com\"}"
+                }
+            ],
+            "access_points": [{
+                "name": "appapi:web",
+                "is_public": "false",
+                "url": "https://robot-shop.com/web"
+        }]
+        }
+    ],
+    "dependencies": [{
+            "ref": "environment:qa",
+            "depends_on": [
+                "certificate:416730047297653093060437355272553080019035"
+            ]
+        },
+        {
+            "ref": "environment:prod",
+            "depends_on": [
+                "certificate:202430047297653093060437355272553080011032",
+                "certificate:416730047297653093060437355272553080019035"
+
+            ]
+        }
+    ]
+}
+
+
+[{
+    "id": "1a1c4fa1-1252-421f-8e5b-d1ef8c199144",
+    "owner": "mDkfg1ufap@domain.com",
+    "issuer": "C=US, O=International Business Machines Corporation, CN=IBM VPN CA",
+    "serial_number": "180007F7C7EDDF6FD3E*******************",
+    "validity_end_date": 1760692680,
+    "dns_names": "\\VED\\Policy\\Aperture\\1CMB-CESD-IT\\AI\\Non-******************************************",
+    "namespace": " ",
+    "last_updated_on": 1725977984,
+    "last_updated_by": "demo",
+    "is_archived": false,
+    "issue": {},
+    "associations": {
+        "environment": "87237e1c-f74c-4e37-b395-cce95ec5e7e9"
+    }
+}, {
+    "id": "30b4aa29-46b0-49a6-846a-219219d19be0",
+    "owner": "concert@ibm.com",
+    "issuer": "C=US, O=International Business Machines Corporation, CN=IBM VPN CA",
+    "serial_number": "E50007F2354534659ED3*******************",
+    "validity_end_date": 1741824000,
+    "dns_names": "UPN::NIKH@ch.ibm.com@mac_mias12574DE******************************************",
+    "namespace": " ",
+    "last_updated_on": 1725977984,
+    "last_updated_by": "demo",
+    "is_archived": false,
+    "issue": {},
+    "associations": {
+        "environment": "87237e1c-f74c-4e37-b395-cce95ec5e7e9"
+    }
+}, {
+    "id": "ba3c9467-83b2-4b5a-8250-2548c1487978",
+    "owner": "concert@ibm.com",
+    "subject": "CN=com.apple.systemdefault, O=System Identity",
+    "issuer": "CN=com.apple.systemdefault, O=System Identity",
+    "serial_number": "99724EA43543D52345A3*******************",
+    "validity_end_date": 1728777600,
+    "namespace": " ",
+    "last_updated_on": 1725977984,
+    "last_updated_by": "demo",
+    "is_archived": false,
+    "issue": {},
+    "associations": {
+        "environment": "87237e1c-f74c-4e37-b395-cce95ec5e7e9"
+    }
+}]
+

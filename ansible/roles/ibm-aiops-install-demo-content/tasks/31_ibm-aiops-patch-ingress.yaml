@@ -16,8 +16,8 @@
   shell: |
     export MESSAGE="Create valid Ingress Certificates"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -31,7 +31,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Create valid Ingress Certificates'    
+      text: 'Installing {{current_feature.kind}} - Create valid Ingress Certificates'    
     EOF
   ignore_errors: true
   args:
@@ -150,7 +150,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - 💊 Patch Certificates for TechZone IPI/UPI'    
+      text: 'Installing {{current_feature.kind}} - 💊 Patch Certificates for TechZone IPI/UPI'    
     EOF
   ignore_errors: true
   args:
@@ -238,13 +238,13 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_ibmaiops_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false) == true
 
 
 - name: 🟢 DEBUG - Patch Certificates for TechZone IPI/UPI
   debug: 
     var: certificate_patch
-  when: current_ibmaiops_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false) == true
 
 
 

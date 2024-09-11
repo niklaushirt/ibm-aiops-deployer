@@ -53,7 +53,7 @@ ibm-aiops:
   # --------------------------------------------------------------------------------------------------------------------------------------
   # IBMAIOPS Infrastructure Management
   # --------------------------------------------------------------------------------------------------------------------------------------
-  - name: ibm-aiops-infrastructure-management
+  - name: ibm-aiops-im
     kind: InfrastructureManagement
     install: true
     # Version of the catalog subscription

@@ -10,8 +10,8 @@
   shell: |
     export MESSAGE="Install Turbonomic Probe"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_ibmaiops_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_ibmaiops_feature.kind}}.log
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
   ignore_errors: true
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
@@ -25,7 +25,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_ibmaiops_feature.kind}} - Install Turbonomic Probe'    
+      text: 'Installing {{current_feature.kind}} - Install Turbonomic Probe'    
     EOF
   ignore_errors: true
   args:
@@ -44,7 +44,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🕦 INSTALL PROBE - Wait for Subscription to become ready
-  shell: oc get csv -n {{ current_ibmaiops_cluster.project }}|grep netcool-integrations-operator|grep "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -c ""
+  shell: oc get csv -n {{ current_ibm_feature.project }}|grep netcool-integrations-operator|grep "Succeeded"| grep -v ibm-watson-aiops-ui-operator | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -92,7 +92,7 @@
 
 
     export PROBE_AUTH_SECRET=turbonomic-probe-client-basic-auth
-    oc create secret generic $PROBE_AUTH_SECRET --from-literal=serverBasicAuthenticationUsername=administrator  --from-literal=serverBasicAuthenticationPassword={{current_ibmaiops_feature.turbo_admin_password  | default( global_config.global_password )}}
+    oc create secret generic $PROBE_AUTH_SECRET --from-literal=serverBasicAuthenticationUsername=administrator  --from-literal=serverBasicAuthenticationPassword={{current_feature.turbo_admin_password  | default( global_config.global_password )}}
 
 
 
@@ -182,7 +182,7 @@
 # Wait for CSV being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🕦 INSTALL PROBE - Wait for Probe to become ready
-  shell: oc get pod -n {{ current_ibmaiops_cluster.project }}|grep turbonomic-probe|grep "1/1" | grep -c ""
+  shell: oc get pod -n {{ current_ibm_feature.project }}|grep turbonomic-probe|grep "1/1" | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500

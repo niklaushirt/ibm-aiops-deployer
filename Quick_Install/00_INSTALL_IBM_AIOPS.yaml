@@ -1,15 +1,15 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#         ________  __  ___     ___    ________       
-#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
-#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
-#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
-#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
-#                                           /_/
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
-#  Installing IBM AIOps
+#  Installing IBM IT Automation Solutoions
 #
 #  CloudPak for AIOps
 #
@@ -60,7 +60,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-aiops-install-configuration-aiops
+  name: ibm-install-configuration-aiops
   namespace: ibm-aiops-installer
 immutable: false
 data:
@@ -141,12 +141,10 @@ data:
 
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
-    # IBM AIOPS Configuration
+    # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
-
-    ibmaiops:
-
+    ibmitautomation:
 
     #--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -483,7 +481,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
               echo ""
               echo ""
 
@@ -520,12 +518,12 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
+                name: ibm-install-configuration-aiops
                 key: INSTALL_REPO
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-aiops-install-configuration-aiops
+                name: ibm-install-configuration-aiops
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -534,7 +532,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-aiops-install-configuration-aiops
+            name: ibm-install-configuration-aiops
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

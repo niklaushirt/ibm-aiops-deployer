@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: generic-probe-rules
-  namespace: {{ current_ibmaiops_cluster.project }}
+  namespace: {{ current_ibm_feature.project }}
 data:
   message_bus.rules: >-
 

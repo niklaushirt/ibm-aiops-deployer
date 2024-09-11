@@ -76,7 +76,7 @@ ibmaiops:
   # IBM AIOPS INSTANA
   # --------------------------------------------------------------------------------------------------------------------------------------
 
-  - name: ibm-aiops-instana
+  - name: ibm-instana
     kind: Instana
     install: true
     # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/

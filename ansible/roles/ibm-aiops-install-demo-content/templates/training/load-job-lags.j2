@@ -33,7 +33,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading log files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export TRAINING_REPO={{ current_ibmaiops_feature.training_data_url }}{{ current_ibmaiops_feature.training_data_repo }}.git
+              export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git
               git clone $TRAINING_REPO
               cd ibm-aiops-trainingdata
 

@@ -1,0 +1,256 @@
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------"
+#  Installing IBM Concert
+#
+#  IBM Concert
+#
+#  ©2024 nikh@ch.ibm.com
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Installs:
+#
+#  - IBM Concert
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+ 
+
+
+- name: 🟣🟣🟣🟣🟣🟣  INSTALLATION MODULE START - {{current_feature.kind}}
+  debug: 
+    msg: 
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "                                                                                                                                                   "
+    - "      � IBM AIOps - INSTALLING {{current_feature.kind}} "
+    - "                                                                                                                                                   "
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+
+
+- name: Log
+  shell: |
+    export MESSAGE="Installing IBM Concert Demo Content"
+    export currentDate=$(date +%Y-%m-%d_%H:%M)
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
+  ignore_errors: true
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+    INSTALL_POD=$(oc get po -n ibm-concert-installer -l app=ibm-aiops-concert --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-main
+    spec:
+      backgroundColor: '#141a6b'
+      color: '#fff'
+      location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
+      text: 'Installing  {{current_feature.kind}} ' 
+      link:
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-concert-installer/pods/$INSTALL_POD/logs"
+          text: Open Logs   
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+- name:  🟡🟡🟡 INITIALIZATION - Installation Parameters 🟡🟡🟡"
+  debug:
+    msg:
+    - "***********************************************************************************************"
+    - " 🚀 Installing {{current_feature.kind}}"
+    - "***********************************************************************************************"
+    - "-----------------------------------------------------------------------------------------------"
+    - "  📥 STORAGE"
+    - "     💾 Installation Options for SPECIFIC MODULE {{ current_feature.kind}}"
+    - "        Storage Class File Override:             {{ current_feature.storage_class_file | default('no override') }}"
+    - "        Storage Class Block Override:            {{ current_feature.storage_class_block | default('no override') }}"
+    - ""
+    - "     💾 Installation Options from GLOBAL"
+    - "        Storage Class File Override:             {{ ocp_storage_class_file | default('not defined') }}"
+    - "        Storage Class Block Override:            {{ ocp_storage_class_block | default('not defined') }}"
+    - "-----------------------------------------------------------------------------------------------"
+    - "  📥 CONFIG"
+    - "     ✅ IBM Concert Project Instance Name:        {{current_feature.project_instance| default('not defined')}}"
+    - "     🔎 IBM Concert Namespace:                    {{current_feature.project| default('not defined')}}"
+    - "     📣 IBM Concert prod_registry:                {{current_feature.prod_registry| default('not defined')}}"
+    - "     📣 IBM Concert prod_user:                    {{current_feature.prod_user| default('not defined')}}"
+    - "     📣 IBM Concert private_registry_location:    {{current_feature.private_registry_location| default('not defined')}}"
+    - "     📣 IBM Concert project_operator:             {{current_feature.project_operator| default('not defined')}}"
+    - "     📣 IBM Concert docker_exe:                   {{current_feature.docker_exe| default('not defined')}}"
+    - "-----------------------------------------------------------------------------------------------"
+    - "***********************************************************************************************"
+
+
+
+
+- name: 🟣 Installing {{current_feature.kind}} with the following configuration
+  debug:
+    var: current_feature
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INITIALIZATION
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Placeholder for customization
+- name: (001/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
+  include_tasks: 00_init-custom-hook.yaml
+
+# Initialize Logging
+- name: (002/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
+    
+- name: (003/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
+  include_tasks: 02_init-checks.yaml
+ 
+- name: (004/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
+
+# Run Prerequisites
+- name: (005/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
+  include_tasks: 03_init-initialization.yaml
+
+
+- name: (006/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/05_init-get-storage-class.yaml"
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL CONCERT
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (007/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+  include_tasks: 05_concert-prerequisites.yaml
+      
+- name: (008/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+  include_tasks: 10_concert-install.yaml
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# POSTINSTALL TASKS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (009/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+  include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
+  when: global_config.create_ocp_items | default(true) == true  
+
+
+- name: (010/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export appURL=$(oc get routes -n ibm-concert concert  -o jsonpath="{['spec']['host']}")|| true
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+        name: ibm-aiops-notification-main
+    spec:
+        backgroundColor: '#009a00'
+        color: '#fff'
+        link:
+            href: "https://$appURL"
+            text: IBM Concert
+        location: BannerTop
+        text: "✅ IBM Concert is installed in this cluster. 🚀 Access it here:"
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+
+- name:   🚀 IBM Concert -  LOGINS
+  shell: |
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_feature.prod_registry}}
+    export PROD_USER={{current_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ LOGINS"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh get-concert-instance-details
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🫅 User:              kubeadmin"
+    echo "            🔐 Token:             $OCP_TOKEN"
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: (012/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+
+
+
+- name: 🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONE - {{current_feature.kind}}
+  debug: 
+    msg: 
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "                                                                                                                                                   "
+    - "       ✅ IBM IT Automation - DONE INSTALLING {{current_feature.kind}}                                                                                 "
+    - "                                                                                                                                                   "
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+
