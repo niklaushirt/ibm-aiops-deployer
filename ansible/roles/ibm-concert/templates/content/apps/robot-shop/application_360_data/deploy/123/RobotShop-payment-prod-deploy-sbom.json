@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole prod",
-            "name": "cartConsole prod",
+            "bom-ref": "appapi:payment",
+            "name": "payment",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://prod.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/payment"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:payment",
             "dependsOn": [
-                "appapi:cartConsole prod"
+                "appapi:payment"
             ]
         }
     ]

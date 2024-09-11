@@ -250,10 +250,10 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:cart",
+            "name": "cart",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/cart"
             ],
             "properties": [
                 {
@@ -263,10 +263,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:catalogue",
+            "name": "catalogue",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/catalogue"
             ],
             "properties": [
                 {
@@ -276,10 +276,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:dispatch",
+            "name": "dispatch",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/dispatch"
             ],
             "properties": [
                 {
@@ -289,10 +289,23 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:load-gen",
+            "name": "load-gen",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/load-gen"
+            ],
+            "properties": [
+                {
+                    "name": "network_exposure",
+                    "value": "public"
+                }
+            ]
+        },
+        {
+            "bom-ref": "appapi:mongo",
+            "name": "mongo",
+            "endpoints": [
+                "https://robot-shop.com/mongo"
             ],
             "properties": [
                 {
@@ -302,10 +315,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:mysql",
+            "name": "mysql",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/mysql"
             ],
             "properties": [
                 {
@@ -315,10 +328,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:payment",
+            "name": "payment",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/payment"
             ],
             "properties": [
                 {
@@ -328,10 +341,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:ratings",
+            "name": "ratings",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/ratings"
             ],
             "properties": [
                 {
@@ -341,10 +354,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:shipping",
+            "name": "shipping",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/shipping"
             ],
             "properties": [
                 {
@@ -354,36 +367,10 @@
             ]
         },
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:user",
+            "name": "user",
             "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
-            ],
-            "properties": [
-                {
-                    "name": "network_exposure",
-                    "value": "private"
-                }
-            ]
-        },
-        {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
-            "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
-            ],
-            "properties": [
-                {
-                    "name": "network_exposure",
-                    "value": "private"
-                }
-            ]
-        },
-        {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
-            "endpoints": [
-                "https://qa.quote-of-the-day.com/qotd-web/console"
+                "https://robot-shop.com/user"
             ],
             "properties": [
                 {
@@ -392,72 +379,85 @@
                 }
             ]
         }
+        {
+            "bom-ref": "appapi:web",
+            "name": "web",
+            "endpoints": [
+                "https://robot-shop.com/web"
+            ],
+            "properties": [
+                {
+                    "name": "network_exposure",
+                    "value": "public"
+                }
+            ]
+        }
     ],
     "dependencies": [
         {
             "ref": "build:cart",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:cart"
             ]
         },
         {
             "ref": "build:catalogue",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:catalogue"
             ]
         },
         {
             "ref": "build:dispatch",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:dispatch"
             ]
         },
         {
             "ref": "build:load-gen",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:load-gen"
             ]
         },
         {
             "ref": "build:mongo",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:mongo"
             ]
         },
         {
             "ref": "build:mysql",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:mysql"
             ]
         },
         {
             "ref": "build:payment",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:payment"
             ]
         },
         {
             "ref": "build:ratings",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:cratings"
             ]
         },
         {
             "ref": "build:shipping",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:shipping"
             ]
         },
         {
             "ref": "build:user",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:user"
             ]
         },
         {
             "ref": "build:web",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:web"
             ]
         }
     ],

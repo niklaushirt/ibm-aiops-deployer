@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole prod",
-            "name": "cartConsole prod",
+            "bom-ref": "appapi:user",
+            "name": "user",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://prod.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/user"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:user",
             "dependsOn": [
-                "appapi:cartConsole prod"
+                "appapi:user"
             ]
         }
     ]

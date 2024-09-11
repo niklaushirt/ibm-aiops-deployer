@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole prod",
-            "name": "cartConsole prod",
+            "bom-ref": "appapi:shipping",
+            "name": "shipping",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://prod.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/shipping"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:shipping",
             "dependsOn": [
-                "appapi:cartConsole prod"
+                "appapi:shipping"
             ]
         }
     ]

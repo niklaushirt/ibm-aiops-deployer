@@ -251,7 +251,7 @@
         -H 'Content-Type: multipart/form-data' \
         -F "data_type=certificate" \
         -F 'metadata={"env_name": "prod"}' \
-        -F "filename=@./roles/ibm-concert/templates/content/certificates/certificate_sample_prod.csv"
+        -F "filename=@./roles/ibm-concert/templates/content/certificates/certificates-demo.json"
 
   register: output_string
   ignore_errors: true

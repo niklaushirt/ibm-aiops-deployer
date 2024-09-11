@@ -1,7 +1,7 @@
 {
     "bomFormat": "ConcertDef",
     "specVersion": "1.0",
-    "serialNumber": "urn:ibm:appmgmt:RobotShop:catalogue:deploy:qa:123",
+    "serialNumber": "urn:ibm:appmgmt:RobotShop:catalogue:deploy:qa:125",
     "version": 1,
     "metadata": {
         "timestamp": "2024-09-06T15:22:46Z",
@@ -43,19 +43,19 @@
             "properties": [
                 {
                     "name": "bom-link-build",
-                    "value": "urn:ibm:appmgmt:RobotShop:catalogue:build:1234/1"
+                    "value": "urn:ibm:appmgmt:RobotShop:catalogue:build:1254/1"
                 }
             ]
         }
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:catalogue",
+            "name": "catalogue",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://qa.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/catalogue"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:catalogue",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:catalogue"
             ]
         }
     ]

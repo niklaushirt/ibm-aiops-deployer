@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:ratings",
+            "name": "ratings",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://qa.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/ratings"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:ratings",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:ratings"
             ]
         }
     ]

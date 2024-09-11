@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:web",
+            "name": "web",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://qa.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/web"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:web",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:web"
             ]
         }
     ]

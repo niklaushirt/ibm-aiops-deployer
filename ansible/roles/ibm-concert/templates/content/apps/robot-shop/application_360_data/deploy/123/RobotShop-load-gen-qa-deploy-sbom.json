@@ -50,12 +50,12 @@
     ],
     "services": [
         {
-            "bom-ref": "appapi:cartConsole qa",
-            "name": "cartConsole qa",
+            "bom-ref": "appapi:load-gen",
+            "name": "load-gen",
             "properties": [
                 {
                     "name": "base_url",
-                    "value": "https://qa.quote-of-the-day.com/qotd-web/console"
+                    "value": "https://robot-shop.com/load-gen"
                 }
             ]
         },
@@ -94,7 +94,7 @@
         {
             "ref": "deploy:load-gen",
             "dependsOn": [
-                "appapi:cartConsole qa"
+                "appapi:load-gen"
             ]
         }
     ]
