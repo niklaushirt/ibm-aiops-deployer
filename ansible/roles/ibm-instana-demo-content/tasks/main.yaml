@@ -141,6 +141,15 @@
 
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL DEMO APPS
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Create Demo Apps
+- name: (001/001) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
+  include_tasks: 23_addons-demoapps.yaml
+  when: current_feature.install_demoapps == true
+
+
 
 - name: 🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
