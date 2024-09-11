@@ -53,9 +53,21 @@ data:
     #*************************************************************************************************************************************************
 
     global_config:
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Passwords and Licenses
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Use this Password for all Instances
+      global_password: CHANGEME
+
+
       # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
       environment_name: Bear
       cloud_platform: existing-ocp
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
+      # Key to decrypt Licenses
+      #license_token: NONE
+
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Pull Registires
@@ -63,7 +75,7 @@ data:
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
-      current_supported_aiops_version: v4.6
+      current_supported_aiops_version: v4.7
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -78,15 +90,7 @@ data:
       position_final_ocp_notification: BannerTop
 
 
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Passwords and Licenses
-      # --------------------------------------------------------------------------------------------------------------------------------------
-      # Use this Password for all Instances
-      global_password: CHANGEME
-      # Set this value to True to accept all licenses
-      accept_all_licenses: False
-      # Key to decrypt Licenses
-      #license_token: NONE
+
 
 
     # *************************************************************************************************************************************************
@@ -113,22 +117,25 @@ data:
 
 
 
+
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
+   
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # IBM INSTANA
     # --------------------------------------------------------------------------------------------------------------------------------------
+   
     - project: ibm-instana
       instances:
 
       - name: ibm-instana
         kind: IBMInstana
-        install: false
+        install: true
 
         # ---------------------------------------------------------------------
         # INSTANA LICENSE
@@ -172,7 +179,7 @@ data:
 
       - name: ibm-instana-demo-content
         kind: IBMInstanaDemoContent
-        install: false
+        install: true
 
 
 

@@ -77,7 +77,7 @@ data:
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
-      current_supported_aiops_version: v4.6
+      current_supported_aiops_version: v4.7
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -124,17 +124,19 @@ data:
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
+   
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # IBM TURBONOMIC
     # --------------------------------------------------------------------------------------------------------------------------------------
+    
     - project: ibm-turbonomic
       instances:
 
       - name: ibm-turbonomic
         kind: IBMTurbonomic
-        install: false
+        install: true
         turbo_version: 8.13.3
 
         # --------------------------------------------------------------------------------------------------------------------------------------
@@ -146,7 +148,7 @@ data:
 
       - name: ibm-turbonomic-demo-content
         kind: IBMTurbonomicDemoContent
-        install: false
+        install: true
         # Admin User Password (OVERRIDES GLOBAL PASSWORD)
         #turbo_admin_password: CHANGEME
         # ---------------------------------------------------------------------
