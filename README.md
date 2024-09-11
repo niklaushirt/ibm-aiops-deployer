@@ -13,6 +13,7 @@
 
 
 <BR>
+
 ### ⚠️ Disclaimer
 
 <details>
@@ -98,7 +99,7 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 ## 🚀 Getting Started
 
-🐥 [Quick Install](#1-preparation)
+Basically:
 
 * Get an OpenShift Cluster
 * Get your entitlement key/pull token
@@ -106,19 +107,28 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 * Grab a coffe and come back after 2-3 hours depending on the modules you're installing
 
 
+### 🐥 Quick Install
 
+🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
 
+🚀 [Quick Install - IBM Concert](#22--install-ibm-concert-with-demo-content)
 
+🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
 
-🚀 [Demo the Solution](#31-demo-the-solution)
-
-🤓 [Demo Setup - Explained](#5-demo-setup---explained)
-
-📦 [Create a custom Scenario](#6-custom-scenarios)
+🚀 [Quick Install - IBM Instana](#24--install-ibm-instana-with-demo-content)
 
 🧨 [Troubleshooting](#4-troubleshooting)
 
-📱 [Slack integration](#4-slack-integration) (optional)
+🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
+
+### 🐥 CloudPak for AIOps specific
+🚀 [Demo the Solution](#31-demo-the-solution)
+
+🤓 [Demo Setup - Explained](#33-demo-setup---explained)
+
+📦 [Create a custom Scenario](#34-demo-setup---explained)
+
+🧨 [Troubleshooting](#4-troubleshooting)
 
 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
