@@ -99,7 +99,7 @@
     #verbosity: 1
 
 
-- name:   🚀 IBM Concert - Demo Content Compliance
+- name:   🚀 IBM Concert - aaaaaa
   shell: |
     set -x
     echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -116,6 +116,15 @@
     pwd
 
     ls
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
 
 
 
