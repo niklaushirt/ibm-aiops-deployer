@@ -41,7 +41,7 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-concert-install-configuration
+  name: ibm-install-configuration-concert
   namespace: ibm-installer
 immutable: false
 data:
@@ -367,12 +367,12 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-concert-install-configuration
+                name: ibm-install-configuration-concert
                 key: INSTALL_REPO
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-concert-install-configuration
+                name: ibm-install-configuration-concert
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -381,7 +381,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-concert-install-configuration
+            name: ibm-install-configuration-concert
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

@@ -99,32 +99,6 @@
     #verbosity: 1
 
 
-- name:   🚀 IBM Concert - aaaaaa
-  shell: |
-    set -x
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " 🚀 TEST aaaaaaaaa"
-    echo "1------------------------------------------------------------------------------------------------------------------------------"
-
-    cat ./templates/content/compliance/sample-compliance/NIST_SP-800-53_rev4_LOW-baseline-resolved-profile_catalog.json;type=application/json
-    echo "2------------------------------------------------------------------------------------------------------------------------------"
-
-    pwd
-    echo "3------------------------------------------------------------------------------------------------------------------------------"
-
-    ls
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    #verbosity: 1
-
-
-
 - name:   🚀 IBM Concert - Demo Content Compliance
   shell: |
     set -x

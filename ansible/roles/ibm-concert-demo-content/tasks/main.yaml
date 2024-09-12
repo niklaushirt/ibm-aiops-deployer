@@ -140,19 +140,19 @@
 
 
 
-# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# # INSTALL PREREQUISITES
-# # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# # Install OpenLDAP
-# - name: (007/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
-#   include_tasks: 21_addons-ldap.yaml
-#   when: current_feature.install_ldap == true
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL PREREQUISITES
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Install OpenLDAP
+- name: (007/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
+  include_tasks: 21_addons-ldap.yaml
+  when: current_feature.install_ldap == true
 
 
-# # Register LDAP Users
-# - name: (008/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM Concert
-#   include_tasks: 25-post-ldap-register.yaml
-#   when: current_feature.install_ldap == true and current_feature.ldap_register == true
+# Register LDAP Users
+- name: (008/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM Concert
+  include_tasks: 25-post-ldap-register.yaml
+  when: current_feature.install_ldap == true and current_feature.ldap_register == true
 
 
 
