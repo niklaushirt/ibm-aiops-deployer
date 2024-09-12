@@ -156,7 +156,7 @@
 
 
 - name: 🟡🟡🟡 Install OCP Menu Item
-  include_tasks: 91_addons-instana-create-ocp-tools-menu.yaml
+  include_tasks: 91_addons-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
 
