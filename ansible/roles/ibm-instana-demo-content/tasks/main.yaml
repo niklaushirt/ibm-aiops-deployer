@@ -152,7 +152,7 @@
 
 - name: (002/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
   include_tasks: 27_ibm-home-ui.yaml
-  when: current_feature.create_home_ui == true | default('false')
+  when: current_feature.create_home_ui | default(false) == true
 
 
 - name: 🟡🟡🟡 Install OCP Menu Item

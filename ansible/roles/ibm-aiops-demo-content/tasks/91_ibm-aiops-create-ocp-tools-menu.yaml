@@ -237,6 +237,6 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.create_home_ui == true | default('false')
+  when: current_feature.create_home_ui | default(false) == true
 
 
