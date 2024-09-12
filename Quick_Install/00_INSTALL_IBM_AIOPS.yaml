@@ -401,8 +401,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-aiops
-  namespace: ibm-installer
+  name: ibm-install-aiops
 spec:
 
   template:

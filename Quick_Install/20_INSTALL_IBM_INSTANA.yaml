@@ -250,7 +250,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-aiops-install-instana
+  name: ibm-install-instana
   namespace: ibm-installer
 spec:
 

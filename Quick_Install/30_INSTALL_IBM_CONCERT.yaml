@@ -254,7 +254,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-concert-install
+  name: ibm-install-concert
   namespace: ibm-installer
 spec:
 

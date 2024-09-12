@@ -184,7 +184,7 @@
   when: current_feature.integrate_ocp_openldap | default(false) == true  
 
 - name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
-  include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
+  include_tasks: 91_addons-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
 - name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
