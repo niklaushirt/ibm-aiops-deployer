@@ -155,6 +155,11 @@
   when: current_feature.create_home_ui == true | default('false')
 
 
+- name: 🟡🟡🟡 Install OCP Menu Item
+  include_tasks: 91_addons-instana-create-ocp-tools-menu.yaml
+  when: global_config.create_ocp_items | default(true) == true  
+
+
 - name: 🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
 
