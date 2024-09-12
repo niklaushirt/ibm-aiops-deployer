@@ -145,10 +145,14 @@
 # INSTALL DEMO APPS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Create Demo Apps
-- name: (001/001) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
+- name: (001/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
   when: current_feature.install_demoapps | default(false) == true
 
+
+- name: (002/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
+  include_tasks: 27_ibm-home-ui.yaml
+  when: current_feature.create_home_ui == true | default('false')
 
 
 - name: 🟡🟡🟡 End Logging

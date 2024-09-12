@@ -171,6 +171,10 @@ data:
         install_demo_content: true
         install_demoapps: true
 
+        # ---------------------------------------------------------------------
+        # Create a custom app to show links to all installed IT Automation Products
+        create_home_ui: false
+      
 
         # ---------------------------------------------------------------------
         # LDAP

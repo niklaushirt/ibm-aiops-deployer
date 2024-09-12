@@ -116,25 +116,25 @@
 # INITIALIZATION
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Placeholder for customization
-- name: (001/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
   include_tasks: 00_init-custom-hook.yaml
 
 # Initialize Logging
-- name: (002/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
+- name: (002/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
     
-- name: (003/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
+- name: (003/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
   include_tasks: 02_init-checks.yaml
  
-- name: (004/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
+- name: (004/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
-- name: (005/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
+- name: (005/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
   include_tasks: 03_init-initialization.yaml
 
 
-- name: (006/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
+- name: (006/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/05_init-get-storage-class.yaml"
 
 
@@ -144,13 +144,13 @@
 # # INSTALL PREREQUISITES
 # # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # # Install OpenLDAP
-# - name: (007/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
+# - name: (007/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install OpenLDAP
 #   include_tasks: 21_addons-ldap.yaml
 #   when: current_feature.install_ldap == true
 
 
 # # Register LDAP Users
-# - name: (008/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM Concert
+# - name: (008/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Register LDAP Server with IBM Concert
 #   include_tasks: 25-post-ldap-register.yaml
 #   when: current_feature.install_ldap == true and current_feature.ldap_register == true
 
@@ -160,7 +160,7 @@
 # INSTALL DEMO CONTENT
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Install Demo Content
-- name: (009/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install Demo Content
+- name: (009/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install Demo Content
   include_tasks: 30_concert-install-demo-content.yaml
   when: current_feature.install_demo_content == true | default(false)
 
@@ -170,7 +170,7 @@
 # INSTALL DEMO APPS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Create Demo Apps
-- name: (010/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
+- name: (010/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
   when: current_feature.install_demoapps | default(false) == true
 
@@ -179,18 +179,21 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # POSTINSTALL TASKS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (011/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
+- name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
   include_tasks: 90_integrate-ocp-openldap.yaml
   when: current_feature.integrate_ocp_openldap | default(false) == true  
 
-- name: (012/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+- name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
   when: global_config.create_ocp_items | default(true) == true  
 
+- name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
+  include_tasks: 27_ibm-home-ui.yaml
+  when: current_feature.create_home_ui == true | default('false')
 
 
 
-- name: (013/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+- name: (014/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
 
 
@@ -261,7 +264,7 @@
   args:
     executable: /bin/bash
 
-- name: (012/013) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
+- name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1

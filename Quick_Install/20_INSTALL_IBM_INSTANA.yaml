@@ -159,6 +159,12 @@ data:
         integrate_ibmaiops: true
         #integrate_turbonomic: true
         
+
+        # ---------------------------------------------------------------------
+        # Create a custom app to show links to all installed IT Automation Products
+        create_home_ui: false
+        
+
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
         # --------------------------------------------------------------------------------------------------------------------------------------
