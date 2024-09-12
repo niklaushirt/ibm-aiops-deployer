@@ -42,24 +42,24 @@
 
 
 
-- name: 🌏 OCP MENU - Create Openshift WebConsole Menu Item - Concert
+- name: 🌏 OCP MENU - Create Openshift WebConsole Menu Item - Instana
   shell: |
-    appURL=$(oc get routes -n ibm-concert concert  -o jsonpath="{['spec']['host']}")|| true
+    appURL=$(oc get routes -n instana-core dev-aiops  -o jsonpath="{['spec']['host']}")|| true
 
     cat <<EOF | oc apply -f -
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibm-concert
+        name: ibm-instana-install
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation-white.svg
-          section: IBM IT Automation
+            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/instana-icon.svg
+          section: IBM AIOps Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM Concert
+        text: Instana
     EOF
   ignore_errors: true
   args:
