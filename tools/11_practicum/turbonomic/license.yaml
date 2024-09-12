@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-turbonomic-license
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
   template:
     spec:

@@ -17,15 +17,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-aiops-topology-hack-for-43
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibm-installer
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2

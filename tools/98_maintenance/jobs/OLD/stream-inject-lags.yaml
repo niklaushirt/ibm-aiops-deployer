@@ -3,12 +3,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-load-lags-normal
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
   template:
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
-      serviceAccount: ibm-aiops-installer-admin
+      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
 
       containers:
         - name: load

@@ -27,8 +27,8 @@ echo "--------------------------------------------------------------------------
 echo " 🧻 Delete Namespace openldap"
 oc delete ns openldap &
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibm-aiops-installer"
-oc delete ns ibm-aiops-installer &
+echo " 🧻 Delete Namespace ibm-installer"
+oc delete ns ibm-installer &
 
 oc delete serviceaccount -n default demo-admin
 
@@ -40,8 +40,8 @@ oc delete ClusterRoleBinding default-robotinfo2-admin
 oc delete ClusterRoleBinding default-sockinfo1-admin           
 oc delete ClusterRoleBinding default-sockinfo2-admin           
 oc delete ClusterRoleBinding ibm-aiops-demo-ui-admin-crb       
-oc delete ClusterRoleBinding ibm-aiops-installer-admin         
-oc delete ClusterRoleBinding ibm-aiops-installer-default-admin 
+oc delete ClusterRoleBinding ibm-installer-admin         
+oc delete ClusterRoleBinding ibm-installer-default-admin 
 oc delete ClusterRoleBinding robot-shop                        
 oc delete ClusterRoleBinding test-admin    
 

@@ -37,7 +37,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION METRICS LOAD
   shell: |
     while : ; do
-          READY=$(oc get jobs -n ibm-aiops-installer --ignore-not-found load-metric-cassandra)
+          READY=$(oc get jobs -n ibm-installer --ignore-not-found load-metric-cassandra)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -62,7 +62,7 @@
 
 # - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS METRICS LOAD
 #   shell: |
-#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-metric-cassandra|awk '{print$1}')
+#     oc delete pod  -n ibm-installer --ignore-not-found $(oc get po -n ibm-installer|grep load-metric-cassandra|awk '{print$1}')
 #   register: ES_READY
 #   ignore_errors: true
 
@@ -70,7 +70,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION SNOW LOAD
   shell: |
       while : ; do
-          READY=$(oc get jobs -n ibm-aiops-installer --ignore-not-found load-snow-indexes)
+          READY=$(oc get jobs -n ibm-installer --ignore-not-found load-snow-indexes)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -95,7 +95,7 @@
 
 # - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS SNOW LOAD
 #   shell: |
-#     oc delete pod  -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-snow-indexes|awk '{print$1}')
+#     oc delete pod  -n ibm-installer --ignore-not-found $(oc get po -n ibm-installer|grep load-snow-indexes|awk '{print$1}')
 #   register: ES_READY
 #   ignore_errors: true
 
@@ -106,7 +106,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION LAD LOAD
   shell: |
       while : ; do
-          READY=$(oc get jobs -n ibm-aiops-installer --ignore-not-found load-lags-indexes)
+          READY=$(oc get jobs -n ibm-installer --ignore-not-found load-lags-indexes)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then

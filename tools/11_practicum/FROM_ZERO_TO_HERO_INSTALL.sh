@@ -2,31 +2,31 @@ cat << EOF | oc apply -f -
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibm-installer
 ---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: ibm-aiops-installer-admin
-  namespace: ibm-aiops-installer
+  name: ibm-installer-admin
+  namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibm-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: ibm-aiops-installer-admin
-    namespace: ibm-aiops-installer
+    name: ibm-installer-admin
+    namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-default-admin
+  name: ibm-installer-default-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34,15 +34,15 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibm-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: aiops-easy-install-aimanager-practicum
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     spec:
       containers:

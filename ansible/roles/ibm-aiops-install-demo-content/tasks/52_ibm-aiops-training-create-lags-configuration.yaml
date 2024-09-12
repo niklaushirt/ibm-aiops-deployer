@@ -111,7 +111,7 @@
         location: "BannerTop"
         text: "❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod"
         link:
-            href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+            href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
             text: Open Logs
     EOF
     exit 1

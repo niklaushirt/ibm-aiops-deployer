@@ -3,7 +3,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: ibm-aiops-install-configuration-aiops-demo-content
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
   annotations:
     argocd.argoproj.io/sync-wave: "020"
 immutable: false

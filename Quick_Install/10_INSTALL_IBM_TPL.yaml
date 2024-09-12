@@ -35,13 +35,13 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibm-installer
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: ibm-install-configuration-turbo
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 immutable: false
 data:
   TURBO_LICENSE: >-
@@ -511,26 +511,26 @@ data:
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: ibm-aiops-installer-admin
-  namespace: ibm-aiops-installer
+  name: ibm-installer-admin
+  namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibm-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: ibm-aiops-installer-admin
-    namespace: ibm-aiops-installer
+    name: ibm-installer-admin
+    namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-default-admin
+  name: ibm-installer-default-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -538,21 +538,21 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibm-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-install-turbo
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
 
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibm-installer
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -584,8 +584,8 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Housekeeping"
               oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
-              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
-              oc delete pod  -n ibm-aiops-installer $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete job  -n ibm-installer --ignore-not-found $(oc get job -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete pod  -n ibm-installer $(oc get po -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
               echo ""
               echo ""
 

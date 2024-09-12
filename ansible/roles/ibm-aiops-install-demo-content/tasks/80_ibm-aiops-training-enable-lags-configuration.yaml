@@ -46,7 +46,7 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   RE-START - LOAD LOG TRAINING DATA"
-    oc delete pod -n ibm-aiops-installer --ignore-not-found $(oc get po -n ibm-aiops-installer|grep load-lags-indexes|awk '{print$1}')
+    oc delete pod -n ibm-installer --ignore-not-found $(oc get po -n ibm-installer|grep load-lags-indexes|awk '{print$1}')
 
   register: output_string
   ignore_errors: true
@@ -69,7 +69,7 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Waiting for LAGS data load to complete"
-    while [ `oc get po -n ibm-aiops-installer|grep Completed| grep -c ""` -lt 1 ]
+    while [ `oc get po -n ibm-installer|grep Completed| grep -c ""` -lt 1 ]
     do
       echo "       ⏳ Waiting for data load"
       sleep 15
@@ -124,7 +124,7 @@
 
 #     echo "***************************************************************************************************************************************************"
 #     echo "   🛠️   Waiting for LAGS data load to complete"
-#     while [ `oc get po -n ibm-aiops-installer|grep Completed| grep -c ""` -lt 1 ]
+#     while [ `oc get po -n ibm-installer|grep Completed| grep -c ""` -lt 1 ]
 #     do
 #       echo "       ⏳ Waiting for data load"
 #       sleep 15

@@ -23,7 +23,7 @@ echo "**************************************************************************
 echo " ❌ FATAL ERROR: Please check the Installation Logs"
 echo "*****************************************************************************************************************************"
 OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
 oc delete ConsoleNotification ibm-aiops-notification
 cat <<EOF | oc apply -f -
@@ -37,7 +37,7 @@ spec:
     location: "BannerTop"
     text: "❌ FATAL ERROR: Please check the Installation Logs and re-run the installer by deleting the Pod"
     link:
-        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
         text: Open Logs
 
 EOF
@@ -73,7 +73,7 @@ echo " 🟢🟢🟢 Logs are looking good."
 # if [ $num_failed -gt 0 ];
 # then
 # OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-# INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|awk '{print$1}')
+# INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|awk '{print$1}')
 
 # cat <<EOF | oc apply -f -
 # apiVersion: console.openshift.io/v1
@@ -86,7 +86,7 @@ echo " 🟢🟢🟢 Logs are looking good."
 #     location: "BannerTop"
 #     text: "❗ There were some non-critical errors: Please check the Installation Logs"
 #     link:
-#         href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+#         href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
 #         text: Open Logs
 # EOF
 # fi

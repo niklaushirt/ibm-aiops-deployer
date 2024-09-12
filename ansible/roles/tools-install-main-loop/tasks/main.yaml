@@ -82,7 +82,7 @@
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
     OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-    INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+    INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
     oc delete ConsoleNotification --all
     cat <<EOF | oc apply -f -
@@ -96,7 +96,7 @@
         location: "BannerBottom"
         text: "❌ FATAL ERROR: Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
         link:
-            href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/configmaps/ibm-aiops-install-configuration/yaml"
+            href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/configmaps/ibm-aiops-install-configuration/yaml"
             text: Modify your Configuration
 
     EOF

@@ -257,9 +257,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-install-instana-addons
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     spec:
       containers:
@@ -2625,7 +2625,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Delete Job - myself"
-              oc delete job -n ibm-aiops-installer ibm-aiops-install-instana-addons
+              oc delete job -n ibm-installer ibm-aiops-install-instana-addons
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"

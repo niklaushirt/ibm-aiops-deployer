@@ -3,17 +3,17 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-aiops-install-demo-content
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
   annotations:
     argocd.argoproj.io/sync-wave: "030"
 spec:
-  serviceAccountname: ibm-aiops-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibm-installer
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -45,8 +45,8 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Housekeeping"
               oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
-              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
-              oc delete pod  -n ibm-aiops-installer $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete job  -n ibm-installer --ignore-not-found $(oc get job -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete pod  -n ibm-installer $(oc get po -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
               echo ""
               echo ""
 

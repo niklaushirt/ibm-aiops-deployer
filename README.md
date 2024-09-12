@@ -1689,7 +1689,7 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 > #### ❗ It won't destroy anything!
 
 1. Go to your OpenShift UI
-2. Select Namespace `ibm-aiops-installer`
+2. Select Namespace `ibm-installer`
 3. Select Workloads/Pods
 4. You should see something like this
 
