@@ -35,7 +35,7 @@
 
 - name: tools-install-modules-loop 🌡   CHECK for - IBM AIOps Demo Content
   include_role:
-    name: ibm-aiops-install-demo-content
+    name: ibm-aiops-demo-content
   when: current_feature.kind=="IBMAIOpsDemoContent" and current_feature.install==true
 
 

@@ -12,9 +12,25 @@ import os
 import time
 from pathlib import Path
 
+
+DEMO_USER=""
+DEMO_PWD=""
+TURBO_URL=''
+AIOPS_URL=''
+CONCERT_URL=''
+INSTANA_URL=''
+
+
+DEMO_PWD=os.environ.get('GLOBAL_PWD')
+if DEMO_PWD == None:
+    DEMO_PWD="UNDEFINED"
+
+
 INSTANCE_NAME=os.environ.get('INSTANCE_NAME')
 if INSTANCE_NAME == None:
     INSTANCE_NAME="IBMAIOPS"
+
+
 
 image_name=INSTANCE_NAME.lower().replace(" ", "_")+".png"
 path = Path('./homeapp/static/images/characters/'+image_name)
@@ -25,12 +41,6 @@ if path.is_file():
 else:
     INSTANCE_IMAGE="None"
 
-DEMO_USER="test"
-DEMO_PWD="test"
-TURBO_URL=''
-AIOPS_URL=''
-CONCERT_URL=''
-INSTANA_URL=''
 
 
 print('     ❓ Getting Details Turbonomic Route')

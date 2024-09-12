@@ -596,9 +596,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          TOPOLOGY_CUSTOM_FILE=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config_46.json"
+          TOPOLOGY_CUSTOM_FILE=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/asm_config_46.json"
     else
-          TOPOLOGY_CUSTOM_FILE="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config_46.json"
+          TOPOLOGY_CUSTOM_FILE="./ansible/roles/ibm-aiops-demo-content/templates/topology/asm_config_46.json"
     fi    
     kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
     
@@ -650,9 +650,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     echo $FILE_OBSERVER_POD
     echo $FILE_OBSERVER_CAP
@@ -734,9 +734,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     echo $FILE_OBSERVER_POD
     echo $FILE_OBSERVER_CAP
@@ -816,9 +816,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
     echo $FILE_OBSERVER_POD
@@ -901,9 +901,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
     echo $FILE_OBSERVER_POD
