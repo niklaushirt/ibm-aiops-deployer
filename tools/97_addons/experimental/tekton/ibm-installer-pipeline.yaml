@@ -1,10 +1,19 @@
+---
+apiVersion: v1                     
+kind: Namespace
+metadata:
+  name: ibm-installer
+---
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: ibm-xxx-deploy
-  namespace: default
+  name: ibm-installer
+  namespace: ibm-installer
 spec:
   params:
+    - name: OFFERING
+      type: string
+      default: "CONCERT"
     - name: ENTITLED_REGISTRY_KEY
       type: string
       default: "NONE"
@@ -29,9 +38,8 @@ spec:
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
           script: |
             #!/usr/bin/env bash
-            cat $(workspaces.ws.path)/sources/tools/97_addons/experimental/tekton/30_INSTALL_IBM_CONCERT.yaml
-            oc apply -f $(workspaces.ws.path)/sources/tools/97_addons/experimental/tekton/30_INSTALL_IBM_CONCERT.yaml
-    
+            cat $(workspaces.ws.path)/sources/tools/97_addons/experimental/tekton/INSTALL_IBM_$(params.OFFERING).yaml
+            oc apply -f $(workspaces.ws.path)/sources/tools/97_addons/experimental/tekton/INSTALL_IBM_$(params.OFFERING).yaml
         workspaces:
           - name: ws
 

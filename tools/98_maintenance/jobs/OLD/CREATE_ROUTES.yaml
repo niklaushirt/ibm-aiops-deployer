@@ -139,14 +139,14 @@ spec:
               existing=$(oc get route job-manager -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route edge job-manager -n $AIOPS_NAMESPACE --service=ibm-aiops-eventprocessor-eve-29ee-ep-jobmanager --port=ui
+                oc create route passthrough job-manager -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-lad-flink-api --port=ssl-port
               fi
 
 
               existing=$(oc get route job-manager-policy -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
               if [[ $existing == "" ]]; then
                 echo "Create Route"
-                oc create route edge job-manager-policy -n $AIOPS_NAMESPACE --service=aiops-ir-lifecycle-eventprocessor-ep-jobmanager --port=ui
+                oc create route passthrough job-manager-policy -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-ir-lifecycle-flink-api --port=ssl-port
               fi
 
 
