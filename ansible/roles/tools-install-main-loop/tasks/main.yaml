@@ -121,19 +121,18 @@
 
 
 # Loop over all instances
-- name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibm_feature.project}}
-  debug:
-    msg: 
-    - "***************************************************************************************************************************************************"
-    - "{{current_ibm_feature.project}} - {{current_ibm_feature.instances}} - {{current_ibm_feature.install}}"
+- name: MAIN LOOP   🚀 List IBM Assets - Loop over Instances for {{current_ibm_feature.project}}
+  include_role:
+    name: tools-list-modules-loop
   loop: "{{ current_ibm_feature.instances}}"
   loop_control:
     loop_var: current_feature
 
 
 
+
 # Loop over all instances
-- name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibm_feature.project}}
+- name: MAIN LOOP   🚀 Deploy IBM Assets - Loop over Instances for {{current_ibm_feature.project}}
   include_role:
     name: tools-install-modules-loop
   loop: "{{ current_ibm_feature.instances}}"
