@@ -119,6 +119,19 @@
     _p_openshift_cluster_name: "{{ _current_openshift_cluster.name }}"
     _p_openshift_storage_name: "{{ current_ibm_feature.openshift_storage_name | default('') }}"
 
+
+# Loop over all instances
+- name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibm_feature.project}}
+  debug:
+    msg: 
+    - "***************************************************************************************************************************************************"
+    - "{{current_ibm_feature.project}} - {{current_ibm_feature.instances}} - {{current_ibm_feature.install}}"
+  loop: "{{ current_ibm_feature.instances}}"
+  loop_control:
+    loop_var: current_feature
+
+
+
 # Loop over all instances
 - name: MAIN LOOP   🚀 Deploy IBM AIOps Assets - Loop over Instances for {{current_ibm_feature.project}}
   include_role:
