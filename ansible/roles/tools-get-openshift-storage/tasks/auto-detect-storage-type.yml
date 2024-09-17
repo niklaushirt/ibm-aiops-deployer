@@ -23,6 +23,11 @@
   when: _openshift_storage_classes.stdout is search("ocs-storagecluster-ceph-rbd")
 
 - set_fact:
+    _storage_type: 'ocs-ext'
+  when: _openshift_storage_classes.stdout is search("ocs-external-storagecluster-ceph-rbd")
+
+
+- set_fact:
     _storage_type: 'aws-elastic'
   when: _openshift_storage_classes.stdout is search("efs-nfs-client")
 

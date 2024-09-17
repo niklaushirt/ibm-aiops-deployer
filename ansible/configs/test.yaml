@@ -1,6 +1,6 @@
 #*************************************************************************************************************************************************
 #--------------------------------------------------------------------------------------------------------------------------------------
-# IBMAIOPS PRACTICUM
+# IBMAIOPS PRACTICUM WPREREQUISITES
 #--------------------------------------------------------------------------------------------------------------------------------------
 #*************************************************************************************************************************************************
 
@@ -9,7 +9,7 @@ global_config:
   # Passwords and Licenses
   # --------------------------------------------------------------------------------------------------------------------------------------
   # Use this Password for all Instances
-  global_password: CHANGEME
+  global_password: asgdgadsagsdgdsa
 
 
   # Available Names: Aajla, AIOPS, Amy, Anakin, Arya, Austin, Bart, Batman, Bear, Bob, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Daenerys, Daffy, Darth, Demo, Dexter, Dilbert, Finn, Freddie, Grogu, Groot, Han, Harley, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Lemmy, Luke, Nightking, Obiwan, Padme, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, Tormund, Tyrion, Walker, Watson, Wedge,,,
@@ -111,17 +111,17 @@ ibmitautomation:
     training_enable_log_golden_signals: false
 
     # Enable Event Temporal Grouping
-    training_load_data_events: true
+    training_load_data_events: false
     training_create_training_temporal: false
     training_run_training_temporal: false
 
     # Enable Similar Incidents
-    training_load_data_snow: true
+    training_load_data_snow: false
     training_create_training_snow: false
     training_run_training_snow: false
 
     # Enable Metric Anomaly
-    training_load_data_metrics: true
+    training_load_data_metrics: false
     training_create_training_metrics: false
     training_run_training_metrics: false
 
@@ -138,10 +138,10 @@ ibmitautomation:
     # Install DemoApps K8s Observer
     install_demoapps_observer: false
     # Create Topology
-    create_topology_templates: true
+    create_topology_templates: false
     create_topology_apps: false
     # Create Custom overlay topology
-    install_custom_topology: true
+    install_custom_topology: false
 
 
     # ---------------------------------------------------------------------
@@ -156,15 +156,15 @@ ibmitautomation:
 
     # ---------------------------------------------------------------------
     # Demo UI
-    install_demo_ui: true
-    demoui_admin_mode: "true"
-    demoui_simulation_mode: "true"
+    install_demo_ui: false
+    demoui_admin_mode: "false"
+    demoui_simulation_mode: "false"
     demoui_user: demo
     # Password for the Demo UI (OVERRIDES GLOBAL PASSWORD)
     #demoui_pwd: CHANGEME
 
     # Create incident links to static Slack and Snow pages
-    demoui_create_slack_snow: true
+    demoui_create_slack_snow: false
 
 
 
@@ -189,28 +189,20 @@ ibmitautomation:
     # ---------------------------------------------------------------------
     # MISC PARAMETERS (you should not modify those)
     # Create external routes (needed to create demo content)
-    create_external_routes: true
+    create_external_routes: false
 
     # Create a valid ingress certificate when on ITZ
-    create_valid_ingress_itz: true
+    create_valid_ingress_itz: false
 
     # Create Policy for Story Creation
     create_incident_policy: false
 
 
     # Create Service Account
-    create_account: false
+    create_account: true
 
 
 
-- project: ibm-aiops-addons
-  instances:
-  # --------------------------------------------------------------------------------------------------------------------------------------
-  # CP4WAIOPS ELK
-  # --------------------------------------------------------------------------------------------------------------------------------------
 
-  - name: ibm-aiops-elk
-    kind: ELK
-    install: true
 
 
