@@ -27,9 +27,9 @@
 
 
 
-- name: tools-list-modules-loop 🌡   PPPP
+- name: tools-list-modules-loop 🌡   LIST PRODUCT FEATURES 
   debug:
     msg: 
     - "***************************************************************************************************************************************************"
-    - "{{current_ibm_feature.project}} - {{current_feature.kind}} - {{current_ibm_feature.install}}"
+    - "{{current_ibm_feature.project}} - {{current_feature.kind}} - {{current_feature.install}}"
 
