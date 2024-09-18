@@ -278,6 +278,9 @@ EOF
       echo ""
 
 
+
+
+
       export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
       export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
 
