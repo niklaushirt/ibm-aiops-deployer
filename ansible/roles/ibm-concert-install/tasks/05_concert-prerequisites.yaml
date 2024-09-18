@@ -25,7 +25,6 @@
 
 
 
-# Create aiops-topology-service-account
 - name:   🚀 PREREQUISITES - Patch default storage class if non defined
   shell: |
     export default=$(oc get storageclass -oyaml|grep "is-default-class"|wc -l|tr -d " ")
@@ -37,6 +36,16 @@
         echo "Patching not needed"
       fi
   ignore_errors: true
+
+
+
+# Create IBM Operator Catalog
+- name:   🚀 IBM Concert - Install IBM Operator Catalog - Online
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/concert/1_cat-ibm-catalog.j2
+
+
 
 
 
