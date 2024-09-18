@@ -174,7 +174,7 @@ function check_array(){
       export ZEN_TOKEN=$(curl -s -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
       -H "username: $CPADMIN_USER" \
       -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
-      #echo $ZEN_TOKEN
+      echo $ZEN_TOKEN
 
 
       echo "        Sucessfully logged in" 
@@ -264,6 +264,49 @@ EOF
       checkNamespace
 
       
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE CONNECTIONS
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK CONNECTIONS"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+      export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
+      export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
+
+      echo "        Namespace:          $AIOPS_NAMESPACE"
+      echo "        AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
+      echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
+      echo ""
+
+
+      export result=$(curl -X -s 'GET' --insecure \
+      "https://$AIO_PLATFORM_ROUTE/v3/connections" \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+            -H "authorization: Bearer $ZEN_TOKEN" |jq|grep ELKGoldenSignal|wc -l|tr -d ' ')
+
+      #echo $result
+
+      if  ([[ $result -lt 1 ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="ELKGoldenSignal connection missing"
+                  handleError
+            else  
+                  echo "         ✅ OK - ELKGoldenSignal exists"; 
+            fi
+
+
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -352,6 +395,70 @@ EOF
       # fi
 
 
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# CHECK LAGS TRAINING
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK LAGS TRAINING"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      echo "   🔎  Get Cassandra Authentication"	
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      export CASSANDRA_PASS=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 -d)
+      export CASSANDRA_USER=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 -d)
+
+      echo "CASSANDRA_USER:$CASSANDRA_USER"
+      echo "CASSANDRA_PASS:$CASSANDRA_PASS"
+      export result= $(oc exec -ti -n $AIOPS_NAMESPACE aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"SELECT * FROM tararam.md_metric_resource;\""|grep log_template_|wc -l|tr -d ' ')
+
+
+      #echo $result
+
+      if  ([[ $result == "0" ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="LAGS training incomplete - no metrics"
+                  handleError
+            else  
+                  echo "         ✅ OK - ELKGoldenSignal exists ($result models)"; 
+            fi
+
+
+
+
+
+
+echo "     ------------------------------------------------------------------------------------------------------------------------------"
+echo "       🔐  Getting credentials"	
+echo "     ------------------------------------------------------------------------------------------------------------------------------"
+oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
+
+
+export username=$(oc get secret $(oc get secrets | grep aiops-elastic-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.username}"| base64 --decode)	
+export password=$(oc get secret $(oc get secrets | grep aiops-elastic-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
+
+
+export existingIndexes=$(curl -s -k -u $username:$password -XGET https://localhost:9200/_cat/indices)
+
+
+echo "           ✅ Credentials:               OK"	
+
+echo ""	
+echo "           🙎‍♂️ User:                         $username"	
+echo "           🔐 Password:                     $password"	
+echo ""	
 
 
 
