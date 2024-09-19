@@ -529,9 +529,9 @@
               rm instana-kubectl-plugin-darwin_arm64-{{current_feature.instana_version | default("241-0") }}.tar.gz
         else
               wget  --user _ --password {{current_agent_key}} https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/instana-kubectl-plugin-linux_amd64-{{current_feature.instana_version | default("1.0.0") }}.tar.gz
-              tar xfvz instana-kubectl-plugin-linux_amd64--{{current_feature.instana_version | default("1.0.0") }}.tar.gz
+              tar xfvz instana-kubectl-plugin-linux_amd64-{{current_feature.instana_version | default("1.0.0") }}.tar.gz
               mv kubectl-instana /usr/local/bin/kubectl-instana
-              rm instana-kubectl-plugin-linux_amd64--{{current_feature.instana_version | default("1.0.0") }}.tar.gz
+              rm instana-kubectl-plugin-linux_amd64-{{current_feature.instana_version | default("1.0.0") }}.tar.gz
         fi
     fi
     if [ -x "$(command -v kubectl-instana)" ]; then
