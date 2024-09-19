@@ -8,7 +8,6 @@ spec:
     name: instana-aiops
   cluster:
       name: Demo-OpenShift
-  openshift: true
   agent:
     key: {{current_agent_key}}
     endpointHost: agent.{{BASE_DOMAIN}}
@@ -17,9 +16,10 @@ spec:
       AWS_ACCESS_KEY_ID: changeme
       AWS_SECRET_ACCESS_KEY: changeme 
       INSTANA_AWS_REGION_CONFIG: eu-central-1 
-    configuration_yaml: |
+    configuration.yaml: |
       # Host
       com.instana.plugin.host:
+        collectInstalledSoftware: true 
         tags:
           - 'dev'
           - 'aiops'
@@ -35,3 +35,15 @@ spec:
         enabled: true # by default is false
       com.instana.plugin.action.script:
         enabled: true # by default is false
+        # runAs: 'root'
+        scriptExecutionHome: '/tmp' # The path used for action script executions.
+      com.instana.plugin.action.http:
+        enabled: true # by default is false
+        maxConcurrentActions: 5  # optional, default value is 10
+      com.instana.plugin.vsphere:
+        host: https://myvsphere/sdk
+        username: administrator@myvsphere.com
+        password: myvspherepassword
+        enabled: true
+        poll_rate: 20 # metrics poll rate in seconds
+

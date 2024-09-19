@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 spec:
   selector:
     app.kubernetes.io/name: instana-agent
@@ -43,7 +43,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 spec:
   clusterIP: None
   selector:
@@ -54,10 +54,6 @@ spec:
       protocol: TCP
       port: 42699
       targetPort: 42699
-    - name: agent-socket
-      protocol: TCP
-      port: 42666
-      targetPort: 42666
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -66,39 +62,49 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 data:
-  cluster_name: "Demo"
+  cluster_name: "DemoCluster"
   configuration.yaml: |
+  
+    # Manual a-priori configuration. Configuration will be only used when the sensor
+    # is actually installed by the agent.
+    # The commented out example values represent example configuration and are not
+    # necessarily defaults. Defaults are usually 'absent' or mentioned separately.
+    # Changes are hot reloaded unless otherwise mentioned.
+    
+    # It is possible to create files called 'configuration-abc.yaml' which are
+    # merged with this file in file system order. So 'configuration-cde.yaml' comes
+    # after 'configuration-abc.yaml'. Only nested structures are merged, values are
+    # overwritten by subsequent configurations.
+    
+    # Secrets
+    # To filter sensitive data from collection by the agent, all sensors respect
+    # the following secrets configuration. If a key collected by a sensor matches
+    # an entry from the list, the value is redacted.
+    #com.instana.secrets:
+    #  matcher: 'contains-ignore-case' # 'contains-ignore-case', 'contains', 'regex'
+    #  list:
+    #    - 'key'
+    #    - 'password'
+    #    - 'secret'
+    
     # Host
-    com.instana.plugin.host:
-      collectInstalledSoftware: true 
-      tags:
-        - 'dev'
-        - 'aiops'
-        - 'openshift'
-    com.instana.plugin.azure:
-      enabled: true
-      subscription: YourSubscriptionID
-      tenant: YourDirectoryTenantID
-      principals:
-        - id: YourApplicationClientID
-          secret: YourSecretValue
-    com.instana.plugin.action:
-      enabled: true # by default is false
-    com.instana.plugin.action.script:
-      enabled: true # by default is false
-      # runAs: 'root'
-      scriptExecutionHome: '/tmp' # The path used for action script executions.
-    com.instana.plugin.action.http:
-      enabled: true # by default is false
-      maxConcurrentActions: 5  # optional, default value is 10
-    com.instana.plugin.vsphere:
-      host: https://myvsphere/sdk
-      username: administrator@myvsphere.com
-      password: myvspherepassword
-      enabled: true
-      poll_rate: 20 # metrics poll rate in seconds
+    #com.instana.plugin.host:
+    #  tags:
+    #    - 'dev'
+    #    - 'app1'
+    
+    # Hardware & Zone
+    #com.instana.plugin.generic.hardware:
+    #  enabled: true # disabled by default
+    #  availability-zone: 'zone'
+    
+
+  
+  configuration-disable-kubernetes-sensor.yaml: |
+    com.instana.plugin.kubernetes:
+      enabled: false
 ---
 # TODO: Combine into single template with agent-daemonset-with-zones.yaml---
 apiVersion: apps/v1
@@ -108,7 +114,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 spec:
   selector:
     matchLabels:
@@ -121,9 +127,12 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.59
+        app.kubernetes.io/version: 1.2.70
         instana/agent-mode: "APM"
-      annotations: {}
+      annotations:
+        # To ensure that changes to agent.configuration_yaml or agent.additional_backends trigger a Pod recreation, we keep a SHA here
+        # Unfortunately, we cannot use the lookup function to check on the values in the configmap, otherwise we break Helm < 3.2
+        instana-configuration-hash: 70c6df6d7c1a99a22ee74d59fa7f300fe6432573
     spec:
       serviceAccountName: instana-agent
       hostNetwork: true
@@ -134,16 +143,10 @@ spec:
           image: "icr.io/instana/agent:latest"
           imagePullPolicy: Always
           env:
-            - name: AWS_ACCESS_KEY_ID
-              value: changeme
-            - name: AWS_SECRET_ACCESS_KEY
-              value: changeme
-            - name: INSTANA_AWS_REGION_CONFIG
-              value: eu-central-1 
             - name: INSTANA_AGENT_LEADER_ELECTOR_PORT
               value: "42655"
             - name: INSTANA_ZONE
-              value: "Demo"
+              value: "instana-aiops"
             - name: INSTANA_KUBERNETES_CLUSTER_NAME
               valueFrom:
                 configMapKeyRef:
@@ -186,6 +189,15 @@ spec:
             - name: var-run
               mountPath: /var/run
               mountPropagation: HostToContainer
+            - name: var-run-kubo
+              mountPath: /var/vcap/sys/run/docker
+              mountPropagation: HostToContainer
+            - name: var-run-containerd
+              mountPath: /var/vcap/sys/run/containerd
+              mountPropagation: HostToContainer
+            - name: var-containerd-config
+              mountPath: /var/vcap/jobs/containerd/config
+              mountPropagation: HostToContainer
             - name: sys
               mountPath: /sys
               mountPropagation: HostToContainer
@@ -203,50 +215,28 @@ spec:
             - name: configuration
               subPath: configuration.yaml
               mountPath: /root/configuration.yaml
+            
+            - name: configuration # TODO: These shouldn't have the same name
+              subPath: configuration-disable-kubernetes-sensor.yaml
+              mountPath: /opt/instana/agent/etc/instana/configuration-disable-kubernetes-sensor.yaml
           livenessProbe:
             httpGet:
               host: 127.0.0.1 # localhost because Pod has hostNetwork=true
               path: /status
               port: 42699
-            initialDelaySeconds: 300 # startupProbe isnt available before K8s 1.16
-            timeoutSeconds: 3
+            initialDelaySeconds: 600 # startupProbe isnt available before K8s 1.16
+            timeoutSeconds: 5
             periodSeconds: 10
             failureThreshold: 3
           resources:
             requests:
-              memory: "512Mi"
+              memory: "768Mi"
               cpu: 0.5
             limits:
               memory: "768Mi"
               cpu: 1.5
           ports:
             - containerPort: 42699
-        - name: leader-elector
-          image: "icr.io/instana/leader-elector:0.5.18"
-          env:
-            - name: INSTANA_AGENT_POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-          command:
-            - "/busybox/sh"
-            - "-c"
-            - "sleep 12 && /app/server --election=instana --http=localhost:42655 --id=$(INSTANA_AGENT_POD_NAME)"
-          resources:
-            requests:
-              cpu: 0.1
-              memory: "64Mi"
-          livenessProbe:
-            httpGet: # Leader elector /health endpoint expects version 0.5.8 minimum, otherwise always returns 200 OK
-              host: 127.0.0.1 # localhost because Pod has hostNetwork=true
-              path: /health
-              port: 42655
-            initialDelaySeconds: 30
-            timeoutSeconds: 3
-            periodSeconds: 3
-            failureThreshold: 3
-          ports:
-            - containerPort: 42655
       volumes:
         - name: dev
           hostPath:
@@ -257,6 +247,19 @@ spec:
         - name: var-run
           hostPath:
             path: /var/run
+        # Systems based on the kubo BOSH release (that is, VMware TKGI and older PKS) do not keep the Docker
+        # socket in /var/run/docker.sock , but rather in /var/vcap/sys/run/docker/docker.sock .
+        # The Agent images will check if there is a Docker socket here and, if so, adjust the symlinking before
+        # starting the Agent. See https://github.com/cloudfoundry-incubator/kubo-release/issues/329
+        - name: var-run-kubo
+          hostPath:
+            path: /var/vcap/sys/run/docker
+        - name: var-run-containerd
+          hostPath:
+            path: /var/vcap/sys/run/containerd
+        - name: var-containerd-config
+          hostPath:
+            path: /var/vcap/jobs/containerd/config
         - name: sys
           hostPath:
             path: /sys
@@ -282,62 +285,22 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 rules:
 - nonResourceURLs:
     - "/version"
     - "/healthz"
+    - "/metrics"
+    - "/stats/summary"
+    - "/metrics/cadvisor"
   verbs: ["get"]
-  apiGroups: []
-  resources: []
-- apiGroups: ["batch"]
-  resources:
-    - "jobs"
-    - "cronjobs"
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["extensions"]
-  resources:
-    - "deployments"
-    - "replicasets"
-    - "ingresses"
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources:
-    - "deployments"
-    - "replicasets"
-    - "daemonsets"
-    - "statefulsets"
-  verbs: ["get", "list", "watch"]
 - apiGroups: [""]
   resources:
-    - "namespaces"
-    - "events"
-    - "services"
-    - "endpoints"
     - "nodes"
+    - "nodes/stats"
+    - "nodes/metrics"
     - "pods"
-    - "replicationcontrollers"
-    - "componentstatuses"
-    - "resourcequotas"
-    - "persistentvolumes"
-    - "persistentvolumeclaims"
   verbs: ["get", "list", "watch"]
-- apiGroups: [""]
-  resources:
-    - "endpoints"
-  verbs: ["create", "update", "patch"]
-- apiGroups: ["networking.k8s.io"]
-  resources:
-    - "ingresses"
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps.openshift.io"]
-  resources:
-    - "deploymentconfigs"
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["security.openshift.io"]
-  resourceNames: ["privileged"]
-  resources: ["securitycontextconstraints"]
-  verbs: ["use"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -345,7 +308,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.59
+    app.kubernetes.io/version: 1.2.70
 subjects:
 - kind: ServiceAccount
   name: instana-agent
@@ -354,3 +317,267 @@ roleRef:
   kind: ClusterRole
   name: instana-agent
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8sensor
+  namespace: instana-agent
+  labels:
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.70
+data:
+  backend: agent.apps.itz-5z9qn9.osv.techzone.ibm.com:443
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8sensor
+  namespace: instana-agent
+  labels:
+    app: k8sensor
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.70
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8sensor
+      app.kubernetes.io/name: instana-agent-k8s-sensor
+  template:
+    metadata:
+      labels:
+        
+        app: k8sensor
+        app.kubernetes.io/name: instana-agent-k8s-sensor
+        app.kubernetes.io/version: 1.2.70
+        instana/agent-mode: KUBERNETES
+      annotations:
+        # To ensure that changes to agent.configuration_yaml or agent.additional_backends trigger a Pod recreation, we keep a SHA here
+        # Unfortunately, we cannot use the lookup function to check on the values in the configmap, otherwise we break Helm < 3.2
+        instana-configuration-hash: da39a3ee5e6b4b0d3255bfef95601890afd80709
+    spec:
+      serviceAccountName: k8sensor
+      containers:
+        - name: instana-agent
+          image: "icr.io/instana/k8sensor:latest"
+          imagePullPolicy: Always
+          env:
+            - name: AGENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: instana-agent
+                  key: key
+            - name: BACKEND
+              valueFrom:
+                configMapKeyRef:
+                  name: k8sensor
+                  key: backend
+            - name: BACKEND_URL
+              value: "https://$(BACKEND)"
+            - name: AGENT_ZONE
+              value: DemoCluster
+            - name: POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONFIG_PATH
+              value: /root
+            
+
+          volumeMounts:
+            - name: configuration
+              subPath: configuration.yaml
+              mountPath: /root/configuration.yaml
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: 10m
+            limits:
+              memory: "1536Mi"
+              cpu: 500m
+          ports:
+            - containerPort: 42699
+      volumes:
+        - name: configuration
+          configMap:
+            name: instana-agent
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: instana/agent-mode
+                  operator: In
+                  values:
+                  - KUBERNETES
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8sensor
+  labels:
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.70
+rules:
+  -
+    nonResourceURLs:
+      - /version
+      - /healthz
+    verbs:
+      - get
+  -
+    apiGroups:
+      - extensions
+    resources:
+      - deployments
+      - replicasets
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - events
+      - services
+      - endpoints
+      - namespaces
+      - nodes
+      - pods
+      - replicationcontrollers
+      - resourcequotas
+      - persistentvolumes
+      - persistentvolumeclaims
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - deployments
+      - replicasets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - batch
+    resources:
+      - cronjobs
+      - jobs
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - ""
+    resources:
+      - pods/log
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - autoscaling/v1
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - autoscaling/v2
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - apps.openshift.io
+    resources:
+      - deploymentconfigs
+    verbs:
+      - get
+      - list
+      - watch
+  -
+    apiGroups:
+      - security.openshift.io
+    resourceNames:
+      - privileged
+    resources:
+      - securitycontextconstraints
+    verbs:
+      - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8sensor
+  labels:
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.70
+roleRef:
+  kind: ClusterRole
+  name: k8sensor
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: k8sensor
+    namespace: instana-agent
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8sensor
+  namespace: instana-agent
+  labels:
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.70
+
+
+
+
+
+
+
+
+
