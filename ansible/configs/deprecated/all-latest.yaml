@@ -301,7 +301,7 @@ ibmaiops:
     kind: Instana
     install: true
     # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
-    instana_version: 261-0
+    instana_version: 1.0.0
     # Can be large, medium (default), small 
     instana_size: small
 
