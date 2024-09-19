@@ -290,7 +290,7 @@ EOF
       echo ""
 
 
-      export result=$(curl -X -s 'GET' --insecure \
+      export result=$(curl -s -X 'GET' --insecure \
       "https://$AIO_PLATFORM_ROUTE/v3/connections" \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
@@ -424,7 +424,7 @@ EOF
 
       echo "CASSANDRA_USER:$CASSANDRA_USER"
       echo "CASSANDRA_PASS:$CASSANDRA_PASS"
-      export result= $(oc exec -ti -n $AIOPS_NAMESPACE aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"SELECT * FROM tararam.md_metric_resource;\""|grep log_template_|wc -l|tr -d ' ')
+      export result=$(oc exec -ti -n $AIOPS_NAMESPACE aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"SELECT * FROM tararam.md_metric_resource;\""|grep log_template_|wc -l|tr -d ' ')
 
 
       #echo $result
@@ -435,7 +435,7 @@ EOF
                   export CURRENT_ERROR_STRING="LAGS training incomplete - no metrics"
                   handleError
             else  
-                  echo "         ✅ OK - ELKGoldenSignal exists ($result models)"; 
+                  echo "          ✅ OK - ELKGoldenSignal exists ($result models)"; 
             fi
 
 
@@ -443,27 +443,29 @@ EOF
 
 
 
-echo "     ------------------------------------------------------------------------------------------------------------------------------"
-echo "       🔐  Getting credentials"	
-echo "     ------------------------------------------------------------------------------------------------------------------------------"
-oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      echo "   🔎  Get ElasticSearch LAGS Index"	
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
+
+      export ES_ROUTE=$(oc get route -n $AIOPS_NAMESPACE iaf-system-es  -o jsonpath={.spec.host})
+      export username=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.username}"| base64 --decode)	
+      export password=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
+      echo ""	
+      echo "           🌐 Elastic URL:                  $ES_ROUTE"	
+      echo "           🙎‍♂️ User:                         $username"	
+      echo "           🔐 Password:                     $password"	
 
 
-export username=$(oc get secret $(oc get secrets | grep aiops-elastic-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.username}"| base64 --decode)	
-export password=$(oc get secret $(oc get secrets | grep aiops-elastic-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
-
-
-export existingIndexes=$(curl -s -k -u $username:$password -XGET https://localhost:9200/_cat/indices)
-
-
-echo "           ✅ Credentials:               OK"	
-
-echo ""	
-echo "           🙎‍♂️ User:                         $username"	
-echo "           🔐 Password:                     $password"	
-echo ""	
-
-
+      export existingIndexes=$(curl -s -k -u $username:$password -XGET https://$ES_ROUTE/_cat/indices|grep 1000-1000-la_golden_signals-models|wc -l|tr -d ' ')
+      if  ([[ $result == "0" ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="LAGS training incomplete - no teplates in ElastcSearch"
+                  handleError
+            else  
+                  echo "          ✅ OK"; 
+            fi
 
 
 

@@ -21,9 +21,9 @@
 # Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images
 #   Type:               VMWare on IBM Cloud / UPI Public
 #   Worker node count:  4
-#   Flavour:            b3c.32x128 ❗ 
-#   OpenShift Version:  4.15
-#   Storage:            ODF 500GB or Managed NFS - 2TB 
+#   Flavour:            b3c.32x128 ❗
+#   OpenShift Version:  4.15Í
+#   Storage:            ODF 500GB or Managed NFS - 2TB
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
@@ -33,26 +33,26 @@
 #  - IBM CloudPak for AIOps Demo Content
 #     - OpenLDAP & Register with ibm-aiops
 #     - RobotShop Demo App
-#     - Demo Service Account 
+#     - Demo Service Account
 #     - AWX (Open Source Ansible Tower) with preloaded Playbooks
 #     - Train Models
-#       - Create Training Definitions (TG, LAGS, CR, SI, MET) 
-#       - Create Training Data (LAGS, SNOW, MET) 
-#       - Train Models (TG, LAGS, CR, SI, MET) 
+#       - Create Training Definitions (TG, LAGS, CR, SI, MET)
+#       - Create Training Data (LAGS, SNOW, MET)
+#       - Train Models (TG, LAGS, CR, SI, MET)
 #     - Topology
 #       - Create K8s Observer
 #       - Create ASM merge rules
 #       - Load ASM merge Topology
 #       - Create ibm-aiops Application
-#     - Creates valid certificate for Ingress (Slack) 
+#     - Creates valid certificate for Ingress (Slack)
 #     - External Routes (Flink, Topology, ...)
-#     - Disables ASM Service match rule 
-#     - Create Policy Creation for Stories and Runbooks 
+#     - Disables ASM Service match rule
+#     - Create Policy Creation for Stories and Runbooks
 #  - ELK
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
-apiVersion: v1                     
+apiVersion: v1
 kind: Namespace
 metadata:
   name: ibm-installer
@@ -143,7 +143,7 @@ data:
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
-  
+
     ibmitautomation:
 
     #--------------------------------------------------------------------------------------------------------------------------------------
@@ -332,32 +332,7 @@ data:
 
 
 
-  INSTALL_REPO: 'https://github.com/niklaushirt/ibm-aiops-deployer.git -b main'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  INSTALL_REPO: "https://github.com/niklaushirt/ibm-aiops-deployer.git -b main"
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -402,7 +377,6 @@ kind: Job
 metadata:
   name: ibm-install-aiops
 spec:
-
   template:
     metadata:
       labels:
@@ -512,19 +486,18 @@ spec:
                 sleep 1000
               done
 
-
           env:
-          - name: INSTALL_REPO
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-install-configuration-aiops
-                key: INSTALL_REPO
-          - name: ENTITLED_REGISTRY_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-install-configuration-aiops
-                key: ENTITLED_REGISTRY_KEY
-                optional: true
+            - name: INSTALL_REPO
+              valueFrom:
+                configMapKeyRef:
+                  name: ibm-install-configuration-aiops
+                  key: INSTALL_REPO
+            - name: ENTITLED_REGISTRY_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: ibm-install-configuration-aiops
+                  key: ENTITLED_REGISTRY_KEY
+                  optional: true
           volumeMounts:
             - name: config-file
               mountPath: /tmp/config-file
@@ -533,8 +506,7 @@ spec:
           configMap:
             name: ibm-install-configuration-aiops
             items:
-            - key: INSTALLATION_CONFIG.yaml
-              path: INSTALLATION_CONFIG.yaml
+              - key: INSTALLATION_CONFIG.yaml
+                path: INSTALLATION_CONFIG.yaml
       restartPolicy: Never
   backoffLimit: 500
-

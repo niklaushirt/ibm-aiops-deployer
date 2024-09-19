@@ -512,6 +512,7 @@
     executable: /bin/bash
   when: global_config.create_ocp_notifications | default(true) == true  
 
+
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
   shell: |
     export MAJ_VERSION=$(echo {{current_feature.instana_version | default("1.0.0") }}|cut -f1 -d-)
