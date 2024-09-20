@@ -114,6 +114,46 @@
   when: global_config.create_ocp_notifications | default(true) == true  
 
 
+
+- name:   🚀 IBM Concert - VARIABLES
+  shell: |
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "export PROD_REGISTRY={{current_feature.prod_registry}}"
+    echo "export PROD_USER={{current_feature.prod_user}}"
+    echo "export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}"
+    echo "export DOCKER_EXE=podman"
+    echo "export WORK_DIR=$(pwd)"
+    echo "export PROJECT_OPERATOR={{current_feature.project_operator}} "
+    echo "export PROJECT_INSTANCE={{current_feature.project_instance}}"
+    echo "export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}"
+    echo "export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}"
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Create Pull Secrets"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
 - name:   🚀 IBM Concert - Prepare Installation
   shell: |
     cd  /tmp/concert/ibm-concert
