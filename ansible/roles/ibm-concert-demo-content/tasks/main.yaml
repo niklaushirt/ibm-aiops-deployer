@@ -56,7 +56,7 @@
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
     OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-    INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-aiops-concert --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+    INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-concert --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
     cat <<EOF | oc apply -f -
     apiVersion: console.openshift.io/v1
