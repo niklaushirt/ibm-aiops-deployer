@@ -53,7 +53,7 @@
     export ROUTE=$(oc get route -n $CONCERT_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export USER_PWD=P4ssw0rd!
+    export USER_PWD={{current_admin_pass}}
     export USER_NAME=demo
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$USER_NAME&password=$USER_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     echo "        CPADMIN_USER: $USER_NAME"
@@ -116,7 +116,7 @@
     export ROUTE=$(oc get route -n $CONCERT_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export USER_PWD=P4ssw0rd!
+    export USER_PWD={{current_admin_pass}}
     export USER_NAME=demo
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$USER_NAME&password=$USER_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     echo "        CPADMIN_USER: $USER_NAME"
@@ -214,7 +214,7 @@
     export ROUTE=$(oc get route -n $CONCERT_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export USER_PWD=P4ssw0rd!
+    export USER_PWD={{current_admin_pass}}
     export USER_NAME=demo
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$USER_NAME&password=$USER_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     echo "        CPADMIN_USER: $USER_NAME"
@@ -279,6 +279,7 @@
         -H 'Content-Type: multipart/form-data' \
         -F "data_type=$DATA_TYPE" \
         -F "filename=@$DATA_PATH"
+    sleep 15
     }
 
     function upload_vulnerability {
@@ -291,6 +292,7 @@
         -F "scanner_name=prismacloud" \
         -F $'Content-Disposition: form-data; name="metadata"\r\n\r\n{"scanner_name":"prismacloud"}' \
         -F "filename=@$DATA_PATH"
+    sleep 15
     }
 
 
@@ -307,7 +309,7 @@
     export ROUTE=$(oc get route -n $CONCERT_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export USER_PWD=P4ssw0rd!
+    export USER_PWD={{current_admin_pass}}
     export USER_NAME=demo
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$USER_NAME&password=$USER_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     echo "        CPADMIN_USER: $USER_NAME"
@@ -538,6 +540,7 @@
     set -x
 
 
+
     function upload_files {
     curl -X "POST" -k "https://$ZEN_API_HOST/ibm/concert/ingestion/api/v1/upload_files" \
         -H 'accept: application/json' \
@@ -546,6 +549,7 @@
         -H 'Content-Type: multipart/form-data' \
         -F "data_type=$DATA_TYPE" \
         -F "filename=@$DATA_PATH"
+    sleep 15
     }
 
     function upload_vulnerability {
@@ -558,9 +562,8 @@
         -F "scanner_name=prismacloud" \
         -F $'Content-Disposition: form-data; name="metadata"\r\n\r\n{"scanner_name":"prismacloud"}' \
         -F "filename=@$DATA_PATH"
+    sleep 15
     }
-
-
 
     echo ""
     echo ""
@@ -574,7 +577,7 @@
     export ROUTE=$(oc get route -n $CONCERT_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     echo "        Route: $ROUTE"
     echo ""
-    export USER_PWD=P4ssw0rd!
+    export USER_PWD={{current_admin_pass}}
     export USER_NAME=demo
     export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$USER_NAME&password=$USER_PWD&scope=openid" https://$ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
     echo "        CPADMIN_USER: $USER_NAME"

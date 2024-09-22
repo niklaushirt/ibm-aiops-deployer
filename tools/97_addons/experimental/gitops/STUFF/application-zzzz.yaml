@@ -24,7 +24,7 @@ spec:
         - name: cp4aiops.content.training.enabled
           value: 'false'
         - name: cp4aiops.globalPassword
-          value: P4ssw0rd!
+          value: CHANGEME
     path: tools/97_addons/experimental/gitops/content/cp4aiops-demo-content
     repoURL: 'https://github.com/niklaushirt/ibm-aiops-deployer'
     targetRevision: dev_latest
