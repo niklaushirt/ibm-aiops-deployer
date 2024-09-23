@@ -101,17 +101,15 @@ spec:
     port: 443
   properties:
     - name: retention.metrics.rollup5
-      value: '43000'
+      value: '86400'
     - name: retention.metrics.rollup60
-      value: '43000'
+      value: '2678400'
     - name: retention.metrics.rollup300
-      value: '43000'
+      value: '8035200'
     - name: retention.metrics.rollup3600
-      value: '43000'
+      value: '34214400'
     - name: config.appdata.shortterm.retention.days
-      value: '2'
-    - name: config.synthetics.retention.days
-      value: "2"
+      value: '7'
   baseDomain: {{BASE_DOMAIN}}
   storageConfigs:
     rawSpans:
