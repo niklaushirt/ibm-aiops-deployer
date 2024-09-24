@@ -54,7 +54,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/turbo-icon.svg
-          section: IBM AIOps Addons
+          section: IBM IT Automation
         href: >-
           https://$appURL
         location: ApplicationMenu

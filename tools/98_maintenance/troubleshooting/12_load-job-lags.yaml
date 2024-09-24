@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: troubleshoot_1_2_load-lags-indexes
+  name: troubleshoot-1-2-load-lags-indexes
   namespace: ibm-installer
 spec:
   serviceAccountName: demo-admin

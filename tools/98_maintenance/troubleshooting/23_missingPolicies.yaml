@@ -60,7 +60,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: troubleshoot_2_3_create-missing-policies
+  name: troubleshoot-2-3-create-missing-policies
   namespace: ibm-installer
 spec:
   serviceAccountname: ibm-installer-admin

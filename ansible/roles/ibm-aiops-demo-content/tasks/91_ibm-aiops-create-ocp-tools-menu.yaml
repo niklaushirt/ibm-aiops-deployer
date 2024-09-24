@@ -55,7 +55,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/stan1.svg
-          section: IBM AIOps Demo
+          section: IBM Demo
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -81,7 +81,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation-white.svg
-          section: IBM AIOps Demo
+          section: IBM Demo
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -106,7 +106,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ansible-icon-white.svg
-          section: IBM AIOps Addons
+          section: IBM Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -130,7 +130,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ldap-icon-white.svg
-          section: IBM AIOps Addons
+          section: IBM Addons
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -155,7 +155,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels-white.svg
-          section: IBM AIOps Tools
+          section: IBM Tools
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -180,7 +180,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels-white.svg
-          section: IBM AIOps Tools
+          section: IBM Tools
         href: >-
           https://$appURL
         location: ApplicationMenu
@@ -204,7 +204,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/3D-curve--auto-vessels-white.svg
-          section: IBM AIOps Tools
+          section: IBM Tools
         href: >-
           https://$appURL
         location: ApplicationMenu

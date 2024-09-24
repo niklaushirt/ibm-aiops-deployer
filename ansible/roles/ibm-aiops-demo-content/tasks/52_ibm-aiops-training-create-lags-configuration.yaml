@@ -174,10 +174,11 @@
     fi
 
     ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
-    #echo "${ZEN_TOKEN}"
     #echo "        AI_PLATFORM_ROUTE:  $ZEN_TOKEN"
 
     echo "Sucessfully logged in" 
+    echo "${ZEN_TOKEN}"
+
     echo ""
 
     export result=$(curl -X 'POST' --insecure \
@@ -199,7 +200,7 @@
         "topic": "cp4waiops-cartridge-logs-elk-iuacrepx",
         "base_parallelism": 5,
         "num_partitions": 1,
-        "display_name": "ELKGoldenSignal",
+        "display_name": "ELKGoldenSignal1",
         "json_option": "none",
         "logs_per_second": 2000
       },
@@ -219,12 +220,13 @@
       "request_action": "create"
     }')
 
+    echo "Result: "$result
     echo $result | jq -r '.connection_id'
     export connection_id=$(echo $result | jq -r '.connection_id')
 
     echo "Enabling Flow"
     export result=$(curl -X 'PUT' --insecure "https://$AIO_PLATFORM_ROUTE/v3/connections/$connection_id/enable" -H 'accept: application/json' -H 'Content-Type: application/json' -H "authorization: Bearer $ZEN_TOKEN")
-    echo $result
+    echo "Result: "$result
 
   ignore_errors: true
   when: current_feature.create_log_connection | default(true) == true and current_feature.training_enable_log_golden_signals | default(false) == true

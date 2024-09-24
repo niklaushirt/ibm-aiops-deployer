@@ -50,12 +50,12 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: ibm-instana
+        name: ibm-concert
       spec:
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation-white.svg
-          section: IBM Concert
+          section: IBM IT Automation
         href: >-
           https://$appURL
         location: ApplicationMenu

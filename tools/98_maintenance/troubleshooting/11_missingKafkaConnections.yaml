@@ -38,10 +38,6 @@ kind: Namespace
 metadata:
   name: ibm-installer
 ---
-
-
-
-
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # DO NOT MODIFY BELOW
@@ -83,7 +79,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: troubleshoot_1_1_create-missing-kafka
+  name: troubleshoot-1-1-create-missing-kafka
   namespace: ibm-installer
 spec:
   serviceAccountname: ibm-installer-admin
@@ -206,6 +202,7 @@ spec:
                 "request_action": "create"
               }')
 
+              echo $result
               echo $result | jq -r '.connection_id'
               export connection_id=$(echo $result | jq -r '.connection_id')
 

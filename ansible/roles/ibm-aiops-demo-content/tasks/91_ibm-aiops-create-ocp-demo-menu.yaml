@@ -54,7 +54,7 @@
         applicationMenu:
           imageURL: >-
             https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/demo-icon-white.svg
-          section: IBM AIOps Demo
+          section: IBM Demo
         href: >-
           https://$appURL
         location: ApplicationMenu

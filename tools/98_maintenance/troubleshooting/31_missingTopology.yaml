@@ -60,7 +60,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: troubleshoot_3_1_create-missing-topology
+  name: troubleshoot-3-1-create-missing-topology
   namespace: ibm-installer
 spec:
   serviceAccountname: ibm-installer-admin
