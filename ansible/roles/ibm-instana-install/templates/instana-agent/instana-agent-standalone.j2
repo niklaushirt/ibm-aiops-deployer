@@ -104,7 +104,7 @@ data:
   
   configuration-disable-kubernetes-sensor.yaml: |
     com.instana.plugin.kubernetes:
-      enabled: false
+      enabled: true
 ---
 # TODO: Combine into single template with agent-daemonset-with-zones.yaml---
 apiVersion: apps/v1
@@ -327,7 +327,7 @@ metadata:
     app.kubernetes.io/name: instana-agent
     app.kubernetes.io/version: 1.2.70
 data:
-  backend: agent.apps.itz-5z9qn9.osv.techzone.ibm.com:443
+  backend: "agent.{{BASE_DOMAIN}}"
 ---
 apiVersion: apps/v1
 kind: Deployment
