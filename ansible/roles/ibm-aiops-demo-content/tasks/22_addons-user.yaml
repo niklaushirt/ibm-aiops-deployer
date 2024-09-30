@@ -60,3 +60,13 @@
   register: demo_account
   when: USER_EXISTS.stdout|length == 0
 
+
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+oc project $AIOPS_NAMESPACE 
+oc delete serviceaccount -n ibm-aiops demo-admin
+oc delete clusterrolebinding test-admin
+
+oc project $AIOPS_NAMESPACE 
+oc create serviceaccount -n ibm-aiops demo-admin
+oc create clusterrolebinding test-admin --clusterrole=cluster-admin --serviceaccount=ibm-aiops:demo-admin
