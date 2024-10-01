@@ -82,7 +82,7 @@
 - name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR CERT MANAGER
   shell: oc get po -n ibm-cert-manager | grep 1/1| grep -c ""
   register: kubectl_get_pods
-  until: kubectl_get_pods.stdout == "4"
+  until: kubectl_get_pods.stdout|int > 2
   retries: 50
   delay: 15
   ignore_errors: true

@@ -209,6 +209,7 @@
 
         ROWS=$ROWS'{"drilldown_url":  "", "label": "❗ Caution ❗", "sub_text": "Just clicking below will create the incident"},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshop", "label": "🧨 RobotShop - Memory Problem", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshopnet", "label": "🧨 RobotShop - Network Problem", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=sockshop", "label": "🧦 SockShop - Network Problem", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=acme", "label": "✈️ ACME - Server Fan Outage", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=telco", "label": "📵 Optical Network - Fiber Cut", "sub_text": ""},'

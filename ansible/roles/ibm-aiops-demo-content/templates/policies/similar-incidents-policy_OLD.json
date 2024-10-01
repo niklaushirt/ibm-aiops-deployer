@@ -3,13 +3,13 @@
   "executionPriority": 25,
   "metadata": {
     "labels": {
-      "ibm.com/is-default": "true"
+      "ibm.com/is-default": "false"
     },
     "name": "DEMO Similar Incident detection for Incidents",
     "description": "Created by Nicks scripts",
     "createdBy": {
-      "id": "system",
-      "type": "system"
+      "id": "demo",
+      "type": "user"
     }
   },
   "spec": {
@@ -19,7 +19,8 @@
       "triggerId": "aiops.ibm.com/trigger/story-pre-create",
       "arguments": {}
     },
-    "actions": [{
+    "actions": [
+      {
         "actionId": "aiops.ibm.com/action/internal/insights/query",
         "arguments": {
           "insightType": "aiops.ibm.com/insight-type/similar-incidents",
@@ -47,17 +48,20 @@
         "arguments": {
           "name": "Only if we have a valid insight",
           "condition": "{{ exists proposedInsight }}",
-          "then": [{
-            "actionId": "lang/eval",
-            "arguments": {
-              "input": {
-                "$variable": "proposedInsight"
-              }
-            },
-            "output": "story.insights.[]"
-          }]
+          "then": [
+            {
+              "actionId": "lang/eval",
+              "arguments": {
+                "input": {
+                  "$variable": "proposedInsight"
+                }
+              },
+              "output": "story.insights.[]"
+            }
+          ]
         }
       }
     ]
   }
 }
+

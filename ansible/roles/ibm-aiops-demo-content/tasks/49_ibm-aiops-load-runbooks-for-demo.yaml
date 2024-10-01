@@ -413,6 +413,101 @@
 
 
 
+
+
+
+- name: 🚀 AWX - Create AIOPS Runbook - Create RobotShop Network Incident
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export ZEN_TOKEN={{ZEN_TOKEN}}
+    export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
+    export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
+    export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
+
+
+
+    export result=$(curl -X "GET" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+        -H "Authorization: bearer $ZEN_TOKEN" \
+        -H 'Content-Type: application/json; charset=utf-8'|grep "Create RobotShop Network Incident"|wc -l|tr -d ' ')
+
+    if [[ $result == "0" ]]; then
+
+
+      export PAYLOAD=$(echo "    {
+      \"name\": \"🚀 DEMO - Create Network Incident RobotShop\",
+      \"description\": \"Create Incident simulating a Fiber Cut for the Robotshop Application.\",
+      \"prerequisites\": \"\",
+      \"parameters\": [],
+      \"tags\": [],
+      \"http\": {
+        \"host\": \"https://$DEMOUI_ROUTE/injectRESTHeadless?app=robotshopnet\",
+        \"method\": \"GET\",
+        \"headers\": \"{}\",
+        \"ignoreCertErrors\": false
+      }
+      }")
+
+      echo $PAYLOAD>/tmp/action.json
+
+      
+      export result=$(curl -X "POST" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/actions?publish=true" \
+          -H "Authorization: bearer $ZEN_TOKEN" \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d @/tmp/action.json)
+      echo $result
+      rm /tmp/action.json
+
+      export actionID=$(echo $result|jq -r ._actionId)
+
+      echo "actionID: $actionID"
+
+      export PAYLOAD=$(echo "{
+              \"tags\": [],
+              \"steps\": [
+                {
+                  \"number\": 1,
+                  \"title\": \"Create Network Incident RobotShop\",
+                  \"automationId\": \"$actionID\",
+                  \"type\": \"automation\"
+                }
+              ],
+              \"name\": \"🚀 Create RobotShop Network Incident\",
+              \"description\": \"Create Incident simulating a Fiber Cut for the Robotshop Application.\",
+              \"parameters\": []
+          }")
+      echo $result
+      echo $PAYLOAD>/tmp/runbook.json
+
+      
+      export result=$(curl -X "POST" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+          -H "Authorization: bearer $ZEN_TOKEN" \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d @/tmp/runbook.json)
+
+
+      rm /tmp/runbook.json
+    else 
+      echo "Already exists"
+    fi 
+
+
+  ignore_errors: true
+  register: RBA_RESULT
+  args:
+    executable: /bin/bash
+
+
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
+
+
+
 - name: 🚀 AWX - Create AIOPS Runbook - Create SockShop Incident
   shell: |
     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')

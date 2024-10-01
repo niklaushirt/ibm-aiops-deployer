@@ -397,8 +397,9 @@ def injectEventsTelco(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     return 'OK'
 
 def injectEventsBusy(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
-    print ('📛 START - Inject Events - BUSY')
-    injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_BUSY)
+    for x in range(0, 10):
+        print ('📛 START - Inject Events - BUSY')
+        injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_BUSY)
     return 'OK'
 
 

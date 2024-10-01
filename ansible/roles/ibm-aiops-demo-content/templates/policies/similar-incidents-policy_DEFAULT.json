@@ -1,15 +1,25 @@
 {
+  "id": "400ae680-7f42-11ef-a9c4-81960ae36329",
+  "revision": "ef160b166e17733121b0ec7aaedc785b5b354202",
+  "hash": "bcced5a6c835f66c4499dbcb0854cef0bdb5d2bd",
   "state": "enabled",
-  "executionPriority": 25,
+  "executionPriority": 50,
   "metadata": {
     "labels": {
       "ibm.com/is-default": "true"
     },
-    "name": "DEMO Similar Incident detection for Incidents",
-    "description": "Created by Nicks scripts",
+    "name": "Default story query similar incidents service policy",
+    "description": "Queries the similar incidents service for ticket resolutions that match the incident title and enriches this information into the story",
+    "creationTimestamp": "2024-09-30T15:39:59.080Z",
+    "lastUpdatedTimestamp": "2024-10-01T07:04:32.716Z",
     "createdBy": {
       "id": "system",
       "type": "system"
+    },
+    "lastUpdatedBy": {
+      "id": "demo",
+      "type": "user",
+      "changeDetails": "Policy enabled"
     }
   },
   "spec": {
@@ -19,7 +29,8 @@
       "triggerId": "aiops.ibm.com/trigger/story-pre-create",
       "arguments": {}
     },
-    "actions": [{
+    "actions": [
+      {
         "actionId": "aiops.ibm.com/action/internal/insights/query",
         "arguments": {
           "insightType": "aiops.ibm.com/insight-type/similar-incidents",
@@ -47,15 +58,17 @@
         "arguments": {
           "name": "Only if we have a valid insight",
           "condition": "{{ exists proposedInsight }}",
-          "then": [{
-            "actionId": "lang/eval",
-            "arguments": {
-              "input": {
-                "$variable": "proposedInsight"
-              }
-            },
-            "output": "story.insights.[]"
-          }]
+          "then": [
+            {
+              "actionId": "lang/eval",
+              "arguments": {
+                "input": {
+                  "$variable": "proposedInsight"
+                }
+              },
+              "output": "story.insights.[]"
+            }
+          ]
         }
       }
     ]

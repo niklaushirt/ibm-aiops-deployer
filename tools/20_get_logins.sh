@@ -330,7 +330,25 @@ echo "            🌏 URL:               https://$(oc get route -n openshift-co
 echo " "
 echo " "
 echo " "
-echo "  📥 Openshift Command Line"
+echo "  📥 Openshift Command Line - ADMIN"
+echo ""
+API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+CONSOLE_URL="https://"$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+echo "            🌏 URL:               $API_URL"
+echo "            🔐 Token:             $API_TOKEN"
+echo ""
+echo ""
+echo "            🧑 Login:   oc login --server=$API_URL:6443 --token=$API_TOKEN"
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo "  📥 Openshift Command Line - DEMO"
 echo ""
 DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
