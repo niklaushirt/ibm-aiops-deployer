@@ -128,8 +128,12 @@
 
     echo "Getting local K8s API"
 
-    # API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    if [[ $API_TOKEN == "" ]];
+    then    
+      echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
+      API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    fi
     API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
     API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
     API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -211,8 +215,12 @@
 
     echo "Getting local K8s API"
 
-    # API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    if [[ $API_TOKEN == "" ]];
+    then    
+      echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
+      API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    fi
     API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
     API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
     API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -1554,19 +1562,6 @@
     # echo "${ZEN_TOKEN}"
 
 
-    echo "Getting local K8s API"
-
-    # API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-    API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
-    API_PORT=$(echo $API_URL| cut -d ":" -f 3)
-
-    echo "            🌏 API URL:               $API_URL"
-    echo "            🌏 API SERVER:            $API_SERVER"
-    echo "            🌏 API PORT:              $API_PORT"
-    echo "            🔐 API Token:             $API_TOKEN"
-
 
 
     echo "Sucessfully logged in" 
@@ -1757,19 +1752,6 @@
     ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
     # echo "${ZEN_TOKEN}"
 
-
-    echo "Getting local K8s API"
-
-    # API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-    API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
-    API_PORT=$(echo $API_URL| cut -d ":" -f 3)
-
-    echo "            🌏 API URL:               $API_URL"
-    echo "            🌏 API SERVER:            $API_SERVER"
-    echo "            🌏 API PORT:              $API_PORT"
-    echo "            🔐 API Token:             $API_TOKEN"
 
 
 
