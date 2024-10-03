@@ -287,7 +287,9 @@ echo "    🚀 2.5 Configure Applications - RobotShop Kubernetes Observer "
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
 echo "    " 
-API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+
+API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+#API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
 API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -332,7 +334,8 @@ echo " "
 echo " "
 echo "  📥 Openshift Command Line - ADMIN"
 echo ""
-API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+#API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 CONSOLE_URL="https://"$(oc get route -n openshift-console console -o jsonpath={.spec.host})
 API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
 echo "            🌏 URL:               $API_URL"

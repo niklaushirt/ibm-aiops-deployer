@@ -378,7 +378,8 @@ echo "<BR>"
 
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
 echo "    <h3>🚀 2.5 Configure Applications - RobotShop Kubernetes Observer </h3><BR>"
-API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+#API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
 API_PORT=$(echo $API_URL| cut -d ":" -f 3)

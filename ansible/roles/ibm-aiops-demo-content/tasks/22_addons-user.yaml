@@ -61,3 +61,20 @@
   when: USER_EXISTS.stdout|length == 0
 
 
+
+- name: 👩‍💻 DEMO USER - Create Token
+  shell: |
+        oc create token -n default demo-admin --duration=999999999s
+  ignore_errors: true
+  register: API_TOKEN
+
+
+- name: 👩‍💻 DEMO USER - Set Global Token as {{ API_TOKEN.stdout }} 
+  set_fact: API_TOKEN={{ API_TOKEN.stdout }} 
+
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: {{ API_TOKEN }} 
+    #verbosity: 1
+

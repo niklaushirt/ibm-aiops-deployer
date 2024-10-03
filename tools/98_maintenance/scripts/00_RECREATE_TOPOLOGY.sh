@@ -128,7 +128,8 @@
 
     echo "Getting local K8s API"
 
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+    #API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     if [[ $API_TOKEN == "" ]];
     then    
       echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
@@ -215,7 +216,8 @@
 
     echo "Getting local K8s API"
 
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+    #API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     if [[ $API_TOKEN == "" ]];
     then    
       echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
