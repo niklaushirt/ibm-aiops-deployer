@@ -23,7 +23,12 @@ def getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE):
     url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-    response = requests.get(url, headers=headers, auth=auth)#, verify=False)
+    #response = requests.get(url, headers=headers, verify=False)
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
     actIncidents=response.json()
 
     return actIncidents
@@ -48,7 +53,11 @@ def updateAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE):
     url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/alerts'
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-    response = requests.patch(url, data=data, headers=headers, auth=auth)#, verify=False)
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
     #print('                   RESULT:'+str(response.content))
     #print('               ✅ Close Alerts')
     #print('               ------------------------------------------------------------------------------------------------')
@@ -71,7 +80,11 @@ def updateIncidentsID(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE, incid
     url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+incident_id
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-    response = requests.patch(url, data=data, headers=headers, auth=auth)#, verify=False)
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
     #print('                   RESULT:'+str(response.content))
     #print('               ✅ Close Incidents')
     #print('               ------------------------------------------------------------------------------------------------')
@@ -95,7 +108,11 @@ def updateIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE):
     url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-    response = requests.patch(url, data=data, headers=headers, auth=auth)#, verify=False)
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
     #print('                   RESULT:'+str(response.content))
     #print('               ✅ Close Incidents')
     #print('               ------------------------------------------------------------------------------------------------')

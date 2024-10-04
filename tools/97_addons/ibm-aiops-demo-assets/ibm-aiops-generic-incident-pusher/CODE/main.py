@@ -3,6 +3,7 @@ import os
 import sys 
 import time 
 import requests
+from requests.auth import HTTPBasicAuth
 import time
 from functions import *
 import os
@@ -136,6 +137,7 @@ print ('')
 print ('    ---------------------------------------------------------------------------------------------')
 print ('     🔎 Global Parameters')
 print ('    ---------------------------------------------------------------------------------------------')
+print ('           🚀 ACTIVE:             '+ACTIVE)
 print ('           🔐 DEBUG:              '+DEBUG_ME)
 print ('           🕦 POLL_DELAY:         '+str(POLL_DELAY))
 print ('')
@@ -164,6 +166,31 @@ print ('    --------------------------------------------------------------------
 print('')
 print('')
 
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print('TEST')
+print('')
+
+url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
+auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+print ('📛 Test Connection')
+try:
+    response = requests.get(url,  headers=headers, auth=auth, verify=False)
+except requests.exceptions.RequestException as e:  # This is the correct syntax
+    stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+    print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+    raise SystemExit(e)
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+print ('    ---------------------------------------------------------------------------------------------')
+
+
+
 
 #while True:
 # print ('test')
@@ -178,16 +205,20 @@ print ('------------------------------------------------------------------------
 print (' 🚀 Initializing Pusher')
 print ('-------------------------------------------------------------------------------------------------')
 
+
+
+
+
+
 api_url = "https://"+DATALAYER_ROUTE+"/irdatalayer.aiops.io/active/v1/stories"
 
-
 s = requests.Session()
-s.auth = (DATALAYER_USER, DATALAYER_PWD)
-s.headers.update({'Content-Type':'application/json','x-username':'admin','x-subscription-id':'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'})
+s.auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+s.headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'cpadmin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
 
 print('     🌏 Running Initial Query')
 try:
-    response = s.get(api_url)
+    response = s.get(api_url, verify=False)
 except requests.ConnectionError as e:
    # handle ConnectionError the exception
    print('     ❗ Connection Error')
@@ -230,8 +261,12 @@ if ACTIVE=="True":
     while True:
         debug ('    🔎 treatedStories:'+str(treatedStories))
         debug('     🌏 Running Query')
+        s = requests.Session()
+        s.auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+        s.headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'cpadmin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+
         try:
-            response = s.get(api_url)
+            response = s.get(api_url, verify=False)
         except requests.ConnectionError as e:
             # handle ConnectionError the exception
             print('     ❗ Connection Error')
