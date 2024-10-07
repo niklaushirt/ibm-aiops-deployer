@@ -73,8 +73,3 @@
   set_fact: API_TOKEN={{ API_TOKEN.stdout }} 
 
 
-- name: 🟣  OUTPUT
-  debug: 
-    var: {{ API_TOKEN }} 
-    #verbosity: 1
-

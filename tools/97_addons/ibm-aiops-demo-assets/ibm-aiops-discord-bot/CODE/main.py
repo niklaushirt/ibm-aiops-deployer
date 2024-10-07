@@ -271,7 +271,8 @@ def createIncidentSock():
         response = requests.get(url, headers=headers, verify=False)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         print('     ❗ There was a hiccup')
-        raise SystemExit(e)    print('         RESULT:'+str(response.content))
+        raise SystemExit(e)    
+        print('         RESULT:'+str(response.content))
     print ('     ✅ DONE"')
 
 
@@ -379,6 +380,9 @@ class IncidentBot(commands.Bot):
         if message.author.id == self.user.id:
             return
 
+        print(" 📥 aaaaaaa"+str(message.content)) 
+        
+
         if message.content.startswith(DISCORD_BOT_PREFIX+'guess'):
             await message.channel.send('Guess a number between 1 and 10.')
 
@@ -422,6 +426,10 @@ class IncidentBot(commands.Bot):
                 await message.channel.send('--------------------------------------------------')
                 await message.channel.send('**🚀 Open Incidents**')
                 await message.channel.send('--------------------------------------------------')
+                print ('           🌏 Datalayer Route:              '+DATALAYER_ROUTE)
+                print ('           👩‍💻 Datalayer User:               '+DATALAYER_USER)
+                print ('           🔐 Datalayer Pwd:                '+DATALAYER_PWD)
+
                 actIncidents=getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE)
                 for currentIncident in actIncidents['stories']:
                     outputString=""
@@ -438,7 +446,7 @@ class IncidentBot(commands.Bot):
                     elif incidentState=="closed":
                         stateString="❌ Closed"
                     else:
-                        stateString=state
+                        stateString="inProgress"
                     title=currentIncident["title"]
                     priority=currentIncident["priority"]
                     owner=currentIncident["owner"]
@@ -647,6 +655,10 @@ class IncidentBot(commands.Bot):
                     print(" 📥 Command: Incidents")
                     await message.channel.send('**🚀 '+INSTANCE_NAME+' Open Incidents**')
                     await message.channel.send('--------------------------------------------------')
+                    print ('           🌏 Datalayer Route:              '+DATALAYER_ROUTE)
+                    print ('           👩‍💻 Datalayer User:               '+DATALAYER_USER)
+                    print ('           🔐 Datalayer Pwd:                '+DATALAYER_PWD)
+
                     actIncidents=getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE)
                     for currentIncident in actIncidents['stories']:
                         outputString=""
@@ -663,7 +675,7 @@ class IncidentBot(commands.Bot):
                         elif incidentState=="closed":
                             stateString="❌ Closed"
                         else:
-                            stateString=state
+                            stateString="inProgress"
                         title=currentIncident["title"]
                         priority=currentIncident["priority"]
                         owner=currentIncident["owner"]
@@ -784,7 +796,7 @@ class IncidentCreateActions(discord.ui.View):
     def __init__(self):
         super().__init__()
 
-    @discord.ui.button(label='RobotShop - Memory Problem', style=discord.ButtonStyle.red, custom_id='persistent_view:mem')
+    @discord.ui.button(label='RobotShop - Memory Problem', style=discord.ButtonStyle.red, custom_id='persistent_view:rsmem')
     async def green(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating RobotShop - Memory Incident', ephemeral=True)
         print('    🟠 Create THREADS')
@@ -792,16 +804,16 @@ class IncidentCreateActions(discord.ui.View):
         print('    🟠 Start THREADS')
         threadRun.start()
 
-    @discord.ui.button(label='RobotShop - Fiber Cut', style=discord.ButtonStyle.red, custom_id='persistent_view:mem')
-    async def green(self, interaction: discord.Interaction, button: discord.ui.Button):
+    @discord.ui.button(label='RobotShop - Fiber Cut', style=discord.ButtonStyle.red, custom_id='persistent_view:rsnet')
+    async def blue(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating RobotShop - Fiber Cut Incident', ephemeral=True)
         print('    🟠 Create THREADS')
-        threadRun = Thread(target=createIncidentRSNet)
+        threadRun = Thread(target=createIncidentRSFiber)
         print('    🟠 Start THREADS')
         threadRun.start()
 
 
-    @discord.ui.button(label='SockShop - Network Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:net')
+    @discord.ui.button(label='SockShop - Network Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:sonet')
     async def orange(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating SockShop - Network Incident', ephemeral=True)
         print('    🟠 Create THREADS')
@@ -810,7 +822,7 @@ class IncidentCreateActions(discord.ui.View):
         threadRun.start()
 
 
-    @discord.ui.button(label='ACME - Fan Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:fan')
+    @discord.ui.button(label='ACME - Fan Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:acfan')
     async def red(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating ACME - Fan Incident', ephemeral=True)
         print('    🟠 Create THREADS')

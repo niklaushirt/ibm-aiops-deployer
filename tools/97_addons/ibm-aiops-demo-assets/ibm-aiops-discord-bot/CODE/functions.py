@@ -25,12 +25,12 @@ def getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE):
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     #response = requests.get(url, headers=headers, verify=False)
     try:
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers, auth=auth, verify=False)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         print('     ❗ There was a hiccup')
-        raise SystemExit(e)
+        #raise SystemExit(e)
     actIncidents=response.json()
-
+    #print ('    🟣🟣🟣🟣🟣 Incidents:'+str(response.content))
     return actIncidents
 
 
@@ -54,7 +54,7 @@ def updateAlerts(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE):
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     try:
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers, auth=auth, verify=False)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         print('     ❗ There was a hiccup')
         raise SystemExit(e)
@@ -81,7 +81,7 @@ def updateIncidentsID(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE, incid
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     try:
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers, auth=auth, verify=False)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         print('     ❗ There was a hiccup')
         raise SystemExit(e)
@@ -109,7 +109,7 @@ def updateIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE):
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     try:
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers, auth=auth, verify=False)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         print('     ❗ There was a hiccup')
         raise SystemExit(e)
