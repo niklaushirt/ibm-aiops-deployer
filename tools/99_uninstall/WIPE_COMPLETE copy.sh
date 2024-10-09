@@ -32,8 +32,8 @@ echo "--------------------------------------------------------------------------
 echo " 🧻 Delete Namespace openldap"
 oc delete ns openldap &
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibm-aiops-installer"
-oc delete ns ibm-aiops-installer &
+echo " 🧻 Delete Namespace ibm-installer"
+oc delete ns ibm-installer &
 
 
 
@@ -45,14 +45,14 @@ oc delete ClusterRoleBinding default-robotinfo2-admin
 oc delete ClusterRoleBinding default-sockinfo1-admin           
 oc delete ClusterRoleBinding default-sockinfo2-admin           
 oc delete ClusterRoleBinding ibm-aiops-demo-ui-admin-crb       
-oc delete ClusterRoleBinding ibm-aiops-installer-admin         
-oc delete ClusterRoleBinding ibm-aiops-installer-default-admin 
+oc delete ClusterRoleBinding ibm-installer-admin         
+oc delete ClusterRoleBinding ibm-installer-default-admin 
 oc delete ClusterRoleBinding robot-shop                        
 oc delete ClusterRoleBinding test-admin    
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo " 🧻 Delete Namespace ibm-aiops-installer"
-oc delete ns ibm-aiops-installer &
+echo " 🧻 Delete Namespace ibm-installer"
+oc delete ns ibm-installer &
 
 
 
@@ -121,11 +121,11 @@ oc delete ns ibm-aiops-installer &
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete IBM CatalogSource"
-oc delete CatalogSource -n openshift-marketplace ibm-operator-catalog
+oc delete CatalogSource -n openshift-marketplace ibm-aiops-catalog
 
 
-oc delete ClusterRoleBinding ibm-aiops-installer-admin &
-oc patch ClusterRoleBinding ibm-aiops-installer-admin -p '{"metadata":{"finalizers":null}}' --type=merge  
+oc delete ClusterRoleBinding ibm-installer-admin &
+oc patch ClusterRoleBinding ibm-installer-admin -p '{"metadata":{"finalizers":null}}' --type=merge  
 
 exit 1
 

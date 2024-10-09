@@ -1,12 +1,12 @@
 #!/bin/bash
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#         ________  __  ___     ___    ________       
-#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
-#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
-#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
-#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
-#                                           /_/
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -174,7 +174,7 @@ function check_array(){
       export ZEN_TOKEN=$(curl -s -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
       -H "username: $CPADMIN_USER" \
       -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
-      #echo $ZEN_TOKEN
+      echo $ZEN_TOKEN
 
 
       echo "        Sucessfully logged in" 
@@ -264,6 +264,52 @@ EOF
       checkNamespace
 
       
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# EXAMINE CONNECTIONS
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK CONNECTIONS"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+
+
+
+      export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
+      export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
+
+      echo "        Namespace:          $AIOPS_NAMESPACE"
+      echo "        AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
+      echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
+      echo ""
+
+
+      export result=$(curl -s -X 'GET' --insecure \
+      "https://$AIO_PLATFORM_ROUTE/v3/connections" \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+            -H "authorization: Bearer $ZEN_TOKEN" |jq|grep ELKGoldenSignal|wc -l|tr -d ' ')
+
+      #echo $result
+
+      if  ([[ $result -lt 1 ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="ELKGoldenSignal connection missing"
+                  handleError
+            else  
+                  echo "         ✅ OK - ELKGoldenSignal exists"; 
+            fi
+
+
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -354,6 +400,72 @@ EOF
 
 
 
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# CHECK LAGS TRAINING
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "  🚀 CHECK LAGS TRAINING"
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
+
+
+
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      echo "   🔎  Get Cassandra Authentication"	
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      export CASSANDRA_PASS=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 -d)
+      export CASSANDRA_USER=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 -d)
+
+      echo "CASSANDRA_USER:$CASSANDRA_USER"
+      echo "CASSANDRA_PASS:$CASSANDRA_PASS"
+      export result=$(oc exec -ti -n $AIOPS_NAMESPACE aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"SELECT * FROM tararam.md_metric_resource;\""|grep log_template_|wc -l|tr -d ' ')
+
+
+      #echo $result
+
+      if  ([[ $result == "0" ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="LAGS training incomplete - no metrics"
+                  handleError
+            else  
+                  echo "          ✅ OK - ELKGoldenSignal exists ($result models)"; 
+            fi
+
+
+
+
+
+
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      echo "   🔎  Get ElasticSearch LAGS Index"	
+      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
+
+      export ES_ROUTE=$(oc get route -n $AIOPS_NAMESPACE iaf-system-es  -o jsonpath={.spec.host})
+      export username=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.username}"| base64 --decode)	
+      export password=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
+      echo ""	
+      echo "           🌐 Elastic URL:                  $ES_ROUTE"	
+      echo "           🙎‍♂️ User:                         $username"	
+      echo "           🔐 Password:                     $password"	
+
+
+      export existingIndexes=$(curl -s -k -u $username:$password -XGET https://$ES_ROUTE/_cat/indices|grep 1000-1000-la_golden_signals-models|wc -l|tr -d ' ')
+      if  ([[ $result == "0" ]]); 
+            then 
+                  export CURRENT_ERROR=true
+                  export CURRENT_ERROR_STRING="LAGS training incomplete - no teplates in ElastcSearch"
+                  handleError
+            else  
+                  echo "          ✅ OK"; 
+            fi
 
 
 
@@ -529,7 +641,7 @@ EOF
         echo ""
         echo ""
         OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-        INSTALL_POD=$(oc get po -n ibm-aiops-installer -l app=ibm-aiops-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+        INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
 oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
@@ -543,7 +655,7 @@ spec:
     location: "BannerTop"
     text: "⚠️ WARNING: Your Installation has some problems. Please check the Installation Logs and re-run the installer by deleting the Pod"
     link:
-        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-aiops-installer/pods/$INSTALL_POD/logs"
+        href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
         text: Open Logs
 EOF
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')

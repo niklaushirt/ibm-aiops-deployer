@@ -1,4 +1,4 @@
-<center> <h1>🐣 CloudPak for AIOps - Demo-in-a-Box</h1> </center>
+<center> <h1>🐣 IBM IT Automation - Demo-in-a-Box</h1> </center>
 
 
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
@@ -11,9 +11,15 @@
 
 <div style="page-break-after: always;"></div>
 
+
 <BR>
 
-## FIX for Deleted AWX Operator from OpenShift Catalog
+## Changelog
+
+- ❗ Complete overhaul of file structures and configuration files - Old ConfigMaps won't work anymore
+- Support for **IBM Concert 1.0.1**
+- Support for CP4AIOps Version 4.7.0 FVT
+
 
 <BR>
 ### ⚠️ Disclaimer
@@ -38,8 +44,9 @@
 > 
 > **❗The installation has been tested on OpenShift 4.14 and 4.15 on:**
 > 
-> - OpenShift Cluster (VMware on IBM Cloud) - UPI
-> 
+> - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
+> - OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
+>
 > But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 > 
 > 
@@ -55,7 +62,7 @@
 # 0. Introduction
 ---------------------------------------------------------------
 
-The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environment that is self-contained (e.g. can be deployed in only one cluster)
+The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environments for IBM IT Automation Solutions that are self-contained (e.g. can be deployed in only one cluster)
 
 <details>
 <summary>Details...</summary>
@@ -79,9 +86,14 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 >		- Policies for Incident creation
 >		- Custom Alert View
 >
->  - **Turbonomic**  (optional)
->  - **Instana**  (optional)
-
+>  - **IBM Concert** 
+>  - **IBM Concert Demo Content** 
+> 
+>  - **IBM Turbonomic** 
+>  - **IBM Turbonomic Demo Content** 
+> 
+>  - **IBM Instana** 
+>  - **IBM Instana Demo Content** 
 
 > #### ⚠️ **This method creates an in-cluster installation**
 > 
@@ -96,25 +108,29 @@ The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Dem
 
 ## 🚀 Getting Started
 
-🐥 [Quick Install](#1-preparation)
+Basically:
 
 * Get an OpenShift Cluster
 * Get your entitlement key/pull token
 * Paste the install file into the OpenShift web UI and insert your entitlement key
 * Grab a coffe and come back after 2-3 hours depending on the modules you're installing
 
-🚀 [Demo the Solution](#3-demo-the-solution)
 
-🤓 [Demo Setup - Explained](#5-demo-setup---explained)
+### 🐥 Quick Install
 
-📦 [Create a custom Scenario](#6-custom-scenarios)
+- 🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
+- 🚀 [Quick Install - IBM Concert](#22--install-ibm-concert-with-demo-content)
+- 🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
+- 🚀 [Quick Install - IBM Instana](#24--install-ibm-instana-with-demo-content)
 
-🧨 [Troubleshooting](#7-troubleshooting)
+- 🧨 [Troubleshooting](#4-troubleshooting)
+- 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
-📱 [Slack integration](#4-slack-integration) (optional)
 
-🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
-
+### 🐥 IBM AIOps specific
+- 🚀 [Demo the Solution](#31-demo-the-solution)
+- 🤓 [Demo Setup - Explained](#33-demo-setup---explained)
+- 📦 [Create a custom Scenario](#34-demo-setup---explained)
 
 
 <div style="page-break-after: always;"></div>
@@ -140,12 +156,14 @@ I installed the demo in a Techzone environment.
 
 You'll need:
 
-- OpenShift Cluster (VMware on IBM Cloud) - IPI
-- OpenShift Cluster (VMware on IBM Cloud) - UPI
+- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software) or
+- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
 - 4x worker nodes with **32 CPU / 128 GB**  ❗
 
+- 3x worker nodes with **16 CPU / 64 GB**  for IBM Concert❗
 
-You **might** get away with less if you don't install some components (ELK, Turbonomic,...) but no guarantee.
+
+You **might** get away with less if you don't install some components but no guarantee.
 
 
 
@@ -155,7 +173,7 @@ You **might** get away with less if you don't install some components (ELK, Turb
 IBMers and Partners can get a temporary cluster from [**Techzone**](https://techzone.ibm.com/collection/tech-zone-certified-base-images).
 
 
-1. Select `OpenShift Cluster (VMware on IBM Cloud) - UPI - Public` Openshift that you want to use above
+1. Select the Environment type Openshift that you want to use above
 
 1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number
 
@@ -280,9 +298,12 @@ This installation contains:
 
 </details>
 
+</details>
+
 
 <details>
-<summary>✅ Instructions</summary>
+<summary>🚀 **Installation Instructions** </summary>
+
 
 ![K8s CNI](./doc/pics/install01.png)
 
@@ -293,7 +314,10 @@ This installation contains:
 3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
 3. Click `Save`
 
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+> #### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
 
 
 <div style="page-break-after: always;"></div>
@@ -314,6 +338,112 @@ This installation contains:
 <div style="page-break-after: always;"></div>
 
 </details>
+
+
+
+
+
+</details>
+
+
+<details>
+<summary>🔎 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	![install](./doc/pics/notification02.png)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+	![install](./doc/pics/install04.png)
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+	![install](./doc/pics/notification03.png)
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	![install](./doc/pics/notification01.png)
+	
+	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
+
+	And you get this message in the logs
+
+	![install](./doc/pics/install05.png)
+
+
+</details>
+
+
+
+<details>
+<summary>🔎 Verify your installation</summary>
+
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+
+
+### 2.3.1 Check Overall
+Check that the green notification bar is displayed as follows
+
+![install](./doc/pics/check01.png)
+	
+### 2.3.2 Check Training
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
+2. Check that the Training are displayed as follows
+
+![install](./doc/pics/check02.png)
+
+### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
+
+
+### 2.3.3 Check Automations
+
+#### 2.3.3.1 Check Policies
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Policies` Tab
+2. Enter `DEMO` into the search field
+2. Check that you have 5 Policies as shown below
+
+![install](./doc/pics/check03.png)
+
+
+#### 2.3.3.2 Check Runbooks
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Runbooks ` Tab
+2. Check that you have 4 Runbooks as shown below
+
+![install](./doc/pics/check04.png)
+
+#### 2.3.3.3 Check Actions
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
+2. Select the `Actions ` Tab
+3. 2. Enter `DEMO` into the search field
+2. Check that you have some Actions present as shown below
+
+![install](./doc/pics/check05.png)
+
+### 2.3.4 Check Applications
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
+2. Check that the Applications are displayed as follows
+
+![install](./doc/pics/check07.png)
+
+
+### 2.3.4 Check Connections
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
+2. Check that the Connections are displayed as follows
+
+![install](./doc/pics/check06.png)
+
+
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+
+
+</details>
+
 
 <details>
 <summary>👩‍💻 Characters to chose from</summary>
@@ -406,165 +536,258 @@ You can chose from the following:
 
 </details>
 
-> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
-
-> ####  ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
 
 
 
-## 2.2 🔎 Follow the installation progress 
+## 2.2 🐣 Install IBM Concert with demo content
+
+#### 🚀 Get IBM Concert installed and demo content installed in one simple script.
+
+![Characters](./doc/pics/concert2.png)
+
+
 <details>
-<summary>✅ Instructions</summary>
+<summary>📦 Contents</summary>
 
+This installation contains:
 
-- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+> - **IBM Concert**
+> 	- IBM Concert Instance
+> - **IBM Concert Demo Content**
+>    - **Default** Demo Content
+>    - **SBOMs**
+>	   - App, Build and Deploy for RobotShop
+>    - **Certificates**
+>	   - Certificates for RobotShop
+>    - **Compliance**
+>	   - Custom NIST Demo Compliance
+> - **Demo Applications**
+>   - RobotShop Demo App
+>   - SockShop Demo App
+<div style="page-break-after: always;"></div>
 
-	![install](./doc/pics/notification02.png)
-
-	You can open and follow the installation logs by clicking on `Open Logs` 
-
-	![install](./doc/pics/install04.png)
-
-
-- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
-
-	![install](./doc/pics/notification03.png)
-
-
-- When the Installation has succeeded, you get the top green Notification bar
-	
-	![install](./doc/pics/notification01.png)
-	
-	You can directly open the DemoUI by clicking on the link or go to the chapter [Demo the Solution](#3-demo-the-solution) to learn how to run an efficient demo
-
-	And you get this message in the logs
-
-	![install](./doc/pics/install05.png)
-
+</details>
 
 </details>
 
 
-## 2.3 🔎 Verify your installation
 <details>
-<summary>✅ Instructions</summary>
-
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+<summary>🚀 **Installation Instructions** </summary>
 
 
-### 2.3.1 Check Overall
-Check that the green notification bar is displayed as follows
-
-![install](./doc/pics/check01.png)
-	
-### 2.3.2 Check Training
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
-2. Check that the Training are displayed as follows
-
-![install](./doc/pics/check02.png)
-
-### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
-
-
-### 2.3.3 Check Automations
-
-#### 2.3.3.1 Check Policies
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
-2. Select the `Policies` Tab
-2. Enter `DEMO` into the search field
-2. Check that you have 5 Policies as shown below
-
-![install](./doc/pics/check03.png)
-
-
-#### 2.3.3.2 Check Runbooks
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
-2. Select the `Runbooks ` Tab
-2. Check that you have 4 Runbooks as shown below
-
-![install](./doc/pics/check04.png)
-
-#### 2.3.3.3 Check Actions
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
-2. Select the `Actions ` Tab
-3. 2. Enter `DEMO` into the search field
-2. Check that you have some Actions present as shown below
-
-![install](./doc/pics/check05.png)
-
-### 2.3.4 Check Applications
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
-2. Check that the Applications are displayed as follows
-
-![install](./doc/pics/check07.png)
-
-
-### 2.3.4 Check Connections
-1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
-2. Check that the Connections are displayed as follows
-
-![install](./doc/pics/check06.png)
-
-
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
-
-
-</details>
-
-
-## 2.4 🚀 Install additional IT Automation Components
-
-
-### 2.4.1 Install Turbonomic
-
-<details>
-<summary>✅ Instructions</summary>
-
-
-You get Turbonomic installed and pre-configured in one simple script.
-Ready to go.
-
-
-
-![K8s CNI](./doc/pics/install02.png)
+![K8s CNI](./doc/pics/install01.png)
 
 1. In the the OCP Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-5. Replace the TURBO_LICENSE `NONE` at the top of the file with your Turbonomic license if you have one
+1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
 3. Click `Save`
 
-> ℹ️❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
 
 
-This installation adds:
 
-
-> - **Turbonomic**
-> - **Turbonomic Demo Content**
-> 		- Demo User
-> 		- RobotShop Demo App with synthetic metric
-> 		- Instana target (if Instana is installed - you have to enter the API Token Manually)
-> 		- Groups for vCenter and RobotShop
-> 		- Groups for licensing
-> 		- Resource Hogs
 
 <div style="page-break-after: always;"></div>
-
 
 </details>
 
 
 
+
+</details>
+
+
+<details>
+<summary>🔎 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open IBM Concert by clicking on the link 
+
+</details>
+
+
+
+
+
+
+## 2.3 🐣 Install IBM Turbonomic with demo content
+
+#### 🚀 Get IBM Turbonomic installed and demo content installed in one simple script.
+
+![Characters](./doc/pics/turbo1.png)
+
+
+<details>
+<summary>📦 Contents</summary>
+
+This installation contains:
+
+> - **IBM Turbonomic**
+> 	- IBM Turbonomic Instance
+> - **IBM Turbonomic Demo Content**
+> - **Demo Applications**
+>   - RobotShop Demo App
+>   - SockShop Demo App
+
 <div style="page-break-after: always;"></div>
 
+</details>
+
+</details>
+
+
+<details>
+<summary>🚀 **Installation Instructions** </summary>
+
+
+![K8s CNI](./doc/pics/install01.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
+3. Click `Save`
+
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+
+
+</details>
+
+
+<details>
+<summary>🔎 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open IBM Turbonomic by clicking on the link 
+
+</details>
+
+
+
+
+
+## 2.4 🐣 Install IBM Instana with demo content
+
+#### 🚀 Get IBM Instana installed and demo content installed in one simple script.
+
+![Characters](./doc/pics/instana1.png)
+
+
+<details>
+<summary>📦 Contents</summary>
+
+This installation contains:
+
+> - **IBM Instana**
+> 	- IBM Instana Instance
+> - **IBM Instana Demo Content**
+>    - TBD
+> - **Demo Applications**
+>   - RobotShop Demo App
+>   - SockShop Demo App
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+</details>
+
+
+<details>
+<summary>🚀 **Installation Instructions** </summary>
+
+
+![K8s CNI](./doc/pics/install01.png)
+
+1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
+3. Click `Save`
+
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+
+
+</details>
+
+
+<details>
+<summary>🔎 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open IBM Instana by clicking on the link 
 
 </details>
 
 
 ---------------------------------------------------------------
-# 3. Demo the Solution
+# 3. CloudPak for AIOps
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+## 3.1 Demo the Solution
 ---------------------------------------------------------------
 
 📹 Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
@@ -577,7 +800,7 @@ This installation adds:
 <details>
 <summary>🌏 Access the Environment</summary>
 
-## 3.1 Access the Environment
+### 3.1.1 Access the Environment
 
 To access the demo environment:
 
@@ -596,7 +819,7 @@ To access the demo environment:
 <details>
 <summary>🔐 Login to IBM AIOps as demo User</summary>
 
-## 3.2 Login to IBM AIOps as demo User
+### 3.1.2 Login to IBM AIOps as demo User
 
 * Click on the blue `IBM AIOps` button
 * Login as User `demo` with the Password `Selected at installation`
@@ -615,7 +838,7 @@ To access the demo environment:
 <details>
 <summary>🚀 Demo the Solution</summary>
 
-## 3.3 🚀 Demo the Solution
+### 3.1.3 🚀 Demo the Solution
 
 Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
@@ -627,7 +850,7 @@ Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environ
 
 
 ---------------------------------------------------------------
-# 4. Slack integration
+## 3.2 Slack integration
 ---------------------------------------------------------------
 
 ### ❗ Those instructions need updating, please follow the official documentation.
@@ -649,7 +872,7 @@ For the system to work you need to follow those steps:
 <details>
 <summary>📥 Detailed Instructions</summary>
 
-## 4.1 Create your Slack Workspace
+### 3.2.1 Create your Slack Workspace
 
 1. Create a Slack workspace by going to https://slack.com/get-started#/createnew and logging in with an email <i>**which is not your IBM email**</i>. Your IBM email is part of the IBM Slack enterprise account and you will not be able to create an independent Slack workspace outside if the IBM slack service. 
 
@@ -689,7 +912,7 @@ At this point you have created your own Slack workspace where you are the admini
 <div style="page-break-after: always;"></div>
 
 
-## 4.2 Create Your Slack App
+### 3.2.2 Create Your Slack App
 
 1. Create a Slack app, by going to https://api.slack.com/apps and clicking `Create New App`. 
 
@@ -722,7 +945,7 @@ At this point you have created your own Slack workspace where you are the admini
 <div style="page-break-after: always;"></div>
 
 
-## 4.3 Create Your Slack Channels
+### 3.2.3 Create Your Slack Channels
 
 
 1. In Slack add a two new channels:
@@ -757,7 +980,7 @@ At this point you have created your own Slack workspace where you are the admini
 
 <div style="page-break-after: always;"></div>
 
-## 4.4 Integrate Your Slack App
+### 3.2.4 Integrate Your Slack App
 
 In the Slack App: 
 
@@ -801,7 +1024,7 @@ In the IBM AIOps (IBMAIOPS)
 <div style="page-break-after: always;"></div>
 
 
-## 4.5 Create the Integration URL
+### 3.2.5 Create the Integration URL
 
 In the IBM AIOps (IBMAIOPS) 
 
@@ -817,11 +1040,11 @@ This is the URL you will be using for step 6.
 <div style="page-break-after: always;"></div>
 
 
-## 4.6 Create Slack App Communications
+### 3.2.6 Create Slack App Communications
 
 Return to the browser tab for the Slack app. 
 
-### 4.6.1 Event Subscriptions
+#### 3.2.6.1 Event Subscriptions
 
 1. Select `Event Subscriptions`.
 
@@ -847,7 +1070,7 @@ Return to the browser tab for the Slack app.
 6. Click `Save Changes` button.
 
 
-### 4.6.2 Interactivity & Shortcuts
+#### 3.2.6.2 Interactivity & Shortcuts
 
 7. Select `Interactivity & Shortcuts`. 
 
@@ -859,7 +1082,7 @@ Return to the browser tab for the Slack app.
 
 9. Click `Save Changes` button.
 
-### 4.6.3 Slash Commands
+#### 3.2.6.3 Slash Commands
 
 Now, configure the `welcome` slash command. With this command, you can trigger the welcome message again if you closed it. 
 
@@ -878,7 +1101,7 @@ Now, configure the `welcome` slash command. With this command, you can trigger t
 
 3. Click `Save`.
 
-### 4.6.4 Reinstall App
+#### 3.2.6.4 Reinstall App
 
 The Slack app must be reinstalled, as several permissions have changed. 
 
@@ -897,10 +1120,10 @@ If you run into problems validating the `Event Subscription` in the Slack Applic
 
 <div style="page-break-after: always;"></div>
 
-## 4.7 Slack Reset
+### 3.2.7 Slack Reset
 
 
-### 4.7.1 Get the User OAUTH Token
+#### 3.2.7.1 Get the User OAUTH Token
 
 This is needed for the reset scripts in order to empty/reset the Slack channels.
 
@@ -910,7 +1133,7 @@ You might have to install this:
 ```bash
 pip3 install slack-cleaner2
 ```
-#### Reset reactive channel 
+##### Reset reactive channel 
 
 In your Slack app
 
@@ -922,7 +1145,7 @@ In file `./tools/98_maintenance/scripts/13_reset-slack.sh`
 3. Adapt the channel name for the `SLACK_REACTIVE` parameter
 
 
-#### Reset proactive channel 
+##### Reset proactive channel 
 
 In your Slack app
 
@@ -935,7 +1158,7 @@ In file `./tools/98_maintenance/scripts/14_reset-slack-changerisk.sh`
 
 
 
-### 4.7.2 Perform Slack Reset
+#### 3.2.7.2 Perform Slack Reset
 
 Call either of the scripts above to reset the channel:
 
@@ -953,7 +1176,7 @@ or
 
 
 ---------------------------------------------------------------
-# 5. Demo Setup - Explained
+## 3.3 Demo Setup - Explained
 ---------------------------------------------------------------
 
 
@@ -962,7 +1185,7 @@ or
 <details>
 <summary>📥 Basic Architecture</summary>
 
-## 5.1 Basic Architecture
+### 3.3.1 Basic Architecture
 
 The environement (Kubernetes, Applications, ...) create logs that are being fed into a Log Management Tool (ELK in this case).
 
@@ -982,7 +1205,7 @@ The environement (Kubernetes, Applications, ...) create logs that are being fed 
 <details>
 <summary>📥 Optimized Demo Architecture</summary>
 
-## 5.2 Optimized Demo Architecture
+### 3.3.2 Optimized Demo Architecture
 
 The idea of this repo is to provide a optimised, complete, pre-trained demo environment that is self-contained (e.g. can be deployed in only one cluster)
 
@@ -1045,9 +1268,9 @@ This allows us to:
 <details>
 <summary>📥 Training </summary>
 
-## 5.3 Training
+### 3.3.3 Training
 
-### 5.3.1 Loading training data
+#### 3.3.3.1 Loading training data
 
 ![demo](./doc/pics/aiops_arch_training.jpg)
 
@@ -1058,7 +1281,7 @@ Loading Training data is done at the lowest possible level (for efficiency and s
 * Metrics: Loading Cassandra dumps of metric data - 3 months of synthetic data for 13 KPIs
 
 
-### 5.3.2 Training the models
+#### 3.3.3.2 Training the models
 
 The models can be trained directly on the data that has been loaded as described above.
 
@@ -1069,7 +1292,7 @@ The models can be trained directly on the data that has been loaded as described
 <details>
 <summary>📥 Incident creation</summary>
 
-## 5.4 Incident creation (inception)
+### 3.3.4 Incident creation (inception)
 
 ![demo](./doc/pics/aiops_arch_inception.jpg)
 
@@ -1088,7 +1311,7 @@ Incidents are being created by using the high level APIs in order to simulate a 
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 6. Custom Scenarios
+## 3.4 Custom Scenarios
 ---------------------------------------------------------------
 
 ![demo](./doc/pics/custom01.png)
@@ -1102,12 +1325,12 @@ By default the custom scenario is disabled. In order to enable it you have to mo
 > ℹ️ If you want to update the Topology after a modification of the CustomMap, you can use the `Reload Topolgy` Button on the `About` Tab.
 
 
-## 6.1 📥 Custom Scenario Parameters
+### 3.4.1 📥 Custom Scenario Parameters
 
 <details>
 <summary>📥 Topology</summary>
 
-### 6.1.1 Topology
+#### 3.4.1.1 Topology
 
 To create a complete Topology/Application, you have to define the following variables:
 
@@ -1151,7 +1374,7 @@ A typical Vertex (Entity)
 <details>
 <summary>📥 Events</summary>         
 
-### 6.1.2 Events
+#### 3.4.1.2 Events
 
 Inject Events to simulate the Custom Scenario.
 
@@ -1208,7 +1431,7 @@ Inject Events to simulate the Custom Scenario.
 <details>
 <summary>📥 Metrics</summary>
 
-### 6.1.3 Metrics
+#### 3.4.1.3 Metrics
 
 Inject Metrics to simulate the Custom Scenario.
 
@@ -1251,7 +1474,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 <details>
 <summary>📥 Logs</summary>
 
-### 6.1.4 Logs
+#### 3.4.1.4 Logs
 
 Inject Logs to simulate the Custom Scenario.
 
@@ -1292,7 +1515,7 @@ A typical Vertex (Entity)
 <details>
 <summary>📥 Logs</summary>
 
-### 6.1.5 Property Change
+#### 3.4.1.5 Property Change
 
 Simulate change in an Topology Objects Propoerties.
 
@@ -1320,7 +1543,7 @@ A typical Entry
 </details>
 
 
-## 6.2 📥 Example
+### 3.4.2 📥 Example
 
 <details>
 <summary>📥 Example</summary>
@@ -1374,7 +1597,7 @@ data:
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-# 7. Troubleshooting
+# 4 Troubleshooting
 ---------------------------------------------------------------
 
 > ### ❗ Globally: if there is and error or something missing [re-run the installer Pod](#re-run-the-installer)
@@ -1467,7 +1690,7 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 > #### ❗ It won't destroy anything!
 
 1. Go to your OpenShift UI
-2. Select Namespace `ibm-aiops-installer`
+2. Select Namespace `ibm-installer`
 3. Select Workloads/Pods
 4. You should see something like this
 

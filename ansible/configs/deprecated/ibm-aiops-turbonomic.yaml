@@ -15,7 +15,7 @@ global_config:
   # --------------------------------------------------------------------------------------------------------------------------------------
   entitled_registry: cp.icr.io
   entitled_registry_user: cp
-  catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+  catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
 
   # --------------------------------------------------------------------------------------------------------------------------------------
   # Notifications and Cards
@@ -78,7 +78,7 @@ ibmaiops:
   # IBM AIOPS TURBONOMIC
   # --------------------------------------------------------------------------------------------------------------------------------------
 
-  - name: ibm-aiops-turbonomic
+  - name: ibm-turbonomic
     kind: Turbonomic
     install: true
     turbo_version: 8.10.3
@@ -89,7 +89,7 @@ ibmaiops:
     #storage_class_file: automatic
     #storage_class_block: automatic
 
-  - name: ibm-aiops-turbonomic-demo-content
+  - name: ibm-turbonomic-demo-content
     kind: TurbonomicDemoContent
     install: true
     # Admin User Password (OVERRIDES GLOBAL PASSWORD)

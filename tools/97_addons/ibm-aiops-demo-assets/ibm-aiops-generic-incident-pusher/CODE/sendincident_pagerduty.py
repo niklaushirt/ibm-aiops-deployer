@@ -130,8 +130,12 @@ def sendIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DATAL
     sendSession = requests.Session()
     sendSession.headers.update({'Content-Type':'application/json'})
     print('           🌏 Sending Incident to Pagerduty')
-    response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
-    
+    try:
+        response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
+
     debug(str(response.text))
 
 
@@ -227,8 +231,12 @@ def updateIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DAT
     sendSession = requests.Session()
     sendSession.headers.update({'Content-Type':'application/json'})
     print('           🌏 Updating Incident on '+PROVIDER_NAME+'')
-    response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
-    
+    try:
+        response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
+
     debug(response.json())
 
 
@@ -286,8 +294,12 @@ def resolveIncidentToProvider(currentIncidentID, DATALAYER_USER, DATALAYER_PWD, 
     sendSession = requests.Session()
     sendSession.headers.update({'Content-Type':'application/json'})
     print('           🌏 Resolving Incident on '+PROVIDER_NAME+'')
-    response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
-    
+    try:
+        response = sendSession.post(PROVIDER_URL, json=MESSAGE_TEMPLATE)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
+
     debug(response.json())
 
 

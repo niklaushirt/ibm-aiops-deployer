@@ -45,6 +45,9 @@ print ('')
 
 
 
+
+
+
 #os.system('ls -l')
 loggedin='false'
 loginip='0.0.0.0'
@@ -375,7 +378,8 @@ echo "<BR>"
 
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
 echo "    <h3>🚀 2.5 Configure Applications - RobotShop Kubernetes Observer </h3><BR>"
-API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+#API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
 API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -554,12 +558,16 @@ instana_url = stream.read().strip()
 
 print('     ❓ Getting Details Openshift Console')
 stream = os.popen('oc get route -n openshift-console console -o jsonpath={.spec.host}')
-openshift_url = stream.read().strip()
-stream = os.popen("oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode")
-openshift_token = stream.read().strip()
-stream = os.popen("oc config view --minify|grep 'server:'| sed 's/.*server: .*\///'| head -1")
-#stream = os.popen("oc status|head -1|awk '{print$6}'")
 openshift_server = stream.read().strip()
+openshift_url = 'https://'+openshift_server.replace("console-openshift-console.apps", "api")+':6443'
+stream = os.popen("oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode")
+openshift_token = stream.read().strip()
+
+# stream = os.popen("oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode")
+# openshift_token = stream.read().strip()
+# stream = os.popen("oc config view --minify|grep 'server:'| sed 's/.*server: .*\///'| head -1")
+# #stream = os.popen("oc status|head -1|awk '{print$6}'")
+# openshift_server = stream.read().strip()
 stream = os.popen("oc get deployment -n ibm-aiops-demo-ui ibm-aiops-demo-ui -ojson|jq -r '.spec.template.spec.containers[0].image'")
 demo_image = stream.read().strip()
 
@@ -716,6 +724,11 @@ print ('🟣           🔐 Datalayer Pwd:                  '+DATALAYER_PWD)
 print ('🟣')   
 print ('🟣           🌏 Metric Route:                   '+METRIC_ROUTE)
 print ('🟣           🔐 Metric Token:                   '+METRIC_TOKEN[:25]+'...')
+
+print ('🟣')   
+print ('🟣           🌏 OCP Route:                      '+openshift_url)
+print ('🟣           🌏 OCP Server:                     '+openshift_server)
+print ('🟣           🔐 OCP Token:                      '+openshift_token[:25]+'...')
 print ('🟣')   
 print ('🟣')
 print ('🟣    ---------------------------------------------------------------------------------------------')
@@ -1225,9 +1238,15 @@ def injectAllRobotNetREST(request):
 
 
         print('  🟠 Create THREADS CUSTOM_PROPS')
-        threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "ERROR"}',))
         print('  🟠 Start THREADS CUSTOM_PROPS')
-        threadLogs.start()
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "ERROR"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
 
 
     else:
@@ -1334,6 +1353,40 @@ def injectRESTHeadless(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+
+    if currentapp=='robotshopnet':
+        print('  🟠 Create THREADS')
+        
+        threadEvents = Thread(target=injectEventsNetRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
+        threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        threadMetrics.start()
+        threadLogs.start()
+        threadLinks.start()
+
+        print('🌏 Create RobotShop MySQL outage')
+        os.system('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
+        os.system('oc set env deployment load -n robot-shop ERROR=1')
+
+        #addExternalLinksToIncident(request)
+        INCIDENT_ACTIVE=True
+        ROBOT_SHOP_OUTAGE_ACTIVE=True
+
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "ERROR"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "ERROR"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
 
 
     elif currentapp=='sockshop':
@@ -1510,6 +1563,17 @@ def injectRESTHeadless(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
@@ -2162,6 +2226,17 @@ def clearAllREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS ROBOTSHOP_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         time.sleep(5)
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
@@ -2233,6 +2308,17 @@ def clearEventsREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))
@@ -2298,6 +2384,17 @@ def clearStoriesREST(request):
         threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_OK,))
         print('  🟠 Start THREADS CUSTOM_PROPS')
         threadLogs.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs1 = Thread(target=modifyProperty, args=('frapod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs1.start()
+        print('  🟠 Create THREADS CUSTOM_PROPS')
+        #threadLogs = Thread(target=modifyProperty, args=(ROBOTSHOP_PROPERTY_RESOURCE_NAME,ROBOTSHOP_PROPERTY_RESOURCE_TYPE,ROBOTSHOP_PROPERTY_VALUES_NOK,))
+        threadLogs2 = Thread(target=modifyProperty, args=('bepod01','fiberConnection','{"availability": "OK"}',))
+        print('  🟠 Start THREADS CUSTOM_PROPS')
+        threadLogs2.start()
+
         if len(CUSTOM_PROPERTY_RESOURCE_NAME)>0:
             print('  🟠 Create THREADS CUSTOM_PROPS')
             threadLogs = Thread(target=modifyProperty, args=(CUSTOM_PROPERTY_RESOURCE_NAME,CUSTOM_PROPERTY_RESOURCE_TYPE,CUSTOM_PROPERTY_VALUES_OK,))

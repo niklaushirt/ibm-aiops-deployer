@@ -3,7 +3,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: ibm-aiops-install-configuration-aiops-demo-content
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 immutable: false
 data:
   INSTALLATION_CONFIG.yaml: >+
@@ -34,7 +34,7 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards

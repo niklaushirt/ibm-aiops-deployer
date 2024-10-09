@@ -189,7 +189,7 @@ def resolveIncidentInstana():
 # --------------------------------------------------------------------------------
 # AIOPS
 # --------------------------------------------------------------------------------
-def createIncidentMem():
+def createIncidentRSMem():
     print ('    --------------------------------------------------------------------------------')
     print ('     🚀 Running Simulator - RobotShop Memory')
     print ('    --------------------------------------------------------------------------------')
@@ -203,7 +203,36 @@ def createIncidentMem():
 
     url = 'https://'+DENO_UI_ROUTE+'/injectRESTHeadless?app=robotshop'
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8'}
-    response = requests.get(url, headers=headers)#, verify=False)
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
+
+    print('         RESULT:'+str(response.content))
+    print ('     ✅ DONE"')
+
+
+
+def createIncidentRSFiber():
+    print ('    --------------------------------------------------------------------------------')
+    print ('     🚀 Running Simulator - RobotShop Fiber cut')
+    print ('    --------------------------------------------------------------------------------')
+    stream = os.popen('oc set env deployment ratings -n robot-shop PDO_URL="mysql:host=mysql;dbname=ratings-dev;charset=utf8mb4"')
+    RESULT = stream.read().strip()
+    print(str(RESULT))
+    stream = os.popen('oc set env deployment load -n robot-shop ERROR=1')
+    RESULT = stream.read().strip()
+    print(str(RESULT))
+
+
+    url = 'https://'+DENO_UI_ROUTE+'/injectRESTHeadless?app=robotshopnet'
+    headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8'}
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
 
     print('         RESULT:'+str(response.content))
     print ('     ✅ DONE"')
@@ -218,13 +247,16 @@ def createIncidentFan():
 
     url = 'https://'+DENO_UI_ROUTE+'/injectRESTHeadless?app=acme'
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8'}
-    response = requests.get(url,  headers=headers)#, verify=False)
-
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
     print('         RESULT:'+str(response.content))
     print ('     ✅ DONE"')
 
 
-def createIncidentNet():
+def createIncidentSock():
     print ('    --------------------------------------------------------------------------------')
     print ('     🚀 Running Simulator - SockShop Network')
     print ('    --------------------------------------------------------------------------------')
@@ -235,8 +267,12 @@ def createIncidentNet():
 
     url = 'https://'+DENO_UI_ROUTE+'/injectRESTHeadless?app=sockshop'
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8'}
-    response = requests.get(url,  headers=headers)#, verify=False)
-    print('         RESULT:'+str(response.content))
+    try:
+        response = requests.get(url, headers=headers, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)    
+        print('         RESULT:'+str(response.content))
     print ('     ✅ DONE"')
 
 
@@ -344,6 +380,9 @@ class IncidentBot(commands.Bot):
         if message.author.id == self.user.id:
             return
 
+        print(" 📥 aaaaaaa"+str(message.content)) 
+        
+
         if message.content.startswith(DISCORD_BOT_PREFIX+'guess'):
             await message.channel.send('Guess a number between 1 and 10.')
 
@@ -387,6 +426,10 @@ class IncidentBot(commands.Bot):
                 await message.channel.send('--------------------------------------------------')
                 await message.channel.send('**🚀 Open Incidents**')
                 await message.channel.send('--------------------------------------------------')
+                print ('           🌏 Datalayer Route:              '+DATALAYER_ROUTE)
+                print ('           👩‍💻 Datalayer User:               '+DATALAYER_USER)
+                print ('           🔐 Datalayer Pwd:                '+DATALAYER_PWD)
+
                 actIncidents=getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE)
                 for currentIncident in actIncidents['stories']:
                     outputString=""
@@ -403,7 +446,7 @@ class IncidentBot(commands.Bot):
                     elif incidentState=="closed":
                         stateString="❌ Closed"
                     else:
-                        stateString=state
+                        stateString="inProgress"
                     title=currentIncident["title"]
                     priority=currentIncident["priority"]
                     owner=currentIncident["owner"]
@@ -482,7 +525,7 @@ class IncidentBot(commands.Bot):
                     print(" 📥 Command: incident")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Memory Incident')
                     print('    🟠 Create THREADS')
-                    threadRun = Thread(target=createIncidentMem)
+                    threadRun = Thread(target=createIncidentRSMem)
                     print('    🟠 Start THREADS')
                     threadRun.start()
                     await message.channel.send('✅ Simulation is running in the background')
@@ -494,18 +537,30 @@ class IncidentBot(commands.Bot):
                     print(" 📥 Command: incidentMem")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Memory Incident')
                     print('    🟠 Create THREADS')
-                    threadRun = Thread(target=createIncidentMem)
+                    threadRun = Thread(target=createIncidentRSMem)
                     print('    🟠 Start THREADS')
                     threadRun.start()
                     await message.channel.send('✅ Simulation is running in the background')
 
                 # --------------------------------------------------------------------------------
-                # CREATE INCIDENT FAN FAILURE
+                # CREATE INCIDENT MEMORY LEAK
                 elif myArgument == "incidentNet":
                     print(" 📥 Command: incidentNet")
+                    await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Fiber Cut Incident')
+                    print('    🟠 Create THREADS')
+                    threadRun = Thread(target=createIncidentRSFiber)
+                    print('    🟠 Start THREADS')
+                    threadRun.start()
+                    await message.channel.send('✅ Simulation is running in the background')
+
+
+                # --------------------------------------------------------------------------------
+                # CREATE INCIDENT FAN FAILURE
+                elif myArgument == "incidentSock":
+                    print(" 📥 Command: incidentSock")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating SockShop - Net Incident')
                     print('    🟠 Create THREADS')
-                    threadRun = Thread(target=createIncidentNet)
+                    threadRun = Thread(target=createIncidentSock)
                     print('    🟠 Start THREADS')
                     threadRun.start()
                     await message.channel.send('✅ Simulation is running in the background')
@@ -580,9 +635,11 @@ class IncidentBot(commands.Bot):
                     await message.channel.send('   🛠️ Incidents:')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **Incidents**     :  List all Incidents')
                     await message.channel.send('   🛠️ Simulation:')
-                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incident**    :  Simulates a Memory Problem in RobotShop')
-                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentMem** :  Simulates a Memory Problem in RobotShop')
-                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentFan** :  Simulates a Fan problem in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incident**     :  Simulates a Memory Problem in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentMem**  :  Simulates a Memory Problem in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentNet**  :  Simulates a Fiber Cut in RobotShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentSock** :  Simulates a Netowrk Problem in SockShop')
+                    await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **incidentFan**  :  Simulates a Fan problem in ACME')
                     await message.channel.send('   🛠️ Modify Incidents:')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **progress**    :  Set all Incidents to InProgress')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **resolve **    :  Set all Incidents to Resolved')
@@ -598,6 +655,10 @@ class IncidentBot(commands.Bot):
                     print(" 📥 Command: Incidents")
                     await message.channel.send('**🚀 '+INSTANCE_NAME+' Open Incidents**')
                     await message.channel.send('--------------------------------------------------')
+                    print ('           🌏 Datalayer Route:              '+DATALAYER_ROUTE)
+                    print ('           👩‍💻 Datalayer User:               '+DATALAYER_USER)
+                    print ('           🔐 Datalayer Pwd:                '+DATALAYER_PWD)
+
                     actIncidents=getIncidents(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, CPD_ROUTE)
                     for currentIncident in actIncidents['stories']:
                         outputString=""
@@ -614,7 +675,7 @@ class IncidentBot(commands.Bot):
                         elif incidentState=="closed":
                             stateString="❌ Closed"
                         else:
-                            stateString=state
+                            stateString="inProgress"
                         title=currentIncident["title"]
                         priority=currentIncident["priority"]
                         owner=currentIncident["owner"]
@@ -735,24 +796,33 @@ class IncidentCreateActions(discord.ui.View):
     def __init__(self):
         super().__init__()
 
-    @discord.ui.button(label='RobotShop - Memory Problem', style=discord.ButtonStyle.red, custom_id='persistent_view:mem')
+    @discord.ui.button(label='RobotShop - Memory Problem', style=discord.ButtonStyle.red, custom_id='persistent_view:rsmem')
     async def green(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating RobotShop - Memory Incident', ephemeral=True)
         print('    🟠 Create THREADS')
-        threadRun = Thread(target=createIncidentMem)
+        threadRun = Thread(target=createIncidentRSMem)
         print('    🟠 Start THREADS')
         threadRun.start()
 
-    @discord.ui.button(label='SockShop - Network Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:net')
+    @discord.ui.button(label='RobotShop - Fiber Cut', style=discord.ButtonStyle.red, custom_id='persistent_view:rsnet')
+    async def blue(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message('🚀 Simulating RobotShop - Fiber Cut Incident', ephemeral=True)
+        print('    🟠 Create THREADS')
+        threadRun = Thread(target=createIncidentRSFiber)
+        print('    🟠 Start THREADS')
+        threadRun.start()
+
+
+    @discord.ui.button(label='SockShop - Network Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:sonet')
     async def orange(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating SockShop - Network Incident', ephemeral=True)
         print('    🟠 Create THREADS')
-        threadRun = Thread(target=createIncidentNet)
+        threadRun = Thread(target=createIncidentSock)
         print('    🟠 Start THREADS')
         threadRun.start()
 
 
-    @discord.ui.button(label='ACME - Fan Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:fan')
+    @discord.ui.button(label='ACME - Fan Failure', style=discord.ButtonStyle.red, custom_id='persistent_view:acfan')
     async def red(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('🚀 Simulating ACME - Fan Incident', ephemeral=True)
         print('    🟠 Create THREADS')

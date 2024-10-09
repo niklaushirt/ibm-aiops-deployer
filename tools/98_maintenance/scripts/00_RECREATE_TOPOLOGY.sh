@@ -128,7 +128,13 @@
 
     echo "Getting local K8s API"
 
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+    #API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    if [[ $API_TOKEN == "" ]];
+    then    
+      echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
+      API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    fi
     API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
     API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
     API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -210,7 +216,13 @@
 
     echo "Getting local K8s API"
 
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+    #API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    if [[ $API_TOKEN == "" ]];
+    then    
+      echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
+      API_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    fi
     API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
     API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
     API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -599,9 +611,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          TOPOLOGY_CUSTOM_FILE=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
+          TOPOLOGY_CUSTOM_FILE=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/asm_config.json"
     else
-          TOPOLOGY_CUSTOM_FILE="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/asm_config.json"
+          TOPOLOGY_CUSTOM_FILE="./ansible/roles/ibm-aiops-demo-content/templates/topology/asm_config.json"
     fi    
     kubectl cp $TOPOLOGY_CUSTOM_FILE -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
     
@@ -653,9 +665,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     echo $FILE_OBSERVER_POD
     echo $FILE_OBSERVER_CAP
@@ -737,9 +749,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     echo $FILE_OBSERVER_POD
     echo $FILE_OBSERVER_CAP
@@ -819,9 +831,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
     echo $FILE_OBSERVER_POD
@@ -904,9 +916,9 @@
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     if [[ "${OS}" == "darwin" ]]; then
           echo "MAC"
-          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP=$(pwd)"/ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     else
-          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-install-demo-content/templates/topology/$LOAD_FILE_NAME"
+          FILE_OBSERVER_CAP="./ansible/roles/ibm-aiops-demo-content/templates/topology/$LOAD_FILE_NAME"
     fi    
     TARGET_FILE_PATH="/opt/ibm/netcool/asm/data/file-observer/${LOAD_FILE_NAME}"
     echo $FILE_OBSERVER_POD
@@ -1552,18 +1564,6 @@
     # echo "${ZEN_TOKEN}"
 
 
-    echo "Getting local K8s API"
-
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-    API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
-    API_PORT=$(echo $API_URL| cut -d ":" -f 3)
-
-    echo "            🌏 API URL:               $API_URL"
-    echo "            🌏 API SERVER:            $API_SERVER"
-    echo "            🌏 API PORT:              $API_PORT"
-    echo "            🔐 API Token:             $API_TOKEN"
-
 
 
     echo "Sucessfully logged in" 
@@ -1754,18 +1754,6 @@
     ZEN_TOKEN=$(echo "${ZEN_LOGIN_RESPONSE}" | jq -r .token)
     # echo "${ZEN_TOKEN}"
 
-
-    echo "Getting local K8s API"
-
-    API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-    API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
-    API_PORT=$(echo $API_URL| cut -d ":" -f 3)
-
-    echo "            🌏 API URL:               $API_URL"
-    echo "            🌏 API SERVER:            $API_SERVER"
-    echo "            🌏 API PORT:              $API_PORT"
-    echo "            🔐 API Token:             $API_TOKEN"
 
 
 

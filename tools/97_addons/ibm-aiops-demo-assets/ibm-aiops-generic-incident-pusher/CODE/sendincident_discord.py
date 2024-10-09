@@ -148,7 +148,7 @@ def sendIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DATAL
         s.auth = (DATALAYER_USER, DATALAYER_PWD)
         s.headers.update({'Content-Type':'application/json','x-username':'admin','x-subscription-id':'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'})
         debug('             🌏 Getting Alert '+alertId)
-        response = s.get(api_url+'/'+str(alertId))
+        response = s.get(api_url+'/'+str(alertId), verify=False)
         #print(response.json())
         debug('             ✅ Query Status: '+str(response.status_code))
         actAlert=response.json()
@@ -203,8 +203,12 @@ def sendIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DATAL
     sendSession = requests.Session()
     sendSession.headers.update({'Content-Type':'application/json'})
     print('           🌏 Sending Incident to '+PROVIDER_NAME+'')
-    response = sendSession.post(PROVIDER_URL+"?wait=true", json=MESSAGE_TEMPLATE)
-    
+    try:
+        response = sendSession.post(PROVIDER_URL+"?wait=true", json=MESSAGE_TEMPLATE, verify=False)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('     ❗ There was a hiccup')
+        raise SystemExit(e)
+
     try:
         response.raise_for_status()
     except response.exceptions.HTTPError as err:
@@ -327,7 +331,7 @@ def updateIncidentToProvider(currentIncident, DATALAYER_USER, DATALAYER_PWD, DAT
         s.auth = (DATALAYER_USER, DATALAYER_PWD)
         s.headers.update({'Content-Type':'application/json','x-username':'admin','x-subscription-id':'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'})
         debug('             🌏 Getting Alert '+alertId)
-        response = s.get(api_url+'/'+str(alertId))
+        response = s.get(api_url+'/'+str(alertId), verify=False)
         #print(response.json())
         debug('             ✅ Query Status: '+str(response.status_code))
         actAlert=response.json()

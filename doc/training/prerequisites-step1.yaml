@@ -1,11 +1,11 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#         ________  __  ___     ___    ________       
-#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
-#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
-#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
-#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
-#                                           /_/
+#     ________  __  ___   __________    ___         __                        __  _
+#    /  _/ __ )/  |/  /  /  _/_  __/   /   | __  __/ /_____  ____ ___  ____ _/ /_(_)___  ____
+#    / // __  / /|_/ /   / /  / /     / /| |/ / / / __/ __ \/ __ `__ \/ __ `/ __/ / __ \/ __ \
+#  _/ // /_/ / /  / /  _/ /  / /     / ___ / /_/ / /_/ /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+# /___/_____/_/  /_/  /___/ /_/     /_/  |_\__,_/\__/\____/_/ /_/ /_/\__,_/\__/_/\____/_/ /_/
+#
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -28,13 +28,13 @@
 apiVersion: v1                     
 kind: Namespace
 metadata:
-  name: ibm-aiops-installer
+  name: ibm-installer
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: ibm-aiops-install-configuration-prerequisites-step-1
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 immutable: false
 data:
   # Get your key from here https://myibm.ibm.com/products-services/containerlibrary
@@ -69,7 +69,7 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
       current_supported_aiops_version: v4.6
 
       # --------------------------------------------------------------------------------------------------------------------------------------
@@ -295,26 +295,26 @@ data:
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: ibm-aiops-installer-admin
-  namespace: ibm-aiops-installer
+  name: ibm-installer-admin
+  namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-admin
+  name: ibm-installer-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: ibm-aiops-installer-admin
-    namespace: ibm-aiops-installer
+    name: ibm-installer-admin
+    namespace: ibm-installer
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ibm-aiops-installer-default-admin
+  name: ibm-installer-default-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -322,21 +322,21 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: ibm-aiops-installer
+    namespace: ibm-installer
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-aiops-install-training-step1
-  namespace: ibm-aiops-installer
+  namespace: ibm-installer
 spec:
 
   template:
     metadata:
       labels:
-        app: ibm-aiops-installer
+        app: ibm-installer
     spec:
-      serviceAccountName: ibm-aiops-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -368,8 +368,8 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📥 Housekeeping"
               oc delete ConsoleNotification --all>/dev/null 2>/dev/null 
-              oc delete job  -n ibm-aiops-installer --ignore-not-found $(oc get job -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
-              oc delete pod  -n ibm-aiops-installer $(oc get po -n ibm-aiops-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete job  -n ibm-installer --ignore-not-found $(oc get job -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
+              oc delete pod  -n ibm-installer $(oc get po -n ibm-installer|grep load-|awk '{print$1}'):-notfound  --ignore-not-found>/dev/null 2>/dev/null 
               echo ""
               echo ""
 
@@ -408,7 +408,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/00_ibm-aiops-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
               echo ""
               echo ""
 

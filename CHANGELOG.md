@@ -8,6 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [47.1.2] - 2024-10-09
+### Major changes
+- Complete overhaul of file structures and configuration files
+- Support for ITZ OCP-V On-prem
+- Support for Version 4.7.0 GA
+
+
+## [47.1.1] - 2024-09-11
+### Major changes
+- Complete overhaul of file structures and configuration files
+- Support for IBM Concert 1.0.1
+- Support for Version 4.7.0 FVT
+
 
 ## [46.1.2] - 2024-08-26
 ### Major changes
