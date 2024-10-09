@@ -96,7 +96,7 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
+      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
       current_supported_aiops_version: v4.7
 
       # --------------------------------------------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.6
+        subscription_channel: v4.7
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
 
@@ -402,6 +402,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-install-aiops
+  namespace: ibm-installer
 spec:
 
   template:
@@ -463,7 +464,7 @@ spec:
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 📝 Config File"         
-              cat /tmp/config-file/INSTALLATION_CONFIG.yaml
+              # cat /tmp/config-file/INSTALLATION_CONFIG.yaml
 
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
