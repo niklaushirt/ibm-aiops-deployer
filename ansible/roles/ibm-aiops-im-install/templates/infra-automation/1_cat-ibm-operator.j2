@@ -1,10 +1,10 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-  name: ibm-aiops-catalog
+  name: ibm-operator-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-aiops-catalog
+  displayName: ibm-operator-catalog
   publisher: IBM Content
   sourceType: grpc
   image: {{ global_config.catalog_image}}

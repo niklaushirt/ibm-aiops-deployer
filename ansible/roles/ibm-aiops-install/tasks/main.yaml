@@ -159,7 +159,7 @@
 # INSTALL CATALOG with YAML FILE
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (009/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Classic Way (skipped if CASE selected)
-  include_tasks: 10_ibm-aiops-catalog.yaml
+  include_tasks: 10_ibm-operator-catalog.yaml
   when: current_feature.case_install==false
 
 

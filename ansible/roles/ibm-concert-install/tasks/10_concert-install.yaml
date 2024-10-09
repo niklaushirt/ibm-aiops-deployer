@@ -204,8 +204,8 @@
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-operators
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-marketplace
     oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-operators
-    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
-    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount ibm-operator-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount ibm-operator-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
     oc patch -n openshift-marketplace serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
 
 
@@ -213,10 +213,10 @@
     apiVersion: operators.coreos.com/v1alpha1
     kind: CatalogSource
     metadata:
-      name: ibm-aiops-catalog
+      name: ibm-operator-catalog
       namespace: openshift-marketplace
     spec:
-      displayName: ibm-aiops-catalog
+      displayName: ibm-operator-catalog
       publisher: IBM Content
       sourceType: grpc
       image: icr.io/cpopen/ibm-operator-catalog:latest

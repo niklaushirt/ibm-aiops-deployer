@@ -121,7 +121,7 @@ oc delete ns ibm-installer &
 
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo " 🧻 Delete IBM CatalogSource"
-oc delete CatalogSource -n openshift-marketplace ibm-aiops-catalog
+oc delete CatalogSource -n openshift-marketplace ibm-operator-catalog
 
 
 oc delete ClusterRoleBinding ibm-installer-admin &
