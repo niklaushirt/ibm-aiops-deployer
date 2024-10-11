@@ -13,13 +13,13 @@
 
 # Set the name of OpenShift project where IBM Cloud Pak for AIOps is installed.
 # You may know it as a "namespace" - an OpenShift "project" is an alternative representation of a Kubernetes "namespace"
-CP4WAIOPS_PROJECT="ibm-aiops"
+CP4WAIOPS_PROJECT="cp4aiops"
 
 # Set the name of installation custom resource (CR) to delete. You can leave this blank if you've already deleted the installation CR.
-INSTALLATION_NAME="ibm-cp-watson-aiops"
+INSTALLATION_NAME="ibm-cp-aiops"
 
 # If true, this will delete all of the resources created by CP4WAIOps (see uninstall-cp4waiops-resource-groups.props)
-DELETE_ALL="true"
+DELETE_ALL="false"
 
 ######################### ADVANCED CUSTOM CONFIGURATIONS BELOW ##############################
 
