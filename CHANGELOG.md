@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
 ## [47.1.2] - 2024-10-09
 ### Major changes
 - Complete overhaul of file structures and configuration files
