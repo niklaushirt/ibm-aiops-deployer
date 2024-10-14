@@ -1,6 +1,6 @@
 {
     "bomFormat": "ConcertDef",
-    "specVersion": "1.5",
+    "specVersion": "1.0",
     "serialNumber": "urn:ibm:appmgmt:RobotShop:shipping:build:123",
     "version": 1,
     "metadata": {
