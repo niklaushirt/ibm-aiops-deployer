@@ -422,11 +422,11 @@
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# CREATE CONNECTIONS FOR INCEPTION
+# CREATE CONNECTIONS FOR INCEPTION - DEPRECATED
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (042/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Create Kafka ELK connection
-  include_tasks: 65_ibm-aiops-create-kafka-connections.yaml
-  when: current_feature.create_log_connection == true
+# - name: (042/051) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡   Create Kafka ELK connection
+#   include_tasks: 65_ibm-aiops-create-kafka-connections.yaml
+#   when: current_feature.create_log_connection == true
 
 
 

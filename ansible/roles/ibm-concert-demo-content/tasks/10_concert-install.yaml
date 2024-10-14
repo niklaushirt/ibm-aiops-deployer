@@ -185,7 +185,8 @@
     export OCP_TOKEN="sha256~AYZbHEPMwvzeqBTPMTa9zyZuFydJagZUbTTMpFno1QI"
 
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
-    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
+    #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     echo "            🌏 URL:               $OCP_URL"
     echo "            🔐 Token:             $OCP_TOKEN"
     echo ""
@@ -313,7 +314,8 @@
     ./ibm-concert-manage.sh get-concert-instance-details
 
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
-    export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
+    #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
     echo "            🌏 URL:               $OCP_URL"
     echo "            🫅 User:              kubeadmin"
     echo "            🔐 Token:             $OCP_TOKEN"
