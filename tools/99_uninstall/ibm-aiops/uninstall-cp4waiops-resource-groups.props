@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache2.0
 #
 # Supplementary file to uninstall-cp4waiops.sh script for uninstalling 
-# IBM Cloud Pak for AIOps version 4.7
+# IBM Cloud Pak for AIOps version 4.6
 
 # Below are the PVC's that would be deleted if DELETE_PVCS in uninstall-cp4waiops-props.props is set to true
 # 1. app.kubernetes.io/instance=aimanager : This PVC is for minio StatefulSet. Change risk model and all the training logs are in the minio pvc.
@@ -89,8 +89,7 @@ CP4AIOPS_INTERNAL_SECRETS=("secret/aiops-ir-lifecycle-eventprocessor-ep-zk-clien
                            "secret/iaf-system-elasticsearch-es-ss-cacert-kp"
                            "secret/connector-bridge-cert-secret"
                            "secret/sre-tunnel-tunnel-ui-secret"
-                           "secret/sre-tunnel-tunnel-api-cert"
-                           "secret/aiops-appconnect-ir-secret")
+                           "secret/sre-tunnel-tunnel-api-cert")
 
 CP4AIOPS_CONFIGMAPS_INTERNAL=("configmap/ff20eae3.connectors.aiops.ibm.com"
             "configmap/aiopsedge-maven-settings"
@@ -99,8 +98,7 @@ CP4AIOPS_CONFIGMAPS_INTERNAL=("configmap/ff20eae3.connectors.aiops.ibm.com"
 
 CP4AIOPS_KAFKATOPICS_LABELS=("ibmevents.ibm.com/cluster=iaf-system")
 
-CP4AIOPS_INTERNAL_SERVICEACCOUNTS=("serviceaccount/cp4waiops-eventprocessor-eve-29ee-ep"
-                "serviceaccount/flink")
+CP4AIOPS_INTERNAL_SERVICEACCOUNTS=("serviceaccount/cp4waiops-eventprocessor-eve-29ee-ep")
 CP4AIOPS_SHARED_SERVICEACCOUNTS=("serviceaccount/postgresql-operator-manager")
 
 CP4AIOPS_MISC=("rolebinding.authorization.openshift.io/example-redis"
@@ -116,9 +114,7 @@ CP4AIOPS_MISC=("rolebinding.authorization.openshift.io/example-redis"
                 "issuers.cert-manager.io/aiops-flink-issuer"
                 "issuers.cert-manager.io/aiops-flink-ss-issuer"
                 "issuers.cert-manager.io/automationbase-sample-automationbase-ab-ss-issuer"
-                "priorityclass.scheduling.k8s.io/aimanager-aio-luigi-priority"
-                "rolebinding/flink-role-binding"
-                "role/flink")
+                "priorityclass.scheduling.k8s.io/aimanager-aio-luigi-priority")
 
 CP4AIOPS_LEASE=("lease.coordination.k8s.io/9efbc0e4.aiops.ibm.com"
                 "lease.coordination.k8s.io/5ba58da1.ai.ir.aiops.ibm.com"
@@ -155,11 +151,7 @@ CP4AIOPS_CRDS=("aimanagermainprods.ai-manager.watson-aiops.ibm.com"
                 "lifecycleservices.lifecycle.ir.aiops.ibm.com"
                 "lifecycletriggers.lifecycle.ir.aiops.ibm.com"
                 "modeltrains.modeltrain.ibm.com"
-                "microedgeconfigurations.connectors.aiops.ibm.com"
-                "flinkclusters.flink.automation.ibm.com"
-                "flinkdeployments.flink.ibm.com"
-                "flinksessionjobs.flink.ibm.com"
-                )
+                "microedgeconfigurations.connectors.aiops.ibm.com")
 
 # Event Manager may have overlap with these CRDs
 # This CRD group will not be deleted if instances are found outside ai mgr ns

@@ -793,9 +793,7 @@ def addExternalLinksToIncident(request):
         print ('    ---------------------------------------------------------------------------------------------')
         print ('    Checking Incidents')
         print ('    ---------------------------------------------------------------------------------------------'  )
-                
         for i in responseJSON.get('stories'):
-            print ('       Checking Incident: '+i['title']+'  - '+i['state'])
             if 'assignedToIndividual' in i['state']:
                 print(i['title'])
                 print(i['state'])

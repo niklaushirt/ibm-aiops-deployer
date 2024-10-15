@@ -33,7 +33,7 @@ log () {
 display_help() {
    echo "**************************************** Usage ********************************************"
    echo ""
-   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.7"
+   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.6"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
    echo " - Update uninstall-cp4waiops.props with components that you want to uninstall"
@@ -679,6 +679,13 @@ delete_zenservice() {
         oc delete client.oidc.security.ibm.com -n $CP4WAIOPS_PROJECT zenclient-$CP4WAIOPS_PROJECT
     fi
 
+    # Check for zenextension. Delete all known ze from aiops
+    log $INFO "Deleting all ZenExtensions that has a deletion timestamp"
+    for ze in ${ZENEXTENSIONS[@]}; do
+        oc patch -n $CP4WAIOPS_PROJECT zenextension $ze --type=json --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+        oc delete zenextension $ze -n $CP4WAIOPS_PROJECT
+    done
+
     log $INFO "Delete zen setup-job"
     oc delete job setup-job -n $CP4WAIOPS_PROJECT --ignore-not-found=true
 
@@ -706,7 +713,11 @@ delete_cert_manager_resources () {
     oc delete secret cs-ca-certificate-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
 
     log $INFO "Deleting other cert manager secrets in AIOPS install namespace"
-    oc delete secrets  -l operator.ibm.com/watched-by-cert-manager
+    oc delete secret common-web-ui-cert -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret saml-auth-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret common-service-db-replica-tls-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret common-service-db-tls-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
+    oc delete secret common-service-db-zen-tls-secret -n $CP4WAIOPS_PROJECT --ignore-not-found=true
 }
 
 delete_EDB_related_resources() {
@@ -783,8 +794,6 @@ deleteBRMappingAndCRDS() {
 
     # Delete CRDs
     if [[ "${DELETE_CRDS}" == "true" ]]; then
-        checkForLeftOverCustomResources "${BEDROCK_CRDS[@]}" "CPFS"
-
         log $info "Deleting CPFS CRDS" 
         delete_crd_group "BEDROCK_CRDS"
     fi
@@ -821,56 +830,4 @@ deleteMiscBedrockResources() {
     # Delete the cfgmap
     deleteBRMappingAndCRDS $controlPlane
     return 0
-}
-
-checkForLeftOverCustomResources() {
-   # Load the all arguments of checkForLeftOverCustomResources
-   local CRDS=("$@")
-   # Get the last argument of the function
-   local last_index=$((${#CRDS[@]}-1))
-   local CUSTOM_RESOURCE_TYPE="${CRDS[$last_index]}"
-   # Remove the last argument from the array. This is necessary because CRDS is an array of all arguments
-   unset CRDS[$last_index]
-   
-   resourceCheckCounter=1
-
-   log $INFO "Checking for $CUSTOM_RESOURCE_TYPE custom resources"
-
-    while [[ "${resourceCheckCounter}" -le "4" ]]; do
-        # At each iteration start with a fresh RESOURCE_FLAG variable set to false
-        RESOURCE_FLAG="false"
-    
-        # If attempts reach 5, go ahead and end the script
-        if [[ "${resourceCheckCounter}" -eq "5" ]]; then
-            log $ERROR "Some $CUSTOM_RESOURCE_TYPE CustomResources remain. Please delete them, then restart the script."
-            exit 1
-        fi
-
-        #  Poll for each CRs for each CRD. If found, set the BR_FLAG to true
-        log $INFO "Resource Check Attempt: $resourceCheckCounter"
-        for CR in ${CRDS[@]}; do
-            echo $CR
-            check="$(oc get $CR -n $CP4WAIOPS_PROJECT)"
-            if [[ -n "${check}" ]]; then
-                RESOURCE_FLAG="true"
-                oc get $CR -n $CP4WAIOPS_PROJECT
-                echo
-            else
-                echo "None Found"
-                echo
-             fi
-        done
-        echo
-
-        # After all crds have been searched for, if the RESOURCE_FLAG is still false -- we know all CRDs are safe to delete. We can
-        # break out of the while-loop now.
-        if [[ "${RESOURCE_FLAG}" == "false" ]]; then
-            break
-        fi
-
-        # Otherwise, resources are still left over. If that's the case, let's try this entire thing after 30 seconds
-        echo "CustomResources found... Trying again in 30 seconds."
-        resourceCheckCounter=$((resourceCheckCounter + 1))
-        sleep 30
-    done
 }

@@ -3,7 +3,7 @@
 # © Copyright IBM Corp. 2020, 2024
 # SPDX-License-Identifier: Apache2.0
 #
-# This script can be used to uninstall the IBM Cloud Pak for AIOps v4.7 product and
+# This script can be used to uninstall the IBM Cloud Pak for AIOps v4.6 product and
 # cleanup resources created by the product.  Please configure what you want to uninstall
 # in the uninstall-cp4waiops.props file first before running this script.
 
@@ -36,9 +36,9 @@ analyze_script_properties
 
 # Confirm we really want to uninstall 
 if [[ $SKIP_CONFIRM != "true" ]]; then
-  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.7\033[0m"
+  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.6\033[0m"
   log $INFO
-  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.7. Please ensure you have deleted any CRs you created before running this script."
+  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.6. Please ensure you have deleted any CRs you created before running this script."
   log $INFO ""
   log $INFO "##### IMPORTANT ######"
   log $INFO ""
@@ -56,7 +56,7 @@ if [[ $SKIP_CONFIRM != "true" ]]; then
   fi
   log " "
 else
-  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.7\033[0m"
+  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.6\033[0m"
   log $INFO
   log $INFO "This script will uninstall IBM Cloud Pak for AIOps."
   display_script_properties
@@ -99,7 +99,6 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
    # There is an overlap with Event Mgr CRDs
    check_additional_asm_exists
    if [[ $DELETE_ASM == "true" ]]; then
-      checkForLeftOverCustomResources "${ASM_CRDS[@]}" "ASM"   
       log $INFO "Deleting ASM CRDs..."
       delete_crd_group ASM_CRDS
    else
@@ -112,6 +111,18 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
    # Delete the installation CR
 	log $INFO "Deleting the installation CR..."
 	delete_installation_instance $INSTALLATION_NAME $CP4WAIOPS_PROJECT
+   
+   # Then delete the CP4AIOps CRDs
+   log $INFO "Deleting the CP4AIOps Internal CRDs..."
+   delete_crd_group "CP4AIOPS_CRDS"
+
+   # If user configured to delete crds, then delete the dependent CRDs.
+   if [[ $DELETE_CRDS == "true" ]]; then   
+      log $INFO "Deleting the CP4AIops Dependent CRDs..."
+      delete_crd_group "CP4AIOPS_DEPENDENT_CRDS"
+   else
+      log $INFO "Skipping delete of Dependent CRDs based on configuration in uninstall-cp4waiops.props"
+   fi
    
    log $INFO "Deleting the misc resources in $CP4WAIOPS_PROJECT "
    for RESOURCE_MISC in ${CP4AIOPS_MISC[@]}; do
@@ -135,6 +146,9 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
       log $INFO "Deleting cert $CERT.."
       oc delete $CERT -n $CP4WAIOPS_PROJECT --ignore-not-found
    done
+
+   log $INFO "Delete EDB Connection Secret"
+   oc delete secret $INSTTALTION_NAME-secret -n $CP4WAIOPS_PROJECT --ignore-not-found
 
    # Start cleaning up remaining resources in the project that CP4AIOps created 
    # and are not automatically deleted when CR is deleted
@@ -232,22 +246,6 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
    fi
 
    delete_cert_manager_resources
-
-   oc delete lease 2a3e2c5f.ibm.com -n $CP4WAIOPS_PROJECT
-
-   # Then delete the CP4AIOps CRDs
-   checkForLeftOverCustomResources "${CP4AIOPS_CRDS[@]}" "CP4AIOPS"
-   log $INFO "Deleting the CP4AIOps Internal CRDs..."
-   delete_crd_group "CP4AIOPS_CRDS"
-
-   # If user configured to delete crds, then delete the dependent CRDs.
-   if [[ $DELETE_CRDS == "true" ]]; then
-      checkForLeftOverCustomResources "${CP4AIOPS_DEPENDENT_CRDS[@]}" "CP4AIOPS Dependent"   
-      log $INFO "Deleting the CP4AIops Dependent CRDs..."
-      delete_crd_group "CP4AIOPS_DEPENDENT_CRDS"
-   else
-      log $INFO "Skipping delete of Dependent CRDs based on configuration in uninstall-cp4waiops.props"
-   fi
       
    # At this point we have cleaned up everything in the project
    log "[SUCCESS]" "----Congratulations! IBM Cloud Pak for AIOps has been uninstalled!----"

@@ -52,8 +52,8 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for serviceaccount being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🚀 IBM AIOPS CATALOG - 🕦 Wait for serviceaccount ibm-operator-catalog to become ready
-  shell: oc get -n openshift-marketplace serviceaccount ibm-operator-catalog --no-headers| grep -c ""
+- name:   🚀 IBM AIOPS CATALOG - 🕦 Wait for serviceaccount ibm-aiops-catalog to become ready
+  shell: oc get -n openshift-marketplace serviceaccount ibm-aiops-catalog --no-headers| grep -c ""
   register: kubectl_get_sa
   until: kubectl_get_sa.stdout == "1"
   retries: 500
@@ -68,7 +68,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 IBM AIOPS CATALOG - Patch service account for pull secret
   shell: |
-    oc patch -n openshift-marketplace serviceaccount ibm-operator-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
     oc patch -n openshift-marketplace serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
     errorPods=$(oc get po -n openshift-marketplace|grep ImagePull|awk '{print$1}')
     if [[ ! $errorPods == "" ]]; then
@@ -126,8 +126,8 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for Marketplace being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name:   🕦 IBM AIOPS CATALOG - Wait for ibm-operator-catalog to become ready
-  shell: oc get po -n openshift-marketplace |grep ibm-operator-catalog| grep '1/1' | grep -c ""
+- name:   🕦 IBM AIOPS CATALOG - Wait for ibm-aiops-catalog to become ready
+  shell: oc get po -n openshift-marketplace |grep ibm-aiops-catalog| grep '1/1' | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -202,7 +202,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - 🕦 Wait for ibm-operator-catalog to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for ibm-aiops-catalog to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -262,8 +262,8 @@
     if [[ $FREEZE == "True" ]];
     then
       echo " Freezing Catalog Version"
-      IMGDIGEST=`oc get pods -n openshift-marketplace -l=olm.catalogSource=ibm-operator-catalog --no-headers -o=jsonpath="{.items[0].status.containerStatuses[0].imageID}" -n openshift-marketplace` && \
-      oc patch catalogsource ibm-operator-catalog -n openshift-marketplace --type=json -p "[{ "op": "test", "path": "/spec/image", "value": "\"icr.io/cpopen/ibm-operator-catalog:latest\"" }, { "op": "replace", "path": "/spec/image", "value": "\"$IMGDIGEST\"" }]"
+      IMGDIGEST=`oc get pods -n openshift-marketplace -l=olm.catalogSource=ibm-aiops-catalog --no-headers -o=jsonpath="{.items[0].status.containerStatuses[0].imageID}" -n openshift-marketplace` && \
+      oc patch catalogsource ibm-aiops-catalog -n openshift-marketplace --type=json -p "[{ "op": "test", "path": "/spec/image", "value": "\"icr.io/cpopen/ibm-aiops-catalog:latest\"" }, { "op": "replace", "path": "/spec/image", "value": "\"$IMGDIGEST\"" }]"
     else
       echo " NOT Freezing Catalog Version"
     fi
