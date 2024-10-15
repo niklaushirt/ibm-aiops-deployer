@@ -1,7 +1,7 @@
 {
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
-  "specVersion": "1.5",
+  "specVersion": "1.0",
   "serialNumber": "urn:uuid:693e83dc-c6d7-4e64-a73c-87ed319d1acd",
   "version": 1,
   "metadata": {
