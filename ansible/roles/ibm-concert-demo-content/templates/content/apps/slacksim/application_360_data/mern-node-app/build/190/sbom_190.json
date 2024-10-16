@@ -1,6 +1,6 @@
 {
   "bomFormat": "CycloneDX",
-  "specVersion": "1.0.2",
+  "specVersion": "1.0",
   "serialNumber": "urn:uuid:d207f139-2264-4f4d-8b67-f62e968ed016",
   "version": 1,
   "metadata": {
