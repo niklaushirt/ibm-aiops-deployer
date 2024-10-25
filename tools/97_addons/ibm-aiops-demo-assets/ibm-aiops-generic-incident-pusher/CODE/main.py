@@ -10,6 +10,9 @@ import os
 import sqlite3
 import hashlib
 
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+os.environ['PYTHONWARNINGS']="ignore:Unverified HTTPS request"
+
 ACTIVE=os.environ.get('ACTIVE',"False")
 DEBUG_ME=os.environ.get('DEBUG_ME',"False")
 
