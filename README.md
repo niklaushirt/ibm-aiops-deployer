@@ -22,6 +22,7 @@
 
 
 <BR>
+
 ### ⚠️ Disclaimer
 
 <details>
@@ -119,9 +120,9 @@ Basically:
 ### 🐥 Quick Install
 
 - 🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
-- 🚀 [Quick Install - IBM Concert](#22--install-ibm-concert-with-demo-content)
+- 🚀 [Quick Install - IBM Concert (experimental)](#22--install-ibm-concert-with-demo-content)
 - 🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
-- 🚀 [Quick Install - IBM Instana](#24--install-ibm-instana-with-demo-content)
+- 🚀 [Quick Install - IBM Instana (experimental)](#24--install-ibm-instana-with-demo-content)
 
 - 🧨 [Troubleshooting](#4-troubleshooting)
 - 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
@@ -438,20 +439,6 @@ Check that the green notification bar is displayed as follows
 
 </details>
 
-<details>
-
-<summary>✅ Post Install</summary>
-
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
-2. Check that the Training are displayed as follows
-
-![install](./doc/pics/check02.png)
-
-### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
-
-<div style="page-break-after: always;"></div>
-
-</details>
 
 
 
