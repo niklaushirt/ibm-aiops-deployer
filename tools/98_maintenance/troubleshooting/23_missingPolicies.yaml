@@ -82,7 +82,7 @@ spec:
               memory: "2024Mi"
               cpu: "1200m"
           command:
-            - /bin/sh
+            - /bin/bash
             - -c
             - |
               #!/bin/bash
@@ -95,10 +95,23 @@ spec:
               echo "***************************************************************************************************************************************************"
 
 
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo " 🚀 Getting Installation source from GitHub"
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "   📥 Clone Repo https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest"
+              git clone https://github.com/niklaushirt/ibm-aiops-deployer.git -b dev_latest
+              cd ibm-aiops-deployer
 
+              echo ""
+              echo ""
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+              echo "   🔎 This Repo includes those latestet Commits"
+              git log|head -n 17
+              echo ""
+              echo ""
 
                 # -----------------------------------------------------------------------------------------------------------------------------
-                # 🚀 AWX - Get ZEN TOKEN
+                # 🚀 POLICIES - Get ZEN TOKEN
                 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
                 export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
                 export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
@@ -129,7 +142,7 @@ spec:
 
 
                     # Create Runbook Trigger Policy
-                    export POLICY_FILE="{{role_path}}/templates/policies/runbook-trigger-policy-robot.json"
+                    export POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/policies/runbook-trigger-policy-robot.json"
                     cp $POLICY_FILE /tmp/runbook_policy.json
                     cat /tmp/runbook_policy.json
                     echo "RUNBOOK_ID: $RUNBOOK_ID"
@@ -217,7 +230,7 @@ spec:
 
 
                     # Create Runbook Trigger Policy
-                    export POLICY_FILE="{{role_path}}/templates/policies/runbook-trigger-policy-sock.json"
+                    export POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/policies/runbook-trigger-policy-sock.json"
                     cp $POLICY_FILE /tmp/runbook_policy.json
                     cat /tmp/runbook_policy.json
                     echo "RUNBOOK_ID: $RUNBOOK_ID"
@@ -307,7 +320,7 @@ spec:
                     # Create Runbook Trigger Policy
 
 
-                    export POLICY_FILE="{{role_path}}/templates/policies/runbook-trigger-policy-telco.json"
+                    export POLICY_FILE="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/policies/runbook-trigger-policy-telco.json"
                     cp $POLICY_FILE /tmp/runbook_policy.json
                     cat /tmp/runbook_policy.json
                     echo "RUNBOOK_ID: $RUNBOOK_ID"
