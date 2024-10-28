@@ -358,7 +358,7 @@ echo "<BR>"
 
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
 echo "    <h3>🚀 2.4 Configure Runbooks - Runbook Parameters </h3><BR>"
-DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
 DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 echo "<table>"
@@ -379,7 +379,6 @@ echo "<BR>"
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------<BR>"
 echo "    <h3>🚀 2.5 Configure Applications - RobotShop Kubernetes Observer </h3><BR>"
 API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
-#API_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
 API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
 API_PORT=$(echo $API_URL| cut -d ":" -f 3)
@@ -563,8 +562,6 @@ openshift_url = 'https://'+openshift_server.replace("console-openshift-console.a
 stream = os.popen("oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode")
 openshift_token = stream.read().strip()
 
-# stream = os.popen("oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode")
-# openshift_token = stream.read().strip()
 # stream = os.popen("oc config view --minify|grep 'server:'| sed 's/.*server: .*\///'| head -1")
 # #stream = os.popen("oc status|head -1|awk '{print$6}'")
 # openshift_server = stream.read().strip()

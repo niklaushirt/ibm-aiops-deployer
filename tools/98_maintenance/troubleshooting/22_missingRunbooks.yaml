@@ -63,13 +63,12 @@ metadata:
   name: troubleshoot-2-2-create-missing-runbooks
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
   template:
     metadata:
       labels:
         app: ibm-installer
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -82,7 +81,7 @@ spec:
               memory: "2024Mi"
               cpu: "1200m"
           command:
-            - /bin/sh
+            - /bin/bash
             - -c
             - |
               #!/bin/bash
@@ -96,7 +95,7 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Get ZEN TOKEN
+              echo " 🚀 AWX - Get ZEN TOKEN"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
               export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
@@ -117,10 +116,12 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Mitigate RobotShop Problem
+              echo " 🚀 AWX - Create AIOPS Runbook - Mitigate RobotShop Problem"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
               export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
@@ -184,10 +185,12 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Mitigate SockShop Switch Outage
+              echo " 🚀 AWX - Create AIOPS Runbook - Mitigate SockShop Switch Outage"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -249,11 +252,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Clear All Incidents
+              echo " 🚀 AWX - Create AIOPS Runbook - Clear All Incidents"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -328,11 +333,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create RobotShop Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create RobotShop Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -404,12 +411,14 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create RobotShop Network Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create RobotShop Network Incident"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               export ZEN_TOKEN={{ZEN_TOKEN}}
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -481,11 +490,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create SockShop Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create SockShop Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -560,11 +571,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create ACME Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create ACME Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -638,11 +651,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create London Underground Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create London Underground Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
 
@@ -718,11 +733,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create Optical Network Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create Optical Network Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
               export result=$(curl -X "GET" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
@@ -786,11 +803,13 @@ spec:
 
 
               # -----------------------------------------------------------------------------------------------------------------------------
-              # 🚀 AWX - Create AIOPS Runbook - Create Optical Network Incident
+              echo " 🚀 AWX - Create AIOPS Runbook - Create Optical Network Incident"
 
               export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
               export DEMOUI_ROUTE=${ROUTE/cpd-ibm-aiops/ibm-aiops-demo-ui-ibm-aiops-demo-ui}
-              export DEMO_TOKEN=$(oc -n default get secret $(oc get secret -n default |grep -m1 demo-admin-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+              
+              export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
               export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
 
               export result=$(curl -X "GET" -s -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
