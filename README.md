@@ -261,7 +261,7 @@ Here is a quick video that walks you through the installation process
 
 
 <details>
-<summary>📦 Contents</summary>
+<summary>📦 What will be installed</summary>
 
 This installation contains:
 
@@ -302,17 +302,17 @@ This installation contains:
 
 
 <details>
-<summary>🚀 **Installation Instructions** </summary>
+<summary>🚀 Installation Instructions </summary>
 
 
 ![K8s CNI](./doc/pics/install01.png)
 
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
-3. Click `Save`
+3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
@@ -324,26 +324,6 @@ This installation contains:
 
 </details>
 
-
-<details>
-<summary>✅ Post Install</summary>
-
-1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
-2. Check that the Training are displayed as follows
-
-![install](./doc/pics/check02.png)
-
-### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-
-
-
-
-</details>
 
 
 <details>
@@ -373,6 +353,20 @@ This installation contains:
 	And you get this message in the logs
 
 	![install](./doc/pics/install05.png)
+
+
+</details>
+
+
+<details>
+<summary>🚀 Connecting for the first time</summary>
+
+
+![install](./doc/pics/notification01.png)
+
+1. In the top green Notification bar clicking on the link to open the DemoUI
+2. Login with the provided Password
+3. You will find Links and Passwords for all installed components here
 
 
 </details>
@@ -443,6 +437,22 @@ Check that the green notification bar is displayed as follows
 
 
 </details>
+
+<details>
+
+<summary>✅ Post Install</summary>
+
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
+2. Check that the Training are displayed as follows
+
+![install](./doc/pics/check02.png)
+
+### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
 
 
 <details>
@@ -547,7 +557,7 @@ You can chose from the following:
 
 
 <details>
-<summary>📦 Contents</summary>
+<summary>📦 What will be installed</summary>
 
 This installation contains:
 
@@ -572,17 +582,15 @@ This installation contains:
 
 
 <details>
-<summary>🚀 **Installation Instructions** </summary>
+<summary>🚀 Installation Instructions </summary>
 
 
-![K8s CNI](./doc/pics/install01.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
-3. Click `Save`
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 49 - the Entitlement key from https://myibm.ibm.com)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
+3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
@@ -633,7 +641,7 @@ This installation contains:
 
 
 <details>
-<summary>📦 Contents</summary>
+<summary>📦 What will be installed</summary>
 
 This installation contains:
 
@@ -652,17 +660,15 @@ This installation contains:
 
 
 <details>
-<summary>🚀 **Installation Instructions** </summary>
+<summary>🚀 Installation Instructions </summary>
 
 
-![K8s CNI](./doc/pics/install01.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
-3. Click `Save`
+3. Enter your Turbonomic License on line 69
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
+3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
@@ -712,7 +718,7 @@ This installation contains:
 
 
 <details>
-<summary>📦 Contents</summary>
+<summary>📦 What will be installed</summary>
 
 This installation contains:
 
@@ -732,17 +738,15 @@ This installation contains:
 
 
 <details>
-<summary>🚀 **Installation Instructions** </summary>
+<summary>🚀 Installation Instructions </summary>
 
 
-![K8s CNI](./doc/pics/install01.png)
-
-1. In the the OCP Web UI click on the `+` sign in the right upper corner
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
-3. Click `Save`
+3. Enter your Turbonomic License on lines 142/143
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 67)
+3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
 > #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
@@ -1421,7 +1425,7 @@ Inject Events to simulate the Custom Scenario.
 }
 
 ```
-         
+
 		 </details>
 
 
@@ -1464,7 +1468,7 @@ Example:
 test10,DemoMetric1,DemoGroup1,0,1;
 test11,DemoMetric2,DemoGroup2,50,25'
 ```
-         
+
 		 </details>
 
 
@@ -1508,7 +1512,7 @@ A typical Vertex (Entity)
 }
 
 ```
-         
+
 
 </details>
 
@@ -1538,7 +1542,7 @@ A typical Entry
 }
 
 ```
-         
+
 
 </details>
 
