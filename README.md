@@ -312,7 +312,8 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 89)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 92)
+3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 89)
 3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -531,34 +532,46 @@ You can chose from the following:
 
 ![Characters](./doc/pics/characters.png)
 
+*  Adam
 *  Aajla
 *  AIOPS
+*  Alicent
 *  Amy
 *  Anakin
+*  Angus
 *  Arya
 *  Austin
+*  Barney
 *  Bart
 *  Batman
 *  Bear
 *  Bob
+*  Bono
+*  Bran
+*  Brienne
 *  Cara
 *  Cassian
 *  Cersei
 *  Cersei1
 *  Chewbacca
 *  CP4AIOPS
+*  Curt
 *  Daenerys
 *  Daffy
 *  Darth
 *  Demo
 *  Dexter
 *  Dilbert
+*  Edge
 *  Finn
+*  Fred
 *  Freddie
 *  Grogu
 *  Groot
+*  Hagrid
 *  Han
 *  Harley
+*  Harry
 *  Hodor
 *  Hofstadter
 *  Howard
@@ -573,11 +586,14 @@ You can chose from the following:
 *  Kurt
 *  Lando
 *  Leia
+*  Larry
 *  Lemmy
+*  Liam
 *  Luke
 *  Nightking
 *  Obiwan
 *  Padme
+*  Paul
 *  Penny
 *  Picard
 *  Prince
@@ -589,6 +605,7 @@ You can chose from the following:
 *  Robot3
 *  Robot4
 *  Robot5
+*  Ron
 *  Sabine
 *  Sansa
 *  Sheldon
@@ -603,7 +620,6 @@ You can chose from the following:
 *  Walker
 *  Watson
 *  Wedge
-
 
 
 
@@ -730,7 +746,8 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
 3. Enter your Turbonomic License on line 69
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 72)
+3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 69)
 3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -808,7 +825,8 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
 3. Enter your Turbonomic License on lines 142/143
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 67)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
+3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
 3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
