@@ -253,6 +253,7 @@
         echo "PAYLOAD:"$PAYLOAD
 
 
+
         export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincidentclear" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
         echo "      🔎 Result: "
         echo "       "$result
