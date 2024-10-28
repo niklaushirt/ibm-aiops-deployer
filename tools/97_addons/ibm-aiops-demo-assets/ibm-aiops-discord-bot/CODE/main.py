@@ -12,6 +12,8 @@ import discord
 from discord.ext import commands
 from urllib.parse import quote_plus
 from threading import Thread
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+os.environ['PYTHONWARNINGS']="ignore:Unverified HTTPS request"
 
 # ('--------------------------------------------------')('--------------------------------------------------')--------------
 # GET VARIABLES
@@ -380,20 +382,26 @@ class IncidentBot(commands.Bot):
         if message.author.id == self.user.id:
             return
 
-        print(" 📥 aaaaaaa"+str(message.content)) 
+        print ('--------------------------------------------------------------------------------')
+        print("🟡🟡 Command received for Bot: "+str(message.content)) 
         
 
         if message.content.startswith(DISCORD_BOT_PREFIX+'guess'):
             await message.channel.send('Guess a number between 1 and 10.')
 
         if message.content.startswith(DISCORD_BOT_PREFIX+DISCORD_BOT_NAME):
+
+            print("  ✅ Command is for me, as my name is "+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME) 
+            print ('--------------------------------------------------------------------------------')
+            print("") 
+
             myMessage=message.content
             myArguments=myMessage.split()
 
             # --------------------------------------------------------------------------------
             # EMPTY COMMAND
             if len(myArguments) < 2:
-                print(" 📥 Command: EMPTY")
+                print("  🚀 Command Detail: ROOT")
                 await message.channel.send('--------------------------------------------------')
                 await message.channel.send('**🤖 Welcome to the IBM AIOps Discord Bot for the "'+INSTANCE_NAME+'" Environment**')
                 await message.channel.send('--------------------------------------------------')
@@ -480,7 +488,7 @@ class IncidentBot(commands.Bot):
                  # COMMAND BUTTONS
 
                 if myArgument == "demo":
-                    print(" 📥 Command: demo")
+                    print("  🚀 Command Detail: demo")
                     await message.channel.send('--------------------------------------------------')
                     await message.channel.send('**🚀 Demo Assets**')
                     view = AIOPSLink(DENO_UI_ROUTE,'Demo Dashboard')
@@ -503,7 +511,7 @@ class IncidentBot(commands.Bot):
                     await message.channel.send('> Password: '+TOKEN)
 
                 elif myArgument == "aiops":
-                    print(" 📥 Command: aiops")
+                    print("  🚀 Command Detail: aiops")
                     await message.channel.send('--------------------------------------------------')
                     await message.channel.send('**🚀 AIOps Incidents**')
                     view = IncidentsActions()
@@ -513,7 +521,7 @@ class IncidentBot(commands.Bot):
 
 
                 elif myArgument == "instana":
-                    print(" 📥 Command: instana")
+                    print("  🚀 Command Detail: instana")
                     await message.channel.send('--------------------------------------------------')
                     await message.channel.send('**🚀 Instana Incidents**')
                     view = IncidentInstana()
@@ -522,7 +530,7 @@ class IncidentBot(commands.Bot):
                 
                 # CREATE INCIDENT MEMORY LEAK
                 elif myArgument == "incident":
-                    print(" 📥 Command: incident")
+                    print("  🚀 Command Detail: incident")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Memory Incident')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=createIncidentRSMem)
@@ -534,7 +542,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # CREATE INCIDENT MEMORY LEAK
                 elif myArgument == "incidentMem":
-                    print(" 📥 Command: incidentMem")
+                    print("  🚀 Command Detail: incidentMem")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Memory Incident')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=createIncidentRSMem)
@@ -545,7 +553,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # CREATE INCIDENT MEMORY LEAK
                 elif myArgument == "incidentNet":
-                    print(" 📥 Command: incidentNet")
+                    print("  🚀 Command Detail: incidentNet")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating RobotShop - Fiber Cut Incident')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=createIncidentRSFiber)
@@ -557,7 +565,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # CREATE INCIDENT FAN FAILURE
                 elif myArgument == "incidentSock":
-                    print(" 📥 Command: incidentSock")
+                    print("  🚀 Command Detail: incidentSock")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating SockShop - Net Incident')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=createIncidentSock)
@@ -569,7 +577,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # CREATE INCIDENT FAN FAILURE
                 elif myArgument == "incidentFan":
-                    print(" 📥 Command: incidentFan")
+                    print("  🚀 Command Detail: incidentFan")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Simulating ACME - Fan Incident')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=createIncidentFan)
@@ -581,7 +589,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                  # SET Incidents TO InProgress
                 elif myArgument == "progress":
-                    print(" 📥 Command: progress")
+                    print("  🚀 Command Detail: progress")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Set Incidents to InProgress')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=setInProgress)
@@ -592,7 +600,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                  # SET Incidents TO Resolved
                 elif myArgument == "resolve":
-                    print(" 📥 Command: resolve")
+                    print("  🚀 Command Detail: resolve")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Set Incidents to Resolved')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=setResolved)
@@ -602,7 +610,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                  # SET Incidents TO Resolved
                 elif myArgument == "close":
-                    print(" 📥 Command: close")
+                    print("  🚀 Command Detail: close")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Set Incidents to Resolved')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=setResolved)
@@ -613,7 +621,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                  # SET Incidents TO Resolved
                 elif myArgument == "reset":
-                    print(" 📥 Command: reset")
+                    print("  🚀 Command Detail: reset")
                     await message.channel.send('🚀 '+INSTANCE_NAME+' Reset Demo Environment')
                     print('    🟠 Create THREADS')
                     threadRun = Thread(target=setResolved)
@@ -625,7 +633,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # WELCOME MESSAGE
                 elif (myArgument == "welcome") or (myArgument == "help"):
-                    print(" 📥 Command: "+myArgument)
+                    print("  🚀 Command Detail: "+myArgument)
                     await message.channel.send('**🚀 Available Commands**')
                     await message.channel.send('   🛠️ Demo Assets:')
                     await message.channel.send('      '+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' **demo**        :  Prints links and logins to demo assets')
@@ -652,7 +660,7 @@ class IncidentBot(commands.Bot):
                 # --------------------------------------------------------------------------------
                 # GET Incidents
                 elif myArgument == "incidents":
-                    print(" 📥 Command: Incidents")
+                    print("  🚀 Command Detail: Incidents")
                     await message.channel.send('**🚀 '+INSTANCE_NAME+' Open Incidents**')
                     await message.channel.send('--------------------------------------------------')
                     print ('           🌏 Datalayer Route:              '+DATALAYER_ROUTE)
@@ -710,7 +718,11 @@ class IncidentBot(commands.Bot):
                 else:
                     print(" ❗Unknown Command")
                     await message.channel.send('🟠 Unknown Command '+myArgument+'. Type "'+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME+' welcome" to get a list of available commands.')
-
+        else:
+            print("  📵 Command is not for me. My name is "+DISCORD_BOT_PREFIX+DISCORD_BOT_NAME) 
+            print ('--------------------------------------------------------------------------------')
+            print("") 
+            print("") 
 
 
 

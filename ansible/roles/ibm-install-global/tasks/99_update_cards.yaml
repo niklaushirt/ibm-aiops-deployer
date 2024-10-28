@@ -154,48 +154,48 @@
 
 
 
-  - name:  🌏 ZEN CARDS - Create Card AIOPS APPS
-    shell: |
-      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-      if [ "${AIOPS_NAMESPACE}" != "" ]; then
-        export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+  # - name:  🌏 ZEN CARDS - Create Card AIOPS APPS
+  #   shell: |
+  #     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+  #     if [ "${AIOPS_NAMESPACE}" != "" ]; then
+  #       export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
 
-        instanaURL=$(oc get routes -n instana-core dev-aiops -o jsonpath={.spec.host})
-        turboURL=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
-        export ROWS=""
+  #       instanaURL=$(oc get routes -n instana-core dev-aiops -o jsonpath={.spec.host})
+  #       turboURL=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
+  #       export ROWS=""
 
-        if [[ $instanaURL =~ "dev-aiops" ]]; then
-        echo "Instana Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$instanaURL'/#/applications", "label": "→   Instana", "sub_text": " "},'
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: admin@instana.local - Password: {{current_feature.instana_admin_pass  | default( global_config.global_password )}} "},'
-        fi
-        if [[ $turboURL =~ "-turbonomic" ]]; then
-        echo "Turbonomic Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$turboURL'", "label": "→   Turbonomic", "sub_text": " "},'
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: administrator - Password: {{current_feature.turbo_admin_password  | default( global_config.global_password )}} "},'
-        fi
+  #       if [[ $instanaURL =~ "dev-aiops" ]]; then
+  #       echo "Instana Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$instanaURL'/#/applications", "label": "→   Instana", "sub_text": " "},'
+  #       ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: admin@instana.local - Password: {{current_feature.instana_admin_pass  | default( global_config.global_password )}} "},'
+  #       fi
+  #       if [[ $turboURL =~ "-turbonomic" ]]; then
+  #       echo "Turbonomic Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$turboURL'", "label": "→   Turbonomic", "sub_text": " "},'
+  #       ROWS=$ROWS'{"drilldown_url":  "", "label": "", "sub_text": "User: administrator - Password: {{current_feature.turbo_admin_password  | default( global_config.global_password )}} "},'
+  #       fi
 
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "Select your IBM AIOps Application above.", "sub_text": ""}'
+  #       ROWS=$ROWS'{"drilldown_url":  "", "label": "Select your IBM AIOps Application above.", "sub_text": ""}'
 
-        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 2, "title": "🟣   IBM Automation - AIOps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
-        echo "PAYLOAD:"$PAYLOAD
+  #       PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 2, "title": "🟣   IBM Automation - AIOps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
+  #       echo "PAYLOAD:"$PAYLOAD
 
-        echo "curl -X \"PUT\" -k \"https://$ROUTE/zen-data/v1/custom_cards/aiopscard\" -H \"Authorization: Bearer {{ZEN_TOKEN}}\" -H \"Content-Type: application/json\" -d \"$PAYLOAD\""
+  #       echo "curl -X \"PUT\" -k \"https://$ROUTE/zen-data/v1/custom_cards/aiopscard\" -H \"Authorization: Bearer {{ZEN_TOKEN}}\" -H \"Content-Type: application/json\" -d \"$PAYLOAD\""
 
-        export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
-        echo "      🔎 Result: "
-        echo "       "$result
-      else
-        echo "Skipping: IBMAIOps not installed"
-      fi
-    ignore_errors: true
-    register: output
-    args:
-      executable: /bin/bash
-  - name: 🟣  OUTPUT
-    debug:
-      var: output.stdout_lines
-      verbosity: 1
+  #       export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
+  #       echo "      🔎 Result: "
+  #       echo "       "$result
+  #     else
+  #       echo "Skipping: IBMAIOps not installed"
+  #     fi
+  #   ignore_errors: true
+  #   register: output
+  #   args:
+  #     executable: /bin/bash
+  # - name: 🟣  OUTPUT
+  #   debug:
+  #     var: output.stdout_lines
+  #     verbosity: 1
              
 
   - name:  🌏 ZEN CARDS - Create Card Incidents
@@ -237,6 +237,37 @@
              
 
 
+  - name:  🌏 ZEN CARDS - Create Card Clear Incidents
+    shell: |
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      if [ "${AIOPS_NAMESPACE}" != "" ]; then
+        export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+        export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath={.spec.host})          
+
+        export ROWS=""
+
+        ROWS=$ROWS'{"drilldown_url":  "", "label": "❗ Caution ❗", "sub_text": "Just clicking below will clear all incidents"},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=clean", "label": "✅ Clear all Incidents and Alerts", "sub_text": ""}'
+
+        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 48, "title": "✅ Clear all Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
+        echo "PAYLOAD:"$PAYLOAD
+
+
+        export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
+        echo "      🔎 Result: "
+        echo "       "$result
+      else
+        echo "Skipping: IBMAIOps not installed"
+      fi
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
+             
 
 
 
@@ -286,7 +317,7 @@
         ROWS=$ROWS'{"drilldown_url":  "", "label": "Select your app above.", "sub_text": ""}'
 
 
-        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 3, "title": "🔵   Demo Apps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
+        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 10, "title": "🔵   Demo Apps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
         echo "PAYLOAD:"$PAYLOAD
 
         curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/appscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD"
@@ -346,7 +377,7 @@
         ROWS=$ROWS'{"drilldown_url":  "", "label": "Internal System Links", "sub_text": ""}'
 
 
-        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 4, "title": "🧰   System Links", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
+        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 100, "title": "🧰   System Links", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
         echo "PAYLOAD:"$PAYLOAD
 
         curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD"

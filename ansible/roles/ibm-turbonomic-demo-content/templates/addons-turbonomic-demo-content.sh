@@ -1,153 +1,43 @@
-
-# *************************************************************************************************************************************************
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Install Turbonomic
-# --------------------------------------------------------------------------------------------------------------------------------------
-# *************************************************************************************************************************************************
-
-# --------------------------------------------------------------------------------------------------------------------------------------
-# Install Turbonomic Demo Content
-# --------------------------------------------------------------------------------------------------------------------------------------
-
-- name: 🛰️  START - INSTALL TURBONOMIC
-  debug: 
-    msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
-
-
-- name: Log
-  shell: |
-    export MESSAGE="Installing TURBONOMIC Demo Content"
-    export currentDate=$(date +%Y-%m-%d_%H:%M)
-    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
-    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
-  ignore_errors: true
-
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification
-    spec:
-      backgroundColor: '#ffd500'
-      color: '#000'
-      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - Demo Content'    
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
-
-
-- name: 🚀 TURBONOMIC - Set ADMIN Password 
-  set_fact: current_admin_pass={{current_feature.turbo_admin_password  | default( global_config.global_password )}}
-
-
-- name: 🟣  TURBONOMIC -  ADMIN Password {{current_admin_pass}}
-  debug:
-    var: current_admin_pass
-    verbosity: 1
-
-
-- name: 🚀 TURBONOMIC - Set DEMO Password 
-  set_fact: current_demo_pass={{current_feature.turbo_admin_password  | default( global_config.global_password )}}
-
-
-- name: 🟣  TURBONOMIC -  DEMO Password {{current_demo_pass}}
-  debug:
-    var: current_demo_pass
-    verbosity: 1
+export TURBO_PASSWORD=P4ssw0rd!
 
 
 
 
-- name: 🚀 TURBONOMIC - Get ROUTE
-  shell: |
+# 🚀 TURBONOMIC - Get ROUTE
+
     export TURBO_URL=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
     echo $TURBO_URL
-  ignore_errors: true
-  register: output
-        
-- name: 🚀 TURBONOMIC - Set ROUTE - {{ output.stdout_lines }} 
-  set_fact: TURBO_URL={{ output.stdout_lines[0] }} 
 
 
-- name: 🚀 TURBONOMIC - Init Admin
-  shell: |
+# 🚀 TURBONOMIC - Init Admin
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Initialization"
-    export TURBO_PASSWORD={{current_admin_pass}}
-    export TURBO_URL={{TURBO_URL}}
 
-    result=$(curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://{{TURBO_URL}}/api/v3/initAdmin" -d "username=administrator&password=$TURBO_PASSWORD")
+    result=$(curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://$TURBO_URL/api/v3/initAdmin" -d "username=administrator&password=$TURBO_PASSWORD")
     echo $result
-    result=$(curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://{{TURBO_URL}}/api/v3/login?disable_hateoas=true" -d "username=administrator&password=$TURBO_PASSWORD")
+    result=$(curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://$TURBO_URL/api/v3/login?disable_hateoas=true" -d "username=administrator&password=$TURBO_PASSWORD")
     echo $result
 
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
         
 
 
 
 
-- name: 🚀 TURBONOMIC - Login
-  shell: |
+# 🚀 TURBONOMIC - Login
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Initialization"
-    export TURBO_PASSWORD={{current_admin_pass}}
-    export TURBO_URL={{TURBO_URL}}
+    export TURBO_URL=$TURBO_URL
 
-    while [[ `curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://{{TURBO_URL}}/api/v3/login?hateoas=true" -d "username=administrator&password=$TURBO_PASSWORD"` =~ "InvalidCredentialsException" ]]
+    while [[ `curl -XPOST -s -k -c /tmp/cookies -H 'accept: application/json' "https://$TURBO_URL/api/v3/login?hateoas=true" -d "username=administrator&password=$TURBO_PASSWORD"` =~ "InvalidCredentialsException" ]]
     do
       echo "Waiting for Turbo Init"
       sleep 15
     done
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
         
 
 
-
-
-# --------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------
-# LOAD LICENSE IF PROVIDED
-# --------------------------------------------------------------------------------------------------------
-- name: 🚀 TURBONOMIC - Add License if provided
-  shell: |
-    export TURBO_URL={{TURBO_URL}}
-
-    echo "{{current_turbo_license | default("NONE") }}" > /tmp/license.lic
-    #cat /tmp/license.lic
-    
-    result=$(curl -XPOST -k -b /tmp/cookies -H 'Content-Type: multipart/form-data'  -H 'accept: application/json' "https://$TURBO_URL/api/v3/licenses?dryRun=false" -F 'file=@/tmp/license.lic')
- 
-    echo $result
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_turbo_license | default("NONE") != "NONE"
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 2
-  when: current_turbo_license | default("NONE") != "NONE"
 
 
 
@@ -159,11 +49,11 @@
 # --------------------------------------------------------------------------------------------------------
 
 
-- name: 🚀 TURBONOMIC - Create demo User
-  shell: |
+# 🚀 TURBONOMIC - Create demo User
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/users" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  {
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/users" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  {
       "displayName": "Demo User",
         "username": "{{current_feature.demo_user}}",
         "password": "{{current_demo_pass}}",
@@ -180,28 +70,17 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.create_user == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.create_user == true
-
 
 
 # --------------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------
 # CREATE GROUPS
 # --------------------------------------------------------------------------------------------------------
-- name: 🚀 TURBONOMIC - Create Group vSphere VMs
-  shell: |
+# 🚀 TURBONOMIC - Create Group vSphere VMs
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
       {
         "displayName": "vSphere VMs",
         "className": "Group",
@@ -234,24 +113,14 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_vcenter_vms == true
 
 
 
-- name: 🚀 TURBONOMIC - Create Group Azure VMs
-  shell: |
+# 🚀 TURBONOMIC - Create Group Azure VMs
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
       {
         "displayName": "Azure VMs",
         "className": "Group",
@@ -282,24 +151,13 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_vcenter_vms == true
 
 
+# 🚀 TURBONOMIC - Create Group AWS VMs
 
-- name: 🚀 TURBONOMIC - Create Group AWS VMs
-  shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
       {
         "displayName": "AWS VMs",
         "className": "Group",
@@ -330,23 +188,15 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_vcenter_vms == true
 
 
-- name: 🚀 TURBONOMIC - Create Group Google VMs
-  shell: |
+
+
+# 🚀 TURBONOMIC - Create Group Google VMs
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
       {
         "displayName": "Google VMs",
         "className": "Group",
@@ -377,23 +227,13 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_vcenter_vms == true
 
 
-- name: 🚀 TURBONOMIC - Create Group Kubernetes VMs
-  shell: |
+# 🚀 TURBONOMIC - Create Group Kubernetes VMs
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
       {
         "displayName": "Kubernetes VMs",
         "className": "Group",
@@ -426,23 +266,12 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_vcenter_vms == true
 
 
+# 🚀 TURBONOMIC - Create Group RobotShop AppComponents
 
-- name: 🚀 TURBONOMIC - Create Group RobotShop AppComponents
-  shell: |
     result=$(curl -s -k -X 'POST' \
-      "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies\
+      "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies\
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d '  
@@ -480,25 +309,15 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_robotshop == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_robotshop == true
 
 
 
 
 
-- name: 🚀 TURBONOMIC - Create Licensing Groups
-  shell: |
+# 🚀 TURBONOMIC - Create Licensing Groups
+
     result=$(curl -s -k -X 'POST' \
-      "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies\
+      "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies\
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d ' {
@@ -541,7 +360,7 @@
 
 
     result=$(curl -s -k -X 'POST' \
-      "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies\
+      "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies\
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d '   {
@@ -588,7 +407,7 @@
 
 
 
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/markets/777777/policies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/markets/777777/policies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '
     {
       "policyName": "_DB_LICENSE",
       "type": "BIND_TO_GROUP_AND_LICENSE",
@@ -609,7 +428,7 @@
 
 
 
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/markets/777777/policies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/markets/777777/policies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '
     {
       "policyName": "_DB_PLACE",
       "type": "AT_MOST_N_BOUND",
@@ -630,26 +449,14 @@
 
 
 
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_licensing == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_licensing == true
 
 
 
 
+# 🚀 TURBONOMIC - Create Schedule and Maintenance Policy
 
-
-- name: 🚀 TURBONOMIC - Create Schedule and Maintenance Policy
-  shell: |
     result=$(curl -s -k -X 'POST' \
-      "https://{{TURBO_URL}}/api/v3/schedules" -b /tmp/cookies \
+      "https://$TURBO_URL/api/v3/schedules" -b /tmp/cookies \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d '  
@@ -674,67 +481,6 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.group_robotshop == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.group_robotshop == true
-
-
-
-
-
-# --------------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------
-# CREATE TARGETS
-# --------------------------------------------------------------------------------------------------------
-
-
-# - name: 🚀 TURBONOMIC - Create Instana Target
-#   shell: |
-#     echo "------------------------------------------------------------------------------------------------------------------------------"
-#     echo " 📥 Create Instana Target"
-#     INSTANA_IP=$(oc get route -n instana-core dev-aiops -o jsonpath={.spec.host})
-#     result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
-#         "uuid": "74709474070544",
-#         "displayName": "159.122.143.166",
-#         "category": "Applications and Databases",
-#         "inputFields": [
-#           {
-#             "name": "apiToken",
-#             "value": "ChangeMe"
-#           },
-#           {
-#             "name": "address",
-#             "value": "'$INSTANA_IP'"
-#           },
-#           {
-#             "name": "collectVmMetrics",
-#             "value": "false"
-#           }
-#         ],
-#         "type": "Instana",
-#         "readonly": false
-#       }')
-
-#     echo $result
-#     echo ""
-#     echo ""
-#   ignore_errors: true
-#   register: output
-#   args:
-#     executable: /bin/bash
-#   when: current_feature.target_instana == true
-# - name: 🟣  OUTPUT
-#   debug:
-#     var: output.stdout_lines
-#     verbosity: 1
-#   when: current_feature.target_instana == true
 
 
 
@@ -746,11 +492,11 @@
 # --------------------------------------------------------------------------------------------------------
 
 
-- name: 🚀 TURBONOMIC - Create RobotShop BusinessApp
-  shell: |
+# 🚀 TURBONOMIC - Create RobotShop BusinessApp
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create demo User"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '  
     {
       "uuid": "285815442727328",
       "displayName": "RobotShopSynthetic",
@@ -806,49 +552,29 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 
 
 
-- name: 🚀 TURBONOMIC - Deploy Synthetic Metrics Server for DIF
-  shell: |
+# 🚀 TURBONOMIC - Deploy Synthetic Metrics Server for DIF
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Deploy Synthetic Metrics Server for DIF"
     oc apply -f ./roles/ibm-turbonomic-demo-content/templates/create-data-ingestion.yaml
     echo ""
     echo ""
-    export robotshopUUID=$(curl -XGET -s -k "https://{{TURBO_URL}}/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
+    export robotshopUUID=$(curl -XGET -s -k "https://$TURBO_URL/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
     echo "  🌏 Synthetic Metric URL: http://turbo-dif-service.default:3000/businessApplication/RobotShopSynthetic/$robotshopUUID"
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 
 
 
 
-- name: 🚀 TURBONOMIC - Create SyntheticMetricsHelloWorld
-  shell: |
+# 🚀 TURBONOMIC - Create SyntheticMetricsHelloWorld
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create Hello Metrics"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
         "uuid": "74709421524256",
         "displayName": "SyntheticMetricsHelloWorld",
         "category": "Custom",
@@ -869,27 +595,16 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 
 
 
+# 🚀 TURBONOMIC - Create SyntheticMetricsRobotShop
 
-- name: 🚀 TURBONOMIC - Create SyntheticMetricsRobotShop
-  shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create RobotShop Metrics"
-    export robotshopUUID=$(curl -XGET -s -k "https://{{TURBO_URL}}/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
+    export robotshopUUID=$(curl -XGET -s -k "https://$TURBO_URL/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
 
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
         "uuid": "74709422922224",
         "displayName": "SyntheticMetricsRobotShop",
         "category": "Custom",
@@ -911,16 +626,6 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 
 
 
@@ -933,24 +638,14 @@
 # DEPLOY MEMORY AND CPU HOGS
 # --------------------------------------------------------------------------------------------------------
 
-- name: 🚀 TURBONOMIC - Deploy Memory and CPU Hogs
-  shell: |
+# 🚀 TURBONOMIC - Deploy Memory and CPU Hogs
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Deploy Memory and CPU Hogs"
     oc apply  -f ./roles/ibm-turbonomic-demo-content/templates/prime_numbers-deploy.yaml
     oc apply  -f ./roles/ibm-turbonomic-demo-content/templates/memory_grabber.yaml
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.resource_hogs == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.resource_hogs == true
 
 
 
@@ -960,12 +655,12 @@
 # WEBHOOKS
 # --------------------------------------------------------------------------------------------------------
 
-- name: 🚀 TURBONOMIC - Sample Webhook
-  shell: |
+# 🚀 TURBONOMIC - Sample Webhook
+
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Deploy Sample Webhook"
 
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/workflows" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d ' {
+    result=$(curl -XPOST -s -k "https://$TURBO_URL/api/v3/workflows" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d ' {
         "displayName": "My_WebHook",
         "className": "Workflow",
         "description": "My First Webhook",
@@ -985,21 +680,11 @@
     echo $result
     echo ""
     echo ""
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 
 
 
-- name: 💊 CERTIFICATES - Patch Certificates for TechZone IPI/UPI
-  shell: |
+# 💊 CERTIFICATES - Patch Certificates for TechZone IPI/UPI
+
     CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 )
     CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
     CLUSTER_NAME=${CLUSTER_FQDN##*console.}
@@ -1025,17 +710,6 @@
         echo "✅ Seems that you're NOT on Techzone IPI/UPI"  
         echo "✅ No need to patch the certificates any further"  
     fi
-  register: certificate_patch
-  ignore_errors: true
-  args:
-    executable: /bin/bash
-  when: current_feature.create_valid_ingress_itz | default(false) == true
-
-
-- name: 🟢 DEBUG - Patch Certificates for TechZone IPI/UPI
-  debug: 
-    var: certificate_patch
-  when: current_feature.create_valid_ingress_itz | default(false) == true
 
 
 
@@ -1049,15 +723,9 @@
 
 
 
+# 🚀 TURBONOMIC - Create RobotShop Optimisation Automation
 
-
-
-
-
-
-- name: 🚀 TURBONOMIC - Create RobotShop Optimisation Automation
-  shell: |
-    curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/settingspolicies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' \
+    curl -XPOST -s -k "https://$TURBO_URL/api/v3/settingspolicies" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' \
             -d '{
       "disabled": false,
       "entityType": "WorkloadController",
@@ -1201,7 +869,7 @@
 
 
     result=$(curl -s -k -X 'POST' \
-      "https://{{TURBO_URL}}/api/v3/groups" -b /tmp/cookies\
+      "https://$TURBO_URL/api/v3/groups" -b /tmp/cookies\
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -d '  
@@ -1238,15 +906,4 @@
 
     echo $result
 
-
-  ignore_errors: true
-  register: output
-  args:
-    executable: /bin/bash
-  when: current_feature.metrics_dif == true
-- name: 🟣  OUTPUT
-  debug:
-    var: output.stdout_lines
-    verbosity: 1
-  when: current_feature.metrics_dif == true
 

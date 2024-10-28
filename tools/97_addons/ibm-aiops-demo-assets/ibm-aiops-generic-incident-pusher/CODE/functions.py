@@ -7,6 +7,10 @@ import datetime
 import sqlite3
 import os
 
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+os.environ['PYTHONWARNINGS']="ignore:Unverified HTTPS request"
+
+
 DEBUG_ME=os.environ.get('DEBUG_ME',"False")
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
