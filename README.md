@@ -363,19 +363,95 @@ This installation contains:
 <summary>🚀 Connecting for the first time</summary>
 
 
-![install](./doc/pics/notification01.png)
+### Access the DemoUI
 
-1. In the top green Notification bar clicking on the link to open the DemoUI
-2. Login with the provided Password
-3. You will find Links and Passwords for all installed components here
+To access the demo environment:
+
+1. In the top green Notification bar click on the link to open the DemoUI
+
+	![install](./doc/pics/notification01_login.png)
+
+1. Login with the provided Password
+2. You will find Links and Passwords for all installed components here
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+
+### Login to IBM AIOps as demo User
+
+![demo](./doc/pics/demo01.png)
+
+1. Note the Username and Password
+2. Click on the blue `IBM AIOps` button
+3. Select `Enterprise LDAP` 
+3. Login as User `demo` with the Password `Selected at installation` and shown in the DemoUI
+
+
+![demo](./doc/pics/demo04.png)
+
+
+> ❗If you are using IBM TechZone Clusters you will get certificate errors when trying to open CP4AIOPS or Turbonomic
+> 
+>  ✅ Open the links in a Private/Incognito window and select proceed
+> 
+> ✅ In Chrome you can type `thisisunsafe`  when on the `Your connection is not private` page. There is no visual feedback but if you type it correctly the page will then load.
+
+</details>
+
+<details>
+<summary>✅ Post Install</summary>
+
+### Check Training
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
+2. Check that the Training are displayed as follows
+
+	![install](./doc/pics/post04.png)
+
+
+3. If any of the trainings (particularely Metric anomaly detection) displays an error, please re-run the training. This is often due to a limit of resources at install time. 
+
+	![install](./doc/pics/post01.png)
+
+4. Open Training definition and check that the problem was a lack of resources 
+
+	![install](./doc/pics/post02.png)
+
+5. Run Training by clicking on `Train Models`
+
+5. You should get around 500+ models
+
+	![install](./doc/pics/post03.png)
+
+##### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
+
+
+
+### Eye Candy
+
+
+1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Alerts`
+
+	![install](./doc/pics/post05.png)
+
+2. Click on the `Cog` on the top right corner
+2. Select `User preferences`
+4. Select `DEMO Incidents View` for Default view
+5. Select `DEMO Incidents View` for Default view for alerts in incidents
+6. Enable `Row Coloring` 
+
+	![install](./doc/pics/post06.png)
+
+
+### 🚀 Now you're ready to [Demo the Solution](#31-demo-the-solution)
 
 
 </details>
 
-
-
 <details>
-<summary>🔎 Verify your installation</summary>
+<summary>🔎 Detailed Check</summary>
 
 ### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
 
