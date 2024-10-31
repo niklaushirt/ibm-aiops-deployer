@@ -460,42 +460,38 @@ EOF
                   export CURRENT_WARNING_STRING="LAGS training incomplete - Log into CP4AIOPS and re-run the Metrics Training"
                   handleWarning
 
-
-
                   export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-                  echo "       ✅ OK - IBMAIOps:    $AIOPS_NAMESPACE"
 
-
-                  echo "***************************************************************************************************************************************************"
-                  echo "   🛠️   RE-START - LOAD LOG TRAINING DATA"
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      ⚠️  RE-START - LOAD LOG TRAINING DATA to mitigate Problem - This will take about 5-10 minutes"
                   oc apply -f ./tools/98_maintenance/jobs/loads/reload-job-lags.yaml
                   sleep 15
 
-                  echo "***************************************************************************************************************************************************"
-                  echo "   🛠️   Waiting for LAGS data load to complete"
-                  oc wait --for=condition=complete -n ibm-installer --timeout=500s job/reload-lags-indexes
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   Waiting for LAGS data load to complete"
+                  oc wait --for=condition=complete -n ibm-installer --timeout=5000s job/reload-lags-indexes
 
 
-                  echo "***************************************************************************************************************************************************"
-                  echo "   🛠️   CONFIG - LAGS POD"
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   CONFIG - LAGS POD"
                   oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite BUCKET_SIZE_IN_MILLIS="3600000" 
                   oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP-
                   oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE-
 
-                  echo "***************************************************************************************************************************************************"
-                  echo "   🛠️   RESTART - LAGS POD"
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RESTART - LAGS POD"
                   oc delete pod -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE|grep golden-signals|awk '{print$1}')
 
 
 
-                  echo "***************************************************************************************************************************************************"
-                  echo "   🛠️   RESTART - LOG INJECTION POD"
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RESTART - LOG INJECTION POD"
                   oc delete pod -n $AIOPS_NAMESPACE-demo-ui --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE-demo-ui|grep ibm-aiops-stream-lags-normal|awk '{print$1}')
 
 
 
-                  echo "  ***************************************************************************************************************************************************"
-                  echo "   🛠️   RERUN - MetricAnomaly"
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RERUN - MetricAnomaly"
                   export FILE_NAME=run-analysis-METRIC.graphql
                   export FILE_PATH="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/training-definitions/"
                   /ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/scripts/execute-graphql.sh
