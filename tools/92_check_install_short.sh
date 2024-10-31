@@ -22,7 +22,10 @@
 
 export TEMP_PATH=~/aiops-install
 export ERROR_STRING=""
+export WARNING_STRING=""
+
 export ERROR=false
+export WARNING_STATE=false
 
 oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 
@@ -61,6 +64,28 @@ function handleError(){
         echo "      ❗"
         echo "      ❗***************************************************************************************************************************************************"
         echo "      ❗***************************************************************************************************************************************************"
+        echo "      "
+        echo "      "
+
+    fi
+}
+
+
+function handleWarning(){
+    if  ([[ $CURRENT_WARNING_STATE == true ]]); 
+    then
+        WARNING_STATE=true
+        WARNING_STRING=$WARNING_STRING"\n ⚠️  $CURRENT_WARNING_STRING"
+        echo "      "
+        echo "      "
+        echo "      ⚠️ ***************************************************************************************************************************************************"
+        echo "      ⚠️ ***************************************************************************************************************************************************"
+        echo "      ⚠️   The following warning was found: "
+        echo "      ⚠️ "
+        echo "      ⚠️       ⚠️  $CURRENT_WARNING_STRING"; 
+        echo "      ⚠️ "
+        echo "      ⚠️ ***************************************************************************************************************************************************"
+        echo "      ⚠️ ***************************************************************************************************************************************************"
         echo "      "
         echo "      "
 
@@ -238,9 +263,9 @@ EOF
       export ERROR_PODS_COUNT=$(oc get pods -n $CURRENT_NAMESPACE | grep -v "Completed" |grep -v nginx-ingress-controller| grep "0/"| grep -c "")
       if  ([[ $ERROR_PODS_COUNT -gt 0 ]]); 
       then 
-            export CURRENT_ERROR=true
-            export CURRENT_ERROR_STRING="$ERROR_PODS_COUNT Pods not running in Namespace "$CURRENT_NAMESPACE"  \n"$ERROR_PODS
-            handleError
+            export CURRENT_WARNING_STATE=true
+            export CURRENT_WARNING_STRING="$ERROR_PODS_COUNT Pods not running in Namespace "$CURRENT_NAMESPACE"  \n"$ERROR_PODS
+            handleWarning
       else  
             echo "       ✅ OK: All Pods running and ready in Namespace $CURRENT_NAMESPACE"; 
       fi
@@ -431,9 +456,48 @@ EOF
 
       if  ([[ $result == "0" ]]); 
             then 
-                  export CURRENT_ERROR=true
-                  export CURRENT_ERROR_STRING="LAGS training incomplete - no metrics"
-                  handleError
+                  export CURRENT_WARNING_STATE=true
+                  export CURRENT_WARNING_STRING="LAGS training incomplete - Log into CP4AIOPS and re-run the Metrics Training"
+                  handleWarning
+
+                  export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      ⚠️  RE-START - LOAD LOG TRAINING DATA to mitigate Problem - This will take about 5-10 minutes"
+                  oc apply -f ./tools/98_maintenance/jobs/loads/reload-job-lags.yaml
+                  sleep 15
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   Waiting for LAGS data load to complete"
+                  oc wait --for=condition=complete -n ibm-installer --timeout=5000s job/reload-lags-indexes
+
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   CONFIG - LAGS POD"
+                  oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite BUCKET_SIZE_IN_MILLIS="3600000" 
+                  oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_START_TIMESTAMP-
+                  oc set env deploy -n $AIOPS_NAMESPACE aimanager-aio-log-anomaly-golden-signals --overwrite HISTORIC_TIME_RANGE-
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RESTART - LAGS POD"
+                  oc delete pod -n $AIOPS_NAMESPACE --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE|grep golden-signals|awk '{print$1}')
+
+
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RESTART - LOG INJECTION POD"
+                  oc delete pod -n $AIOPS_NAMESPACE-demo-ui --ignore-not-found $(oc get po -n $AIOPS_NAMESPACE-demo-ui|grep ibm-aiops-stream-lags-normal|awk '{print$1}')
+
+
+
+                  echo "      ***************************************************************************************************************************************************"
+                  echo "      🛠️   RERUN - MetricAnomaly"
+                  export FILE_NAME=run-analysis-METRIC.graphql
+                  export FILE_PATH="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/training-definitions/"
+                  /ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/scripts/execute-graphql.sh
+
+
+
             else  
                   echo "          ✅ OK - ELKGoldenSignal exists ($result models)"; 
             fi
@@ -460,9 +524,9 @@ EOF
       export existingIndexes=$(curl -s -k -u $username:$password -XGET https://$ES_ROUTE/_cat/indices|grep 1000-1000-la_golden_signals-models|wc -l|tr -d ' ')
       if  ([[ $result == "0" ]]); 
             then 
-                  export CURRENT_ERROR=true
-                  export CURRENT_ERROR_STRING="LAGS training incomplete - no teplates in ElastcSearch"
-                  handleError
+                  export CURRENT_WARNING_STATE=true
+                  export CURRENT_WARNING_STRING="LAGS training incomplete - Log into CP4AIOPS and re-run the Metrics Training"
+                  handleWarning
             else  
                   echo "          ✅ OK"; 
             fi
@@ -676,12 +740,60 @@ spec:
     text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
 EOF
 
+    elif  ([[ $WARNING_STATE == true ]]); 
+    then
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ERROR
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        shopt -s xpg_echo
+        echo ""
+        echo ""
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
+        echo ""
+        echo "  🟢🟢🟢 Your installation looks fine"
+        echo ""
+        echo ""
+        echo "  ⚠️  But we encountered the following non blocking warnings"
+        echo ""
+        echo "      $WARNING_STRING" | sed 's/^/       /'
+        echo ""
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
+        echo ""
+
+export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
+oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+cat <<EOF | oc apply -f -
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+    name: ibm-aiops-notification-main
+spec:
+    backgroundColor: '#009a00'
+    color: '#fff'
+    link:
+        href: "https://$appURL"
+        text: DemoUI
+    location: BannerTop
+    text: "✅ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
+EOF
+
+
     else
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # NO ERROR
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
         echo ""
         echo "  🟢🟢🟢 Your installation looks fine"
+        echo ""
+        echo "***************************************************************************************************************************************************"
+        echo "***************************************************************************************************************************************************"
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true

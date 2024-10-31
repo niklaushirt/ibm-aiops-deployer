@@ -69,11 +69,12 @@
 
     echo "***************************************************************************************************************************************************"
     echo "   🛠️   Waiting for LAGS data load to complete"
-    while [ `oc get po -n ibm-installer|grep Completed| grep -c ""` -lt 1 ]
-    do
-      echo "       ⏳ Waiting for data load"
-      sleep 15
-    done
+    # while [ `oc get po -n ibm-installer|grep Completed|grep lags| grep -c ""` -lt 1 ]
+    # do
+    #   echo "       ⏳ Waiting for data load"
+    #   sleep 15
+    # done
+    oc wait --for=condition=complete -n ibm-installer --timeout=300s job/load-lags-indexes
 
 
     echo "***************************************************************************************************************************************************"

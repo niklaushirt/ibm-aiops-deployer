@@ -111,7 +111,7 @@ spec:
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo "   🚀 🛰️  START - LOAD LOG TRAINING DATA"
 
-              oc apply -f ./tools/98_maintenance/jobs/load-job-lags.yaml
+              oc apply -f ./tools/98_maintenance/jobs/loads/load-job-lags.yaml
 
 
 
