@@ -1,8 +1,7 @@
-
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-lags-indexes
+  name: reload-lags-indexes
   namespace: ibm-installer
 spec:
   serviceAccountName: demo-admin
@@ -33,7 +32,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading log files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git
+              export TRAINING_REPO=https://github.com/niklaushirt/ibm-aiops-trainingdata.git
               git clone $TRAINING_REPO
               cd ibm-aiops-trainingdata
 
@@ -67,7 +66,6 @@ spec:
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"
               echo "*****************************************************************************************************************************"
-     
           env:
             - name: INDEX_OVERWRITE
               value : "false"
