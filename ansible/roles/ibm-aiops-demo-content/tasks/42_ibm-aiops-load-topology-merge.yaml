@@ -229,7 +229,7 @@
         "providers": ["*"]
     }'
 
-    echo "  Create Match RULE... MergeTokenDeployName"
+    echo "  Create Match RULE... MatchTokenNetworkinterfacesID"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
