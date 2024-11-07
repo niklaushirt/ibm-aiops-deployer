@@ -36,11 +36,32 @@ echo "Sucessfully logged in"
 echo ""
 
 
+# IRC_NAMESPACE=ibm-aiops
+# IRC_INSTANCE=$(oc get issueresolutioncore -n $IRC_NAMESPACE -o custom-columns=name:metadata.name --no-headers)
+#  IRC_PRIMARY_OBJECTSERVER_SVC=$IRC_INSTANCE-ir-core-ncoprimary
+#  IRC_BACKUP_OBJECTSERVER_SVC=$IRC_INSTANCE-ir-core-ncobackup
+#  IRC_PRIMARY_OBJECTSERVER_PORT=$(oc get svc -n $IRC_NAMESPACE $IRC_PRIMARY_OBJECTSERVER_SVC -o jsonpath='{.spec.ports[?(@.name=="primary-tds-port")].port}')
+#  IRC_BACKUP_OBJECTSERVER_PORT=$(oc get svc -n $IRC_NAMESPACE $IRC_BACKUP_OBJECTSERVER_SVC -o jsonpath='{.spec.ports[?(@.name=="backup-tds-port")].port}')
+#  IRC_OMNI_USERNAME=aiopsprobe
+#  IRC_OMNI_PASSWORD=$(oc get secret -n $IRC_NAMESPACE $IRC_INSTANCE-ir-core-omni-secret -o jsonpath='{.data.OMNIBUS_PROBE_PASSWORD}' | base64 --decode && echo)
+ 
+# echo "IRC_NAMESPACE                 "$IRC_NAMESPACE
+# echo "IRC_INSTANCE                  "$IRC_INSTANCE
+# echo "IRC_PRIMARY_OBJECTSERVER_SVC  "$IRC_PRIMARY_OBJECTSERVER_SVC
+# echo "IRC_BACKUP_OBJECTSERVER_SVC   "$IRC_BACKUP_OBJECTSERVER_SVC
+# echo "IRC_PRIMARY_OBJECTSERVER_PORT "$IRC_PRIMARY_OBJECTSERVER_PORT
+# echo "IRC_BACKUP_OBJECTSERVER_PORT  "$IRC_BACKUP_OBJECTSERVER_PORT
+# echo "IRC_OMNI_USERNAME             "$IRC_OMNI_USERNAME
+# echo "IRC_OMNI_PASSWORD             "$IRC_OMNI_PASSWORD
+
+# oc extract secret/$IRC_INSTANCE-ir-core-ncoprimary-tls -n $IRC_NAMESPACE --to=. --keys=tls.crt
+
+
 
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD GITHUB
+# ADD vSphere-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -49,7 +70,345 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-  "displayName": "GitHubDemo",
+    "connection_config": {
+        "webhook": {
+            "authentication": {
+                "type": "none"
+            },
+            "enabled": true,
+            "path": "/webhook-connector/vsphere",
+            "mappings": "(\n    {\n        \"resource\": {\n          \"name\": $exists(VMWARE_ALARM_TARGET_NAME) ? $length(VMWARE_ALARM_TARGET_NAME) > 0 ? VMWARE_ALARM_TARGET_NAME : \"Unknown\",\n          \"type\": $exists(VMWARE_ALARM_TARGET_ID) ? $length(VMWARE_ALARM_TARGET_ID) > 0 ?\n                  $contains(VMWARE_ALARM_TARGET_ID, /datacenter/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /datastore-/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /domain-c/i) ? \"Cluster\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /host-/i) ? \"Server\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /resgroup-/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /network-/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /dvs-/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /group-/i) ? \"Service\" :\n                  $contains(VMWARE_ALARM_TARGET_ID, /vm-/i) ? \"Server\" : \"Unknown\",\n          \"ipaddress\": $exists(VMWARE_ALARM_TARGET_ID) ? $length(VMWARE_ALARM_TARGET_ID) > 0 ?\n                       $contains(VMWARE_ALARM_TARGET_ID, /host-/i) ? \n                       $contains(VMWARE_ALARM_TARGET_NAME, /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) ?\n                       VMWARE_ALARM_TARGET_NAME :\n                       $contains(VMWARE_ALARM_TARGET_NAME, /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^\\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3}))|:)))(%.+)?\\s*$/) ?\n                       VMWARE_ALARM_TARGET_NAME,\n          \"hostname\": $exists(VMWARE_ALARM_TARGET_ID) ? $length(VMWARE_ALARM_TARGET_ID) > 0 ?\n                      $contains(VMWARE_ALARM_TARGET_ID, /host-/i) ? \n                      $contains(VMWARE_ALARM_TARGET_NAME, /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$/) ?\n                      VMWARE_ALARM_TARGET_NAME\n        },\n        \"type\": {\n          \"eventType\": $exists(VMWARE_ALARM_NEWSTATUS) ? $length(VMWARE_ALARM_NEWSTATUS) > 0 ?\n                      $contains(VMWARE_ALARM_NEWSTATUS, /GREEN/i) ?  \"resolution\" : \"problem\",\n          \"classification\": $exists(VMWARE_ALARM_NAME) ? $length(VMWARE_ALARM_NAME) > 0 ? VMWARE_ALARM_NAME\n        },\n        \"summary\":  $exists(VMWARE_ALARM_ALARMVALUE) ? $length(VMWARE_ALARM_ALARMVALUE) > 0 ? $contains(VMWARE_ALARM_ALARMVALUE, /Current values for metric\\/state/) ?\n                    \"Entity: \" & VMWARE_ALARM_TARGET_NAME & \", \" & VMWARE_ALARM_TRIGGERINGSUMMARY : VMWARE_ALARM_TRIGGERINGSUMMARY,\n        \"severity\": $exists(VMWARE_ALARM_NEWSTATUS) ? $length(VMWARE_ALARM_NEWSTATUS) > 0 ? \n                    $contains(VMWARE_ALARM_NEWSTATUS, /RED/i) ?  6 :\n                    $contains(VMWARE_ALARM_NEWSTATUS, /YELLOW/i) ?  3 :\n                    $contains(VMWARE_ALARM_NEWSTATUS, /GREEN/i) ?  2 :\n                    1,\n        \"expiryTime\": $exists(EXPIRYTIME) ? EXPIRYTIME,\n        \"sender\": {\n          \"name\": $exists(VMWARE_ALARM_EVENT_USERNAME) ? $length(VMWARE_ALARM_EVENT_USERNAME) > 0 ? VMWARE_ALARM_EVENT_USERNAME : \"VMware vSphere\",\n          \"type\": \"Webhook Connector\"\n        }\n      }\n)"
+        },
+        "deploymentType": "local",
+        "display_name": "vSphere-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "vSphere-Demo"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "events",
+        "deploymentType": ["local"],
+        "displayName": "{{connector.webhook.name}}",
+        "hasAIModelType": false,
+        "hasOptionalConfig": true,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "requiresTestConnection": false,
+        "sidePanelDescription": "{{connector.webhook.sidepanel.sidePanelDescription}}",
+        "sidePanelInfo": ["{{sidePanel.information.webhook.1}}", "{{sidePanel.information.webhook.2}}", "{{sidePanel.information.webhook.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelOptionalConfigHeader": "{{sidePanel.webhook.optional.config.header}}",
+        "sidePanelOptionalConfigList": ["{{sidePanel.webhook.optional.config.1}}"],
+        "sidePanelTitle": "{{connector.webhook.sidepanel.sidePanelTitle}}",
+        "type": "webhook",
+        "url": "https://ibm.biz/aiops-genwebhook"
+    }
+}'
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD Turbonomic-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "webhook": {
+            "authentication": {
+                "type": "none"
+            },
+            "enabled": true,
+            "path": "/webhook-connector/turbonomic",
+            "mappings": "(\n    {\n        \"severity\": risk.severity = \"MINOR\" ? 3 : risk.severity = \"MAJOR\" ? 4 : risk.severity = \"CRITICAL\" ? 6 : risk.severity= \"UNKNOWN\" ? 1 : 2,\n        \"summary\": details,\n        \"resource\": {\n            \"name\": target.displayName,\n            \"sourceId\": target.uuid\n        },\n        \"type\": {\n            \"classification\": target.className,\n            \"eventType\": actionState = \"CLEARED\" ? \"resolution\":actionState = \"SUCCEEDED\" ? \"resolution\" : \"problem\",\n            \"condition\": risk.subCategory\n        },\n        \"sender\": {\n            \"name\": \"IBM Turbonomic\",\n            \"type\": \"Webhook Connector\"\n        }\n    }\n)\n\n"
+        },
+        "deploymentType": "local",
+        "display_name": "Turbonomic-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "Turbonomic-Demo"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "events",
+        "deploymentType": ["local"],
+        "displayName": "{{connector.webhook.name}}",
+        "hasAIModelType": false,
+        "hasOptionalConfig": true,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "requiresTestConnection": false,
+        "sidePanelDescription": "{{connector.webhook.sidepanel.sidePanelDescription}}",
+        "sidePanelInfo": ["{{sidePanel.information.webhook.1}}", "{{sidePanel.information.webhook.2}}", "{{sidePanel.information.webhook.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelOptionalConfigHeader": "{{sidePanel.webhook.optional.config.header}}",
+        "sidePanelOptionalConfigList": ["{{sidePanel.webhook.optional.config.1}}"],
+        "sidePanelTitle": "{{connector.webhook.sidepanel.sidePanelTitle}}",
+        "type": "webhook",
+        "url": "https://ibm.biz/aiops-genwebhook"
+    }
+}'
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD PrometheusAlertManager-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "webhook": {
+            "authentication": {
+                "type": "none"
+            },
+            "enabled": true,
+            "path": "/webhook-connector/prometheusalert",
+            "mappings": "(\n  /* Set resource based on labels available */\n  $resource := function($labels){(\n    $name := $labels.name  ? $labels.name  \n      : $labels.statefulset  ? $labels.statefulset \n      : $labels.deployment  ? $labels.deployment \n      : $labels.daemonset  ? $labels.daemonset \n      : $labels.pod  ? $labels.pod \n      : $labels.container  ? $labels.container \n      : $labels.instance  ? $labels.instance \n      : $labels.app  ? $labels.app \n      : $labels.job_name  ? $labels.job_name \n      : $labels.job  ? $labels.job \n      : $labels.type ? $labels.type: $labels.prometheus;\n      $labels.namespace ? ($name & '/' & $labels.namespace): $name;\n    )\n  };\n  /* Map to event schema */\n  alerts.(\n    { \n      \"summary\": annotations.summary ? annotations.summary: annotations.description ? annotations.description : annotations.message ? annotations.message,\n      \"severity\": $lowercase(labels.severity) = \"critical\" ? 6 : $lowercase(labels.severity) = \"major\" ? 5 : $lowercase(labels.severity) = \"minor\" ? 4 : $lowercase(labels.severity) = \"warning\" ? 3 : 1, \n      \"resource\": {\n        \"name\": $resource(labels)\n      },\n      \"type\": {\n        \"eventType\": $lowercase(status) = \"firing\" ? \"problem\": \"resolution\",\n        \"classification\": labels.alertname\n      },\n      \"links\": [\n        {\n            \"url\": generatorURL\n        }\n      ],\n      \"sender\": {\n        \"name\": \"Prometheus\",\n        \"type\": \"Webhook Connector\"\n      },\n     \"details\": labels\n    }\n  )\n)"
+        },
+        "deploymentType": "local",
+        "display_name": "PrometheusAlertManager-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "PrometheusAlertManager-Demo"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "events",
+        "deploymentType": ["local"],
+        "displayName": "{{connector.webhook.name}}",
+        "hasAIModelType": false,
+        "hasOptionalConfig": true,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "requiresTestConnection": false,
+        "sidePanelDescription": "{{connector.webhook.sidepanel.sidePanelDescription}}",
+        "sidePanelInfo": ["{{sidePanel.information.webhook.1}}", "{{sidePanel.information.webhook.2}}", "{{sidePanel.information.webhook.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelOptionalConfigHeader": "{{sidePanel.webhook.optional.config.header}}",
+        "sidePanelOptionalConfigList": ["{{sidePanel.webhook.optional.config.1}}"],
+        "sidePanelTitle": "{{connector.webhook.sidepanel.sidePanelTitle}}",
+        "type": "webhook",
+        "url": "https://ibm.biz/aiops-genwebhook"
+    }
+}'
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD Zabbix-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "webhook": {
+            "authentication": {
+                "type": "none"
+            },
+            "enabled": true,
+            "path": "/webhook-connector/zabbix",
+            "mappings": "(\n  {\n      \"severity\": severity=\"5\"?6:severity=\"4\"?5:severity=\"3\"?4:severity=\"2\"?3:severity=\"1\"?2:1,\n      \"summary\": message,\n      \"resource\": {\n          \"name\": deviceName,\n          \"hostname\": hostname,\n          \"ipAddress\": ipaddress,\n          \"sourceId\": hostid,\n          \"port\": hostport\n      },\n      \"type\": {\n          \"classification\": triggerdesc,\n          \"eventType\":  recoveryValue = \"0\" ? \"resolution\" : \"problem\"\n      },\n      \"sender\": {\n          \"name\": \"Zabbix\",\n          \"sourceId\": $exists(actionName) ? $length(actionName) > 0 ? \"Trigger action: \" & actionName,\n          \"type\": \"Webhook Connector\"\n      }\n  }\n)"
+        },
+        "deploymentType": "local",
+        "display_name": "Zabbix-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "Zabbix-Demo"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "events",
+        "deploymentType": ["local"],
+        "displayName": "{{connector.webhook.name}}",
+        "hasAIModelType": false,
+        "hasOptionalConfig": true,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "requiresTestConnection": false,
+        "sidePanelDescription": "{{connector.webhook.sidepanel.sidePanelDescription}}",
+        "sidePanelInfo": ["{{sidePanel.information.webhook.1}}", "{{sidePanel.information.webhook.2}}", "{{sidePanel.information.webhook.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelOptionalConfigHeader": "{{sidePanel.webhook.optional.config.header}}",
+        "sidePanelOptionalConfigList": ["{{sidePanel.webhook.optional.config.1}}"],
+        "sidePanelTitle": "{{connector.webhook.sidepanel.sidePanelTitle}}",
+        "type": "webhook",
+        "url": "https://ibm.biz/aiops-genwebhook"
+    }
+}'
+
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD KubeCostWebhook-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "webhook": {
+            "authentication": {
+                "type": "none"
+            },
+            "enabled": true,
+            "path": "/webhook-connector/kubecost",
+            "mappings": "(\n  {\n      \"severity\": 6,\n      \"summary\": text,\n      \"resource\": {\n          \"name\": \"Your Cluster\"\n      },\n      \"type\": {\n          \"classification\": \"kubecost\",\n          \"eventType\":  \"problem\"\n      },\n      \"sender\": {\n          \"name\": \"KubeCost\",\n          \"sourceId\": \"KubeCost\",\n          \"type\": \"Webhook Connector\"\n      }\n  }\n)"
+        },
+        "deploymentType": "local",
+        "display_name": "KubeCostWebhookDemo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "KubeCostWebhookDemo"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "events",
+        "deploymentType": ["local"],
+        "displayName": "{{connector.webhook.name}}",
+        "hasAIModelType": false,
+        "hasOptionalConfig": true,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "requiresTestConnection": false,
+        "sidePanelDescription": "{{connector.webhook.sidepanel.sidePanelDescription}}",
+        "sidePanelInfo": ["{{sidePanel.information.webhook.1}}", "{{sidePanel.information.webhook.2}}", "{{sidePanel.information.webhook.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelOptionalConfigHeader": "{{sidePanel.webhook.optional.config.header}}",
+        "sidePanelOptionalConfigList": ["{{sidePanel.webhook.optional.config.1}}"],
+        "sidePanelTitle": "{{connector.webhook.sidepanel.sidePanelTitle}}",
+        "type": "webhook",
+        "url": "https://ibm.biz/aiops-genwebhook"
+    }
+}'
+
+
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD Impact-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "deploymentType": "local",
+        "display_name": "Impact-Demo",
+        "url": "https://impact.demo.com:16311",
+        "backendUrl": "https://impact.demo.com:9081",
+        "username": "admin",
+        "password": "admin"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{connector.impact.sidePanel.AIModelTypes}}"],
+        "AIModelTypeListHeader": "{{connector.impact.AIModelTypeListHeader}}",
+        "apiAdaptor": "grpc",
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "tickets",
+        "deploymentType": ["local", "remote"],
+        "displayName": "{{connector.impact.name}}",
+        "hasAIModelType": true,
+        "hasOptionalConfig": false,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isIBM": true,
+        "sidePanelDescription": "{{connector.impact.sidePanelDescription}}",
+        "sidePanelInfo": ["{{connector.impact.sidePanelInfo.1}}", "{{connector.impact.sidePanelInfo.2}}", "{{connector.impact.sidePanelInfo.3}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelTitle": "{{connector.impact.sidePanelTitle}}",
+        "type": "ibm-grpc-impact-connector",
+        "url": "https://ibm.biz/int-impact"
+    }
+}'
+
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD PagerDuty-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+    "connection_config": {
+        "collection_mode": "inference",
+        "base_parallelism": 1,
+        "sampling_rate": 60,
+        "data_flow": true,
+        "display_name": "PagerDuty-Demo",
+        "token": "aaaaaaaaaa"
+    },
+    "mapping": {
+        "codec": "pagerduty"
+    },
+    "connectorConfig": {
+        "AIModelTypeList": ["{{sidePanel.AIModelTypes.probableCause}}", "{{sidePanel.AIModelTypes.scope_based}}", "{{sidePanel.AIModelTypes.temporal}}", "{{sidePanel.AIModelTypes.topological}}"],
+        "categories": ["{{connector.common.category.events}}"],
+        "datasourceType": "alerts",
+        "deploymentType": ["local"],
+        "disabledModule": "logs",
+        "displayName": "{{connector.pagerduty.name}}",
+        "hasAIModelType": true,
+        "hasOptionalConfig": false,
+        "hasOptionalText": false,
+        "iconFileType": "svg",
+        "isObserver": false,
+        "sidePanelDescription": "{{connector.pagerduty.sidepanel.description}}",
+        "sidePanelInfo": ["{{common.egress_warning}}", "{{sidePanel.information.pagerduty.1}}", "{{sidePanel.information.pagerduty.2}}", "{{sidePanel.information.pagerduty.3}}", "{{sidePanel.information.pagerduty.4}}", "{{sidePanel.information.pagerduty.5}}", "{{sidePanel.information.pagerduty.6}}"],
+        "sidePanelInfoHeader": "{{sidePanel.information.header}}",
+        "sidePanelTitle": "{{sidePanel.title.pagerduty}}",
+        "type": "pagerduty",
+        "url": "https://ibm.biz/int-pagerduty"
+    }
+}'
+
+
+
+
+# --------------------------------------------------------------------------------------------------------
+# ADD GitHub-Demo
+# --------------------------------------------------------------------------------------------------------
+curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
+-X 'POST' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+-H "authorization: Bearer $ZEN_TOKEN"   \
+--data-binary '{
+  "displayName": "GitHub-Demo",
   "connection_type": "github",
   "connection_config": {
     "collectionMode": "live",
@@ -61,7 +420,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
     "token": "",
     "url": "https://github.com/",
     "username": "niklaushirt",
-    "display_name": "GitHubDemo",
+    "display_name": "GitHub-Demo",
+    "description": "Automatically created by Nicks scripts",
     "deploymentType": "local"
   },
   "connection_id": "github-demo"
@@ -69,7 +429,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD oiObjectserverDemo1
+# ADD NOI-Objectserver-Test-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -78,7 +438,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NoiObjectserverDemoTest",
+    "displayName": "NOI-Objectserver-Test-Demo",
+    "description": "Automatically created by Nicks scripts",
     "status": "Disabled",
     "connection_type": "netcool-connector",
     "connection_config": {
@@ -95,7 +456,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         },
         "tls": false,
         "username": "nhirt",
-        "display_name": "NoiObjectserverDemoTest",
+        "display_name": "NOI-Objectserver-Test-Demo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
     "connection_id": "noiobjectserver-demo-test"
@@ -103,7 +465,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD oiObjectserverDemo2
+# ADD NOI-Objectserver-Prod-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -112,7 +474,8 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NoiObjectserverDemoProd",
+    "displayName": "NOI-Objectserver-Prod-Demo",
+    "description": "Automatically created by Nicks scripts",
     "status": "Disabled",
     "connection_type": "netcool-connector",
     "connection_config": {
@@ -129,14 +492,15 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         },
         "tls": false,
         "username": "nhirt",
-        "display_name": "NoiObjectserverDemoProd",
+        "display_name": "NOI-Objectserver-Prod-Demo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
     "connection_id": "noiobjectserver-demo-prod"
 }'
 
 # --------------------------------------------------------------------------------------------------------
-# ADD NOIImpactDemo
+# ADD NOI-Impact-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -145,7 +509,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -H 'x-tenantid: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
 -H "authorization: Bearer $ZEN_TOKEN"   \
 --data-binary '{
-    "displayName": "NOIImpactDemo",
+    "displayName": "NOI-Impact-Demo",
     "connection_type": "ibm-grpc-impact-connector",
     "connection_config": {
         "backendUrl": "https://primary-objectserver.demo.ibm.com",
@@ -153,15 +517,15 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         "url": "https://impact.demo.ibm.com",
         "username": "admin",
         "display_name": "NOIImpactDemo",
+        "description": "Automatically created by Nicks scripts",
         "deploymentType": "local"
     },
-    "connection_id": "impact-demo"
-}
-'
+    "connection_id": "noi-impact-demo"
+}'
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD InstanaDemo
+# ADD Instana-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -190,9 +554,10 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "aggregation_interval": 5
         },
         "using_proxy": false,
-        "display_name": "InstanaDemo",
+        "display_name": "Instana-Demo",
+        "description": "Automatically created by Nicks scripts",
         "endpoint": "https://instana.demo.ibm.com",
-        "api_token": "aaaaaaaa"
+        "api_token": "apitoken"
     },
     "connectorConfig": {
         "AIModelTypeList": ["{{sidePanel.AIModelTypes.probableCause}}", "{{sidePanel.AIModelTypes.temporalCorrelation}}"],
@@ -226,7 +591,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD GenericWebhookDemo
+# ADD GenericWebhook-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -249,8 +614,9 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "mappings": "(\n    {\n        \"severity\": risk.severity = \"MINOR\" ? 3 : risk.severity = \"MAJOR\" ? 4 : risk.severity = \"CRITICAL\" ? 6 : risk.severity= \"UNKNOWN\" ? 1 : 2,\n        \"summary\": details,\n        \"resource\": {\n            \"name\": target.displayName,\n            \"sourceId\": target.uuid\n        },\n        \"type\": {\n            \"classification\": target.className,\n            \"eventType\": actionState = \"CLEARED\" ? \"resolution\":actionState = \"SUCCEEDED\" ? \"resolution\" : \"problem\",\n            \"condition\": risk.subCategory\n        },\n        \"sender\": {\n            \"name\": \"IBM Turbonomic\",\n            \"type\": \"Webhook Connector\"\n        }\n    }\n)"
         },
         "deploymentType": "local",
-        "display_name": "GenericWebhookDemo",
-        "connectionName": "GenericWebhookDemo"
+        "display_name": "GenericWebhook-Demo",
+        "description": "Automatically created by Nicks scripts",
+        "connectionName": "GenericWebhook-Demo"
     },
     "connectorConfig": {
         "AIModelTypeList": ["{{sidePanel.AIModelTypes.logAnomaly}}"],
@@ -279,7 +645,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD EmailDemo
+# ADD Email-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -293,10 +659,11 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
         "deploymentType": "local",
         "createMappings": "({\n    \"subject\": $join([\"Incident Created: \", $string(incident.title)]),\n    \"message\": $join([\"AIOPS Incident Overview URL: https://\", $string(URL_PREFIX), \"/aiops/default/resolution-hub/incidents/all/\", $string(incident.id), \"/overview\",\n                      \"\\nPriority: \", $string(incident.priority),\n                      \"\\nStatus: \", $string(incident.state),\n                      \"\\nTime opened: \", $string(incident.createdTime),\n                      \"\\nGroup: \", $string(incident.team),\n                      \"\\nOwner: \", $string(incident.owner),\n                      \"\\nDescription: \", $string(incident.description)])\n})\n",
         "closeMappings": "({\n    \"subject\": $join([\"Incident Closed: \", $string(incident.title)]),\n    \"message\": $join([\"Incident ID: \", $string(incident.id),\n                      \"\\nPriority: \", $string(incident.priority),\n                      \"\\nStatus: \", $string(incident.state),\n                      \"\\nTime opened: \", $string(incident.createdTime),\n                      \"\\nGroup: \", $string(incident.team),\n                      \"\\nOwner: \", $string(incident.owner),\n                      \"\\nDescription: \", $string(incident.description)])\n})\n",
-        "display_name": "EmailDemo",
+        "display_name": "Email-Demo",
+        "description": "Automatically created by Nicks scripts",
         "emailHost": "mysmtp.ibm.com",
         "emailSource": "demo@ibm.com",
-        "emailSecret": "aaaaa",
+        "emailSecret": "emailsecret",
         "recipients": "demo@ibm.com"
     },
     "connectorConfig": {
@@ -323,7 +690,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD DynatraceDemo
+# ADD Dynatrace-Demo
 # --------------------------------------------------------------------------------------------------------
 curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 -X 'POST' \
@@ -344,10 +711,11 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
             "enabled": true,
             "poll_rate": 60
         },
-        "display_name": "DynatraceDemo",
+        "display_name": "Dynatrace-Demo",
+        "description": "Automatically created by Nicks scripts",        
         "dataSourceBaseUrl": "https://dynatrace.demo.ibm.com",
         "zone": "demo",
-        "accessToken": "aaaa",
+        "accessToken": "accesstoken",
         "sensorName": "com.instana.plugin.dynatrace"
     },
     "connectorConfig": {
@@ -392,7 +760,7 @@ curl "https://$CPD_ROUTE/aiops/integrations/api/controller/grpc/connections/" \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD SlackDemo
+# ADD Slack-Demo
 # --------------------------------------------------------------------------------------------------------
 curl -X 'POST' --insecure \
 "https://$AIO_PLATFORM_ROUTE/v3/connections" \
@@ -412,7 +780,8 @@ curl -X 'POST' --insecure \
       "lang_id": "en",
       "bot_token": "bottoken",
       "secret": "signingsecret",
-      "display_name": "SlackDemo"
+      "display_name": "Slack-Demo",
+      "description": "Automatically created by Nicks scripts"
     },
     "connection_id": "443ad7c9-4b99-4172-85a5-9411c0073196",
     "connection_type": "slack",
@@ -433,7 +802,7 @@ curl -X 'POST' --insecure \
 
 
 # --------------------------------------------------------------------------------------------------------
-# ADD TeamsDemo
+# ADD Teams-Demo
 # --------------------------------------------------------------------------------------------------------
 curl -X 'POST' --insecure \
 "https://$AIO_PLATFORM_ROUTE/v3/connections" \
@@ -452,7 +821,8 @@ curl -X 'POST' --insecure \
         "app_password": "apppassword",
         "proactive_channel": "proactivechannel",
         "lang_id": "en",
-        "display_name": "Teams",
+        "display_name": "Teams-Demo",
+        "description": "Automatically created by Nicks scripts",
         "app_id": "dsafads"
       },
       "connection_id": "3be692db-0fac-4649-baed-9643b0495efd",
@@ -469,6 +839,13 @@ curl -X 'POST' --insecure \
       "state": "null",
       "updated_by": "null"
     }'
+
+
+
+
+
+
+
 
 
 
