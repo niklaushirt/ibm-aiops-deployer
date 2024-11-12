@@ -28,7 +28,7 @@ spec:
             cpu: "50m"
             memory: "128Mi"
           limits:
-            cpu: "256m"
+            cpu: "512m"
             memory: "512Mi"
         readinessProbe:
           httpGet:
@@ -36,10 +36,10 @@ spec:
             port: 8000
             scheme: HTTP
           initialDelaySeconds: 20
-          timeoutSeconds: 1
+          timeoutSeconds: 15
           periodSeconds: 600
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: 300
         envFrom:
         - configMapRef:
             name:  ibm-aiops-demo-ui-config

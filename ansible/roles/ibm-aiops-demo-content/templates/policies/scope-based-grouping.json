@@ -61,7 +61,7 @@
               }
             },
             "window": {
-              "durationMS": 240000,
+              "durationMS": 1500000,
               "type": "rolling"
             }
           }

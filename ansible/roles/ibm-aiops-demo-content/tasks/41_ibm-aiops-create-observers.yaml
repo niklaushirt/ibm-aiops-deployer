@@ -121,41 +121,6 @@
       }"
 
 
-    # curl -k -X POST "$TOPO_ROUTE/1.0/kubernetes-observer/jobs/load" --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' --header 'Accept: application/json' -u $LOGIN --header "Content-Type: application/json" \
-    #   -d "{
-    #     \"unique_id\": \"demo-robot-shop\",
-    #     \"type\": \"load\",
-    #     \"description\": \"Automatically created by Nicks scripts\",
-    #     \"parameters\": {
-    #       \"data_center\": \"robot-shop\",
-    #       \"master_ip\": \"$API_SERVER\",
-    #       \"api_port\": \"$API_PORT\",
-    #       \"token\":  \"$API_TOKEN\"
-            
-    #       },
-        
-    #       \"hide_terminated_pods\": false,
-    #       \"connect_read_timeout_ms\": 5000,
-    #       \"custom_resource_definitions\": [
-    #         \"string\"
-    #       ],
-    #       \"role_token\": false,
-    #       \"namespace\": \"robot-shop\",
-    #       \"namespaceGroupParameters\": {
-    #         \"correlate\": true
-    #       }
-    #     },
-    #     \"schedule\": {
-    #         \"interval\": null,
-    #         \"units\": null,
-    #         \"nextRunTime\": null
-    #       },
-    #     \"write_file_observer_file\": false,
-    #     \"scheduleRequest\": true
-    #   }"
-
-
-
 
   register: output_string
   ignore_errors: true
