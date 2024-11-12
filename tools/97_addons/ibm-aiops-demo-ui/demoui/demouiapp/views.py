@@ -1486,6 +1486,20 @@ def injectRESTHeadless(request):
         threadEvents.start()
         #time.sleep(3)
 
+    elif currentapp=='busy':
+
+        INCIDENT_ACTIVE=True
+
+        print('🌏 Simulate Busy Environment')
+
+        print('  🟠 Create THREADS')
+        threadEvents = Thread(target=injectEventsBusy, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+
+        print('  🟠 Start THREADS')
+        # start the threads
+        threadEvents.start()
+        #time.sleep(3)
+
 
 
     elif currentapp=='all':

@@ -95,9 +95,12 @@
       if [ "${AIOPS_NAMESPACE}" != "" ]; then
         export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
         curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/welcomecard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
-        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
-        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/appscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
+        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
+        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsnetincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
         curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
+        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincidentclear" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
+        curl -X "DELETE" -k "https://$ROUTE/zen-data/v1/custom_cards/appscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json"
+
       else
         echo "Skipping: IBMAIOps not installed"
       fi
@@ -198,7 +201,7 @@
   #     verbosity: 1
              
 
-  - name:  🌏 ZEN CARDS - Create Card Incidents
+  - name:  🌏 ZEN CARDS - Create Card Application Incidents
     shell: |
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
       if [ "${AIOPS_NAMESPACE}" != "" ]; then
@@ -209,18 +212,48 @@
 
         ROWS=$ROWS'{"drilldown_url":  "", "label": "❗ Caution ❗", "sub_text": "Just clicking below will create the incident"},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshop", "label": "🧨 RobotShop - Memory Problem", "sub_text": ""},'
-        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshopnet", "label": "🧨 RobotShop - Network Problem", "sub_text": ""},'
-        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=sockshop", "label": "🧦 SockShop - Network Problem", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=acme", "label": "✈️ ACME - Server Fan Outage", "sub_text": ""},'
-        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=telco", "label": "📵 Optical Network - Fiber Cut", "sub_text": ""},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=tube", "label": "🔥 London Tube - Fire Alert", "sub_text": ""},'
-        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=clean", "label": "✅ Clear all Incidents and Alerts", "sub_text": ""}'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=busy", "label": "🎡 Simulate Busy Environment", "sub_text": ""}'
 
-        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 49, "title": "🔴 Create Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
+        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 2, "title": "🔴 Create Application Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
         echo "PAYLOAD:"$PAYLOAD
 
 
         export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
+        echo "      🔎 Result: "
+        echo "       "$result
+      else
+        echo "Skipping: IBMAIOps not installed"
+      fi
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+  - name: 🟣  OUTPUT
+    debug:
+      var: output.stdout_lines
+      verbosity: 1
+             
+  - name:  🌏 ZEN CARDS - Create Card Network Incidents
+    shell: |
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      if [ "${AIOPS_NAMESPACE}" != "" ]; then
+        export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+        export demoURL=$(oc get route -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath={.spec.host})          
+
+        export ROWS=""
+
+        ROWS=$ROWS'{"drilldown_url":  "", "label": "❗ Caution ❗", "sub_text": "Just clicking below will create the incident"},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=robotshopnet", "label": "🧨 RobotShop - Network Problem", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=sockshop", "label": "🧦 SockShop - Network Problem", "sub_text": ""},'
+        ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=telco", "label": "📵 Optical Network - Fiber Cut", "sub_text": ""},'
+
+        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 5, "title": "🔴 Create Network Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
+        echo "PAYLOAD:"$PAYLOAD
+
+
+        export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/aiopsnetincident" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
         echo "      🔎 Result: "
         echo "       "$result
       else
@@ -249,7 +282,7 @@
         ROWS=$ROWS'{"drilldown_url":  "", "label": "❗ Caution ❗", "sub_text": "Just clicking below will clear all incidents"},'
         ROWS=$ROWS'{"drilldown_url":  "https://'$demoURL'/injectRESTHeadless?app=clean", "label": "✅ Clear all Incidents and Alerts", "sub_text": ""}'
 
-        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 48, "title": "✅ Clear all Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
+        PAYLOAD='{ "permissions": ["administrator"],  "window_open_target": "_blank",  "order": 4, "title": "✅ Clear all Incidents", "template_type": "text_list", "data": { "text_list_data": { "rows": [  '$ROWS'  ] } } } '
         echo "PAYLOAD:"$PAYLOAD
 
 
@@ -318,7 +351,7 @@
         ROWS=$ROWS'{"drilldown_url":  "", "label": "Select your app above.", "sub_text": ""}'
 
 
-        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 10, "title": "🔵   Demo Apps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
+        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 3, "title": "🔵   Demo Apps", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
         echo "PAYLOAD:"$PAYLOAD
 
         curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/appscard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD"
@@ -342,62 +375,62 @@
 
 
 
-  - name:  🌏 ZEN CARDS - Create Card SYSTEM
-    shell: |
-      echo "       🛠️   Get Route"
-      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-      if [ "${AIOPS_NAMESPACE}" != "" ]; then
+  # - name:  🌏 ZEN CARDS - Create Card SYSTEM
+  #   shell: |
+  #     echo "       🛠️   Get Route"
+  #     export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+  #     if [ "${AIOPS_NAMESPACE}" != "" ]; then
 
-        export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+  #       export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
 
-        jobURL=$(oc get routes -n $AIOPS_NAMESPACE job-manager  -o jsonpath="{['spec']['host']}")
-        jobPolicyURL=$(oc get routes -n $AIOPS_NAMESPACE job-manager-policy  -o jsonpath="{['spec']['host']}")
-        sparkURL=$(oc get routes -n $AIOPS_NAMESPACE sparkadmin  -o jsonpath="{['spec']['host']}")
-        ocpURL=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
-
-
-        export ROWS=""
-
-        if [[ $jobURL =~ "job-manager" ]]; then
-        echo "DemoUI Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$jobURL'", "label": "→ Flink Task Manager - Ingestion", "sub_text": " "},'
-        fi
-        if [[ $jobPolicyURL =~ "job-manager" ]]; then
-        echo "RobotShop Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$jobPolicyURL'", "label": "→ Flink Task Manager - Policy Framework", "sub_text": " "},'
-        fi
-        if [[ $sparkURL =~ "sparkadmin" ]]; then
-        echo "LDAP Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$sparkURL'", "label": "→ Spark Master", "sub_text": " "},'
-        fi
-        if [[ $ocpURL =~ "openshift" ]]; then
-        echo "OCP Present"
-        ROWS=$ROWS'{"drilldown_url":  "https://'$ocpURL'", "label": "→ Openshift Console", "sub_text": " "},'
-        fi
-
-        ROWS=$ROWS'{"drilldown_url":  "", "label": "Internal System Links", "sub_text": ""}'
+  #       jobURL=$(oc get routes -n $AIOPS_NAMESPACE job-manager  -o jsonpath="{['spec']['host']}")
+  #       jobPolicyURL=$(oc get routes -n $AIOPS_NAMESPACE job-manager-policy  -o jsonpath="{['spec']['host']}")
+  #       sparkURL=$(oc get routes -n $AIOPS_NAMESPACE sparkadmin  -o jsonpath="{['spec']['host']}")
+  #       ocpURL=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
 
 
-        PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 100, "title": "🧰   System Links", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
-        echo "PAYLOAD:"$PAYLOAD
+  #       export ROWS=""
 
-        curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD"
+  #       if [[ $jobURL =~ "job-manager" ]]; then
+  #       echo "DemoUI Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$jobURL'", "label": "→ Flink Task Manager - Ingestion", "sub_text": " "},'
+  #       fi
+  #       if [[ $jobPolicyURL =~ "job-manager" ]]; then
+  #       echo "RobotShop Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$jobPolicyURL'", "label": "→ Flink Task Manager - Policy Framework", "sub_text": " "},'
+  #       fi
+  #       if [[ $sparkURL =~ "sparkadmin" ]]; then
+  #       echo "LDAP Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$sparkURL'", "label": "→ Spark Master", "sub_text": " "},'
+  #       fi
+  #       if [[ $ocpURL =~ "openshift" ]]; then
+  #       echo "OCP Present"
+  #       ROWS=$ROWS'{"drilldown_url":  "https://'$ocpURL'", "label": "→ Openshift Console", "sub_text": " "},'
+  #       fi
 
-        export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
-        echo "      🔎 Result: "
-        echo "       "$result
-      else
-        echo "Skipping: IBMAIOps not installed"
-      fi
+  #       ROWS=$ROWS'{"drilldown_url":  "", "label": "Internal System Links", "sub_text": ""}'
 
-    ignore_errors: true
-    register: output
-    args:
-      executable: /bin/bash
-  - name: 🟣  OUTPUT
-    debug:
-      var: output.stdout_lines
-      verbosity: 1
 
-  when: global_config.create_cards | default(true) == true  
+  #       PAYLOAD='{ "permissions": ["administrator"], "window_open_target": "_blank", "order": 100, "title": "🧰   System Links", "template_type": "text_list", "data": { "text_list_data": { "rows": [ '$ROWS' ] } }}'
+  #       echo "PAYLOAD:"$PAYLOAD
+
+  #       curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD"
+
+  #       export result=$(curl -X "PUT" -k "https://$ROUTE/zen-data/v1/custom_cards/systemcard" -H "Authorization: Bearer {{ZEN_TOKEN}}" -H "Content-Type: application/json" -d "$PAYLOAD")
+  #       echo "      🔎 Result: "
+  #       echo "       "$result
+  #     else
+  #       echo "Skipping: IBMAIOps not installed"
+  #     fi
+
+  #   ignore_errors: true
+  #   register: output
+  #   args:
+  #     executable: /bin/bash
+  # - name: 🟣  OUTPUT
+  #   debug:
+  #     var: output.stdout_lines
+  #     verbosity: 1
+
+  # when: global_config.create_cards | default(true) == true  
 
