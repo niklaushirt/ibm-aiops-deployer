@@ -141,6 +141,22 @@ responseStr=str(json.dumps(responseJSON))
 #print('          Print Status')
 
 
+
+print('     ❓ Getting Flink Secrets')
+stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-lifecycle-flink-admin-user -o jsonpath='{.data.username}' | base64 --decode")
+FLINK_IR_USER = stream.read().strip()
+stream = os.popen("oc get secret -n "+aimanagerns+" aiops-ir-lifecycle-flink-admin-user -o jsonpath='{.data.password}' | base64 --decode")
+FLINK_IR_PWD = stream.read().strip()
+#print('          - FLINK_IR_USER: '+str(FLINK_IR_USER))
+#print('          - FLINK_IR_PWD:  '+str(FLINK_IR_PWD))
+stream = os.popen("oc get secret -n "+aimanagerns+" aiops-lad-flink-admin-user -o jsonpath='{.data.username}' | base64 --decode")
+FLINK_LAD_USER = stream.read().strip()
+stream = os.popen("oc get secret -n "+aimanagerns+" aiops-lad-flink-admin-user -o jsonpath='{.data.password}' | base64 --decode")
+FLINK_LAD_PWD = stream.read().strip()
+#print('          - FLINK_LAD_USER: '+str(FLINK_LAD_USER))
+#print('          - FLINK_LAD_PWD:  '+str(FLINK_LAD_PWD))
+
+
 #if 'pirsoscom.github.io/SNOW_INC' in responseStr and '"closed"' not in responseStr and '"resolved"' not in responseStr:
 if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
     print('     🔴 INCIDENT FOUND')
@@ -2625,6 +2641,8 @@ def login(request):
             'INSTANCE_IMAGE': INSTANCE_IMAGE,
             'SIMULATION_MODE': SIMULATION_MODE,
             'PAGE_TITLE': 'Welcome to your Demo UI',
+            'robotshop_url': robotshop_url,
+            'sockshop_url': sockshop_url,
             'PAGE_NAME': 'index'
         }
     else:
@@ -2645,8 +2663,10 @@ def login(request):
             'DEMO_USER': DEMO_USER,
             'DEMO_PWD': DEMO_PWD,
             'ADMIN_MODE': ADMIN_MODE,
-        'hasCustomScenario': int(hasCustomScenario),
-        'CUSTOM_NAME': CUSTOM_NAME,
+            'hasCustomScenario': int(hasCustomScenario),
+            'CUSTOM_NAME': CUSTOM_NAME,
+            'robotshop_url': robotshop_url,
+            'sockshop_url': sockshop_url,
             'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
             'ROBOT_SHOP_OUTAGE_ACTIVE': ROBOT_SHOP_OUTAGE_ACTIVE,
             'SOCK_SHOP_OUTAGE_ACTIVE': SOCK_SHOP_OUTAGE_ACTIVE,
@@ -2776,6 +2796,8 @@ def index(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'ADMIN_MODE': ADMIN_MODE,
+        'robotshop_url': robotshop_url,
+        'sockshop_url': sockshop_url,
         'hasCustomScenario': int(hasCustomScenario),
         'CUSTOM_NAME': CUSTOM_NAME,
         'INCIDENT_ACTIVE': INCIDENT_ACTIVE,
@@ -2950,7 +2972,12 @@ def apps_system(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'PAGE_TITLE': 'System Links',
-        'PAGE_NAME': 'system'
+        'PAGE_NAME': 'system',
+        'FLINK_IR_USER': FLINK_IR_USER,
+        'FLINK_IR_PWD': FLINK_IR_PWD,
+        'FLINK_LAD_USER': FLINK_LAD_USER,
+        'FLINK_LAD_PWD': FLINK_LAD_PWD
+
         
     }
     return HttpResponse(template.render(context, request))
@@ -3064,7 +3091,18 @@ def apps_additional(request):
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
         'PAGE_TITLE': 'Third-party Applications',
-        'PAGE_NAME': 'TEST'
+        'PAGE_NAME': 'TEST',
+        'SLACK_URL_ROSH': SLACK_URL_ROSH,
+        'SLACK_URL_SOSH': SLACK_URL_SOSH,
+        'SLACK_URL_ACME': SLACK_URL_ACME,
+        'SNOW_URL_ROSH': SNOW_URL_ROSH,
+        'SNOW_URL_SOSH': SNOW_URL_SOSH,
+        'SNOW_URL_ACME': SNOW_URL_ACME,
+        'INCIDENT_URL_TUBE': INCIDENT_URL_TUBE
+
+
+
+
         
     }
     return HttpResponse(template.render(context, request))
