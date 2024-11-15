@@ -1417,14 +1417,14 @@ def injectRESTHeadless(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        #threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        threadEvents1.start()
+        #threadEvents1.start()
 
         #time.sleep(3)
 
@@ -1735,14 +1735,14 @@ def injectAllNetSOCKREST(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        #threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        threadEvents1.start()
+        #threadEvents1.start()
 
         #time.sleep(3)
 
