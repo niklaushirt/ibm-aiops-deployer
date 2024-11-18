@@ -43,7 +43,7 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.14 and 4.15 on:**
+> **❗The installation has been tested on OpenShift 4.15 and 4.16 on:**
 > 
 > - OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
 > - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
@@ -151,30 +151,13 @@ Basically:
 
 ## 1.1 Prerequisites 
 
-### 1.1.1 OpenShift requirements 
-
-I installed the demo in a Techzone environment.
-
-You'll need:
-
-- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software) or
-- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
-- 4x worker nodes with **32 CPU / 128 GB**  ❗
-
-- 3x worker nodes with **16 CPU / 64 GB**  for IBM Concert❗
 
 
-You **might** get away with less if you don't install some components but no guarantee.
+### 1.1.1 Get an OpenShift Cluster (IBMers and IBM Partners only)
 
 
 
-### 1.1.2 Get an OpenShift Cluster (IBMers and IBM Partners only)
-
-
-IBMers and Partners can get a temporary cluster from [**Techzone**](https://techzone.ibm.com/collection/tech-zone-certified-base-images).
-
-
-1. Get a temporary cluster from
+1. Get a temporary cluster from **Techzone**
 	- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software) or
 	- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
 	- 4x worker nodes with **32 CPU / 128 GB**  ❗
@@ -199,7 +182,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 
    - Storage OCS/ODF Size: **1TB** or Managed NFS **2TB**
 
-   - OpenShift Version: **4.14** or **4.15**
+   - OpenShift Version: **4.15** or **4.16**
 
   	![K8s CNI](./doc/pics/roks06.png)
 
@@ -216,7 +199,7 @@ IBMers and Partners can get a temporary cluster from [**Techzone**](https://tech
 1. Once the cluster is provisioned, don't forget to extend it as needed.
 
 
-### 1.1.3 Get the entitlement key (registry pull token) 
+### 1.1.2 Get the entitlement key (registry pull token) 
 
 You can get the entitlement key (registry pull token) from [https://myibm.ibm.com/products-services/containerlibrary](https://myibm.ibm.com/products-services/containerlibrary).
 
@@ -318,7 +301,7 @@ This installation contains:
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 69 - the Entitlement key from https://myibm.ibm.com)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82, do NOT use the "-" character)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 92, do NOT use the "-" character)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 89)
@@ -674,7 +657,7 @@ This installation contains:
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.3 (line 49 - the Entitlement key from https://myibm.ibm.com)
+3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, do NOT use the "-" character)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 69, do NOT use the "-" character)
 3. Click `Create`
