@@ -303,7 +303,7 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 69 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82, do NOT use the "-" character)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 92, do NOT use the "-" character)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 92)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 89)
 3. Click `Create`
 
@@ -659,7 +659,7 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, do NOT use the "-" character)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 69, do NOT use the "-" character)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
 3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
@@ -736,8 +736,8 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
 3. Enter your Turbonomic License on line 69
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 72, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, do NOT use the "-" character)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 72)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 69)
 3. Click `Create`
 
@@ -815,8 +815,8 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
 3. Enter your Turbonomic License on lines 142/143
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 70, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, do NOT use the "-" character)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
 3. Click `Create`
 
