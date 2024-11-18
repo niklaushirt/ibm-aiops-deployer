@@ -16,9 +16,10 @@
 
 ## Changelog
 
-- ❗ Complete overhaul of file structures and configuration files - Old ConfigMaps won't work anymore
-- Support for **IBM Concert 1.0.1**
-- Support for CP4AIOps Version 4.7.0 FVT
+- Separate Telco Scenario
+- News Demo UI Design and Scenarios
+- LAGS stability
+- Dashboard Cards
 
 
 <BR>
