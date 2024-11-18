@@ -45,8 +45,8 @@
 > 
 > **❗The installation has been tested on OpenShift 4.14 and 4.15 on:**
 > 
-> - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
 > - OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
+> - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
 >
 > But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 > 
@@ -174,7 +174,15 @@ You **might** get away with less if you don't install some components but no gua
 IBMers and Partners can get a temporary cluster from [**Techzone**](https://techzone.ibm.com/collection/tech-zone-certified-base-images).
 
 
-1. Select the Environment type Openshift that you want to use above
+1. Get a temporary cluster from
+	- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software) or
+	- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
+	- 4x worker nodes with **32 CPU / 128 GB**  ❗
+
+	- 3x worker nodes with **16 CPU / 64 GB**  for IBM Concert❗
+
+
+	You **might** get away with less if you don't install some components but no guarantee.
 
 1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number
 
