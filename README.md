@@ -934,9 +934,9 @@ Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environ
 ![demo](./doc/pics/aiops_arch_overview.jpg)
 
 <details>
-<summary>📥 Basic Architecture</summary>
+<summary>📥 3.2.1 Basic Architecture</summary>
 
-### 3.2.1 Basic Architecture
+### Basic Architecture
 
 The environement (Kubernetes, Applications, ...) create logs that are being fed into a Log Management Tool (ELK in this case).
 
@@ -954,9 +954,9 @@ The environement (Kubernetes, Applications, ...) create logs that are being fed 
 
 </details>
 <details>
-<summary>📥 Optimized Demo Architecture</summary>
+<summary>📥 3.2.2 Optimized Demo Architecture</summary>
 
-### 3.2.2 Optimized Demo Architecture
+### Optimized Demo Architecture
 
 The idea of this repo is to provide a optimised, complete, pre-trained demo environment that is self-contained (e.g. can be deployed in only one cluster)
 
@@ -1017,9 +1017,9 @@ This allows us to:
 
 </details>
 <details>
-<summary>📥 Training </summary>
+<summary>📥 3.2.3 Training </summary>
 
-### 3.2.3 Training
+### Training
 
 #### 3.2.3.1 Loading training data
 
@@ -1041,9 +1041,9 @@ The models can be trained directly on the data that has been loaded as described
 
 </details>
 <details>
-<summary>📥 Incident creation</summary>
+<summary>📥 3.2.4 Incident creation</summary>
 
-### 3.2.4 Incident creation (inception)
+### Incident creation (inception)
 
 ![demo](./doc/pics/aiops_arch_inception.jpg)
 
