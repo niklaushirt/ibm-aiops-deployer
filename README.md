@@ -627,7 +627,7 @@ You can chose from the following:
 
 
 <details>
-<summary>📦 What will be installed</summary>
+<summary>📦 2.2.1 What will be installed</summary>
 
 This installation contains:
 
@@ -652,7 +652,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 Installation Instructions </summary>
+<summary>🚀 2.2.2 Installation Instructions </summary>
 
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
@@ -679,7 +679,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 Follow the installation progress</summary>
+<summary>🔎 2.2.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
@@ -711,7 +711,7 @@ This installation contains:
 
 
 <details>
-<summary>📦 What will be installed</summary>
+<summary>📦 2.3.1 What will be installed</summary>
 
 This installation contains:
 
@@ -730,7 +730,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 Installation Instructions </summary>
+<summary>🚀 2.3.2 Installation Instructions </summary>
 
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
@@ -758,7 +758,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 Follow the installation progress</summary>
+<summary>🔎 2.3.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
@@ -789,7 +789,7 @@ This installation contains:
 
 
 <details>
-<summary>📦 What will be installed</summary>
+<summary>📦 2.4.1 What will be installed</summary>
 
 This installation contains:
 
@@ -809,7 +809,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 Installation Instructions </summary>
+<summary>🚀 2.4.2 Installation Instructions </summary>
 
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
@@ -837,7 +837,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 Follow the installation progress</summary>
+<summary>🔎 2.4.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
@@ -874,9 +874,9 @@ This installation contains:
 
 
 <details>
-<summary>🌏 Access the Environment</summary>
+<summary>🌏 3.1.1 Access the Environment</summary>
 
-### 3.1.1 Access the Environment
+### Access the Environment
 
 To access the demo environment:
 
@@ -893,9 +893,9 @@ To access the demo environment:
 
 </details>
 <details>
-<summary>🔐 Login to IBM AIOps as demo User</summary>
+<summary>🔐 3.1.2 Login to IBM AIOps as demo User</summary>
 
-### 3.1.2 Login to IBM AIOps as demo User
+### Login to IBM AIOps as demo User
 
 * Click on the blue `IBM AIOps` button
 * Login as User `demo` with the Password `Selected at installation`
@@ -912,9 +912,9 @@ To access the demo environment:
 
 </details>
 <details>
-<summary>🚀 Demo the Solution</summary>
+<summary>🚀 3.1.3Demo the Solution</summary>
 
-### 3.1.3 🚀 Demo the Solution
+### 🚀 Demo the Solution
 
 Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
@@ -925,334 +925,9 @@ Then start the demo from the same [Demo Script](/./doc/CP4AIOps%20Live%20Environ
 
 
 
----------------------------------------------------------------
-## 3.2 Slack integration
----------------------------------------------------------------
-
-### ❗ Those instructions need updating, please follow the official documentation.
-
-For the system to work you need to follow those steps:
-
-
-1. Create Slack Workspace
-1. Create Slack App
-1. Create Slack Channels
-1. Create Slack Integration
-1. Get the Integration URL
-1. Create Slack App Communications
-1. Slack Reset
-
-<div style="page-break-after: always;"></div>
-
-
-<details>
-<summary>📥 Detailed Instructions</summary>
-
-### 3.2.1 Create your Slack Workspace
-
-1. Create a Slack workspace by going to https://slack.com/get-started#/createnew and logging in with an email <i>**which is not your IBM email**</i>. Your IBM email is part of the IBM Slack enterprise account and you will not be able to create an independent Slack workspace outside if the IBM slack service. 
-
-  ![slack1](./doc/pics/slackws1.png)
-
-2. After authentication, you will see the following screen:
-
-  ![slack2](./doc/pics/slackws2.png)
-
-3. Click **Create a Workspace** ->
-
-4. Name your Slack workspace
-
-  ![slack3](./doc/pics/slackws3.png)
-
-  Give your workspace a unique name such as aiops-\<yourname\>.
-
-5. Describe the workspace current purpose
-
-  ![slack4](./doc/pics/slackws4.png)
-
-  This is free text, you may simply write “demo for IBM AIOps” or whatever you like.
-
-6. 
-
-  ![slack5](./doc/pics/slackws5.png)
-
-  You may add team members to your new Slack workspace or skip this step.
-
-
-At this point you have created your own Slack workspace where you are the administrator and can perform all the necessary steps to integrate with CP4WAOps.
-
-![slack6](./doc/pics/slackws6.png)
-
-**Note** : This Slack workspace is outside the control of IBM and must be treated as a completely public environment. Do not place any confidential material in this Slack workspace.
-
-<div style="page-break-after: always;"></div>
-
-
-### 3.2.2 Create Your Slack App
-
-1. Create a Slack app, by going to https://api.slack.com/apps and clicking `Create New App`. 
-
-   ![slack7](./doc/pics/slack01.png)
-
-
-2. Select `From an app manifest`
-
-
-  ![slack7](./doc/pics/slack02.png)
-
-3. Select the appropriate workspace that you have created before and click `Next`
-
-4. Copy and paste the content of this file [./doc/slack/slack-app-manifest.yaml](./doc/slack/slack-app-manifest.yaml).
-
-	Don't bother with the URLs just yet, we will adapt them as needed.
-
-5. Click `Next`
-
-5. Click `Create`
-
-6. Scroll down to Display Information and name your IBMAIOPS app.
-
-7. You can add an icon to the app (there are some sample icons in the ./tools/4_integrations/slack/icons folder.
-
-8. Click save changes
-
-9. In the `Basic Information` menu click on `Install to Workspace` then click `Allow`
-
-<div style="page-break-after: always;"></div>
-
-
-### 3.2.3 Create Your Slack Channels
-
-
-1. In Slack add a two new channels:
-	* aiops-demo-reactive
-	* aiops-demo-proactive
-
-	![slack7](./doc/pics/slack03.png)
-
-
-2. Right click on each channel and select `Copy Link`
-
-	This should get you something like this https://xxxx.slack.com/archives/C021QOY16BW
-	The last part of the URL is the channel ID (i.e. C021QOY16BW)
-	Jot them down for both channels
-	
-3. Under Apps click Browse Apps
-
-	![slack7](./doc/pics/slack13.png)
-
-4. Select the App you just have created
-
-5. Invite the Application to each of the two channels by typing
-
-	```bash
-	@<MyAppname>
-	```
-
-6. Select `Add to channel`
-
-	You shoud get a message from <MyAppname> saying `was added to #<your-channel> by ...`
-
-
-<div style="page-break-after: always;"></div>
-
-### 3.2.4 Integrate Your Slack App
-
-In the Slack App: 
-
-1. In the `Basic Information` menu get the `Signing Secret` (not the Client Secret!) and jot it down
-
-	![K8s CNI](./doc/pics/doc47.png)
-	
-3. In the `OAuth & Permissions` get the `Bot User OAuth Token` (not the User OAuth Token!) and jot it down
-
-	![K8s CNI](./doc/pics/doc48.png)
-
-In the IBM AIOps (IBMAIOPS) 
-
-1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
-1. Click `Add connection`
-
-	![K8s CNI](./doc/pics/doc14.png)
-	
-1. Under `Slack`, click on `Add Connection`
-	![K8s CNI](./doc/pics/doc45.png)
-
-6. Name it "Slack"
-7. Paste the `Signing Secret` from above
-8. Paste the `Bot User OAuth Token` from above
-
-	![K8s CNI](./doc/pics/doc50.png)
-	
-9. Paste the channel IDs from the channel creation step in the respective fields
-
-	![K8s CNI](./doc/pics/doc49.png)
-	
-	![K8s CNI](./doc/pics/doc52.png)
-		
-		
-
-10. Test the connection and click save
-
-
-
-
-<div style="page-break-after: always;"></div>
-
-
-### 3.2.5 Create the Integration URL
-
-In the IBM AIOps (IBMAIOPS) 
-
-1. Go to `Define `\`Integrations`
-2. Under `Slack` click on `1 integration`
-3. Copy out the URL
-
-	![secure_gw_search](./doc/pics/slack04.png)
-
-This is the URL you will be using for step 6.
-
-
-<div style="page-break-after: always;"></div>
-
-
-### 3.2.6 Create Slack App Communications
-
-Return to the browser tab for the Slack app. 
-
-#### 3.2.6.1 Event Subscriptions
-
-1. Select `Event Subscriptions`.
-
-2. In the `Enable Events` section, click the slider to enable events. 
-
-3. For the Request URL field use the `Request URL` from step 5.
-
-	e.g: `https://<my-url>/aiops/aimanager/instances/xxxxx/api/slack/events`
-
-4. After pasting the value in the field, a *Verified* message should display.
-
-	![slacki3](./doc/pics/slacki3.png)
-
-	If you get an error please check 5.7
-
-5. Verify that on the `Subscribe to bot events` section you got:
-
-	*  `app_mention` and 
-	*  `member_joined_channel` events.
-
-	![slacki4](./doc/pics/slacki4.png)
-
-6. Click `Save Changes` button.
-
-
-#### 3.2.6.2 Interactivity & Shortcuts
-
-7. Select `Interactivity & Shortcuts`. 
-
-8. In the Interactivity section, click the slider to enable interactivity. For the `Request URL` field, use use the URL from above.
-
- **There is no automatic verification for this form**
-
-![slacki5](./doc/pics/slacki5.png)
-
-9. Click `Save Changes` button.
-
-#### 3.2.6.3 Slash Commands
-
-Now, configure the `welcome` slash command. With this command, you can trigger the welcome message again if you closed it. 
-
-1. Select  `Slash Commands`
-
-2. Click `Create New Command` to create a new slash command. 
-
-	Use the following values:
-	
-	
-	| Field | Value |
-	| --- | --- |
-	|Command| /welcome|
-	|Request URL|the URL from above|
-	|Short Description| Welcome to IBM AIOps|
-
-3. Click `Save`.
-
-#### 3.2.6.4 Reinstall App
-
-The Slack app must be reinstalled, as several permissions have changed. 
-
-1. Select `Install App` 
-2. Click `Reinstall to Workspace`
-
-Once the workspace request is approved, the Slack integration is complete. 
-
-If you run into problems validating the `Event Subscription` in the Slack Application, see 5.2
-
-<div style="page-break-after: always;"></div>
-
-<div style="page-break-after: always;"></div>
-
-
-
-<div style="page-break-after: always;"></div>
-
-### 3.2.7 Slack Reset
-
-
-#### 3.2.7.1 Get the User OAUTH Token
-
-This is needed for the reset scripts in order to empty/reset the Slack channels.
-
-This is based on [Slack Cleaner2](https://github.com/sgratzl/slack_cleaner2).
-You might have to install this:
-
-```bash
-pip3 install slack-cleaner2
-```
-##### Reset reactive channel 
-
-In your Slack app
-
-1. In the `OAuth & Permissions` get the `User OAuth Token` (not the Bot User OAuth Token this time!) and jot it down
-
-In file `./tools/98_maintenance/scripts/13_reset-slack.sh`
-
-2. Replace `not_configured` for the `SLACK_TOKEN` parameter with the token 
-3. Adapt the channel name for the `SLACK_REACTIVE` parameter
-
-
-##### Reset proactive channel 
-
-In your Slack app
-
-1. In the `OAuth & Permissions` get the `User OAuth Token` (not the Bot User OAuth Token this time!) and jot it down (same token as above)
-
-In file `./tools/98_maintenance/scripts/14_reset-slack-changerisk.sh`
-
-2. Replace `not_configured` for the `SLACK_TOKEN` parameter with the token 
-3. Adapt the channel name for the `SLACK_PROACTIVE` parameter
-
-
-
-#### 3.2.7.2 Perform Slack Reset
-
-Call either of the scripts above to reset the channel:
-
-```bash
-
-./tools/98_maintenance/scripts/13_reset-slack.sh
-
-or
-
-./tools/98_maintenance/scripts/14_reset-slack-changerisk.sh
-
-```
-</details>
-
-
 
 ---------------------------------------------------------------
-## 3.3 Demo Setup - Explained
+## 3.2 Demo Setup - Explained
 ---------------------------------------------------------------
 
 
@@ -1261,7 +936,7 @@ or
 <details>
 <summary>📥 Basic Architecture</summary>
 
-### 3.3.1 Basic Architecture
+### 3.2.1 Basic Architecture
 
 The environement (Kubernetes, Applications, ...) create logs that are being fed into a Log Management Tool (ELK in this case).
 
@@ -1281,7 +956,7 @@ The environement (Kubernetes, Applications, ...) create logs that are being fed 
 <details>
 <summary>📥 Optimized Demo Architecture</summary>
 
-### 3.3.2 Optimized Demo Architecture
+### 3.2.2 Optimized Demo Architecture
 
 The idea of this repo is to provide a optimised, complete, pre-trained demo environment that is self-contained (e.g. can be deployed in only one cluster)
 
@@ -1344,9 +1019,9 @@ This allows us to:
 <details>
 <summary>📥 Training </summary>
 
-### 3.3.3 Training
+### 3.2.3 Training
 
-#### 3.3.3.1 Loading training data
+#### 3.2.3.1 Loading training data
 
 ![demo](./doc/pics/aiops_arch_training.jpg)
 
@@ -1357,7 +1032,7 @@ Loading Training data is done at the lowest possible level (for efficiency and s
 * Metrics: Loading Cassandra dumps of metric data - 3 months of synthetic data for 13 KPIs
 
 
-#### 3.3.3.2 Training the models
+#### 3.2.3.2 Training the models
 
 The models can be trained directly on the data that has been loaded as described above.
 
@@ -1368,7 +1043,7 @@ The models can be trained directly on the data that has been loaded as described
 <details>
 <summary>📥 Incident creation</summary>
 
-### 3.3.4 Incident creation (inception)
+### 3.2.4 Incident creation (inception)
 
 ![demo](./doc/pics/aiops_arch_inception.jpg)
 
@@ -1387,7 +1062,7 @@ Incidents are being created by using the high level APIs in order to simulate a 
 <div style="page-break-after: always;"></div>
 
 ---------------------------------------------------------------
-## 3.4 Custom Scenarios
+## 3.3 Custom Scenarios
 ---------------------------------------------------------------
 
 ![demo](./doc/pics/custom01.png)
@@ -1401,12 +1076,12 @@ By default the custom scenario is disabled. In order to enable it you have to mo
 > ℹ️ If you want to update the Topology after a modification of the CustomMap, you can use the `Reload Topolgy` Button on the `About` Tab.
 
 
-### 3.4.1 📥 Custom Scenario Parameters
+### 3.3.1 📥 Custom Scenario Parameters
 
 <details>
 <summary>📥 Topology</summary>
 
-#### 3.4.1.1 Topology
+#### 3.3.1.1 Topology
 
 To create a complete Topology/Application, you have to define the following variables:
 
@@ -1450,7 +1125,7 @@ A typical Vertex (Entity)
 <details>
 <summary>📥 Events</summary>         
 
-#### 3.4.1.2 Events
+#### 3.3.1.2 Events
 
 Inject Events to simulate the Custom Scenario.
 
@@ -1507,7 +1182,7 @@ Inject Events to simulate the Custom Scenario.
 <details>
 <summary>📥 Metrics</summary>
 
-#### 3.4.1.3 Metrics
+#### 3.3.1.3 Metrics
 
 Inject Metrics to simulate the Custom Scenario.
 
@@ -1550,7 +1225,7 @@ test11,DemoMetric2,DemoGroup2,50,25'
 <details>
 <summary>📥 Logs</summary>
 
-#### 3.4.1.4 Logs
+#### 3.3.1.4 Logs
 
 Inject Logs to simulate the Custom Scenario.
 
@@ -1591,7 +1266,7 @@ A typical Vertex (Entity)
 <details>
 <summary>📥 Logs</summary>
 
-#### 3.4.1.5 Property Change
+#### 3.3.1.5 Property Change
 
 Simulate change in an Topology Objects Propoerties.
 
@@ -1619,7 +1294,7 @@ A typical Entry
 </details>
 
 
-### 3.4.2 📥 Example
+### 3.3.2 📥 Example
 
 <details>
 <summary>📥 Example</summary>
@@ -1781,5 +1456,338 @@ For deeper understanding of the problem you can check the logs of the Data Load 
 
 This will restart the complete installation process. But it will be much faster as it is mainly incremental.
 
+</details>
+
+
+
+<div style="page-break-after: always;"></div>
+
+---------------------------------------------------------------
+# 5 Annex
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+## 5.1 Slack integration
+---------------------------------------------------------------
+
+### ❗ Those instructions need updating, please follow the official documentation.
+
+For the system to work you need to follow those steps:
+
+
+1. Create Slack Workspace
+1. Create Slack App
+1. Create Slack Channels
+1. Create Slack Integration
+1. Get the Integration URL
+1. Create Slack App Communications
+1. Slack Reset
+
+<div style="page-break-after: always;"></div>
+
+
+<details>
+<summary>📥 Detailed Instructions</summary>
+
+### 5.1.1 Create your Slack Workspace
+
+1. Create a Slack workspace by going to https://slack.com/get-started#/createnew and logging in with an email <i>**which is not your IBM email**</i>. Your IBM email is part of the IBM Slack enterprise account and you will not be able to create an independent Slack workspace outside if the IBM slack service. 
+
+  ![slack1](./doc/pics/slackws1.png)
+
+2. After authentication, you will see the following screen:
+
+  ![slack2](./doc/pics/slackws2.png)
+
+3. Click **Create a Workspace** ->
+
+4. Name your Slack workspace
+
+  ![slack3](./doc/pics/slackws3.png)
+
+  Give your workspace a unique name such as aiops-\<yourname\>.
+
+5. Describe the workspace current purpose
+
+  ![slack4](./doc/pics/slackws4.png)
+
+  This is free text, you may simply write “demo for IBM AIOps” or whatever you like.
+
+6. 
+
+  ![slack5](./doc/pics/slackws5.png)
+
+  You may add team members to your new Slack workspace or skip this step.
+
+
+At this point you have created your own Slack workspace where you are the administrator and can perform all the necessary steps to integrate with CP4WAOps.
+
+![slack6](./doc/pics/slackws6.png)
+
+**Note** : This Slack workspace is outside the control of IBM and must be treated as a completely public environment. Do not place any confidential material in this Slack workspace.
+
+<div style="page-break-after: always;"></div>
+
+
+### 5.1.2 Create Your Slack App
+
+1. Create a Slack app, by going to https://api.slack.com/apps and clicking `Create New App`. 
+
+   ![slack7](./doc/pics/slack01.png)
+
+
+2. Select `From an app manifest`
+
+
+  ![slack7](./doc/pics/slack02.png)
+
+3. Select the appropriate workspace that you have created before and click `Next`
+
+4. Copy and paste the content of this file [./doc/slack/slack-app-manifest.yaml](./doc/slack/slack-app-manifest.yaml).
+
+	Don't bother with the URLs just yet, we will adapt them as needed.
+
+5. Click `Next`
+
+5. Click `Create`
+
+6. Scroll down to Display Information and name your IBMAIOPS app.
+
+7. You can add an icon to the app (there are some sample icons in the ./tools/4_integrations/slack/icons folder.
+
+8. Click save changes
+
+9. In the `Basic Information` menu click on `Install to Workspace` then click `Allow`
+
+<div style="page-break-after: always;"></div>
+
+
+### 5.1.3 Create Your Slack Channels
+
+
+1. In Slack add a two new channels:
+	* aiops-demo-reactive
+	* aiops-demo-proactive
+
+	![slack7](./doc/pics/slack03.png)
+
+
+2. Right click on each channel and select `Copy Link`
+
+	This should get you something like this https://xxxx.slack.com/archives/C021QOY16BW
+	The last part of the URL is the channel ID (i.e. C021QOY16BW)
+	Jot them down for both channels
+	
+3. Under Apps click Browse Apps
+
+	![slack7](./doc/pics/slack13.png)
+
+4. Select the App you just have created
+
+5. Invite the Application to each of the two channels by typing
+
+	```bash
+	@<MyAppname>
+	```
+
+6. Select `Add to channel`
+
+	You shoud get a message from <MyAppname> saying `was added to #<your-channel> by ...`
+
+
+<div style="page-break-after: always;"></div>
+
+### 5.1.4 Integrate Your Slack App
+
+In the Slack App: 
+
+1. In the `Basic Information` menu get the `Signing Secret` (not the Client Secret!) and jot it down
+
+	![K8s CNI](./doc/pics/doc47.png)
+	
+3. In the `OAuth & Permissions` get the `Bot User OAuth Token` (not the User OAuth Token!) and jot it down
+
+	![K8s CNI](./doc/pics/doc48.png)
+
+In the IBM AIOps (IBMAIOPS) 
+
+1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
+1. Click `Add connection`
+
+	![K8s CNI](./doc/pics/doc14.png)
+	
+1. Under `Slack`, click on `Add Connection`
+	![K8s CNI](./doc/pics/doc45.png)
+
+6. Name it "Slack"
+7. Paste the `Signing Secret` from above
+8. Paste the `Bot User OAuth Token` from above
+
+	![K8s CNI](./doc/pics/doc50.png)
+	
+9. Paste the channel IDs from the channel creation step in the respective fields
+
+	![K8s CNI](./doc/pics/doc49.png)
+	
+	![K8s CNI](./doc/pics/doc52.png)
+		
+		
+
+10. Test the connection and click save
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+
+### 5.1.5 Create the Integration URL
+
+In the IBM AIOps (IBMAIOPS) 
+
+1. Go to `Define `\`Integrations`
+2. Under `Slack` click on `1 integration`
+3. Copy out the URL
+
+	![secure_gw_search](./doc/pics/slack04.png)
+
+This is the URL you will be using for step 6.
+
+
+<div style="page-break-after: always;"></div>
+
+
+### 5.1.6 Create Slack App Communications
+
+Return to the browser tab for the Slack app. 
+
+#### 5.1.6.1 Event Subscriptions
+
+1. Select `Event Subscriptions`.
+
+2. In the `Enable Events` section, click the slider to enable events. 
+
+3. For the Request URL field use the `Request URL` from step 5.
+
+	e.g: `https://<my-url>/aiops/aimanager/instances/xxxxx/api/slack/events`
+
+4. After pasting the value in the field, a *Verified* message should display.
+
+	![slacki3](./doc/pics/slacki3.png)
+
+	If you get an error please check 5.7
+
+5. Verify that on the `Subscribe to bot events` section you got:
+
+	*  `app_mention` and 
+	*  `member_joined_channel` events.
+
+	![slacki4](./doc/pics/slacki4.png)
+
+6. Click `Save Changes` button.
+
+
+#### 5.1.6.2 Interactivity & Shortcuts
+
+7. Select `Interactivity & Shortcuts`. 
+
+8. In the Interactivity section, click the slider to enable interactivity. For the `Request URL` field, use use the URL from above.
+
+ **There is no automatic verification for this form**
+
+![slacki5](./doc/pics/slacki5.png)
+
+9. Click `Save Changes` button.
+
+#### 5.1.6.3 Slash Commands
+
+Now, configure the `welcome` slash command. With this command, you can trigger the welcome message again if you closed it. 
+
+1. Select  `Slash Commands`
+
+2. Click `Create New Command` to create a new slash command. 
+
+	Use the following values:
+	
+	
+	| Field | Value |
+	| --- | --- |
+	|Command| /welcome|
+	|Request URL|the URL from above|
+	|Short Description| Welcome to IBM AIOps|
+
+3. Click `Save`.
+
+#### 5.1.6.4 Reinstall App
+
+The Slack app must be reinstalled, as several permissions have changed. 
+
+1. Select `Install App` 
+2. Click `Reinstall to Workspace`
+
+Once the workspace request is approved, the Slack integration is complete. 
+
+If you run into problems validating the `Event Subscription` in the Slack Application, see 5.2
+
+<div style="page-break-after: always;"></div>
+
+<div style="page-break-after: always;"></div>
+
+
+
+<div style="page-break-after: always;"></div>
+
+### 5.1.7 Slack Reset
+
+
+#### 5.1.7.1 Get the User OAUTH Token
+
+This is needed for the reset scripts in order to empty/reset the Slack channels.
+
+This is based on [Slack Cleaner2](https://github.com/sgratzl/slack_cleaner2).
+You might have to install this:
+
+```bash
+pip3 install slack-cleaner2
+```
+##### Reset reactive channel 
+
+In your Slack app
+
+1. In the `OAuth & Permissions` get the `User OAuth Token` (not the Bot User OAuth Token this time!) and jot it down
+
+In file `./tools/98_maintenance/scripts/13_reset-slack.sh`
+
+2. Replace `not_configured` for the `SLACK_TOKEN` parameter with the token 
+3. Adapt the channel name for the `SLACK_REACTIVE` parameter
+
+
+##### Reset proactive channel 
+
+In your Slack app
+
+1. In the `OAuth & Permissions` get the `User OAuth Token` (not the Bot User OAuth Token this time!) and jot it down (same token as above)
+
+In file `./tools/98_maintenance/scripts/14_reset-slack-changerisk.sh`
+
+2. Replace `not_configured` for the `SLACK_TOKEN` parameter with the token 
+3. Adapt the channel name for the `SLACK_PROACTIVE` parameter
+
+
+
+#### 5.1.7.2 Perform Slack Reset
+
+Call either of the scripts above to reset the channel:
+
+```bash
+
+./tools/98_maintenance/scripts/13_reset-slack.sh
+
+or
+
+./tools/98_maintenance/scripts/14_reset-slack-changerisk.sh
+
+```
 </details>
 
