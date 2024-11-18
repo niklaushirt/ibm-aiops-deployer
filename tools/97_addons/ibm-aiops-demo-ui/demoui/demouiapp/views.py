@@ -1417,14 +1417,14 @@ def injectRESTHeadless(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        #threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        threadEvents1.start()
+        #threadEvents1.start()
 
         #time.sleep(3)
 
@@ -1735,14 +1735,14 @@ def injectAllNetSOCKREST(request):
         threadEvents = Thread(target=injectEventsNetSock, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsSockNet, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsSockShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS_NONE,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS_SOCK,))
-        threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        #threadEvents1 = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadMetrics.start()
         threadEvents.start()
         threadLogs.start()
-        threadEvents1.start()
+        #threadEvents1.start()
 
         #time.sleep(3)
 
@@ -2701,7 +2701,7 @@ def login(request):
 
 def verifyLogin(request):
     actToken=request.COOKIES.get('token', 'none')
-    #print('   🔎 SESSION TOKEN:'+str(actToken))
+    print('   🔎 PROVIDED TOKEN:'+str(actToken))
 
     global loggedin
     
@@ -2928,7 +2928,7 @@ def apps(request):
         'DEMO_PWD': DEMO_PWD,
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
-        'PAGE_TITLE': 'IBM AIOps Applications',
+        'PAGE_TITLE': 'IBM IT-Automation Solutions',
         'PAGE_NAME': 'apps'
         
     }
@@ -2985,7 +2985,7 @@ def apps_system(request):
         'DEMO_PWD': DEMO_PWD,
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
-        'PAGE_TITLE': 'System Links',
+        'PAGE_TITLE': 'System Tools',
         'PAGE_NAME': 'system',
         'FLINK_IR_USER': FLINK_IR_USER,
         'FLINK_IR_PWD': FLINK_IR_PWD,
@@ -3104,7 +3104,7 @@ def apps_additional(request):
         'DEMO_PWD': DEMO_PWD,
         'INSTANCE_NAME': INSTANCE_NAME,
         'INSTANCE_IMAGE': INSTANCE_IMAGE,
-        'PAGE_TITLE': 'Third-party Applications',
+        'PAGE_TITLE': 'Third-party Tools',
         'PAGE_NAME': 'TEST',
         'SLACK_URL_ROSH': SLACK_URL_ROSH,
         'SLACK_URL_SOSH': SLACK_URL_SOSH,

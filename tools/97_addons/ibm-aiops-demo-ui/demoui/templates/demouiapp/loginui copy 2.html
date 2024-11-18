@@ -11,6 +11,7 @@
 <meta name=viewport content="width=device-width, initial-scale=1.0">
 <title>IBM Concert</title>
 
+<link rel="stylesheet" href="{% static 'css/my_css.css' %}">
 <link rel="stylesheet" href="{% static 'css/my_new_css.css' %}">
 
 
@@ -25,26 +26,21 @@
         <div class="cds--g100 cds--layer-one">
             <div class=login>
                 <div class=left>
-                    
-                
-
                     <div class=form>
-                       <h1> <img src="{{INSTANCE_IMAGE}}"
-                        style="width:60px;height:60px;" alt="{{PAGE_TITLE}}"> Log in to IBM AIOps Demo UI - {{INSTANCE_NAME}} </h1>
+                        <h1>Log in to IBM AIOps Demo UI - {{INSTANCE_NAME}}</h1>
                         <BR>
                         <BR>
                         <BR>
-                      
-                            <form class=cds--form action="login" method="GET" id="loginform">
+                        <form class=cds--form>
                             <div class="cds--form-item cds--text-input-wrapper">
                                 <div class="cds--text-input__label-wrapper"><label for="create-ingestion-job-name"
-                                        class="cds--label" dir="auto">Password</label></div>
+                                        class="cds--label" dir="auto">Name</label></div>
                                
                           
                         
                                 <div class="cds--text-input__field-wrapper">
                                     <input class="cds--text-input" id="exampleFormControlInput1" type="password"
-                                        name="token" required="" placeholder="Type your Password" 
+                                        name="token" required="" placeholder="password" 
                                          autocomplete="username" required autofocus>
                         
                                     </div>
