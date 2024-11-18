@@ -253,7 +253,7 @@ Here is a quick video that walks you through the installation process
 
 
 <details>
-<summary>📦 What will be installed</summary>
+<summary>📦 2.1.1 What will be installed</summary>
 
 This installation contains:
 
@@ -294,7 +294,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 Installation Instructions </summary>
+<summary>🚀 2.1.2 Installation Instructions </summary>
 
 
 ![K8s CNI](./doc/pics/install01.png)
@@ -320,7 +320,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 Follow the installation progress</summary>
+<summary>🔎 2.1.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
@@ -352,7 +352,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 Connecting for the first time</summary>
+<summary>🚀 2.1.4 Connecting for the first time</summary>
 
 
 ### Access the DemoUI
@@ -394,7 +394,7 @@ To access the demo environment:
 </details>
 
 <details>
-<summary>✅ Post Install</summary>
+<summary>✅ 2.1.5 Post Install</summary>
 
 ### Check Training
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
@@ -443,17 +443,17 @@ To access the demo environment:
 </details>
 
 <details>
-<summary>🔎 Detailed Check</summary>
+<summary>🔎 2.1.6 Detailed Check</summary>
 
 ### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
 
 
-### 2.3.1 Check Overall
+### 2.1.6.1 Check Overall
 Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check01.png)
 	
-### 2.3.2 Check Training
+### 2.1.6.2 Check Training
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`AI Model Management`
 2. Check that the Training are displayed as follows
 
@@ -462,9 +462,9 @@ Check that the green notification bar is displayed as follows
 ### ❗ If any of the trainings (particularely Temporal grouping or Metric anomaly detection) displays and error, please re-run the training. This is often due to a limit of resources at install time. 
 
 
-### 2.3.3 Check Automations
+###  2.1.6.3 Check Automations
 
-#### 2.3.3.1 Check Policies
+#### Check Policies
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Policies` Tab
 2. Enter `DEMO` into the search field
@@ -473,14 +473,14 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check03.png)
 
 
-#### 2.3.3.2 Check Runbooks
+#### Check Runbooks
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Runbooks ` Tab
 2. Check that you have 4 Runbooks as shown below
 
 ![install](./doc/pics/check04.png)
 
-#### 2.3.3.3 Check Actions
+#### Check Actions
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Automations`
 2. Select the `Actions ` Tab
 3. 2. Enter `DEMO` into the search field
@@ -488,14 +488,14 @@ Check that the green notification bar is displayed as follows
 
 ![install](./doc/pics/check05.png)
 
-### 2.3.4 Check Applications
+### Check Applications
 1. In the `IBM AIOps` "Hamburger" Menu select `Operate`/`Resource management`
 2. Check that the Applications are displayed as follows
 
 ![install](./doc/pics/check07.png)
 
 
-### 2.3.4 Check Connections
+### Check Connections
 1. In the `IBM AIOps` "Hamburger" Menu select `Define`/`Integrations`
 2. Check that the Connections are displayed as follows
 
@@ -511,7 +511,7 @@ Check that the green notification bar is displayed as follows
 
 
 <details>
-<summary>👩‍💻 Characters to chose from</summary>
+<summary>👩‍💻 2.1.7 Characters to chose from</summary>
 
 In the Quick Install file you can also adapt the Name of your Environment (default is `Bear`)
 
