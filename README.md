@@ -130,8 +130,8 @@ Basically:
 
 ### 🐥 IBM AIOps specific
 - 🚀 [Demo the Solution](#31-demo-the-solution)
-- 🤓 [Demo Setup - Explained](#33-demo-setup---explained)
-- 📦 [Create a custom Scenario](#34-demo-setup---explained)
+- 🤓 [Demo Setup - Explained](#32-demo-setup---explained)
+- 📦 [Create a custom Scenario](#33-demo-setup---explained)
 
 
 <div style="page-break-after: always;"></div>
