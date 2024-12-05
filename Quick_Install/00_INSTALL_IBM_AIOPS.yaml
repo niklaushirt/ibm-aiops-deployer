@@ -184,6 +184,8 @@ data:
         logAnomalyDetection: true
         # Topology Model (application/service)
         topologyModel: application
+        # Enable Group Profiles for Role Based Access Control
+        groupProfiles: true
 
 
         
