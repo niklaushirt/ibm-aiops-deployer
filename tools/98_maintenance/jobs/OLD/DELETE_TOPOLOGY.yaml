@@ -97,7 +97,7 @@ spec:
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               oc project $AIOPS_NAMESPACE
 
-              while true; do oc port-forward statefulset/iaf-system-elasticsearch-es-aiops 9200; done &
+              while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done &
 
 
               oc scale deployment -l release=aiops-topology -n $AIOPS_NAMESPACE --replicas=0

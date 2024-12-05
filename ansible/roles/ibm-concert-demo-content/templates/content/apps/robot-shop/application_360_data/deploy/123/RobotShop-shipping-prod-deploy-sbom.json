@@ -1,9 +1,10 @@
 {
     "bomFormat": "ConcertDef",
-    "specVersion": "1.0.2",
+    "specVersion": "1.0.3",
     "serialNumber": "urn:ibm:appmgmt:RobotShop:shipping:deploy:prod:123",
     "version": 1,
     "metadata": {
+        "type": "deploy",
         "timestamp": "2024-09-06T15:22:46Z",
         "component": {
             "type": "deploy",

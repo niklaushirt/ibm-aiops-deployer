@@ -1,8 +1,8 @@
 export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
 
 export ES_ROUTE=`oc get route -n $WAIOPS_NAMESPACE iaf-system-es -o jsonpath={.spec.host}`
-export ES_USERNAME=$(oc exec -n $WAIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
-export ES_PASSWORD=$(oc exec -n $WAIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
+export ES_USERNAME=$(oc exec -n $WAIOPS_NAMESPACE -it aiops-ibm-elasticsearch-es-server-all -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
+export ES_PASSWORD=$(oc exec -n $WAIOPS_NAMESPACE -it aiops-ibm-elasticsearch-es-server-all -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
 
 echo $ES_ROUTE
 echo $ES_USERNAME
