@@ -76,7 +76,7 @@ spec:
     spec:
       containers:
         - name: tools
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
