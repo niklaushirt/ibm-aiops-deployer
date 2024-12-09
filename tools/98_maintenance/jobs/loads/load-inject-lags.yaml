@@ -5,7 +5,7 @@ metadata:
   name: inject-lags-indexes
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:

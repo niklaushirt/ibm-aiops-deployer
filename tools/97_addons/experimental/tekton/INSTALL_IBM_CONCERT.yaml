@@ -263,7 +263,7 @@ spec:
       labels:
         app: ibm-concert
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.3

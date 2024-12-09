@@ -63,7 +63,7 @@ metadata:
   name: ibm-aiops-install-hack
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:
@@ -177,7 +177,7 @@ spec:
                             name: aiops-set-kafka-connection-secret-cm
                             defaultMode: 0777
                         restartPolicy: OnFailure
-                        serviceAccountName: ibm-aiops-orchestrator-controller-manager
+                        serviceAccount: ibm-aiops-orchestrator-controller-manager
               EOF
 
               timestamp=$(date +%s)

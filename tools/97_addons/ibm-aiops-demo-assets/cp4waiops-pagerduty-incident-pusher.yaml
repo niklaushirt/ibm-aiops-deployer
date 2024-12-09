@@ -44,7 +44,7 @@ metadata:
   labels:
       app:  ibm-aiops-pagerduty-incident-pusher
 spec:
-  serviceAccountName: ibm-aiops-pagerduty-incident-pusher
+  serviceAccount: ibm-aiops-pagerduty-incident-pusher
   replicas: 1
   selector:
     matchLabels:
@@ -87,4 +87,4 @@ spec:
         - persistentVolumeClaim:
             claimName: ibm-aiops-pagerduty-incident-pusher-pvc
           name: ibm-aiops-pagerduty-incident-pusher-store
-      serviceAccountName: ibm-aiops-experimental-admin
+      serviceAccount: ibm-aiops-experimental-admin

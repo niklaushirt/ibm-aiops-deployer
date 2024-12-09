@@ -339,7 +339,7 @@ spec:
         service: otel-shop-cart
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-cart
@@ -394,7 +394,7 @@ spec:
         service: otel-shop-catalogue
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-catalogue
@@ -448,7 +448,7 @@ spec:
         service: otel-shop-dispatch
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-dispatch
@@ -492,7 +492,7 @@ spec:
         service: otel-shop-front
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-front
@@ -597,7 +597,7 @@ spec:
         service: otel-shop-mongodb
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-mongodb
@@ -635,7 +635,7 @@ spec:
         stage: prod
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-payment
@@ -688,7 +688,7 @@ spec:
         service: otel-shop-rabbitmq
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-rabbitmq
@@ -724,7 +724,7 @@ spec:
         service: otel-shop-ratings
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-ratings
@@ -780,7 +780,7 @@ spec:
         service: otel-shop-shipping
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-shipping
@@ -839,7 +839,7 @@ spec:
         service: otel-shop-user
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-user
@@ -895,7 +895,7 @@ spec:
         service: otel-shop-web
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-web
@@ -950,7 +950,7 @@ spec:
         service: otel-shop-mysql
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-mysql
@@ -1012,7 +1012,7 @@ spec:
         service: otel-shop-redis
     spec:
       
-      serviceAccountName: otel-shop
+      serviceAccount: otel-shop
       
       containers:
       - name: otel-shop-redis

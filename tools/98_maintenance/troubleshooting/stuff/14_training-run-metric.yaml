@@ -4,7 +4,7 @@ metadata:
   name: troubleshoot-1-4-run-metrics-training
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:

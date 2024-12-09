@@ -63,13 +63,13 @@ metadata:
   name: troubleshoot-3-1-create-missing-topology
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     metadata:
       labels:
         app: ibm-installer
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2

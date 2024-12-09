@@ -63,7 +63,7 @@ metadata:
   name: aiops-create-routes
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:

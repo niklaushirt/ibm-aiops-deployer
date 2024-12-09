@@ -5,7 +5,7 @@ metadata:
   name: incident-job-london-underground
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:

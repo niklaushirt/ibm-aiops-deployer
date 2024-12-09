@@ -7,7 +7,7 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       serviceAccount: ibm-installer-admin
 
       containers:
@@ -102,7 +102,7 @@ spec:
       labels:
         app: ibm-aiops-inject-lags-anomaly
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:
@@ -191,7 +191,7 @@ spec:
       labels:
         app: ibm-aiops-inject-lags-anomaly
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:

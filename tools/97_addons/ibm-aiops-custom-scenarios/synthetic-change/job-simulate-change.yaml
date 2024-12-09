@@ -54,7 +54,7 @@ spec:
       labels:
         app: ibm-aiops-logs-streaming
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin
       containers:
         - name: tools

@@ -42,7 +42,7 @@ metadata:
   name: aiops-easy-install-aimanager-practicum
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:

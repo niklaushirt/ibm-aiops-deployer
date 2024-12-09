@@ -76,7 +76,7 @@ spec:
         envFrom:
         - configMapRef:
             name:  aiops-falco-gateway-config
-      serviceAccountName: aiops-falco-gateway-admin         
+      serviceAccount: aiops-falco-gateway-admin         
 ---
 apiVersion: v1
 kind: Service

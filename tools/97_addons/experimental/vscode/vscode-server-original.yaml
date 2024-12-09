@@ -141,7 +141,7 @@ spec:
               port: http
           resources:
             {}
-      serviceAccountName: code-server
+      serviceAccount: code-server
       volumes:
       - name: data
         persistentVolumeClaim:

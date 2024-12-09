@@ -38,7 +38,7 @@ metadata:
   labels:
       app:  ibm-aiops-incident-pusher
 spec:
-  serviceAccountName: ibm-aiops-incident-pusher
+  serviceAccount: ibm-aiops-incident-pusher
   replicas: 1
   selector:
     matchLabels:

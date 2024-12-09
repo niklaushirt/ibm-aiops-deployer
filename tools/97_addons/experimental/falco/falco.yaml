@@ -563,7 +563,7 @@ spec:
         checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
     spec:
-      serviceAccountName: falco
+      serviceAccount: falco
       tolerations:
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
@@ -736,7 +736,7 @@ spec:
         app.kubernetes.io/name: falcosidekick-ui
         app.kubernetes.io/instance: falco-ui
     spec:
-      serviceAccountName: falco-falcosidekick-ui
+      serviceAccount: falco-falcosidekick-ui
       securityContext:
         fsGroup: 1234
         runAsUser: 1234
@@ -791,7 +791,7 @@ spec:
       annotations:
         checksum/config: 33750e209a520efdf61e62020a6e1664d8cc57356a0a9264fd888e86d6bd7b98
     spec:
-      serviceAccountName: falco-falcosidekick
+      serviceAccount: falco-falcosidekick
       securityContext:
         fsGroup: 1234
         runAsUser: 1234
@@ -852,7 +852,7 @@ spec:
         app.kubernetes.io/name: falcosidekick-ui-redis
         app.kubernetes.io/instance: falco-ui-redis
     spec:
-      serviceAccountName: falco-falcosidekick-ui
+      serviceAccount: falco-falcosidekick-ui
       containers:
         - name: redis
           image: "docker.io/redislabs/redisearch:2.2.4"

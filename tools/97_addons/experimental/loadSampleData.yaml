@@ -13,7 +13,7 @@ spec:
       imagePullSecrets:
       - name: ibm-entitlement-key
       serviceAccount: noi-service-account
-      serviceAccountName: noi-service-account
+      serviceAccount: noi-service-account
       volumes:
       - name: ca
         secret:

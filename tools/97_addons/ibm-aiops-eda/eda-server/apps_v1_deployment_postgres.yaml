@@ -16,7 +16,7 @@ spec:
         app: eda-postgres
     spec:
       restartPolicy: Always
-      serviceAccountName: eda-admin
+      serviceAccount: eda-admin
       terminationGracePeriodSeconds: 30
       securityContext: {}
       containers:
