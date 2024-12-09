@@ -1569,14 +1569,14 @@
     echo "Running K8S OBSERVER"
 
     curl -X 'POST' --insecure \
-      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/robot-shop" \
+      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-robot-shop" \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -H "authorization: Bearer $ZEN_TOKEN"  \
 
 
     # curl -X 'POST' --insecure \
-    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/robot-shop-topology" \
+    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-robot-shop-topology" \
     #   -H 'accept: application/json' \
     #   -H 'Content-Type: application/json' \
     #   -H "authorization: Bearer $ZEN_TOKEN"  \
@@ -1760,14 +1760,14 @@
     echo "Running K8S OBSERVER"
 
     curl -X 'POST' --insecure \
-      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/sock-shop" \
+      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-sock-shop" \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
       -H "authorization: Bearer $ZEN_TOKEN"  \
 
 
     # curl -X 'POST' --insecure \
-    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/sock-shop-topology" \
+    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-sock-shop-topology" \
     #   -H 'accept: application/json' \
     #   -H 'Content-Type: application/json' \
     #   -H "authorization: Bearer $ZEN_TOKEN"  \
