@@ -245,8 +245,8 @@
 {
   "id": "0e7af27c-4196-4247-85d5-e08e5456b011",
   "createdBy": "system",
-  "title": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0 - Elasticsearch node status is YELLOW",
-  "description": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0 - Elasticsearch node status is YELLOW",
+  "title": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0 - Elasticsearch node status is YELLOW",
+  "description": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0 - Elasticsearch node status is YELLOW",
   "priority": 3,
   "state": "assignedToIndividual",
   "owner": "demo",
