@@ -875,7 +875,7 @@ cd ansible
       "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-robot-shop" \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
-      -H "authorization: Bearer $ZEN_TOKEN"  \
+      -H "authorization: Bearer $ZEN_TOKEN"  
 
 
     # curl -X 'POST' --insecure \
@@ -1061,7 +1061,7 @@ cd ansible
       "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/demo-sock-shop" \
       -H 'accept: application/json' \
       -H 'Content-Type: application/json' \
-      -H "authorization: Bearer $ZEN_TOKEN"  \
+      -H "authorization: Bearer $ZEN_TOKEN"  
 
 
     # curl -X 'POST' --insecure \
