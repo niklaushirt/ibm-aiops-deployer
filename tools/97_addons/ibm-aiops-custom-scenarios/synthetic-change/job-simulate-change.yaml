@@ -58,7 +58,7 @@ spec:
       serviceAccount: ibm-aiops-demo-ui-admin
       containers:
         - name: tools
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

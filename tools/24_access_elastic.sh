@@ -39,12 +39,11 @@ echo "  🔐  Getting credentials"
 echo "***************************************************************************************************************************************************"
 oc project $AIOPS_NAMESPACE
 
-export username=elastic
-export password=$(oc get secret $(oc get secrets | grep aiops-ibm-elasticsearch-creds | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.elastic}"| base64 --decode)	
-#echo $username:$password
+export username=$(oc exec -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
+export password=$(oc exec -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
 
 
-elasticsearch-admin
+
 
 echo "      ✅ OK"
 echo ""
@@ -108,7 +107,7 @@ echo "  ▶️  Starting Port Forwarding"
 echo "***************************************************************************************************************************************************"
 echo ""
 
-while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done
+while true; do oc port-forward statefulset/iaf-system-elasticsearch-es-aiops 9200; done
 
 
 

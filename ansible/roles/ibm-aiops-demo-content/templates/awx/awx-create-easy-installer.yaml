@@ -52,7 +52,7 @@ spec:
       labels:
         app: ibm-installer
     spec:
-      serviceAccount: ibm-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
       - image: quay.io/niklaushirt/ibm-installer:2.0
         imagePullPolicy: Always

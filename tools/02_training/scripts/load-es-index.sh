@@ -123,7 +123,7 @@ if [[ $existingIndexes == "" ]] ;
 then
     echo "        ❗ Please start port forward in separate terminal."
     echo "        ❗ Run the following:"
-    echo "            while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done"
+    echo "            while true; do oc port-forward statefulset/iaf-system-elasticsearch-es-aiops 9200; done"
     echo "        ❌ Aborting..."
     echo "     "
     echo "     "

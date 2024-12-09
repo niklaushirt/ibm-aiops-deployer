@@ -1,10 +1,9 @@
 {
     "bomFormat": "ConcertDef",
-    "specVersion": "1.0.3",
+    "specVersion": "1.0.2",
     "serialNumber": "urn:ibm:appmgmt:RobotShop",
     "version": 1,
     "metadata": {
-        "type": "application",
         "timestamp": "2024-09-06T15:21:48Z",
         "component": {
             "bom-ref": "RobotShop",

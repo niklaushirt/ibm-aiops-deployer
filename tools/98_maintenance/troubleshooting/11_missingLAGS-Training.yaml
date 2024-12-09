@@ -63,13 +63,13 @@ metadata:
   name: troubleshoot-1-1-create-missing-lags-training
   namespace: ibm-installer
 spec:
-  serviceAccount: ibm-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     metadata:
       labels:
         app: ibm-installer
     spec:
-      serviceAccount: ibm-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
           image: quay.io/niklaushirt/ibm-aiops-tools:2.2
@@ -205,6 +205,7 @@ spec:
                   "base_parallelism": 5,
                   "num_partitions": 1,
                   "display_name": "ELKGoldenSignal",
+                  "json_option": "none",
                   "logs_per_second": 2000
                 },
                 "connection_type": "kafka",
@@ -252,7 +253,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📶 Stream Data "
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              ./training/load-gs-logs-kafka_date-new.sh
+              ./training/load-gs-logs-kafka_date.sh
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    ⏳ Wait 5 minutes"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"

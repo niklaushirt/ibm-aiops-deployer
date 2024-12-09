@@ -273,16 +273,16 @@ metadata:
   name: ibm-aiops-training-step1-prerequisites
   namespace: ibm-installer
 spec:
-  serviceAccount: ibm-installer-admin
+  serviceAccountname: ibm-installer-admin
   template:
     metadata:
       labels:
         app: ibm-installer
     spec:
-      serviceAccount: ibm-installer-admin
+      serviceAccountName: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
           imagePullPolicy: IfNotPresent
           resources:
             requests:
