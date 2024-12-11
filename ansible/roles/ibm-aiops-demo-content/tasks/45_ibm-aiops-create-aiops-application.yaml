@@ -524,3 +524,68 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# AIOPS
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🚀 TOPOLOGY - REBROADCAST
+  shell: |
+    set -x
+        
+    echo "REBROADCAST"
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+    export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+    export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+    # oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
+    export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
+
+ 
+    export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
+
+    echo "    URL: $TOPO_MGT_ROUTE/1.0/topology/metadata"
+    echo "    LOGIN: $LOGIN"
+
+    curl -XPOST -k \
+    "$TOPO_MGT_ROUTE/1.0/topology/crawlers/rebroadcast" \
+    -H 'accept: application/json' \
+    -H 'content-type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -u $LOGIN \
+      -d '{
+      "transactionLength": 1000,
+      "includeHistory": false,
+      "broadcastIds": "uhRAaLQ7TIGYMZ3RkvQovg",
+      "includeStatus": true,
+      "includeEdges": true
+    }'
+
+        curl -XGET -k \
+    https://aiops-topology-topology-ibm-aiops.apps.itz-ba4byf.osv.techzone.ibm.com/1.0/topology/mgmt_artifacts/N5LPjaBKQVaaMHBGn2Oblw \
+    -H 'accept: application/json' \
+    -H 'content-type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -u $LOGIN 
+  
+
+ curl -XGET -k \
+    https://aiops-topology-topology-ibm-aiops.apps.itz-ba4byf.osv.techzone.ibm.com/1.0/topology/mgmt_artifacts/ \
+    -H 'accept: application/json' \
+    -H 'content-type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -u $LOGIN
+
+
+
+
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
