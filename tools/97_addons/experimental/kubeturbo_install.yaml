@@ -69,7 +69,7 @@ spec:
       labels:
         app.kubernetes.io/name: kubeturbo
     spec:
-      serviceAccountName: turbo-user
+      serviceAccount: turbo-user
       containers:
       - name: kubeturbo
         image: icr.io/cpopen/turbonomic/kubeturbo:8.9.3

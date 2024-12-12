@@ -44,7 +44,7 @@ metadata:
   labels:
       app:  ibm-aiops-discord-incident-pusher
 spec:
-  serviceAccountName: ibm-aiops-discord-incident-pusher
+  serviceAccount: ibm-aiops-discord-incident-pusher
   replicas: 1
   selector:
     matchLabels:
@@ -87,4 +87,4 @@ spec:
         - persistentVolumeClaim:
             claimName: ibm-aiops-discord-incident-pusher-pvc
           name: ibm-aiops-discord-incident-pusher-store
-      serviceAccountName: ibm-aiops-experimental-admin
+      serviceAccount: ibm-aiops-experimental-admin

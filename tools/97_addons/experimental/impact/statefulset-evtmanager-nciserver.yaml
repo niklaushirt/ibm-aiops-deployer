@@ -605,7 +605,7 @@ spec:
           terminationMessagePolicy: File
           image: >-
             cp.icr.io/cp/noi/netcool-configuration-share-ee@sha256:e61f1825834949979bbf2d542b27ad200197115d83d1642aa36a9b9b66c23063
-      serviceAccountName: noi-service-account
+      serviceAccount: noi-service-account
       imagePullSecrets:
         - name: ibm-entitlement-key
       schedulerName: default-scheduler

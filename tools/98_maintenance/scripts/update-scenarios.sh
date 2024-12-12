@@ -611,7 +611,7 @@ spec:
             value: instana
           - name: INSTANA_DEBUG
             value: 'false'
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
 
 ---
 apiVersion: v1

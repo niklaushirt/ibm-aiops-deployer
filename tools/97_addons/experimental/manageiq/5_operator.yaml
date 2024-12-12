@@ -12,7 +12,7 @@ spec:
       labels:
         name: manageiq-operator
     spec:
-      serviceAccountName: manageiq-operator
+      serviceAccount: manageiq-operator
       containers:
         - name: manageiq-operator
           image: docker.io/manageiq/manageiq-operator:latest

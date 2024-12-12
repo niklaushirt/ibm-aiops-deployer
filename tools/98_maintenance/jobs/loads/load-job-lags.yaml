@@ -4,12 +4,12 @@ metadata:
   name: load-lags-indexes
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -57,7 +57,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📶 Stream Data "
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              ./training/load-gs-logs-kafka_date.sh
+              ./training/load-gs-logs-kafka_date-new.sh
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    ⏳ Wait 5 minutes"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"

@@ -33,7 +33,7 @@ spec:
                 limits:
                   memory: 4Gi
                   cpu: 2
-          serviceAccountName: elastic-operator
+          serviceAccount: elastic-operator
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.

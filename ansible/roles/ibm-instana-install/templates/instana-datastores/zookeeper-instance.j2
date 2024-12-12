@@ -11,7 +11,7 @@ spec:
     tag: 3.8.3_v0.12.0
   pod:
     imagePullSecrets: [name: "instana-registry"]
-    serviceAccountName: "zookeeper"
+    serviceAccount: "zookeeper"
     # Add the following securityContext snippet for Kubernetes offerings other than OCP.
     # securityContext:
     #   runAsUser: 1000

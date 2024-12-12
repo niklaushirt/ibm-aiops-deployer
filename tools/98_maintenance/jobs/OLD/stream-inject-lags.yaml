@@ -7,12 +7,12 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       serviceAccount: ibm-installer-admin
 
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -62,7 +62,7 @@ spec:
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
                 echo "    📶 Stream Data "
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
-                ./training/load-gs-logs-kafka_date.sh
+                ./training/load-gs-logs-kafka_date-new.sh
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
                 echo "    ⏳ Wait 5 minutes"
                 echo "   ------------------------------------------------------------------------------------------------------------------------------"
@@ -102,11 +102,11 @@ spec:
       labels:
         app: ibm-aiops-inject-lags-anomaly
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+      - image: quay.io/niklaushirt/ibm-aiops-tools:2.3
         imagePullPolicy: IfNotPresent
         name: ibm-aiops-inject-lags-anomaly
         resources:
@@ -191,11 +191,11 @@ spec:
       labels:
         app: ibm-aiops-inject-lags-anomaly
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+      - image: quay.io/niklaushirt/ibm-aiops-tools:2.3
         imagePullPolicy: IfNotPresent
         name: ibm-aiops-inject-lags-anomaly
         resources:

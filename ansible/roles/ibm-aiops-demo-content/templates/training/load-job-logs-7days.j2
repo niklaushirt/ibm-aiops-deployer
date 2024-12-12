@@ -5,12 +5,12 @@ metadata:
   name: load-log-indexes-test
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -62,7 +62,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🌏 Starting port formward"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              while true; do oc port-forward statefulset/iaf-system-elasticsearch-es-aiops 9200; done>/dev/null 2>&1&
+              while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done>/dev/null 2>&1&
 
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"

@@ -54,7 +54,7 @@ spec:
             name:  ibm-aiops-demo-ui-config-logs
         - configMapRef:
             name:  ibm-aiops-demo-ui-config-metrics
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
 ---
 apiVersion: v1
 kind: Service

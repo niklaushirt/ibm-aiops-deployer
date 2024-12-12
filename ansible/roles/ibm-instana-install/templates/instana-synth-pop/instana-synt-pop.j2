@@ -289,7 +289,7 @@ spec:
         app.kubernetes.io/name: controller
         component: synthetic-pop-controller
     spec:
-      serviceAccountName: pop-controller-synthetic-pop-serviceaccount
+      serviceAccount: pop-controller-synthetic-pop-serviceaccount
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -460,7 +460,7 @@ spec:
                 - amd64
       imagePullSecrets:
       - name: instana-io
-      serviceAccountName: http-synthetic-pop-serviceaccount
+      serviceAccount: http-synthetic-pop-serviceaccount
       
       containers:
       - name: synthetic-playback-http
@@ -599,7 +599,7 @@ spec:
                 - amd64
       imagePullSecrets:
       - name: instana-io
-      serviceAccountName: javascript-synthetic-pop-serviceaccount
+      serviceAccount: javascript-synthetic-pop-serviceaccount
       
       containers:
       - name: synthetic-playback-javascript
@@ -724,7 +724,7 @@ spec:
         release: synthetic-pop
         app: redis
     spec:
-      serviceAccountName: redis-synthetic-pop-serviceaccount
+      serviceAccount: redis-synthetic-pop-serviceaccount
       imagePullSecrets:
       - name: instana-io
       

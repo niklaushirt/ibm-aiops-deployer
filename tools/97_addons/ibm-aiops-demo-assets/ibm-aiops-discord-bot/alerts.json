@@ -8869,19 +8869,19 @@
     "name": "Instana"
   },
   "resource": {
-    "name": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0",
+    "name": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0",
     "type": "INFRASTRUCTURE",
     "sourceId": "uohfUngCR_4ITswrerGALEBDZI8"
   },
-  "signature": "{name=iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-",
+  "signature": "{name=iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-",
   "type": {
     "classification": "Elasticsearch Node - Elasticsearch node status is YELLOW",
     "eventType": "problem"
   },
   "id": "331dee07-8f6f-4758-958e-926d035c0b48",
-  "deduplicationKey": "{name=iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-",
+  "deduplicationKey": "{name=iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-",
   "severity": 3,
-  "summary": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0 - Elasticsearch node status is YELLOW",
+  "summary": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0 - Elasticsearch node status is YELLOW",
   "firstOccurrenceTime": "2022-12-22T11:37:13.013Z",
   "lastOccurrenceTime": "2022-12-22T12:23:13.013Z",
   "team": "-",
@@ -8919,14 +8919,14 @@
       "details": {
         "actionId": "aiops.ibm.com/action/internal/alerts/derive",
         "policyId": "4e679160-8115-11ed-be36-5b727ab9b4d9",
-        "partitionKey": "{name=iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-"
+        "partitionKey": "{name=iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0, sourceId=uohfUngCR_4ITswrerGALEBDZI8, type=INFRASTRUCTURE}-Elasticsearch Node - Elasticsearch node status is YELLOW-"
       }
     },
     {
       "id": "2QpnKzpeRK-xOFAHIUC9-A",
       "type": "aiops.ibm.com/insight-type/topology/resource",
       "details": {
-        "name": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0",
+        "name": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0",
         "uniqueId": "uohfUngCR_4ITswrerGALEBDZI8"
       }
     },
@@ -8971,11 +8971,11 @@
       }
     },
     {
-      "id": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0#a87ab610-b04d-49ab-b6d1-90c5d32cf5cf",
+      "id": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0#a87ab610-b04d-49ab-b6d1-90c5d32cf5cf",
       "type": "aiops.ibm.com/insight-type/relationship/causal",
       "source": "aiops.ibm.com/insight-source/relationship/causal/custom",
       "details": {
-        "groupId": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0",
+        "groupId": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0",
         "policyId": "4ea4e880-8115-11ed-be36-5b727ab9b4d9"
       }
     }
@@ -9000,7 +9000,7 @@
     "details": "Some of the shard replicas are not allocated",
     "type": "issue",
     "entityName": "Elasticsearch Node",
-    "entityLabel": "iaf-system-elasticsearch-cluster: iaf-system-elasticsearch-es-aiops-0",
+    "entityLabel": "iaf-system-elasticsearch-cluster: aiops-ibm-elasticsearch-es-server-all-0",
     "fixSuggestion": "Some of the shard replicas are not allocated",
     "metrics": "[\"{\"metricName\":\"cluster_health.status\",\"snapshotId\":\"uohfUngCR_4ITswrerGALEBDZI8\",\"entityId\":{\"steadyId\":\"577148\",\"pluginId\":\"com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode\",\"host\":\"06:e3:99:ff:fe:a1:53:03\"}}\"]"
   }

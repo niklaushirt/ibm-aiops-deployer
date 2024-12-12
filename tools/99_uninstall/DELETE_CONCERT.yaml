@@ -1,0 +1,237 @@
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#         ________  __  ___     ___    ________       
+#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
+#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
+#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
+#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
+#                                           /_/
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------"
+#  INSTALL IBM CONCERT
+#
+#  IBM Concert
+#
+#  ©2024 nikh@ch.ibm.com
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+
+
+apiVersion: v1                     
+kind: Namespace
+metadata:
+  name: ibm-installer
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: ibm-installer-admin
+  namespace: ibm-installer
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ibm-installer-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: ibm-installer-admin
+    namespace: ibm-installer
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ibm-installer-default-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: ibm-installer
+---
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: scc-ibm-installer-admin
+allowPrivilegedContainer: true
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+fsGroup:
+  type: RunAsAny
+supplementalGroups:
+  type: RunAsAny
+users:
+- developer
+- system:serviceaccount:ibm-installer:ibm-installer-admin
+groups:
+- developer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-delete-concert
+  namespace: ibm-installer
+  annotations: {}
+spec:
+  selector:
+    matchLabels:
+      app: ibm-installer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ibm-installer
+    spec:
+      containers:
+        - name: tools
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+            runAsUser: 0
+            capabilities:
+              add: 
+              - ALL
+          serviceAccount: ibm-installer-admin
+          serviceAccount: ibm-installer-admin
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "2024Mi"
+              cpu: "1200m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              #!/bin/bash
+              #set -x
+
+              echo "*****************************************************************************************************************************"
+              echo " ✅ STARTING: DELETE POD"
+              echo "*****************************************************************************************************************************"
+              echo ""
+              echo "  ⏳ INSTALLATION START TIMESTAMP: $(date)"
+              echo ""
+              echo "------------------------------------------------------------------------------------------------------------------------------"
+      
+
+                # Delete CRs
+                oc delete AutomationService -n ibm-concert automationservice-sample
+                oc delete CommonService -n ibm-concert im-common-service
+                oc delete CommonService -n ibm-concert common-service
+                oc delete CommonService -n ibm-concert-operators common-service
+
+
+                # Delete CSV and Subs
+                oc delete clusterserviceversion -n ibm-cert-manager ibm-cert-manager-operator.v4.2.4
+                oc delete clusterserviceversion -n ibm-concert-operators cloud-native-postgresql.v1.18.12            
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-aaf-operator.v1.0.1                     
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-cert-manager-operator.v4.2.4            
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-common-service-operator.v4.7.0          
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-commonui-operator.v4.5.0                
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-iam-operator.v4.6.0                     
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-namespace-scope-operator.v4.2.4         
+                oc delete clusterserviceversion -n ibm-concert-operators ibm-zen-operator.v6.0.2                     
+                oc delete clusterserviceversion -n ibm-concert-operators operand-deployment-lifecycle-manager.v4.3.1 
+                oc delete clusterserviceversion -n ibm-concert           ibm-cert-manager-operator.v4.2.4            
+                oc delete clusterserviceversion -n ibm-concert           ibm-licensing-operator.v4.2.4               
+                oc delete clusterserviceversion -n ibm-licensing         ibm-cert-manager-operator.v4.2.4            
+                oc delete clusterserviceversion -n ibm-licensing         ibm-licensing-operator.v4.2.4               
+
+
+                oc delete subscription -n ibm-cert-manager          ibm-cert-manager-operator                                               
+                oc delete subscription -n ibm-concert-operators     common-service-postgresql                                               
+                oc delete subscription -n ibm-concert-operators     ibm-aaf-operator-subscription                                           
+                oc delete subscription -n ibm-concert-operators     ibm-common-service-operator                                             
+                oc delete subscription -n ibm-concert-operators     ibm-idp-config-ui-operator                                              
+                oc delete subscription -n ibm-concert-operators     ibm-im-operator                                                         
+                oc delete subscription -n ibm-concert-operators     ibm-namespace-scope-operator                                            
+                oc delete subscription -n ibm-concert-operators     ibm-platformui-operator                                                 
+                oc delete subscription -n ibm-concert-operators     operand-deployment-lifecycle-manager-app                                
+                oc delete subscription -n ibm-licensing             ibm-licensing-operator-app                                              
+
+
+                # Delete Namespaces
+                oc delete ns ibm-concert-operators &
+                oc delete ns ibm-concert &
+
+                sleep 30
+
+                # Clean-up IBM-CONCERT Namespace
+                oc -n ibm-concert patch authentication.operator.ibm.com example-authentication -p '{"metadata":{"finalizers":null}}' --type=merge
+                oc -n ibm-concert patch Client zenclient-ibm-concert -p '{"metadata":{"finalizers":null}}' --type=merge
+
+                oc delete OperandRequest -n ibm-concert $(oc get OperandRequest -n ibm-concert|awk '{print$1}') --ignore-not-found &
+                oc  patch OperandRequest -n ibm-concert $(oc get OperandRequest -n ibm-concert|awk '{print$1}') -p '{"metadata":{"finalizers":null}}' --type=merge
+
+                oc delete operandbindinfos -n ibm-concert $(oc get operandbindinfos -n ibm-concert|awk '{print$1}') --ignore-not-found &
+                oc  patch operandbindinfos -n ibm-concert $(oc get operandbindinfos -n ibm-concert|awk '{print$1}') -p '{"metadata":{"finalizers":null}}' --type=merge
+
+                oc delete zenextensions -n ibm-concert $(oc get zenextensions -n ibm-concert|awk '{print$1}') --ignore-not-found &
+                oc  patch zenextensions -n ibm-concert $(oc get zenextensions -n ibm-concert|awk '{print$1}') -p '{"metadata":{"finalizers":null}}' --type=merge
+
+
+
+                # Clean-up IBM-CONCERT-OPERATORS Namespace
+                oc delete OperandRequest -n ibm-concert-operators $(oc get OperandRequest -n ibm-concert-operators|awk '{print$1}') --ignore-not-found &
+                oc  patch OperandRequest -n ibm-concert-operators $(oc get OperandRequest -n ibm-concert-operators|awk '{print$1}') -p '{"metadata":{"finalizers":null}}' --type=merge
+
+                oc delete namespacescopes -n ibm-concert-operators $(oc get namespacescopes -n ibm-concert-operators|awk '{print$1}') --ignore-not-found &
+                oc  patch namespacescopes -n ibm-concert-operators $(oc get namespacescopes -n ibm-concert-operators|awk '{print$1}') -p '{"metadata":{"finalizers":null}}' --type=merge
+
+
+
+                # Clean-up IBM Cert Manager Namespace
+                oc delete ns ibm-cert-manager &
+
+                # Clean-up IBM License Manager Namespace
+                oc delete ns ibm-licensing &
+
+                # Clean-up IBM License Manager Namespace
+                oc delete ns home-ui &
+                oc delete ns robot-shop &
+                oc delete ns sock-shop &
+                
+                oc delete catalogsources.operators.coreos.com -n openshift-marketplace ibm-aiops-catalog
+                oc delete catalogsources.operators.coreos.com -n openshift-marketplace ibm-cert-manager-catalog
+                oc delete catalogsources.operators.coreos.com -n openshift-marketplace ibm-licensing-catalog
+
+              echo ""
+              echo ""
+              echo ""
+              echo ""
+              echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"
+              echo ""
+              echo "*****************************************************************************************************************************"
+              echo " ✅ INITIALIZATION - WAITING FOREVER"
+              echo "*****************************************************************************************************************************"
+
+
+              while true
+              do
+                sleep 1000
+              done
+          env:
+          - name: IBM_ENTITLEMENT_KEY
+            value: <CHANGEME>
+      imagePullSecrets: []
+  paused: false
+
+

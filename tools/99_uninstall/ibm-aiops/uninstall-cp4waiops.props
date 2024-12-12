@@ -4,7 +4,7 @@
 #
 ##################################################################################################
 ##### This is the configuration file for the uninstall-cp4waiops.sh script that uninstalls   #####
-##### IBM Cloud Pak for AIOps v4.7 from your cluster.          #####
+##### IBM Cloud Pak for AIOps from your cluster.          #####
 #####                                                                                        #####
 ##### Review and update each of the properties below to indicate what you want to uninstall. #####
 ##### This script also removes dependencies that may be shared by other IBM Cloud Paks on    #####
@@ -26,7 +26,6 @@ DELETE_ALL="true"
 # You must set DELETE_ALL to false in order to specify uninstall of specific resources as configured below.
 
 # Delete the PVCs created by IBM Cloud Pak for AIOps.
-# WARNING: CHOOSING TO DELETE PVCs CAN RESULT IN DATA LOSS. 
 # SEE uninstall-cp4waiops-resource-groups.props FOR PVCs THAT WILL BE REMOVED
 DELETE_PVCS="false"
 

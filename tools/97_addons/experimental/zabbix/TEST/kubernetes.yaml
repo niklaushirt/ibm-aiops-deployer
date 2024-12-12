@@ -1126,7 +1126,7 @@ spec:
       hostIPC: true
       hostPID: true
       automountServiceAccountToken: true
-      serviceAccountName: zabbix-agent
+      serviceAccount: zabbix-agent
       nodeSelector:
        beta.kubernetes.io/os: linux
       containers:

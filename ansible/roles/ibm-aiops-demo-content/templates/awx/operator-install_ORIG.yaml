@@ -1171,5 +1171,5 @@ spec:
         - name: redhat-operators-pull-secret
       securityContext:
         runAsNonRoot: true
-      serviceAccountName: awx-operator-controller-manager
+      serviceAccount: awx-operator-controller-manager
       terminationGracePeriodSeconds: 10

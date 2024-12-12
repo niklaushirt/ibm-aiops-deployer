@@ -134,7 +134,7 @@ spec:
         # Unfortunately, we cannot use the lookup function to check on the values in the configmap, otherwise we break Helm < 3.2
         instana-configuration-hash: 70c6df6d7c1a99a22ee74d59fa7f300fe6432573
     spec:
-      serviceAccountName: instana-agent
+      serviceAccount: instana-agent
       hostNetwork: true
       hostPID: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -357,7 +357,7 @@ spec:
         # Unfortunately, we cannot use the lookup function to check on the values in the configmap, otherwise we break Helm < 3.2
         instana-configuration-hash: da39a3ee5e6b4b0d3255bfef95601890afd80709
     spec:
-      serviceAccountName: k8sensor
+      serviceAccount: k8sensor
       containers:
         - name: instana-agent
           image: "icr.io/instana/k8sensor:latest"

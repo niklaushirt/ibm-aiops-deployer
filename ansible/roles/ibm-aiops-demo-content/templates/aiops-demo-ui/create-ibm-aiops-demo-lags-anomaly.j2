@@ -7,12 +7,12 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: ibm-aiops-demo-ui-admin
+      serviceAccount: ibm-aiops-demo-ui-admin
       serviceAccount: ibm-aiops-demo-ui-admin
 
       containers:
         - name: lags-anomaly
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:

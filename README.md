@@ -16,10 +16,10 @@
 
 ## Changelog
 
-- Separate Telco Scenario
-- News Demo UI Design and Scenarios
+- Support for 4.9
+- Topology Stability
 - LAGS stability
-- Dashboard Cards
+- New Elasticsearch instance
 
 
 <BR>
@@ -44,7 +44,7 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.15 and 4.16 on:**
+> **❗The installation has been tested on OpenShift 4.16 on:**
 > 
 > - OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
 > - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
@@ -64,7 +64,7 @@
 # 0. Introduction
 ---------------------------------------------------------------
 
-The idea of this repo is to provide a optimised, complete, pre-trained `🐣 Demo-in-a-Box` environments for IBM IT Automation Solutions that are self-contained (e.g. can be deployed in only one cluster)
+The idea of this repo is to provide an optimised, complete, pre-trained `🐣 Demo-in-a-Box` environments for IBM IT Automation Solutions that are self-contained (e.g. can be deployed in only one cluster)
 
 <details>
 <summary>Details...</summary>
@@ -159,8 +159,9 @@ Basically:
 
 
 1. Get a temporary cluster from **Techzone**
-	- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software) or
 	- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
+	- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
+
 	- 4x worker nodes with **32 CPU / 128 GB**  ❗
 
 	- 3x worker nodes with **16 CPU / 64 GB**  for IBM Concert❗
@@ -168,7 +169,7 @@ Basically:
 
 	You **might** get away with less if you don't install some components but no guarantee.
 
-1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number
+1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number (Screenshots are slightly outdated and are different for the different TechZone offerings but the basic choices remain the same)
 
 	![K8s CNI](./doc/pics/roks05.png)
 
@@ -266,9 +267,9 @@ This installation contains:
 >    - **OpenLDAP** & Register with IBM AIOps
 >    - **AWX** (Open Source Ansible Tower) with preloaded Playbooks
 >    - **AI Models** - Load and Train 
->      - Create Training Definitions (TG, LAD, CR, SI. Turn off RSA) 
->      - Create Training Data (LAD, SNOW) 
->      - Train Models (TG, LAD, CR, SI) 
+>      - Create Training Definitions (TG, LAGS, CR, SI. Turn off RSA) 
+>      - Create Training Data (LAGS, SNOW) 
+>      - Train Models (TG, LAGS, CR, SI) 
 >    - **Topology**
 >      - RobotShop Demo App
 >      - SockShop Demo App
@@ -303,7 +304,7 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/00_INSTALL_IBM_AIOPS.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 69 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 82, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 92)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 89)
 3. Click `Create`
@@ -659,7 +660,7 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
 3. Click `Create`
 
@@ -737,7 +738,7 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
 3. Enter your Turbonomic License on line 69
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 72)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 69)
 3. Click `Create`
@@ -816,7 +817,7 @@ This installation contains:
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
 3. Enter your Turbonomic License on lines 142/143
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, do NOT use the "-" character)
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
 3. Click `Create`

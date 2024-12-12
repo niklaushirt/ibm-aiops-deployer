@@ -63,16 +63,16 @@ metadata:
   name: troubleshoot-1-1-create-missing-lags-training
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     metadata:
       labels:
         app: ibm-installer
     spec:
-      serviceAccountName: ibm-installer-admin
+      serviceAccount: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -253,7 +253,7 @@ spec:
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📶 Stream Data "
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              ./training/load-gs-logs-kafka_date.sh
+              ./training/load-gs-logs-kafka_date-new.sh
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    ⏳ Wait 5 minutes"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"

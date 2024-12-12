@@ -76,7 +76,7 @@ spec:
             name:  ibm-aiops-simulation-config-logs
         - configMapRef:
             name:  ibm-aiops-simulation-config-metrics
-      serviceAccountName: ibm-aiops-experimental-admin
+      serviceAccount: ibm-aiops-experimental-admin
 ---
 apiVersion: v1
 kind: Service

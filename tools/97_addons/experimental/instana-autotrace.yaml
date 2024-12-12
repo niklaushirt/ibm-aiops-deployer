@@ -135,7 +135,7 @@ spec:
         instana-autotrace-ignore: "true"
     spec:
 
-      serviceAccountName: instana-autotrace-webhook
+      serviceAccount: instana-autotrace-webhook
       securityContext:
       imagePullSecrets:
         - name: instana-registry

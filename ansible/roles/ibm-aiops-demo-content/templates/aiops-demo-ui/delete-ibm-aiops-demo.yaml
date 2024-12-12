@@ -110,7 +110,7 @@ spec:
               EOF
 
       restartPolicy: Never
-      serviceAccountName: demo-ui-admin
+      serviceAccount: demo-ui-admin
   backoffLimit: 500
 ---
 apiVersion: apps/v1

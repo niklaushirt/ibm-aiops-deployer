@@ -63,12 +63,12 @@ metadata:
   name: aiops-delete-toloplogy
   namespace: ibm-installer
 spec:
-  serviceAccountname: ibm-installer-admin
+  serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -97,7 +97,7 @@ spec:
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               oc project $AIOPS_NAMESPACE
 
-              while true; do oc port-forward statefulset/iaf-system-elasticsearch-es-aiops 9200; done &
+              while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done &
 
 
               oc scale deployment -l release=aiops-topology -n $AIOPS_NAMESPACE --replicas=0

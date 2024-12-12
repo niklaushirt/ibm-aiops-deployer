@@ -4,12 +4,12 @@ metadata:
   name: troubleshoot-1-4-run-metrics-training
   namespace: ibm-installer
 spec:
-  serviceAccountName: demo-admin
+  serviceAccount: demo-admin
   template:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.2
+          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:

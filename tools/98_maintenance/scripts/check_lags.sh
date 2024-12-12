@@ -26,9 +26,9 @@ echo "   -----------------------------------------------------------------------
 echo "   🔎  Get ES Authentication"	
 echo "   ------------------------------------------------------------------------------------------------------------------------------"
 
-export username=$(oc exec -c elasticsearch -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/username')	
-export password=$(oc exec -c elasticsearch -n $AIOPS_NAMESPACE -it iaf-system-elasticsearch-es-aiops-0 -- bash -c 'cat /usr/share/elasticsearch/config/user/password')	
-
+export username=elastic
+export password=$(oc get secret $(oc get secrets | grep aiops-ibm-elasticsearch-creds | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.elastic}"| base64 --decode)	
+#echo $username:$password
 
 echo "           ES User        : $username"
 echo "           ES Password    : $password"

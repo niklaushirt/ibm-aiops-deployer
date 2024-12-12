@@ -74,7 +74,7 @@ spec:
         envFrom:
         - configMapRef:
             name:  ibm-aiops-simulation-config
-      serviceAccountName: ibm-aiops-experimental-admin
+      serviceAccount: ibm-aiops-experimental-admin
 ---
 apiVersion: v1
 kind: Service
