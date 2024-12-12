@@ -16,7 +16,7 @@
 
 ## Changelog
 
-- Support for 4.9
+- Support for 4.8
 - Topology Stability
 - LAGS stability
 - New Elasticsearch instance
