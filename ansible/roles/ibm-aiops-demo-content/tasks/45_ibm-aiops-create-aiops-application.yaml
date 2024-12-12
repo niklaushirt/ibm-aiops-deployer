@@ -563,26 +563,8 @@
       "includeStatus": true,
       "includeEdges": true
     }'
-
-        curl -XGET -k \
-    https://aiops-topology-topology-ibm-aiops.apps.itz-ba4byf.osv.techzone.ibm.com/1.0/topology/mgmt_artifacts/N5LPjaBKQVaaMHBGn2Oblw \
-    -H 'accept: application/json' \
-    -H 'content-type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -u $LOGIN 
-  
-
- curl -XGET -k \
-    https://aiops-topology-topology-ibm-aiops.apps.itz-ba4byf.osv.techzone.ibm.com/1.0/topology/mgmt_artifacts/ \
-    -H 'accept: application/json' \
-    -H 'content-type: application/json' \
-    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-    -u $LOGIN
-
-
-
-
-
+       
+       
   register: output_string
   ignore_errors: true
   args:
