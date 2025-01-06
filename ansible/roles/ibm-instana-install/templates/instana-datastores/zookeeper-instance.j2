@@ -8,10 +8,11 @@ spec:
   replicas: {{current_feature.instana_backend_scale  | default(3)}}
   image:
     repository: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/zookeeper
-    tag: 3.8.3_v0.12.0
+    tag: 3.8.4_v0.14.0
   pod:
     imagePullSecrets: [name: "instana-registry"]
-    serviceAccount: "zookeeper"
+    serviceAccount: "zookeeper-operator"
+    serviceAccountName: "zookeeper-operator"
     # Add the following securityContext snippet for Kubernetes offerings other than OCP.
     # securityContext:
     #   runAsUser: 1000
