@@ -99,6 +99,14 @@ data:
       password: myvspherepassword
       enabled: true
       poll_rate: 20 # metrics poll rate in seconds
+    com.instana.plugin.turbonomic:
+      enabled: true
+      host: 'nginx-turbonomic.apps.itz-SERVERID.osv.techzone.ibm.com'  # Turbonomic Server Host or IP address
+      target: 'dev-aiops.apps.itz-SERVERID.osv.techzone.ibm.com' # Name of the target (Instana Server) as configured in Turbonomic
+      auth:
+        username: administrator
+        password: YOUR_PASSWORD
+
 ---
 # TODO: Combine into single template with agent-daemonset-with-zones.yaml---
 apiVersion: apps/v1
