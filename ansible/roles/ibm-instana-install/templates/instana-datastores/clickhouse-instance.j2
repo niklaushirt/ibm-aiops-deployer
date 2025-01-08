@@ -90,9 +90,11 @@ spec:
       max_table_size_to_drop: 0
       max_partition_size_to_drop: 0
     users:
-      default/password: "clickhouse-default-pass"
+      default/password_sha256_hex: "7d49d505d75b08cbfd1ad38d205f06a8f50d164a2f1e5c3dca0c985874897a05"
       clickhouse-user/networks/ip: "::/0"
-      clickhouse-user/password: "clickhouse-pass"
+      # clickhouse-user/password: "clickhouse-pass"
+      # Cleartext HmiI9DgEgrHVmjnS
+      clickhouse-user/password_sha256_hex: "7d49d505d75b08cbfd1ad38d205f06a8f50d164a2f1e5c3dca0c985874897a05"
       # Or
       # Generate password and the corresponding SHA256 hash with:
       # $ PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'

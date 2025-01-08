@@ -66,7 +66,11 @@ metadata:
 data:
   cluster_name: "DemoCluster"
   configuration.yaml: |
-    # Empty
+    com.instana.plugin.opentelemetry: 
+      grpc:
+        enabled: true
+      http:
+        enabled: true
     
   configuration-disable-kubernetes-sensor.yaml: |
     com.instana.plugin.kubernetes:
