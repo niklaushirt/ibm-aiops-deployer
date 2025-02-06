@@ -3,7 +3,7 @@ podman machine start
 
 podman login quay.io -u niklaushirt@gmail.com
 
-export CONT_VERSION=4.7.1
+export CONT_VERSION=4.8.0
 podman buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load -f=Containerfile_small
 podman push quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 

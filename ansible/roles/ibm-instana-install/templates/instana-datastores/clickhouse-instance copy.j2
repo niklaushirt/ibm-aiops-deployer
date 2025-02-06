@@ -56,8 +56,7 @@ spec:
           shard: None
     zookeeper:
       nodes:
-       # - host: instana-zookeeper-clickhouse-headless.instana-datastores
-      - host: clickhouse-keeper-headless.instana-datastores  #if you use ClickhouseKeeper
+        - host: instana-zookeeper-clickhouse-headless.instana-datastores
     profiles:
       default/max_memory_usage: 10000000000 # If memory limits are set, this value must be adjusted according to the limits.
       default/joined_subquery_requires_alias: 0
@@ -75,7 +74,6 @@ spec:
       default/log_query_views: 1
       default/max_threads: 16
       default/allow_experimental_database_replicated: 1
-      default/allow_experimental_analyzer: 0
     quotas:
       default/interval/duration: 3600
       default/interval/queries: 0
@@ -91,11 +89,9 @@ spec:
       max_table_size_to_drop: 0
       max_partition_size_to_drop: 0
     users:
-      default/password_sha256_hex: "7d49d505d75b08cbfd1ad38d205f06a8f50d164a2f1e5c3dca0c985874897a05"
+      default/password: "clickhouse-default-pass"
       clickhouse-user/networks/ip: "::/0"
-      # clickhouse-user/password: "clickhouse-pass"
-      # Cleartext HmiI9DgEgrHVmjnS
-      clickhouse-user/password_sha256_hex: "7d49d505d75b08cbfd1ad38d205f06a8f50d164a2f1e5c3dca0c985874897a05"
+      clickhouse-user/password: "clickhouse-pass"
       # Or
       # Generate password and the corresponding SHA256 hash with:
       # $ PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
@@ -114,7 +110,7 @@ spec:
         spec:
           containers:
             - name: instana-clickhouse
-              image: artifact-public.instana.io/clickhouse-openssl:24.3.12.75-1-lts-ibm
+              image: artifact-public.instana.io/clickhouse-openssl:23.8.9.54-1-lts-ibm
               command:
                 - clickhouse-server
                 - --config-file=/etc/clickhouse-server/config.xml
@@ -122,7 +118,7 @@ spec:
                 - mountPath: /var/lib/clickhouse-cold/
                   name: instana-clickhouse-data-cold-volume
             - name: clickhouse-log
-              image: artifact-public.instana.io/clickhouse-openssl:24.3.12.75-1-lts-ibm
+              image: artifact-public.instana.io/clickhouse-openssl:23.8.9.54-1-lts-ibm
               args:
                 - while true; do sleep 30; done;
               command:

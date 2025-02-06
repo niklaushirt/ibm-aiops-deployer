@@ -66,11 +66,42 @@ metadata:
 data:
   cluster_name: "DemoCluster"
   configuration.yaml: |
-    com.instana.plugin.opentelemetry: 
-      grpc:
-        enabled: true
-      http:
-        enabled: true
+    # Host
+    com.instana.plugin.host:
+      collectInstalledSoftware: true 
+      tags:
+        - 'dev'
+        - 'aiops'
+        - 'openshift'
+    com.instana.plugin.azure:
+      enabled: true
+      subscription: YourSubscriptionID
+      tenant: YourDirectoryTenantID
+      principals:
+        - id: YourApplicationClientID
+          secret: YourSecretValue
+    com.instana.plugin.action:
+      enabled: true # by default is false
+    com.instana.plugin.action.script:
+      enabled: true # by default is false
+      # runAs: 'root'
+      scriptExecutionHome: '/tmp' # The path used for action script executions.
+    com.instana.plugin.action.http:
+      enabled: true # by default is false
+      maxConcurrentActions: 5  # optional, default value is 10
+    com.instana.plugin.vsphere:
+      host: https://myvsphere/sdk
+      username: administrator@myvsphere.com
+      password: myvspherepassword
+      enabled: true
+      poll_rate: 20 # metrics poll rate in seconds
+    com.instana.plugin.turbonomic:
+      enabled: true
+      host: 'nginx-turbonomic.{{BASE_DOMAIN}}'  # Turbonomic Server Host or IP address
+      target: 'dev-aiops.apps.{{BASE_DOMAIN}}' # Name of the target (Instana Server) as configured in Turbonomic
+      auth:
+        username: administrator
+        password: YOUR_PASSWORD
     
   configuration-disable-kubernetes-sensor.yaml: |
     com.instana.plugin.kubernetes:

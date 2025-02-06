@@ -13,10 +13,9 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres
-  namespace: instana-datastores
 spec:
   instances: {{current_feature.instana_backend_scale  | default(3)}}
-  imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.6.0
+  imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.9.0
   imagePullPolicy: IfNotPresent
   imagePullSecrets:
     - name: instana-registry
