@@ -844,29 +844,94 @@
 
 
 
+
+
+
 - name: 🚀 TURBONOMIC - Create SyntheticMetricsHelloWorld
   shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 📥 Create Hello Metrics"
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
-        "uuid": "74709421524256",
-        "displayName": "SyntheticMetricsHelloWorld",
-        "category": "Custom",
-        "inputFields": [
-          {
-            "name": "Name",
-            "value": "Hello"
+    
+    cat <<EOF | oc apply -f -
+    ---
+    # Source: turbodif/templates/configmap.yaml
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: turbodif-config-turbodif-helloworld
+      namespace: turbonomic
+    data:
+      turbodif-config.json: |-
+        {
+          "communicationConfig": {
+            "serverMeta": {
+              "version": "8.15.1",
+              "turboServer": "https://nginx-turbonomic.apps.itz-jdly7v.osv.techzone.ibm.com"
+            },
+            "restAPIConfig": {
+              "opsManagerUserName": "administrator",
+              "opsManagerPassword": "P4ssw0rd!"
+            }
           },
-          {
-            "name": "targetIdentifier",
-            "value": "http://turbo-metrics-dif-service.turbonomic:3000/helloworld"
+          "targetConfig": {
+            "targetName": "SyntheticMetricsHelloWorld",
+            "targetAddress": "http://turbo-metrics-dif-service.turbonomic:3000/helloworld"
           }
-        ],
-        "type": "DataIngestionFramework-Turbonomic",
-        "readonly": false
-      }')
+        }
 
-    echo $result
+    ---
+    # Source: turbodif/templates/deployment.yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: turbodif-helloworld
+      namespace: turbonomic-helloworld
+      labels:
+        app.kubernetes.io/name: turbodif-helloworld
+        helm.sh/chart: turbodif-1.0.0
+        app.kubernetes.io/instance: turbodif-helloworld
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: turbodif-helloworld
+          app.kubernetes.io/instance: turbodif-helloworld
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: turbodif-helloworld
+            app.kubernetes.io/instance: turbodif-helloworld
+        spec:
+          containers:
+            - name: turbodif-helloworld
+              image: cp.icr.io/cpopen/turbonomic/turbodif:8.15.1
+              imagePullPolicy: IfNotPresent
+              args:
+                - --v=2
+                - --discovery-interval-sec=600
+              volumeMounts:
+              - name: turbodif-config
+                mountPath: /etc/turbodif
+                readOnly: true
+              - name: turbonomic-credentials-volume
+                mountPath: /etc/turbonomic-credentials
+                readOnly: true
+              - name: varlog
+                mountPath: /var/log
+          volumes:
+          - name: turbodif-config
+            configMap:
+              name: turbodif-config-turbodif-helloworld
+          - name: turbonomic-credentials-volume
+            secret:
+              defaultMode: 420
+              optional: true
+              secretName: "turbonomic-credentials"
+          - name: varlog
+            emptyDir: {}
+          restartPolicy: Always
+    EOF
     echo ""
     echo ""
   ignore_errors: true
@@ -889,26 +954,90 @@
     echo " 📥 Create RobotShop Metrics"
     export robotshopUUID=$(curl -XGET -s -k "https://{{TURBO_URL}}/api/v3/topologydefinitions" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json'|jq -r '.[]|select(.displayName=="RobotShopSynthetic").uuid')
 
-    result=$(curl -XPOST -s -k "https://{{TURBO_URL}}/api/v3/targets" -b /tmp/cookies  -H 'Content-Type: application/json;' -H 'accept: application/json' -d '{
-        "uuid": "74709422922224",
-        "displayName": "SyntheticMetricsRobotShop",
-        "category": "Custom",
-        "inputFields": [
-          {
-            "name": "Name",
-            "value": "RobotShopSynthetic"
-          },
-          {
-            "name": "targetIdentifier",
-            "value": "http://turbo-metrics-dif-service.turbonomic:3000/businessApplication/RobotShopSynthetic/'$robotshopUUID'"
-          }
-        ],
-        "type": "DataIngestionFramework-Turbonomic",
-        "readonly": false
-        }
-      }')
 
-    echo $result
+    cat <<EOF | oc apply -f -
+    ---
+    # Source: turbodif/templates/configmap.yaml
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: turbodif-config-turbodif
+      namespace: turbonomic
+    data:
+      turbodif-config.json: |-
+        {
+          "communicationConfig": {
+            "serverMeta": {
+              "version": "8.15.1",
+              "turboServer": "https://nginx-turbonomic.apps.itz-jdly7v.osv.techzone.ibm.com"
+            },
+            "restAPIConfig": {
+              "opsManagerUserName": "administrator",
+              "opsManagerPassword": "P4ssw0rd!"
+            }
+          },
+          "targetConfig": {
+            "targetName": "RobotShopSynthetic",
+            "targetAddress": "http://turbo-metrics-dif-service.turbonomic:3000/businessApplication/RobotShopSynthetic/$robotshopUUID"
+          }
+        }
+
+    ---
+    # Source: turbodif/templates/deployment.yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: turbodif
+      namespace: turbonomic
+      labels:
+        app.kubernetes.io/name: turbodif
+        helm.sh/chart: turbodif-1.0.0
+        app.kubernetes.io/instance: turbodif
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: turbodif
+          app.kubernetes.io/instance: turbodif
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: turbodif
+            app.kubernetes.io/instance: turbodif
+        spec:
+          containers:
+            - name: turbodif
+              image: cp.icr.io/cpopen/turbonomic/turbodif:8.15.1
+              imagePullPolicy: IfNotPresent
+              args:
+                - --v=2
+                - --discovery-interval-sec=600
+              volumeMounts:
+              - name: turbodif-config
+                mountPath: /etc/turbodif
+                readOnly: true
+              - name: turbonomic-credentials-volume
+                mountPath: /etc/turbonomic-credentials
+                readOnly: true
+              - name: varlog
+                mountPath: /var/log
+          volumes:
+          - name: turbodif-config
+            configMap:
+              name: turbodif-config-turbodif
+          - name: turbonomic-credentials-volume
+            secret:
+              defaultMode: 420
+              optional: true
+              secretName: "turbonomic-credentials"
+          - name: varlog
+            emptyDir: {}
+          restartPolicy: Always
+
+
+    EOF
+
     echo ""
     echo ""
   ignore_errors: true
