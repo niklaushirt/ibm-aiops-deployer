@@ -24,8 +24,8 @@
     echo "    LOGIN:        $LOGIN"
     echo "    LOGIN_TOKEN:  $LOGIN_TOKEN"
 
-    kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/backup_ui_config -out backup.json
-    kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
+    kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'|head -1) -- /opt/ibm/graph.tools/bin/backup_ui_config -out backup.json
+    kubectl cp -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'|head -1):/opt/ibm/netcool/asm/data/tools/backup.json ./backup.json
     #open ./backup.json
 
     echo "Upload Topology Customization"
@@ -45,12 +45,12 @@
     cat /tmp/asm_config.json | grep MY_
 open /tmp/asm_config.json 
 
-    kubectl cp /tmp/asm_config.json -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'):/opt/ibm/netcool/asm/data/tools/asm_config.json 
+    kubectl cp /tmp/asm_config.json -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'|head -1):/opt/ibm/netcool/asm/data/tools/asm_config.json 
     
 
     echo "Import Topology Customization"
-    #kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- find /opt/ibm/netcool/asm/data/tools/
-    kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}') -- /opt/ibm/graph.tools/bin/import_ui_config -file asm_config.json
+    #kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'|head -1) -- find /opt/ibm/netcool/asm/data/tools/
+    kubectl exec -ti -n $AIOPS_NAMESPACE $(oc get po -n $AIOPS_NAMESPACE|grep topology-topology|awk '{print$1}'|head -1) -- /opt/ibm/graph.tools/bin/import_ui_config -file asm_config.json
 
 
 
