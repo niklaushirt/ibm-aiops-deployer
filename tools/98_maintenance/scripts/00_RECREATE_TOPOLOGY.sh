@@ -458,34 +458,50 @@
         "providers": ["*"]
     }'
 
-    echo "  Create Merge RULE... MergeTokenDeployName"
+    echo "  Create Merge RULE... MergeTokenDeployNameRobotShop"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
         -d $'{
-        "name": "MergeTokenDeployName",
+        "name": "MergeTokenDeployNameRobotShop",
         "ruleType": "mergeRule",
         "entityTypes": ["deployment","statefulset","container"],
         "tokens": ["name"],
         "ruleStatus": "enabled",
         "observers": ["*"],
-        "providers": ["*"]
+        "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
     }'
 
-    echo "  Create Match RULE... MergeTokenDeployName"
+    echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDRobotShop"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
         -d $'{
-        "name": "MatchTokenNetworkinterfacesID",
+        "name": "MergeTokenNetworkinterfacesIDRobotShop",
         "ruleType": "mergeRule",
         "entityTypes": ["networkinterface"],
         "tokens": ["uniqueId"],
         "ruleStatus": "enabled",
         "observers": ["*"],
-        "providers": ["*"]
+        "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
+    }'
+
+
+    echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDSockShop"
+    curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
+        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+        -H 'content-type: application/json' \
+        -u $LOGIN \
+        -d $'{
+        "name": "MergeTokenNetworkinterfacesIDSockShop",
+        "ruleType": "mergeRule",
+        "entityTypes": ["networkinterface"],
+        "tokens": ["uniqueId"],
+        "ruleStatus": "enabled",
+        "observers": ["*"],
+        "providers": ["FILE.OBSERVER:sock-shop-file.txt"]
     }'
 
     echo "  Disable RULE k8ServiceName..."

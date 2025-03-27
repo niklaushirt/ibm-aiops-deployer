@@ -44,13 +44,13 @@ curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
      -H 'content-type: application/json' \
      -u $LOGIN \
      -d $'{
-     "name": "MergeTokenDeployName",
+     "name": "MergeTokenDeployNameRobotShop",
     "ruleType": "mergeRule",
     "entityTypes": ["deployment"],
     "tokens": ["name"],
     "ruleStatus": "enabled",
     "observers": ["*"],
-    "providers": ["*"]
+    "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
 }'
 
 

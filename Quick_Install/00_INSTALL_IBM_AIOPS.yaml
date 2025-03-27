@@ -99,8 +99,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
-      current_supported_aiops_version: v4.8
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:1652f745216637eed1f25eddab55181d8b55538c56f5c427a7122d61d467b23e
+      current_supported_aiops_version: v4.9
 
 
 
@@ -180,7 +180,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.8
+        subscription_channel: v4.9
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
 
@@ -210,7 +210,7 @@ data:
         case_install: false
         case_github_url: "https://github.com/IBM/cloud-pak/raw/master/repo/case"
         case_name: ibm-cp-waiops
-        case_version: 1.13.1
+        case_version: 1.15.0
         case_inventory_setup: cpaiopsSetup
 
 

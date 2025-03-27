@@ -558,8 +558,7 @@
     -u $LOGIN \
       -d '{
       "transactionLength": 1000,
-      "includeHistory": false,
-      "broadcastIds": "uhRAaLQ7TIGYMZ3RkvQovg",
+      "includeHistory": true,
       "includeStatus": true,
       "includeEdges": true
     }'
