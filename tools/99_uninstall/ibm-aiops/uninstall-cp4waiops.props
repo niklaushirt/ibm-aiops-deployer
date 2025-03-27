@@ -16,7 +16,7 @@
 CP4WAIOPS_PROJECT="ibm-aiops"
 
 # Set the name of installation custom resource (CR) to delete. You can leave this blank if you've already deleted the installation CR.
-INSTALLATION_NAME="ibm-cp-watson-aiops"
+INSTALLATION_NAME="ibm-aiops"
 
 # If true, this will delete all of the resources created by CP4AIOps (see uninstall-cp4waiops-resource-groups.props).
 # This includes CustomResourceDefinitions (CRDs) which will affect all instances of AIOps on the cluster and may affect other
