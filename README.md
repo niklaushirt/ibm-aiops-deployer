@@ -221,7 +221,7 @@ Those scripts have been tested thoroughly on different environments and have pro
 
 If you think that you hit a problem:
 
-* If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/98_maintenance/troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. If not, please [re-run the installer Pod](#re-run-the-installer).
+* If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/00_troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. If not, please [re-run the installer Pod](#re-run-the-installer).
 * Make sure that you have provisioned a cluster with **4 worker nodes with 32 CPU and 128 GB** each. If you have Pods in `0/0` state verify the `Events`. If you get `Not enough CPU` then delete the cluster and provision the correct size.
 * If you want to install IBM AIOps and Turbonomic you **must** select **5 worker nodes with 32 CPU and 128 GB**
 * The complete installation takes about 1.5 to 8 hours depending on your region where and the platform you deployed to.
@@ -1361,7 +1361,7 @@ data:
 <summary>📥 CP4AIOPS Base installation Failing at 10-20 pods</summary>
 
 
-If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state in the `ibm-aiops` Namespace, verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/98_maintenance/troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. 
+If you have provisioned a cluster with `Managed NFS 2TB` and you have Pods in `0/0` state in the `ibm-aiops` Namespace, verify the `nfs-provisioner` Pod is running. If not (this is a bug in Techzone) please apply `./tools/00_troubleshooting/nfs-provisioner.yaml`. The installation should subsequently continue. 
 If not, please [re-run the installer Pod](#re-run-the-installer).
 
 </details>
@@ -1373,7 +1373,7 @@ If not, please [re-run the installer Pod](#re-run-the-installer).
 
 If your CP4AIPS installtion gets stuck at 60-90 Pods in the `ibm-aiops` Namespace, there is not much I can do to help - this is not a problem with the scripts!
 
-✅ Please [try this YAML](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/98_maintenance/troubleshooting/CP4AIOPS_INSTALL_HACK.yaml)
+✅ Please [try this YAML](https://github.com/niklaushirt/ibm-aiops-deployer/blob/main/tools/00_troubleshooting/CP4AIOPS_INSTALL_HACK.yaml)
 
 </details>
 
