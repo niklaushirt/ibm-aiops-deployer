@@ -473,13 +473,13 @@
         "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
     }'
 
-    echo "  Create Match RULE... MatchTokenNetworkinterfacesIDRobotShop"
+    echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDRobotShop"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
         -d $'{
-        "name": "MatchTokenNetworkinterfacesIDRobotShop",
+        "name": "MergeTokenNetworkinterfacesIDRobotShop",
         "ruleType": "mergeRule",
         "entityTypes": ["networkinterface"],
         "tokens": ["uniqueId"],
@@ -489,13 +489,13 @@
     }'
 
 
-    echo "  Create Match RULE... MatchTokenNetworkinterfacesIDSockShop"
+    echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDSockShop"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
         -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
         -H 'content-type: application/json' \
         -u $LOGIN \
         -d $'{
-        "name": "MatchTokenNetworkinterfacesIDSockShop",
+        "name": "MergeTokenNetworkinterfacesIDSockShop",
         "ruleType": "mergeRule",
         "entityTypes": ["networkinterface"],
         "tokens": ["uniqueId"],

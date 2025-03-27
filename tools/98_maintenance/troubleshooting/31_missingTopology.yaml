@@ -63,7 +63,6 @@ metadata:
   name: troubleshoot-3-1-create-missing-topology
   namespace: ibm-installer
 spec:
-  serviceAccount: ibm-installer-admin
   template:
     metadata:
       labels:
@@ -86,7 +85,8 @@ spec:
             - -c
             - |
               #!/bin/bash
-              #set -x
+              set +x
+
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
               echo "                                                                                                                                                   "
@@ -119,7 +119,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE K8S OBSERVER ROBOT SHOP
-              # set -x
+              # set +x
 
               # export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               # echo "Creating K8s Observer"
@@ -204,79 +204,79 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE K8S OBSERVER SOCK SHOP
-              set -x
+              # set +x
 
-              export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-              echo "Creating K8s Observer"
-
-
-              # Create Route
-              oc create route passthrough aiops-topology-kubernetes-observer -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
-
-              # Get Credentials
-              export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
-              export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
-              export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
-
-              export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-kubernetes-observer -o jsonpath={.spec.host})
-
-              echo "  URL: $TOPO_ROUTE"
-              echo "  LOGIN: $LOGIN"
-
-              echo "Getting local K8s API"
-
-              API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
-              if [[ $API_TOKEN == "" ]];
-              then    
-                echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
-                API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
-              fi
-              API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
-              API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
-              API_PORT=$(echo $API_URL| cut -d ":" -f 3)
-
-              echo "            🌏 API URL:               $API_URL"
-              echo "            🌏 API SERVER:            $API_SERVER"
-              echo "            🌏 API PORT:              $API_PORT"
-              echo "            🔐 API Token:             $API_TOKEN"
-
-              echo ""
-              echo "Creating OBSERVER"
+              # export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+              # echo "Creating K8s Observer"
 
 
-              curl -k -X POST "$TOPO_ROUTE/1.0/kubernetes-observer/jobs/load" --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' --header 'Accept: application/json' -u $LOGIN --header "Content-Type: application/json" \
-                -d "{
-                  \"unique_id\": \"demo-sock-shop\",
-                  \"type\": \"load\",
-                  \"description\": \"Automatically created by Nicks scripts\",
-                  \"parameters\": {
-                    \"data_center\": \"sock-shop\",
-                    \"master_ip\": \"$API_SERVER\",
-                    \"api_port\": \"$API_PORT\",
-                    \"token\": {
-                      \"hiddenString\": \"$API_TOKEN\",
-                      \"encrypted\": false
-                    },
-                    \"trust_all_certificate\": true,
-                    \"hide_terminated_pods\": false,
-                    \"connect_read_timeout_ms\": 5000,
-                    \"custom_resource_definitions\": [
-                      \"string\"
-                    ],
-                    \"role_token\": false,
-                    \"namespace\": \"sock-shop\",
-                    \"namespaceGroupParameters\": {
-                      \"correlate\": true
-                    }
-                  },
-                  \"schedule\": {
-                      \"interval\": null,
-                      \"units\": null,
-                      \"nextRunTime\": null
-                    },
-                  \"write_file_observer_file\": false,
-                  \"scheduleRequest\": true
-                }"
+              # # Create Route
+              # oc create route passthrough aiops-topology-kubernetes-observer -n $AIOPS_NAMESPACE --insecure-policy="Redirect" --service=aiops-topology-kubernetes-observer --port=https-kubernetes-observer-api
+
+              # # Get Credentials
+              # export TOPO_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+              # export TOPO_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+              # export LOGIN="$TOPO_REST_USR:$TOPO_REST_PWD"
+
+              # export TOPO_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-kubernetes-observer -o jsonpath={.spec.host})
+
+              # echo "  URL: $TOPO_ROUTE"
+              # echo "  LOGIN: $LOGIN"
+
+              # echo "Getting local K8s API"
+
+              # API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+              # if [[ $API_TOKEN == "" ]];
+              # then    
+              #   echo "  ❗ Demo User does not exist -  using expiring kubeadmin token"
+              #   API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+              # fi
+              # API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
+              # API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
+              # API_PORT=$(echo $API_URL| cut -d ":" -f 3)
+
+              # echo "            🌏 API URL:               $API_URL"
+              # echo "            🌏 API SERVER:            $API_SERVER"
+              # echo "            🌏 API PORT:              $API_PORT"
+              # echo "            🔐 API Token:             $API_TOKEN"
+
+              # echo ""
+              # echo "Creating OBSERVER"
+
+
+              # curl -k -X POST "$TOPO_ROUTE/1.0/kubernetes-observer/jobs/load" --header 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' --header 'Accept: application/json' -u $LOGIN --header "Content-Type: application/json" \
+              #   -d "{
+              #     \"unique_id\": \"demo-sock-shop\",
+              #     \"type\": \"load\",
+              #     \"description\": \"Automatically created by Nicks scripts\",
+              #     \"parameters\": {
+              #       \"data_center\": \"sock-shop\",
+              #       \"master_ip\": \"$API_SERVER\",
+              #       \"api_port\": \"$API_PORT\",
+              #       \"token\": {
+              #         \"hiddenString\": \"$API_TOKEN\",
+              #         \"encrypted\": false
+              #       },
+              #       \"trust_all_certificate\": true,
+              #       \"hide_terminated_pods\": false,
+              #       \"connect_read_timeout_ms\": 5000,
+              #       \"custom_resource_definitions\": [
+              #         \"string\"
+              #       ],
+              #       \"role_token\": false,
+              #       \"namespace\": \"sock-shop\",
+              #       \"namespaceGroupParameters\": {
+              #         \"correlate\": true
+              #       }
+              #     },
+              #     \"schedule\": {
+              #         \"interval\": null,
+              #         \"units\": null,
+              #         \"nextRunTime\": null
+              #       },
+              #     \"write_file_observer_file\": false,
+              #     \"scheduleRequest\": true
+              #   }"
 
 
 
@@ -295,7 +295,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE BUSINESS CRITICALITIES
-              set -x
+              set +x
                   
               echo "Create CREATE BUSINESS CRITICALITIES"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -422,7 +422,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE MERGE RULES
-              set -x
+              set +x
 
               echo "Create Rules - Starting..."
 
@@ -444,21 +444,7 @@ spec:
               echo "  Wait 5 seconds"
               sleep 5
 
-              echo "  Create Match RULE... MatchTokenDeployName"
-              curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
-                  -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-                  -H 'content-type: application/json' \
-                  -u $LOGIN \
-                  -d $'{
-                  "name": "MatchTokenDeployName",
-                  "ruleType": "matchTokensRule",
-                  "entityTypes": ["deployment"],
-                  "tokens": ["name"],
-                  "ruleStatus": "enabled",
-                  "observers": ["*"],
-                  "providers": ["*"]
-              }'
-
+          
               echo "  Create Merge RULE... MergeTokenDeployNameRobotShop"
               curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
                   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
@@ -474,13 +460,30 @@ spec:
                   "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
               }'
 
-              echo "  Create Match RULE... MatchTokenNetworkinterfacesIDRobotShop"
+
+              echo "  Create Merge RULE... MergeTokenDeployNameSockShop"
               curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
                   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
                   -H 'content-type: application/json' \
                   -u $LOGIN \
                   -d $'{
-                  "name": "MatchTokenNetworkinterfacesIDRobotShop",
+                  "name": "MergeTokenDeployNameSockShop",
+                  "ruleType": "mergeRule",
+                  "entityTypes": ["deployment","statefulset","container","router"],
+                  "tokens": ["name"],
+                  "ruleStatus": "enabled",
+                  "observers": ["*"],
+                  "providers": ["FILE.OBSERVER:sock-shop-file.txt", "KUBERNETES.OBSERVER:sock-shop"]
+              }'
+
+
+              echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDRobotShop"
+              curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
+                  -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+                  -H 'content-type: application/json' \
+                  -u $LOGIN \
+                  -d $'{
+                  "name": "MergeTokenNetworkinterfacesIDRobotShop",
                   "ruleType": "mergeRule",
                   "entityTypes": ["networkinterface"],
                   "tokens": ["uniqueId"],
@@ -490,13 +493,13 @@ spec:
               }'
 
 
-              echo "  Create Match RULE... MatchTokenNetworkinterfacesIDSockShop"
+              echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDSockShop"
               curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
                   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
                   -H 'content-type: application/json' \
                   -u $LOGIN \
                   -d $'{
-                  "name": "MatchTokenNetworkinterfacesIDSockShop",
+                  "name": "MergeTokenNetworkinterfacesIDSockShop",
                   "ruleType": "mergeRule",
                   "entityTypes": ["networkinterface"],
                   "tokens": ["uniqueId"],
@@ -504,6 +507,23 @@ spec:
                   "observers": ["*"],
                   "providers": ["FILE.OBSERVER:sock-shop-file.txt"]
               }'
+
+
+              echo "  Create Match RULE... MatchTokenDeployName"
+              curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
+                  -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+                  -H 'content-type: application/json' \
+                  -u $LOGIN \
+                  -d $'{
+                  "name": "MatchTokenDeployName",
+                  "ruleType": "matchTokensRule",
+                  "entityTypes": ["deployment"],
+                  "tokens": ["name"],
+                  "ruleStatus": "enabled",
+                  "observers": ["*"],
+                  "providers": ["*"]
+              }'
+
 
               echo "  Disable RULE k8ServiceName..."
 
@@ -582,7 +602,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - LOAD TOPOLOGY CONFIGURATION
-              set -x
+              set +x
 
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
@@ -662,7 +682,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ROBOTSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -687,7 +707,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ROBOTSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -736,7 +756,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD SOCKSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -760,7 +780,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY SOCKSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -807,7 +827,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -833,7 +853,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -880,7 +900,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -905,7 +925,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -948,7 +968,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE LONDON UNDERGROUND
-              set -x
+              set +x
 
                 export TOPOLOGY_NAME=london-underground
                 cd ansible
@@ -1433,7 +1453,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES RobotShop
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1527,7 +1547,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES SOCK
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1621,7 +1641,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES ACME
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1715,7 +1735,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES TELCO
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1812,7 +1832,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION ROBOT SHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2006,7 +2026,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION SOCK SHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2189,7 +2209,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2304,7 +2324,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2390,7 +2410,6 @@ spec:
               # # CREATE EDGES
               # # -------------------------------------------------------------------------------------------------------------------------------------------------
 
-
               echo "  Add Template (File Observer) Resources"
               curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
               -u $LOGIN \
@@ -2403,6 +2422,46 @@ spec:
 
 
 
+              # --------------------------------------------------------------------------------------------------------------------------------------
+              # TOPOLOGY - REBROADCAST
+              # --------------------------------------------------------------------------------------------------------------------------------------
+
+              echo "REBROADCAST"
+              export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+
+              export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+              export TOPOLOGY_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+              # oc create route passthrough topology-manage -n $AIOPS_NAMESPACE --service=aiops-topology-topology --port=https-topology-api
+              export TOPO_MGT_ROUTE="https://"$(oc get route -n $AIOPS_NAMESPACE aiops-topology-topology -o jsonpath={.spec.host})
+
+          
+              export LOGIN="$TOPOLOGY_REST_USR:$TOPOLOGY_REST_PWD"
+
+              echo "    URL: $TOPO_MGT_ROUTE/1.0/topology/metadata"
+              echo "    LOGIN: $LOGIN"
+
+              curl -XPOST -k \
+              "$TOPO_MGT_ROUTE/1.0/topology/crawlers/rebroadcast" \
+              -H 'accept: application/json' \
+              -H 'content-type: application/json' \
+              -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+              -u $LOGIN \
+                -d '{
+                "transactionLength": 1000,
+                "includeHistory": true,
+                "includeStatus": true,
+                "includeEdges": true
+              }'
+
+
+
+
+
+
+
+              echo "*****************************************************************************************************************************"
+              echo " ✅ DONE"
+              echo "*****************************************************************************************************************************"
 
 
 
