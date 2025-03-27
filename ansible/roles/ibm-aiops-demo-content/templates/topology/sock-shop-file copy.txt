@@ -45,21 +45,21 @@ E:{"_fromUniqueId":"catalogue-db", "_toUniqueId":"dSwitch-5-vm-network-port-1","
 
 
 V:{"_operation":"InsertReplace","businessCriticality": "Platinum","uniqueId":"dcwest1-switch026","namespace": "sock-shop","matchTokens":["dcwest1-switch026"],"tags":["Network Topology","app:sockshop","namespace:sock-shop"],"name":"DCWest1-Switch026","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["router"]}
-V:{"_operation":"InsertReplace","businessCriticality": "Gold","uniqueId":"dSwitch-6-vm-network","namespace": "sock-shop","matchTokens":["dSwitch-6-vm-network"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["switch"]}
-V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-6-vm-network-port-1","namespace": "sock-shop","mergeTokens":["dSwitch-6-vm-network-port-1"],"matchTokens":["dSwitch-6-vm-network-port-1"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 1","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
-V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-6-vm-network-port-2","namespace": "sock-shop","mergeTokens":["dSwitch-6-vm-network-port-2"],"matchTokens":["dSwitch-6-vm-network-port-2"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 2","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
-V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-6-vm-network-port-3","namespace": "sock-shop","mergeTokens":["dSwitch-6-vm-network-port-3"],"matchTokens":["dSwitch-6-vm-network-port-3"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 3","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
+V:{"_operation":"InsertReplace","businessCriticality": "Gold","uniqueId":"dSwitch-7-vm-network","namespace": "sock-shop","matchTokens":["dSwitch-7-vm-network"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["switch"]}
+V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-7-vm-network-port-1","namespace": "sock-shop","mergeTokens":["dSwitch-7-vm-network-port-1"],"matchTokens":["dSwitch-7-vm-network-port-1"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 1","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
+V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-7-vm-network-port-2","namespace": "sock-shop","mergeTokens":["dSwitch-7-vm-network-port-2"],"matchTokens":["dSwitch-7-vm-network-port-2"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 2","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
+V:{"_operation":"InsertReplace","businessCriticality": "Silver","uniqueId":"dSwitch-7-vm-network-port-3","namespace": "sock-shop","mergeTokens":["dSwitch-7-vm-network-port-3"],"matchTokens":["dSwitch-7-vm-network-port-3"],"tags":["Network Topolgy","app:sockshop","namespace:sock-shop"],"name":"DSwitch 2 - VM Network Port 3","city":"Frankfurt", "area": "Bommersheim", "geolocation": {"geometry": {"coordinates": [8.59171,50.19291],"type": "Point"}}, "entityTypes":["networkinterface"]}
 
 E:{"_fromUniqueId":"dcwest1-switch026", "_toUniqueId":"DCWest1-Rack047","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"dSwitch-6-vm-network", "_toUniqueId":"dcwest1-switch026","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"dSwitch-6-vm-network", "_toUniqueId":"DCWest1-Rack047-DELL3773-vsphere","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"dSwitch-6-vm-network-port-1", "_toUniqueId":"dSwitch-6-vm-network","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"dSwitch-6-vm-network-port-2", "_toUniqueId":"dSwitch-6-vm-network","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"dSwitch-6-vm-network-port-3", "_toUniqueId":"dSwitch-6-vm-network","_edgeType":"dependsOn"}
-E:{"_fromUniqueId":"shipping-db", "_toUniqueId":"dSwitch-6-vm-network-port-1","_edgeType":"exposedBy"}
-E:{"_fromUniqueId":"orders-db", "_toUniqueId":"dSwitch-6-vm-network-port-2","_edgeType":"exposedBy"}
-E:{"_fromUniqueId":"users-db", "_toUniqueId":"dSwitch-6-vm-network-port-3","_edgeType":"exposedBy"}
-E:{"_fromUniqueId":"carts-db", "_toUniqueId":"dSwitch-6-vm-network-port-1","_edgeType":"exposedBy"}
+E:{"_fromUniqueId":"dSwitch-7-vm-network", "_toUniqueId":"dcwest1-switch026","_edgeType":"dependsOn"}
+E:{"_fromUniqueId":"dSwitch-7-vm-network", "_toUniqueId":"DCWest1-Rack047-DELL3773-vsphere","_edgeType":"dependsOn"}
+E:{"_fromUniqueId":"dSwitch-7-vm-network-port-1", "_toUniqueId":"dSwitch-7-vm-network","_edgeType":"dependsOn"}
+E:{"_fromUniqueId":"dSwitch-7-vm-network-port-2", "_toUniqueId":"dSwitch-7-vm-network","_edgeType":"dependsOn"}
+E:{"_fromUniqueId":"dSwitch-7-vm-network-port-3", "_toUniqueId":"dSwitch-7-vm-network","_edgeType":"dependsOn"}
+E:{"_fromUniqueId":"shipping-db", "_toUniqueId":"dSwitch-7-vm-network-port-1","_edgeType":"exposedBy"}
+E:{"_fromUniqueId":"orders-db", "_toUniqueId":"dSwitch-7-vm-network-port-2","_edgeType":"exposedBy"}
+E:{"_fromUniqueId":"users-db", "_toUniqueId":"dSwitch-7-vm-network-port-3","_edgeType":"exposedBy"}
+E:{"_fromUniqueId":"carts-db", "_toUniqueId":"dSwitch-7-vm-network-port-1","_edgeType":"exposedBy"}
 
 
 

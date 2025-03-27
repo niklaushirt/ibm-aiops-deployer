@@ -86,7 +86,8 @@ spec:
             - -c
             - |
               #!/bin/bash
-              #set -x
+              set +x
+
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
               echo "                                                                                                                                                   "
@@ -119,7 +120,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE K8S OBSERVER ROBOT SHOP
-              # set -x
+              # set +x
 
               # export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               # echo "Creating K8s Observer"
@@ -204,7 +205,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE K8S OBSERVER SOCK SHOP
-              set -x
+              set +x
 
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               echo "Creating K8s Observer"
@@ -295,7 +296,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE BUSINESS CRITICALITIES
-              set -x
+              set +x
                   
               echo "Create CREATE BUSINESS CRITICALITIES"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -422,7 +423,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE MERGE RULES
-              set -x
+              set +x
 
               echo "Create Rules - Starting..."
 
@@ -459,34 +460,50 @@ spec:
                   "providers": ["*"]
               }'
 
-              echo "  Create Merge RULE... MergeTokenDeployName"
+              echo "  Create Merge RULE... MergeTokenDeployNameRobotShop"
               curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
                   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
                   -H 'content-type: application/json' \
                   -u $LOGIN \
                   -d $'{
-                  "name": "MergeTokenDeployName",
+                  "name": "MergeTokenDeployNameRobotShop",
                   "ruleType": "mergeRule",
                   "entityTypes": ["deployment","statefulset","container","router"],
                   "tokens": ["name"],
                   "ruleStatus": "enabled",
                   "observers": ["*"],
-                  "providers": ["*"]
+                  "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
               }'
 
-              echo "  Create Match RULE... MatchTokenNetworkinterfacesID"
+              echo "  Create Match RULE... MatchTokenNetworkinterfacesIDRobotShop"
               curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
                   -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
                   -H 'content-type: application/json' \
                   -u $LOGIN \
                   -d $'{
-                  "name": "MatchTokenNetworkinterfacesID",
+                  "name": "MatchTokenNetworkinterfacesIDRobotShop",
                   "ruleType": "mergeRule",
                   "entityTypes": ["networkinterface"],
                   "tokens": ["uniqueId"],
                   "ruleStatus": "enabled",
                   "observers": ["*"],
-                  "providers": ["*"]
+                  "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
+              }'
+
+
+              echo "  Create Match RULE... MatchTokenNetworkinterfacesIDSockShop"
+              curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
+                  -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+                  -H 'content-type: application/json' \
+                  -u $LOGIN \
+                  -d $'{
+                  "name": "MatchTokenNetworkinterfacesIDSockShop",
+                  "ruleType": "mergeRule",
+                  "entityTypes": ["networkinterface"],
+                  "tokens": ["uniqueId"],
+                  "ruleStatus": "enabled",
+                  "observers": ["*"],
+                  "providers": ["FILE.OBSERVER:sock-shop-file.txt"]
               }'
 
               echo "  Disable RULE k8ServiceName..."
@@ -566,7 +583,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - LOAD TOPOLOGY CONFIGURATION
-              set -x
+              set +x
 
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
               export TOPOLOGY_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
@@ -646,7 +663,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ROBOTSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -671,7 +688,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ROBOTSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -720,7 +737,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD SOCKSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -744,7 +761,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY SOCKSHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -791,7 +808,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -817,7 +834,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -864,7 +881,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - COPY OVERLAY TOPOLOGY TO POD TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -889,7 +906,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE OVERLAY TOPOLOGY TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Create File Observer Job"
 
@@ -932,7 +949,7 @@ spec:
 
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE LONDON UNDERGROUND
-              set -x
+              set +x
 
                 export TOPOLOGY_NAME=london-underground
                 cd ansible
@@ -1417,7 +1434,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES RobotShop
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1511,7 +1528,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES SOCK
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1605,7 +1622,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES ACME
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1699,7 +1716,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - CREATE TOPOLOGY TEMPLATES TELCO
-              set -x
+              set +x
                   
               echo "Create Custom Topology - Create Template"
               export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -1796,7 +1813,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION ROBOT SHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -1990,7 +2007,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION SOCK SHOP
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2173,7 +2190,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION ACME
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2288,7 +2305,7 @@ spec:
               # --------------------------------------------------------------------------------------------------------------------------------------
               # -----------------------------------------------------------------------------------------------------------------------------
               # 🚀 TOPOLOGY - 🚀 CREATE APPLICATION TELCO
-              set -x
+              set +x
 
               echo "Create Custom Topology - Add Members to App"
 
@@ -2418,6 +2435,14 @@ spec:
               }'
 
 
+
+
+
+
+
+              echo "*****************************************************************************************************************************"
+              echo " ✅ DONE"
+              echo "*****************************************************************************************************************************"
 
 
 
