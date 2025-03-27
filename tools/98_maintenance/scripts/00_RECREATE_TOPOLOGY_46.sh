@@ -470,6 +470,21 @@
         "providers": ["FILE.OBSERVER:robot-shop-file.txt"]
     }'
 
+    echo "  Create Merge RULE... MergeTokenDeployNameSockShop"
+    curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
+        -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+        -H 'content-type: application/json' \
+        -u $LOGIN \
+        -d $'{
+        "name": "MergeTokenDeployNameSockShop",
+        "ruleType": "mergeRule",
+        "entityTypes": ["deployment","statefulset","container","router"],
+        "tokens": ["name"],
+        "ruleStatus": "enabled",
+        "observers": ["*"],
+        "providers": ["FILE.OBSERVER:sock-shop-file.txt", "KUBERNETES.OBSERVER:sock-shop"]
+    }'
+
 
     echo "  Create Merge RULE... MergeTokenNetworkinterfacesIDRobotShop"
     curl -X "POST" "$MERGE_ROUTE/1.0/merge/rules" --insecure \
