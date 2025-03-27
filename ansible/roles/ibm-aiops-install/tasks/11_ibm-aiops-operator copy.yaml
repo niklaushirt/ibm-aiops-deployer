@@ -53,7 +53,7 @@
 # Wait for serviceaccount being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 IBM AIOPS CATALOG - 🕦 Wait for serviceaccount ibm-aiops-catalog to become ready
-  shell: oc get -n  {{ current_ibm_feature.project }} serviceaccount ibm-aiops-catalog --no-headers| grep -c ""
+  shell: oc get -n openshift-marketplace serviceaccount ibm-aiops-catalog --no-headers| grep -c ""
   register: kubectl_get_sa
   until: kubectl_get_sa.stdout == "1"
   retries: 500
@@ -68,12 +68,12 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 IBM AIOPS CATALOG - Patch service account for pull secret
   shell: |
-    oc patch -n  {{ current_ibm_feature.project }} serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
-    oc patch -n  {{ current_ibm_feature.project }} serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
-    errorPods=$(oc get po -n  {{ current_ibm_feature.project }}|grep ImagePull|awk '{print$1}')
+    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    errorPods=$(oc get po -n openshift-marketplace|grep ImagePull|awk '{print$1}')
     if [[ ! $errorPods == "" ]]; then
       echo "Refreshing Pods"
-      oc delete pod $(oc get po -n  {{ current_ibm_feature.project }}|grep ImagePull|awk '{print$1}'):-notfound  --ignore-not-found -n  {{ current_ibm_feature.project }}
+      oc delete pod $(oc get po -n openshift-marketplace|grep ImagePull|awk '{print$1}'):-notfound  --ignore-not-found -n openshift-marketplace
     fi
   register: kubectl_get_pods
   ignore_errors: true
@@ -117,7 +117,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🚀 IBM AIOPS CATALOG - Delete operator for pull secret
   shell: |
-    oc delete pod $(oc get po -n  {{ current_ibm_feature.project }}|grep ImagePullBackOff|awk '{print$1}'):-notfound  --ignore-not-found -n  {{ current_ibm_feature.project }}
+    oc delete pod $(oc get po -n openshift-marketplace|grep ImagePullBackOff|awk '{print$1}'):-notfound  --ignore-not-found -n openshift-marketplace
   register: kubectl_get_pods
   ignore_errors: true
 
@@ -127,7 +127,7 @@
 # Wait for Marketplace being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name:   🕦 IBM AIOPS CATALOG - Wait for ibm-aiops-catalog to become ready
-  shell: oc get po -n  {{ current_ibm_feature.project }} |grep ibm-aiops-catalog| grep '1/1' | grep -c ""
+  shell: oc get po -n openshift-marketplace |grep ibm-aiops-catalog| grep '1/1' | grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -158,7 +158,7 @@
 # Wait for Marketplace being ready
 # --------------------------------------------------------------------------------------------------------------------------------------
 # - name: CHECK -              🕦 Wait for openshift-marketplace to become ready
-#   shell: oc get po -n  {{ current_ibm_feature.project }} | grep -v Running |grep -v Completed | grep -c ""
+#   shell: oc get po -n openshift-marketplace | grep -v Running |grep -v Completed | grep -c ""
 #   register: kubectl_get_pods
 #   until: kubectl_get_pods.stdout == "1"
 #   retries: 500
@@ -262,8 +262,8 @@
     if [[ $FREEZE == "True" ]];
     then
       echo " Freezing Catalog Version"
-      IMGDIGEST=`oc get pods -n  {{ current_ibm_feature.project }} -l=olm.catalogSource=ibm-aiops-catalog --no-headers -o=jsonpath="{.items[0].status.containerStatuses[0].imageID}" -n  {{ current_ibm_feature.project }}` && \
-      oc patch catalogsource ibm-aiops-catalog -n  {{ current_ibm_feature.project }} --type=json -p "[{ "op": "test", "path": "/spec/image", "value": "\"icr.io/cpopen/ibm-operator-catalog:latest\"" }, { "op": "replace", "path": "/spec/image", "value": "\"$IMGDIGEST\"" }]"
+      IMGDIGEST=`oc get pods -n openshift-marketplace -l=olm.catalogSource=ibm-aiops-catalog --no-headers -o=jsonpath="{.items[0].status.containerStatuses[0].imageID}" -n openshift-marketplace` && \
+      oc patch catalogsource ibm-aiops-catalog -n openshift-marketplace --type=json -p "[{ "op": "test", "path": "/spec/image", "value": "\"icr.io/cpopen/ibm-operator-catalog:latest\"" }, { "op": "replace", "path": "/spec/image", "value": "\"$IMGDIGEST\"" }]"
     else
       echo " NOT Freezing Catalog Version"
     fi
