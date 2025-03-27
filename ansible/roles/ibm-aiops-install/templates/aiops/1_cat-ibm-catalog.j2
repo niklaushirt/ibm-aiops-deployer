@@ -2,12 +2,14 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
   name: ibm-aiops-catalog
-  namespace: openshift-marketplace
+  namespace: {{ current_ibm_feature.project }}
 spec:
   displayName: ibm-aiops-catalog
   publisher: IBM Content
   sourceType: grpc
   image: {{ global_config.catalog_image}}
+  grpcPodConfig:
+    securityContextConfig: restricted
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource

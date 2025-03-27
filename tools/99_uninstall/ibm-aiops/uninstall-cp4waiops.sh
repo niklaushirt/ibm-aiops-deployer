@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# © Copyright IBM Corp. 2020, 2024
+# © Copyright IBM Corp. 2020, 2025
 # SPDX-License-Identifier: Apache2.0
 #
-# This script can be used to uninstall the IBM Cloud Pak for AIOps v4.8 product and
+# This script can be used to uninstall the IBM Cloud Pak for AIOps v4.9 product and
 # cleanup resources created by the product.  Please configure what you want to uninstall
 # in the uninstall-cp4waiops.props file first before running this script.
 
@@ -36,9 +36,9 @@ analyze_script_properties
 
 # Confirm we really want to uninstall 
 if [[ $SKIP_CONFIRM != "true" ]]; then
-  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.8\033[0m"
+  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.9\033[0m"
   log $INFO
-  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.8. Please ensure you have deleted any CRs you created before running this script."
+  log $INFO "This script will uninstall IBM Cloud Pak for AIOps version 4.9. Please ensure you have deleted any CRs you created before running this script."
   log $INFO ""
   log $INFO "##### IMPORTANT ######"
   log $INFO ""
@@ -46,6 +46,7 @@ if [[ $SKIP_CONFIRM != "true" ]]; then
   log $INFO "CAUTION: Data loss is possible if uninstall-cp4waiops.props is not reviewed and configured carefully."
   log $INFO ""
   log $INFO "Cluster context: $(oc config current-context)"
+  log $INFO "Target namespace: ${CP4WAIOPS_PROJECT}"
   log $INFO ""
   display_script_properties
   read -p "Please confirm you have reviewed and configured uninstall-cp4waiops.props and would like to proceed with uninstall. Y or y to continue: " -n 1 -r
@@ -56,7 +57,7 @@ if [[ $SKIP_CONFIRM != "true" ]]; then
   fi
   log " "
 else
-  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.8\033[0m"
+  log $INFO "\033[0;33mUninstall v2.0 for AIOPs v4.9\033[0m"
   log $INFO
   log $INFO "This script will uninstall IBM Cloud Pak for AIOps."
   display_script_properties
@@ -69,6 +70,7 @@ if ! [ -x "$(command -v oc)" ]; then
   exit 1
 fi
 
+detectMultiInstanceAndToggle
 check_namespaced_install
 
 oc project
@@ -223,6 +225,7 @@ if [[ ! -z "$CP4WAIOPS_PROJECT"  ]]; then
    delete_cert_manager_resources
 
    oc delete lease 2a3e2c5f.ibm.com -n $CP4WAIOPS_PROJECT
+   oc delete lease a74c7b27.orchestrator.aiops.ibm.com -n $CP4WAIOPS_PROJECT
 
    # If user configured to delete crds, then delete the dependent CRDs.
    if [[ $DELETE_CRDS == "true" ]]; then

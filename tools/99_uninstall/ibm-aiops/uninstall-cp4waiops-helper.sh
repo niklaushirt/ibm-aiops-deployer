@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# © Copyright IBM Corp. 2020, 2024
+# © Copyright IBM Corp. 2020, 2025
 # SPDX-License-Identifier: Apache2.0
 #
 . ./uninstall-cp4waiops.props
@@ -33,7 +33,7 @@ log () {
 display_help() {
    echo "**************************************** Usage ********************************************"
    echo ""
-   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.8"
+   echo " This script is used to uninstall IBM Cloud Pak for AIOps version 4.9"
    echo " The following prereqs are required before you run this script: "
    echo " - oc CLI is installed and you have logged into the cluster using oc login"
    echo " - Update uninstall-cp4waiops.props with components that you want to uninstall"
@@ -44,6 +44,16 @@ display_help() {
    echo "  -s Skip asking for confirmations"   
    echo ""
    echo "*******************************************************************************************"
+}
+
+detectMultiInstanceAndToggle () {
+    log $INFO "Checking if DELETE_ALL is set to true and if there are multiple CP4AIOPs instances..."
+    
+    multiInstances=$(oc get installations -A --no-headers 2>/dev/null | wc -l)
+    if [[ "$DELETE_ALL" == "true" || "$DELETE_CRDS" == "true" ]] && [ "$multiInstances" -gt 1 ]; then
+        log $INFO "DELETE_ALL in uninstall_cp4waiops.props is set to true and multiple cp4aiops instances found. Please set this to false to avoid breaking the additional instance"
+        exit 1
+    fi
 }
 
 check_namespaced_install () {
@@ -273,12 +283,6 @@ delete_installation_instance () {
 
     else
         log $INFO "The $installation_name installation instance is not found, skipping the deletion of $installation_name."
-    fi
-
-    check_additional_installation_exists
-    # if return code of check_additional_installation_exists is 1... change the value of $project to newly found namespace
-    if [[ "$?" == "1" ]]; then
-        project=$CP4WAIOPS_PROJECT
     fi
 
     log $INFO "Checking if operandrequests are all deleted "        
@@ -582,29 +586,6 @@ log $INFO "DELETE_PVCS=\033[1;36m$DELETE_PVCS\033[0m"
 log $INFO "DELETE_CRDS=\033[1;36m$DELETE_CRDS\033[0m"
 log $INFO
 log $INFO "##### Properties in uninstall-cp4waiops.props #####"
-}
-
-check_additional_installation_exists(){
-  log $INFO "Checking if any additional installation resources found in the cluster."
-  installation_returned_value=$(oc get installations.orchestrator.aiops.ibm.com -A)
-  if [[ ! -z $installation_returned_value  ]] ; then
-     log $ERROR "Remaining installation cr found : "
-     oc get installations.orchestrator.aiops.ibm.com -A
-     log $INFO "Deleting remaining installation"
-     
-     # Get name and namespace of additional install
-     local INSTALLATION_NAME=$(oc get installations.orchestrator.aiops.ibm.com -A --no-headers=true | awk '{print $2}')
-     local CP4WAIOPS_PROJECT=$(oc get installations.orchestrator.aiops.ibm.com -A --no-headers=true | awk '{print $1}')
-     # Change the value of the name and namespace in the props file
-     sed -i -e "s,^CP4WAIOPS_PROJECT=\".*\",CP4WAIOPS_PROJECT=\"$CP4WAIOPS_PROJECT\",;  s,^INSTALLATION_NAME=\".*\",INSTALLATION_NAME=\"$INSTALLATION_NAME\"," ./uninstall-cp4waiops.props
-     . ./uninstall-cp4waiops.props
-
-     oc delete installation.orchestrator.aiops.ibm.com $INSTALLATION_NAME -n $CP4WAIOPS_PROJECT
-     return 1
-  else
-     log $INFO "No additional installation resources found in the cluster."
-     return 0
-  fi
 }
 
 check_additional_asm_exists() {
