@@ -135,7 +135,7 @@
   shell: |
     # Zookeeper Operator installation
     helm repo add instana https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual --username=_ --password={{current_agent_key}}
-    helm repo update  ignore_errors: true
+    helm repo update
     # helm pull instana/ibm-clickhouse-operator --version=v0.1.2
     # helm pull instana/zookeeper-operator --version=0.2.15
     # helm pull instana/strimzi-kafka-operator --version=0.41.0
