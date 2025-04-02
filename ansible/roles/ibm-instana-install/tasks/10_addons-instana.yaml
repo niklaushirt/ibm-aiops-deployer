@@ -417,7 +417,7 @@
     KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores --ignore-not-found| jq -r .data.password | base64 -d)
     while [ -z "$KAFKA_PWD"  ]
     do
-      echo "Waiting for Kafka"
+      #echo "Waiting for Kafka"
       KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores --ignore-not-found| jq -r .data.password | base64 -d)
       sleep 10
     done
