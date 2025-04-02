@@ -165,9 +165,15 @@
     imagePullSecrets:
       - name: instana-registry
     automountServiceAccountToken: false
+    ---
+    kind: ServiceAccount
+    apiVersion: v1
+    metadata:
+      name: beeinstana-ingestor
+      namespace: instana-datastores
     imagePullSecrets:
       - name: instana-registry
-
+    automountServiceAccountToken: false
     EOF
   ignore_errors: true
   args:
@@ -484,9 +490,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 20 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 30 DataStore Pods
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 20 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 30 ]
     do
       sleep 30
     done
