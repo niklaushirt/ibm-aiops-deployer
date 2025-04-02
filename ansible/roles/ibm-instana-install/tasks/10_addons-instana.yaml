@@ -145,7 +145,6 @@
 
 
 
-
 - name: 🛠️ HACK - Create Service Account with instana-registry pull secret for beeinstana config pod
   shell: |
     cat <<EOF | oc apply -f -
@@ -157,6 +156,18 @@
     imagePullSecrets:
       - name: instana-registry
     automountServiceAccountToken: false
+    ---
+    kind: ServiceAccount
+    apiVersion: v1
+    metadata:
+      name: beeinstana-config
+      namespace: instana-datastores
+    imagePullSecrets:
+      - name: instana-registry
+    automountServiceAccountToken: false
+    imagePullSecrets:
+      - name: instana-registry
+
     EOF
   ignore_errors: true
   args:
@@ -259,6 +270,9 @@
   debug:
     var: output.stdout_lines
     verbosity: 1
+
+
+
 
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator Beeinstana

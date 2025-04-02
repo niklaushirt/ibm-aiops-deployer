@@ -25,6 +25,9 @@ metadata:
   name: instance
   namespace: instana-datastores
 spec:
+  fsGroup: 1000800000
+  seccompProfile:
+    type: RuntimeDefault
   version: 1.3.16
   adminCredentials:
     secretName: beeinstana-admin-creds
