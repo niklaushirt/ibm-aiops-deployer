@@ -174,6 +174,15 @@
     imagePullSecrets:
       - name: instana-registry
     automountServiceAccountToken: false
+    ---
+    kind: ServiceAccount
+    apiVersion: v1
+    metadata:
+      name: beeinstana-aggregator
+      namespace: instana-datastores
+    imagePullSecrets:
+      - name: instana-registry
+    automountServiceAccountToken: false
     EOF
   ignore_errors: true
   args:
