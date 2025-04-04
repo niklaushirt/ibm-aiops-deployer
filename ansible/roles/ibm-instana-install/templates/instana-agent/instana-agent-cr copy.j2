@@ -4,21 +4,19 @@ metadata:
   name: instana-agent
   namespace: instana-agent
 spec:
-  cluster:
-    name: Demo-OpenShift
   zone:
     name: instana-aiops
+  cluster:
+      name: Demo-OpenShift
   agent:
-    endpointHost: agent.{{BASE_DOMAIN}}
-    endpointPort: '443'
-    env:
-      AWS_ACCESS_KEY_ID: changeme
-      AWS_SECRET_ACCESS_KEY: changeme
-      INSTANA_AWS_REGION_CONFIG: eu-central-1
     key: {{current_agent_key}}
-    configuration_yaml: |
-      # You can leave this empty, or use this to configure your instana agent.
-      # See https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/
+    endpointHost: agent.{{BASE_DOMAIN}}
+    endpointPort: "443"
+    env: 
+      AWS_ACCESS_KEY_ID: changeme
+      AWS_SECRET_ACCESS_KEY: changeme 
+      INSTANA_AWS_REGION_CONFIG: eu-central-1 
+    configuration.yaml: |
       # Host
       com.instana.plugin.host:
         collectInstalledSoftware: true 
@@ -50,8 +48,8 @@ spec:
         poll_rate: 20 # metrics poll rate in seconds
       # Kubecost Sensor
       com.instana.plugin.kubecost:
-        remote:
-        - url: 'https://kubecost-cost-analyzer-route-kubecost.{{BASE_DOMAIN}}'
+      remote:
+        - url: 'https://kubecost-cost-analyzer-route-kubecost.apps.itz-dhxapd.hub04-lb.techzone.ibm.com'
           poll_rate: 120 # seconds
           clusters: #List of one or more k8s cluster names.
           - 'cluster-one'

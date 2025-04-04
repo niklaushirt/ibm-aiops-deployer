@@ -257,7 +257,8 @@
 
   # Install INSTANA AGENT
   - name: 🟡🟡🟡 Install Instana Agent
-    include_tasks: 11_addons-instana-agent.yaml
+    #include_tasks: 11_addons-instana-agent.yaml
+    include_tasks: 11_addons-instana-agent_op.yaml
     when: current_feature.install_agent == true
 
 
