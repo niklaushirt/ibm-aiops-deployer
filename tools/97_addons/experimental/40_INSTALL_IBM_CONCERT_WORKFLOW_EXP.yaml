@@ -205,16 +205,27 @@ spec:
 
               ./bin/prerequisites.sh rna-core install
 
+              echo "-------------------------------------------------------------------------------------------------"
+              echo "🚀 Create Concert Portal HUB Gateway"
+              oc create route passthrough --insecure-policy="Redirect" portal -n ibm-concert --service=ibm-roja-portal-gw-svc --port=12443
+
+
 
               echo "-------------------------------------------------------------------------------------------------"
               echo "🚀 Get Concert Infos"
               API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
               API_SERVER=$(echo $API_URL| cut -d ":" -f 2| tr -d '/')
               API_PORT=$(echo $API_URL| cut -d ":" -f 3)
+              #export CONCERT_HUB_HOST=$(oc get route -n ibm-concert concert -o jsonpath={.spec.host})
               export HOST=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
               export API_URL="https://"${HOST/console-openshift-console.apps./}
               export SERVER_IP=$(nslookup $HOST 8.8.8.8| awk '/^Address: / { print $2 }')
+
               export SERVER_ADDR="https://"$SERVER_IP
+              export CONCERT_HUB_ROUTE="https://"$CONCERT_HUB_HOST
+
+
+              #export SERVER_ADDR="https://ria-ria.apps.itz-9x9eg9.osv.techzone.ibm.com"
 
               echo "  SERVER_IP:           $SERVER_IP"
               echo "  SERVER_ADDR:         $SERVER_ADDR"
@@ -252,6 +263,11 @@ spec:
               ./bin/deploy-k8s --namespace="${RIA_NAMESPACE}"
 
 
+              # oc create route passthrough --insecure-policy="Redirect" front -n $RIA_NAMESPACE --service=pliant-front --port=8000
+              # oc create route passthrough --insecure-policy="Redirect" portal -n $RIA_NAMESPACE --service=pliant-front --port=8000
+              # oc create route passthrough --insecure-policy="Redirect" ria -n $RIA_NAMESPACE --service=pliant-proxy --port=443
+
+
               export RIA_NAMESPACE=ria
 
               echo "-------------------------------------------------------------------------------------------------"
@@ -277,6 +293,8 @@ spec:
                   location: BannerTop
                   text: "✅ IBM RIA is installed in this cluster. 🚀 Access it here with $RIA_USR/$RIA_PWD :"
               EOF
+
+
 
 
               echo "*****************************************************************************************************************************"
