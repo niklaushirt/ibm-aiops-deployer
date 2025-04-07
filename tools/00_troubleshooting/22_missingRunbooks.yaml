@@ -62,6 +62,8 @@ kind: Job
 metadata:
   name: troubleshoot-2-2-create-missing-runbooks
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   template:
     metadata:

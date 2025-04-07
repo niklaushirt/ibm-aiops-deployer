@@ -1,4 +1,23 @@
-
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: beeinstana-kafka-creds
+  namespace: instana-datastores
+type: Opaque
+stringData:
+  username: strimzi-kafka-user
+  password: {{ KAFKA_PWD }}
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: beeinstana-admin-creds
+  namespace: instana-datastores
+type: Opaque
+stringData:
+  username: beeinstana-user
+  password: mysupersecretpassword
 ---
 apiVersion: beeinstana.instana.com/v1beta1
 kind: BeeInstana
@@ -6,13 +25,13 @@ metadata:
   name: instance
   namespace: instana-datastores
 spec:
-  version: 1.3.13
+  version: 1.3.16
   adminCredentials:
     secretName: beeinstana-admin-creds
   kafkaSettings:
     brokers:
       # Update KAFKA_NAMESPACE to the namespace where Kafka is installed
-      - instana-kafka-bootstrap.<KAFKA_NAMESPACE>:9092
+      - instana-kafka-bootstrap.instana-datastores:9092
     securityProtocol: SASL_PLAINTEXT
     saslMechanism: SCRAM-SHA-512
     saslPasswordCredential:

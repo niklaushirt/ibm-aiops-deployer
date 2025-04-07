@@ -28,7 +28,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
@@ -108,7 +108,7 @@
 
 - name:   🕦 INSTANA - Wait for Operator to become ready
   shell: |
-    while [ `oc -n instana-agent get pods| grep '1/1' | grep -c ""` -lt 2 ]
+    while [ `oc -n instana-agent get pods| grep '1/1' | grep -c ""` -lt 1 ]
     do
       sleep 10
     done

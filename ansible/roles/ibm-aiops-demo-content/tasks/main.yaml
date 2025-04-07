@@ -14,7 +14,7 @@
 #
 #  IBM AIOps
 #
-#  ©2024 nikh@ch.ibm.com
+#  ©2025 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -538,8 +538,9 @@
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
-    oc delete ConsoleNotification --all>/dev/null 2>/dev/null
-    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    oc delete ConsoleNotification ibm-aiops-notification-main>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-password>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export appURL=$(oc get routes -n ibm-concert concert  -o jsonpath="{['spec']['host']}")|| true
     export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
     cat <<EOF | oc apply -f -

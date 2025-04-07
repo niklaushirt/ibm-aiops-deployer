@@ -8,7 +8,7 @@
 
 ![K8s CNI](./pics/aiops/00_aimanager_insights.png)
 
-<center> ©2024 Włodzimierz Dymaczewski/Niklaus Hirt / IBM </center>
+<center> ©2025 Włodzimierz Dymaczewski/Niklaus Hirt / IBM </center>
 
 
 

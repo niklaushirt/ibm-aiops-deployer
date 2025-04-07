@@ -8,7 +8,7 @@
 
 ![image](./pics/finops/finops00006.png)
 
-<center> ©2024 Niklaus Hirt / IBM </center>
+<center> ©2025 Niklaus Hirt / IBM </center>
 
 
 

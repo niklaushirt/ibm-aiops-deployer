@@ -3,6 +3,8 @@ kind: Job
 metadata:
   name: troubleshoot-1-4-run-metrics-training
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: demo-admin
   template:

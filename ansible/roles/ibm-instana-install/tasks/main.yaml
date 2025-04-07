@@ -15,7 +15,7 @@
 #
 #  IBM Instana
 #
-#  ©2024 nikh@ch.ibm.com
+#  ©2025 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -61,7 +61,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification-main
+      name: ibm-aiops-notification-instana
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
@@ -257,7 +257,8 @@
 
   # Install INSTANA AGENT
   - name: 🟡🟡🟡 Install Instana Agent
-    include_tasks: 11_addons-instana-agent.yaml
+    #include_tasks: 11_addons-instana-agent.yaml
+    include_tasks: 11_addons-instana-agent_op.yaml
     when: current_feature.install_agent == true
 
 
@@ -324,13 +325,15 @@
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
-    oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-instana>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-password>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null
     export appURL=$(oc get routes -n instana-core dev-aiops -o jsonpath="{['spec']['host']}")|| true
     cat <<EOF | oc apply -f -
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-        name: ibm-aiops-notification-main
+        name: ibm-aiops-notification-instana
     spec:
         backgroundColor: '#009a00'
         color: '#fff'

@@ -4,6 +4,8 @@ kind: Job
 metadata:
   name: ibm-aiops-load-lags-normal
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   template:
     spec:

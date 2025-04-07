@@ -9,6 +9,8 @@ kind: Pipeline
 metadata:
   name: ibm-installer
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   params:
     - name: OFFERING

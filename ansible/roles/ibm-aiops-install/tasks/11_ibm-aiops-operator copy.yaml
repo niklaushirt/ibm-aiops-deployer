@@ -24,7 +24,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
@@ -197,7 +197,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#ff7700'
       color: '#000'
@@ -229,7 +229,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#ff7700'
       color: '#000'
@@ -292,7 +292,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#009a00'
       color: '#000'

@@ -1,0 +1,55 @@
+apiVersion: instana.io/v1
+kind: InstanaAgent
+metadata:
+  name: instana-agent
+  namespace: instana-agent
+spec:
+  zone:
+    name: instana-aiops
+  cluster:
+      name: Demo-OpenShift
+  agent:
+    key: {{current_agent_key}}
+    endpointHost: agent.{{BASE_DOMAIN}}
+    endpointPort: "443"
+    env: 
+      AWS_ACCESS_KEY_ID: changeme
+      AWS_SECRET_ACCESS_KEY: changeme 
+      INSTANA_AWS_REGION_CONFIG: eu-central-1 
+    configuration.yaml: |
+      # Host
+      com.instana.plugin.host:
+        collectInstalledSoftware: true 
+        tags:
+          - 'dev'
+          - 'aiops'
+          - 'openshift'
+      com.instana.plugin.azure:
+        enabled: true
+        subscription: YourSubscriptionID
+        tenant: YourDirectoryTenantID
+        principals:
+          - id: YourApplicationClientID
+            secret: YourSecretValue
+      com.instana.plugin.action:
+        enabled: true # by default is false
+      com.instana.plugin.action.script:
+        enabled: true # by default is false
+        # runAs: 'root'
+        scriptExecutionHome: '/tmp' # The path used for action script executions.
+      com.instana.plugin.action.http:
+        enabled: true # by default is false
+        maxConcurrentActions: 5  # optional, default value is 10
+      com.instana.plugin.vsphere:
+        host: https://myvsphere/sdk
+        username: administrator@myvsphere.com
+        password: myvspherepassword
+        enabled: true
+        poll_rate: 20 # metrics poll rate in seconds
+      # Kubecost Sensor
+      com.instana.plugin.kubecost:
+      remote:
+        - url: 'https://kubecost-cost-analyzer-route-kubecost.apps.itz-dhxapd.hub04-lb.techzone.ibm.com'
+          poll_rate: 120 # seconds
+          clusters: #List of one or more k8s cluster names.
+          - 'cluster-one'

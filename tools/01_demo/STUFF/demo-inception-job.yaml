@@ -4,6 +4,8 @@ kind: Job
 metadata:
   name: demo-inception-job
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: demo-admin
   template:
