@@ -92,14 +92,13 @@
     metadata:
         name: ibm-aiops-notification-password
     spec:
-        backgroundColor: '#9a0000'
-        color: '#fff'
-        location: "BannerBottom"
-        text: "❌ FATAL ERROR: Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
-        link:
-            href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/configmaps/ibm-aiops-install-configuration/yaml"
-            text: Modify your Configuration
-
+      backgroundColor: '#9a0000'
+      color: '#fff'
+      location: "BannerBottom"
+      text: "❌ FATAL ERROR: Please define your own Password for your installation at global_config.global_password (default to be changed is CHANGEME)"
+      link:
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/configmaps/ibm-aiops-install-configuration/yaml"
+          text: Modify your Configuration
     EOF
   ignore_errors: true
   args:
