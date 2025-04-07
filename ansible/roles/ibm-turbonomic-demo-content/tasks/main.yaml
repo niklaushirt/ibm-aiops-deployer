@@ -59,7 +59,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification-main
+      name: ibm-aiops-notification-turbo
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
@@ -249,13 +249,15 @@
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
-    oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-turbo>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-password>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null
     export appURL=$(oc get routes -n turbonomic nginx -o jsonpath="{['spec']['host']}")|| true
     cat <<EOF | oc apply -f -
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-        name: ibm-aiops-notification-main
+        name: ibm-aiops-notification-turbo
     spec:
         backgroundColor: '#009a00'
         color: '#fff'

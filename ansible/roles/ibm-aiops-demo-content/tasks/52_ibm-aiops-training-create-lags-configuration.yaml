@@ -22,7 +22,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification
+      name: ibm-aiops-notification-status
     spec:
       backgroundColor: '#ffd500'
       color: '#000'
@@ -97,7 +97,10 @@
 
     if [ $result -gt 0 ];
     then
-    oc delete ConsoleNotification ibm-aiops-notification
+    oc delete ConsoleNotification ibm-aiops-notification-main>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-password>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null
+   
     OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})    
 
     cat <<EOF | oc apply -f -
