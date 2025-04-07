@@ -61,6 +61,8 @@ kind: Job
 metadata:
   name: aiops-create-itz-certs-aiops
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:

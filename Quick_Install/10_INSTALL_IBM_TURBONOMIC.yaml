@@ -254,6 +254,8 @@ kind: Job
 metadata:
   name: ibm-install-turbo
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
 
   template:

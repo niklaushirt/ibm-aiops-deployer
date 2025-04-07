@@ -4,6 +4,8 @@ kind: Job
 metadata:
   name: ibm-aiops-aiops-install-demo-content
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:

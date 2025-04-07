@@ -82,6 +82,8 @@ kind: Job
 metadata:
   name: ibm-aiops-install-ria-standalone
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:

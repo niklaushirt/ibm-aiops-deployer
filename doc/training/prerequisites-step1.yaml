@@ -329,6 +329,8 @@ kind: Job
 metadata:
   name: ibm-aiops-install-training-step1
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
 
   template:

@@ -255,6 +255,8 @@ kind: Job
 metadata:
   name: ibm-install-instana
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
 
   template:

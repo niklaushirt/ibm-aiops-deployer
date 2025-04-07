@@ -62,6 +62,8 @@ kind: Job
 metadata:
   name: aiops-delete-toloplogy
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:

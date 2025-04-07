@@ -256,6 +256,8 @@ kind: Job
 metadata:
   name: ibm-install-concert
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
 
   template:

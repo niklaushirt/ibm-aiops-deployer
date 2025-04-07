@@ -413,6 +413,8 @@ kind: Job
 metadata:
   name: ibm-install-aiops
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
 
   template:

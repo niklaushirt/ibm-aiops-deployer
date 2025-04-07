@@ -68,6 +68,8 @@ kind: Job
 metadata:
   name: aiops-event-flood
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:

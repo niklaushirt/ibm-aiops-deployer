@@ -62,6 +62,8 @@ kind: Job
 metadata:
   name: troubleshoot-3-1-create-missing-topology
   namespace: ibm-installer
+  labels:
+   aiops-type: data-load-job
 spec:
   template:
     metadata:
