@@ -696,7 +696,7 @@ This installation contains:
 
 - When the Installation has succeeded, you get the top green Notification bar
 	
-	You can directly open IBM Concert by clicking on the link 
+	You can directly open IBM Concert by clicking on the link and login with the `demo`user and your defined Password.
 
 </details>
 
@@ -816,7 +816,7 @@ This installation contains:
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-3. Enter your Turbonomic License on lines 142/143
+3. Enter your Instana License on lines 142/143
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
 3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
