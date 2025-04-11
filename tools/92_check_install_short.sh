@@ -27,7 +27,7 @@ export WARNING_STRING=""
 export ERROR=false
 export WARNING_STATE=false
 
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+#oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
@@ -223,7 +223,7 @@ function check_array(){
       then 
             echo "       ❗ FATAL: CP4AIOPS could not be installed - only $PODS_COUNT Pods running (should be around 130)"; 
 
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+#oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
@@ -707,7 +707,7 @@ EOF
         OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
         INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
 
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+#oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
@@ -766,7 +766,7 @@ EOF
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
 export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+#oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification
@@ -798,7 +798,7 @@ EOF
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
 export DEMO_PWD=$(oc get cm -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui-config -o jsonpath='{.data.TOKEN}')
-oc delete ConsoleNotification --all>/dev/null 2>/dev/null
+#oc delete ConsoleNotification --all>/dev/null 2>/dev/null
 cat <<EOF | oc apply -f -
 apiVersion: console.openshift.io/v1
 kind: ConsoleNotification

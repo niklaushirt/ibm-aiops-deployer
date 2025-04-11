@@ -121,7 +121,7 @@ spec:
               echo ""
 
 
-              oc delete ConsoleNotification --all &
+              #oc delete ConsoleNotification --all &
 
               echo "*****************************************************************************************************************************"
               echo " 💣 WIPE CUSTOM AIOPS NAMESPACES"
