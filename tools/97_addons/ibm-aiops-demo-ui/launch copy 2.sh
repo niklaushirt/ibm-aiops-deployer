@@ -49,7 +49,7 @@ export CONTACT_INFO='<p style="font-size:40px;">Contacts</p><BR><p>Niklaus Hirt 
 
 
 export ROBOTSHOP_PROPERTY_RESOURCE_NAME='mysql'
-export ROBOTSHOP_PROPERTY_RESOURCE_TYPE='deployment'
+export ROBOTSHOP_PROPERTY_RESOURCE_TYPE='database'
 export ROBOTSHOP_PROPERTY_VALUES_NOK='{"innodb_buffer_pool_size": "8GB","last_change_by": "Niklaus Hirt"}'
 export ROBOTSHOP_PROPERTY_VALUES_OK='{"innodb_buffer_pool_size": "8GB","last_change_by": "Scott James"}'
 
