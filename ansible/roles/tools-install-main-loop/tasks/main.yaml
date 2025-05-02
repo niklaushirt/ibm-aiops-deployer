@@ -33,6 +33,10 @@
     - "***************************************************************************************************************************************************"
 
 
+- name: 📣 OCP CONSOLE - Delete Deployer Notification
+  shell: |
+    oc delete ConsoleNotification deployer-notification>/dev/null 2>/dev/null
+
 
 # - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
 #   shell: |
