@@ -34,22 +34,22 @@
 
 
 
-- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
-  shell: |
-    cat <<EOF | oc apply -f -
-    apiVersion: console.openshift.io/v1
-    kind: ConsoleNotification
-    metadata:
-      name: ibm-aiops-notification-main
-    spec:
-      backgroundColor: '#141a6b'
-      color: '#fff'
-      location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
-      text: 'Starting Installation - Warming Up'
-    EOF
-  ignore_errors: true
-  args:
-    executable: /bin/bash
+# - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+#   shell: |
+#     cat <<EOF | oc apply -f -
+#     apiVersion: console.openshift.io/v1
+#     kind: ConsoleNotification
+#     metadata:
+#       name: ibm-aiops-notification-main
+#     spec:
+#       backgroundColor: '#141a6b'
+#       color: '#fff'
+#       location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
+#       text: 'Starting Installation - Warming Up'
+#     EOF
+#   ignore_errors: true
+#   args:
+#     executable: /bin/bash
 
 
 
