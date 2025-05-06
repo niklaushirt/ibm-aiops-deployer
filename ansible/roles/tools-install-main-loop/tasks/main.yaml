@@ -34,8 +34,7 @@
 
 
 - name: 📣 OCP CONSOLE - Delete Deployer Notification
-  shell: |
-    oc delete ConsoleNotification deployer-notification
+  shell: oc delete ConsoleNotification deployer-notification
 
 
 # - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
