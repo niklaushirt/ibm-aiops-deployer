@@ -150,10 +150,6 @@ spec:
           - name: tcp
             port: 9042
         authEnabled: true
-        user: instana-superuser
-        password: {{CASSANDRA_PWD}}
-        adminUser: instana-superuser
-        adminPassword: {{CASSANDRA_PWD}}
     clickhouseConfigs:
       - clusterName: local
         authEnabled: true
@@ -168,10 +164,6 @@ spec:
         schemas:
           - application
           - logs
-        user: clickhouse-user
-        password: {{CLICKHOUSE_PWD}}
-        adminUser: clickhouse-user
-        adminPassword: {{CLICKHOUSE_PWD}}
     elasticsearchConfig:
       clusterName: onprem_onprem
       defaultIndexReplicas: 0
@@ -184,10 +176,6 @@ spec:
           port: 9300
         - name: http
           port: 9200
-      adminUser: elastic
-      adminPassword: {{ES_PWD}}
-      user: elastic
-      password: {{ES_PWD}}
     kafkaConfig:
       hosts:
         - instana-kafka-bootstrap.instana-datastores.svc
@@ -197,12 +185,7 @@ spec:
       replicationFactor: 1
       saslMechanism: SCRAM-SHA-512
       authEnabled: true
-      adminUser: strimzi-kafka-user
-      adminPassword: {{KAFKA_PWD}}
-      consumerUser: strimzi-kafka-user
-      consumerPassword: {{KAFKA_PWD}}
-      producerUser: strimzi-kafka-user
-      producerPassword: {{KAFKA_PWD}}
+
     postgresConfigs:
       - databases:
           - butlerdb
@@ -214,11 +197,6 @@ spec:
           - name: tcp
             port: 5432
         authEnabled: true
-        user: instanaadmin
-        password: {{POSTGRES_PWD}}
-        adminUser: instanaadmin
-        adminPassword: {{POSTGRES_PWD}}
-
   enableNetworkPolicies: false
   resourceProfile: {{current_feature.instana_size  | default("medium")}}
   imageConfig: {}

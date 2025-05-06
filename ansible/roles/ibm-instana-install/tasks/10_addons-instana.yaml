@@ -1029,6 +1029,71 @@
 
 
 
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Get Datastore Passwords for Core CR
+# --------------------------------------------------------------------------------------------------------------------------------------
+
+- name: 🚀 INSTANA - Get KAFKA_PWD PWD
+  shell: |
+    KAFKA_PWD=$(oc get secret strimzi-kafka-user -o json -n instana-datastores --ignore-not-found| jq -r .data.password | base64 -d)
+    echo $KAFKA_PWD
+  ignore_errors: true
+  register: output
+        
+- name: 🚀 INSTANA - Set KAFKA_PWD PWD - {{ output.stdout_lines }} 
+  set_fact: KAFKA_PWD={{ output.stdout_lines[0] }} 
+
+
+
+- name: 🚀 INSTANA - Get POSTGRES_PWD PWD
+  shell: |
+    POSTGRES_PWD=instanaadmin
+    echo $POSTGRES_PWD
+  ignore_errors: true
+  register: output
+        
+- name: 🚀 INSTANA - Set POSTGRES_PWD PWD - {{ output.stdout_lines }} 
+  set_fact: POSTGRES_PWD={{ output.stdout_lines[0] }} 
+
+
+
+- name: 🚀 INSTANA - Get CASSANDRA_PWD PWD
+  shell: |
+    CASSANDRA_PWD=$(oc get secret instana-superuser -o json -n instana-datastores | jq -r .data.password | base64 -d)
+    echo $CASSANDRA_PWD
+  ignore_errors: true
+  register: output
+        
+- name: 🚀 INSTANA - Set CASSANDRA_PWD PWD - {{ output.stdout_lines }} 
+  set_fact: CASSANDRA_PWD={{ output.stdout_lines[0] }} 
+
+
+
+- name: 🚀 INSTANA - Get ES_PWD PWD
+  shell: |
+    ES_PWD=$(oc get secret instana-es-elastic-user -o json -n instana-datastores --ignore-not-found| jq -r .data.elastic | base64 -d)
+    echo $ES_PWD
+  ignore_errors: true
+  register: output
+        
+- name: 🚀 INSTANA - Set ES_PWD PWD - {{ output.stdout_lines }} 
+  set_fact: ES_PWD={{ output.stdout_lines[0] }} 
+
+
+
+- name: 🚀 INSTANA - Get CLICKHOUSE_PWD PWD
+  shell: |
+    CLICKHOUSE_PWD=HmiI9DgEgrHVmjnS
+    echo $CLICKHOUSE_PWD
+  ignore_errors: true
+  register: output
+        
+- name: 🚀 INSTANA - Set CLICKHOUSE_PWD PWD - {{ output.stdout_lines }} 
+  set_fact: CLICKHOUSE_PWD={{ output.stdout_lines[0] }} 
+
+
+
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Install Core CR
 # --------------------------------------------------------------------------------------------------------------------------------------
