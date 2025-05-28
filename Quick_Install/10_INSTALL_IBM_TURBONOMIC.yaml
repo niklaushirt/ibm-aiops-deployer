@@ -140,7 +140,7 @@ data:
       - name: ibm-turbonomic
         kind: IBMTurbonomic
         install: true
-        turbo_version: 8.15.1
+        turbo_version: 8.16.0
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)

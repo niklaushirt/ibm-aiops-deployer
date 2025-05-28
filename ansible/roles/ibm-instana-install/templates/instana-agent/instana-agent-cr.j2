@@ -55,3 +55,11 @@ spec:
           poll_rate: 120 # seconds
           clusters: #List of one or more k8s cluster names.
           - 'cluster-one'
+      com.instana.plugin.turbonomic:
+        enabled: true
+        host: 'https://nginx-turbonomic.{{BASE_DOMAIN}}'  
+        target: 'gateway.instana-core.svc.cluster.local:8443'
+        auth:
+          username: administrator  # User must have administrator, deployer, or automator authority.
+          password: P45ssw0rd!       
+
