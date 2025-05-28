@@ -215,7 +215,7 @@
 
 - name: 🚀 INSTANA - Create Backend Datastore Operator CLICKHOUSE
   shell: |
-    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v1.2.0 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v1.2.0 --set imagePullSecrets[0].name="instana-registry"
+    helm install clickhouse-operator instana/ibm-clickhouse-operator -n instana-datastores --version=v1.2.0 --set operator.image.repository=artifact-public.instana.io/clickhouse-operator --set operator.image.tag=v1.2.2 --set imagePullSecrets[0].name="instana-registry"
   ignore_errors: true
   register: output
   args:
