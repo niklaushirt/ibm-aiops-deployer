@@ -785,6 +785,8 @@ This installation contains:
 
 ## 2.4 🐣 Install IBM Instana with demo content
 
+### ❗ If you are installing on IBM Techzone DO NOT install Instana and CP4AIOPS into the same Cluster. This WILL lead to instability of both solutions ❗
+
 #### 🚀 Get IBM Instana installed and demo content installed in one simple script.
 
 ![Characters](./doc/pics/instana1.png)
