@@ -30,7 +30,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
  
 
-- name: ✴️ ✴️ ✴️ INSTALLATION MODULE START - {{current_feature.kind}}
+- name: 🟣🟣🟣🟣🟣🟣  INSTALLATION MODULE START - {{current_feature.kind}}
   debug: 
     msg: 
     - "***************************************************************************************************************************************************"
@@ -38,7 +38,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "      🚀 CloudPak for Watson AIOps - INSTALLING {{current_feature.kind}}                                                                                          "
+    - "      � IBM AIOps - INSTALLING {{current_feature.kind}} "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
@@ -46,17 +46,41 @@
 
 
 
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+    OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+    INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-main
+    spec:
+      backgroundColor: '#141a6b'
+      color: '#fff'
+      location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
+      text: 'Installing  {{current_feature.kind}} ' 
+      link:
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
+          text: Open Logs   
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INITIALIZATION
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Initialize Logging
-- name: 📥 Init Logging
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Init Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
     
 
-- name: 📥 Start Logging
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
 
 
@@ -65,7 +89,7 @@
 # CHECK FOR INSTALLATION READY
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Check that CP4WAIOPS has been completely installed
-- name: 📥 Wait for AI Manager to be Ready
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Wait for AI Manager to be Ready
   include_tasks: 99_eventmanager-wait.yaml
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -73,33 +97,31 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # - name: Create Topology Observers
 #   include_tasks: 41_aimanager-create-observers.yaml
-- name: 📥 Load Topology Merge Rules
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Load Topology Merge Rules
   include_tasks: 10_eventmanager-load-topology-merge.yaml
-- name: 📥 Create Overlay Topology
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Create Overlay Topology
   include_tasks: 11_eventmanager-create-topology.yaml
-- name: 📥 Create Application
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Create Application
   include_tasks: 12_aimanager-create-aiops-application.yaml
 
 
 
 
-- name: 📥 End Logging
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
 
 
 
-
-
-- name: ✅ INSTALLATION MODULE DONE - {{current_feature.kind}}
+- name: 🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONEINSTALLATION MODULE DONE - {{current_feature.kind}}
   debug: 
-    msg: 
+    msg:  
 
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ CloudPak for Watson AIOps - DONE INSTALLING {{current_feature.kind}}                                                                                 "
+    - "       ✅ CloudPak for AIOps - DONE INSTALLING {{current_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

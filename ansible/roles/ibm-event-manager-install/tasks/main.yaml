@@ -150,19 +150,19 @@
   when: global_config.create_ocp_items | default(true) == true  
 
 # Update AI Manager Cards
-- name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update AI Manager Cards
-  include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_update_cards.yaml"
+# - name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update AI Manager Cards
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_update_cards.yaml"
 
 
 # Access and documentaiton
 # - name: Get all logins
 #   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90_core-get-all-logins.yaml"
 
-- name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Event Manager
-  include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-eventmanager.yaml"
+# - name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Event Manager
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-eventmanager.yaml"
 
-- name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Documentation
-  include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-doc.yaml"
+# - name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Documentation
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-doc.yaml"
 
 
 
@@ -181,7 +181,7 @@
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"
     - "                                                                                                                                                   "
-    - "       ✅ CloudPak for Watson AIOps - DONE INSTALLING {{current_feature.kind}}                                                                                 "
+    - "       ✅ CloudPak for AIOps - DONE INSTALLING {{current_feature.kind}}                                                                                 "
     - "                                                                                                                                                   "
     - "***************************************************************************************************************************************************"
     - "***************************************************************************************************************************************************"

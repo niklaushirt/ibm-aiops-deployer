@@ -26,9 +26,30 @@
     ROUTE_RESPONSE=$(curl -X "GET" "$MERGE_ROUTE/1.0/merge/rules" --insecure -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -H 'content-type: application/json')
     echo $ROUTE_RESPONSE
   register: route_response
-  until: ("<title>Error 401 Unauthorized</title>" in route_response.stdout)
+  until: ("Application is not available" not in route_response.stdout)
   retries: 500
   delay: 15      
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - IBM EventManager Instance - Load Topology Merge'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
