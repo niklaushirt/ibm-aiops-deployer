@@ -1,29 +1,18 @@
 apiVersion: noi.ibm.com/v1beta1
 kind: NOI
 metadata:
-  namespace: {{current_ibm_feature.project}}
   name: evtmanager
+  namespace: {{current_ibm_feature.project}}
 spec:
   license:
     accept: true
   advanced:
     antiAffinity: false
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
     imagePullRepository: cp.icr.io/cp/noi
-    ignoreReady: false
-    instanceId: iaf-zen-cpdservice
-    serviceInstanceName: iaf-zen-cpdservice
-    serviceNamespace: {{current_ibm_feature.project}}
-    storage:
-      storageClassName: {{ STORAGE_CLASS_FILE }}
-  zen:
-    ignoreReady: false
-    instanceId: iaf-zen-cpdservice
-    #serviceInstanceName: iaf-zen-cpdservice
-    #serviceNamespace: cp4waiops
-    serviceInstanceName: iaf-zen-cpdservice
-    storage:
-      storageClassName: '{{ STORAGE_CLASS_FILE }}'
+  serviceContinuity:
+    continuousAnalyticsCorrelation: false
+    isBackupDeployment: false
   ldap:
     port: '389'
     mode: standalone
@@ -40,85 +29,151 @@ spec:
   backupRestore:
     enableAnalyticsBackups: false
   topology:
-    enable: false
-    storageClassElasticTopology: {{ STORAGE_CLASS_FILE }}
-    storageSizeElasticTopology: 75Gi
-    storageSizeFileObserver: 5Gi
-    storageClassFileObserver: {{ STORAGE_CLASS_FILE }}
-    iafCartridgeRequirementsName: ''   # cp4waiops-cartridge
     appDisco:
-      enabled: false
-      scaleSSS: '1'
-      tlsSecret: ''
-      dbsecret: ''
-      db2database: taddm
-      dburl: ''
       certSecret: ''
       db2archuser: archuser
-      secure: false
-      scaleDS: '1'
+      db2database: taddm
       db2user: db2inst1
       dbport: '50000'
+      dbsecret: ''
+      dburl: ''
+      enabled: false
+      scaleDS: '1'
+      scaleSSS: '1'
+      secure: false
+      tlsSecret: ''
     observers:
-      docker: false
-      taddm: false
-      servicenow: true
-      ibmcloud: false
       alm: false
-      contrail: false
-      cienablueplanet: false
-      kubernetes: true
-      bigfixinventory: false
-      junipercso: false
-      dns: false
-      itnm: false
-      ansibleawx: false
-      ciscoaci: false
-      azure: false
-      rancher: false
-      newrelic: false
-      vmvcenter: true
-      rest: true
+      ansibleawx: true
       appdynamics: false
-      jenkins: false
-      zabbix: false
+      aws: true
+      azure: true
+      bigcloudfabric: false
+      bigfixinventory: false
+      cienablueplanet: false
+      ciscoaci: true
+      contrail: false
+      datadog: false
+      dns: false
+      docker: false
+      dynatrace: true
       file: true
-      googlecloud: false
-      dynatrace: false
-      aws: false
+      gitlab: true
+      googlecloud: true
+      hpnfvd: false
+      ibmcloud: true
+      itnm: true
+      jenkins: false
+      junipercso: false
+      kubernetes: true
+      newrelic: false
       openstack: false
+      rancher: false
+      rest: true
+      sdconap: false
+      servicenow: true
+      sevone: false
+      taddm: false
+      viptela: false
+      vmvcenter: true
       vmwarensx: false
+      zabbix: false
+    aaionap: false
+    iafCartridgeRequirementsName: ''
     netDisco: false
-  version: {{current_feature.noi_version}}
-  entitlementSecret: ibm-entitlement-key
-  clusterDomain: ''
+    storageClassElasticTopology: '{{ STORAGE_CLASS_FILE }}'
+    storageClassFileObserver: '{{ STORAGE_CLASS_FILE }}'
+    storageSizeElasticTopology: 75Gi
+    storageSizeFileObserver: 5Gi
+    storageSizeSdconapObserver: 5Gi
+  postgresql:
+    bootstrap:
+      endpointCA:
+        enabled: false
+        keyName: cacert
+        name: ''
+      s3Credentials:
+        keyNameAccessKeyID: AWS_ACCESS_KEY_ID
+        keyNameAccessSecretKey: AWS_SECRET_ACCESS_KEY
+        keyNameAccessSessionToken: ''
+        secretName: ceph-bucket
+      wal:
+        compression: gzip
+        encryption: default
+        walMaxParallel: 1
+      clusterName: ''
+      destinationPath: ''
+      enabled: false
+      endpointURL: ''
+    backups:
+      wal:
+        compression: gzip
+        encryption: default
+        walMaxParallel: 1
+      data:
+        compression: gzip
+        encryption: default
+        jobs: 1
+      scheduledBackup:
+        backupOwnerReference: none
+        enabled: false
+        immediate: true
+        schedule: 0 0 0 * * *
+        suspend: false
+        target: prefer-standby
+      endpointCA:
+        enabled: false
+        keyName: cacert
+        name: ''
+      onetimeBackup:
+        enabled: false
+      s3Credentials:
+        keyNameAccessKeyID: AWS_ACCESS_KEY_ID
+        keyNameAccessSecretKey: AWS_SECRET_ACCESS_KEY
+        keyNameAccessSessionToken: ''
+        secretName: ceph-bucket
+      destinationPath: ''
+      enabled: false
+      endpointURL: ''
+      retentionPolicy: 12m
+      serverName: ''
+    edbPostgresImage: ''
+    edbPostgresLicenseImage: ''
+    edbPostgresSubscriptionName: cloud-native-postgresql-catalog-subscription
+    overrideDefaultPostgresImages: false
   integrations:
     humio:
       repository: ''
       url: ''
   persistence:
-    storageSizeNCOBackup: 5Gi
-    enabled: true
-    storageSizeNCOPrimary: 5Gi
-    storageClassNCOPrimary: {{ STORAGE_CLASS_FILE }}
-    storageSizeImpactServer: 5Gi
-    storageClassImpactServer: {{ STORAGE_CLASS_FILE }}
-    storageClassKafka: {{ STORAGE_CLASS_FILE }}
-    storageSizeKafka: 50Gi
-    storageClassCassandraBackup: {{ STORAGE_CLASS_FILE }}
+    enabled: false
+    storageClassCassandraBackup: '{{ STORAGE_CLASS_FILE }}'
+    storageClassCassandraData: '{{ STORAGE_CLASS_FILE }}'
+    storageClassCouchdb: '{{ STORAGE_CLASS_FILE }}'
+    storageClassElastic: '{{ STORAGE_CLASS_FILE }}'
+    storageClassImpactGUI: '{{ STORAGE_CLASS_FILE }}'
+    storageClassImpactServer: '{{ STORAGE_CLASS_FILE }}'
+    storageClassKafka: '{{ STORAGE_CLASS_FILE }}'
+    storageClassMinio: '{{ STORAGE_CLASS_FILE }}'
+    storageClassNCOBackup: '{{ STORAGE_CLASS_FILE }}'
+    storageClassNCOPrimary: '{{ STORAGE_CLASS_FILE }}'
+    storageClassPostgresql: '{{ STORAGE_CLASS_FILE }}'
+    storageClassPostgresqlWal: '{{ STORAGE_CLASS_FILE }}'
+    storageClassZookeeper: '{{ STORAGE_CLASS_FILE }}'
     storageSizeCassandraBackup: 50Gi
-    storageClassZookeeper: {{ STORAGE_CLASS_FILE }}
-    storageClassCouchdb: {{ STORAGE_CLASS_FILE }}
-    storageSizeZookeeper: 5Gi
-    storageSizeCouchdb: 20Gi
-    storageClassCassandraData: {{ STORAGE_CLASS_FILE }}
     storageSizeCassandraData: 50Gi
-    storageClassDB2: {{ STORAGE_CLASS_FILE }}
-    storageClassElastic: {{ STORAGE_CLASS_FILE }}
-    storageSizeDB2: 5Gi
-    storageClassImpactGUI: {{ STORAGE_CLASS_FILE }}
-    storageSizeImpactGUI: 5Gi
+    storageSizeCouchdb: 20Gi
     storageSizeElastic: 75Gi
-    storageClassNCOBackup: {{ STORAGE_CLASS_FILE }}
-    storageClassMinio: {{ STORAGE_CLASS_FILE }}
+    storageSizeImpactGUI: 5Gi
+    storageSizeImpactServer: 5Gi
+    storageSizeKafka: 50Gi
+    storageSizeMinio: 10Gi
+    storageSizeNCOBackup: 5Gi
+    storageSizeNCOPrimary: 5Gi
+    storageSizePostgresql: 100Gi
+    storageSizePostgresqlWal: 100Gi
+    storageSizeZookeeper: 5Gi
+  clusterDomain: ''
   deploymentType: trial
+  entitlementSecret: ibm-entitlement-key
+  version: {{current_feature.noi_version}}
