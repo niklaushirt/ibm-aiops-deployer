@@ -57,7 +57,7 @@
     apiVersion: console.openshift.io/v1
     kind: ConsoleNotification
     metadata:
-      name: ibm-aiops-notification-main
+      name: ibm-aiops-notification-main-noi
     spec:
       backgroundColor: '#141a6b'
       color: '#fff'
@@ -169,6 +169,36 @@
 
 - name: (014/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
+
+
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    export EVTMGR_NAMESPACE=$(oc get po -A|grep noi-operator |awk '{print$1}')
+    oc delete ConsoleNotification ibm-aiops-notification-main-noi>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export appURL=$(oc get route -n $EVTMGR_NAMESPACE  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})|| true
+    export DEMO_PWD=$(kubectl get secret evtmanager-icpadmin-secret -o json -n ibm-evtmgr| grep ICP_ADMIN_PASSWORD  | cut -d : -f2 | cut -d '"' -f2 | base64 -d;echo)
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+        name: ibm-aiops-notification-main-noi
+    spec:
+        backgroundColor: '#009a00'
+        color: '#fff'
+        link:
+            href: "https://$appURL"
+            text: DemoUI
+        location: BannerTop
+        text: "✅ IBM EventManager is installed in this cluster. 🚀 Access it with 'icpadmin:$DEMO_PWD' here:"
+    EOF
+
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
 
 

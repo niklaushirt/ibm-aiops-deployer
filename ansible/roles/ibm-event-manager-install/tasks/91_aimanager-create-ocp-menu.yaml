@@ -31,11 +31,11 @@
       apiVersion: console.openshift.io/v1
       kind: ConsoleLink
       metadata:
-        name: cp4waiops-eventmanager
+        name: aiops-eventmanager
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/cp4waiops-deployer/main/doc/pics/icons/microservices--1.svg
+            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/microservices--1.svg
           section: IBM Cloud Paks
         href: >-
           https://$appURL
