@@ -90,7 +90,7 @@
     ROUTE_RESPONSE=$(curl -X "GET" "$TOPO_ROUTE/1.0/file-observer/jobs" --insecure -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' -H 'content-type: application/json')
     echo $ROUTE_RESPONSE
   register: route_response
-  until: ("<title>Error 401 Unauthorized</title>" in route_response.stdout)
+  until: ("Application is not available" not in route_response.stdout)
   retries: 500
   delay: 15      
 
