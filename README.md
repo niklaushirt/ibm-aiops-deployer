@@ -661,7 +661,7 @@ This installation contains:
 1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
 3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
 3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 69)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 48)
 3. Click `Create`
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it

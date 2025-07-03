@@ -1,0 +1,218 @@
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#         ________  __  ___     ___    ________       
+#        /  _/ __ )/  |/  /    /   |  /  _/ __ \____  _____
+#        / // __  / /|_/ /    / /| |  / // / / / __ \/ ___/
+#      _/ // /_/ / /  / /    / ___ |_/ // /_/ / /_/ (__  ) 
+#     /___/_____/_/  /_/    /_/  |_/___/\____/ .___/____/  
+#                                           /_/
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------"
+#  Installing CP4WAIOPS
+#
+#  CloudPak for Watson AIOps
+#
+#  ©2022 nikh@ch.ibm.com
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Installs:
+#
+#  - WAIOPS Operator
+#  - Event MAnager
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+ 
+ 
+ 
+- name: 🟣🟣🟣🟣🟣🟣  INSTALLATION MODULE START - {{current_feature.kind}}
+  debug: 
+    msg: 
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "                                                                                                                                                   "
+    - "      � IBM AIOps - INSTALLING {{current_feature.kind}} "
+    - "                                                                                                                                                   "
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    appURL=$(oc get routes -n $AIOPS_NAMESPACE-demo-ui ibm-aiops-demo-ui  -o jsonpath="{['spec']['host']}")|| true
+    OPENSHIFT_ROUTE=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+    INSTALL_POD=$(oc get po -n ibm-installer -l app=ibm-installer --no-headers|grep "Running"|grep "1/1"|awk '{print$1}')
+
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-main-noi
+    spec:
+      backgroundColor: '#141a6b'
+      color: '#fff'
+      location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
+      text: 'Installing  {{current_feature.kind}} - Version {{current_feature.subscription_channel}} - ' 
+      link:
+          href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
+          text: Open Logs   
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+- name: (001/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Installing {{current_feature.kind}} with the following configuration
+  debug:
+    var: current_feature
+
+
+- name:  🟣 Storage Class Parameters - SPECIFIC INSTANCE"
+  debug:
+    msg:
+    - "** Installation Options for SPECIFIC INSTANCE ***********************************************************************"
+    - " Storage Class File Override:      {{ current_feature.storage_class_file}}"
+    - " Storage Class Block Override:     {{ current_feature.storage_class_block}}"
+    - " Storage Class InfraManagement:    {{ current_feature.storage_class_file}}"
+    - ""
+  when: current_feature.storage_class_file is defined
+
+
+- name:  🟣 Storage Class Parameters - GLOBAL"
+  debug:
+    msg:
+    - "** Installation Options from GLOBAL ***********************************************************************"
+    - " Storage Class File Override:      {{ ocp_storage_class_file }}"
+    - " Storage Class Block Override:     {{ ocp_storage_class_block }}"
+    - " Storage Class InfraManagement:    {{ ocp_storage_class_file }}"
+    - ""
+  when: current_feature.storage_class_file is not defined and ocp_storage_class_file is defined
+
+
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INITIALIZATION
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# Placeholder for customization
+- name: (002/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Init Custom Hook
+  include_tasks: 00_init-custom-hook.yaml
+
+# Initialize Logging
+- name: (003/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Init Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
+
+- name: (004/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Class
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/05_init-get-storage-class.yaml"
+
+  
+# Start block
+- name: (005/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL EVENT MANAGER
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+- name: (006/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install Event Manager
+  include_tasks: 10_eventmanager-install.yaml
+
+
+- name: (007/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Patch Event Manager Topology
+  include_tasks: 20_eventmanager-patch-topology.yaml
+
+
+- name: (008/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Wait for Event Manager Topology
+  include_tasks: 99_eventmanager-wait.yaml
+
+
+
+- name: (009/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Restart Demo UI
+  include_tasks: 21_eventmanager-restart-demoui.yaml
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Create Openshift WebConsole Menu Item
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: (010/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Create Event Manager Openshift WebConsole Menu Item
+  include_tasks: 91_aimanager-create-ocp-menu.yaml
+  when: global_config.create_ocp_items | default(true) == true  
+
+# Update AI Manager Cards
+# - name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update AI Manager Cards
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_update_cards.yaml"
+
+
+# Access and documentaiton
+# - name: Get all logins
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90_core-get-all-logins.yaml"
+
+# - name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Event Manager
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-eventmanager.yaml"
+
+# - name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Open Documentation
+#   include_tasks: "{{role_path}}/../ibm-install-global/tasks/99_open-doc.yaml"
+
+
+
+
+- name: (014/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+  include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
+
+
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    export EVTMGR_NAMESPACE=$(oc get po -A|grep noi-operator |awk '{print$1}')
+    oc delete ConsoleNotification ibm-aiops-notification-main-noi>/dev/null 2>/dev/null
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export appURL=$(oc get route -n $EVTMGR_NAMESPACE  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})|| true
+    export DEMO_PWD=$(kubectl get secret evtmanager-icpadmin-secret -o json -n ibm-evtmgr| grep ICP_ADMIN_PASSWORD  | cut -d : -f2 | cut -d '"' -f2 | base64 -d;echo)
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+        name: ibm-aiops-notification-main-noi
+    spec:
+        backgroundColor: '#009a00'
+        color: '#fff'
+        link:
+            href: "https://$appURL"
+            text: EventManager
+        location: BannerTop
+        text: "✅ IBM EventManager is installed in this cluster. 🚀 Access it with 'icpadmin:$DEMO_PWD' here:"
+    EOF
+
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+- name: 🟣🟣🟣🟣🟣🟣  ✅ INSTALLATION MODULE DONEINSTALLATION MODULE DONE - {{current_feature.kind}}
+  debug: 
+    msg:  
+
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "                                                                                                                                                   "
+    - "       ✅ CloudPak for AIOps - DONE INSTALLING {{current_feature.kind}}                                                                                 "
+    - "                                                                                                                                                   "
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"
+    - "***************************************************************************************************************************************************"

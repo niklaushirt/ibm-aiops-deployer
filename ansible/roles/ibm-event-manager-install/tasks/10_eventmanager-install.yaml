@@ -1,0 +1,222 @@
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Netcool Operations Insight
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Get Config File
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+
+- name: 🛰️  START - INSTALL EVENT MANAGER
+  debug: 
+    msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - Creating IBM Event Manager Instance'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name: 🚀 EVENTMANAGER - Installation Parameters"
+  debug:
+    msg:
+    - "** CP4WAIOPS Event Manager Installation Parameters ***********************************************************************"
+    - " Event Manager Namespace:           {{current_ibm_feature.project}}"
+    - ""
+
+
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Checks
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+
+- name:   🔐 INIT CHECKS - Check Entitlement provided
+  fail: msg="Please provide IBM Entitlement Pull Secret Key/Token (Get it from here https://myibm.ibm.com/products-services/containerlibrary)"
+  when: "cp_entitlement_key is not defined"
+
+- name:   🔐 INIT CHECKS - Check Entitlement provided
+  fail: msg="Please provide IBM Entitlement Pull Secret Key/Token (Get it from here https://myibm.ibm.com/products-services/containerlibrary)"
+  when: '"<REGISTRY_TOKEN>" in cp_entitlement_key'
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Login
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+- name: 🚀 EVENTMANAGER - Get Cluster FQDN
+  shell: |
+    CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
+    CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
+    echo ${CLUSTER_FQDN##*console.}
+  register: CLUSTER_NAME
+
+- name: 🚀 EVENTMANAGER - Set Global Cluster Name={{ CLUSTER_NAME.stdout_lines[0] }} 
+  set_fact: CLUSTER_NAME_GLOBAL={{ CLUSTER_NAME.stdout_lines[0] }} 
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Netcool Operations Insight
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Create Namespace 
+- name: 🚀 EVENTMANAGER - Create EventManager namespace {{current_ibm_feature.project}}
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ current_ibm_feature.project }}"
+    state: present
+  ignore_errors: true
+
+
+
+- name: 🚀 EVENTMANAGER - Create Pull Secret for {{current_ibm_feature.project}} Namespace (you can ignore errors if it already exists)
+  shell: |
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ibm_feature.project }}>/dev/null 2>/dev/null
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server={{ global_config.entitled_registry }} --docker-username={{ global_config.entitled_registry_user }} --docker-password={{ cp_entitlement_key }} --namespace={{ current_ibm_feature.project }}>/dev/null 2>/dev/null
+  ignore_errors: true
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - IBM EventManager Catalog'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+ 
+
+# Create EventManager Catalog
+- name: 🚀 EVENTMANAGER - Install Catalog
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/eventmanager/1_cat-ibm-eventmanager.j2
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - IBM EventManager Operator'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+ 
+
+# Create EventManager Operator Group
+- name: 🚀 EVENTMANAGER - Install Operator Group
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/eventmanager/2_group-ibm-eventmanager.j2
+
+
+# Create EventManager Subscription
+- name: 🚀 EVENTMANAGER - Install Subscription
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/eventmanager/3_sub-ibm-eventmanager.j2
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for Operator to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+- name: CHECK -              🕦 Wait for CSV to become ready
+  shell: |
+    CSV_READY=$(oc get csv -n {{current_ibm_feature.project}} | grep "Event Manager")
+    echo $CSV_READY
+  register: resource_ready
+  until: ("Succeeded" in resource_ready.stdout)
+  retries: 500
+  delay: 15
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - IBM EventManager Instance'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+# Create EventManager Instance
+- name: 🚀 EVENTMANAGER - Install EventManager
+  kubernetes.core.k8s:
+    state: present
+    template: ./templates/eventmanager/4_eventmanager-install-template.j2
+
+
+
+
+
+
+
+

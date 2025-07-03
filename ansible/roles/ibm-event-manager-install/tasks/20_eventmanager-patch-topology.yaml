@@ -1,0 +1,81 @@
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Patches
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+
+- name: 🛰️  START - PATCH TOPOLOGY
+  debug: 
+    msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
+
+
+- name: Log
+  shell: |
+    export MESSAGE="Patching Topology Deployment"
+    export currentDate=$(date +%Y-%m-%d_%H:%M)
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
+  ignore_errors: true
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for Topology to become ready (about 30-45 minutes) - Started at $(date +%H:%M) UTC'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Wait for Topology Pods
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🕦 PATCH - Wait for Topology Pods to become available - this can take up to 45 minutes (hack)
+  shell: oc get po -n {{ current_ibm_feature.project }} | grep evtmanager-topology-merge| grep -c ""
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout == "1"
+  retries: 500
+  delay: 15
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Patch Topology Pods
+# --------------------------------------------------------------------------------------------------------------------------------------
+- name: 🩹 PATCH - Patch aiops-topology-merge (hack)
+  shell: oc patch deployment evtmanager-topology-merge -n {{ current_ibm_feature.project }} --patch-file "{{role_path}}/templates/eventmanager/patches/evtmanager-topology-merge-patch.yaml"
+  ignore_errors: true
+
+
+- name: 🩹 PATCH - Patch aiops-topology-search (hack)
+  shell: oc patch deployment evtmanager-topology-search -n {{ current_ibm_feature.project }} --patch-file "{{role_path}}/templates/eventmanager/patches/evtmanager-topology-search-patch.yaml"
+  ignore_errors: true
+
+
+- name: 🩹 PATCH - Patch aiops-topology-status (hack)
+  shell: oc patch deployment evtmanager-topology-status -n {{ current_ibm_feature.project }} --patch-file "{{role_path}}/templates/eventmanager/patches/evtmanagerps-topology-status-patch.yaml"
+  ignore_errors: true
+
+
+- name: 🩹 PATCH - Patch aiops-topology-layout (hack)
+  shell: oc patch deployment evtmanager-topology-layout -n {{ current_ibm_feature.project }} --patch-file "{{role_path}}/templates/eventmanager/patches/evtmanager-topology-layout-patch.yaml"
+  ignore_errors: true
+
+
+- name: 🩹 PATCH - Patch evtmanager-ibm-hdm-analytics-dev-inferenceservice (hack)
+  shell: oc patch deployment evtmanager-ibm-hdm-analytics-dev-inferenceservice -n {{ current_ibm_feature.project }} --patch-file "{{role_path}}/templates/eventmanager/patches/evtmanager-inferenceservice-patch.yaml"
+  ignore_errors: true
+

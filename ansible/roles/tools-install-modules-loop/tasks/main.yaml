@@ -40,6 +40,20 @@
 
 
 
+- name: tools-install-modules-loop 🌡   CHECK for - IBM EventManager
+  include_role:
+    name: ibm-event-manager-install
+  when: current_feature.kind=="EventManager" and current_feature.install==true
+
+
+- name: tools-install-modules-loop 🌡   CHECK for - IBM EventManager Demo Content
+  include_role:
+    name: ibm-event-manager-demo-content
+  when: current_feature.kind=="EventManagerDemoContent" and current_feature.install==true
+
+
+
+
 - name: tools-install-modules-loop 🌡   CHECK for - IBM Concert
   include_role:
     name: ibm-concert-install
