@@ -108,8 +108,9 @@ echo "  ▶️  Starting Port Forwarding"
 echo "***************************************************************************************************************************************************"
 echo ""
 
-while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done
+
+while true; do oc port-forward service/aiops-opensearch 9200; done
 
 
 
-
+aimanager-aio-similar-incidents-service
