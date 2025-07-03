@@ -81,31 +81,30 @@
 
     echo "    TEMPLATE_ID: $TEMPLATE_ID"
 
+
     if [[ $TEMPLATE_ID == "" ]];
     then
       echo "  Create Template"
-      curl -X "POST" "$TOPO_ROUTE/1.0/topology/groups" --insecure \
+        curl -X "POST" "$TOPO_ROUTE/1.0/topology/groups" --insecure \
       -u $LOGIN \
       -H 'Content-Type: application/json' \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -d '  {
-
+      -d ' {
+          "keyIndexName": "topologyTemplate:robot-shop-template:groupInstance",
           "_correlationEnabled": "true",
           "iconId": "application",
+          "tags": ["robot-shop-template"],
           "vertexType": "group",
-          "groupTokens": [
-              "namespace:robot-shop"
-          ],
+          "groupTokens": ["namespace:robot-shop"],
           "correlatable": "true",
           "name": "robot-shop-template",
-          "entityTypes": [
-              "completeGroup",
-              "namespace"
-          ],
-          "tags": [
-              "robot-shop-template"
-          ]
-      }'
+          "defaultHopType": "e2e",
+          "entityTypes": ["completeGroup", "namespace"],
+          "window": {
+              "type": "rolling",
+                "durationMS": 900000
+            }
+        }'
     else
       echo "  Recreate Template"
             curl -X "DELETE" "$TOPO_ROUTE/1.0/topology/groups/$TEMPLATE_ID" --insecure \
@@ -118,24 +117,22 @@
       -u $LOGIN \
       -H 'Content-Type: application/json' \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -d '  {
-
+      -d ' {
+          "keyIndexName": "topologyTemplate:robot-shop-template:groupInstance",
           "_correlationEnabled": "true",
           "iconId": "application",
+          "tags": ["robot-shop-template"],
           "vertexType": "group",
-          "groupTokens": [
-              "namespace:robot-shop"
-          ],
+          "groupTokens": ["namespace:robot-shop"],
           "correlatable": "true",
           "name": "robot-shop-template",
-          "entityTypes": [
-              "completeGroup",
-              "namespace"
-          ],
-          "tags": [
-              "robot-shop-template"
-          ]
-      }'
+          "defaultHopType": "e2e",
+          "entityTypes": ["completeGroup", "namespace"],
+          "window": {
+              "type": "rolling",
+                "durationMS": 900000
+            }
+        }'
 
     fi
 
@@ -184,16 +181,19 @@
       -H 'Content-Type: application/json' \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
       -d '  {
-          "keyIndexName": "robot-shop",
-          "_correlationEnabled": "true",
-          "iconId": "application",
-          "vertexType": "group",
-          "correlatable": "true",
-          "name": "robot-shop",
-          "entityTypes": [
-              "waiopsApplication"
-          ]
-      }'
+        "keyIndexName": "robot-shop",
+        "_correlationEnabled": "true",
+        "iconId": "application",
+        "vertexType": "group",
+        "correlatable": "true",
+        "name": "robot-shop",
+        "disruptionCostPerMin": "500",
+        "entityTypes": ["waiopsApplication"],
+        "window": {
+            "type": "rolling",
+            "durationMS": 900000
+        }
+    }'
     else
       echo "  Application already exists"
     fi
@@ -229,7 +229,7 @@
     export APP_ID=$(curl -X "GET" "$TOPO_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop")|._id'| tail -1)
     export TEMPLATE_ID=$(curl -X "GET" "$TOPO_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .name == "robot-shop-template")|._id'| tail -1)
     export K8S_OBS_ID=$(curl -X "GET" "$TOPO_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop::kubernetes::namespace::robot-shop")|._id'| tail -1)
-    #export K8S_OBS_ID=$(curl -X "GET" "$TOPO_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop")|._id'| tail -1)
+    #export K8S_OBS_ID=$(curl -X "GET" "$TOPO_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop-topology")|._id'| tail -1)
 
     echo "    APP_ID:     "$APP_ID
     echo "    TEMPLATE_ID:"$TEMPLATE_ID
@@ -274,3 +274,4 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
+

@@ -62,7 +62,7 @@
       backgroundColor: '#141a6b'
       color: '#fff'
       location: {{global_config.position_final_ocp_notification | default("BannerTop")}}
-      text: 'Installing  {{current_feature.kind}} - {{global_config.environment_name | default("Demo")}} - Version {{current_feature.subscription_channel}} - ' 
+      text: 'Installing  {{current_feature.kind}} - Version {{current_feature.subscription_channel}} - ' 
       link:
           href: "https://$OPENSHIFT_ROUTE/k8s/ns/ibm-installer/pods/$INSTALL_POD/logs"
           text: Open Logs   
@@ -191,7 +191,7 @@
         color: '#fff'
         link:
             href: "https://$appURL"
-            text: DemoUI
+            text: EventManager
         location: BannerTop
         text: "✅ IBM EventManager is installed in this cluster. 🚀 Access it with 'icpadmin:$DEMO_PWD' here:"
     EOF
