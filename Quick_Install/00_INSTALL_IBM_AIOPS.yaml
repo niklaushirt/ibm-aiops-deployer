@@ -99,8 +99,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:92c0c25b329f97603615463d549a627180cb1988ac2ebd3b707aa9062597581d
-      current_supported_aiops_version: v4.9
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:a4b1835f07bf52db6eab2e26cda50b807b0be9f637725c5e2fd9a6ec6af156d5
+      current_supported_aiops_version: v4.10
 
 
 
@@ -180,7 +180,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.9
+        subscription_channel: v4.10
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
 

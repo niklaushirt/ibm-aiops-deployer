@@ -40,7 +40,7 @@ echo "**************************************************************************
 oc project $AIOPS_NAMESPACE
 
 export username=elastic
-export password=$(oc get secret $(oc get secrets | grep aiops-ibm-elasticsearch-creds | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.elastic}"| base64 --decode)	
+export password=$(oc get secret $(oc get secrets | grep aiops-opensearch-admin-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
 #echo $username:$password
 
 
@@ -108,8 +108,9 @@ echo "  ▶️  Starting Port Forwarding"
 echo "***************************************************************************************************************************************************"
 echo ""
 
-while true; do oc port-forward statefulset/aiops-ibm-elasticsearch-es-server-all 9200; done
+
+while true; do oc port-forward service/aiops-opensearch 9200; done
 
 
 
-
+aimanager-aio-similar-incidents-service

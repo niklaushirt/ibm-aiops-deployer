@@ -76,7 +76,7 @@ data:
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
-      current_supported_aiops_version: v4.9
+      current_supported_aiops_version: v4.10
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
