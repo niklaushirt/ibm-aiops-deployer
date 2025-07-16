@@ -290,10 +290,10 @@ def injectLogsContinuous(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFK
 
                 # stream = os.popen("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
                 # print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
-                #time.sleep((LOG_TIME_STEPS/10000))
+                time.sleep((LOG_TIME_STEPS/10000))
             producer.flush()
             print('    📝 Logs-Injection: '+str(i)+'  :  '+str(timestamp))
-            #time.sleep(5)
+            time.sleep(5)
     except KafkaException as e:
         print( "Kafka: "+str(e) )
     print ('✅ END - Inject Logs')
