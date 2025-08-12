@@ -1508,6 +1508,10 @@
   shell: |
     set -x
 
+      echo "----------------------------------------------------------------------------------------------------------"
+      echo "----------------------------------------------------------------------------------------------------------"
+      echo "🚀 PROBABLE CAUSE - CUSTOM WORD LIST"
+      echo "----------------------------------------------------------------------------------------------------------"
 
 
     export AIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
@@ -1516,9 +1520,19 @@
     export TOKEN=$(curl -k -s -X POST https://$ROUTE/icp4d-api/v1/authorize -H 'Content-Type: application/json' -d "{\"username\": \"admin\",\"password\": \"$PASS\"}" | jq .token | sed 's/\"//g')
     echo $TOKEN
 
+
+    echo ""
+    echo ""
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "   🚀 PROBABLE CAUSE - BACKUP WORD LIST"
     curl -k -X GET  --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "Content-Type: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" > backup_words.json
 
 
+
+    echo ""
+    echo ""
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "   🚀 PROBABLE CAUSE - EMPTY WORD LIST"
     curl -k -X POST --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" -d '
     {"words": [
         {
@@ -1528,12 +1542,15 @@
             }]
         }'
 
-
-        
     curl -k -X GET  --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "Content-Type: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" 
 
 
 
+
+    echo ""
+    echo ""
+    echo "----------------------------------------------------------------------------------------------------------"
+    echo "   🚀 PROBABLE CAUSE - LOAD WORD LIST"
     curl -k -X POST --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" -d '{"words": [
     {
             "word": "Commit",
