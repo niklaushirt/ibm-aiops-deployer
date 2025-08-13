@@ -859,11 +859,142 @@
                 "id": "filterBuilderCondition-1754913872305",
                 "field": "tags",
                 "operator": "matches",
-                "value": ["robot-shop"],
+                "value": ["namespace:robot-shop"],
                 "type": "condition"
             }]
             }
     }'
+
+
+
+
+
+    curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+    -X 'POST' \
+    -H 'content-type: application/json' \
+    -H 'accept: */*' \
+    -H 'content-type: application/json' \
+    -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+    -d '{ 
+          "name": "App: SockShop",
+          "description": "Automatically created by Nicks scripts",
+          "type": "inventory",
+          "mode": "basic",
+          "accessControlList": {
+              "read": {
+                  "teams": [],
+                  "users": [
+                      "*"
+                  ]
+              },
+              "admin": {
+                  "teams": [],
+                  "users": [
+                      "demo"
+                  ]
+              },
+              "write": {
+                  "teams": [],
+                  "users": []
+              }
+            },
+            "conditionSet": {
+            "conditions": [{
+                "id": "filterBuilderCondition-1754913872305",
+                "field": "tags",
+                "operator": "matches",
+                "value": ["namespace:sock-shop"],
+                "type": "condition"
+            }]
+            }
+    }'
+
+
+
+    
+    curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+    -X 'POST' \
+    -H 'content-type: application/json' \
+    -H 'accept: */*' \
+    -H 'content-type: application/json' \
+    -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+    -d '{ 
+          "name": "App: ACME",
+          "description": "Automatically created by Nicks scripts",
+          "type": "inventory",
+          "mode": "basic",
+          "accessControlList": {
+              "read": {
+                  "teams": [],
+                  "users": [
+                      "*"
+                  ]
+              },
+              "admin": {
+                  "teams": [],
+                  "users": [
+                      "demo"
+                  ]
+              },
+              "write": {
+                  "teams": [],
+                  "users": []
+              }
+            },
+            "conditionSet": {
+            "conditions": [{
+                "id": "filterBuilderCondition-1754913872305",
+                "field": "tags",
+                "operator": "matches",
+                "value": ["namespace:acme"],
+                "type": "condition"
+            }]
+            }
+    }'
+
+
+    curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+    -X 'POST' \
+    -H 'content-type: application/json' \
+    -H 'accept: */*' \
+    -H 'content-type: application/json' \
+    -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+    -d '{ 
+          "name": "Infra: Fiber Network",
+          "description": "Automatically created by Nicks scripts",
+          "type": "inventory",
+          "mode": "basic",
+          "accessControlList": {
+              "read": {
+                  "teams": [],
+                  "users": [
+                      "*"
+                  ]
+              },
+              "admin": {
+                  "teams": [],
+                  "users": [
+                      "demo"
+                  ]
+              },
+              "write": {
+                  "teams": [],
+                  "users": []
+              }
+            },
+            "conditionSet": {
+            "conditions": [{
+                "id": "filterBuilderCondition-1754913872305",
+                "field": "tags",
+                "operator": "matches",
+                "value": ["app:telco"],
+                "type": "condition"
+            }]
+            }
+    }'
+
+
+
 
 
   register: output_string

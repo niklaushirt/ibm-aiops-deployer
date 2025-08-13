@@ -1,9 +1,16 @@
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# LOAD RISK TOPOLOGY
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# LOAD RISK TOPOLOGY - US BIG
 
 echo "----------------------------------------------------------------------------------------------------------"
 echo "----------------------------------------------------------------------------------------------------------"
-echo "🚀 TOPOLOGY - COPY RISK TOPOLOGY TO POD - $TOPOLOGY_NAME"
+echo "🚀 TOPOLOGY - COPY RISK TOPOLOGY TO POD"
 echo "----------------------------------------------------------------------------------------------------------"
 echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -78,11 +85,12 @@ sleep 10
 
 
 
-
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# LOAD RISK TOPOLOGY - US NETWORK
 
 echo "----------------------------------------------------------------------------------------------------------"
 echo "----------------------------------------------------------------------------------------------------------"
-echo "🚀 TOPOLOGY - COPY US NETWORK RISK TOPOLOGY TO POD - $TOPOLOGY_NAME"
+echo "🚀 TOPOLOGY - COPY US NETWORK RISK TOPOLOGY TO POD"
 echo "----------------------------------------------------------------------------------------------------------"
 echo "Create Custom Topology - Copy Topology to File Observer"
 
@@ -157,10 +165,12 @@ sleep 10
 
 
 
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# LOAD RISK TOPOLOGY - EU
 
 echo "----------------------------------------------------------------------------------------------------------"
 echo "----------------------------------------------------------------------------------------------------------"
-echo "🚀 TOPOLOGY - COPY EU RISK TOPOLOGY TO POD - $TOPOLOGY_NAME"
+echo "🚀 TOPOLOGY - COPY EU RISK TOPOLOGY TO POD"
 echo "----------------------------------------------------------------------------------------------------------"
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
@@ -240,9 +250,16 @@ sleep 10
 
 
 
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# CRATE FILTERS
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-  
+
+
+
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
 export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
@@ -266,6 +283,7 @@ export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
 # -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" 
 
 
+
 curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 -X 'POST' \
 -H 'content-type: application/json' \
@@ -273,27 +291,251 @@ curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 -H 'content-type: application/json' \
 -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
 -d '{ 
-      "name": "My Network Equipment",
-      "description": "Automatically created by Nicks scripts",
-      "type": "inventory",
-      "mode": "basic",
-      "accessControlList": {
-          "read": {
-              "teams": [],
-              "users": [
-                  "*"
-              ]
-          },
-          "admin": {
-              "teams": [],
-              "users": [
-                  "demo"
-              ]
-          },
-          "write": {
-              "teams": [],
-              "users": []
-          }
+        "name": "Country: USA",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+    "conditionSet": {
+    "conditions": [
+        {
+        "id": "geoLocationCondition",
+        "type": "condition",
+        "field": "geolocation",
+        "value": "POLYGON ((-124.980469 48.516604, -123.222656 48.370848, -123.046875 49.066668, -94.526367 49.037868, -89.516602 47.960502, -82.617188 45.367584, -82.529297 41.738528, -71.367188 45.305803, -69.169922 47.428087, -67.104492 44.527843, -80.683594 30.600094, -79.365234 25.045792, -82.397461 25.363882, -84.506836 29.496988, -89.516602 28.806174, -94.394531 29.075375, -97.646484 26.037042, -102.392578 29.840644, -117.597656 32.398516, -124.453125 40.111689, -124.980469 48.516604))",
+        "operator": "contains"
+        }
+    ]
+    }
+}'
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Region: Western Europe",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+    "conditionSet": {
+    "conditions": [
+        {
+        "id": "geoLocationCondition",
+        "type": "condition",
+        "field": "geolocation",
+        "value": "POLYGON ((-12.480469 43.261206, -6.855469 35.137879, 10.898438 37.857507, 18.632813 35.603719, 25.664063 35.56798, 28.476563 39.232253, 30.629883 44.308127, 30.498047 47.487513, 20.874023 55.9492, 15.380859 55.776573, 3.603516 55.128649, -2.724609 61.648162, -12.744141 59.623325, -12.480469 43.261206))",
+        "operator": "contains"
+        }
+    ]
+    }
+}'
+
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Country: Switzerland",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+    "conditionSet": {
+    "conditions": [
+        {
+        "id": "geoLocationCondition",
+        "type": "condition",
+        "field": "geolocation",
+        "value": "POLYGON ((9.008789 45.847934, 8.432007 46.452997, 8.00354 46.035109, 7.108154 45.867063, 6.729126 46.418926, 5.987549 46.103709, 6.053467 46.592844, 6.899414 47.282956, 6.866455 47.390912, 6.987305 47.513491, 7.190552 47.513491, 7.432251 47.483801, 7.613525 47.591346, 8.223267 47.609867, 8.448486 47.576526, 8.410034 47.713458, 8.55835 47.809465, 8.909912 47.646887, 9.18457 47.669087, 9.569092 47.528329, 9.651489 47.379754, 9.442749 47.058896, 9.865723 47.021461, 10.217285 46.863947, 10.387573 46.995241, 10.48645 46.871458, 10.409546 46.641894, 10.508423 46.607941, 10.447998 46.490829, 10.228271 46.607941, 10.063477 46.430285, 10.184326 46.29002, 10.079956 46.214051, 9.931641 46.362093, 9.536133 46.301406, 9.420776 46.475699, 9.30542 46.418926, 9.272461 46.221652, 9.102173 46.118942, 9.008789 45.847934))",
+        "operator": "contains"
+        }
+    ]
+    }
+}'
+
+
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Area: Berne",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+    "conditionSet": {
+    "conditions": [
+        {
+        "id": "geoLocationCondition",
+        "type": "condition",
+        "field": "geolocation",
+        "value": "POLYGON ((7.385216 46.957996, 7.400322 46.901258, 7.534904 46.889997, 7.57576 46.906653, 7.584 46.974396, 7.551727 47.018653, 7.436714 47.030823, 7.385216 46.957996))",
+        "operator": "contains"
+        }
+    ]
+    }
+}'
+
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Area: London",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+    "conditionSet": {
+    "conditions": [
+        {
+        "id": "geoLocationCondition",
+        "type": "condition",
+        "field": "geolocation",
+        "value": "POLYGON ((-0.181274 51.261915, -0.532837 51.409486, -0.494385 51.679368, 0.087891 51.68618, 0.291138 51.556582, 0.175781 51.28597, -0.181274 51.261915))",
+        "operator": "contains"
+        }
+    ]
+    }
+}'
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Infra: Network Equipment",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
         },
         "conditionSet": {
             "conditions": [{
@@ -314,27 +556,27 @@ curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 -H 'content-type: application/json' \
 -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
 -d '{ 
-      "name": "My Risks",
-      "description": "Automatically created by Nicks scripts",
-      "type": "inventory",
-      "mode": "basic",
-      "accessControlList": {
-          "read": {
-              "teams": [],
-              "users": [
-                  "*"
-              ]
-          },
-          "admin": {
-              "teams": [],
-              "users": [
-                  "demo"
-              ]
-          },
-          "write": {
-              "teams": [],
-              "users": []
-          }
+        "name": "_Global Risks",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
         },
         "conditionSet": {
             "conditions": [{
@@ -349,6 +591,8 @@ curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 
 
 
+
+
 curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 -X 'POST' \
 -H 'content-type: application/json' \
@@ -356,40 +600,177 @@ curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
 -H 'content-type: application/json' \
 -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
 -d '{ 
-      "name": "RobotShop",
-      "description": "Automatically created by Nicks scripts",
-      "type": "inventory",
-      "mode": "basic",
-      "accessControlList": {
-          "read": {
-              "teams": [],
-              "users": [
-                  "*"
-              ]
-          },
-          "admin": {
-              "teams": [],
-              "users": [
-                  "demo"
-              ]
-          },
-          "write": {
-              "teams": [],
-              "users": []
-          }
+        "name": "App: RobotShop",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
         },
         "conditionSet": {
         "conditions": [{
             "id": "filterBuilderCondition-1754913872305",
             "field": "tags",
             "operator": "matches",
-            "value": ["robot-shop"],
+            "value": ["namespace:robot-shop"],
             "type": "condition"
         }]
         }
 }'
 
 
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "App: SockShop",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+        "conditionSet": {
+        "conditions": [{
+            "id": "filterBuilderCondition-1754913872305",
+            "field": "tags",
+            "operator": "matches",
+            "value": ["namespace:sock-shop"],
+            "type": "condition"
+        }]
+        }
+}'
+
+
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "App: ACME",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+        "conditionSet": {
+        "conditions": [{
+            "id": "filterBuilderCondition-1754913872305",
+            "field": "tags",
+            "operator": "matches",
+            "value": ["namespace:acme"],
+            "type": "condition"
+        }]
+        }
+}'
+
+
+curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/userconfig/filters" \
+-X 'POST' \
+-H 'content-type: application/json' \
+-H 'accept: */*' \
+-H 'content-type: application/json' \
+-H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
+-d '{ 
+        "name": "Infra: Fiber Network",
+        "description": "Automatically created by Nicks scripts",
+        "type": "inventory",
+        "mode": "basic",
+        "accessControlList": {
+            "read": {
+                "teams": [],
+                "users": [
+                    "*"
+                ]
+            },
+            "admin": {
+                "teams": [],
+                "users": [
+                    "demo"
+                ]
+            },
+            "write": {
+                "teams": [],
+                "users": []
+            }
+        },
+        "conditionSet": {
+        "conditions": [{
+            "id": "filterBuilderCondition-1754913872305",
+            "field": "tags",
+            "operator": "matches",
+            "value": ["app:telco"],
+            "type": "condition"
+        }]
+        }
+}'
+
+
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# CREATE TEMPLATES AND RULES
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
@@ -406,9 +787,9 @@ echo $ZEN_TOKEN
 export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
 
 
-      # ---------------------------------
-      # inGroup
-      # ---------------------------------
+# ---------------------------------
+# inGroup
+# ---------------------------------
 
 export result=$(curl "https://$ROUTE/api/p/hdm_asm_ui_api/1.0/ui-api/templates?templateType=token" \
 -X 'POST' \
@@ -759,7 +1140,11 @@ echo $resultRule
 
 
 
-
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# RERUN OBSERVER JOBS
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
 export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
