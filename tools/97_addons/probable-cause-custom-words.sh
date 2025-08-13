@@ -6,8 +6,10 @@
 
 
 export AIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
-export ROUTE=$(oc get route | grep ibm-nginx-svc | awk '{print $2}')
-PASS=$(oc get secret admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode)
+export ROUTE=$(oc get -n $AIOPS_NAMESPACE route | grep ibm-nginx-svc | awk '{print $2}')
+echo $ROUTE
+PASS=$(oc get secret -n $AIOPS_NAMESPACE admin-user-details -o jsonpath='{.data.initial_admin_password}' | base64 --decode)
+echo $PASS
 export TOKEN=$(curl -k -s -X POST https://$ROUTE/icp4d-api/v1/authorize -H 'Content-Type: application/json' -d "{\"username\": \"admin\",\"password\": \"$PASS\"}" | jq .token | sed 's/\"//g')
 echo $TOKEN
 
@@ -55,12 +57,16 @@ curl -k -X POST --header 'Accept: application/json' -H "Authorization: Bearer ${
 {
         "word": "Commit",
         "caseSenstive": true,
-        "weight": 100.0
+        "weight": 200.0
     }, {
         "word": "Erroneus",
         "caseSenstive": true,
         "weight": 50.0
-    }, {
+    },  {
+            "word": "change detected",
+            "caseSenstive": true,
+            "weight": 80.0
+    },{
         "word": "not responding",
         "caseSenstive": false,
         "weight": 70.0
