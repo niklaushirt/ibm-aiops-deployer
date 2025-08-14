@@ -489,7 +489,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - 🕦 Wait for DataStores to become ready (about 5-10 minutes) - Started at $(date +%H:%M) UTC'    
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for DataStores to become ready (about 5-10 minutes - If this hangs longer, restart the installer Pod) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -499,9 +499,9 @@
 
 
 
-- name:   🕦 INSTANA - Wait for at least 30 DataStore Pods
+- name:   🕦 INSTANA - Wait for at least 32 DataStore Pods - (If this hangs, restart the installer Pod)
   shell: |
-    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 30 ]
+    while [ `oc -n instana-datastores get pods| grep -c ""` -lt 32 ]
     do
       sleep 30
     done
@@ -962,6 +962,9 @@
     echo "  - {{current_agent_key}}" >> config.yaml
     echo "initialAdminPassword: {{current_admin_pass}}" >> config.yaml
     echo "initialAdminUser: {{current_feature.instana_admin_user}}" >> config.yaml
+    echo "downloadKey: {{current_agent_key}}" >> config.yaml
+
+
     echo "-----------------------------------------------------------"
     echo " ✅ Unit Config"
     echo "-----------------------------------------------------------"
