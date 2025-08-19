@@ -1635,7 +1635,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # AIOPS
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🚀 TOPOLOGY - CREATE MERGE RULES
+- name: 🚀 PROBABLE CAUSE - CUSTOM WORD LIST
   shell: |
     set -x
 
@@ -1686,25 +1686,26 @@
     echo "----------------------------------------------------------------------------------------------------------"
     echo "   🚀 PROBABLE CAUSE - LOAD WORD LIST"
     curl -k -X POST --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" -H "Content-Type: application/json" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" -d '{"words": [
-    {
+      {
             "word": "Commit",
             "caseSenstive": true,
-            "weight": 100.0
+            "weight": 300.0
         }, {
             "word": "Erroneus",
             "caseSenstive": true,
-            "weight": 50.0
+            "weight": 150.0
         },
         {
             "word": "change detected",
             "caseSenstive": true,
-            "weight": 80.0
+            "weight": 200.0
         },
-         {
+        {
             "word": "not responding",
             "caseSenstive": false,
-            "weight": 70.0
-        }, {
+            "weight": 150.0
+        },
+        {
             "word": "LOF",
             "caseSenstive": true,
             "weight": 50.0
@@ -1840,9 +1841,11 @@
             "word": "temperature",
             "caseSenstive": false,
             "weight": 40.0
-        }]
+        }
+    ]
     }'
-    curl -k -X GET  --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "Content-Type: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" 
+
+    curl -k -X GET  --header 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" https://$ROUTE/aiops/api/issue-resolution/mime/v1/customisation/words -H "accept: application/json" -H "Content-Type: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" | jq
 
 
   register: output_string
@@ -1854,5 +1857,5 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-    verbosity: 1
+
 
