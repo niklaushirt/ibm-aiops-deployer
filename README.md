@@ -243,7 +243,7 @@ If you think that you hit a problem:
 
 
 
-## ❗ If anything goes wrong, please restart/delete the installer pod and/or refer to [Troubleshooting](#7-troubleshooting)
+## ❗ If anything goes wrong, please restart/delete the installer pod and/or refer to [Troubleshooting](#4-troubleshooting)
 
 
 
@@ -451,7 +451,7 @@ To access the demo environment:
 <details>
 <summary>🔎 2.1.6 Detailed Check</summary>
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#4-troubleshooting)
 
 
 ### 2.1.6.1 Check Overall
@@ -508,7 +508,7 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check06.png)
 
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#4-troubleshooting)
 
 
 </details>
