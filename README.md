@@ -243,7 +243,7 @@ If you think that you hit a problem:
 
 
 
-## ❗ If anything goes wrong, please restart/delete the installer pod and/or refer to [Troubleshooting](#4-troubleshooting)
+> ## ❗❗❗❗ If anything goes wrong, please restart/delete the installer pod and/or refer to [Troubleshooting](#4-troubleshooting) ❗❗❗❗
 
 
 
