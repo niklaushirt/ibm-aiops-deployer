@@ -44,10 +44,10 @@
 > - by Mail: nikh@ch.ibm.com
 > 
 > 
-> **❗The installation has been tested on OpenShift 4.16 on:**
+> **❗The installation has been tested on OpenShift 4.18 on:**
 > 
 > - OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
-> - OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
+
 >
 > But it should work on other Openshift Platforms as well (ROKS, Fyre, ...)
 > 
@@ -180,13 +180,11 @@ Basically:
 
 	![K8s CNI](./doc/pics/roks03.png) 
 
-1. Select Openshift Storage
+1. Select Openshift Version
 
-   - Storage OCS/ODF Size: **1TB** or Managed NFS **2TB**
+   - Select: **4.18** 
 
-   - OpenShift Version: **4.15** or **4.16**
-
-  	![K8s CNI](./doc/pics/roks06.png)
+  	![K8s CNI](./doc/pics/roks07.png)
 
 1. Select the Cluster Size
 
@@ -242,6 +240,12 @@ If you think that you hit a problem:
 ---------------------------------------------------------------
 # 2. Quick Install
 ---------------------------------------------------------------
+
+
+
+> ## ❗❗❗❗ If anything goes wrong, please restart/delete the installer pod ❗❗❗❗ and/or refer to [Troubleshooting](#4-troubleshooting) 
+
+
 
 
 
@@ -447,7 +451,7 @@ To access the demo environment:
 <details>
 <summary>🔎 2.1.6 Detailed Check</summary>
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#4-troubleshooting)
 
 
 ### 2.1.6.1 Check Overall
@@ -504,7 +508,7 @@ Check that the green notification bar is displayed as follows
 ![install](./doc/pics/check06.png)
 
 
-### ❗ If any of the checks is not right, please refer to [Troubleshooting](#7-troubleshooting)
+### ❗ If any of the checks is not right, please refer to [Troubleshooting](#4-troubleshooting)
 
 
 </details>
