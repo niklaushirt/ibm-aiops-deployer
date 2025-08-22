@@ -18,24 +18,27 @@ echo " 🚀 Permanent Login for Cluster: "$CLUSTER_NAME
 echo "--------------------------------------------------------------------------------------------------------"
 
 
-echo "# --------------------------------------------------------------------------------------------------------">~/LOGIN_$CLUSTER_NAME.sh
-echo "# 🚀 Login Info for Cluster: "$CLUSTER_NAME>>~/LOGIN_$CLUSTER_NAME.sh
-echo "# --------------------------------------------------------------------------------------------------------">>~/LOGIN_$CLUSTER_NAME.sh
-echo "">>~/LOGIN_$CLUSTER_NAME.sh
+
+export FILENAME="LOGIN_$(date '+%Y-%m-%d')_$CLUSTER_NAME.sh"
+
+echo "# --------------------------------------------------------------------------------------------------------">~/$FILENAME
+echo "# 🚀 Login Info for Cluster: "$CLUSTER_NAME>>~/$FILENAME
+echo "# --------------------------------------------------------------------------------------------------------">>~/$FILENAME
+echo "">>~/$FILENAME
 
 
 
-echo "#   --------------------------------------------------------------------------------------------------------">>~/LOGIN_$CLUSTER_NAME.sh
-echo "#    🚀 Namespaces in Cluster: "$CLUSTER_NAME>>~/LOGIN_$CLUSTER_NAME.sh
+echo "#   --------------------------------------------------------------------------------------------------------">>~/$FILENAME
+echo "#    🚀 Namespaces in Cluster: "$CLUSTER_NAME>>~/$FILENAME
 CUSTOM_NAMESPACES=$(oc get ns --no-headers| grep -v openshift | grep -v kube- | grep -v open-| awk '{print $1}')
 CUSTOM_NAMESPACES=( $( echo $CUSTOM_NAMESPACES ) )
 for NS in ${CUSTOM_NAMESPACES[@]};
 do
-    echo "#       📥 $NS">>~/LOGIN_$CLUSTER_NAME.sh
+    echo "#       📥 $NS">>~/$FILENAME
 done
-echo "">>~/LOGIN_$CLUSTER_NAME.sh
-echo "">>~/LOGIN_$CLUSTER_NAME.sh
-echo "">>~/LOGIN_$CLUSTER_NAME.sh
+echo "">>~/$FILENAME
+echo "">>~/$FILENAME
+echo "">>~/$FILENAME
 
 
 
@@ -49,16 +52,16 @@ echo "  ------------------------------------------------------------------------
 
 
 
-echo "#   --------------------------------------------------------------------------------------------------------">>~/LOGIN_$CLUSTER_NAME.sh
-echo "#    🚀 Login for Cluster: "$CLUSTER_NAME" as User: "$(oc whoami)>>~/LOGIN_$CLUSTER_NAME.sh
-echo "oc login --server=$API_URL --token=$API_TOKEN">>~/LOGIN_$CLUSTER_NAME.sh
-echo "# --------------------------------------------------------------------------------------------------------">>~/LOGIN_$CLUSTER_NAME.sh
+echo "#   --------------------------------------------------------------------------------------------------------">>~/$FILENAME
+echo "#    🚀 Login for Cluster: "$CLUSTER_NAME" as User: "$(oc whoami)>>~/$FILENAME
+echo "oc login --server=$API_URL --token=$API_TOKEN">>~/$FILENAME
+echo "# --------------------------------------------------------------------------------------------------------">>~/$FILENAME
 
 
 echo ""
 echo "  --------------------------------------------------------------------------------------------------------"
-echo "    🚀 A Login File has been created in your Home Directory: ~/LOGIN_$CLUSTER_NAME.sh"
-open ~/LOGIN_$CLUSTER_NAME.sh
+echo "    🚀 A Login File has been created in your Home Directory: ~/$FILENAME"
+open ~/$FILENAME
 echo "--------------------------------------------------------------------------------------------------------"
 echo "✅ DONE "
 echo "--------------------------------------------------------------------------------------------------------"

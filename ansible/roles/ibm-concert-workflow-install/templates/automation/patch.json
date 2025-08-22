@@ -1,0 +1,42 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/volumes/-",
+    "value": {
+      "name": "http-conf",
+      "configMap": {
+        "name": "nginx-http-conf",
+        "defaultMode": 493
+      }
+    }
+  },
+{
+    "op": "add",
+    "path": "/spec/template/spec/volumes/-",
+    "value": {
+      "name": "nginx-conf",
+      "configMap": {
+        "name": "nginx-conf",
+        "defaultMode": 493
+      }
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/volumeMounts/-",
+    "value": {
+      "name": "http-conf",
+      "mountPath": "/etc/nginx/http.conf",
+      "subPath": "http.conf"
+    }
+  },
+ {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/volumeMounts/-",
+    "value": {
+      "name": "nginx-conf",
+      "mountPath": "/etc/nginx/nginx.conf",
+      "subPath": "nginx.conf"
+    }
+  }
+]

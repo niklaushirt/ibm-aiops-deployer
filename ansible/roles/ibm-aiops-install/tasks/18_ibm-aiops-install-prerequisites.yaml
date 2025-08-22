@@ -89,12 +89,12 @@
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Wait for LICENSE MANAGER Pods
+# Wait for LICENSE MANAGER Pods - NOT NEEDED AS OF 4.10
 # --------------------------------------------------------------------------------------------------------------------------------------
-- name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR LICENSE MANAGER
-  shell: oc get po -n ibm-licensing | grep 1/1| grep -c ""
-  register: kubectl_get_pods
-  until: kubectl_get_pods.stdout|int > 1
-  retries: 500
-  delay: 15
-  ignore_errors: true
+# - name: 🕦 IBM AIOPS INSTALL PREREQUISITES - WAIT FOR LICENSE MANAGER
+#   shell: oc get po -n ibm-licensing | grep 1/1| grep -c ""
+#   register: kubectl_get_pods
+#   until: kubectl_get_pods.stdout|int > 1
+#   retries: 500
+#   delay: 15
+#   ignore_errors: true

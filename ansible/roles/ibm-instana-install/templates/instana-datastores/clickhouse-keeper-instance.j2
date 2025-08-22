@@ -35,7 +35,7 @@
            containers:
              - name: clickhouse-keeper
                imagePullPolicy: IfNotPresent
-               image: artifact-public.instana.io/clickhouse-openssl:24.3.12.75-1-lts-ibm
+               image: artifact-public.instana.io/clickhouse-openssl:24.8.12.28-5-lts-ibm
                command:
                  - clickhouse-keeper
                  - --config-file=/etc/clickhouse-keeper/keeper_config.xml
@@ -51,7 +51,7 @@
            initContainers:
              - name: server-id-injector
                imagePullPolicy: IfNotPresent
-               image:  artifact-public.instana.io/clickhouse-openssl:24.3.12.75-1-lts-ibm
+               image:  artifact-public.instana.io/clickhouse-openssl:24.8.12.28-5-lts-ibm
      volumeClaimTemplates:
        - name: log-storage-path
          spec:

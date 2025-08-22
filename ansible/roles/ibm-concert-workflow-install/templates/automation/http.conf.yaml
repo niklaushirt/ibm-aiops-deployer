@@ -1,0 +1,161 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-http-conf
+data:
+  http.conf: |
+    more_clear_headers "Server";
+
+     more_set_headers "Content-Security-Policy: $csp_header";
+     more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+
+     server_name _;
+
+     gzip on;
+     gzip_vary on;
+     gzip_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+     gzip_proxied any;
+     gzip_min_length 1000;
+     gzip_comp_level 2;
+     gunzip on;
+
+     sendfile on;
+     tcp_nopush on;
+     tcp_nodelay on;
+
+     location / {
+         proxy_pass http://front;
+         proxy_http_version 1.1;
+         proxy_set_header Host $host;
+         proxy_set_header X-Forwarded-Proto $scheme;
+         proxy_set_header X-Forwarded-Port 443;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Connection "";
+
+         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+         add_header X-Frame-Options DENY;
+     }
+
+     location /api/actuator/auditevents {
+         return 404;
+     }
+
+     location /api/actuator/prometheus {
+         return 404;
+     }
+
+     location /api/ {
+         proxy_pass http://api;
+         proxy_http_version 1.1;
+         proxy_set_header Host $host;
+         proxy_set_header X-Forwarded-Port 443;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Connection "";
+
+         proxy_read_timeout    300s;
+         proxy_connect_timeout 300s;
+
+         # proxy_hide_header     Set-Cookie;
+         # proxy_ignore_headers  Set-Cookie;
+         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+         proxy_hide_header Access-Control-Allow-Origin; proxy_hide_header Access-Control-Allow-Credentials; proxy_hide_header Access-Control-Allow-Methods; proxy_hide_header Access-Control-Allow-Headers; proxy_hide_header Access-Control-Max-Age;
+     }
+
+     location ~ ^/(app-gateway|a|api-docs)/ {
+         proxy_pass http://app-gateway;
+         proxy_http_version 1.1;
+         proxy_set_header Host $host;
+         proxy_set_header X-Forwarded-Port 443;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Connection "";
+
+         proxy_read_timeout    300s;
+         proxy_connect_timeout 300s;
+
+         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+     }
+
+     location ~ ^/plugin/(?<plugin_name>[\w\-_]+)$ {
+       return 301 $scheme://$host/plugin/$plugin_name/;
+     }
+
+     location ~ ^/v2/(?<fwd_path>.*)$ {
+       error_page 502 =404 /e404.html;
+
+       client_max_body_size 100G;
+       proxy_request_buffering off;
+
+       resolver 172.30.0.10 ipv6=off;
+       resolver_timeout 5s;
+
+       add_header Access-Control-Allow-Origin "*";
+       proxy_pass http://addon-faas.RIA_NAMESPACE.svc.cluster.local:8084/v2/$fwd_path$is_args$args;
+
+       proxy_set_header Upgrade $http_upgrade;
+       proxy_set_header Connection $connection_upgrade;
+
+       proxy_redirect off;
+       access_log on;
+
+       proxy_hide_header Access-Control-Allow-Origin;
+       add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+     }
+
+     location ~ ^/plugin/(?<plugin_name>[\w\-_]+)/upload$ {
+         error_page 502 =404 /e404.html;
+
+         client_max_body_size 100G;
+         proxy_request_buffering off;
+
+         resolver 172.30.0.10 ipv6=off;
+         resolver_timeout 5s;
+
+         add_header Access-Control-Allow-Origin "*";
+         proxy_pass http://addon-$plugin_name.RIA_NAMESPACE.svc.cluster.local:8084/upload$is_args$args;
+
+         proxy_http_version 1.1;
+         proxy_set_header Connection "";
+
+         # proxy_set_header Upgrade $http_upgrade;
+         # proxy_set_header Connection $connection_upgrade;
+
+         proxy_redirect off;
+         access_log on;
+
+         proxy_hide_header Access-Control-Allow-Origin;
+         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+     }
+
+     location ~ ^/plugin/(?<plugin_name>[\w\-_]+)/(?<fwd_path>.*)$ {
+         error_page 502 =404 /e404.html;
+
+         resolver 172.30.0.10 ipv6=off;
+         resolver_timeout 5s;
+
+         add_header Access-Control-Allow-Origin "*";
+         proxy_pass http://addon-$plugin_name.RIA_NAMESPACE.svc.cluster.local:8084/$fwd_path$is_args$args;
+
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection $connection_upgrade;
+
+         proxy_redirect off;
+         access_log on;
+
+         proxy_hide_header Access-Control-Allow-Origin;
+         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+     }
+
+     error_page 403 /e403.html;
+     error_page 404 /e404.html;
+
+     location = /e403.html {
+       root   /etc/nginx/conf.d/errors;
+       allow all;
+     }
+
+     location = /e404.html {
+       root   /etc/nginx/conf.d/errors;
+       allow all;
+     }

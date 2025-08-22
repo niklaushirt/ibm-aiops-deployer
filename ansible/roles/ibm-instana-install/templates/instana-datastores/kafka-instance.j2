@@ -1,13 +1,56 @@
 apiVersion: kafka.strimzi.io/v1beta2
-kind: Kafka
+kind: KafkaNodePool
 metadata:
-  name: instana
+  name: kafka
   namespace: instana-datastores
   labels:
     strimzi.io/cluster: instana
 spec:
+  replicas: 3
+  roles:
+     - broker
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: 50Gi
+        deleteClaim: true
+  template:
+    pod:
+      tmpDirSizeLimit: 500Mi
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: controller
+  namespace: instana-datastores
+  labels:
+    strimzi.io/cluster: instana
+spec:
+  replicas: 3
+  roles:
+    - controller
+  storage:
+    type: persistent-claim
+    size: 50Gi
+    deleteClaim: true
+  template:
+    pod:
+      tmpDirSizeLimit: 500Mi
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: instana
+  labels:
+    strimzi.io/cluster: instana
+  annotations:
+    strimzi.io/node-pools: enabled
+    strimzi.io/kraft:  enabled
+spec:
   kafka:
-    version: 3.8.1
+    version: 3.9.1
     replicas: {{current_feature.instana_backend_scale  | default(3)}}
     listeners:
       - name: scram
@@ -30,13 +73,17 @@ spec:
           type: persistent-claim
           size: 50Gi
           deleteClaim: true
-  zookeeper:
-    replicas: {{current_feature.instana_backend_scale  | default(3)}}
-    storage:
-      type: persistent-claim
-      size: 10Gi
-      class: {{ STORAGE_CLASS_LARGE_BLOCK }}
-      deleteClaim: true
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      max.message.bytes: 52428800
+      replica.fetch.max.bytes: 52428800
+    template:
+      pod:
+        tmpDirSizeLimit: 100Mi
   entityOperator:
     template:
       pod:
@@ -46,9 +93,7 @@ spec:
         #   runAsUser: 1000
         #   fsGroup: 1000
     userOperator:
-      image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.45.0_v0.15.0
-      # image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.45.0_v0.14.0
-      # image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.42.0_v0.12.0      
+      image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.47.0_v0.20.0   
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaUser

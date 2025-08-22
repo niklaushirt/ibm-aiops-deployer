@@ -15,7 +15,8 @@ metadata:
   name: postgres
 spec:
   instances: {{current_feature.instana_backend_scale  | default(3)}}
-  imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.17.0
+  imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.26.0
+  # imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.17.0
   #imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.14.0
   #imageName: artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.9.0
   imagePullPolicy: IfNotPresent

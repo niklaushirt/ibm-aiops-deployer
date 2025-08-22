@@ -22,6 +22,24 @@
           "$variable": "constants.baseTriggerCondition"
         }
       }
+    }, {
+      "triggerId": "aiops.ibm.com/trigger/alert-updated",
+      "entityId": "alert",
+      "arguments": {
+        "condition": {
+          "actionId": "lang/condition/and",
+          "arguments": {
+            "conditions": [{
+              "$variable": "constants.baseTriggerCondition"
+            }, {
+              "actionId": "lang/condition/template",
+              "arguments": {
+                "template": "{{prevAlert.eventCount}} != {{alert.eventCount}}"
+              }
+            }]
+          }
+        }
+      }
     }],
     "constants": {
       "baseTriggerCondition": {
@@ -61,7 +79,7 @@
               }
             },
             "window": {
-              "durationMS": 1500000,
+              "durationMS": 2400000,
               "type": "rolling"
             }
           }

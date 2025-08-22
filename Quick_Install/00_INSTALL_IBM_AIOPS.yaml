@@ -18,12 +18,12 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images
-#   Type:               VMWare on IBM Cloud / UPI Public
+# Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-base-open-shift
+#   Type:               OpenShift Cluster (OCP-V) - IBM Cloud
 #   Worker node count:  4
-#   Flavour:            b3c.32x128 ❗ 
-#   OpenShift Version:  4.15
-#   Storage:            ODF 500GB or Managed NFS - 2TB 
+#   Flavour:            32 vCPU x 128 GB ❗ 
+#   OpenShift Version:  4.18
+#   Storage:            300GB ephemeral storage
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
@@ -99,7 +99,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:a4b1835f07bf52db6eab2e26cda50b807b0be9f637725c5e2fd9a6ec6af156d5
+      # https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.10.1?topic=installing-starter-installation#exp_catalog
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:09a2f1c73ca0ed4676ee4ce0a8b023781b040531823a3f0575bd235cf84f586b
       current_supported_aiops_version: v4.10
 
 
