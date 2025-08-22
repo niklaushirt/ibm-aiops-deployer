@@ -14,12 +14,6 @@
 
 <BR>
 
-## Changelog
-
-- Support for 4.8
-- Topology Stability
-- LAGS stability
-- New Elasticsearch instance
 
 
 <BR>
