@@ -93,6 +93,8 @@ DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
 #BUSY
 DEMO_EVENTS_BUSY=os.environ.get('DEMO_EVENTS_BUSY','')
 
+
+
 #CUSTOM
 CUSTOM_NAME=os.environ.get('CUSTOM_NAME','Custom Scenario')
 CUSTOM_EVENTS=os.environ.get('CUSTOM_EVENTS','')
@@ -400,6 +402,68 @@ def injectEventsBusy(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):
     for x in range(0, 10):
         print ('📛 START - Inject Events - BUSY')
         injectEventsGeneric(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD,DEMO_EVENTS_BUSY)
+    return 'OK'
+
+
+
+
+def injectEventsRisk(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD):  
+    print ('📛 START - Inject Events - RISK by runnig File Observers')
+
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    # Creating Custom Topology Application
+    # ----------------------------------------------------------------------------------------------------------------------------------------------------
+    cmdTopo = '''
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
+
+    echo "        Namespace:          $AIOPS_NAMESPACE"
+    echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
+    echo ""
+
+    export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
+    export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
+    export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
+    export CPADMIN_USER=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 -d && echo)
+    export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$CPADMIN_USER&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
+    export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
+    export ZEN_TOKEN=$(curl -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
+    -H "username: $CPADMIN_USER" \
+    -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
+    echo $ZEN_TOKEN
+
+
+
+    echo "Sucessfully logged in" 
+    echo ""
+    echo "Running K8S OBSERVER"
+
+
+    curl -X 'POST' --insecure \
+      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/us-network-risk-topology" \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -H "authorization: Bearer $ZEN_TOKEN"  
+
+
+    curl -X 'POST' --insecure \
+      "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/risk-proximity-EU-topology" \
+      -H 'accept: application/json' \
+      -H 'Content-Type: application/json' \
+      -H "authorization: Bearer $ZEN_TOKEN"  
+
+
+    # curl -X 'POST' --insecure \
+    #   "https://$AIO_PLATFORM_ROUTE/v1/observer/runjob/risk-proximity-topology" \
+    #   -H 'accept: application/json' \
+    #   -H 'Content-Type: application/json' \
+    #   -H "authorization: Bearer $ZEN_TOKEN"  
+    '''
+    
+    stream = os.popen(cmdTopo)
+    CHECK_APP = stream.read().strip()
+    #print ('           APP_ID:              '+CHECK_APP)
+
     return 'OK'
 
 

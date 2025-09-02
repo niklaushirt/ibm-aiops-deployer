@@ -25,6 +25,7 @@ urlpatterns = [
     path('injectAllTUBEREST', views.injectAllTUBEREST, name='injectAllTUBEREST'),
     path('injectAllTELCOREST', views.injectAllTELCOREST, name='injectAllTELCOREST'),
     path('injectBusy', views.injectBusy, name='injectBusy'),
+    path('injectRisk', views.injectRisk, name='injectRisk'),
     path('clearAllREST', views.clearAllREST, name='clearAllREST'),
     path('clearEventsREST', views.clearEventsREST, name='clearEventsREST'),
     path('clearStoriesREST', views.clearStoriesREST, name='clearStoriesREST'),
