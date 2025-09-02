@@ -126,7 +126,7 @@ Basically:
 ### 🐥 IBM AIOps specific
 - 🚀 [Demo the Solution](#31-demo-the-solution)
 - 🤓 [Demo Setup - Explained](#32-demo-setup---explained)
-- 📦 [Create a custom Scenario](#33-demo-setup---explained)
+- 📦 [Create a custom Scenario](#33-custom-scenarios)
 
 
 <div style="page-break-after: always;"></div>
@@ -1098,7 +1098,7 @@ To create a complete Topology/Application, you have to define the following vari
 #### 🛠️ Format
 
 
-You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=jobs-file-observer).
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.10.1?topic=jobs-file-observer).
 
 A typical Vertex (Entity)
 
@@ -1196,7 +1196,7 @@ Inject Metrics to simulate the Custom Scenario.
 #### 🛠️ Format
 
 
-You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.4.0?topic=apis-metric-api).
+You can get more details [here](https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.10.1?topic=apis-metric-api).
 
 
 `ResourceName, MetricName, GroupName, BaseValue, Variance?
