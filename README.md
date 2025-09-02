@@ -1266,7 +1266,7 @@ A typical Vertex (Entity)
 </details>
 
 <details>
-<summary>📥 Logs</summary>
+<summary>📥 Custom Property Change</summary>
 
 #### 3.3.1.5 Property Change
 
