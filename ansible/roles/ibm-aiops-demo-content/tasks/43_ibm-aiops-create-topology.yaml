@@ -69,32 +69,26 @@
 
     echo "Delete existing Topology Customization"
     curl -XGET -k \
-    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*" \
+    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*&_limit=10000" \
     -H 'accept: application/json' \
     -H 'content-type: application/json' \
     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
     -u $LOGIN|jq -r '._items[] | select(.maxLabelLength=="")|._id'>/tmp/customItems.json
 
     curl -XGET -k \
-    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*" \
+    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*&_limit=10000" \
     -H 'accept: application/json' \
     -H 'content-type: application/json' \
     -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
     -u $LOGIN|jq -r '._items[] | select(.uniqueId=="globalSettings")|._id'>>/tmp/customItems.json  
+
+    curl -XGET -k \
+    "$TOPO_MGT_ROUTE/1.0/topology/metadata?_field=*&_limit=10000" \
+    -H 'accept: application/json' \
+    -H 'content-type: application/json' \
+    -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+    -u $LOGIN|jq -r '._items[] | select(.entityTypes[] | contains ("ASM_UI_CUSTOM_ICON"))|._id'>>/tmp/customItems.json  
     cat /tmp/customItems.json
-
-    while read line; 
-    do 
-      echo "DELETE: $line"
-      curl -XDELETE -k \
-      "$TOPO_MGT_ROUTE/1.0/topology/metadata/$line" \
-      -H 'accept: application/json' \
-      -H 'content-type: application/json' \
-      -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
-      -u $LOGIN
-    done < /tmp/customItems.json
-
-
 
 
     echo "Upload Topology Customization"
