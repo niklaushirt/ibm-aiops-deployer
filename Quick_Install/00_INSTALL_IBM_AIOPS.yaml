@@ -100,8 +100,9 @@ data:
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
       # https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.10.1?topic=installing-starter-installation#exp_catalog
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:09a2f1c73ca0ed4676ee4ce0a8b023781b040531823a3f0575bd235cf84f586b
-      current_supported_aiops_version: v4.10
+      # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:09a2f1c73ca0ed4676ee4ce0a8b023781b040531823a3f0575bd235cf84f586b
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:693da63811b70e6f87643d27f67bdbf256668f331a7e4400d90653ca3c7d08b3
+      current_supported_aiops_version: v4.11
 
 
 

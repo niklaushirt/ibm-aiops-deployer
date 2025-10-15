@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [411.0.1] - 2025-10-15
+### Major changes
+- Support for Version 4.11.0 GA
+- Tentative enablement for WatsonX integration
+
+
+
+
 ## [410.1.1] - 2025-08-22
 ### Major changes
 - Support for Version 4.10.1 GA

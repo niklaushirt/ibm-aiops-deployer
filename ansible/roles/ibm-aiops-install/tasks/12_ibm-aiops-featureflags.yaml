@@ -47,11 +47,14 @@
       IBM_IR_AI_X_IN_Y_PREVIEW_ENABLED: "true"
       ENABLE_FEEDBACK_LEARNING: "true"
       IRISCART_78_DRIFT_ENABLED: "true"
+      AIOPS_CHAT_ASSISTANT: enabled
+      AIOPS_GENERATIVE_AI: enabled
     kind: ConfigMap
     metadata:
       name: feature-flag-configmap
       namespace: {{ current_ibm_feature.project }}
     EOF
+    oc create secret generic -n {{ current_ibm_feature.project }} aiops-chat-assistant-entitlement-key --from-literal=entitlementkey=notdefinedyet
   register: output_string
   ignore_errors: true
   args:
