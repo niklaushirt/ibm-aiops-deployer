@@ -128,7 +128,7 @@ spec:
 
               export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
                   -H "Authorization: bearer $ZEN_TOKEN" \
-                  -H 'Content-Type: application/json; charset=utf-8'|grep "Clear RobotShop Incident"|wc -l|tr -d ' ')
+                  -H 'Content-Type: application/json; charset=utf-8'|grep "Mitigate MySQL Low Memory"|wc -l|tr -d ' ')
 
               if [[ $result == "0" ]]; then
 
