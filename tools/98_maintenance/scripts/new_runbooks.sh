@@ -121,7 +121,7 @@ fi
                   \"type\": \"automation\"
                 }
               ],
-              \"name\": \"✅ Clear RobotShop Incident\",
+              \"name\": \"✅ Mitigate MySQL Low Memory \",
               \"description\": \"Mitigate RobotShop Problem Incident\",
               \"parameters\": [
                 {
