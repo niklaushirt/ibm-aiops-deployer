@@ -115,9 +115,8 @@ Basically:
 ### 🐥 Quick Install
 
 - 🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
-- 🚀 [Quick Install - IBM Concert (experimental)](#22--install-ibm-concert-with-demo-content)
-- 🚀 [Quick Install - IBM Turbonomic](#23--install-ibm-turbonomic-with-demo-content)
-- 🚀 [Quick Install - IBM Instana (experimental)](#24--install-ibm-instana-with-demo-content)
+- 🚀 [Quick Install - IBM Turbonomic](#22--install-ibm-turbonomic-with-demo-content)
+- 🚀 [Quick Install - IBM Instana (experimental)](#23--install-ibm-instana-with-demo-content)
 
 - 🧨 [Troubleshooting](#4-troubleshooting)
 - 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
@@ -619,91 +618,9 @@ You can chose from the following:
 
 
 
-## 2.2 🐣 Install IBM Concert with demo content
-
-#### 🚀 Get IBM Concert installed and demo content installed in one simple script.
-
-![Characters](./doc/pics/concert2.png)
 
 
-<details>
-<summary>📦 2.2.1 What will be installed</summary>
-
-This installation contains:
-
-> - **IBM Concert**
-> 	- IBM Concert Instance
-> - **IBM Concert Demo Content**
->    - **Default** Demo Content
->    - **SBOMs**
->	   - App, Build and Deploy for RobotShop
->    - **Certificates**
->	   - Certificates for RobotShop
->    - **Compliance**
->	   - Custom NIST Demo Compliance
-> - **Demo Applications**
->   - RobotShop Demo App
->   - SockShop Demo App
-<div style="page-break-after: always;"></div>
-
-</details>
-
-</details>
-
-
-<details>
-<summary>🚀 2.2.2 Installation Instructions </summary>
-
-
-1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/30_INSTALL_IBM_CONCERT.yaml)
-3. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 48)
-3. Click `Create`
-
-> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
-> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
-
-
-
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-
-
-
-</details>
-
-
-<details>
-<summary>🔎 2.2.3 Follow the installation progress</summary>
-
-
-- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
-
-	You can open and follow the installation logs by clicking on `Open Logs` 
-
-
-
-- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
-
-
-
-- When the Installation has succeeded, you get the top green Notification bar
-	
-	You can directly open IBM Concert by clicking on the link and login with the `demo`user and your defined Password.
-
-</details>
-
-
-
-
-
-
-## 2.3 🐣 Install IBM Turbonomic with demo content
+## 2.2 🐣 Install IBM Turbonomic with demo content
 
 #### 🚀 Get IBM Turbonomic installed and demo content installed in one simple script.
 
@@ -781,7 +698,7 @@ This installation contains:
 
 
 
-## 2.4 🐣 Install IBM Instana with demo content
+## 2.3 🐣 Install IBM Instana with demo content
 
 ### ❗ If you are installing on IBM Techzone DO NOT install Instana and CP4AIOPS into the same Cluster. This WILL lead to instability of both solutions ❗
 
