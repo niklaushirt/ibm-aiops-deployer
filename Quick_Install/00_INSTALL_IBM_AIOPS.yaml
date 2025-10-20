@@ -330,7 +330,9 @@ data:
         # Create Service Account
         create_account: true
 
-
+        # ---------------------------------------------------------------------
+        # Configure AI Features
+        configure_ai_chat: true
 
     - project: ibm-aiops-addons
       instances:
