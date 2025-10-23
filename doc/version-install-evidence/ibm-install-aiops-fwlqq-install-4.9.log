@@ -3664,7 +3664,7 @@ Error from server (NotFound): routes.route.openshift.io "iaf-system-es" not foun
           - 🚇 Create London Underground Incident
           - 🚀 DEMO - Cut Uplink
           - ✅ Clear SockShop Switch Incident
-          - ✅ Clear RobotShop Incident
+          - ✅ Mitigate MySQL Low Memory 
           - ♻️ DEMO - Reset Uplink
           - ✅ Clear All Incidents
 

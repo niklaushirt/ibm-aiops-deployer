@@ -88,7 +88,7 @@
 
     export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
         -H "Authorization: bearer $ZEN_TOKEN" \
-        -H 'Content-Type: application/json; charset=utf-8'|grep "Clear RobotShop Incident"|wc -l|tr -d ' ')
+        -H 'Content-Type: application/json; charset=utf-8'|grep "Mitigate MySQL Low Memory"|wc -l|tr -d ' ')
 
     if [[ $result == "0" ]]; then
 
@@ -109,7 +109,7 @@
                   \"type\": \"automation\"
                 }
               ],
-              \"name\": \"✅ Clear RobotShop Incident\",
+              \"name\": \"✅ Mitigate MySQL Low Memory \",
               \"description\": \"Mitigate RobotShop Problem\",
               \"parameters\": [
                 {
@@ -150,6 +150,172 @@
     var: RBA_RESULT.stdout_lines
     verbosity: 0
 
+
+
+
+
+- name: 🚀 RUNBOOKS - Create AIOPS Runbook - Reset Network Interface
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export ZEN_TOKEN={{ZEN_TOKEN}}
+    export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
+    
+    export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
+
+
+    API_TOKEN=
+
+
+    export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
+
+    export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+        -H "Authorization: bearer $ZEN_TOKEN" \
+        -H 'Content-Type: application/json; charset=utf-8'|grep "Reset Network Interface"|wc -l|tr -d ' ')
+
+    if [[ $result == "0" ]]; then
+
+      export PAYLOAD=$(echo "{
+              \"tags\": [],
+              \"steps\": [
+                {
+                  \"mappings\": [
+                    {
+                      \"parameterMappingType\": \"parameter\",
+                      \"parameterValue\": \"clusterCredentials\",
+                      \"automationParameterName\": \"extraVariables\"
+                    }
+                  ],
+                  \"number\": 1,
+                  \"title\": \"\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Restart Network Interface\",
+                  \"type\": \"automation\"
+                }
+              ],
+              \"name\": \"✅ Reset Network Interface \",
+              \"description\": \"Reset Network Interface\",
+              \"parameters\": [
+                {
+                  \"minLength\": 0,
+                  \"format\": \"multiline\",
+                  \"name\": \"clusterCredentials\",
+                        \"default\": \"{ \\\"my_k8s_apiurl\\\": \\\"$DEMO_URL\\\", \\\"my_k8s_apikey\\\": \\\"$DEMO_TOKEN\\\" }\",
+                  \"description\": \"Cluster Credentials encoded as JSON..\",
+                  \"type\": \"string\"
+                }
+              ]
+          }")
+
+      echo $PAYLOAD>/tmp/runbook.json
+
+      
+      export result=$(curl -X "POST" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+          -H "Authorization: bearer $ZEN_TOKEN" \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d @/tmp/runbook.json)
+
+
+      rm /tmp/runbook.json
+    else 
+      export result="Already exists"
+    fi 
+
+
+    echo "$result"
+  ignore_errors: true
+  register: RBA_RESULT
+  args:
+    executable: /bin/bash
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
+
+
+
+
+
+
+- name: 🚀 RUNBOOKS - Create AIOPS Runbook - Restart Ratings Service
+  shell: |
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    export ZEN_TOKEN={{ZEN_TOKEN}}
+    export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
+    
+    export DEMO_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
+
+
+
+    API_TOKEN=
+
+
+    export DEMO_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
+
+    export result=$(curl -X "GET" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+        -H "Authorization: bearer $ZEN_TOKEN" \
+        -H 'Content-Type: application/json; charset=utf-8'|grep "Clear RobotShop Incident"|wc -l|tr -d ' ')
+
+    if [[ $result == "0" ]]; then
+
+      export PAYLOAD=$(echo "{
+              \"tags\": [],
+              \"steps\": [
+                {
+                  \"mappings\": [
+                    {
+                      \"parameterMappingType\": \"parameter\",
+                      \"parameterValue\": \"clusterCredentials\",
+                      \"automationParameterName\": \"extraVariables\"
+                    }
+                  ],
+                  \"number\": 1,
+                  \"title\": \"\",
+                  \"automationId\": \"AWX:job:IBM AIOPS Start Robotshop Ratings\",
+                  \"type\": \"automation\"
+                }
+              ],
+              \"name\": \"✅ Restart Ratings Service \",
+              \"description\": \"Restart Ratings Service\",
+              \"parameters\": [
+                {
+                  \"minLength\": 0,
+                  \"format\": \"multiline\",
+                  \"name\": \"clusterCredentials\",
+                        \"default\": \"{ \\\"my_k8s_apiurl\\\": \\\"$DEMO_URL\\\", \\\"my_k8s_apikey\\\": \\\"$DEMO_TOKEN\\\" }\",
+                  \"description\": \"Cluster Credentials encoded as JSON..\",
+                  \"type\": \"string\"
+                }
+              ]
+          }")
+
+      echo $PAYLOAD>/tmp/runbook.json
+
+      
+      export result=$(curl -X "POST" -k "https://$ROUTE/aiops/api/story-manager/rba/v1/runbooks?publish=true" \
+          -H "Authorization: bearer $ZEN_TOKEN" \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d @/tmp/runbook.json)
+
+
+      rm /tmp/runbook.json
+    else 
+      export result="Already exists"
+    fi 
+
+
+    echo "$result"
+  ignore_errors: true
+  register: RBA_RESULT
+  args:
+    executable: /bin/bash
+
+
+- name: 🟣 OUTPUT
+  debug: 
+    var: RBA_RESULT.stdout_lines
+    verbosity: 0
 
 
 

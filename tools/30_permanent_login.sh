@@ -4,6 +4,13 @@ oc create serviceaccount -n default demo-admin
 oc create clusterrolebinding test-admin --clusterrole=cluster-admin --serviceaccount=default:demo-admin
 
 
+echo ""
+echo ""
+echo "   ------------------------------------------------------------------------------------------------------------------------------"
+read -p "    ❓ NAME OF THE ENVIRONMENT❓ " ENV_NAME
+echo "   ------------------------------------------------------------------------------------------------------------------------------"
+
+
 
 API_TOKEN=$(oc create token -n default demo-admin --duration=999999999s)
 API_URL=$(oc status|grep -m1 "In project"|awk '{print$6}')
@@ -14,15 +21,15 @@ API_PORT=$(echo $API_URL| cut -d ":" -f 3)
 
 
 echo "--------------------------------------------------------------------------------------------------------"
-echo " 🚀 Permanent Login for Cluster: "$CLUSTER_NAME
+echo " 🚀 Permanent Login for Cluster: "$CLUSTER_NAME".  - "$ENV_NAME
 echo "--------------------------------------------------------------------------------------------------------"
 
 
 
-export FILENAME="LOGIN_$(date '+%Y-%m-%d')_$CLUSTER_NAME.sh"
+export FILENAME="LOGIN_$(date '+%Y-%m-%d')_$ENV_NAME-$CLUSTER_NAME.sh"
 
 echo "# --------------------------------------------------------------------------------------------------------">~/$FILENAME
-echo "# 🚀 Login Info for Cluster: "$CLUSTER_NAME>>~/$FILENAME
+echo "# 🚀 Login Info for Cluster: "$ENV_NAME"-"$CLUSTER_NAME>>~/$FILENAME
 echo "# --------------------------------------------------------------------------------------------------------">>~/$FILENAME
 echo "">>~/$FILENAME
 
