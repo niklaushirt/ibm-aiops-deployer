@@ -521,7 +521,6 @@
 # Enable AI Chat
 - name: (050/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable AI Features
   include_tasks: 10_enable-ai-features.yaml
-  when: current_feature.configure_ai_features | default(true) == true
 
 
 
