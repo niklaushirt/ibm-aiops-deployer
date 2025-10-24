@@ -332,7 +332,7 @@ data:
 
         # ---------------------------------------------------------------------
         # Configure AI Features
-        configure_ai_chat: true
+        configure_ai_features: true
 
     - project: ibm-aiops-addons
       instances:

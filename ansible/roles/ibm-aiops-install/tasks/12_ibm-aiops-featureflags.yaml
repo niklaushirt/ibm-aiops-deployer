@@ -54,7 +54,6 @@
       name: feature-flag-configmap
       namespace: {{ current_ibm_feature.project }}
     EOF
-    oc create secret generic -n {{ current_ibm_feature.project }} aiops-chat-assistant-entitlement-key --from-literal=entitlementkey=notdefinedyet
   register: output_string
   ignore_errors: true
   args:
@@ -65,4 +64,15 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
+
+
+
+
+
+- name: 🗯️ CHAT ASSISTANT - Create Entitlement Key
+  shell: |
+        export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+        oc create secret generic aiops-chat-assistant-entitlement-key -n $AIOPS_NAMESPACE --from-literal=entitlementkey={{ cp_entitlement_key }}
+  ignore_errors: true
+
 

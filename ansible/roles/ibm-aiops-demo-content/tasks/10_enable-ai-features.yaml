@@ -1,22 +1,22 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Enable AI Chat
+# Enable AI Features
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Enable AI Chat
+# Enable AI Features
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-- name: 🛰️  START - Enable AI Chat
+- name: 🛰️  START - Enable AI Features
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
 
 - name: Log
   shell: |
-    export MESSAGE="Enable AI Chat"
+    export MESSAGE="Enable AI Features"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
@@ -33,7 +33,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - Enable AI Chat'    
+      text: 'Installing {{current_feature.kind}} - Enable AI Features'    
     EOF
   ignore_errors: true
   args:
@@ -43,9 +43,11 @@
 
 
 
-- name: 👩‍💻 DEMO USER - Create OCP Demouser Account
-  shell: |
-        export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-        oc create secret generic aiops-chat-assistant-entitlement-key -n $AIOPS_NAMESPACE --from-literal=entitlementkey={{ cp_entitlement_key }}
-  ignore_errors: true
+
+# - name: 🗯️ CHAT ASSISTANT - Create Entitlement Key
+#   shell: |
+#         export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+#         oc create secret generic aiops-chat-assistant-entitlement-key -n $AIOPS_NAMESPACE --from-literal=entitlementkey={{ cp_entitlement_key }}
+#   ignore_errors: true
+
 
