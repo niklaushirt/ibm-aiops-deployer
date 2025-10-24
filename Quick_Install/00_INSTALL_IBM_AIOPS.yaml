@@ -333,9 +333,9 @@ data:
         # ---------------------------------------------------------------------
         # Configure AI Features
         enable_chat_assistant: true
-        enable_watsonx: true
+        enable_watsonx: false
         watsonx_url: https://us-south.ml.cloud.ibm.com
-        watsonx_projectid: f80a9ece-5156-440e-a9cc-03aab00d7ba1
+        watsonx_projectid: f80a9ece-5156-440e-a9cc-03aab00d7xss
         watsonx_token: changeme
 
 
