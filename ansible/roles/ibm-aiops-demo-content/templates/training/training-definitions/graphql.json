@@ -222,6 +222,59 @@ query {
       algorithmName
     }
   }
+
+         {
+            "getRegisteredAlgorithms": [
+              {
+                "algorithmName": "Log_Anomaly_Detection"
+              },
+              {
+                "algorithmName": "Log_Anomaly_Golden_Signal"
+              },
+              {
+                "algorithmName": "Moving_Average_Log_Anomaly_Detection"
+              },
+              {
+                "algorithmName": "Change_Risk"
+              },
+              {
+                "algorithmName": "Similar_Incidents"
+              },
+              {
+                "algorithmName": "Alert_Seasonality_Detection"
+              },
+              {
+                "algorithmName": "Alert_X_In_Y_Supression"
+              },
+              {
+                "algorithmName": "Temporal_Grouping"
+              },
+              {
+                "algorithmName": "Scope_Based_Grouping"
+              },
+              {
+                "algorithmName": "Topological_Grouping"
+              },
+              {
+                "algorithmName": "Probable_Cause"
+              },
+              {
+                "algorithmName": "Alert_Enrichment"
+              },
+              {
+                "algorithmName": "Metric_Anomaly_Detection"
+              },
+              {
+                "algorithmName": "Incident_Summarization"
+              },
+              {
+                "algorithmName": "AIOps_Chat_Assistant"
+              }
+            ]
+          }
+
+
+
   {
     "data": {
       "getRegisteredAlgorithms": [
