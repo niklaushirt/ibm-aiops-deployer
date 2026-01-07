@@ -101,8 +101,10 @@ data:
       entitled_registry_user: cp
       # https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.10.1?topic=installing-starter-installation#exp_catalog
       # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:09a2f1c73ca0ed4676ee4ce0a8b023781b040531823a3f0575bd235cf84f586b
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:693da63811b70e6f87643d27f67bdbf256668f331a7e4400d90653ca3c7d08b3
-      current_supported_aiops_version: v4.11
+      # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:693da63811b70e6f87643d27f67bdbf256668f331a7e4400d90653ca3c7d08b3
+      # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:aa0a318470c0ce6f1bb9f88a6596b4245f1474984bcb4f626a1c4c34e77e936b
+      catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:7db104300876c180c30df3ba6aa70ac4c6fc78ad307b067eb19291fdfb88c59e
+      current_supported_aiops_version: v4.12
 
 
 
@@ -182,7 +184,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.11
+        subscription_channel: v4.12
         # Freeze the version of the Catalog image by patching CatalogSource
         freeze_catalog: true
 
