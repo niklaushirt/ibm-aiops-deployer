@@ -2,15 +2,18 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: datalayer-api
+  namespace: ibm-aiops
 spec:
-  #host: datalayer-api.${CLUSTER_APPS_HOST}
+  to:
+    kind: Service
+    name: aiops-ir-core-ncodl-api
+    weight: 100
   port:
     targetPort: secure-port
   tls:
     termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
-  to:
-    kind: Service
-    name: aiops-ir-core-ncodl-api
-    weight: 100
   wildcardPolicy: None
+
+
+
