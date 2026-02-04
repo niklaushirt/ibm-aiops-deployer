@@ -85,39 +85,39 @@
 
 
 
-- name:   🚀 IBM Concert - Installing Podman
-  shell: |
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " 🚀 Installing Podman"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    apt-get -qq update
-    apt-get -y install podman  > /dev/null
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
+# - name:   🚀 IBM Concert - Installing Podman
+#   shell: |
+#     echo "------------------------------------------------------------------------------------------------------------------------------"
+#     echo " 🚀 Installing Podman"
+#     echo "------------------------------------------------------------------------------------------------------------------------------"
+#     apt-get -qq update
+#     apt-get -y install podman  > /dev/null
+#   register: output_string
+#   ignore_errors: true
+#   args:
+#     executable: /bin/bash
 
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    #verbosity: 1
-
-
+# - name: 🟣  OUTPUT
+#   debug: 
+#     var: output_string.stdout_lines
+#     #verbosity: 1
 
 
-- name:   🚀 IBM Concert - Testing Podman Rights
-  shell: |
-    podman version
-    podman ps
-  register: output_string
-  ignore_errors: false
-  args:
-    executable: /bin/bash
 
-- name: 🟣  OUTPUT
-  debug: 
-    var: output_string.stdout_lines
-    #verbosity: 1
+
+# - name:   🚀 IBM Concert - Testing Podman Rights
+#   shell: |
+#     podman version
+#     podman ps
+#   register: output_string
+#   ignore_errors: false
+#   args:
+#     executable: /bin/bash
+
+# - name: 🟣  OUTPUT
+#   debug: 
+#     var: output_string.stdout_lines
+#     #verbosity: 1
 
 
 

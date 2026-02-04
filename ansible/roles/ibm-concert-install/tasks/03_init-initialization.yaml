@@ -75,7 +75,7 @@
     - " IBM Concert prod_user:                  {{current_feature.prod_user}}"
     - " IBM Concert Registry Key:               $ENTITLED_REGISTRY_KEY"
     - ""
-    verbosity: 1
+    verbosity: 0
   
 
       
