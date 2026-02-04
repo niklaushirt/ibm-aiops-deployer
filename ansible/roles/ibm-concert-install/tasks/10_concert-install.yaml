@@ -270,12 +270,12 @@
 
 
 
-- name: 🕦 CHECK -  Wait for all Pods in {{ current_ibm_feature.project }} to become ready (this might take some time)
-  shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
-  register: kubectl_get_pods
-  until: kubectl_get_pods.stdout|int > 17
-  retries: 500
-  delay: 15
+# - name: 🕦 CHECK -  Wait for all Pods in {{ current_ibm_feature.project }} to become ready (this might take some time)
+#   shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
+#   register: kubectl_get_pods
+#   until: kubectl_get_pods.stdout|int > 17
+#   retries: 500
+#   delay: 15
 
 
 
@@ -293,8 +293,8 @@
 
 
     /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}
-    oc get route concert -n concert
-    oc extract -n concert secret/app-cfg-secret --to=-
+    oc get route concert -n {{ current_ibm_feature.project }}
+    oc extract -n {{ current_ibm_feature.project }} secret/app-cfg-secret --to=-
 
     /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
 
@@ -308,14 +308,6 @@
     echo " ✅ LOGINS"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     
-
-    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
-    export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
-    #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    echo "            🌏 URL:               $OCP_URL"
-    echo "            🫅 User:              kubeadmin"
-    echo "            🔐 Token:             $OCP_TOKEN"
-
 
 
 

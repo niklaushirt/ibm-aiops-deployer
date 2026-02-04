@@ -20,7 +20,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-base-open-shift
 #   Type:               OpenShift Cluster (OCP-V) - IBM Cloud
-#   Worker node count:  3
+#   Worker node count:  4
 #   Flavour:            16x64 ❗ 
 #   OpenShift Version:  4.18
 #   Storage:            300GB ephemeral storage
@@ -33,6 +33,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
+
 apiVersion: v1                     
 kind: Namespace
 metadata:
@@ -75,8 +76,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
-      current_supported_aiops_version: v4.10
+      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      current_supported_aiops_version: v4.7
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -127,13 +128,13 @@ data:
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
-  
+   
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # IBM CONCERT
     # --------------------------------------------------------------------------------------------------------------------------------------
-  
+   
     - project: ibm-concert
       instances:
       - name: ibm-concert
@@ -142,18 +143,8 @@ data:
         
         # ---------------------------------------------------------------------
         # CONCERT REGISTRY
-        prod_registry: cp.icr.io
-        private_registry_location: cp.icr.io
+        prod_registry: cp.icr.io/cp
         prod_user: cp
-
-        # ---------------------------------------------------------------------
-        # PROJECT SETTINGS
-        project_operator: ibm-concert-operators 
-        project_instance: ibm-concert 
-
-        # ---------------------------------------------------------------------
-        # CONTAINER RUNTIME
-        docker_exe: podman 
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
@@ -164,7 +155,7 @@ data:
 
       - name: ibm-concert-demo-content
         kind: IBMConcertDemoContent
-        install: true
+        install: false
 
         # ---------------------------------------------------------------------
         # DEMO CONTENT
@@ -173,8 +164,8 @@ data:
 
         # ---------------------------------------------------------------------
         # Create a custom app to show links to all installed IT Automation Products
-        create_home_ui: false
-      
+        create_home_ui: true
+        
 
         # ---------------------------------------------------------------------
         # LDAP
@@ -207,7 +198,8 @@ data:
 
 
 
-
+# export PROJECT_INSTANCE=ibm-concert
+# /tmp/concert/ibm-concert/ibm-concert-manage.sh get-concert-instance-details
 
 
 
@@ -256,8 +248,6 @@ kind: Job
 metadata:
   name: ibm-install-concert
   namespace: ibm-installer
-  labels:
-   aiops-type: data-load-job
 spec:
 
   template:
