@@ -69,14 +69,11 @@
   debug:
     msg:
     - "** IBM Concert Parameters ***********************************************************************"
-    - " IBM Concert Installation Name:          {{current_feature.project_instance}}"
+    - " IBM Concert PASSWORD:                    {{ global_config.global_password }}"
     - " IBM Concert Namespace:                  {{current_ibm_feature.project }}"
     - " IBM Concert prod_registry:              {{current_feature.prod_registry}}"
     - " IBM Concert prod_user:                  {{current_feature.prod_user}}"
-    - " IBM Concert private_registry_location:  {{current_feature.private_registry_location}}"
-    - " IBM Concert project_operator:           {{current_feature.project_operator}}"
-    - " IBM Concert project_instance:           {{current_feature.project_instance}}"
-    - " IBM Concert docker_exe:                 {{current_feature.docker_exe}}"
+    - " IBM Concert Registry Key:               $ENTITLED_REGISTRY_KEY"
     - ""
     verbosity: 1
   
