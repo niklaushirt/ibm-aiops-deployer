@@ -70,15 +70,12 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Getting Installation source from GitHub"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    mkdir -p /tmp/concert
-    cd  /tmp/concert/
+    mkdir -p /tmp/
+    cd  /tmp/
 
-    mkdir ibm-concert
-    cd ibm-concert
     wget https://github.com/IBM/Concert/releases/download/v2.2.0/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
-    export INSTALL_DIR=/tmp/ibm-concert
-    cd /tmp
+    cd /tmp/ibm-concert
   register: output_string
   ignore_errors: true
   args:
@@ -150,9 +147,9 @@
   shell: |
   
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
-
-
-    cat > /tmp/etc/params.ini <<EOF
+    echo "OCP_URL: $OCP_URL"
+    mv /tmp/ibm-concert/etc/params.ini /tmp/ibm-concert/etc/params.ini.all
+    cat > /tmp/ibm-concert/etc/params.ini <<EOF
     
     # INSTALL_EKS: Set as True if installing on EKS
     INSTALL_EKS=false
