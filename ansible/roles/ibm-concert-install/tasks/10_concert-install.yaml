@@ -248,7 +248,7 @@
     echo " 🚀 Start Concert Installation"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "/tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY"
-    #/tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
+    /tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
 
 
 
