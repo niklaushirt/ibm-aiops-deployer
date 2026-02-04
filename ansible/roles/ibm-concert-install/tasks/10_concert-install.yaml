@@ -200,7 +200,7 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🛠️ Your Config File"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    cat /tmp/etc/params.ini
+    cat /tmp/ibm-concert/etc/params.ini
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -248,7 +248,7 @@
     echo " 🚀 Start Concert Installation"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "/tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY"
-    /tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
+    /tmp/ibm-concert/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
 
 
 
@@ -286,11 +286,11 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
 
 
-    /tmp/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}
+    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}
     oc get route concert -n concert
     oc extract -n concert secret/app-cfg-secret --to=-
 
-    /tmp/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
+    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
 
   
 
@@ -301,7 +301,7 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " ✅ LOGINS"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    ./ibm-concert-manage.sh get-concert-instance-details
+    
 
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
     export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
