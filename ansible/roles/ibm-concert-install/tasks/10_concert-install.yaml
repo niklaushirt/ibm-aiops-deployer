@@ -146,6 +146,10 @@
 - name:   🚀 IBM Concert - Prepare Installation
   shell: |
   
+
+    export INSTALL_DIR=/tmp/ibm-concert
+
+
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
     echo "OCP_URL: $OCP_URL"
     mv /tmp/ibm-concert/etc/params.ini /tmp/ibm-concert/etc/params.ini.all
@@ -190,6 +194,8 @@
     # ----- Concert Workflow Configuration -----
 
     INSTALL_WORKFLOWS=true
+    # namespace for Workflows
+    WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
     # Domain name on which the application will listen
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
     WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL

@@ -37,13 +37,11 @@
       fi
   ignore_errors: true
 
-
-
-# Create IBM Operator Catalog
-- name:   🚀 IBM Concert - Install IBM Operator Catalog - Online
-  kubernetes.core.k8s:
-    state: present
-    template: ./templates/concert/1_cat-ibm-catalog.j2
+# # Create IBM Operator Catalog
+# - name:   🚀 IBM Concert - Install IBM Operator Catalog - Online
+#   kubernetes.core.k8s:
+#     state: present
+#     template: ./templates/concert/1_cat-ibm-catalog.j2
 
 
 
@@ -85,22 +83,23 @@
 
 
 
-# - name:   🚀 IBM Concert - Installing Podman
-#   shell: |
-#     echo "------------------------------------------------------------------------------------------------------------------------------"
-#     echo " 🚀 Installing Podman"
-#     echo "------------------------------------------------------------------------------------------------------------------------------"
-#     apt-get -qq update
-#     apt-get -y install podman  > /dev/null
-#   register: output_string
-#   ignore_errors: true
-#   args:
-#     executable: /bin/bash
+- name:   🚀 IBM Concert - Installing envsubst
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Installing Podman"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst \
+    && chmod +x envsubst \
+    && mv envsubst /usr/local/bin
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
 
-# - name: 🟣  OUTPUT
-#   debug: 
-#     var: output_string.stdout_lines
-#     #verbosity: 1
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
 
 
 
