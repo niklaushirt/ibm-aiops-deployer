@@ -95,16 +95,11 @@
     - "        Storage Class Block Override:            {{ ocp_storage_class_block | default('not defined') }}"
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 CONFIG"
-    - "     ✅ IBM Concert Project Instance Name:        {{current_feature.project_instance| default('not defined')}}"
-    - "     🔎 IBM Concert Namespace:                    {{current_feature.project| default('not defined')}}"
+    - "     🔎 IBM Concert Namespace:                    {{current_ibm_feature.project| default('not defined')}}"
     - "     📣 IBM Concert prod_registry:                {{current_feature.prod_registry| default('not defined')}}"
     - "     📣 IBM Concert prod_user:                    {{current_feature.prod_user| default('not defined')}}"
-    - "     📣 IBM Concert private_registry_location:    {{current_feature.private_registry_location| default('not defined')}}"
-    - "     📣 IBM Concert project_operator:             {{current_feature.project_operator| default('not defined')}}"
-    - "     📣 IBM Concert docker_exe:                   {{current_feature.docker_exe| default('not defined')}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
-
 
 
 

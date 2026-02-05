@@ -70,12 +70,15 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Getting Installation source from GitHub"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    mkdir -p /tmp/
-    cd  /tmp/
+    mkdir -p /tmp/concert
+    cd  /tmp/concert/
 
+    mkdir ibm-concert
+    cd ibm-concert
     wget https://github.com/IBM/Concert/releases/download/v2.2.0/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
-    cd /tmp/ibm-concert
+    export INSTALL_DIR=/tmp/ibm-concert
+    cd $INSTALL_DIR
   register: output_string
   ignore_errors: true
   args:
@@ -124,13 +127,23 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Variables"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo "USER                  : admin"
-    echo "PASSWORD:             : {{ global_config.global_password }}"
-    echo "ENTITLED_REGISTRY_KEY : $ENTITLED_REGISTRY_KEY"
+    echo "export PROD_REGISTRY={{current_feature.prod_registry}}"
+    echo "export PROD_USER={{current_feature.prod_user}}"
+    echo "export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}"
+    echo "export DOCKER_EXE=podman"
+    echo "export WORK_DIR=$(pwd)"
+    echo "export PROJECT_OPERATOR={{current_feature.project_operator}} "
+    echo "export PROJECT_INSTANCE={{current_feature.project_instance}}"
+    echo "export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}"
+    echo "export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}"
+
     echo ""
     echo ""
     echo ""
     echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Create Pull Secrets"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
   register: output_string
   ignore_errors: true
   args:
@@ -145,71 +158,106 @@
 
 - name:   🚀 IBM Concert - Prepare Installation
   shell: |
-  
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_feature.prod_registry}}
+    export PROD_USER={{current_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}
 
-    export INSTALL_DIR=/tmp/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Create Pull Secrets"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    oc create secret docker-registry mysercret \
+        --docker-server=${PROD_REGISTRY} \
+        --docker-username=${PROD_USER} \
+        --docker-password=${IBM_ENTITLEMENT_KEY} \
+        --dry-run=client \
+        --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode > myregistryconfigjson
+
+    oc get secret pull-secret -n openshift-config \
+      --output="jsonpath={.data.\.dockerconfigjson}" | base64 \
+      --decode > dockerconfigjson
+
+    jq -s '.[0] * .[1]' dockerconfigjson myregistryconfigjson > dockerconfigjson-merged
+
+    oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=dockerconfigjson-merged
+    oc get secret pull-secret -n openshift-config \
+      --output="jsonpath={.data.\.dockerconfigjson}" | base64 \
+      --decode
 
 
-    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
-    echo "OCP_URL: $OCP_URL"
-    mv /tmp/ibm-concert/etc/params.ini /tmp/ibm-concert/etc/params.ini.all
-    cat > /tmp/ibm-concert/etc/params.ini <<EOF
-    
-    # INSTALL_EKS: Set as True if installing on EKS
-    INSTALL_EKS=false
-    # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
-    REG_USER={{ current_feature.prod_user }}
-    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-marketplace
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-operators
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-marketplace
+    oc create secret docker-registry 'ibm-entitlement-key' --docker-server=${PROD_REGISTRY} --docker-username=${PROD_USER} --docker-password=${IBM_ENTITLEMENT_KEY} --namespace=openshift-operators
+    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount ibm-aiops-catalog -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
+    oc patch -n openshift-marketplace serviceaccount default -p '{"imagePullSecrets": [{"name": "ibm-entitlement-key"}]}'
 
 
-    # ----- Hub Configuration -----
-
-    # namespace for Hub
-    HUB_NS={{ current_ibm_feature.project }}-hub
-    HUB_IMAGE_REGISTRY_SUFFIX=/solis-hub
-    SCALE_CONFIG_HUB=level_1
-    # storage class for Hub
-    STORAGE_CLASS_HUB={{ STORAGE_CLASS_FILE }}
-
-    # ----- Concert Configuration -----
-
-    INSTALL_CONCERT=true
-    # namespace for Concert
-    CONCERT_NS={{ current_ibm_feature.project }}
-    CONCERT_IMAGE_REGISTRY_SUFFIX=/concert
-    SCALE_CONFIG_CONCERT=level_1
-    # storage class for Concert
-    STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
-
-    # ----- Data Apps Configuration -----
-
-    INSTALL_DATAAPPS=true
-    # namespace for Data Apps
-    DATAAPPS_NS={{ current_ibm_feature.project }}-dataapps
-    DATAAPPS_IMAGE_REGISTRY_SUFFIX=/concert
-    SCALE_CONFIG_DATAAPPS=level_1
-    # storage class for Dataapps
-    STORAGE_CLASS_DATAAPPS={{ STORAGE_CLASS_FILE }}
-
-    # ----- Concert Workflow Configuration -----
-
-    INSTALL_WORKFLOWS=true
-    # namespace for Workflows
-    WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
-    # Domain name on which the application will listen
-    # Example: solis-gw-workflows.apps.test.cp.my-domain.com
-    WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
+    cat << EOF | oc apply -f -
+    apiVersion: operators.coreos.com/v1alpha1
+    kind: CatalogSource
+    metadata:
+      name: ibm-aiops-catalog
+      namespace: openshift-marketplace
+    spec:
+      displayName: ibm-aiops-catalog
+      publisher: IBM Content
+      sourceType: grpc
+      image: icr.io/cpopen/ibm-operator-catalog:latest
     EOF
 
+    echo ""
+    echo ""
+    echo ""
+    echo ""
     echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Initialize Concert Installer"
     echo "------------------------------------------------------------------------------------------------------------------------------"
+    ./ibm-concert-manage.sh initialize
+
+
+
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " 🛠️ Your Config File"
+    echo " 🚀 Login for Concert Installer"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    cat /tmp/ibm-concert/etc/params.ini
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export OCP_URL=https://api.66d97927684f19a4a8b06c46.ocp.techzone.ibm.com:6443
+    export OCP_TOKEN="sha256~AYZbHEPMwvzeqBTPMTa9zyZuFydJagZUbTTMpFno1QI"
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
+    #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🔐 Token:             $OCP_TOKEN"
+    echo ""
+    echo "            🧑 Login:   oc login --token=$OCP_TOKEN --server=$OCP_URL"
+    echo ""
+
+    ./ibm-concert-manage.sh login-to-ocp --token=${OCP_TOKEN} --server=${OCP_URL}
+
+
 
   register: output_string
   ignore_errors: true
@@ -245,7 +293,25 @@
 
 - name:   🚀 IBM Concert -  Installation
   shell: |
-    cd  /tmp/
+    cd  /tmp/concert/ibm-concert
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Set Variables"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_feature.prod_registry}}
+    export PROD_USER={{current_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}
+
+
     echo ""
     echo ""
     echo ""
@@ -253,8 +319,7 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Start Concert Installation"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo "/tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY"
-    /tmp/ibm-concert/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
+    ./ibm-concert-manage.sh concert-setup
 
 
 
@@ -270,12 +335,12 @@
 
 
 
-# - name: 🕦 CHECK -  Wait for all Pods in {{ current_ibm_feature.project }} to become ready (this might take some time)
-#   shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
-#   register: kubectl_get_pods
-#   until: kubectl_get_pods.stdout|int > 17
-#   retries: 500
-#   delay: 15
+- name: 🕦 CHECK -  Wait for all Pods in {{ current_ibm_feature.project }} to become ready (this might take some time)
+  shell: oc get pods -n ibm-concert -l app.kubernetes.io/name=ibm-concert|grep "Running"|grep "1/1"|wc -l| tr -d ' '
+  register: kubectl_get_pods
+  until: kubectl_get_pods.stdout|int > 17
+  retries: 500
+  delay: 15
 
 
 
@@ -288,17 +353,18 @@
     echo ""
     echo ""
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " 🚀 Create Routes"
+    echo " 🚀 Set Variables"
     echo "------------------------------------------------------------------------------------------------------------------------------"
+    export PROD_REGISTRY={{current_feature.prod_registry}}
+    export PROD_USER={{current_feature.prod_user}}
+    export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}
+    export DOCKER_EXE=podman 
+    export WORK_DIR=$(pwd)
+    export PROJECT_OPERATOR={{current_feature.project_operator}} 
+    export PROJECT_INSTANCE={{current_feature.project_instance}}
+    export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}
+    export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}
 
-
-    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}
-    oc get route concert -n {{ current_ibm_feature.project }}
-    oc extract -n {{ current_ibm_feature.project }} secret/app-cfg-secret --to=-
-
-    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
-
-  
 
     echo ""
     echo ""
@@ -307,7 +373,15 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " ✅ LOGINS"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    
+    ./ibm-concert-manage.sh get-concert-instance-details
+
+    export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
+    export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
+    #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
+    echo "            🌏 URL:               $OCP_URL"
+    echo "            🫅 User:              kubeadmin"
+    echo "            🔐 Token:             $OCP_TOKEN"
+
 
 
 

@@ -243,7 +243,7 @@ spec:
               imagePullSecretName: ibm-entitlement-key
               rna:
                 instance:
-                  admin_password: "P4ssw0rd!"
+                  admin_password: "CHANGEME"
                   address: "$SERVER_ADDR"
                   installation_mode: standalone
                 faas:

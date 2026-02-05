@@ -1,4 +1,4 @@
-export TURBO_PASSWORD=P4ssw0rd!
+export TURBO_PASSWORD=CHANGEME
 
 
 
