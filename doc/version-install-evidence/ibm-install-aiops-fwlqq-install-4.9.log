@@ -1219,7 +1219,7 @@ ok: [localhost] => {
         "        Storage Class InfraManagement:            ocs-storagecluster-cephfs",
         "-----------------------------------------------------------------------------------------------",
         "  🌏 GLOBAL CONFIG",
-        "      🔐 Global Password for all Instances:       P4ssw0rd!",
+        "      🔐 Global Password for all Instances:       CHANGEME",
         "      📝 Create App Menu Items in OCP:            True",
         "      📝 Create Welcome Cards in IBM AIOps:       True",
         "-----------------------------------------------------------------------------------------------",
@@ -1411,7 +1411,7 @@ skipping: [localhost]
 TASK [ibm-aiops-demo-content : 🚀 LDAP - Set LDAP ADMIN Password from global configuration] ***
 ok: [localhost]
 
-TASK [ibm-aiops-demo-content : 🟣  LDAP -  Demo UI Password P4ssw0rd!] *********
+TASK [ibm-aiops-demo-content : 🟣  LDAP -  Demo UI Password CHANGEME] *********
 skipping: [localhost]
 
 TASK [ibm-aiops-demo-content : 🚀 LDAP - Set LDAP USERS Password from instance configuration] ***
@@ -1420,7 +1420,7 @@ skipping: [localhost]
 TASK [ibm-aiops-demo-content : 🚀 LDAP - Set LDAP USERS Password from global configuration] ***
 ok: [localhost]
 
-TASK [ibm-aiops-demo-content : 🟣  LDAP -  Demo UI Password P4ssw0rd!] *********
+TASK [ibm-aiops-demo-content : 🟣  LDAP -  Demo UI Password CHANGEME] *********
 skipping: [localhost]
 
 TASK [ibm-aiops-demo-content : LDAP -               🚀 Create OpenLDAP namespace] ***
@@ -2135,7 +2135,7 @@ skipping: [localhost]
 TASK [ibm-aiops-demo-content : 🚀 LDAPREGISTER - Set LDAP ADMIN Password from global configuration] ***
 ok: [localhost]
 
-TASK [ibm-aiops-demo-content : 🟣  LDAPREGISTER -  LDAP Password P4ssw0rd!] ****
+TASK [ibm-aiops-demo-content : 🟣  LDAPREGISTER -  LDAP Password CHANGEME] ****
 skipping: [localhost]
 
 TASK [ibm-aiops-demo-content : 🚀 LDAPREGISTER - Set LDAP USERS Password from instance configuration] ***
@@ -2144,7 +2144,7 @@ skipping: [localhost]
 TASK [ibm-aiops-demo-content : 🚀 LDAPREGISTER - Set LDAP USERS Password from global configuration] ***
 ok: [localhost]
 
-TASK [ibm-aiops-demo-content : 🟣  LDAPREGISTER -  LDAP Password P4ssw0rd!] ****
+TASK [ibm-aiops-demo-content : 🟣  LDAPREGISTER -  LDAP Password CHANGEME] ****
 skipping: [localhost]
 
 TASK [ibm-aiops-demo-content : Log] ********************************************
@@ -2927,7 +2927,7 @@ changed: [localhost]
 TASK [ibm-aiops-demo-content : 🚀 DEMO-UI - Set Demo UI Password] **************
 ok: [localhost]
 
-TASK [ibm-aiops-demo-content : 🟣  DEMO-UI -  Demo UI Password P4ssw0rd!] ******
+TASK [ibm-aiops-demo-content : 🟣  DEMO-UI -  Demo UI Password CHANGEME] ******
 skipping: [localhost]
 
 TASK [ibm-aiops-demo-content : 🚀 DEMO-UI - Create IBM AIOPS Demo UI Configuration - WITHOUT Slack and SNOW Simulation] ***

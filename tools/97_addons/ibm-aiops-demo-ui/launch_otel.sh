@@ -11,7 +11,7 @@ export CONTACT_INFO='<p style="font-size:40px;">Contacts</p><BR><p>Niklaus Hirt 
 # export METRIC_ROUTE_OVERRIDE="ibm-nginx-svc.ibm-aiops:443"
 
 
-export DEMO_PWD=P4ssw0rd!
+export DEMO_PWD=CHANGEME
 export DEMO_USER=demo
 export ADMIN_MODE='true'
 export INSTANCE_NAME=Sabine
