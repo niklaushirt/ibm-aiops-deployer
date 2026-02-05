@@ -234,7 +234,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 60-80 minutes) - Started at $(date +%H:%M) UTC'    
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 30-40 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -276,6 +276,26 @@
 #   until: kubectl_get_pods.stdout|int > 17
 #   retries: 500
 #   delay: 15
+
+
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ff7700'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Finalizing {{current_feature.kind}}'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: global_config.create_ocp_notifications | default(true) == true  
 
 
 

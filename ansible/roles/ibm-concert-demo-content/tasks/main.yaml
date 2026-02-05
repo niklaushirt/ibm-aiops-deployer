@@ -236,18 +236,6 @@
     echo ""
     echo ""
     echo ""
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " 🚀 Set Variables"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    export PROD_REGISTRY={{current_feature.prod_registry}}
-    export PROD_USER={{current_feature.prod_user}}
-    export PRIVATE_REGISTRY_LOCATION={{current_feature.private_registry_location}}
-    export DOCKER_EXE=podman 
-    export WORK_DIR=$(pwd)
-    export PROJECT_OPERATOR={{current_feature.project_operator}} 
-    export PROJECT_INSTANCE={{current_feature.project_instance}}
-    export STG_CLASS_BLOCK={{ STORAGE_CLASS_FILE }}
-    export STG_CLASS_FILE={{ STORAGE_CLASS_LARGE_BLOCK }}
 
 
     echo ""
