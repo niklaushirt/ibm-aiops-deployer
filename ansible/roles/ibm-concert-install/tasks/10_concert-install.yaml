@@ -316,9 +316,8 @@
     oc get route concert -n {{ current_ibm_feature.project }}
     oc extract -n {{ current_ibm_feature.project }} secret/app-cfg-secret --to=-
 
-    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
+    /tmp/ibm-concert/ibm-dataapps-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
 
-  
 
     echo ""
     echo ""
