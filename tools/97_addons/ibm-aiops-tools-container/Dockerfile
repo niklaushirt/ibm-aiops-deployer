@@ -1,4 +1,4 @@
-FROM ubuntu:23.10
+FROM ubuntu:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
   unzip \
   python3-kubernetes \
   python3-openshift \
+  tmux \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Openshift Client
@@ -38,7 +39,7 @@ COPY helm /usr/bin/helm
 
 
 # Install k9s
-RUN wget https://github.com/derailed/k9s/releases/download/v0.26.7/k9s_Linux_x86_64.tar.gz && tar xfzv k9s_Linux_x86_64.tar.gz && mv k9s /usr/local/bin && rm LICENSE && rm README.md && rm k9s_Linux_x86_64.tar.gz
+RUN wget https://github.com/derailed/k9s/releases/download/v0.50.17/k9s_Linux_amd64.tar.gz && tar xfzv k9s_Linux_amd64.tar.gz && mv k9s /usr/local/bin && rm LICENSE && rm README.md && rm k9s_Linux_amd64.tar.gz
 
 
 

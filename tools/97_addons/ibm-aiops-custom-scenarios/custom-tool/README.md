@@ -2,7 +2,7 @@
 
 <center> <h2>Custom Data Ingestion🚀</h2> </center>
 <BR>
-<center> ©2025 Niklaus Hirt / IBM </center>
+<center> ©2026 Niklaus Hirt / IBM </center>
 
  
 

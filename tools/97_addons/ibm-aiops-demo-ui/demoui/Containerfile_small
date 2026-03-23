@@ -1,4 +1,4 @@
-FROM python:3.11.7-slim-bullseye
+FROM python:3.11.15-trixie
 ENV DockerHOME=/home/app/demoui  
 
 # set work directory  
