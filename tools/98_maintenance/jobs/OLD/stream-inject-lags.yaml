@@ -14,7 +14,7 @@ spec:
 
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -108,7 +108,7 @@ spec:
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+      - image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
         imagePullPolicy: IfNotPresent
         name: ibm-aiops-inject-lags-anomaly
         resources:
@@ -197,7 +197,7 @@ spec:
       serviceAccount: ibm-aiops-demo-ui-admin 
 
       containers:
-      - image: quay.io/niklaushirt/ibm-aiops-tools:2.3
+      - image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
         imagePullPolicy: IfNotPresent
         name: ibm-aiops-inject-lags-anomaly
         resources:

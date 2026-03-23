@@ -5,7 +5,7 @@
 
 <center> <h2>Demo Environment Installation 🚀</h2> </center>
 <BR>
-<center> ©2025 Niklaus Hirt / IBM </center>
+<center> ©2026 Niklaus Hirt / IBM </center>
 
  
 

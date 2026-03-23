@@ -12,11 +12,8 @@ export API_KEY=xxxxxx
 
 
 
-
-
-
-
-cd /tmp
+#cd /tmp
+cd 
 git clone https://github.com/ibm/aiops-ui-extension-template
 cd aiops-ui-extension-template
 

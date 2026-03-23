@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
  
 
+
+## [412.0.2] - 2026-03-23
+### Major changes
+- Fixed a bug when waitong for CatalogSource on TechZone Cluster
+- Hack for deprecated kube-rbac-proxy image, waiting for a pathc of the awx operator (https://github.com/ansible-community/awx-operator-helm/pull/81)
+- Updated 2025->2026
+- Updated DemoUI Base Image to latest python:3.11.15-trixie
+- Updated Tools Base Image to latest Ubuntu 2604
+
+
+
 ## [412.0.1] - 2026-01-06
 ### Major changes
 - Support for Version 4.12.0 GA
