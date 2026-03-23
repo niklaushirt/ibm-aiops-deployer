@@ -135,7 +135,7 @@ data:
     openshift:
 
     - name: "mycluster"
-      ocp_version: "4.15"
+      ocp_version: "4.18"
       cluster_name: "mycluster"
       domain_name: example.com
       openshift_storage:
@@ -185,7 +185,7 @@ data:
         aiops_name: ibm-aiops
         # Version of the catalog subscription
         subscription_channel: v4.12
-        # Freeze the version of the Catalog image by patching CatalogSource
+        # Freeze the version of the Catalog image by patching CatalogSource (Deprecated, still here for compatibility reasons only)
         freeze_catalog: true
 
         # Enable Log Anomaly and Similar Tickets
