@@ -83,6 +83,12 @@
     EOF
 
     kubectl apply -k .
+
+
+    # Hack for deprecated kube-rbac-proxy image, waiting for a pathc of the awx operator (https://github.com/ansible-community/awx-operator-helm/pull/81)
+    sleep 30
+    kubectl set image deployment/awx-operator-controller-manager -n awx kube-rbac-proxy=quay.io/brancz/kube-rbac-proxy:v0.15.0
+
   ignore_errors: true
   args:
     executable: /bin/bash
