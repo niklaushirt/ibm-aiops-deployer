@@ -236,7 +236,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (017/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create IBM AIOps Openshift WebConsole Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-menu.yaml
-  when: global_config.create_ocp_items | default(true)|bool == true  
+  when: global_config.create_ocp_items|bool | default(true)|bool == true  
 
 # Update IBM AIOps Cards
 - name: (018/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards

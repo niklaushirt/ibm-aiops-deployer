@@ -36,7 +36,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
    
 
 # - name: 🌏 NETWORK - CHECK Ingress already patched
@@ -155,7 +155,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 # NEW
@@ -238,13 +238,13 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.create_valid_ingress_itz | default(false)|bool == true
+  when: current_feature.create_valid_ingress_itz|bool | default(false)|bool == true
 
 
 - name: 🟢 DEBUG - Patch Certificates for TechZone IPI/UPI
   debug: 
     var: certificate_patch
-  when: current_feature.create_valid_ingress_itz | default(false)|bool == true
+  when: current_feature.create_valid_ingress_itz|bool | default(false)|bool == true
 
 
 

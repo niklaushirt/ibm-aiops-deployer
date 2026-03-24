@@ -28,7 +28,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 
@@ -48,7 +48,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.training_enable_log_golden_signals | default(false)|bool == false  
+  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == false  
 
 - name: 🚀 TRAINING CREATE METRICS - CREATE METRICS ANALYSIS CONFIGURATION LAGS
   shell: |
@@ -66,7 +66,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.training_enable_log_golden_signals | default(false)|bool == true  
+  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == true  
 
 
 

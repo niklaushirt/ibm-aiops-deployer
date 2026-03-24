@@ -274,7 +274,7 @@
 
   - name: 🟡🟡🟡 Install OCP Menu Item
     include_tasks: 91_addons-instana-create-ocp-tools-menu.yaml
-    when: global_config.create_ocp_items | default(true)|bool == true  
+    when: global_config.create_ocp_items|bool | default(true)|bool == true  
 
   # Update IBMAIOps Cards
   - name: 🟡🟡🟡 Update IBMAIOps Cards

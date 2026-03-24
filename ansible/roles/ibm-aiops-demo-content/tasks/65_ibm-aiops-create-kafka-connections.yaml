@@ -34,7 +34,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 - name: 🌏 CONNECTIONS - Create KAFKA Connections for Inception (ELK)
@@ -136,7 +136,7 @@
 
 
   ignore_errors: true
-  when: current_feature.create_log_connection | default(true)|bool == true and current_feature.training_enable_log_golden_signals | default(false)|bool == false
+  when: current_feature.create_log_connection|bool | default(true)|bool == true and current_feature.training_enable_log_golden_signals|bool | default(false)|bool == false
   register: output_string
   args:
     executable: /bin/bash
@@ -249,7 +249,7 @@
     echo $result
 
   ignore_errors: true
-  when: current_feature.create_log_connection | default(true)|bool == true and current_feature.training_enable_log_golden_signals | default(false)|bool == false
+  when: current_feature.create_log_connection|bool | default(true)|bool == true and current_feature.training_enable_log_golden_signals|bool | default(false)|bool == false
   register: output_string
   args:
     executable: /bin/bash

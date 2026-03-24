@@ -34,7 +34,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 
@@ -207,7 +207,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for CSV being ready
@@ -239,7 +239,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 # HACK for Elastic Operator - TODO Remove in GA
@@ -302,5 +302,5 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 

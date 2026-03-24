@@ -147,7 +147,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (010/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Create Event Manager Openshift WebConsole Menu Item
   include_tasks: 91_aimanager-create-ocp-menu.yaml
-  when: global_config.create_ocp_items | default(true)|bool == true  
+  when: global_config.create_ocp_items|bool | default(true)|bool == true  
 
 # Update AI Manager Cards
 # - name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update AI Manager Cards

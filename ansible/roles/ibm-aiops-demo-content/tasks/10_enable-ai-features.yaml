@@ -38,7 +38,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)|bool == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 
@@ -98,7 +98,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.enable_chat_assistant | default(false)|bool == true  
+  when: current_feature.enable_chat_assistant|bool | default(false)|bool == true  
 
 
 - name: 🟣  OUTPUT
@@ -161,7 +161,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.enable_watsonx | default(false)|bool == true  
+  when: current_feature.enable_watsonx|bool | default(false)|bool == true  
 
 
 
@@ -220,7 +220,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.enable_watsonx | default(false)|bool == true  
+  when: current_feature.enable_watsonx|bool | default(false)|bool == true  
 
 
 
