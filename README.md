@@ -785,7 +785,7 @@ This installation contains:
 ## 3.1 Demo the Solution
 ---------------------------------------------------------------
 
-❗DEPRECATED❗ Those Resources give you an idea on how to demo CP4AIOps but they are for older versions sonly.
+❗DEPRECATED❗ Those Resources give you an idea on how to demo CP4AIOps but they are for older versions only.
 
 📹 ❗DEPRECATED❗Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
