@@ -133,6 +133,14 @@
   when: TRAINING_EXISTS==true
 
 
+- name: ✅ MODELS DON'T EXISTS - RUN TRAINING - {{TRAINING_EXISTS}}
+  debug: 
+    var: TRAINING_EXISTS
+  #when: PRINT_LOGINS == true
+    verbosity: 2
+  when: TRAINING_EXISTS==false
+
+
 
 - name: Log
   shell: |
