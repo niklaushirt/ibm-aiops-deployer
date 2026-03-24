@@ -785,11 +785,13 @@ This installation contains:
 ## 3.1 Demo the Solution
 ---------------------------------------------------------------
 
-📹 Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
+❗DEPRECATED❗ Those Resources give you an idea on how to demo CP4AIOps but they are for older versions sonly.
 
-📹 The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
+📹 ❗DEPRECATED❗Please use the [Demo Script](/./doc/storytelling/CP4AIOps%20Live%20Environment%20Sample%20Demo%20Script_NO_CHATOPS.md) to prepare for the demo.
 
-📹 I have also added a short [Demo Walkthrough video](https://ibm.ent.box.com/folder/158722723584?s=icgkxzlt2ja6dth16dpdin055uyysej1) that you can watch to get an idea on how to do the demo (based on 3.2). 
+📹 ❗DEPRECATED❗ The [Click Through PPT](https://ibm.box.com/s/icgkxzlt2ja6dth16dpdin055uyysej1), provides you with a simple PPT based demo - "feels like the real thing"(TM).
+
+📹 ❗DEPRECATED❗ I have also added a short [Demo Walkthrough video](https://ibm.ent.box.com/folder/158722723584?s=icgkxzlt2ja6dth16dpdin055uyysej1) that you can watch to get an idea on how to do the demo (based on 3.2). 
 
 
 <details>
