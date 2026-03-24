@@ -39,7 +39,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 # *************************************************************************************************************************************************
@@ -105,7 +105,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 
@@ -204,7 +204,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications|bool | default(true)|bool == true  
 
 
 

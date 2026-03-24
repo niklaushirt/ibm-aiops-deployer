@@ -139,7 +139,7 @@
 
 - name: 🟡🟡🟡 Install OCP Menu Item
   include_tasks: 91_addons-turbonomic-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items | default(true) == true  
+  when: global_config.create_ocp_items|bool | default(true)|bool == true  
 
 # Update IBMAIOps Cards
 - name: 🟡🟡🟡 Update IBMAIOps Cards
