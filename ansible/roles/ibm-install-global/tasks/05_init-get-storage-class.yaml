@@ -59,9 +59,9 @@
   fail: msg="You must be logged in to the server!"
   when: CLUSTER_NAME.stdout==""
 
-- name: 🛠️  Show Config File
-  debug:
-    var: current_feature.storage_class_block
+# - name: 🛠️  Show Config File
+#   debug:
+#     var: current_feature.storage_class_block
 
 
 
