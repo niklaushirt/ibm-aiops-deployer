@@ -147,17 +147,17 @@
 # Create Demo Apps
 - name: (001/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
-  when: current_feature.install_demoapps | default(false)
+  when: current_feature.install_demoapps | default(false)|bool == true
 
 
 - name: (002/002) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
   include_tasks: 27_ibm-home-ui.yaml
-  when: current_feature.create_home_ui | default(false)
+  when: current_feature.create_home_ui | default(false)|bool == true
 
 
 - name: 🟡🟡🟡 Install OCP Menu Item
   include_tasks: 91_addons-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items | default(true)  
+  when: global_config.create_ocp_items | default(true)|bool == true  
 
 
 - name: 🟡🟡🟡 End Logging

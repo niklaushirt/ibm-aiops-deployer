@@ -58,7 +58,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -107,7 +107,7 @@
 # - name: LOGIN -              👨‍💼 Login to cluster
 #   shell: "oc login --token={{ OCP_TOKEN }} --server={{ OCP_URL }}"   
 #   register: k8s_auth_results
-#   when: OCP_LOGIN
+#   when: OCP_LOGIN|bool == true
 
 
 

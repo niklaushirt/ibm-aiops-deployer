@@ -15,7 +15,7 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-  #when: PRINT_LOGINS
+  #when: PRINT_LOGINS|bool == true
 
 
 - name: Log
@@ -44,7 +44,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -77,7 +77,7 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-  #when: PRINT_LOGINS
+  #when: PRINT_LOGINS|bool == true
     #verbosity: 2
 
 
@@ -145,6 +145,6 @@
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
-  #when: PRINT_LOGINS
+  #when: PRINT_LOGINS|bool == true
     #verbosity: 2
 

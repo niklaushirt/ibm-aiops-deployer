@@ -102,7 +102,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -187,7 +187,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -334,7 +334,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -389,7 +389,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Create Backend Datastore cassandra
@@ -494,7 +494,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -551,7 +551,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -578,7 +578,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Install Kubectl Instana Plugin
@@ -639,7 +639,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Get BASE_DOMAIN
@@ -768,7 +768,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Create Operator
@@ -838,7 +838,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -1009,7 +1009,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -1055,7 +1055,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Create Instana Core Instance
@@ -1084,7 +1084,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name:   🕦 INSTANA - HACK - Wait for cashier-rollup
@@ -1129,7 +1129,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 INSTANA - Create Instana Unit Instance
@@ -1157,7 +1157,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 - name:   🕦 INSTANA - Wait for Unit Instance to become ready
   shell: oc -n instana-units get unit aiops-dev -o=custom-columns=STATUS:.status.componentsStatus --no-headers
@@ -1219,7 +1219,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 

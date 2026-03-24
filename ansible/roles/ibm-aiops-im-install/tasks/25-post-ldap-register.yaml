@@ -39,7 +39,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 # *************************************************************************************************************************************************
@@ -150,7 +150,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 - name: 🚀 LDAPREGISTER - Create LDAP Integration
@@ -223,7 +223,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 

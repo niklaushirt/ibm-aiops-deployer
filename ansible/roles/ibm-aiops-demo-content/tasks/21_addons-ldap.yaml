@@ -38,7 +38,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true)  
+  when: global_config.create_ocp_notifications | default(true)|bool == true  
 
 
 
@@ -81,7 +81,7 @@
 #   kubernetes.core.k8s:
 #     state: absent
 #     template: ./templates/ldap/install-ldap.j2
-#   #when: INSTALL_LDAP
+#   #when: INSTALL_LDAP|bool == true
 
 - name: LDAP -               🚀 Create OpenLDAP namespace
   kubernetes.core.k8s:
@@ -99,7 +99,7 @@
   kubernetes.core.k8s:
     state: present
     template: ./templates/ldap/install-ldap-persistent.j2
-  #when: INSTALL_LDAP
+  #when: INSTALL_LDAP|bool == true
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for LDAP ready

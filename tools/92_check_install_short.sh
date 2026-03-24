@@ -50,7 +50,7 @@ EOF
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 function handleError(){
-    if  ([[ $CURRENT_ERROR ]]); 
+    if  ([[ $CURRENT_ERROR|bool == true ]]); 
     then
         ERROR=true
         ERROR_STRING=$ERROR_STRING"\n⭕ $CURRENT_ERROR_STRING"
@@ -72,7 +72,7 @@ function handleError(){
 
 
 function handleWarning(){
-    if  ([[ $CURRENT_WARNING_STATE ]]); 
+    if  ([[ $CURRENT_WARNING_STATE|bool == true ]]); 
     then
         WARNING_STATE=true
         WARNING_STRING=$WARNING_STRING"\n ⚠️  $CURRENT_WARNING_STRING"
@@ -676,7 +676,7 @@ EOF
 
       echo ""
       echo ""
-    if  ([[ $ERROR ]]); 
+    if  ([[ $ERROR|bool == true ]]); 
     then
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ERROR
@@ -740,7 +740,7 @@ spec:
     text: "⚠️ IBMAIOPS is installed in this cluster. 🚀 Access the DemoUI with Password '$DEMO_PWD' here:"
 EOF
 
-    elif  ([[ $WARNING_STATE ]]); 
+    elif  ([[ $WARNING_STATE|bool == true ]]); 
     then
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ERROR

@@ -160,7 +160,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (009/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Classic Way (skipped if CASE selected)
   include_tasks: 10_ibm-operator-catalog.yaml
-  when: not current_feature.case_install
+  when: current_feature.case_install|bool == false
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -169,13 +169,13 @@
 - name: (010/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-save
-  when: current_feature.case_install
+  when: current_feature.case_install|bool|bool == true
 
 
 - name: (011/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-catalog-source
-  when: current_feature.case_install
+  when: current_feature.case_install|bool|bool == true
 
 
 
@@ -201,7 +201,7 @@
 # Install  Feature Flags
 - name: (014/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Install IBM AIOPS Feature Flags
   include_tasks: 12_ibm-aiops-featureflags.yaml
-  when: current_feature.install_feature_flags | default('false')
+  when: current_feature.install_feature_flags|bool == true | default('false')
 
 
 
@@ -236,7 +236,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (017/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create IBM AIOps Openshift WebConsole Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-menu.yaml
-  when: global_config.create_ocp_items | default(true)  
+  when: global_config.create_ocp_items | default(true)|bool == true  
 
 # Update IBM AIOps Cards
 - name: (018/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards

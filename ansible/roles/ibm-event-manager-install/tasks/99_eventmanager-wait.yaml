@@ -75,6 +75,6 @@
 - name: 🔐 LOGIN - AIOPS Event Manager (NOI)
   debug: 
     var: output_string.stdout_lines
-  #when: PRINT_LOGINS
+  #when: PRINT_LOGINS|bool == true
 
 
