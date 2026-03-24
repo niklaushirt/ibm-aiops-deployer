@@ -30,7 +30,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -128,17 +128,17 @@
 - name: ✅ MODELS ALREADY EXISTS - SKIPPING TRAINING - {{TRAINING_EXISTS}}
   debug: 
     var: TRAINING_EXISTS
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
     verbosity: 2
-  when: TRAINING_EXISTS==true
+  when: TRAINING_EXISTS
 
 
 - name: ✅ MODELS DON'T EXISTS - RUN TRAINING - {{TRAINING_EXISTS}}
   debug: 
     var: TRAINING_EXISTS
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
     verbosity: 2
-  when: TRAINING_EXISTS==false
+  when: not TRAINING_EXISTS
 
 
 

@@ -170,7 +170,7 @@
                                 <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
                                     id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
                                     tabindex="-1">
-                                    {% if INCIDENT_ACTIVE == True %}
+                                    {% if INCIDENT_ACTIVE %}
                                     🔴 Active Incident
                                     {% else %}
                                     🟢 No Active Incident
@@ -181,7 +181,7 @@
                                 <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
                                     id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
                                     tabindex="-1">
-                                    {% if ROBOT_SHOP_OUTAGE_ACTIVE == True %}
+                                    {% if ROBOT_SHOP_OUTAGE_ACTIVE %}
                                     🔴 Physical RobotShop Outage
                                     {% else %}
                                     🟢 No Physical RobotShop Outage
@@ -192,7 +192,7 @@
                                 <a type="button" role="tab" aria-selected="false" aria-controls="favorites__panel"
                                     id="favorites" class="bx--tabs--scrollable__nav-link" href="/about"
                                     tabindex="-1">
-                                    {% if SOCK_SHOP_OUTAGE_ACTIVE == True %}
+                                    {% if SOCK_SHOP_OUTAGE_ACTIVE %}
                                     🔴 Physical SockShop Outage
                                     {% else %}
                                     🟢 No Physical SockShop Outage

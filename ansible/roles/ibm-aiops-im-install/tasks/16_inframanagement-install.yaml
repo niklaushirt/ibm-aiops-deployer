@@ -34,7 +34,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -221,7 +221,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 - name: 🕦 CHECK -  Wait for Infrastructure Management to be ready (this might take some time)
@@ -266,5 +266,5 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 

@@ -64,7 +64,7 @@
 
   - name: 🛠️  Fail if not exists
     fail: msg="The specified config file {{config_file_path}} does not exist"
-    when: p.stat.exists == False
+    when: not p.stat.exists
       
   - name: 🛠️  Import Config File
     include_vars:

@@ -38,7 +38,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 - name: 🚀 TURBONOMIC - Set ADMIN Password 
@@ -184,12 +184,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.create_user == true
+  when: current_feature.create_user
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.create_user == true
+  when: current_feature.create_user
 
 
 
@@ -238,12 +238,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 
 
 
@@ -286,12 +286,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 
 
 
@@ -334,12 +334,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 
 
 - name: 🚀 TURBONOMIC - Create Group Google VMs
@@ -381,12 +381,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 
 
 - name: 🚀 TURBONOMIC - Create Group Kubernetes VMs
@@ -430,12 +430,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_vcenter_vms == true
+  when: current_feature.group_vcenter_vms
 
 
 
@@ -484,12 +484,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_robotshop == true
+  when: current_feature.group_robotshop
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_robotshop == true
+  when: current_feature.group_robotshop
 
 
 
@@ -634,12 +634,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_licensing == true
+  when: current_feature.group_licensing
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_licensing == true
+  when: current_feature.group_licensing
 
 
 
@@ -678,12 +678,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.group_robotshop == true
+  when: current_feature.group_robotshop
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.group_robotshop == true
+  when: current_feature.group_robotshop
 
 
 
@@ -729,12 +729,12 @@
 #   register: output
 #   args:
 #     executable: /bin/bash
-#   when: current_feature.target_instana == true
+#   when: current_feature.target_instana
 # - name: 🟣  OUTPUT
 #   debug:
 #     var: output.stdout_lines
 #     verbosity: 1
-#   when: current_feature.target_instana == true
+#   when: current_feature.target_instana
 
 
 
@@ -810,12 +810,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 
 
 
@@ -834,12 +834,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 
 
 
@@ -938,12 +938,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 
 
 
@@ -1044,12 +1044,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 
 
 
@@ -1074,12 +1074,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.resource_hogs == true
+  when: current_feature.resource_hogs
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.resource_hogs == true
+  when: current_feature.resource_hogs
 
 
 
@@ -1118,12 +1118,12 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 
 
 
@@ -1158,13 +1158,13 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false)
 
 
 - name: 🟢 DEBUG - Patch Certificates for TechZone IPI/UPI
   debug: 
     var: certificate_patch
-  when: current_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false)
 
 
 
@@ -1372,10 +1372,10 @@
   register: output
   args:
     executable: /bin/bash
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 - name: 🟣  OUTPUT
   debug:
     var: output.stdout_lines
     verbosity: 1
-  when: current_feature.metrics_dif == true
+  when: current_feature.metrics_dif
 

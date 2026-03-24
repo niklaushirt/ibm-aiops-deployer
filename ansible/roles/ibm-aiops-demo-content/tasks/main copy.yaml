@@ -357,7 +357,7 @@
 
 - name: (028/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training Definition for Temporal Grouping
   include_tasks: 55_ibm-aiops-training-create-tg-configuration.yaml
-  when: current_feature.training_create_training_temporal and not TRAINING_EXISTS
+  when: current_feature.training_create_training_temporal and not not TRAINING_EXISTS
 
 - name: (029/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Metrics
   include_tasks: 56_ibm-aiops-training-create-metric-configuration.yaml

@@ -37,7 +37,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@
       kind: Namespace
       name: "robot-shop"
       state: present
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
 
   - name: 📺 DEMO APPS - Create robot-shop service account
     shell: |
@@ -70,7 +70,7 @@
       oc create clusterrolebinding default-robotinfo2-admin --clusterrole=cluster-admin --serviceaccount=robot-shop:default
     ignore_errors: true
     register: demo_robot_shop
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
               
 
   - name: 📺 DEMO APPS - Create robot-shop application
@@ -78,14 +78,14 @@
       state: present
       namespace: robot-shop
       template: ./templates/demo_apps/robotshop/robot-all-in-one.j2
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
 
   - name: 📺 DEMO APPS - Create robot-shop load generation
     kubernetes.core.k8s:
       state: present
       namespace: robot-shop
       src: ./templates/demo_apps/robotshop/load-deployment.yaml
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
   #when: OBJECT_EXISTS.stdout|length == 0
 
 
@@ -111,7 +111,7 @@
       kind: Namespace
       name: "sock-shop"
       state: present
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
 
   - name: 📺 DEMO APPS - Create sock-shop service account
     shell: |
@@ -121,7 +121,7 @@
       oc create clusterrolebinding default-sockinfo2-admin --clusterrole=cluster-admin --serviceaccount=sock-shop:default
     ignore_errors: true
     register: demo_sock_shop
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
               
 
   - name: 📺 DEMO APPS - Create sock-shop application
@@ -129,7 +129,7 @@
       state: present
       namespace: sock-shop
       template: ./templates/demo_apps/sockshop/sockshop-all-in-one.j2
-    #when: INSTALL_DEMO_APPS == true
+    #when: INSTALL_DEMO_APPS
 
   #when: OBJECT_EXISTS.stdout|length == 0
 
@@ -160,7 +160,7 @@
 #       kind: Namespace
 #       name: "acme-air"
 #       state: present
-#     #when: INSTALL_DEMO_APPS == true
+#     #when: INSTALL_DEMO_APPS
 
 #   - name: 📺 DEMO APPS - Create acme service account
 #     shell: |
@@ -170,7 +170,7 @@
 #       oc create clusterrolebinding default-acmeinfo2-admin --clusterrole=cluster-admin --serviceaccount=acme-air:default
 #     ignore_errors: true
 #     register: demo_acme_shop
-#     #when: INSTALL_DEMO_APPS == true
+#     #when: INSTALL_DEMO_APPS
               
 
 #   - name: 📺 DEMO APPS - Create acme application
@@ -178,7 +178,7 @@
 #       state: present
 #       namespace: acme-air
 #       src: ./templates/demo_apps/acmeair/acme-all-in-one.yaml
-#     #when: INSTALL_DEMO_APPS == true
+#     #when: INSTALL_DEMO_APPS
 
 #   when: OBJECT_EXISTS.stdout|length == 0
 

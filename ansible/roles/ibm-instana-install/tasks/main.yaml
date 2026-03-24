@@ -259,13 +259,13 @@
   - name: 🟡🟡🟡 Install Instana Agent
     #include_tasks: 11_addons-instana-agent.yaml
     include_tasks: 11_addons-instana-agent_op.yaml
-    when: current_feature.install_agent == true
+    when: current_feature.install_agent
 
 
   # Install INSTANA IBMAIOps Connection
   - name: 🟡🟡🟡 Install IBMAIOps to Instana Connection
     include_tasks: 12_addons-instana-create-connections.yaml
-    when: current_feature.integrate_ibmaiops == true
+    when: current_feature.integrate_ibmaiops
 
 
   - name: 🟡🟡🟡 Restart Demo UI
@@ -274,7 +274,7 @@
 
   - name: 🟡🟡🟡 Install OCP Menu Item
     include_tasks: 91_addons-instana-create-ocp-tools-menu.yaml
-    when: global_config.create_ocp_items | default(true) == true  
+    when: global_config.create_ocp_items | default(true)  
 
   # Update IBMAIOps Cards
   - name: 🟡🟡🟡 Update IBMAIOps Cards

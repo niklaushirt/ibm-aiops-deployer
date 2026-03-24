@@ -31,7 +31,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -432,5 +432,5 @@
   #     var: output.stdout_lines
   #     verbosity: 1
 
-  # when: global_config.create_cards | default(true) == true  
+  # when: global_config.create_cards | default(true)  
 

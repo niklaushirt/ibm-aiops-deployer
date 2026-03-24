@@ -35,7 +35,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -122,7 +122,7 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
 
 
 
@@ -171,7 +171,7 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
 
 
 
@@ -270,7 +270,7 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
 
 
 
@@ -367,7 +367,7 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
 
 
 
@@ -467,7 +467,7 @@
   debug: 
     var: output_string.stdout_lines
     verbosity: 1
-  #when: PRINT_LOGINS == true
+  #when: PRINT_LOGINS
 
 
 
@@ -1209,6 +1209,6 @@
 #   debug: 
 #     var: output_string.stdout_lines
 #     verbosity: 1
-#   #when: PRINT_LOGINS == true
+#   #when: PRINT_LOGINS
 
 

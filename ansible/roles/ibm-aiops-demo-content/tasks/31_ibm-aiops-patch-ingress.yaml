@@ -36,7 +36,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
    
 
 # - name: 🌏 NETWORK - CHECK Ingress already patched
@@ -126,7 +126,7 @@
 #     # oc create secret generic -n ${AIOPS_NAMESPACE} external-tls-secret --from-file=cert.crt=cert.crt --from-file=cert.key=cert.key -o yaml --dry-run=client | oc apply -f -
 
 #     # oc delete pod -n ${AIOPS_NAMESPACE} -l component=ibm-nginx
-#   when: INGRESS_PATCHED==false
+#   when: not INGRESS_PATCHED
 #   register: certificate_patch
 #   ignore_errors: true
 #   args:
@@ -155,7 +155,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 # NEW
@@ -238,13 +238,13 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: current_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false)
 
 
 - name: 🟢 DEBUG - Patch Certificates for TechZone IPI/UPI
   debug: 
     var: certificate_patch
-  when: current_feature.create_valid_ingress_itz | default(false) == true
+  when: current_feature.create_valid_ingress_itz | default(false)
 
 
 

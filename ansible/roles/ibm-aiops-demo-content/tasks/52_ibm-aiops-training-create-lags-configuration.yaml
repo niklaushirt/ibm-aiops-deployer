@@ -32,7 +32,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -121,7 +121,7 @@
     fi
 
   #ignore_errors: true
-  when: current_feature.create_log_connection | default(true) == true and current_feature.training_enable_log_golden_signals | default(false) == true
+  when: current_feature.create_log_connection | default(true) and current_feature.training_enable_log_golden_signals | default(false)
   register: output_string
   args:
     executable: /bin/bash
@@ -232,7 +232,7 @@
     echo "Result: "$result
 
   ignore_errors: true
-  when: current_feature.create_log_connection | default(true) == true and current_feature.training_enable_log_golden_signals | default(false) == true
+  when: current_feature.create_log_connection | default(true) and current_feature.training_enable_log_golden_signals | default(false)
   register: output_string
   args:
     executable: /bin/bash
@@ -330,12 +330,12 @@
     template: ./templates/training/stream-inject-lags.j2
 
 
-- name: 🚀 TRAINING CREATE LAGS - WAIT 5 MINUTES
-  shell: |
-    set -x
-    sleep 300
+# - name: 🚀 TRAINING CREATE LAGS - WAIT 5 MINUTES
+#   shell: |
+#     set -x
+#     sleep 300
 
-  register: output_string
-  ignore_errors: true
-  args:
-    executable: /bin/bash
+#   register: output_string
+#   ignore_errors: true
+#   args:
+#     executable: /bin/bash

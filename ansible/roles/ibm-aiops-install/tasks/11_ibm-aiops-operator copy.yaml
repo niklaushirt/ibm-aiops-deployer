@@ -34,7 +34,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 
@@ -58,7 +58,7 @@
   until: kubectl_get_sa.stdout == "1"
   retries: 500
   delay: 15
-  when: current_feature.case_install==false
+  when: not current_feature.case_install
 
 
 
@@ -132,7 +132,7 @@
   until: kubectl_get_pods.stdout == "1"
   retries: 500
   delay: 15
-  when: current_feature.case_install==false
+  when: not current_feature.case_install
 
 
 
@@ -142,14 +142,14 @@
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription.j2
-  when: current_feature.case_install==false
+  when: not current_feature.case_install
 
 # Create IBM AIOps Subscription
 - name:   🚀 IBM AIOPS OPERATOR - Install Subscription - CASE
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription-case.j2
-  when: current_feature.case_install==true
+  when: current_feature.case_install
 
 
 
@@ -207,7 +207,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 # --------------------------------------------------------------------------------------------------------------------------------------
 # Wait for CSV being ready
@@ -219,7 +219,7 @@
   until: kubectl_get_pods.stdout == "1"
   retries: 500
   delay: 15
-  when: current_feature.case_install==false
+  when: not current_feature.case_install
 
 
 
@@ -239,7 +239,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
 
 # HACK for Elastic Operator - TODO Remove in GA
@@ -302,5 +302,5 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: global_config.create_ocp_notifications | default(true) == true  
+  when: global_config.create_ocp_notifications | default(true)  
 
