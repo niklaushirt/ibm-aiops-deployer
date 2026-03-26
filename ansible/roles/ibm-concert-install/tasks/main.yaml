@@ -151,7 +151,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (009/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items|bool | default(true)|bool == true  
+  when: (global_config.create_ocp_items | default(true))|bool == true  
 
 
 - name: (010/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging

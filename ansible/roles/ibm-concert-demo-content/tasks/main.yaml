@@ -172,7 +172,7 @@
 # Create Demo Apps
 - name: (010/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create the Demo Apps 
   include_tasks: 23_addons-demoapps.yaml
-  when: current_feature.install_demoapps|bool | default(false)|bool == true
+  when: (current_feature.install_demoapps | default(false))|bool == true
 
 
 
@@ -181,19 +181,19 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (011/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
   include_tasks: 90_integrate-ocp-openldap.yaml
-  when: current_feature.integrate_ocp_openldap|bool | default(false)|bool == true  
+  when: (current_feature.integrate_ocp_openldap | default(false))|bool == true  
 
 - name: (012/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_addons-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items|bool | default(true)|bool == true  
+  when: (global_config.create_ocp_items | default(true))|bool == true  
 
 - name: (013/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Home UI
   include_tasks: 27_ibm-home-ui.yaml
-  when: current_feature.create_home_ui|bool | default(false)|bool == true
+  when: (current_feature.create_home_ui | default(false))|bool == true
 
 - name: (014/014) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install OCP Menu Item
   include_tasks: 91_addons-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items|bool | default(true)|bool == true  
+  when: (global_config.create_ocp_items | default(true))|bool == true  
 
 
 
