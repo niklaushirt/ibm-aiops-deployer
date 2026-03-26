@@ -247,11 +247,11 @@
 
 - name: (012/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load EVENTS Training Data
   include_tasks: 53_ibm-aiops-training-load-events.yaml
-  when: current_feature.training_load_data_events|bool == true | default('true')
+  when: (current_feature.training_load_data_events | default(true))|bool == true
 
 - name: (013/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training Definition for Lags
   include_tasks: 52_ibm-aiops-training-create-lags-configuration.yaml
-  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == true
+  when: (current_feature.training_enable_log_golden_signals | default(false))|bool == true
 
 
 
@@ -306,8 +306,7 @@
 # Create valid certificate for Ingress (for Slack)
 - name: (022/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create a valid certificate for the IBM AIOPS Ingress
   include_tasks: 31_ibm-aiops-patch-ingress.yaml
-  when: current_feature.create_valid_ingress_itz|bool == true | default('false')
-
+  when: (current_feature.create_valid_ingress_itz | default('false'))|bool == true 
 
 
 
@@ -370,11 +369,11 @@
 
 - name: (032/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Training  Definition for Seasonality and XinY
   include_tasks: 59_ibm-aiops-training-create-season-configuration.yaml
-  when: current_feature.training_create_season_xiny|bool == true | default('false')
+  when: (current_feature.training_create_season_xiny | default('false'))|bool == true 
 
 - name: (033/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Load LAGS Training Data
   include_tasks: 58_ibm-aiops-training-load-lags.yaml
-  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == true
+  when: (current_feature.training_enable_log_golden_signals | default(false))|bool == true
 
 
 
@@ -407,18 +406,18 @@
 
 - name: (039/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run LAGS AI Model Training
   include_tasks: 62_ibm-aiops-training-run-lags.yaml
-  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == true and TRAINING_EXISTS|bool == false
+  when: (current_feature.training_enable_log_golden_signals | default(false))|bool == true and TRAINING_EXISTS|bool == false
 
 
 
 
 - name: (040/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run METRICS  AI Model Training
   include_tasks: 63_ibm-aiops-training-run-metric.yaml
-  when: current_feature.training_run_training_metrics|bool == true and TRAINING_EXISTS|bool == false
+  when: (current_feature.training_run_training_metrics | default('false'))|bool == true and TRAINING_EXISTS|bool == false
       
 - name: (041/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Run TEMPORAL EVENTS  AI Model Training
   include_tasks: 64_ibm-aiops-training-run-temporal.yaml
-  when: current_feature.training_run_training_temporal | default('false')|bool == true and TRAINING_EXISTS|bool == false
+  when: (current_feature.training_run_training_temporal | default('false'))|bool == true and TRAINING_EXISTS|bool == false
       
 
 
@@ -479,7 +478,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (047/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Enable LAGS Training
   include_tasks: 80_ibm-aiops-training-enable-lags-configuration.yaml
-  when: current_feature.training_enable_log_golden_signals|bool | default(false)|bool == true
+  when: (current_feature.training_enable_log_golden_signals | default(false))|bool == true
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -487,11 +486,11 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 - name: (047.1/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Templates
   include_tasks: 45_ibm-aiops-create-aiops-application-templates.yaml
-  when: current_feature.create_topology_templates|bool == true
+  when: (current_feature.create_topology_templates | default(false))|bool == true
 
 - name: (047.2/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Application Topology Application
   include_tasks: 45_ibm-aiops-create-aiops-application.yaml
-  when: current_feature.create_topology_apps|bool == true
+  when: (current_feature.create_topology_apps | default(false))|bool == true
 
 
 
@@ -500,7 +499,7 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (048/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Integrate OpenShift Login with OpenLDAP
   include_tasks: 90_integrate-ocp-openldap.yaml
-  when: current_feature.integrate_ocp_openldap|bool | default(false)|bool == true  
+  when: (current_feature.integrate_ocp_openldap | default(false))|bool == true  
 
 
 
@@ -530,11 +529,11 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 - name: (051/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Demo Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-demo-menu.yaml
-  when: global_config.create_ocp_items|bool | default(true)|bool == true  
+  when: (global_config.create_ocp_items | default(true))|bool == true  
 
 - name: (052/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_ibm-aiops-create-ocp-tools-menu.yaml
-  when: global_config.create_ocp_items|bool | default(true)|bool == true  
+  when: (global_config.create_ocp_items | default(true))|bool == true  
 
 # Update IBM AIOps Cards
 - name: (053/055) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Update IBM AIOps Cards
