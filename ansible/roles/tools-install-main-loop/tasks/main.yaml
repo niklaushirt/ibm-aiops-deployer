@@ -34,7 +34,7 @@
 
 
 - name: 📣 OCP CONSOLE - Delete Deployer Notification
-  shell: oc delete ConsoleNotification deployer-notification
+  shell: oc delete ConsoleNotification deployer-notification --ignore-not-found
   ignore_errors: true
 
 
