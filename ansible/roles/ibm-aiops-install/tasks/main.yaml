@@ -109,7 +109,6 @@
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 VERSION "
     - "     🚀 Subscription Channel:                     {{current_feature.subscription_channel}}"
-    - "     🔽 Freeze the Catalog Image Version:         {{current_feature.freeze_catalog  | default('not defined')}}"
     - "     ✅ Install with CASE:                        {{current_feature.case_install}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
