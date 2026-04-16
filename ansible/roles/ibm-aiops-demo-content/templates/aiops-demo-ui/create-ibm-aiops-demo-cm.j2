@@ -573,6 +573,42 @@ data:
     ratings-predictive,TransactionsPerSecond,TransactionsPerSecond,160,40;
     ratings-predictive,Latency,Latency,2,1
 
+  METRICS_TO_SIMULATE_FIBER:  |-
+    CHBE01,Latency,Latency,1000,100;
+    BEPOD01,Latency,Latency,1000,100;
+    FRAPOD01,Latency,Latency,300,100;
+    FRAA01,Latency,Latency,300,100;
+    CHBE01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    BEPOD01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    FRAPOD01,TransactionsPerSecond,TransactionsPerSecond,50,10;
+    FRAA01,TransactionsPerSecond,TransactionsPerSecond,50,10;
+
+
+  METRICS_TO_SIMULATE_FIBER:  |-
+    CHBE01,Latency,Latency,1000,100;
+    BEPOD01,Latency,Latency,1000,100;
+    FRAPOD01,Latency,Latency,300,100;
+    FRAA01,Latency,Latency,300,100;
+    CHBE01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    BEPOD01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    FRAPOD01,TransactionsPerSecond,TransactionsPerSecond,50,10;
+    FRAA01,TransactionsPerSecond,TransactionsPerSecond,50,10
+
+  METRICS_TO_SIMULATE_FIBER_NY:  |-
+    RCHMDRE01,Latency,Latency,1000,100;
+    RCHMDFBOP01,Latency,Latency,1000,100;
+    NYFBOP01,Latency,Latency,300,100;
+    NYCA01,Latency,Latency,300,100;
+    RCHMDRE01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    RCHMDFBOP01,TransactionsPerSecond,TransactionsPerSecond,0,1;
+    NYFBOP01,TransactionsPerSecond,TransactionsPerSecond,50,10;
+    NYCA01,TransactionsPerSecond,TransactionsPerSecond,50,10;
+    FRAA02,TransactionsPerSecond,TransactionsPerSecond,50,10;
+    SAMA02,TransactionsPerSecond,TransactionsPerSecond,50,10
+
+    
+
+  
   METRICS_TO_SIMULATE_FAN_TEMP_ACME:  |-
     DCWest1-Rack046-DELL3765,CPU1Temperature,System,ITERATIONS,90
 

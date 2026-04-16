@@ -59,7 +59,8 @@ DEMO_EVENTS_MEM=os.environ.get('DEMO_EVENTS_MEM')
 DEMO_EVENTS_ROBO_NET=os.environ.get('DEMO_EVENTS_ROBO_NET')
 DEMO_LOGS=os.environ.get('DEMO_LOGS')
 METRICS_TO_SIMULATE_MEM=str(os.environ.get('METRICS_TO_SIMULATE_MEM')).split(';')
-#METRICS_TO_SIMULATE_NET=str(os.environ.get('METRICS_TO_SIMULATE_NET')).split(';')
+METRICS_TO_SIMULATE_FIBER=str(os.environ.get('METRICS_TO_SIMULATE_FIBER')).split(';')
+print ('🟣          #METRICS_TO_SIMULATE_FIBER:              '+str(len(METRICS_TO_SIMULATE_FIBER)))
 
 ROBOTSHOP_PROPERTY_RESOURCE_NAME=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_NAME','mysql')
 ROBOTSHOP_PROPERTY_RESOURCE_TYPE=os.environ.get('ROBOTSHOP_PROPERTY_RESOURCE_TYPE','deployment')
@@ -87,6 +88,8 @@ DEMO_EVENTS_TUBE=os.environ.get('DEMO_EVENTS_TUBE','')
 
 #TELCO
 DEMO_EVENTS_TELCO=os.environ.get('DEMO_EVENTS_TELCO','')
+METRICS_TO_SIMULATE_FIBER_NY=str(os.environ.get('METRICS_TO_SIMULATE_FIBER_NY')).split(';')
+print ('🟣          #METRICS_TO_SIMULATE_FIBER_NY:              '+str(len(METRICS_TO_SIMULATE_FIBER_NY)))
 
 
 
@@ -533,6 +536,23 @@ def injectMetricsMem(METRIC_ROUTE,METRIC_TOKEN):
     injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE_MEM,METRIC_TIME_SKEW,METRIC_TIME_STEP,"injectMetricsMem")
     return 'OK'
 
+
+def injectMetricsFiber(METRIC_ROUTE,METRIC_TOKEN): 
+    print ('📛 START - Inject Metrics - FIBER ROBOTSHOP')
+    METRIC_TIME_SKEW=int(os.environ.get('METRIC_TIME_SKEW'))
+    METRIC_TIME_STEP=int(os.environ.get('METRIC_TIME_STEP'))
+    injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE_FIBER,METRIC_TIME_SKEW,METRIC_TIME_STEP,"injectMetricsFiber")
+    return 'OK'
+
+
+def injectMetricsFiberTransatlantic(METRIC_ROUTE,METRIC_TOKEN): 
+    print ('📛 START - Inject Metrics - FIBER ROBOTSHOP')
+    METRIC_TIME_SKEW=int(os.environ.get('METRIC_TIME_SKEW'))
+    METRIC_TIME_STEP=int(os.environ.get('METRIC_TIME_STEP'))
+    injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE_FIBER_NY,METRIC_TIME_SKEW,METRIC_TIME_STEP,"injectMetricsFiberTransatlantic")
+    return 'OK'
+
+
 def injectMetricsFanTemp(METRIC_ROUTE,METRIC_TOKEN):  
     print ('📛 START - Inject Metrics - FAN-TEMP ROBOTSHOP')
     METRIC_TIME_SKEW=0
@@ -590,7 +610,9 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
     #print ('📛 START - Inject Metrics')
     #print ('           METRIC_TIME_SKEW:               '+str(METRIC_TIME_SKEW))
     #print ('           METRIC_TIME_STEP:               '+str(METRIC_TIME_STEP))
-    #print ('           METRICS_TO_SIMULATE:               '+str(METRICS_TO_SIMULATE))
+    print ('🟣          METRICS_TO_SIMULATE:               '+str(METRICS_TO_SIMULATE))
+    print ('🟣          #METRICS_TO_SIMULATE:              '+str(len(METRICS_TO_SIMULATE)))
+
     #print('     ❓ Getting IBMAIOps Namespace')
     stream = os.popen("oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}'")
     aimanagerns = stream.read().strip()
@@ -604,9 +626,6 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
 
     stream = os.popen("oc get route -n "+aimanagerns+" cp-console  -o jsonpath={.spec.host}")
     CONSOLE_ROUTE = stream.read().strip()
-
-
-
 
 
     stream = os.popen("oc get secret -n "+aimanagerns+" platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 --decode")
@@ -665,7 +684,7 @@ def injectMetrics(METRIC_ROUTE,METRIC_TOKEN,METRICS_TO_SIMULATE,METRIC_TIME_SKEW
                 #print('     ❓ line' + str(elements))
 
                 MY_RESOURCE_NAME=elements[0]
-                #print (MY_RESOURCE_NAME)
+                print (MY_RESOURCE_NAME)
                 MY_METRIC_NAME=elements[1]
 
                 MY_GROUP_ID=elements[2]

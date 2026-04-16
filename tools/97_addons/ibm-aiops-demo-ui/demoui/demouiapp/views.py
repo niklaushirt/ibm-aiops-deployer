@@ -1241,6 +1241,7 @@ def injectAllRobotNetREST(request):
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsNetRobot, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
         threadMetrics = Thread(target=injectMetricsMem, args=(METRIC_ROUTE,METRIC_TOKEN,))
+        threadMetricsFib = Thread(target=injectMetricsFiber, args=(METRIC_ROUTE,METRIC_TOKEN,))
         threadLogs = Thread(target=injectLogsRobotShop, args=(KAFKA_BROKER,KAFKA_USER,KAFKA_PWD,KAFKA_TOPIC_LOGS,KAFKA_CERT,LOG_TIME_FORMAT,DEMO_LOGS,))
         threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
 
@@ -1248,6 +1249,7 @@ def injectAllRobotNetREST(request):
         # start the threads
         threadEvents.start()
         threadMetrics.start()
+        threadMetricsFib.start()
         threadLogs.start()
         threadLinks.start()
         # print('  🟠 Join THREADS')
@@ -1832,10 +1834,12 @@ def injectAllTELCOREST(request):
 
         print('  🟠 Create THREADS')
         threadEvents = Thread(target=injectEventsTelco, args=(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD))
+        threadMetricsFibTransatlantic = Thread(target=injectMetricsFiberTransatlantic, args=(METRIC_ROUTE,METRIC_TOKEN,))
 
         print('  🟠 Start THREADS')
         # start the threads
         threadEvents.start()
+        threadMetricsFibTransatlantic.start()
         #time.sleep(3)
 
         # threadLinks = Thread(target=addExternalLinksToIncident, args=(request,))
