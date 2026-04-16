@@ -116,8 +116,7 @@
       -H 'accept: */*' \
       -H 'content-type: application/json' \
       -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
-      --data-raw '{"variables":{"tenantId":"cfd95b7e-3bc7-4006-a4a8-a73a79c71255","id":"alertList","preferenceInput":{"ael_user_properties_refresh_time":60,"rowColorToggle":true}},"query":"mutation ($tenantId: ID!, $id: ID!, $preferenceInput: JSON!) {\n  putPreference(tenantId: $tenantId, id: $id, preferenceInput: $preferenceInput)\n}"}'
-      --compressed
+      --data-raw '{"variables":{"tenantId":"cfd95b7e-3bc7-4006-a4a8-a73a79c71255","id":"alertList","preferenceInput":{"ael_user_properties_refresh_time":60,"rowColorToggle":true}},"query":"mutation ($tenantId: ID!, $id: ID!, $preferenceInput: JSON!) {\n  putPreference(tenantId: $tenantId, id: $id, preferenceInput: $preferenceInput)\n}"}' \
 
 
     curl https://$ROUTE/api/p/hdm_ea_uiapi \
@@ -125,8 +124,7 @@
       -H 'accept: */*' \
       -H 'content-type: application/json' \
       -H "Cookie: ___tk67142224=1655282500640; ibm-private-cloud-session=$ZEN_TOKEN" \
-      --data-raw '{"variables":{"tenantId":"cfd95b7e-3bc7-4006-a4a8-a73a79c71255","id":"storyList","preferenceInput":{"rowColorToggle":true}},"query":"mutation ($tenantId: ID!, $id: ID!, $preferenceInput: JSON!) {\n  putPreference(tenantId: $tenantId, id: $id, preferenceInput: $preferenceInput)\n}"}'
-      --compressed
+      --data-raw '{"variables":{"tenantId":"cfd95b7e-3bc7-4006-a4a8-a73a79c71255","id":"storyList","preferenceInput":{"rowColorToggle":true}},"query":"mutation ($tenantId: ID!, $id: ID!, $preferenceInput: JSON!) {\n  putPreference(tenantId: $tenantId, id: $id, preferenceInput: $preferenceInput)\n}"}' \
 
 
 

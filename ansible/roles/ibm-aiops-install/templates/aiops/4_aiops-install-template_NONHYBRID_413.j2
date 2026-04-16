@@ -21,6 +21,17 @@ spec:
     enabled: false
   - name: logAnomalyDetection
     enabled: {{ current_feature.logAnomalyDetection | default(true)}}
+  storage:
+    aiops-ir-core-postgres:
+      storageClass: ''
+    aiops-ir-core-postgres-wal:
+      storageClass: ''
+    aiops-topology-postgres:
+      storageClass: ''
+    aiops-topology-postgres-wal:
+      storageClass: ''
+    data-iaf-system-kafka:
+      storageClass: ''
   size: {{ current_feature.aiops_size }}
   storageClass: '{{ STORAGE_CLASS_FILE }}'
   storageClassLargeBlock: '{{ STORAGE_CLASS_LARGE_BLOCK }}'
