@@ -111,13 +111,15 @@
 
     export ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath={.spec.host})
 
-
     export values=$(curl -k -X GET  --header 'Accept: application/json' -H "Authorization: Bearer ${ZEN_TOKEN}" https://$ROUTE/aiops/api/v2/configuration/user-preferences/_self -H "accept: application/json" -H "Content-Type: application/json" -H "X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255" | jq '.preferences[] | select(.key == "alertList") | .value')
     echo $values
     export newvalues=$(echo $values | sed -e "s/false/true/g")
     echo $newvalues
-
-    export payload='{"value": '"$newvalues"'}'
+    if [[ $existing == "" ]]; then
+        export payload='{"value": { "rowColorToggle": true, "ael_user_properties_refresh_time": 60 }}'
+    else
+        export payload='{"value": '"$newvalues"'}'
+    fi  
     echo $payload   
 
 
@@ -128,8 +130,6 @@
       -H "Authorization: Bearer ${ZEN_TOKEN}" \
       -H 'Content-Type: application/json' \
       -d "$payload "
-
-
 
 
 
