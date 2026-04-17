@@ -130,7 +130,7 @@
     var: TRAINING_EXISTS
   #when: PRINT_LOGINS|bool == true
     verbosity: 2
-  when: TRAINING_EXISTS|bool|bool == true
+  when: TRAINING_EXISTS|bool == true
 
 
 - name: ✅ MODELS DON'T EXISTS - RUN TRAINING - {{TRAINING_EXISTS}}

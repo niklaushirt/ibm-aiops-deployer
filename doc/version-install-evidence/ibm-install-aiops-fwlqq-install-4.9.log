@@ -398,7 +398,6 @@ ok: [localhost] => {
         "case_inventory_setup": "cpaiopsSetup",
         "case_name": "ibm-cp-waiops",
         "case_version": "1.11.0",
-        "freeze_catalog": true,
         "groupProfiles": true,
         "install": true,
         "install_feature_flags": true,

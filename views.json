@@ -1,0 +1,1051 @@
+{
+  "views": [
+    {
+      "id": "9c4ee32e-bc44-4ed7-a9dc-e0aa2d18422a",
+      "name": "Default View",
+      "tags": [],
+      "type": "alert",
+      "columns": [
+        {
+          "fieldName": "severity",
+          "fieldType": "integer",
+          "titleText": "Sev",
+          "titleType": "String",
+          "fieldTitle": "Sev",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/business/criticality'",
+          "fieldType": "string",
+          "titleText": "Business criticality",
+          "titleType": "Icon",
+          "fieldTitle": "Business criticality",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "state",
+          "fieldType": "string",
+          "titleText": "State",
+          "titleType": "String",
+          "fieldTitle": "State",
+          "graphqlKey": "state",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "summary",
+          "fieldType": "string",
+          "titleText": "Summary",
+          "titleType": "String",
+          "fieldTitle": "Summary",
+          "columnWidth": 35,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "type.classification",
+          "fieldType": "string",
+          "titleText": "Event type",
+          "titleType": "String",
+          "fieldTitle": "Event type",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "sender.name",
+          "fieldType": "string",
+          "titleText": "Sender",
+          "titleType": "String",
+          "fieldTitle": "Sender",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "resource.name",
+          "fieldType": "string",
+          "titleText": "Resource",
+          "titleType": "String",
+          "fieldTitle": "Resource",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "firstOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "First occurrence",
+          "titleType": "String",
+          "fieldTitle": "First occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "lastOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "Last occurrence",
+          "titleType": "String",
+          "fieldTitle": "Last occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/runbook'",
+          "fieldType": "string",
+          "titleText": "Runbooks",
+          "titleType": "Icon",
+          "fieldTitle": "Runbooks",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/topology/resource'",
+          "fieldType": "string",
+          "titleText": "Topology",
+          "titleType": "Icon",
+          "fieldTitle": "Topology",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/seasonal-occurrence'",
+          "fieldType": "string",
+          "titleText": "Seasonal",
+          "titleType": "Icon",
+          "fieldTitle": "Seasonal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": false,
+          "fieldName": "relatedContextualStoryIds",
+          "fieldType": "string",
+          "titleText": "In incident",
+          "titleType": "String",
+          "fieldTitle": "In incident",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "relatedStoryIds",
+          "fieldType": "string",
+          "titleText": "In incident",
+          "titleType": "String",
+          "fieldTitle": "Trigger alert",
+          "columnWidth": 5,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "suppressed",
+          "fieldType": "boolean",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Suppressed",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/topological-group'",
+          "fieldType": "string",
+          "titleText": "Sub-Topology group",
+          "titleType": "String",
+          "fieldTitle": "Sub-Topology group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/custom'",
+          "fieldType": "string",
+          "titleText": "Scope group",
+          "titleType": "String",
+          "fieldTitle": "Scope group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/temporal'",
+          "fieldType": "string",
+          "titleText": "Temporal",
+          "titleType": "String",
+          "fieldTitle": "Temporal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "owner",
+          "fieldType": "string",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Owner",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/golden-signal'",
+          "fieldType": "string",
+          "titleText": "Golden signal",
+          "titleType": "String",
+          "fieldTitle": "Golden signal",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        }
+      ],
+      "metadata": {
+        "createdBy": "cpadmin",
+        "creationTimestamp": "2026-04-16T10:08:52.698Z"
+      },
+      "description": "Default View",
+      "sortColumns": [
+        {
+          "order": "desc",
+          "fieldName": "state"
+        },
+        {
+          "order": "desc",
+          "fieldName": "severity"
+        },
+        {
+          "order": "desc",
+          "fieldName": "lastOccurrenceTime"
+        }
+      ],
+      "accessControlList": {
+        "read": {
+          "teams": [],
+          "users": [
+            "*"
+          ]
+        },
+        "admin": {
+          "teams": [],
+          "users": [
+            "cpadmin"
+          ]
+        },
+        "write": {
+          "teams": [],
+          "users": []
+        }
+      }
+    },
+    {
+      "id": "9f6c6e50-ea44-4067-b08a-5ca9b834dc75",
+      "name": "Default Incidents View",
+      "tags": [],
+      "type": "alert",
+      "columns": [
+        {
+          "fieldName": "severity",
+          "fieldType": "integer",
+          "titleText": "Sev",
+          "titleType": "String",
+          "fieldTitle": "Sev",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/business/criticality'",
+          "fieldType": "string",
+          "titleText": "Business criticality",
+          "titleType": "Icon",
+          "fieldTitle": "Business criticality",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "state",
+          "fieldType": "string",
+          "titleText": "State",
+          "titleType": "String",
+          "fieldTitle": "State",
+          "graphqlKey": "state",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "summary",
+          "fieldType": "string",
+          "titleText": "Summary",
+          "titleType": "String",
+          "fieldTitle": "Summary",
+          "columnWidth": 35,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "type.classification",
+          "fieldType": "string",
+          "titleText": "Event type",
+          "titleType": "String",
+          "fieldTitle": "Event type",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "sender.name",
+          "fieldType": "string",
+          "titleText": "Sender",
+          "titleType": "String",
+          "fieldTitle": "Sender",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "resource.name",
+          "fieldType": "string",
+          "titleText": "Resource",
+          "titleType": "String",
+          "fieldTitle": "Resource",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "firstOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "First occurrence",
+          "titleType": "String",
+          "fieldTitle": "First occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "lastOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "Last occurrence",
+          "titleType": "String",
+          "fieldTitle": "Last occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/runbook'",
+          "fieldType": "string",
+          "titleText": "Runbooks",
+          "titleType": "Icon",
+          "fieldTitle": "Runbooks",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/probable-cause'",
+          "fieldType": "string",
+          "titleText": "Ranking",
+          "titleType": "String",
+          "fieldTitle": "Ranking",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "fieldName": "relatedStoryIds",
+          "fieldType": "string",
+          "titleText": "RelatedStoryIds",
+          "titleType": "String",
+          "fieldTitle": "RelatedStoryIds",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "suppressed",
+          "fieldType": "boolean",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Suppressed",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/topology/resource'",
+          "fieldType": "string",
+          "titleText": "Topology",
+          "titleType": "Icon",
+          "fieldTitle": "Topology",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/seasonal-occurrence'",
+          "fieldType": "string",
+          "titleText": "Seasonal",
+          "titleType": "Icon",
+          "fieldTitle": "Seasonal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/topological-group'",
+          "fieldType": "string",
+          "titleText": "Sub-Topology group",
+          "titleType": "String",
+          "fieldTitle": "Sub-Topology group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/custom'",
+          "fieldType": "string",
+          "titleText": "Scope group",
+          "titleType": "String",
+          "fieldTitle": "Scope group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/temporal'",
+          "fieldType": "string",
+          "titleText": "Temporal",
+          "titleType": "String",
+          "fieldTitle": "Temporal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "owner",
+          "fieldType": "string",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Owner",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/golden-signal'",
+          "fieldType": "string",
+          "titleText": "Golden signal",
+          "titleType": "String",
+          "fieldTitle": "Golden signal",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        }
+      ],
+      "metadata": {
+        "createdBy": "cpadmin",
+        "creationTimestamp": "2026-04-16T10:08:52.709Z"
+      },
+      "description": "Default view for alerts in incidents",
+      "sortColumns": [
+        {
+          "order": "desc",
+          "fieldName": "state"
+        },
+        {
+          "order": "desc",
+          "fieldName": "severity"
+        },
+        {
+          "order": "desc",
+          "fieldName": "lastOccurrenceTime"
+        }
+      ],
+      "accessControlList": {
+        "read": {
+          "teams": [],
+          "users": [
+            "*"
+          ]
+        },
+        "admin": {
+          "teams": [],
+          "users": [
+            "cpadmin"
+          ]
+        },
+        "write": {
+          "teams": [],
+          "users": []
+        }
+      }
+    },
+    {
+      "id": "800ab7f5-0128-4526-be91-ae5b86980a89",
+      "name": "DEMO Incidents View",
+      "tags": [],
+      "type": "alert",
+      "columns": [
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "severity",
+          "fieldType": "integer",
+          "titleText": "Sev",
+          "titleType": "String",
+          "fieldTitle": "Sev",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/probable-cause'",
+          "fieldType": "string",
+          "titleText": "Ranking",
+          "titleType": "String",
+          "fieldTitle": "Ranking",
+          "columnWidth": 5,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "state",
+          "fieldType": "string",
+          "titleText": "State",
+          "titleType": "String",
+          "fieldTitle": "State",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "summary",
+          "fieldType": "string",
+          "titleText": "Summary",
+          "titleType": "String",
+          "fieldTitle": "Summary",
+          "columnWidth": 35,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "type.classification",
+          "fieldType": "string",
+          "titleText": "Event type",
+          "titleType": "String",
+          "fieldTitle": "Event type",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "sender.name",
+          "fieldType": "string",
+          "titleText": "Sender",
+          "titleType": "String",
+          "fieldTitle": "Sender",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "resource.name",
+          "fieldType": "string",
+          "titleText": "Resource",
+          "titleType": "String",
+          "fieldTitle": "Resource",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": true,
+          "fieldName": "links",
+          "fieldType": "string",
+          "titleText": "Links",
+          "titleType": "String",
+          "fieldTitle": "Links",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "firstOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "First occurrence",
+          "titleType": "String",
+          "fieldTitle": "First occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "lastOccurrenceTime",
+          "fieldType": "date-time",
+          "titleText": "Last occurrence",
+          "titleType": "String",
+          "fieldTitle": "Last occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/business/criticality'",
+          "fieldType": "string",
+          "titleText": "Business criticality",
+          "titleType": "Icon",
+          "fieldTitle": "Business criticality",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/runbook'",
+          "fieldType": "string",
+          "titleText": "Runbooks",
+          "titleType": "Icon",
+          "fieldTitle": "Runbooks",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/topology/resource'",
+          "fieldType": "string",
+          "titleText": "Topology",
+          "titleType": "Icon",
+          "fieldTitle": "Topology",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/seasonal-occurrence'",
+          "fieldType": "string",
+          "titleText": "Seasonal",
+          "titleType": "Icon",
+          "fieldTitle": "Seasonal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/lad/resolutions'",
+          "fieldType": "string",
+          "titleText": "Resolutions",
+          "titleType": "Icon",
+          "fieldTitle": "Resolutions",
+          "columnWidth": 8,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/lad/templates'",
+          "fieldType": "string",
+          "titleText": "Templates",
+          "titleType": "Icon",
+          "fieldTitle": "Templates",
+          "columnWidth": 6,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "relatedStoryIds",
+          "fieldType": "string",
+          "titleText": "RelatedStoryIds",
+          "titleType": "String",
+          "fieldTitle": "RelatedStoryIds",
+          "columnWidth": 10,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "suppressed",
+          "fieldType": "boolean",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Suppressed",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/anomaly'",
+          "fieldType": "string",
+          "titleText": "Anomaly insights",
+          "titleType": "String",
+          "fieldTitle": "Anomaly insights",
+          "columnWidth": 5,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/incidentcontrol'",
+          "fieldType": "string",
+          "titleText": "Incident control",
+          "titleType": "String",
+          "fieldTitle": "Incident control",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/topological-group'",
+          "fieldType": "string",
+          "titleText": "Sub-Topology group",
+          "titleType": "String",
+          "fieldTitle": "Sub-Topology group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/custom'",
+          "fieldType": "string",
+          "titleText": "Scope group",
+          "titleType": "String",
+          "fieldTitle": "Scope group",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/relationship/causal' and insights.source='aiops.ibm.com/insight-source/relationship/causal/temporal'",
+          "fieldType": "string",
+          "titleText": "Temporal",
+          "titleType": "String",
+          "fieldTitle": "Temporal",
+          "columnWidth": 4,
+          "dataJustify": "center",
+          "titleJustify": "center",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": true,
+          "isLink": false,
+          "fieldName": "owner",
+          "fieldType": "string",
+          "titleText": "",
+          "titleType": "String",
+          "fieldTitle": "Owner",
+          "columnWidth": 8,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        },
+        {
+          "html": false,
+          "frozen": false,
+          "hidden": false,
+          "isLink": false,
+          "fieldName": "@insights.type='aiops.ibm.com/insight-type/golden-signal'",
+          "fieldType": "string",
+          "titleText": "Golden signal",
+          "titleType": "String",
+          "fieldTitle": "Golden signal",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left",
+          "specificLinks": ""
+        }
+      ],
+      "metadata": {
+        "createdBy": "cpadmin",
+        "creationTimestamp": "2026-04-16T11:23:03.698Z"
+      },
+      "viewName": "Default Incidents View",
+      "description": "Default view for alerts in incidents",
+      "sortColumns": [],
+      "accessControlList": {
+        "read": {
+          "teams": [],
+          "users": []
+        },
+        "admin": {
+          "teams": [],
+          "users": [
+            "demo",
+            "cpadmin"
+          ]
+        },
+        "write": {
+          "teams": [],
+          "users": []
+        }
+      }
+    },
+    {
+      "id": "84d910f1-200e-4a55-8701-704ef93a388b",
+      "name": "Default view",
+      "tags": [],
+      "type": "story",
+      "columns": [
+        {
+          "fieldName": "priority",
+          "fieldType": "string",
+          "titleText": "Priority",
+          "titleType": "String",
+          "fieldTitle": "Priority",
+          "columnWidth": 7,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "state",
+          "fieldType": "string",
+          "titleText": "Status",
+          "titleType": "String",
+          "fieldTitle": "Status",
+          "columnWidth": 7,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "id",
+          "fieldType": "string",
+          "titleText": "ID",
+          "titleType": "String",
+          "fieldTitle": "ID",
+          "columnWidth": 7,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "title",
+          "fieldType": "string",
+          "titleText": "Title",
+          "titleType": "String",
+          "fieldTitle": "Title",
+          "columnWidth": 45,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "alertIds",
+          "fieldType": "string",
+          "titleText": "Alert count",
+          "titleType": "String",
+          "fieldTitle": "Alert count",
+          "columnWidth": 10,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "createdTime",
+          "fieldType": "date-time",
+          "titleText": "First occurrence",
+          "titleType": "String",
+          "fieldTitle": "First occurrence",
+          "columnWidth": 13,
+          "dataJustify": "left",
+          "titleJustify": "left"
+        },
+        {
+          "fieldName": "team",
+          "fieldType": "string",
+          "titleText": "User group",
+          "titleType": "String",
+          "fieldTitle": "User group",
+          "columnWidth": 12,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "fieldName": "owner",
+          "fieldType": "string",
+          "titleText": "Owner",
+          "titleType": "String",
+          "fieldTitle": "Owner",
+          "columnWidth": 12,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        },
+        {
+          "hidden": true,
+          "fieldName": "contextualAlertIds",
+          "fieldType": "string",
+          "titleText": "Contextual alert count",
+          "titleType": "String",
+          "fieldTitle": "Contextual alert count",
+          "columnWidth": 7,
+          "dataJustify": "center",
+          "titleJustify": "center"
+        }
+      ],
+      "metadata": {
+        "createdBy": "cpadmin",
+        "creationTimestamp": "2026-04-16T10:08:52.720Z"
+      },
+      "description": "Default view",
+      "sortColumns": [
+        {
+          "order": "asc",
+          "fieldName": "priority"
+        },
+        {
+          "order": "desc",
+          "fieldName": "createdTime"
+        }
+      ],
+      "accessControlList": {
+        "read": {
+          "teams": [],
+          "users": [
+            "*"
+          ]
+        },
+        "admin": {
+          "teams": [],
+          "users": [
+            "cpadmin"
+          ]
+        },
+        "write": {
+          "teams": [],
+          "users": []
+        }
+      }
+    }
+  ]
+}

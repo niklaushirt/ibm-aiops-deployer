@@ -1703,7 +1703,13 @@
             "word": "Commit",
             "caseSenstive": true,
             "weight": 300.0
-        }, {
+        }, 
+        {
+            "word": "Loss of Signal",
+            "caseSenstive": true,
+            "weight": 300.0
+        },
+        {
             "word": "Erroneus",
             "caseSenstive": true,
             "weight": 150.0

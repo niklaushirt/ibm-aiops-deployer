@@ -49,6 +49,7 @@
       IRISCART_78_DRIFT_ENABLED: "true"
       AIOPS_CHAT_ASSISTANT: enabled
       AIOPS_GENERATIVE_AI: enabled
+      METRIC_STATIC_THRESHOLD_ENABLE: "true"
     kind: ConfigMap
     metadata:
       name: feature-flag-configmap

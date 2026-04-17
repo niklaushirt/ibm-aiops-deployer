@@ -58,8 +58,6 @@ ibm-aiops:
     install: true
     # Version of the catalog subscription
     subscription_channel: v3.7
-    # Freeze the version of the Catalog image by patching CatalogSource
-    freeze_catalog: false
     
     # LDAP
     install_ldap: true

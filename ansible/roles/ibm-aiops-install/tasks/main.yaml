@@ -109,7 +109,6 @@
     - "-----------------------------------------------------------------------------------------------"
     - "  📥 VERSION "
     - "     🚀 Subscription Channel:                     {{current_feature.subscription_channel}}"
-    - "     🔽 Freeze the Catalog Image Version:         {{current_feature.freeze_catalog  | default('not defined')}}"
     - "     ✅ Install with CASE:                        {{current_feature.case_install}}"
     - "-----------------------------------------------------------------------------------------------"
     - "***********************************************************************************************"
@@ -169,13 +168,13 @@
 - name: (010/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-save
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 - name: (011/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-catalog-source
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 

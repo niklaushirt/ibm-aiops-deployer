@@ -149,7 +149,7 @@
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription-case.j2
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 
@@ -244,7 +244,7 @@
 
 # HACK for Elastic Operator - TODO Remove in GA
 - name:   🕦 IBM AIOPS OPERATOR - Wait for CSVs to become ready
-  shell: oc get csv -n {{ current_ibm_feature.project }}|grep -v "Succeeded"| grep -v ibm-watson-aiops-ui-operator| grep -v ibm-automation-elastic | grep -v ibm-secure-tunnel| grep -v ibm-tz-deployer| grep -c ""
+  shell: oc get csv -n {{ current_ibm_feature.project }}|grep -v "Succeeded"| grep -v ibm-watson-aiops-ui-operator| grep -v ibm-automation-elastic | grep -v ibm-secure-tunnel| grep -v itz-deployer| grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
@@ -252,31 +252,6 @@
 
 
 
-# # --------------------------------------------------------------------------------------------------------------------------------------
-# # Freeze IBM Operator Catalog version (if enabled)
-# # --------------------------------------------------------------------------------------------------------------------------------------
-# - name:   🚀 IBM AIOPS CATALOG - Freeze IBM Operator Catalog version
-#   shell: |
-#     export FREEZE={{current_feature.freeze_catalog | default("false") }}
-#     #echo "FREEZE:$FREEZE"
-#     if [[ $FREEZE == "True" ]];
-#     then
-#       echo " Freezing Catalog Version"
-#       IMGDIGEST=`oc get pods -n  {{ current_ibm_feature.project }} -l=olm.catalogSource=ibm-aiops-catalog --no-headers -o=jsonpath="{.items[0].status.containerStatuses[0].imageID}" -n  {{ current_ibm_feature.project }}` && \
-#       oc patch catalogsource ibm-aiops-catalog -n  {{ current_ibm_feature.project }} --type=json -p "[{ "op": "test", "path": "/spec/image", "value": "\"icr.io/cpopen/ibm-operator-catalog:latest\"" }, { "op": "replace", "path": "/spec/image", "value": "\"$IMGDIGEST\"" }]"
-#     else
-#       echo " NOT Freezing Catalog Version"
-#     fi
-#   register: output
-#   ignore_errors: true
-#   args:
-#     executable: /bin/bash
-
-
-# - name: 🟣 OUTPUT - FREEZE
-#   debug: 
-#     var: output.stdout_lines
-#     verbosity: 1
 
 
 - name: Log
