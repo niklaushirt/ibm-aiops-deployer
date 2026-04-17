@@ -149,7 +149,7 @@
   kubernetes.core.k8s:
     state: present
     template: ./templates/aiops/3_sub-ibm-aiops-subscription-case.j2
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 

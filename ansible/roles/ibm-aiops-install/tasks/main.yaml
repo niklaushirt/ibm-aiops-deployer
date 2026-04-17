@@ -168,13 +168,13 @@
 - name: (010/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Save Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-save
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 - name: (011/019) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM AIOps Catalog - Create CatalogSources from Case File (this can take some time - skipped if not selected)
   include_role:
     name: tools-aiops-case-catalog-source
-  when: current_feature.case_install|bool|bool == true
+  when: current_feature.case_install|bool == true
 
 
 
