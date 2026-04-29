@@ -386,7 +386,6 @@
 
 - name: 🛠️  POLICIES - Create Metric Threshold Policies
   shell: |
-
     # export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     # export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
     # export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
@@ -483,8 +482,6 @@
     -d @/tmp/incident_policy.json
 
     echo $result
-
-
 
   ignore_errors: true
   register: POLICY_RESULT
