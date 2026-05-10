@@ -1,0 +1,123 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: kafka
+  namespace: instana-datastores
+  labels:
+    strimzi.io/cluster: instana
+spec:
+  replicas: 3
+  roles:
+     - broker
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: 50Gi
+        deleteClaim: true
+  template:
+    pod:
+      tmpDirSizeLimit: 500Mi
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: controller
+  namespace: instana-datastores
+  labels:
+    strimzi.io/cluster: instana
+spec:
+  replicas: 3
+  roles:
+    - controller
+  storage:
+    type: persistent-claim
+    size: 50Gi
+    deleteClaim: true
+  template:
+    pod:
+      tmpDirSizeLimit: 500Mi
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: instana
+  labels:
+    strimzi.io/cluster: instana
+  annotations:
+    strimzi.io/node-pools: enabled
+    strimzi.io/kraft:  enabled
+spec:
+  kafka:
+    version: 3.9.1
+    replicas: {{current_feature.instana_backend_scale  | default(3)}}
+    listeners:
+      - name: scram
+        port: 9092
+        type: internal
+        tls: false
+        authentication:
+          type: scram-sha-512
+        configuration:
+          useServiceDnsDomain: true
+    authorization:
+      type: simple
+      superUsers:
+        - strimzi-kafka-user
+    storage:
+      type: jbod
+      class: {{ STORAGE_CLASS_LARGE_BLOCK }}
+      volumes:
+        - id: 0
+          type: persistent-claim
+          size: 50Gi
+          deleteClaim: true
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      max.message.bytes: 52428800
+      replica.fetch.max.bytes: 52428800
+    template:
+      pod:
+        tmpDirSizeLimit: 100Mi
+  entityOperator:
+    template:
+      pod:
+        tmpDirSizeLimit: 100Mi
+        # Add the following securityContext snippet for Kubernetes offerings other than OCP.
+        # securityContext:
+        #   runAsUser: 1000
+        #   fsGroup: 1000
+    userOperator:
+      image: artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.47.0_v0.20.0   
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: strimzi-kafka-user
+  namespace: instana-datastores
+  labels:
+    strimzi.io/cluster: instana
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: '*'
+          patternType: literal
+        operation: All
+        host: "*"
+      - resource:
+          type: group
+          name: '*'
+          patternType: literal
+        operation: All
+        host: "*"
+        
