@@ -458,7 +458,7 @@ class IncidentBot(commands.Bot):
                     title=currentIncident["title"]
                     priority=currentIncident["priority"]
                     owner=currentIncident["owner"]
-                    url='https://'+CPD_ROUTE+'/aiops/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/resolution-hub/stories/all/'+incident_id+'/overview'
+                    url='https://'+CPD_ROUTE+'/aiops/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/resolution-hub/incidents/all/'+incident_id+'/overview'
                     #debug(currentIncident)
                     # print('     ✅ Name: '+title)
                     # print('     ✅ priority: '+str(priority))
@@ -687,7 +687,7 @@ class IncidentBot(commands.Bot):
                         title=currentIncident["title"]
                         priority=currentIncident["priority"]
                         owner=currentIncident["owner"]
-                        url='https://'+CPD_ROUTE+'/aiops/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/resolution-hub/stories/all/'+incident_id+'/overview'
+                        url='https://'+CPD_ROUTE+'/aiops/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/resolution-hub/incidents/all/'+incident_id+'/overview'
                         #debug(currentIncident)
                         # print('     ✅ Name: '+title)
                         # print('     ✅ priority: '+str(priority))
