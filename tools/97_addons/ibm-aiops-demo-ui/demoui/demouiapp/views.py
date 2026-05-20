@@ -174,7 +174,7 @@ FLINK_LAD_PWD = stream.read().strip()
 
 
 #if 'pirsoscom.github.io/SNOW_INC' in responseStr and '"closed"' not in responseStr and '"resolved"' not in responseStr:
-if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
+if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr or '"state": "unassigned"' in responseStr:
     print('     🔴 INCIDENT FOUND')
     INCIDENT_ACTIVE=True
 else:
@@ -823,7 +823,7 @@ def addExternalLinksToIncident(request):
         print ('    Checking Incidents')
         print ('    ---------------------------------------------------------------------------------------------'  )
         for i in responseJSON.get('stories'):
-            if 'assignedToIndividual' in i['state']:
+            if 'assignedToIndividual' in i['state'] or '"state": "unassigned"' in responseStr:
                 print(i['title'])
                 print(i['state'])
 
@@ -980,7 +980,7 @@ def instanaCreateIncident(request):
 
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
-        if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
+        if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr or '"state": "unassigned"' in responseStr:
             print('     🔴 INCIDENT FOUND')
             INCIDENT_ACTIVE=True
         else:
@@ -2858,7 +2858,7 @@ def index(request):
 
         responseJSON=response.json()
         responseStr=str(json.dumps(responseJSON))
-        if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr:
+        if '"state": "assignedToIndividual"' in responseStr or '"state": "inProgress"' in responseStr or '"state": "unassigned"' in responseStr:
             print('     🔴 INCIDENT FOUND')
             INCIDENT_ACTIVE=True
         else:
