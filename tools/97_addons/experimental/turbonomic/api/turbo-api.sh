@@ -1,7 +1,7 @@
 
 
 Auth
-curl -k -s -c $(pwd)/auth-cookie -H 'Accept: application/json' "https://api-turbonomic.ibm-aiops-953327-a376efc1170b9b8ace6422196c51e491-0000.eu-de.containers.appdomain.cloud/api/v3/login?hateoas=true" -d 'username=apiuser&password=P4ssw0rd'
+curl -k -s -c $(pwd)/auth-cookie -H 'Accept: application/json' "https://api-turbonomic.ibm-aiops-953327-a376efc1170b9b8ace6422196c51e491-0000.eu-de.containers.appdomain.cloud/api/v3/login?hateoas=true" -d 'username=apiuser&password=changeme'
 
 Get all business apps
 curl -s -b $(pwd)/auth-cookie -XGET 'https://api-turbonomic.ibm-aiops-953327-a376efc1170b9b8ace6422196c51e491-0000.eu-de.containers.appdomain.cloud/vmturbo/rest/search?types=BusinessApplication&limit=500&cursor=0' | jq > business-apps.json
