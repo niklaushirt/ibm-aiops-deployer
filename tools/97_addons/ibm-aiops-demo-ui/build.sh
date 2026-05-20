@@ -3,7 +3,7 @@ podman machine start
 
 podman login quay.io -u niklaushirt@gmail.com
 
-export CONT_VERSION=4.13.1
+export CONT_VERSION=4.13.2
 podman buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION --load -f=Containerfile_small
 podman push quay.io/niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 
@@ -86,7 +86,7 @@ export CONT_VERSION=0.97
 # Create the Image
 docker build -t niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION .
 
-podman login docker.io -u niklaushirt   
+podman login docker.io -u niklaushirt
 podman build -t niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION .
 podman push ^niklaushirt/ibm-aiops-demo-ui:$CONT_VERSION
 

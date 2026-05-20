@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  
 
 
+## [413.0.3] - 2026-05-20
+### Major changes
+- Corrected Demo UI incident status display
+- Refactor Demo UI
+
+
+
 ## [413.0.2] - 2026-04-29
 ### Major changes
 - Corrected missing PriorityClass for Training - NEEDED AS OF 4.13.0 - https://www.ibm.com/docs/en/cloud-paks/cloud-pak-aiops/4.13.0?topic=models-prerequisite-ai
