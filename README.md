@@ -129,8 +129,8 @@ Basically:
 
 
 ### ❗DEPRECATED❗
-- 🚀 [Quick Install - IBM Turbonomic](#22--install-ibm-turbonomic-with-demo-content)
-- 🚀 [Quick Install - IBM Instana (experimental)](#23--install-ibm-instana-with-demo-content)
+- 🚀 [Quick Install - IBM Turbonomic](#61--install-ibm-turbonomic-with-demo-content)
+- 🚀 [Quick Install - IBM Instana (experimental)](#62--install-ibm-instana-with-demo-content)
 
 
 
@@ -1575,7 +1575,7 @@ As I don't have time to maintain non AIOps resources I put them here for referen
 
 
 
-## 2.2 🐣 Install IBM Turbonomic with demo content
+## 6.1 🐣 Install IBM Turbonomic with demo content
 
 #### 🚀 Get IBM Turbonomic installed and demo content installed in one simple script.
 
@@ -1583,7 +1583,7 @@ As I don't have time to maintain non AIOps resources I put them here for referen
 
 
 <details>
-<summary>📦 2.3.1 What will be installed</summary>
+<summary>📦 6.1.1 What will be installed</summary>
 
 This installation contains:
 
@@ -1602,7 +1602,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 2.3.2 Installation Instructions </summary>
+<summary>🚀 6.1.2 Installation Instructions </summary>
 
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
@@ -1630,7 +1630,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 2.3.3 Follow the installation progress</summary>
+<summary>🔎 6.1.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
@@ -1653,7 +1653,7 @@ This installation contains:
 
 
 
-## 2.3 🐣 Install IBM Instana with demo content
+## 6.2 🐣 Install IBM Instana with demo content
 
 ### ❗ If you are installing on IBM Techzone DO NOT install Instana and CP4AIOPS into the same Cluster. This WILL lead to instability of both solutions ❗
 
@@ -1663,7 +1663,7 @@ This installation contains:
 
 
 <details>
-<summary>📦 2.4.1 What will be installed</summary>
+<summary>📦 6.2.1 What will be installed</summary>
 
 This installation contains:
 
@@ -1683,7 +1683,7 @@ This installation contains:
 
 
 <details>
-<summary>🚀 2.4.2 Installation Instructions </summary>
+<summary>🚀 6.2.2 Installation Instructions </summary>
 
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
@@ -1711,7 +1711,7 @@ This installation contains:
 
 
 <details>
-<summary>🔎 2.4.3 Follow the installation progress</summary>
+<summary>🔎 6.2.3 Follow the installation progress</summary>
 
 
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
