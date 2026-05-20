@@ -78,7 +78,7 @@ def updateIncidentsID(DATALAYER_ROUTE,DATALAYER_USER,DATALAYER_PWD, STATE, incid
     # print(data)
     # print(type(data))
 
-    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+incident_id
+    url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/incidents/'+incident_id
     auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
     headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
     try:
