@@ -82,6 +82,16 @@ The idea of this repo is to provide an optimised, complete, pre-trained `🐣 De
 >		- Policies for Incident creation
 >		- Custom Alert View
 >
+> #### ⚠️ **This method creates an in-cluster installation**
+> 
+> - It's way faster
+> - You don't have to install all the tooling locally
+> - You don’t need a connection to the cluster during the installation (fire and forget)
+> 
+> 🤓 So this could basically be done from an iPhone or iPad	
+
+
+> ❗DEPRECATED❗:
 >  - **IBM Concert** 
 >  - **IBM Concert Demo Content** 
 > 
@@ -91,13 +101,6 @@ The idea of this repo is to provide an optimised, complete, pre-trained `🐣 De
 >  - **IBM Instana** 
 >  - **IBM Instana Demo Content** 
 
-> #### ⚠️ **This method creates an in-cluster installation**
-> 
-> - It's way faster
-> - You don't have to install all the tooling locally
-> - You don’t need a connection to the cluster during the installation (fire and forget)
-> 
-> 🤓 So this could basically be done from an iPhone or iPad	
 
 </details>
 
@@ -115,9 +118,6 @@ Basically:
 ### 🐥 Quick Install
 
 - 🚀 [Quick Install - CP4AIOps](#21--install-ibm-aiops-with-demo-content)
-- 🚀 [Quick Install - IBM Turbonomic](#22--install-ibm-turbonomic-with-demo-content)
-- 🚀 [Quick Install - IBM Instana (experimental)](#23--install-ibm-instana-with-demo-content)
-
 - 🧨 [Troubleshooting](#4-troubleshooting)
 - 🚀 Already have a cluster? [Dive right in](#21--install-ibm-aiops-with-demo-content)
 
@@ -126,6 +126,13 @@ Basically:
 - 🚀 [Demo the Solution](#31-demo-the-solution)
 - 🤓 [Demo Setup - Explained](#32-demo-setup---explained)
 - 📦 [Create a custom Scenario](#33-custom-scenarios)
+
+
+### ❗DEPRECATED❗
+- 🚀 [Quick Install - IBM Turbonomic](#22--install-ibm-turbonomic-with-demo-content)
+- 🚀 [Quick Install - IBM Instana (experimental)](#23--install-ibm-instana-with-demo-content)
+
+
 
 
 <div style="page-break-after: always;"></div>
@@ -152,8 +159,7 @@ Basically:
 
 
 1. Get a temporary cluster from **Techzone**
-	- OpenShift Cluster (OCP-V) - IBM Cloud (https://techzone.ibm.com/my/reservations/create/66576e78d3aaab001ef9aa8d)
-	- OpenShift VMWare Cluster - UPI - Deployer - V2 (https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-pre-installed-software)
+	- OpenShift Cluster OCPv IBM Cloud from this collection (https://techzone.ibm.com/collection/69c6c2db1bdc18e8109d08ed)
 
 	- 4x worker nodes with **32 CPU / 128 GB**  ❗
 
@@ -184,7 +190,6 @@ Basically:
 	- Worker node count: **4**
 	- Flavour: **32 vCPU X 128 GB** ❗ 
 
-	> ❗ If you want to install IBM AIOps and Trubonomic you must select **5 x 32 vCPU X 128 GB** 
 
 
 
@@ -618,162 +623,6 @@ You can chose from the following:
 
 
 
-
-
-## 2.2 🐣 Install IBM Turbonomic with demo content
-
-#### 🚀 Get IBM Turbonomic installed and demo content installed in one simple script.
-
-![Characters](./doc/pics/turbo1.png)
-
-
-<details>
-<summary>📦 2.3.1 What will be installed</summary>
-
-This installation contains:
-
-> - **IBM Turbonomic**
-> 	- IBM Turbonomic Instance
-> - **IBM Turbonomic Demo Content**
-> - **Demo Applications**
->   - RobotShop Demo App
->   - SockShop Demo App
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-</details>
-
-
-<details>
-<summary>🚀 2.3.2 Installation Instructions </summary>
-
-
-1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
-3. Enter your Turbonomic License on line 69
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 72)
-3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 69)
-3. Click `Create`
-
-> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
-> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
-
-
-
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-
-
-
-</details>
-
-
-<details>
-<summary>🔎 2.3.3 Follow the installation progress</summary>
-
-
-- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
-
-	You can open and follow the installation logs by clicking on `Open Logs` 
-
-
-
-- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
-
-
-
-- When the Installation has succeeded, you get the top green Notification bar
-	
-	You can directly open IBM Turbonomic by clicking on the link 
-
-</details>
-
-
-
-
-
-## 2.3 🐣 Install IBM Instana with demo content
-
-### ❗ If you are installing on IBM Techzone DO NOT install Instana and CP4AIOPS into the same Cluster. This WILL lead to instability of both solutions ❗
-
-#### 🚀 Get IBM Instana installed and demo content installed in one simple script.
-
-![Characters](./doc/pics/instana1.png)
-
-
-<details>
-<summary>📦 2.4.1 What will be installed</summary>
-
-This installation contains:
-
-> - **IBM Instana**
-> 	- IBM Instana Instance
-> - **IBM Instana Demo Content**
->    - TBD
-> - **Demo Applications**
->   - RobotShop Demo App
->   - SockShop Demo App
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-</details>
-
-
-<details>
-<summary>🚀 2.4.2 Installation Instructions </summary>
-
-
-1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
-3. Enter your Instana License on lines 142/143
-3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, ❗ do NOT use the "-" character and do NOT leave empty ❗)
-3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
-3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
-3. Click `Create`
-
-> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
-> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
-
-
-
-
-<div style="page-break-after: always;"></div>
-
-</details>
-
-
-
-
-</details>
-
-
-<details>
-<summary>🔎 2.4.3 Follow the installation progress</summary>
-
-
-- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
-
-	You can open and follow the installation logs by clicking on `Open Logs` 
-
-
-
-- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
-
-
-
-- When the Installation has succeeded, you get the top green Notification bar
-	
-	You can directly open IBM Instana by clicking on the link 
-
-</details>
 
 
 ---------------------------------------------------------------
@@ -1712,3 +1561,171 @@ or
 ```
 </details>
 
+
+
+
+---------------------------------------------------------------
+# 6. Deprecated ❗❗❗❗
+---------------------------------------------------------------
+
+
+As I don't have time to maintain non AIOps resources I put them here for reference
+
+
+
+
+
+## 2.2 🐣 Install IBM Turbonomic with demo content
+
+#### 🚀 Get IBM Turbonomic installed and demo content installed in one simple script.
+
+![Characters](./doc/pics/turbo1.png)
+
+
+<details>
+<summary>📦 2.3.1 What will be installed</summary>
+
+This installation contains:
+
+> - **IBM Turbonomic**
+> 	- IBM Turbonomic Instance
+> - **IBM Turbonomic Demo Content**
+> - **Demo Applications**
+>   - RobotShop Demo App
+>   - SockShop Demo App
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+</details>
+
+
+<details>
+<summary>🚀 2.3.2 Installation Instructions </summary>
+
+
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/10_INSTALL_IBM_TURBONOMIC.yaml)
+3. Enter your Turbonomic License on line 69
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 72)
+3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 69)
+3. Click `Create`
+
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+
+
+</details>
+
+
+<details>
+<summary>🔎 2.3.3 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open IBM Turbonomic by clicking on the link 
+
+</details>
+
+
+
+
+
+## 2.3 🐣 Install IBM Instana with demo content
+
+### ❗ If you are installing on IBM Techzone DO NOT install Instana and CP4AIOPS into the same Cluster. This WILL lead to instability of both solutions ❗
+
+#### 🚀 Get IBM Instana installed and demo content installed in one simple script.
+
+![Characters](./doc/pics/instana1.png)
+
+
+<details>
+<summary>📦 2.4.1 What will be installed</summary>
+
+This installation contains:
+
+> - **IBM Instana**
+> 	- IBM Instana Instance
+> - **IBM Instana Demo Content**
+>    - TBD
+> - **Demo Applications**
+>   - RobotShop Demo App
+>   - SockShop Demo App
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+</details>
+
+
+<details>
+<summary>🚀 2.4.2 Installation Instructions </summary>
+
+
+1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
+1. Copy and paste the content from [this file](./Quick_Install/20_INSTALL_IBM_INSTANA.yaml)
+3. Enter your Instana License on lines 142/143
+3. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 60, ❗ do NOT use the "-" character and do NOT leave empty ❗)
+3. Accept the license by setting `accept_all_licenses` to `True` (line 70)
+3. Optionally you can change the name of your Demo Environment  `environment_name` to one of the provided characters (line 67)
+3. Click `Create`
+
+> #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
+> #### ❗ If you get a warning (Orange or Red Bar on top) please [re-run the installer Pod](#re-run-the-installer) until you are all green.
+
+
+
+
+<div style="page-break-after: always;"></div>
+
+</details>
+
+
+
+
+</details>
+
+
+<details>
+<summary>🔎 2.4.3 Follow the installation progress</summary>
+
+
+- The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
+
+	You can open and follow the installation logs by clicking on `Open Logs` 
+
+
+
+- In addition to this, you also have the bottom Notifications that give you the current step of the Installation
+
+
+
+- When the Installation has succeeded, you get the top green Notification bar
+	
+	You can directly open IBM Instana by clicking on the link 
+
+</details>
