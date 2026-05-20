@@ -16,10 +16,6 @@ ENV PYTHONUNBUFFERED 1
 # install dependencies  
 RUN pip install --upgrade pip  
 
-RUN python -m pip install Django
-
-RUN pip install confluent-kafka
-
 # Install Openshift Client
 RUN wget  -O oc.tar.gz https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-06-084517/openshift-client-linux-4.14.0-0.okd-2024-01-06-084517.tar.gz && tar xfvz oc.tar.gz && mv oc /usr/local/bin && mv kubectl /usr/local/bin/ && rm oc.tar.gz
 
@@ -37,5 +33,5 @@ RUN pwd
 RUN ls -al
 
 
-# start server  
-CMD python manage.py runserver 0.0.0.0:8000
+# start server
+CMD ["gunicorn", "demoui.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "300", "--access-logfile", "-", "--error-logfile", "-"]
