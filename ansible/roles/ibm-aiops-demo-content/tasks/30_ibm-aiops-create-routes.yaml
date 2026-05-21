@@ -333,8 +333,8 @@
       existing=$(oc get route sparkadmin -n $AIOPS_NAMESPACE --no-headers|awk '{print$1}')
       if [[ $existing == "" ]]; then
         echo "Create Route"
-        oc create route edge sparkadmin -n $AIOPS_NAMESPACE  --service=aiops-ir-analytics-spark-master
-        oc expose svc aiops-ir-analytics-spark-master -n $AIOPS_NAMESPACE --name spark
+        oc create route edge sparkadmin -n $AIOPS_NAMESPACE  --service=aiops-ir-analytics-cluster1-spark-master
+        oc expose svc aiops-ir-analytics-cluster1-spark-master -n $AIOPS_NAMESPACE --name spark
       fi
     ignore_errors: true
     register: output
