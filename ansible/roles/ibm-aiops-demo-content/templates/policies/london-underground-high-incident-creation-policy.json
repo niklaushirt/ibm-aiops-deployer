@@ -79,15 +79,7 @@
               "$template": "{{ alert.summary }}"
             },
             "holdoffSec": 0,
-            "notification": [{
-              "type": "chatops",
-              "name": "AIOPSSystemDefault",
-              "details": {}
-            }, {
-              "type": "snow",
-              "name": "AIOPSSystemDefault",
-              "details": {}
-            }],
+            "notification": [],
             "assignment": {
               "owner": "demo",
               "team": "All users"

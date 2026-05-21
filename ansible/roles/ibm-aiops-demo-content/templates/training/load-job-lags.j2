@@ -32,20 +32,45 @@ spec:
               echo " ✅ STARTING: Stream normal Logs for LAGS"
               echo "*****************************************************************************************************************************"
 
+              # echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              # echo "    📥 Downloading log files"
+              # echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              # export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git
+              # git clone $TRAINING_REPO
+              # cd ibm-aiops-trainingdata
+
+              # echo ""
+              # echo ""
+              # echo "------------------------------------------------------------------------------------------------------------------------------"
+              # echo "   🔎 This Repo includes those latestet Commits"
+              # git log|head -n 17
+              # echo ""
+              # echo ""
+
+
+              export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git
+              export TRAINING_DIR={{ current_feature.training_data_repo }}
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    📥 Downloading log files"
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
-              export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git
-              git clone $TRAINING_REPO
-              cd ibm-aiops-trainingdata
 
-              echo ""
-              echo ""
+              while [ ! -d "$TRAINING_DIR/.git" ]; do
+                echo "    ⏳ Waiting for repository to be cloned..."
+                git clone $TRAINING_REPO
+                sleep 2
+              done
+
+              echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              echo "    🚀 Starting Data Load"
+              echo "   ------------------------------------------------------------------------------------------------------------------------------"
+              cd $TRAINING_DIR
               echo "------------------------------------------------------------------------------------------------------------------------------"
-              echo "   🔎 This Repo includes those latestet Commits"
+              echo "This Repo includes those latestet Commits"
+              echo "------------------------------------------------------------------------------------------------------------------------------"
               git log|head -n 17
               echo ""
               echo ""
+
 
               echo "   ------------------------------------------------------------------------------------------------------------------------------"
               echo "    🚀 Starting Data Load"

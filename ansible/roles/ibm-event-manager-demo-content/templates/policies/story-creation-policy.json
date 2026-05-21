@@ -41,18 +41,7 @@
                 },
                 "holdoffSec": 0,
                 "priority": 1,
-                "notification": [
-                  {
-                    "type": "slack",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  },
-                  {
-                    "type": "msteams",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  }
-                ],
+                "notification": [],
                 "assignment": {
                   "owner": null,
                   "team": null
