@@ -94,18 +94,7 @@
                   "$template": "{{ alert.summary }}"
                 },
                 "holdoffSec": 10,
-                "notification": [
-                  {
-                    "type": "snow",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  },
-                  {
-                    "type": "chatops",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  }
-                ],
+                "notification": [],
                 "assignment": {
                   "owner": "demo",
                   "team": "All users"
@@ -152,18 +141,7 @@
                   "$template": "{{ alert.summary }}"
                 },
                 "holdoffSec": 15,
-                "notification": [
-                  {
-                    "type": "snow",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  },
-                  {
-                    "type": "chatops",
-                    "name": "AIOPSSystemDefault",
-                    "details": {}
-                  }
-                ],
+                "notification": [],
                 "assignment": {
                   "owner": "demo",
                   "team": "All users"

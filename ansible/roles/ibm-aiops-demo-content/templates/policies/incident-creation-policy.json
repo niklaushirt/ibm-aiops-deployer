@@ -85,24 +85,7 @@
               "$template": "{{ alert.summary }}"
             },
             "holdoffSec": 0,
-            "notification": [{
-              "type": "snow",
-              "name": "AIOPSSystemDefault",
-              "details": {}
-            }, {
-              "type": "chatops",
-              "name": "AIOPSSystemDefault",
-              "details": {}
-            }, {
-              "type": "connector",
-              "details": {
-                "name": "email",
-                "displayName": "email",
-                "connectorUID": "d4faee54-efec-4d74-af54-07ffcecb1e82",
-                "connectionType": "email-notifications",
-                "status": "Running"
-              }
-            }],
+            "notification": [],
             "assignment": {
               "owner": "demo",
               "team": "All users"
