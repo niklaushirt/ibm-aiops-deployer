@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 
 # export AIOPS_URL_OVERRIDE='testaiops'
 # export ROBOTSHOP_URL_OVERRIDE='testrobot'
@@ -608,24 +608,20 @@ export CUSTOM_PROPERTY_VALUES_OK=''
 
 
 
-cd demoui
 
-export PYTHONUNBUFFERED=1
+
+cd demoui
+python3 manage.py runserver
+
+
 
 python3 -m venv venv
+source venv/bin/activate
+pip3 install --break-system-packages -r requirements.txt
+python3 -m pip install Django --break-system-packages
+cd demoui
 
-if ! venv/bin/python -m pip --version >/dev/null 2>&1; then
-  venv/bin/python -m ensurepip --upgrade
-fi
+python manage.py runserver 0.0.0.0:8000
 
-venv/bin/python -m pip install -r requirements.txt
 
-exec venv/bin/gunicorn demoui.wsgi:application \
-  --bind 0.0.0.0:8000 \
-  --workers 1 \
-  --timeout 300 \
-  --capture-output \
-  --enable-stdio-inheritance \
-  --log-level info \
-  --access-logfile - \
-  --error-logfile -
+
