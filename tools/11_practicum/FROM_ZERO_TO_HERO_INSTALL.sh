@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:

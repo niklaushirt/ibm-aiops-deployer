@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
   python3-kubernetes \
   python3-openshift \
   tmux \
+  postgresql-client \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Openshift Client

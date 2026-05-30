@@ -327,6 +327,8 @@ data:
         # Create Policy for Story Creation
         create_incident_policy: true
 
+        # Create Policies for Metric Threshold Violations
+        threshold_metrics: false
 
         # Create Service Account
         create_account: true
@@ -437,7 +439,7 @@ spec:
       serviceAccount: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
