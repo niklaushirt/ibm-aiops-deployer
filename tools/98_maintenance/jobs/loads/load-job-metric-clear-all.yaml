@@ -58,7 +58,7 @@ spec:
               echo ""
               echo ""
 
-              ./training/load-metric-for-training.sh
+              ./training/load-metric-for-training510.sh
 
               echo "*****************************************************************************************************************************"
               echo " ✅ DONE"
