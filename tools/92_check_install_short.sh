@@ -272,8 +272,6 @@ EOF
     }
 
 
-      export CURRENT_NAMESPACE=ibm-licensing
-      checkNamespace
 
       export CURRENT_NAMESPACE=ibm-cert-manager
       checkNamespace
@@ -285,8 +283,7 @@ EOF
       export CURRENT_NAMESPACE=awx
       checkNamespace
 
-      export CURRENT_NAMESPACE=turbonomic
-      checkNamespace
+
 
       
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -37,7 +37,7 @@
 - name: 🕦 TRAINING WAIT - WAIT FOR COMPLETION METRICS LOAD
   shell: |
     while : ; do
-          READY=$(oc get jobs -n ibm-installer --ignore-not-found load-metric-cassandra)
+          READY=$(oc get jobs -n ibm-installer --ignore-not-found load-metric-posgres)
           if [[ $READY  == "" ]]; then 
                 break
           elif [[ ! $READY  =~ "1/1" ]]; then
@@ -62,7 +62,7 @@
 
 # - name: 🧻 TRAINING WAIT - CLEANUP COMPLETED JOBS METRICS LOAD
 #   shell: |
-#     oc delete pod  -n ibm-installer --ignore-not-found $(oc get po -n ibm-installer|grep load-metric-cassandra|awk '{print$1}')
+#     oc delete pod  -n ibm-installer --ignore-not-found $(oc get po -n ibm-installer|grep load-metric-posgres|awk '{print$1}')
 #   register: ES_READY
 #   ignore_errors: true
 

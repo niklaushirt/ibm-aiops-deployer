@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-metric-cassandra
+  name: load-metric-posgres
   namespace: ibm-installer
   labels:
    aiops-type: data-load-job
@@ -29,7 +29,7 @@ spec:
               #set -x
               
               echo "*****************************************************************************************************************************"
-              echo " ✅ STARTING: Load metric anomaly training files (>=4.1)"
+              echo " ✅ STARTING: Load metric anomaly training files (>=5.1)"
               echo "*****************************************************************************************************************************"
 
               # export TRAINING_REPO={{ current_feature.training_data_url }}{{ current_feature.training_data_repo }}.git

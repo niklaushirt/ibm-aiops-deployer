@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-metric-cassandra-merge
+  name: load-metric-posgres-merge
   namespace: ibm-installer
   labels:
    aiops-type: data-load-job

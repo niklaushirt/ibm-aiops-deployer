@@ -7,7 +7,7 @@
 
 - name: Log
   shell: |
-    export MESSAGE="Load Metric Training Data into Cassandra"
+    export MESSAGE="Load Metric Training Data into Posgres"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
@@ -24,7 +24,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - Load Metric Training Data into Cassandra'    
+      text: 'Installing {{current_feature.kind}} - Load Metric Training Data into Posgres'    
     EOF
   ignore_errors: true
   args:
@@ -46,7 +46,7 @@
     src: ./templates/training/default-clusterrole.yaml
     
 
-- name: 📥 TRAINING LOAD METRIC - LOAD CASSANDRA METRIC DATA 
+- name: 📥 TRAINING LOAD METRIC - LOAD POSTGRES METRIC DATA 
   kubernetes.core.k8s:
     state: present
     namespace: default
