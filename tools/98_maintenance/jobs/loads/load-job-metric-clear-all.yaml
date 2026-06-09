@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-metric-posgres
+  name: load-metric-postgres
   namespace: ibm-installer
   labels:
    aiops-type: data-load-job
