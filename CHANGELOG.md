@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  
 
 
+## [510.0.1] - 2026-06-11
+### Major changes
+- Revamp for Concert Operate 5.1.0
+- Metrics data load into Postgres (former Cassandra)
+
+
+
+
+
 ## [413.0.3] - 2026-05-20
 ### Major changes
 - Corrected Demo UI incident status display

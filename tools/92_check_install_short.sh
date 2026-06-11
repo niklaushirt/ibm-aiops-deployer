@@ -19,7 +19,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-oc create route passthrough --insecure-policy="Redirect" aiops-opensearch -n $AIOPS_NAMESPACE --service=aiops-opensearch --port=http
+oc create route passthrough --insecure-policy="Redirect" aiops-opensearch -n $AIOPS_NAMESPACE --service="aiops-opensearch" --port="http"
 
 
 export TEMP_PATH=~/aiops-install
@@ -196,8 +196,8 @@ function check_array(){
       -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
       
       echo "             🙎‍♂️ CPADMIN_USER:   $CPADMIN_USER"
-      echo "             🔐 CPADMIN_PWD:    $CPADMIN_PWD"
-      echo "             🔐 ZEN_TOKEN:      ${ZEN_TOKEN:0:25}....."
+      echo "             🔐 CPADMIN_PWD:     $CPADMIN_PWD"
+      echo "             🔐 ZEN_TOKEN:       ${ZEN_TOKEN:0:25}....."
       echo ""
       echo ""
       

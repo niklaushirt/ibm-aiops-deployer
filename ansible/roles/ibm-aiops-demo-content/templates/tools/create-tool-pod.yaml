@@ -173,6 +173,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: demo-ui-admin
+    namespace: ibm-aiops-demo-ui
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
