@@ -211,6 +211,59 @@
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
     WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
 
+
+
+
+
+
+
+
+
+
+    # INSTALL_EKS: Set as True if installing on EKS
+    INSTALL_EKS=false
+    # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
+    REG_USER={{ current_feature.prod_user }}
+    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}
+
+
+    # ----- Hub Configuration -----
+
+    # namespace for Hub
+    HUB_NS={{ current_ibm_feature.project }}-hub
+    HUB_IMAGE_REGISTRY_SUFFIX=/solis-hub
+    SCALE_CONFIG_HUB=level_1
+    # storage class for Hub
+    STORAGE_CLASS_HUB={{ STORAGE_CLASS_FILE }}
+
+    # ----- Concert Configuration -----
+
+    INSTALL_CONCERT=true
+    # namespace for Concert
+    CONCERT_NS={{ current_ibm_feature.project }}
+    CONCERT_IMAGE_REGISTRY_SUFFIX=/concert
+    SCALE_CONFIG_CONCERT=level_1
+    # storage class for Concert
+    STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
+
+    # ----- Data Apps Configuration -----
+
+    INSTALL_DATAAPPS=true
+    # namespace for Data Apps
+    DATAAPPS_NS={{ current_ibm_feature.project }}-dataapps
+    DATAAPPS_IMAGE_REGISTRY_SUFFIX=/concert
+    SCALE_CONFIG_DATAAPPS=level_1
+    # storage class for Dataapps
+    STORAGE_CLASS_DATAAPPS={{ STORAGE_CLASS_FILE }}
+
+    # ----- Concert Workflow Configuration -----
+
+    INSTALL_WORKFLOWS=true
+    # namespace for Workflows
+    WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
+    # Domain name on which the application will listen
+    # Example: solis-gw-workflows.apps.test.cp.my-domain.com
+    WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
     EOF
 
     echo "------------------------------------------------------------------------------------------------------------------------------"
