@@ -19,7 +19,6 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-oc create route passthrough --insecure-policy="Redirect" aiops-opensearch -n $AIOPS_NAMESPACE --service="aiops-opensearch" --port="http"
 
 
 export TEMP_PATH=~/aiops-install
@@ -169,6 +168,8 @@ function check_array(){
 
 
       echo "   🌐  Get Cluster Route"
+      oc create route passthrough --insecure-policy="Redirect" aiops-opensearch -n $AIOPS_NAMESPACE --service="aiops-opensearch" --port="http"
+
 
         CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
         CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
