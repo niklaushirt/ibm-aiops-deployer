@@ -762,143 +762,153 @@ def get_base_context(page_title='Welcome to your Demo UI', page_name='index'):
 def addExternalLinksToIncident(request):
     print('🌏 addExternalLinksToIncident')
 
+
     if ('https:' in SLACK_URL_ROSH or 'https:' in SNOW_URL_ROSH  or 'https:' in SLACK_URL_SOSH   or 'https:' in SNOW_URL_SOSH   or 'https:' in SLACK_URL_ACME   or 'https:' in SNOW_URL_ACME):
         print ('    ---------------------------------------------------------------------------------------------')
-        print ('    Wait 20 Seconds for Incident to be created')
+        print ('    🔗 addExternalLinksToIncident - Wait 20 Seconds for Incident to be created then retry every 20 seconds for 2 minutes')
         print ('    ---------------------------------------------------------------------------------------------')
 
-        time.sleep(20)
+        foundStory=False
+        for retry in range(6):
 
-        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
-        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-        try:    
-            response = requests.get(url, headers=headers, auth=auth, verify=False)
-        except requests.exceptions.RequestException as e:  # This is the correct syntax
-            stream = capture_shell("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
-            print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
-            raise SystemExit(e)
+            time.sleep(20)
 
-        responseJSON=response.json()
-        responseStr=str(json.dumps(responseJSON))
-        #print ('aaaa'+responseStr)
-        print ('    ---------------------------------------------------------------------------------------------')
-        print ('    Checking Incidents')
-        print ('    ---------------------------------------------------------------------------------------------'  )
-        for i in responseJSON.get('stories'):
-            if 'resolved' not in i['state'] and 'closed' not in i['state'] :
-                print(i['title'])
-                print(i['state'])
+            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories'
+            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+            try:    
+                response = requests.get(url, headers=headers, auth=auth, verify=False)
+            except requests.exceptions.RequestException as e:  # This is the correct syntax
+                stream = capture_shell("oc get route  -n "+aimanagerns+" datalayer-api  -o jsonpath='{.status.ingress[0].host}'")
+                print('     ❗ YOU MIGHT WANT TO USE THE DATALAYER PUBLIC ROUTE: '+str(stream.read().strip()))
+                raise SystemExit(e)
 
-                if 'Sudden increase ' in i['title'] or 'Optimise Buffer Pool ' in i['title'] or 'Commit in repository' in i['title'] or 'Resize up vMEM' in i['title'] or 'MySQL' in i['title'] or 'Robot' in i['title'] or 'Erroneous call rate' in i['title'] or 'ArgoCD' in i['title'] or 'Database' in i['title'] or 'Erroneous' in i['title'] or 'Jenkins' in i['title']:
-                    current_id=str(i['id'])
-                    # print(i['title'])
-                    # print(current_id)
-                    if 'https:' in SLACK_URL_ROSH:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding Slack RobotShop')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82391", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d00", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ROSH+"","channel_name": "cp4aiops-demo"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SLACK_URL_ROSH')
-                    if 'https:' in SNOW_URL_ROSH:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding SNOW RobotShop')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667e","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d00","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010003'}","permalink": ""+SNOW_URL_ROSH+"","ticket_num": "INC0010003"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SNOW_URL_ROSH')
+            responseJSON=response.json()
+            responseStr=str(json.dumps(responseJSON))
+            #print ('aaaa'+responseStr)
+            print ('    ---------------------------------------------------------------------------------------------')
+            print ('    🔗 addExternalLinksToIncident - Checking Incidents')
+            print ('    ---------------------------------------------------------------------------------------------'  )
+            for i in responseJSON.get('stories'):
+                if 'resolved' not in i['state'] and 'closed' not in i['state'] :
+                    print("    🔗 addExternalLinksToIncident - Found Incident: "+i['title']+" : "+i['state'])
 
+                    foundStory=True
 
-
-
-                if 'Switch Outage' in i['title']:
-                    current_id=str(i['id'])
-                    # print(i['title'])
-                    # print(current_id)
-                    if 'https:' in SLACK_URL_SOSH:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding Slack SockShop')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82390", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d01", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_SOSH+"","channel_name": "cp4aiops-demo"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SLACK_URL_SOSH')
-                    if 'https:' in SNOW_URL_SOSH:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding SNOW SockShop')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667f","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d01","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010002'}","permalink": ""+SNOW_URL_SOSH+"","ticket_num": "INC0010002"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SNOW_URL_SOSH')
-
-                if 'Fan malfunction' in i['title']:
-                    current_id=str(i['id'])
-                    # print(i['title'])
-                    # print(current_id)
-                    if 'https:' in SLACK_URL_ACME:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding Slack ACME')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82392", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d02", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ACME+"","channel_name": "cp4aiops-demo"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SLACK_URL_ACME')
-                    if 'https:' in SNOW_URL_ACME:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding SNOW ACME')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010001'}","permalink": ""+SNOW_URL_ACME+"","ticket_num": "INC0010001"}}]}
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping SNOW_URL_ACME')
+                    if 'Sudden increase ' in i['title'] or 'Optimise Buffer Pool ' in i['title'] or 'Commit in repository' in i['title'] or 'Resize up vMEM' in i['title'] or 'MySQL' in i['title'] or 'Robot' in i['title'] or 'Erroneous call rate' in i['title'] or 'ArgoCD' in i['title'] or 'Database' in i['title'] or 'Erroneous' in i['title'] or 'Jenkins' in i['title']:
+                        current_id=str(i['id'])
+                        # print(i['title'])
+                        # print(current_id)
+                        if 'https:' in SLACK_URL_ROSH:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding Slack RobotShop')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82391", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d00", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ROSH+"","channel_name": "cp4aiops-demo"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SLACK_URL_ROSH')
+                        if 'https:' in SNOW_URL_ROSH:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding SNOW RobotShop')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667e","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d00","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010003'}","permalink": ""+SNOW_URL_ROSH+"","ticket_num": "INC0010003"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SNOW_URL_ROSH')
 
 
-                if 'fire' in i['title'] or 'delays' in i['title']:
-                    current_id=str(i['id'])
-                    # print(i['title'])
-                    # print(current_id)
-                    if 'https:' in INCIDENT_URL_TUBE:
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        print ('     🛠️ Adding Incident Tube')
-                        print ('    ---------------------------------------------------------------------------------------------')
-                        patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Dashboard","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'MILE_END'}","permalink": ""+INCIDENT_URL_TUBE+"","ticket_num": "MILE_END"}}]} 
-                        url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
-                        auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
-                        headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
-                        response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
-                        print(str(response.content))
-                    else:
-                        print ('    ❌ Skipping INCIDENT_URL_TUBE')
 
 
+                    if 'Switch Outage' in i['title']:
+                        current_id=str(i['id'])
+                        # print(i['title'])
+                        # print(current_id)
+                        if 'https:' in SLACK_URL_SOSH:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding Slack SockShop')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82390", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d01", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_SOSH+"","channel_name": "cp4aiops-demo"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SLACK_URL_SOSH')
+                        if 'https:' in SNOW_URL_SOSH:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding SNOW SockShop')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667f","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d01","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010002'}","permalink": ""+SNOW_URL_SOSH+"","ticket_num": "INC0010002"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SNOW_URL_SOSH')
+
+                    if 'Fan malfunction' in i['title']:
+                        current_id=str(i['id'])
+                        # print(i['title'])
+                        # print(current_id)
+                        if 'https:' in SLACK_URL_ACME:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding Slack ACME')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "b7248e70-ec13-4d1f-a005-0cf517d82392", "type": "aiops.ibm.com/insight-type/chatops/metadata", "source": "chatops", "details": { "id": "c27b7a0c-246a-47e8-85f0-041566f57d02", "name": "Slack","app_state": "{'channel':'C05RPF0QZ47','alertVisibility':{},'addedIncidents':[],'storyId':'5eee46e6-8086-4b8c-85a8-10e250e82bf8','ts':'1696922654.186279','isExpanded':false}","permalink": ""+SLACK_URL_ACME+"","channel_name": "cp4aiops-demo"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SLACK_URL_ACME')
+                        if 'https:' in SNOW_URL_ACME:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding SNOW ACME')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Service now","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'INC0010001'}","permalink": ""+SNOW_URL_ACME+"","ticket_num": "INC0010001"}}]}
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping SNOW_URL_ACME')
+
+
+                    if 'fire' in i['title'] or 'delays' in i['title']:
+                        current_id=str(i['id'])
+                        # print(i['title'])
+                        # print(current_id)
+                        if 'https:' in INCIDENT_URL_TUBE:
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            print ('     🛠️ Adding Incident Tube')
+                            print ('    ---------------------------------------------------------------------------------------------')
+                            patch_data={ "insights": [{"id": "c5242c61-9dee-4bcb-82de-9f64e9ac667d","type": "aiops.ibm.com/insight-type/itsm/metadata","source": "chatops","details": {"id": "9c587715-4eee-4dd1-a129-041566f57d02","name": "Dashboard","type": "aiops.ibm.com/insight-type/itsm/metadata","app_state": "{'sysId': '9eec516193f5b510a2e7bba97bba1002', 'success': 'True', 'incidentNumber': 'MILE_END'}","permalink": ""+INCIDENT_URL_TUBE+"","ticket_num": "MILE_END"}}]} 
+                            url = 'https://'+DATALAYER_ROUTE+'/irdatalayer.aiops.io/active/v1/stories/'+current_id
+                            auth=HTTPBasicAuth(DATALAYER_USER, DATALAYER_PWD)
+                            headers = {'Content-Type': 'application/json', 'Accept-Charset': 'UTF-8', 'x-username' : 'admin', 'x-subscription-id' : 'cfd95b7e-3bc7-4006-a4a8-a73a79c71255'}
+                            response = requests.patch(url, headers=headers, auth=auth, verify=False, data =json.dumps(patch_data))
+                            print(str(response.content))
+                        else:
+                            print ('        ❌ addExternalLinksToIncident - Skipping INCIDENT_URL_TUBE')
+                print('    🔗 addExternalLinksToIncident - Added some links')
+                
+
+            if foundStory:
+                print ('    🔗 addExternalLinksToIncident - Links have been added to Incidents ')
+                break
+            print ('    🔗 addExternalLinksToIncident - Retrying: Wait 20 Seconds for Incident to be created then retry every 20 seconds for 2 minutes')
 
         print ('    ---------------------------------------------------------------------------------------------')
         print ('    ---------------------------------------------------------------------------------------------')
