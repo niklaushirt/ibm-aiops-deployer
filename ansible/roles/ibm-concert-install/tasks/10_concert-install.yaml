@@ -73,7 +73,7 @@
     mkdir -p /tmp/
     cd  /tmp/
 
-    wget https://github.com/IBM/Concert/releases/download/v2.2.0/ibm-concert-x86.tar.gz
+    wget https://github.com/IBM/Concert/releases/download/v3.0.0/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
     cd /tmp/ibm-concert
   register: output_string
