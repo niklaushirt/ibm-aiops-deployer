@@ -145,8 +145,6 @@
 
 - name:   🚀 IBM Concert - Prepare Installation
   shell: |
-  
-
     export INSTALL_DIR=/tmp/ibm-concert
 
 
