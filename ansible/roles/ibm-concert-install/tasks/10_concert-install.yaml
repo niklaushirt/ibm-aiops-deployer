@@ -76,6 +76,9 @@
     wget https://github.com/IBM/Concert/releases/download/v3.0.0/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
     cd /tmp/ibm-concert
+    find . -type f -exec sed -i \
+    's/rollout status Deployments,sts/rollout status Deployments/g' {} +
+
   register: output_string
   ignore_errors: true
   args:
@@ -161,7 +164,7 @@
     # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
     REG_USER={{ current_feature.prod_user }}
     
-    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}/{{ current_feature.prod_user }}
+    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}
 
 
     # ----- Hub Configuration -----
