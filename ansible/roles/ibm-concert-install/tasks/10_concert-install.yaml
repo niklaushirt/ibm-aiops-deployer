@@ -161,7 +161,7 @@
     # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
     REG_USER={{ current_feature.prod_user }}
     
-    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}
+    IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}/{{ current_feature.prod_user }}
 
 
     # ----- Hub Configuration -----
@@ -205,6 +205,7 @@
     # ----- Concert Workflow Configuration -----
 
     INSTALL_WORKFLOWS=true
+    WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
     # Domain name on which the application will listen
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
     WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
