@@ -76,8 +76,8 @@
     wget https://github.com/IBM/Concert/releases/download/v3.0.0/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
     cd /tmp/ibm-concert
-    find . -type f -exec sed -i \
-    's/rollout status Deployments,sts/rollout status Deployments/g' {} +
+    # find . -type f -exec sed -i \
+    # 's/rollout status Deployments,sts/rollout status Deployments/g' {} +
 
   register: output_string
   ignore_errors: true

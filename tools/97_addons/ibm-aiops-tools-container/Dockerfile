@@ -19,8 +19,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Openshift Client
-RUN wget https://github.com/okd-project/okd/releases/download/4.11.0-0.okd-2022-11-19-050030/openshift-client-linux-4.11.0-0.okd-2022-11-19-050030.tar.gz && tar xfvz openshift-client-linux-4.11.0-0.okd-2022-11-19-050030.tar.gz && mv oc /usr/local/bin && mv kubectl /usr/local/bin/ && rm openshift-client-linux-4.11.0-0.okd-2022-11-19-050030.tar.gz
-
+RUN wget https://github.com/okd-project/okd/releases/download/4.22.0-okd-scos.5/openshift-client-linux-4.22.0-okd-scos.5.tar.gz && tar xfvz openshift-client-linux-4.22.0-okd-scos.5.tar.gz && mv oc /usr/local/bin && mv kubectl /usr/local/bin/ && rm openshift-client-linux-4.22.0-okd-scos.5.tar.gz
 
 # Init SSH
 RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh/ && echo $SSH_KEY > /root/.ssh/authorized_keys && touch /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
