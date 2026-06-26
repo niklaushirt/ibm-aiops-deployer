@@ -1,22 +1,22 @@
 
 # *************************************************************************************************************************************************
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install IBM Concert
+# Install IBM Concert platform
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-# Install IBM Concert
+# Install IBM Concert platform
 # --------------------------------------------------------------------------------------------------------------------------------------
 
-- name: 🛰️  START - INSTALL IBM Concert
+- name: 🛰️  START - INSTALL IBM Concert platform
   debug: 
     msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
 
 
 - name: Log
   shell: |
-    export MESSAGE="Installing IBM Concert"
+    export MESSAGE="Installing IBM Concert platform"
     export currentDate=$(date +%Y-%m-%d_%H:%M)
     echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
     echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
@@ -26,11 +26,11 @@
 
 
 
-- name: 🚀 IBM Concert - Set IBM Concert Password 
+- name: 🚀 IBM Concert platform - Set IBM Concert platform Password 
   set_fact: current_admin_pass={{global_config.global_password}}
 
 
-- name: 🟣  IBM Concert -  IBM Concert Password {{current_admin_pass}}
+- name: 🟣  IBM Concert platform -  IBM Concert platform Password {{current_admin_pass}}
   debug:
     var: current_admin_pass
     verbosity: 1
@@ -54,7 +54,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - IBM Concert Getting Installation source from GitHub'    
+      text: 'Installing {{current_feature.kind}} - IBM Concert platform Getting Installation source from GitHub'    
     EOF
   ignore_errors: true
   args:
@@ -65,7 +65,7 @@
 
 
 
-- name:   🚀 IBM Concert - Getting Installation source from GitHub
+- name:   🚀 IBM Concert platform - Getting Installation source from GitHub
   shell: |
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🚀 Getting Installation source from GitHub"
@@ -73,11 +73,9 @@
     mkdir -p /tmp/
     cd  /tmp/
 
-    wget https://github.com/IBM/Concert/releases/download/v3.0.0/ibm-concert-x86.tar.gz
-    tar xfz ibm-concert-x86.tar.gz
-    cd /tmp/ibm-concert
-    # find . -type f -exec sed -i \
-    # 's/rollout status Deployments,sts/rollout status Deployments/g' {} +
+    wget https://github.com/IBM/Concert-Platform/releases/download/v3.0.0/ibm-itom-assembly-x86.tar.gz
+    tar xfz ibm-itom-assembly-x86.tar.gz
+    cd /tmp/ibm-itom-assembly
 
   register: output_string
   ignore_errors: true
@@ -108,7 +106,7 @@
       backgroundColor: '#ffd500'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - IBM Concert Prepare Installation'    
+      text: 'Installing {{current_feature.kind}} - IBM Concert platform Prepare Installation'    
     EOF
   ignore_errors: true
   args:
@@ -117,9 +115,9 @@
 
 
 
-- name:   🚀 IBM Concert - VARIABLES
+- name:   🚀 IBM Concert platform - VARIABLES
   shell: |
-    cd  /tmp/concert/ibm-concert
+    cd  /tmp/ibm-itom-assembly
     echo ""
     echo ""
     echo ""
@@ -146,75 +144,41 @@
 
 
 
-- name:   🚀 IBM Concert - Prepare Installation
+- name:   🚀 IBM Concert platform - Prepare Installation
   shell: |
   
 
-    export INSTALL_DIR=/tmp/ibm-concert
+    export INSTALL_DIR=/tmp/ibm-itom-assembly
 
 
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
     echo "OCP_URL: $OCP_URL"
-    mv /tmp/ibm-concert/etc/params.ini /tmp/ibm-concert/etc/params.ini.all
-    cat > /tmp/ibm-concert/etc/params.ini <<EOF
-    
-    #cat concert-dataapps-workflows-k8s-params.ini
-    # INSTALL_EKS: Set as True if installing on EKS
-    INSTALL_EKS=false
-    # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
+    mv /tmp/ibm-itom-assembly/etc/params.ini /tmp/ibm-itom-assembly/etc/params.ini.all
+
+    cat > /tmp/ibm-itom-assembly/etc/params.ini <<EOF
+    # Software to install
+    INSTALL_PLATFORM=true
+    ENABLE_CROSS_PRODUCT_INTEGRATION=true
+
+    # Registry Variables
     REG_USER={{ current_feature.prod_user }}
-    
     IMAGE_REGISTRY_PREFIX={{ current_feature.prod_registry }}
+    IMAGE_REGISTRY_SUFFIX=/platform-hub
+    # OPTIONAL: Contact IBM Support if you plan to set it.
+    # TAG=v1
 
+    # Common Variables
+    # Namespace to deploy to
+    # all components must share a namespace by design. 
+    NAMESPACE={{ current_ibm_feature.project }}-hub
 
-    # ----- Hub Configuration -----
+    # Platform Variables
+    PLATFORM_SCALE_CONFIG=level_1
+    # Storage class specification is optional for k3s, mandatory for other k8s/OCP. 
+    PLATFORM_STORAGE_CLASS={{ STORAGE_CLASS_FILE }}
 
-    # OPTIONAL: 
-    # For connecting installed product(s) to an existing remote Hub,
-    # set HUB_URL and HUB_ACCESS_KEY parameters (details and examples in all-params.ini file).
-    # If these parameters are not provided, local Hub will be automatically installed
-    # HUB_URL=
-    # HUB_ACCESS_KEY=
-
-    # namespace for Hub
-    HUB_NS={{ current_ibm_feature.project }}-hub
-    HUB_IMAGE_REGISTRY_SUFFIX=/platform-hub
-    # OPTIONAL: Set to 'true' to install additional local Hub components needed for integration with products like Turbonomic or Instana.
-    ENABLE_CROSS_PRODUCT_INTEGRATION=false
-    SCALE_CONFIG_HUB=level_1
-    # storage class for Hub
-    STORAGE_CLASS_HUB={{ STORAGE_CLASS_FILE }}
-
-    # ----- Concert Configuration -----
-
-    INSTALL_CONCERT=true
-    # namespace for Concert
-    CONCERT_NS={{ current_ibm_feature.project }}
-    CONCERT_IMAGE_REGISTRY_SUFFIX=/concert
-    SCALE_CONFIG_CONCERT=level_1
-    # storage class for Concert
-    STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
-
-    # ----- Data Apps Configuration -----
-
-    INSTALL_DATAAPPS=true
-    # namespace for Data Apps
-    DATAAPPS_NS={{ current_ibm_feature.project }}-dataapps
-    DATAAPPS_IMAGE_REGISTRY_SUFFIX=/concert
-    SCALE_CONFIG_DATAAPPS=level_1
-    # storage class for Dataapps
-    STORAGE_CLASS_DATAAPPS={{ STORAGE_CLASS_FILE }}
-
-    # ----- Concert Workflow Configuration -----
-
-    INSTALL_WORKFLOWS=true
-    WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
-    # Domain name on which the application will listen
-    # Example: solis-gw-workflows.apps.test.cp.my-domain.com
-    WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
-
-
-
+    # ITOM Variables
+    ITOM_SCALE_CONFIG=level_1
 
     EOF
 
@@ -223,7 +187,7 @@
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo " 🛠️ Your Config File"
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    cat /tmp/ibm-concert/etc/params.ini
+    cat /tmp/ibm-itom-assembly/etc/params.ini
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -251,7 +215,7 @@
       backgroundColor: '#ff7700'
       color: '#000'
       location: {{global_config.position_ocp_notifications | default("BannerTop")}}
-      text: 'Installing {{current_feature.kind}} - 🕦 Wait for IBM Concert to become ready (about 30-40 minutes) - Started at $(date +%H:%M) UTC'    
+      text: 'Installing {{current_feature.kind}} - 🕦 Wait for IBM Concert platform to become ready (about 30-40 minutes) - Started at $(date +%H:%M) UTC'    
     EOF
   ignore_errors: true
   args:
@@ -260,7 +224,7 @@
 
 
 
-- name:   🚀 IBM Concert -  Installation
+- name:   🚀 IBM Concert platform -  Installation
   shell: |
     cd  /tmp/
     echo ""
@@ -271,7 +235,7 @@
     echo " 🚀 Start Concert Installation"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     echo "/tmp/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY"
-    /tmp/ibm-concert/bin/setup --license_acceptance=y --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
+    /tmp/ibm-itom-assembly/bin/setup --license_acceptance=YES --username=admin --password={{ global_config.global_password }} --registry_password=$ENTITLED_REGISTRY_KEY
 
 
 
@@ -317,7 +281,7 @@
 
 
 
-- name:   🚀 IBM Concert -  Finalize
+- name:   🚀 IBM Concert platform -  Finalize
   shell: |
     cd  /tmp/concert/ibm-concert
     echo ""
@@ -328,12 +292,9 @@
     echo " 🚀 Create Routes"
     echo "------------------------------------------------------------------------------------------------------------------------------"
 
-
-    /tmp/ibm-concert/ibm-concert-k8s/ocp-route.sh {{ current_ibm_feature.project }}
-    oc get route concert -n {{ current_ibm_feature.project }}
-    oc extract -n {{ current_ibm_feature.project }} secret/app-cfg-secret --to=-
-
-    /tmp/ibm-concert/ibm-dataapps-k8s/ocp-route.sh {{ current_ibm_feature.project }}-dataapps
+    export HUB_NS={{ current_ibm_feature.project }}-hub
+    /tmp/ibm-itom-assembly/ibm-platform-hub/bin/ocp-route.sh --namespace=$HUB_NS
+    oc get routes solis-hub -n $HUB_NS
 
 
     echo ""
@@ -341,7 +302,7 @@
     echo ""
     echo ""
     echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " ✅ LOGINS"
+    echo " ✅ DONE"
     echo "------------------------------------------------------------------------------------------------------------------------------"
     
 
