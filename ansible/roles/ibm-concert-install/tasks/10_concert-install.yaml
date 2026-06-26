@@ -220,7 +220,8 @@
     # Domain name on which the application will listen
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
     WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
-    WORKFLOWS_INSTALL_ALL_INTEGRATIONS=true
+    # Takes a looooooot of time so set to false for the time being
+    WORKFLOWS_INSTALL_ALL_INTEGRATIONS=false
 
 
 
