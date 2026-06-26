@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 10,
+                "holdoffSec": 45,
                 "notification": [],
                 "assignment": {
                   "owner": "demo",
@@ -140,7 +140,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 15,
+                "holdoffSec": 45,
                 "notification": [],
                 "assignment": {
                   "owner": "demo",
@@ -187,7 +187,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 15,
+                "holdoffSec": 45,
                 "notification": [],
                 "assignment": {
                   "owner": "",

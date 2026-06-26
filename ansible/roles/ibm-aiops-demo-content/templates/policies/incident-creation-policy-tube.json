@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": 3,
+                "holdoffSec": 45,
                 "notification": [],
                 "assignment": {
                   "owner": "demo",
