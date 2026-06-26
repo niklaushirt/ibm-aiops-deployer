@@ -180,7 +180,7 @@
     HUB_NS={{ current_ibm_feature.project }}-hub
     HUB_IMAGE_REGISTRY_SUFFIX=/platform-hub
     # OPTIONAL: Set to 'true' to install additional local Hub components needed for integration with products like Turbonomic or Instana.
-    ENABLE_CROSS_PRODUCT_INTEGRATION=false
+    ENABLE_CROSS_PRODUCT_INTEGRATION=true
     SCALE_CONFIG_HUB=level_1
     # storage class for Hub
     STORAGE_CLASS_HUB={{ STORAGE_CLASS_FILE }}
@@ -194,6 +194,14 @@
     SCALE_CONFIG_CONCERT=level_1
     # storage class for Concert
     STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
+
+
+    # Set to true to enable Concert buddy deployment
+    ENABLE_BUDDY=true
+    # Storage class (required if ENABLE_BUDDY is set to true)- pass the storage class name for Concert
+    FILE_STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
+
+
 
     # ----- Data Apps Configuration -----
 
@@ -212,7 +220,7 @@
     # Domain name on which the application will listen
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
     WORKFLOWS_INSTANCE_ADDRESS=$OCP_URL
-
+    WORKFLOWS_INSTALL_ALL_INTEGRATIONS=true
 
 
 

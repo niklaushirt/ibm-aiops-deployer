@@ -151,8 +151,8 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CONCERT PLATFORM ITOM
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"      
-- name: (008/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Platform ITOM
-  include_tasks: 20_concert-platform-install.yaml
+# - name: (008/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Platform ITOM
+#   include_tasks: 20_concert-platform-install.yaml
 
 
 
