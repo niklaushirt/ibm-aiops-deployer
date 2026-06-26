@@ -73,7 +73,7 @@
     mkdir -p /tmp/
     cd  /tmp/
 
-    wget https://github.com/IBM/Concert/releases/download/v3.0.0/ibm-concert-x86.tar.gz
+    wget https://github.com/IBM/Concert/releases/download/{{ current_feature.concert_version | default("v3.0.0") }}/ibm-concert-x86.tar.gz
     tar xfz ibm-concert-x86.tar.gz
     cd /tmp/ibm-concert
     # find . -type f -exec sed -i \
@@ -160,7 +160,7 @@
     
     #cat concert-dataapps-workflows-k8s-params.ini
     # INSTALL_EKS: Set as True if installing on EKS
-    INSTALL_EKS=false
+    INSTALL_EKS={{ current_feature.install_eks | default(false) }}
     # This example is to install Hub, Concert, Data Apps and Workflows on a Kubernetes cluster.
     REG_USER={{ current_feature.prod_user }}
     
@@ -185,9 +185,11 @@
     # storage class for Hub
     STORAGE_CLASS_HUB={{ STORAGE_CLASS_FILE }}
 
+
+
     # ----- Concert Configuration -----
 
-    INSTALL_CONCERT=true
+    INSTALL_CONCERT={{ current_feature.install_concert | default(true) }}
     # namespace for Concert
     CONCERT_NS={{ current_ibm_feature.project }}
     CONCERT_IMAGE_REGISTRY_SUFFIX=/concert
@@ -197,16 +199,17 @@
 
 
     # ----- Concert Secure Coder Configuration -----
+
     # Set to true to enable Concert buddy deployment
-    ENABLE_BUDDY=true
+    ENABLE_BUDDY={{ current_feature.enable_buddy  | default(false) }}
     # Storage class (required if ENABLE_BUDDY is set to true)- pass the storage class name for Concert
     FILE_STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
-    INSTALL_SECURECODER=true
+    INSTALL_SECURECODER={{ current_feature.install_secure_coder | default(false) }}
 
 
     # ----- Data Apps Configuration -----
 
-    INSTALL_DATAAPPS=true
+    INSTALL_DATAAPPS={{ current_feature.install_dataapps | default(true) }}
     # namespace for Data Apps
     DATAAPPS_NS={{ current_ibm_feature.project }}-dataapps
     DATAAPPS_IMAGE_REGISTRY_SUFFIX=/concert
@@ -214,9 +217,11 @@
     # storage class for Dataapps
     STORAGE_CLASS_DATAAPPS={{ STORAGE_CLASS_FILE }}
 
+
+
     # ----- Concert Workflow Configuration -----
 
-    INSTALL_WORKFLOWS=true
+    INSTALL_WORKFLOWS={{ current_feature.install_workflows | default(true) }}
     WORKFLOWS_NS={{ current_ibm_feature.project }}-workflows
     # Domain name on which the application will listen
     # Example: solis-gw-workflows.apps.test.cp.my-domain.com
