@@ -111,10 +111,9 @@ Basically:
 - 🤓 [Demo Setup - Explained](#32-demo-setup---explained)
 - 📦 [Create a custom Scenario](#33-custom-scenarios)
 
-### ❗DEPRECATED❗
+### ❗EXPERIMENTAL❗
 
-- 🚀 [Quick Install - IBM Turbonomic](#61--install-ibm-turbonomic-with-demo-content)
-- 🚀 [Quick Install - IBM Instana (experimental)](#62--install-ibm-instana-with-demo-content)
+- 🚀 [Quick Install - IBM Concert Platform ](#22--install-ibm-concert-platform-experimental)
 
 <div style="page-break-after: always;"></div>
 
@@ -577,7 +576,7 @@ This installation contains:
 <summary>🚀 2.3.2 Installation Instructions </summary>
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/05_INSTALL_IBM_CONCERT_EXPERIMENTAL)
+1. Copy and paste the content from [this file](./Quick_Install/05_INSTALL_IBM_CONCERT_EXPERIMENTAL.yaml)
 1. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
 1. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
 1. Accept the license by setting `accept_all_licenses` to `True` (line 68)
@@ -594,7 +593,7 @@ This installation contains:
 
 Execute the following with your WatsonX Credentials
 
-````bash
+```bash
 export WATSONX_API_KEY=<WATSONX_API_KEY>
 export WATSONX_API_PROJECT_ID=<WATSONX_API_PROJECT_ID>
 export WATSONX_API_URL=https://us-south.ml.cloud.ibm.com
@@ -611,42 +610,26 @@ kubectl patch secret/app-cfg-secret -n $CONCERT_NAMESPACE --type=merge -p '{
 kubectl rollout restart -n $CONCERT_NAMESPACE deployment/roja-py-utils
 ```
 
-
-
-
-
 <div style="page-break-after: always;"></div>
 
 </details>
 
-
-
-
 </details>
-
 
 <details>
 <summary>🔎 2.3.3 Follow the installation progress</summary>
 
-
 - The blue Notification at the top gives you basic information about the running Installation (Name, Version, ...)
 
-	You can open and follow the installation logs by clicking on `Open Logs`
-
-
+  You can open and follow the installation logs by clicking on `Open Logs`
 
 - In addition to this, you also have the bottom Notifications that give you the current step of the Installation
 
-
-
 - When the Installation has succeeded, you get the top green Notification bar
 
-	You can directly open IBM Turbonomic by clicking on the link
+  You can directly open IBM Turbonomic by clicking on the link
 
 </details>
-
-
-
 
 # 3. CloudPak for AIOps
 
