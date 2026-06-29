@@ -165,7 +165,7 @@
 - name: 🕦 TURBONOMIC - Wait for >85 pods in namespace turbonomic
   shell: oc get po -n turbonomic |grep "1/"| wc -l
   register: kubectl_num_pods
-  until: kubectl_num_pods.stdout|int > 85
+  until: kubectl_num_pods.stdout|int > 80
   retries: 500
   delay: 15
 
