@@ -113,7 +113,7 @@
 
 - name: Get Licenses 
   block:
-  - name: 💾 SET Turbo License from Config File - {{ccurrent_feature.turbo_license}} 
+  - name: 💾 SET Turbo License from Config File - {{current_feature.turbo_license}} 
     shell: |
 
       echo "{{current_feature.turbo_license}}" | base64 -d > /tmp/license.lic
