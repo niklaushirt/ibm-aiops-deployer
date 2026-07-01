@@ -121,7 +121,7 @@
   when: current_feature.turbo_license | default("NONE") != "NONE"
 
 - name: 💾 SET Turbo License from Config File - {{output.stdout}} 
-  set_fact: current_turbo_license=output.stdout
+  set_fact: current_turbo_license={{output.stdout}} 
   when: current_feature.turbo_license | default("NONE") != "NONE"
 
 
