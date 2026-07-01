@@ -128,7 +128,7 @@
 # --------------------------------------------------------------------------------------------------------
 # LOAD LICENSE IF PROVIDED
 # --------------------------------------------------------------------------------------------------------
-- name: 🚀 TURBONOMIC - Add License if provided
+- name: 🚀 TURBONOMIC - Add License if provided - {{current_turbo_license}}
   shell: |
     export TURBO_URL={{TURBO_URL}}
 

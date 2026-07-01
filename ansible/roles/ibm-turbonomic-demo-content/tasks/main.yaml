@@ -173,7 +173,7 @@
 
 
 
-- name:  🟣 Check Turbo License"
+- name:  🟣 Check Turbo License - {{current_turbo_license}}"
   debug:
     msg:
     - "** Missing License Information ***********************************************************************"
@@ -189,7 +189,7 @@
 
 
 
-- name:  🟢 Turbo License - OK"
+- name:  🟢 Turbo License - OK - {{current_turbo_license}}"
   debug:
     msg:
     - "** License Information ***********************************************************************"
