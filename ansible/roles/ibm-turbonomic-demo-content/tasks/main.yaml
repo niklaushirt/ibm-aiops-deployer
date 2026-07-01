@@ -108,23 +108,21 @@
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
 - name: 💾 INIT Turbo License to Empty
-  set_fact: current_turbo_license=='NONE'
+  set_fact: current_turbo_license="NONE"
 
 
-- name: Get Licenses 
-  block:
-  - name: 💾 SET Turbo License from Config File - {{current_feature.turbo_license}} 
-    shell: |
+- name: 💾 SET Turbo License from Config File - {{current_feature.turbo_license}} 
+  shell: |
 
-      echo "{{current_feature.turbo_license}}" | base64 -d > /tmp/license.lic
-      #cat /tmp/license.lic
-      
-      echo $result
-    ignore_errors: true
-    register: output
-    args:
-      executable: /bin/bash
-    when: current_feature.turbo_license | default("NONE") != "NONE"
+    echo "{{current_feature.turbo_license}}" | base64 -d > /tmp/license.lic
+    #cat /tmp/license.lic
+    
+    echo $result
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_feature.turbo_license | default("NONE") != "NONE"
 
 
 
