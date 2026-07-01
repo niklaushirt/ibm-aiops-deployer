@@ -107,6 +107,10 @@
 # Check Encrypted Licenses
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
+- name: 💾 INIT Turbo License to Empty
+  set_fact: current_turbo_license=='NONE'
+
+
 - name: Get Licenses 
   block:
   - name: 💾 SET Turbo License from Config File - {{ccurrent_feature.turbo_license}} 
