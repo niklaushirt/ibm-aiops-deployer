@@ -425,6 +425,309 @@
 
 
 
+
+- name:   🚀 IBM Concert - IBM Concert Configuring platform AI agents
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ Register platform AI agents"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+
+
+    # https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-platform-ai-agents
+    export CONCERT_HUB_NAMESPACE="ibm-concert-hub"
+    export HUB_ROUTE=$(oc get route kc -o jsonpath={.spec.host} -n $CONCERT_HUB_NAMESPACE)
+
+    export AGENT_CARD_REGISTRATION_URL="https://$HUB_ROUTE/platform_hub/ai/registry/agent-cards/submit"
+
+    export AUTH_API_KEY="$(kubectl get secret itom-secrets -n $CONCERT_HUB_NAMESPACE -o jsonpath='{ .data.AUTH_API_KEYS }' | base64 --decode)"
+    export KC_DB_USERNAME="$(kubectl get secret app-cfg-oob-secret -n $CONCERT_HUB_NAMESPACE -o jsonpath='{ .data.KC_DB_USERNAME }' | base64 --decode)"
+    export KC_DB_PASSWORD="$(kubectl get secret app-cfg-oob-secret -n $CONCERT_HUB_NAMESPACE -o jsonpath='{ .data.KC_DB_PASSWORD }' | base64 --decode)"
+
+    echo "CONCERT_HUB_NAMESPACE: $CONCERT_HUB_NAMESPACE"
+    echo "HUB_ROUTE: $HUB_ROUTE"
+    echo "AGENT_CARD_REGISTRATION_URL: $AGENT_CARD_REGISTRATION_URL"    
+    echo "AUTH_API_KEY: $AUTH_API_KEY" 
+    echo "KC_DB_USERNAME: $KC_DB_USERNAME"
+    echo "KC_DB_PASSWORD: $KC_DB_PASSWORD"
+
+
+    kubectl exec -it $(kubectl get pods -n $CONCERT_HUB_NAMESPACE | grep ibm-solis-embedded-db | awk '{print $1}') -n $CONCERT_HUB_NAMESPACE -- \
+    psql -U ${KC_DB_USERNAME} -d solisdb \
+    -c "select name, endpoint_url from mcp_gateway.a2a_agents"
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: DASHBOARD_AGENT"
+    DASHBOARD_AGENT_URL="https://ibm-itom-ui-dashboard-agent-svc.$CONCERT_HUB_NAMESPACE.svc.cluster.local:51907"
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    {
+        "metadata": {
+            "name": "ui-dashboard",
+            "agentType": "generic",
+            "author": "admin",
+            "description": "A2A agent for generating ITOM dashboard definitions from natural language",
+            "version": "1.0.0",
+            "display_name": "UI Dashboard Agent",
+            "organization": "itom",
+            "category": "ui-generation"
+        },
+        "configuration": {
+            "endpoint_url": "$DASHBOARD_AGENT_URL",
+            "protocol": "a2a"
+        },
+        "security": {
+            "access_level": "public",
+            "requires_authentication": false,
+            "authentication_type": "none"
+        }
+    }
+    EOF
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: SUMMARIZE_AGENT"
+    SUMMARIZE_AGENT_URL="https://ibm-itom-summarize-agent-svc.$CONCERT_HUB_NAMESPACE.svc.cluster.local:51908"
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    {
+        "metadata": {
+          "name": "ibm-itom-summarize-agent",
+          "agentType": "generic",
+          "author": "admin",
+          "description": "Runs a list of GraphQL queries and narrates the combined results in the format the caller requests (text, Leadspace JSON, or markdown). Input is a concrete list of GraphQL operations - not free-form text, not another agents output. Never use it as a planner step except as part of the data-model-query skill. In other cases use it solely for the execution and summarization",
+          "version": "1.0.0",
+          "display_name": "SummarizeAgent",
+          "organization": "itom",
+          "category": "productivity"
+        },
+        "configuration": {
+            "endpoint_url": "$SUMMARIZE_AGENT_URL",
+            "protocol": "a2a"
+        },
+        "security": {
+            "access_level": "public",
+            "requires_authentication": false,
+            "authentication_type": "none"
+        }
+    }
+    EOF
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: NL_TO_GQL_AGENT"
+    NL_TO_GQL_AGENT_URL="https://ibm-itom-nl-to-gql-agent-svc.$CONCERT_HUB_NAMESPACE.svc.cluster.local:51906"
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    {
+        "metadata": {
+            "name": "nl-to-gql-agent",
+            "agentType": "generic",
+            "author": "admin",
+            "description": "Natural Language to GraphQL Agent",
+            "version": "1.0.0",
+            "display_name": "NL to GraphQL Agent",
+            "organization": "itom",
+            "category": "api-generation"
+        },
+        "configuration": {
+            "endpoint_url": "$NL_TO_GQL_AGENT_URL",
+            "protocol": "a2a"
+        },
+        "security": {
+            "access_level": "public",
+            "requires_authentication": false,
+            "authentication_type": "none"
+        }
+    }
+    EOF
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: FALLBACK_AGENT"
+    FALLBACK_AGENT_URL="https://ibm-itom-fallback-agent-svc.$CONCERT_HUB_NAMESPACE.svc.cluster.local:51910"
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    {
+        "metadata": {
+            "name": "ibm-itom-fallback-agent",
+            "agentType": "generic",
+            "author": "admin",
+            "description": "Fallback agent",
+            "version": "1.0.0",
+            "display_name": "ibm-itom-fallback-agent",
+            "organization": "itom",
+            "category": "general"
+        },
+        "configuration": {
+            "endpoint_url": "$FALLBACK_AGENT_URL",
+            "protocol": "a2a"
+        },
+        "security": {
+            "access_level": "public",
+            "requires_authentication": false,
+            "authentication_type": "none"
+        }
+    }
+    EOF
+
+    # OBSERVABILITY_COORDINATOR_AGENT_URL="https://{OBSERVE_HOST}/a2a"
+
+    # curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+    #   -H "Secret: $AUTH_API_KEY" \
+    #   -H "Content-Type: application/json" \
+    #   -d @- <<EOF
+    # {
+    #     "metadata": {
+    #       "name": "observability-coordinator",
+    #       "agentType": "generic",
+    #       "author": "admin",
+    #       "description": "Observability coordinator",
+    #       "version": "1.0.0",
+    #       "display_name": "observability-coordinator",
+    #       "organization": "itom",
+    #       "category": "observability"
+    #     },
+    #     "configuration": {
+    #         "endpoint_url": "$OBSERVABILITY_COORDINATOR_AGENT_URL",
+    #         "protocol": "a2a"
+    #     },
+    #     "security": {
+    #         "access_level": "public",
+    #         "requires_authentication": false,
+    #         "authentication_type": "none"
+    #     }
+    # }
+    # EOF
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: OPTIMIZATION_COORDINATOR_AGENT"
+    export OPTIMIZE_HOST=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
+    OPTIMIZATION_COORDINATOR_AGENT_URL="https://$OPTIMIZE_HOST/turbonomic/turboai/a2a"
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    {
+        "metadata": {
+          "name": "optimization-coordinator",
+          "agentType": "generic",
+          "author": "admin",
+          "description": "Optimization coordinator",
+          "version": "1.0.0",
+          "display_name": "optimization-coordinator",
+          "organization": "itom",
+          "category": "optimization"
+        },
+        "configuration": {
+            "endpoint_url": "$OPTIMIZATION_COORDINATOR_AGENT_URL",
+            "protocol": "a2a"
+        },
+        "security": {
+            "access_level": "public",
+            "requires_authentication": false,
+            "authentication_type": "none"
+        }
+    }
+    EOF
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: CONCERT_COORDINATOR_AGENT"
+    export CONCERT_HOST=$(oc get route -n ibm-concert concert -o jsonpath={.spec.host})
+    CONCERT_COORDINATOR_AGENT_URL="https://$CONCERT_HOST/concert/py-utils/a2a"
+
+
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    { 
+        "metadata": { 
+          "name": "concert-coordinator", 
+          "agentType": "generic", 
+          "author": "admin", 
+          "description": "Concert coordinator", 
+          "version": "1.0.0", 
+          "display_name": "concert-coordinator", 
+          "organization": "itom", 
+          "category": "protect" 
+        }, 
+        "configuration": { 
+            "endpoint_url": "$CONCERT_COORDINATOR_AGENT_URL", 
+            "protocol": "a2a" 
+        }, 
+        "security": { 
+            "access_level": "public", 
+            "requires_authentication": false, 
+            "authentication_type": "none" 
+        } 
+    } 
+    EOF
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Register: CONCERT_CODE_AGENT_URL"
+    curl -k -X POST "$AGENT_CARD_REGISTRATION_URL" \
+      -H "Secret: $AUTH_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d @- <<EOF
+    { 
+          "metadata": { 
+            "name": "ibm-itom-concert-code-agent", 
+            "agentType": "generic", 
+            "author": "", 
+            "description": "", 
+            "version": "1.0", 
+            "display_name": "ibm-itom-concert-code-agent", 
+            "organization": "itom", 
+            "category": "productivity" 
+        }, 
+        "configuration": { 
+          "endpoint_url": "https://ibm-itom-concert-code-agent-svc:51909", 
+          "protocol": "a2a" 
+        }, 
+        "security": { 
+          "access_level": "restricted", 
+          "requires_authentication": true, 
+          "authentication_type": "api_key" 
+        } 
+    }
+    EOF
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo "    ✅ Registered Agents"
+
+    kubectl exec -it $(kubectl get pods -n $CONCERT_HUB_NAMESPACE | grep ibm-solis-embedded-db | awk '{print $1}') -n $CONCERT_HUB_NAMESPACE -- \
+    psql -U ${KC_DB_USERNAME} -d solisdb \
+    -c "select name, endpoint_url from mcp_gateway.a2a_agents"
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: (curr.create_ocp_notifications | default(true))|bool == true  
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+
+
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |
     cat <<EOF | oc apply -f -

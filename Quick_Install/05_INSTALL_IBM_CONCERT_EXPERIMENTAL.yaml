@@ -29,6 +29,8 @@
 # Installs:
 #
 #  - IBM Concert platform
+#  - IBM Concert Optimise
+#  - Register ITOM and TurboLite with IBM Concert
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
@@ -126,13 +128,77 @@ data:
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
-   
+
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # IBM CONCERT
     # --------------------------------------------------------------------------------------------------------------------------------------
-   
+
+    - project: ibm-turbonomic
+      instances:
+
+      - name: ibm-turbonomic
+        kind: IBMTurbonomic
+        install: true
+        turbo_version: 8.20.2
+
+        # Only install Turbo Lite (no additional add-ons) if set to true - as Concert platform Backend
+        turbo_lite: true
+
+        # --------------------------------------------------------------------------------------------------------------------------------------
+        # Storage Classes Override for this Instance (see comment below)
+        # --------------------------------------------------------------------------------------------------------------------------------------
+        #storage_class_file: automatic
+        #storage_class_block: automatic
+
+
+      - name: ibm-turbonomic-demo-content
+        kind: IBMTurbonomicDemoContent
+        install: true
+        # Admin User Password (OVERRIDES GLOBAL PASSWORD)
+        #turbo_admin_password: CHANGEME
+
+        # ---------------------------------------------------------------------
+        # Turbo License (optional, must be base64 encoded)
+        turbo_license: NONE
+
+
+
+        # ---------------------------------------------------------------------
+        # Create Demo User
+        create_user: true
+        # Demo User Name
+        demo_user: demo
+        # Demo User Password (OVERRIDES GLOBAL PASSWORD)
+        #turbo_demo_password: CHANGEME
+        # ---------------------------------------------------------------------
+        # Create Groups
+        group_vcenter_vms: false
+        group_robotshop: false
+        group_licensing: false
+        # ---------------------------------------------------------------------
+        # Create Demo Apps
+        install_demoapps: false
+        # ---------------------------------------------------------------------
+        # Create a custom app to show links to all installed IT Automation Products
+        create_home_ui: false
+        # ---------------------------------------------------------------------
+        # Create Targets
+        target_instana: false
+        # ---------------------------------------------------------------------
+        # Create Memory and CPU hogs
+        resource_hogs: false
+        # ---------------------------------------------------------------------
+        # Create Metrics server, DIF integration and RobotShop BuisnessApp
+        metrics_dif: false
+        # ---------------------------------------------------------------------
+        # Create a valid ingress certificate when on ITZ
+        create_valid_ingress_itz: false
+
+
+
+
     - project: ibm-concert
       instances:
       - name: ibm-concert
@@ -179,6 +245,9 @@ data:
         # INSTALL_EKS: Set as True if installing on EKS
         install_eks: false
 
+        # Integrate Concert with ITOM and TurboLite
+        integrate_itom_turboLite: true
+
 
 
 
@@ -197,7 +266,6 @@ data:
         # DEMO CONTENT
         install_demo_content: false
         install_demoapps: true
-
         # ---------------------------------------------------------------------
         # Create a custom app to show links to all installed IT Automation Products
         create_home_ui: false
@@ -205,7 +273,7 @@ data:
 
         # ---------------------------------------------------------------------
         # LDAP
-        install_ldap: true
+        install_ldap: false
         # ldap domain
         ldap_domain: ibm.com
         # ldap base
