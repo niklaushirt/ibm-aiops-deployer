@@ -131,7 +131,18 @@
     state: present
     namespace: turbonomic
     template: ./templates/turbonomic/turbo-instance.j2
+  when: (current_feature.turbo_lite | default(false))|bool == false  
+
+
+
+- name: 🚀 TURBONOMIC - Create Turbonomic Lite Instance
+  kubernetes.core.k8s:
+    state: present
+    namespace: turbonomic
+    template: ./templates/turbonomic/turbo-instance_lite.j2
+  when: (current_feature.turbo_lite | default(false))|bool == true  
   
+
 
 - name: 🕦 TURBONOMIC - Wait for 120 seconds
   shell: sleep 120

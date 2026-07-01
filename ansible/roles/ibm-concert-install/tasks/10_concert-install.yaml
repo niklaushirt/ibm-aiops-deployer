@@ -310,6 +310,119 @@
 #   delay: 15
 
 
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - IBM Concert Integfrate ITOM and TurboLite'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+
+
+
+- name:   🚀 IBM Concert - IBM Concert Integfrate ITOM and TurboLite
+  shell: |
+    export TURBO_URL=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ Register Turbo with ITOM"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    export CONCERT_HUB_NAMESPACE={{ current_ibm_feature.project }}-hub
+    export TURBOLITE_URL="https://$TURBO_URL"
+    export TURBOLITE_USER="Administrator"
+    export TURBOLITE_PASSWORD={{ global_config.global_password }}
+    export APIKEY=$(kubectl -n "${CONCERT_HUB_NAMESPACE}" \
+      get secret itom-secrets \
+      -o jsonpath="{.data.BACKEND_APIKEY}" | base64 -d)
+    
+    echo "TURBO_URL:  $TURBO_URL"
+    echo "CONCERT_HUB_NAMESPACE:  $CONCERT_HUB_NAMESPACE"
+    echo "TURBOLITE_URL:  $TURBOLITE_URL"
+    echo "TURBOLITE_USER:  $TURBOLITE_USER"
+    echo "TURBOLITE_PASSWORD:  $TURBOLITE_PASSWORD"
+    echo "APIKEY:  $APIKEY"
+
+    kubectl -n "${CONCERT_HUB_NAMESPACE}" exec deployment/ibm-itom-data-model-backend -- \
+    bash -c "curl -k -X POST https://localhost:7531/api/v1/registerGroupWithTurboLite \
+      -H \"x-api-key: ${APIKEY}\" \
+      -H 'Content-Type: application/json' \
+      -d '{
+        \"group_id\": \"0000-0000-0000-0000-default\",
+        \"account_id\": \"0000-0000-0000-0000\",
+        \"turbolite_endpoint\": \"${TURBOLITE_URL}\",
+        \"turbolite_user\": \"${TURBOLITE_USER}\",
+        \"turbolite_password\": \"${TURBOLITE_PASSWORD}\"
+      }'"
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ Register Turbo with Platform"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    # Concert Observe: instana
+    # Concert Optimize: turbonomic
+    # Concert Protect and Concert Resilience: concert
+    # Workflows: workflows
+    # Data Apps: dataapps
+
+
+    kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- ls -al /tmp/ibm-concert/concert-hub/bin/
+    kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- /tmp/ibm-concert/concert-hub/bin/manage-product.sh --action=add --deployment-type=k8s --product-id=turbonomic --instance-url=https://$TURBO_URL --namespace={{ current_ibm_feature.project }}-hub --restart-hub=true
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ Keycloak Credentials"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    kubectl apply -f - <<EOF
+    kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: kc
+      namespace: ibm-concert-hub
+    spec:
+      to:
+        kind: Service
+        name: ibm-solis-hub-gw-svc
+        weight: 100
+      port:
+        targetPort: external
+      tls:
+        termination: passthrough
+        insecureEdgeTerminationPolicy: Redirect
+      wildcardPolicy: None
+    EOF
+
+
+    export KC_USER=$(kubectl exec -it $(kubectl get pods -n ibm-concert-hub | grep "ibm-solis-embedded-keycloak" | awk '{print $1}') -n ibm-concert-hub -- env | grep 'KC_BOOTSTRAP_ADMIN_USERNAME='| cut -d= -f2)
+    export KC_PWD=$(kubectl exec -it $(kubectl get pods -n ibm-concert-hub | grep "ibm-solis-embedded-keycloak" | awk '{print $1}') -n ibm-concert-hub -- env | grep 'KC_BOOTSTRAP_ADMIN_PASSWORD='| cut -d= -f2)
+    export KC_ROUTE=$(oc get route kc -o jsonpath={.spec.host} -n $CONCERT_HUB_NAMESPACE)
+
+    echo "KC_USER:        $KC_USER"
+    echo "KC_PWD:         $KC_PWD"
+    echo "KC_ROUTE:       https://$KC_ROUTE/sys/internal/kc"
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+
 
 - name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
   shell: |

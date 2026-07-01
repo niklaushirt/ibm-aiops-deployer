@@ -185,7 +185,7 @@ data:
         # Create Metrics server, DIF integration and RobotShop BuisnessApp
         metrics_dif: true
         # ---------------------------------------------------------------------
-        # Turbo License (optional)
+        # Turbo License (optional, must be base64 encoded)
         turbo_license: NONE
         # ---------------------------------------------------------------------
         # Create a valid ingress certificate when on ITZ

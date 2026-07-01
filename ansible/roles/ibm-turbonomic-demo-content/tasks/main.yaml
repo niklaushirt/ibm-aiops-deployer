@@ -109,8 +109,20 @@
 # *************************************************************************************************************************************************
 - name: Get Licenses 
   block:
-  - name: 💾 SET Turbo License from Config File - {{current_feature.turbo_license | default("NONE")}} 
-    set_fact: current_turbo_license={{current_feature.turbo_license| default("NONE")}}
+  - name: 💾 SET Turbo License from Config File - {{ccurrent_feature.turbo_license}} 
+    shell: |
+
+      echo "{{current_feature.turbo_license}}" | base64 -d > /tmp/license.lic
+      #cat /tmp/license.lic
+      
+      echo $result
+    ignore_errors: true
+    register: output
+    args:
+      executable: /bin/bash
+    when: current_feature.turbo_license | default("NONE") != "NONE"
+
+
 
 
 - name: Get Licenses from Env Variable
