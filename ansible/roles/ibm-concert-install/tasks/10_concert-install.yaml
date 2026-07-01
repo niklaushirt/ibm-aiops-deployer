@@ -330,7 +330,7 @@
 
 
 
-- name:   🚀 IBM Concert - IBM Concert Integfrate ITOM and TurboLite
+- name:   🚀 IBM Concert - IBM Concert Integrate ITOM and TurboLite
   shell: |
     export TURBO_URL=$(oc get route -n turbonomic nginx -o jsonpath={.spec.host})
 
@@ -414,6 +414,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
+  when: (curr.create_ocp_notifications | default(true))|bool == true  
 
 - name: 🟣  OUTPUT
   debug: 
@@ -440,7 +441,7 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: (global_config.create_ocp_notifications | default(true))|bool == true  
+  when: (current_feature.integrate_itom_turboLite | default(true))|bool == true  
 
 
 
