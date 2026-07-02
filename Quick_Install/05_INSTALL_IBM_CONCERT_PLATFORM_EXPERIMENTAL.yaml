@@ -252,6 +252,7 @@ data:
         registerAgents: true
 
         # Configure AI Features (WatsonX)
+        # See here https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform
         enableWatsonX: false
         watsonx_url: https://us-south.ml.cloud.ibm.com
         watsonx_projectid: CHANGEME

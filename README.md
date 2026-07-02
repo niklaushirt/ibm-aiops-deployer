@@ -152,7 +152,7 @@ Techzone interface changest constantly. Below steps are indicative but should ge
    ![K8s CNI](./doc/pics/roks03.png)
 
 1. Select Openshift Version
-   - Select: **4.18 or 4.19**
+   - Select: **4.18 or 4.19** (or up to 4.22 if available)
 
    ![K8s CNI](./doc/pics/roks07.png)
 
@@ -559,6 +559,8 @@ You can chose from the following:
 ❗In order to install Concert platform you need a valid Turbonomic key ❗
 ❗If you don't provide one (it will still install) you will miss some features❗
 
+If you have any questions please read up here first https://www.ibm.com/docs/en/concert-platform?topic=platform-overview
+
 <details>
 <summary>📦 2.3.1 What will be installed</summary>
 
@@ -638,7 +640,7 @@ kubectl rollout restart -n $CONCERT_NAMESPACE deployment/roja-py-utils
 
 </details>
 
-# 3. CloudPak for AIOps
+# 3. IBM Concert Operate (CloudPak for AIOps)
 
 ---
 
