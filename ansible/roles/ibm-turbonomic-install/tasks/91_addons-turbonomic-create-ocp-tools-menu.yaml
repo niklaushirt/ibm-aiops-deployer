@@ -59,7 +59,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: Turbonomic
+        text: IBM Concert Optimize
     EOF
   ignore_errors: true
   args:

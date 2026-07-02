@@ -54,12 +54,12 @@
       spec:
         applicationMenu:
           imageURL: >-
-            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-cloud-pak--business-automation-white.svg
+            https://raw.githubusercontent.com/niklaushirt/ibm-aiops-deployer/main/doc/pics/icons/ibm-aiops5.svg
           section: IBM IT Automation
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM Concert
+        text: IBM Concert platform
     EOF
   ignore_errors: true
   args:
