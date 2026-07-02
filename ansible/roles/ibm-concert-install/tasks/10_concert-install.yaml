@@ -414,14 +414,12 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: (curr.create_ocp_notifications | default(true))|bool == true  
+  when: (current_feature.integrate_itom_turboLite | default(true))|bool == true  
 
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1
-
-
 
 
 
@@ -717,12 +715,82 @@
   ignore_errors: true
   args:
     executable: /bin/bash
-  when: (curr.create_ocp_notifications | default(true))|bool == true  
+  when: (current_feature.registerAgents | default(true))|bool == true  
 
 - name: 🟣  OUTPUT
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1
+
+
+
+
+
+
+
+
+
+- name:   🚀 IBM Concert - IBM Concert Register WatsonX
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ Register WatsonX"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    
+
+    # echo "------------------------------------------------------------------------------------------------------------------------------"
+    # echo " 🚀 Enable WatsonX"
+    export CONCERT_NAMESPACE=ibm-concert
+    export CONCERT_HUB_NAMESPACE=$CONCERT_NAMESPACE-hub
+    export WATSONX_API_KEY={{current_feature.watsonx_token}}
+    export WATSONX_API_PROJECT_ID={{current_feature.watsonx_projectid}}
+    export WATSONX_API_URL={{current_feature.watsonx_url}}
+
+    echo "CONCERT_NAMESPACE: $CONCERT_NAMESPACE"
+    echo "CONCERT_HUB_NAMESPACE: $CONCERT_HUB_NAMESPACE"
+    echo "WATSONX_API_KEY: $WATSONX_API_KEY"
+    echo "WATSONX_API_PROJECT_ID: $WATSONX_API_PROJECT_ID"
+    echo "WATSONX_API_URL: $WATSONX_API_URL"
+
+
+    kubectl patch secret/app-cfg-secret -n $CONCERT_NAMESPACE --type=merge -p '{
+      "data": {
+        "WATSONX_API_KEY": "'$(echo -n $WATSONX_API_KEY | base64 )'",
+        "WATSONX_API_PROJECT_ID": "'$(echo -n "$WATSONX_API_PROJECT_ID" | base64 )'",
+        "WATSONX_API_URL": "'$(echo -n "$WATSONX_API_URL" | base64 )'"
+      }
+    }'
+    kubectl rollout restart -n $CONCERT_NAMESPACE deployment/roja-py-utils
+
+
+    api_val=$(echo -n "$WATSONX_API_KEY" | base64 -w0)
+    proj_val=$(echo -n "$WATSONX_PROJECT_ID" | base64 -w0)
+    url_val=$(echo -n "$WATSONX_API_URL" | base64 -w0)
+    user_val=$(echo -n "$WATSONX_USERNAME" | base64 -w0)
+
+    kubectl get -n $CONCERT_HUB_NAMESPACE secret/itom-secrets -o json \
+    | jq ".data += {\"WATSONX_API_KEY\": \"$api_val\"}" \
+    | jq ".data += {\"WATSONX_PROJECT_ID\": \"$proj_val\"}" \
+    | jq ".data += {\"WATSONX_URL\": \"$url_val\"}" \
+    | kubectl apply -n $CONCERT_HUB_NAMESPACE -f -
+
+    kubectl rollout restart -n $CONCERT_HUB_NAMESPACE deployment/ibm-itom-ui-dashboard-agent
+
+    kubectl rollout restart -n $CONCERT_HUB_NAMESPACE deployment/ibm-itom-nl-to-gql-agent
+
+    kubectl rollout restart -n $CONCERT_HUB_NAMESPACE deployment/ibm-itom-summarize-agent
+
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: (current_feature.enableWatsonX | default(false))|bool == true  
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
 
 
 

@@ -160,7 +160,7 @@ data:
         #turbo_admin_password: CHANGEME
 
         # ---------------------------------------------------------------------
-        # Turbo License (optional, must be base64 encoded)
+        # Turbo License (must be base64 encoded)
         turbo_license: NONE
 
 
@@ -247,6 +247,15 @@ data:
 
         # Integrate Concert with ITOM and TurboLite
         integrate_itom_turboLite: true
+
+        # Configure platform AI agents
+        registerAgents: true
+
+        # Configure AI Features (WatsonX)
+        enableWatsonX: false
+        watsonx_url: https://us-south.ml.cloud.ibm.com
+        watsonx_projectid: CHANGEME
+        watsonx_token: CHANGEME
 
 
 

@@ -556,12 +556,16 @@ You can chose from the following:
 
 #### 🚀 Get IBM Concert platform installed in one simple script.
 
+❗In order to install Concert platform you need a valid Turbonomic key ❗
+❗If you don't provide one (it will still install) you will miss some features❗
+
 <details>
 <summary>📦 2.3.1 What will be installed</summary>
 
 This installation contains:
 
 > - **IBM Concert platform**
+> - **IBM Concert Optimize (Turbonomic) either Full or Lite**
 > - **Demo Applications**
 >   - RobotShop Demo App
 >   - SockShop Demo App
@@ -576,9 +580,12 @@ This installation contains:
 <summary>🚀 2.3.2 Installation Instructions </summary>
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
-1. Copy and paste the content from [this file](./Quick_Install/05_INSTALL_IBM_CONCERT_EXPERIMENTAL.yaml)
+1. Copy and paste the content from [this file](./Quick_Install/05_INSTALL_IBM_CONCERT_PLATFORM_EXPERIMENTAL.yaml)
 1. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
 1. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
+1. In `turbo_license` (line 164) provide your licence for Concert Optimize/Turbonomic in base64 (run `cat turbo.lic|base64`)
+1. If you want a full Concert Optimize/Turbonomic installed, set `turbo_lite` (line 147) `True`
+1. If you want AI features enbaled, set `enableWatsonX` to `True` (line 255) and provide your `watsonx_projectid` and `watsonx_token`
 1. Accept the license by setting `accept_all_licenses` to `True` (line 68)
 1. Click `Create`
 
