@@ -58,7 +58,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM AIOps Demo UI
+        text: IBM Concert Operate Demo UI
     EOF
   ignore_errors: true
   args:

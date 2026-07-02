@@ -14,3 +14,6 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'demoui.settings')
 
 application = get_wsgi_application()
+
+# Force eager import so --preload actually warms up views and functions
+import demouiapp.views  # noqa: F401

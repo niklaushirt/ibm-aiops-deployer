@@ -11,29 +11,29 @@
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
 #  Installing IBM IT Automation Solutoions
 #
-#  IBM Concert
+#  IBM Concert platform
 #
 #  ©2026 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-base-open-shift
-#   Type:               OpenShift Cluster (OCP-V) - IBM Cloud
-#   Worker node count:  4
+# Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images
+#   Type:               VMWare on IBM Cloud / UPI Public
+#   Worker node count:  3
 #   Flavour:            16x64 ❗ 
-#   OpenShift Version:  4.18
-#   Storage:            300GB ephemeral storage
+#   OpenShift Version:  4.14
+#   Storage:            ODF 500GB or Managed NFS - 2TB 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - IBM Concert
-#  - IBM Concert Demo Content
+#  - IBM Concert platform
+#  - IBM Concert Optimise
+#  - Register ITOM and TurboLite with IBM Concert
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
-
 apiVersion: v1                     
 kind: Namespace
 metadata:
@@ -59,7 +59,7 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Passwords and Licenses
       # --------------------------------------------------------------------------------------------------------------------------------------
-      # Use this Password for all Instances - do NOT use the "-" character
+      # Use this Password for all Instances
       global_password: CHANGEME
 
 
@@ -108,7 +108,7 @@ data:
     openshift:
 
     - name: "mycluster"
-      ocp_version: "4.18"
+      ocp_version: "4.15"
       cluster_name: "mycluster"
       domain_name: example.com
       openshift_storage:
@@ -128,13 +128,77 @@ data:
     # IBM IT AUTOMATION - INSTALLATION Configuration
     #--------------------------------------------------------------------------------------------------------------------------------------
     #*************************************************************************************************************************************************
-   
+
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
     # IBM CONCERT
     # --------------------------------------------------------------------------------------------------------------------------------------
-   
+
+    - project: ibm-turbonomic
+      instances:
+
+      - name: ibm-turbonomic
+        kind: IBMTurbonomic
+        install: true
+        turbo_version: 8.20.2
+
+        # Only install Turbo Lite (no additional add-ons) if set to true - as Concert platform Backend
+        turbo_lite: true
+
+        # --------------------------------------------------------------------------------------------------------------------------------------
+        # Storage Classes Override for this Instance (see comment below)
+        # --------------------------------------------------------------------------------------------------------------------------------------
+        #storage_class_file: automatic
+        #storage_class_block: automatic
+
+
+      - name: ibm-turbonomic-demo-content
+        kind: IBMTurbonomicDemoContent
+        install: true
+        # Admin User Password (OVERRIDES GLOBAL PASSWORD)
+        #turbo_admin_password: CHANGEME
+
+        # ---------------------------------------------------------------------
+        # Turbo License (must be base64 encoded)
+        turbo_license: NONE
+
+
+
+        # ---------------------------------------------------------------------
+        # Create Demo User
+        create_user: true
+        # Demo User Name
+        demo_user: demo
+        # Demo User Password (OVERRIDES GLOBAL PASSWORD)
+        #turbo_demo_password: CHANGEME
+        # ---------------------------------------------------------------------
+        # Create Groups
+        group_vcenter_vms: false
+        group_robotshop: false
+        group_licensing: false
+        # ---------------------------------------------------------------------
+        # Create Demo Apps
+        install_demoapps: false
+        # ---------------------------------------------------------------------
+        # Create a custom app to show links to all installed IT Automation Products
+        create_home_ui: false
+        # ---------------------------------------------------------------------
+        # Create Targets
+        target_instana: false
+        # ---------------------------------------------------------------------
+        # Create Memory and CPU hogs
+        resource_hogs: false
+        # ---------------------------------------------------------------------
+        # Create Metrics server, DIF integration and RobotShop BuisnessApp
+        metrics_dif: false
+        # ---------------------------------------------------------------------
+        # Create a valid ingress certificate when on ITZ
+        create_valid_ingress_itz: false
+
+
+
+
     - project: ibm-concert
       instances:
       - name: ibm-concert
@@ -144,7 +208,58 @@ data:
         # ---------------------------------------------------------------------
         # CONCERT REGISTRY
         prod_registry: cp.icr.io/cp
+        private_registry_location: cp.icr.io/cp
         prod_user: cp
+
+        # ---------------------------------------------------------------------
+        # CONCERT VERSION - check https://github.com/IBM/Concert/releases
+        concert_version: v3.0.0
+
+        # ---------------------------------------------------------------------
+        # PROJECT SETTINGS
+        project_operator: ibm-concert-operators 
+        project_instance: ibm-concert 
+
+        # ---------------------------------------------------------------------
+        # CONTAINER RUNTIME
+        docker_exe: podman 
+
+        # ---------------------------------------------------------------------
+        # INSTALL MODULES
+        # INSTALL_CONCERT: Set as true if Concert should be installed
+        install_concert: true
+
+        # INSTALL_DATAAPPS: Set as true if Data Apps should be installed
+        install_dataapps: true
+
+        # INSTALL_WORKFLOWS: Set as true if Concert Workflows should be installed
+        install_workflows: true
+
+        # INSTALL_SECURECODER: Set to true if Secure Coder should be installed
+        # Secure Coder integrates with Mend for security and vulnerability scanning 
+        install_secure_coder: true
+
+        # Set to true to enable Concert buddy deployment
+        enable_buddy: true
+
+        # INSTALL_EKS: Set as True if installing on EKS
+        install_eks: false
+
+        # Integrate Concert with ITOM and TurboLite
+        integrate_itom_turboLite: true
+
+        # Configure platform AI agents
+        registerAgents: true
+
+        # Configure AI Features (WatsonX)
+        # See here https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform
+        enableWatsonX: false
+        watsonx_url: https://us-south.ml.cloud.ibm.com
+        watsonx_projectid: CHANGEME
+        watsonx_token: CHANGEME
+
+
+
 
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
@@ -155,21 +270,20 @@ data:
 
       - name: ibm-concert-demo-content
         kind: IBMConcertDemoContent
-        install: false
+        install: true
 
         # ---------------------------------------------------------------------
         # DEMO CONTENT
-        install_demo_content: true
+        install_demo_content: false
         install_demoapps: true
-
         # ---------------------------------------------------------------------
         # Create a custom app to show links to all installed IT Automation Products
-        create_home_ui: true
+        create_home_ui: false
         
 
         # ---------------------------------------------------------------------
         # LDAP
-        install_ldap: true
+        install_ldap: false
         # ldap domain
         ldap_domain: ibm.com
         # ldap base
@@ -198,8 +312,7 @@ data:
 
 
 
-# export PROJECT_INSTANCE=ibm-concert
-# /tmp/concert/ibm-concert/ibm-concert-manage.sh get-concert-instance-details
+
 
 
 
@@ -258,7 +371,7 @@ spec:
       serviceAccount: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.1
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
@@ -331,13 +444,16 @@ spec:
               # echo ""
               # echo ""
 
-
+              echo "   Follow install at tail -f /tmp/ibm-concert/localstorage/logs/product_install_logs_xxxxx_yyyyy.log"
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
               ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
               echo ""
               echo ""
+
+
+
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo "  ⏳ INSTALLATION END TIMESTAMP: $(date)"

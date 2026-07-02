@@ -105,7 +105,7 @@ data:
       # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:aa0a318470c0ce6f1bb9f88a6596b4245f1474984bcb4f626a1c4c34e77e936b
       # catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:7db104300876c180c30df3ba6aa70ac4c6fc78ad307b067eb19291fdfb88c59e
       catalog_image: icr.io/cpopen/ibm-aiops-catalog@sha256:294adebdcbfb1dec82d598b4b8439c40ea51e308548207a537ff69bfdca75701
-      current_supported_aiops_version: v4.13
+      current_supported_aiops_version: v5.1
 
 
 
@@ -185,7 +185,7 @@ data:
         # Name of the ibm-aiops instance
         aiops_name: ibm-aiops
         # Version of the catalog subscription
-        subscription_channel: v4.13
+        subscription_channel: v5.1
 
         # Enable Log Anomaly and Similar Tickets
         logAnomalyDetection: true
@@ -327,6 +327,8 @@ data:
         # Create Policy for Story Creation
         create_incident_policy: true
 
+        # Create Policies for Metric Threshold Violations
+        threshold_metrics: false
 
         # Create Service Account
         create_account: true
@@ -437,7 +439,7 @@ spec:
       serviceAccount: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:

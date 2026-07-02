@@ -25,5 +25,4 @@ staticfiles/
 .ruff_cache/
 pip-wheel-metadata/
 
-
-
+doc/.DS_Store

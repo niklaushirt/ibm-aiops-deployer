@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: load-metric-cassandra-merge
+  name: load-metric-postgres-merge
   namespace: ibm-installer
   labels:
    aiops-type: data-load-job
@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: load
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:

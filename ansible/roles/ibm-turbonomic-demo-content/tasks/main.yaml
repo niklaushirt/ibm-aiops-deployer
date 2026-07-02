@@ -107,10 +107,23 @@
 # Check Encrypted Licenses
 # --------------------------------------------------------------------------------------------------------------------------------------
 # *************************************************************************************************************************************************
-- name: Get Licenses 
-  block:
-  - name: 💾 SET Turbo License from Config File - {{current_feature.turbo_license | default("NONE")}} 
-    set_fact: current_turbo_license={{current_feature.turbo_license| default("NONE")}}
+- name: 💾 INIT Turbo License to Empty
+  set_fact: current_turbo_license="NONE"
+
+
+- name: 💾 DECODE Turbo License from Config File - {{current_feature.turbo_license}} 
+  shell: |
+    echo "{{current_feature.turbo_license}}" | base64 -d
+  ignore_errors: true
+  register: output
+  args:
+    executable: /bin/bash
+  when: current_feature.turbo_license | default("NONE") != "NONE"
+
+- name: 💾 SET Turbo License from Config File - {{output.stdout}} 
+  set_fact: current_turbo_license={{output.stdout}} 
+  when: current_feature.turbo_license | default("NONE") != "NONE"
+
 
 
 - name: Get Licenses from Env Variable
@@ -160,7 +173,7 @@
 
 
 
-- name:  🟣 Check Turbo License"
+- name:  🟣 Check Turbo License - {{current_turbo_license}}"
   debug:
     msg:
     - "** Missing License Information ***********************************************************************"
@@ -176,7 +189,7 @@
 
 
 
-- name:  🟢 Turbo License - OK"
+- name:  🟢 Turbo License - OK - {{current_turbo_license}}"
   debug:
     msg:
     - "** License Information ***********************************************************************"

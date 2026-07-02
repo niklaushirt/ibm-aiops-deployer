@@ -20,6 +20,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
 
+
 export TEMP_PATH=~/aiops-install
 export ERROR_STRING=""
 export WARNING_STRING=""
@@ -76,19 +77,14 @@ function handleWarning(){
     then
         WARNING_STATE=true
         WARNING_STRING=$WARNING_STRING"\n ⚠️  $CURRENT_WARNING_STRING"
-        echo "      "
-        echo "      "
-        echo "      ⚠️ ***************************************************************************************************************************************************"
-        echo "      ⚠️ ***************************************************************************************************************************************************"
-        echo "      ⚠️   The following warning was found: "
-        echo "      ⚠️ "
-        echo "      ⚠️       ⚠️  $CURRENT_WARNING_STRING"; 
-        echo "      ⚠️ "
-        echo "      ⚠️ ***************************************************************************************************************************************************"
-        echo "      ⚠️ ***************************************************************************************************************************************************"
-        echo "      "
-        echo "      "
-
+        echo "        ⚠️ ***************************************************************************************************************************************************"
+        echo "        ⚠️ ***************************************************************************************************************************************************"
+        echo "        ⚠️   The following warning was found: "
+        echo "        ⚠️ "
+        echo "        ⚠️       ⚠️  $CURRENT_WARNING_STRING"; 
+        echo "        ⚠️ "
+        echo "        ⚠️ ***************************************************************************************************************************************************"
+        echo "        ⚠️ ***************************************************************************************************************************************************"
     fi
 }
 
@@ -112,7 +108,7 @@ function check_array_crd(){
                   echo "      ⭕ $ELEMENT not present"; 
                   echo ""
             else
-                  echo "      ✅ OK: $ELEMENT"; 
+                  echo "          ✅ OK: $ELEMENT"; 
 
             fi
       done
@@ -137,7 +133,7 @@ function check_array(){
                   echo "      ⭕ $ELEMENT not present"; 
                   echo ""
             else
-                  echo "      ✅ OK: $ELEMENT"; 
+                  echo "          ✅ OK: $ELEMENT"; 
 
             fi
       done
@@ -167,12 +163,13 @@ function check_array(){
       echo "  ------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
       echo "   🛠️  Get Namespaces"
+      export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+      echo "          IBM AIOps Namespace: $AIOPS_NAMESPACE"
 
-        export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
-      echo "        IBM AIOps Namespace: $AIOPS_NAMESPACE"
 
+      echo "   🌐  Get Cluster Route"
+      oc create route passthrough --insecure-policy="Redirect" aiops-opensearch -n $AIOPS_NAMESPACE --service="aiops-opensearch" --port="http"
 
-      echo "   🛠️  Get Cluster Route"
 
         CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
         CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')
@@ -180,42 +177,42 @@ function check_array(){
 
 
 
-      echo "   🛠️  Get API Route"
+      echo "   🌐  Get API Route"
       oc create route passthrough ai-platform-api -n $AIOPS_NAMESPACE  --service=aimanager-aio-ai-platform-api-server --port=4000 --insecure-policy=Redirect --wildcard-policy=None>/dev/null 2>/dev/null
       export ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
-      echo "        Route: $ROUTE"
-      echo "   🛠️  Getting ZEN Token"
-     
-
+      echo "          Route: $ROUTE"
+      
+      
+      echo "   🔐  Getting ZEN Token"
       export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
       export CONSOLE_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cp-console  -o jsonpath={.spec.host})          
       export CPD_ROUTE=$(oc get route -n $AIOPS_NAMESPACE cpd  -o jsonpath={.spec.host})          
       export CPADMIN_PWD=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_password}' | base64 -d && echo)
       export CPADMIN_USER=$(oc -n $AIOPS_NAMESPACE get secret platform-auth-idp-credentials -o jsonpath='{.data.admin_username}' | base64 -d && echo)
-      echo "        CPADMIN_USER: $CPADMIN_USER"
-      echo "        CPADMIN_PWD: $CPADMIN_PWD"
+
       export ACCESS_TOKEN=$(curl -s -k -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8" -d "grant_type=password&username=$CPADMIN_USER&password=$CPADMIN_PWD&scope=openid" https://$CONSOLE_ROUTE/idprovider/v1/auth/identitytoken|jq -r '.access_token')
       export ZEN_API_HOST=$(oc get route -n $AIOPS_NAMESPACE cpd -o jsonpath='{.spec.host}')
       export ZEN_TOKEN=$(curl -s -k -XGET https://$ZEN_API_HOST/v1/preauth/validateAuth \
       -H "username: $CPADMIN_USER" \
       -H "iam-token: $ACCESS_TOKEN"|jq -r '.accessToken')
-      echo $ZEN_TOKEN
-
-
-      echo "        Sucessfully logged in" 
+      
+      echo "             🙎‍♂️ CPADMIN_USER:   $CPADMIN_USER"
+      echo "             🔐 CPADMIN_PWD:     $CPADMIN_PWD"
+      echo "             🔐 ZEN_TOKEN:       ${ZEN_TOKEN:0:25}....."
+      echo ""
+      echo ""
+      
+      echo "          ✅ OK:Sucessfully logged in" 
 
       echo ""
       echo ""
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "   🚀  CHECK IBMAIOPS Basic Installation...." 
+      echo "   🚀  CHECK IBMAIOPS Operators" 
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
       echo "    🔎 Installed Openshift Operator Versions"
       oc get -n $AIOPS_NAMESPACE ClusterServiceVersion | sed 's/^/       /'
       echo ""
-
-
-
 
 
       export PODS_COUNT=$(oc get pods -n $AIOPS_NAMESPACE | grep -v "Completed"| grep "Running" | grep -c "")
@@ -255,6 +252,12 @@ EOF
       fi
 
 
+      echo ""
+      echo ""
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo "   🚀  CHECK IBMAIOPS Demo Namespaces" 
+      echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
+      echo ""
 
     checkNamespace () {
       echo "    🔎 Pods not ready in Namespace $CURRENT_NAMESPACE"
@@ -267,13 +270,13 @@ EOF
             export CURRENT_WARNING_STRING="$ERROR_PODS_COUNT Pods not running in Namespace "$CURRENT_NAMESPACE"  \n"$ERROR_PODS
             handleWarning
       else  
-            echo "       ✅ OK: All Pods running and ready in Namespace $CURRENT_NAMESPACE"; 
+            echo "          ✅ OK: All Pods running and ready in Namespace $CURRENT_NAMESPACE"; 
       fi
+      echo ""
+      echo ""
     }
 
 
-      export CURRENT_NAMESPACE=ibm-licensing
-      checkNamespace
 
       export CURRENT_NAMESPACE=ibm-cert-manager
       checkNamespace
@@ -281,11 +284,22 @@ EOF
       export CURRENT_NAMESPACE=$AIOPS_NAMESPACE
       checkNamespace
 
+      export CURRENT_NAMESPACE=awx
+      checkNamespace
+
+      export CURRENT_NAMESPACE=openldap
+      checkNamespace
 
       export CURRENT_NAMESPACE=awx
       checkNamespace
 
-      export CURRENT_NAMESPACE=turbonomic
+      export CURRENT_NAMESPACE=ibm-aiops-demo-ui
+      checkNamespace
+
+      export CURRENT_NAMESPACE=sock-shop
+      checkNamespace
+
+      export CURRENT_NAMESPACE=robot-shop
       checkNamespace
 
       
@@ -303,15 +317,11 @@ EOF
       echo ""
 
 
-
-
-
       export AI_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE ai-platform-api  -o jsonpath={.spec.host})
       export AIO_PLATFORM_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aimanager-aio-controller -o jsonpath={.spec.host})
 
-      echo "        Namespace:          $AIOPS_NAMESPACE"
-      echo "        AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
-      echo "        AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
+      echo "             🌐 AI_PLATFORM_ROUTE:  $AI_PLATFORM_ROUTE"
+      echo "             🌐 AIO_PLATFORM_ROUTE: $AIO_PLATFORM_ROUTE"
       echo ""
 
 
@@ -329,7 +339,7 @@ EOF
                   export CURRENT_ERROR_STRING="ELKGoldenSignal connection missing"
                   handleError
             else  
-                  echo "         ✅ OK - ELKGoldenSignal exists"; 
+                  echo "          ✅ OK - ELKGoldenSignal Connection exists"; 
             fi
 
 
@@ -356,10 +366,10 @@ EOF
 
       if  ([[ $trainedAlgorithms =~ "Log_Anomaly_" ]]); 
       then
-            echo "      ✅ OK: Defined - Log_Anomaly_Detection (NLP or Golden Signal)"; 
+            echo "          ✅ OK: Defined - Log_Anomaly_Detection (NLP or Golden Signal)"; 
       else
-            echo "      ⚠️ WARINING: Log_Anomaly_Detection (NLP or Golden Signal) not ready yet."; 
-            echo "      ⚠️ WARINING: This can be totally normal - please check in the UI"; 
+            echo "       ⚠️ WARINING: Log_Anomaly_Detection (NLP or Golden Signal) not ready yet."; 
+            echo "       ⚠️ WARINING: This can be totally normal - please check in the UI"; 
 
             # export CURRENT_ERROR=true
             # export CURRENT_ERROR_STRING="Log_Anomaly_Detection not trained (NLP or Golden Signal)"
@@ -368,7 +378,7 @@ EOF
 
       if  ([[ $trainedAlgorithms =~ "Similar_Incidents" ]]); 
       then
-            echo "      ✅ OK: Defined - Similar_Incidents"; 
+            echo "          ✅ OK: Defined - Similar_Incidents"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Similar_Incidents not trained"
@@ -377,7 +387,7 @@ EOF
 
       if  ([[ $trainedAlgorithms =~ "Metric_Anomaly_Detection" ]]); 
       then
-            echo "      ✅ OK: Defined - Metric_Anomaly_Detection"; 
+            echo "          ✅ OK: Defined - Metric_Anomaly_Detection"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Metric_Anomaly_Detection not trained"
@@ -386,7 +396,7 @@ EOF
 
       if  ([[ $trainedAlgorithms =~ "Change_Risk" ]]); 
       then
-            echo "      ✅ OK: Defined - Change_Risk"; 
+            echo "          ✅ OK: Defined - Change_Risk"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Change_Risk not trained"
@@ -396,7 +406,7 @@ EOF
 
       if  ([[ $trainedAlgorithms =~ "Temporal_Grouping" ]]); 
       then
-            echo "      ✅ OK: Defined - Temporal_Grouping"; 
+            echo "          ✅ OK: Defined - Temporal_Grouping"; 
       else
             export CURRENT_ERROR=true
             export CURRENT_ERROR_STRING="Temporal_Grouping not trained"
@@ -405,7 +415,7 @@ EOF
 
       # if  ([[ $trainedAlgorithms =~ "Alert_Seasonality_Detection" ]]); 
       # then
-      #       echo "      ✅ OK: Defined - Alert_Seasonality_Detection"; 
+      #       echo "          ✅ OK: Defined - Alert_Seasonality_Detection"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_Seasonality_Detection not trained"
@@ -415,7 +425,7 @@ EOF
 
       # if  ([[ $trainedAlgorithms =~ "Alert_X_In_Y_Supression" ]]); 
       # then
-      #       echo "      ✅ OK: Defined - Alert_X_In_Y_Supression"; 
+      #       echo "          ✅ OK: Defined - Alert_X_In_Y_Supression"; 
       # else
       #       export CURRENT_ERROR=true
       #       export CURRENT_ERROR_STRING="Alert_X_In_Y_Supression not trained"
@@ -438,23 +448,21 @@ EOF
       echo "  🚀 CHECK LAGS TRAINING"
       echo "  ----------------------------------------------------------------------------------------------------------------------------------------------------------"
       echo ""
+      export username=elastic
+      export password=$(oc get secret $(oc get secrets | grep aiops-opensearch-admin-secret | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
+      export ES_ROUTE=$(oc get route -n $AIOPS_NAMESPACE aiops-opensearch  -o jsonpath={.spec.host})
+      echo "             🌐 Elastic URL:                  $ES_ROUTE"	
+      echo "             🙎‍♂️ User:                         $username"	
+      echo "             🔐 Password:                     $password"	
+      echo ""	
 
 
 
-      echo "   ------------------------------------------------------------------------------------------------------------------------------"
-      echo "   🔎  Get Cassandra Authentication"	
-      echo "   ------------------------------------------------------------------------------------------------------------------------------"
-      export CASSANDRA_PASS=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 -d)
-      export CASSANDRA_USER=$(oc get secret aiops-topology-cassandra-auth-secret -n $AIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 -d)
-
-      echo "CASSANDRA_USER:$CASSANDRA_USER"
-      echo "CASSANDRA_PASS:$CASSANDRA_PASS"
-      export result=$(oc exec -ti -n $AIOPS_NAMESPACE aiops-topology-cassandra-0 -- bash -c "/opt/ibm/cassandra/bin/cqlsh --ssl -u $CASSANDRA_USER -p $CASSANDRA_PASS -e \"SELECT * FROM tararam.md_metric_resource;\""|grep log_template_|wc -l|tr -d ' ')
-
-
+      echo "      🔎  Get logMetrics"	
+      export result=$(oc exec -ti -n $AIOPS_NAMESPACE aiops-ir-analytics-postgres-1 -c postgres -- bash -c "psql -U postgres -d aiops_ir_ai -c \"SELECT count(*) FROM aiops_ir_ai.metric_metadata WHERE group_name LIKE '%logMetrics%';\""|grep ' 0'|wc -l|tr -d ' ')
       #echo $result
 
-      if  ([[ $result == "0" ]]); 
+      if  ([[ $result == "1" ]]); 
             then 
                   export CURRENT_WARNING_STATE=true
                   export CURRENT_WARNING_STRING="LAGS training incomplete - Log into CP4AIOPS and re-run the Metrics Training"
@@ -499,7 +507,7 @@ EOF
 
 
             else  
-                  echo "          ✅ OK - ELKGoldenSignal exists ($result models)"; 
+                  echo "          ✅ OK - ELKGoldenSignal exists"; 
             fi
 
 
@@ -507,28 +515,20 @@ EOF
 
 
 
-      echo "   ------------------------------------------------------------------------------------------------------------------------------"
-      echo "   🔎  Get ElasticSearch LAGS Index"	
-      echo "   ------------------------------------------------------------------------------------------------------------------------------"
+      echo "      🔎  Get ElasticSearch LAGS Index"	
       oc project $AIOPS_NAMESPACE > /dev/null 2>&1	
 
-      export ES_ROUTE=$(oc get route -n $AIOPS_NAMESPACE iaf-system-es  -o jsonpath={.spec.host})
-      export username=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.username}"| base64 --decode)	
-      export password=$(oc get secret $(oc get secrets | grep iaf-system-elasticsearch-es-default-user | awk '!/-min/' | awk '{print $1;}') -o jsonpath="{.data.password}"| base64 --decode)	
-      echo ""	
-      echo "           🌐 Elastic URL:                  $ES_ROUTE"	
-      echo "           🙎‍♂️ User:                         $username"	
-      echo "           🔐 Password:                     $password"	
-
-
       export existingIndexes=$(curl -s -k -u $username:$password -XGET https://$ES_ROUTE/_cat/indices|grep 1000-1000-la_golden_signals-models|wc -l|tr -d ' ')
-      if  ([[ $result == "0" ]]); 
+
+      #echo "existingIndexes: $existingIndexes"
+
+      if  ([[ $existingIndexes == "0" ]]); 
             then 
                   export CURRENT_WARNING_STATE=true
                   export CURRENT_WARNING_STRING="LAGS training incomplete - Log into CP4AIOPS and re-run the Metrics Training"
                   handleWarning
             else  
-                  echo "          ✅ OK"; 
+                  echo "          ✅ OK: LAGS Golden Signals Index exists in ElasticSearch"; 
             fi
 
 
@@ -559,7 +559,7 @@ EOF
             export CURRENT_ERROR_STRING="AWX Project not ready"
             handleError
       else  
-            echo "         ✅ OK"; 
+            echo "          ✅ OK"; 
       fi
 
     echo "      🔎 Check AWX Inventory"
@@ -570,7 +570,7 @@ EOF
             export CURRENT_ERROR_STRING="AWX Inventory not ready"
             handleError
       else  
-            echo "         ✅ OK"; 
+            echo "          ✅ OK"; 
       fi
 
     echo "      🔎 Check AWX Templates"
@@ -581,7 +581,7 @@ EOF
             export CURRENT_ERROR_STRING="AWX Templates not ready"
             handleError
       else  
-            echo "         ✅ OK ($AWX_TEMPLATE_COUNT Templates)"; 
+            echo "          ✅ OK ($AWX_TEMPLATE_COUNT Templates)"; 
             curl -X "GET" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$AWX_PWD" --insecure -H 'content-type: application/json'|jq -r '.results[].name'| sed 's/^/          - /'
 
 
@@ -620,7 +620,7 @@ EOF
             echo $result|jq -r '.[].name'| sed 's/^/          - /'
             handleError
       else  
-            echo "         ✅ OK ($RB_COUNT Runbooks)"; 
+            echo "          ✅ OK ($RB_COUNT Runbooks)"; 
             echo $result|jq -r '.[].name'| sed 's/^/          - /'
       fi
 
@@ -657,7 +657,7 @@ EOF
             export CURRENT_ERROR_STRING="Policies Missing"
             handleError
       else  
-            echo "         ✅ OK ($POLICY_COUNT Policies)"; 
+            echo "          ✅ OK ($POLICY_COUNT Policies)"; 
             curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
             -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
             -H 'content-type: application/json' \

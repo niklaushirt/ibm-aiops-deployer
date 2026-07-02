@@ -53,9 +53,11 @@
   shell: |
     oc delete clusterrolebinding turbonomic-admin1 --ignore-not-found
     oc delete clusterrolebinding turbonomic-admin2 --ignore-not-found
+    oc delete clusterrolebinding turbonomic-admin3 --ignore-not-found
     oc adm policy add-scc-to-group anyuid system:serviceaccounts:turbonomic
     oc create clusterrolebinding turbonomic-admin1 --clusterrole=cluster-admin --serviceaccount=turbonomic:t8c-operator
     oc create clusterrolebinding turbonomic-admin2 --clusterrole=cluster-admin --serviceaccount=turbonomic:turbo-user
+    oc create clusterrolebinding turbonomic-admin3 --clusterrole=cluster-admin --serviceaccount=turbonomic:default
   ignore_errors: true
   register: demo_robot_shop
         
@@ -63,6 +65,20 @@
   shell: |
     oc delete clusterrolebinding turbo-all-binding -n turbonomic --ignore-not-found
   ignore_errors: true
+
+
+
+
+- name: 👩‍💻 TURBONOMIC - Get FS Group from Namespace
+  shell: |
+        oc get ns turbonomic -o json | jq -r '.metadata.annotations["openshift.io/sa.scc.uid-range"] | split("/")[0]'
+  ignore_errors: true
+  register: FS_GROUP
+
+
+- name: 👩‍💻 DEMO USER - Set FS Group from Namespace {{ FS_GROUP.stdout }} 
+  set_fact: FS_GROUP={{ FS_GROUP.stdout }} 
+
 
 
 - name: 🚀 TURBONOMIC - Create Turbonomic Operator Group
@@ -115,7 +131,18 @@
     state: present
     namespace: turbonomic
     template: ./templates/turbonomic/turbo-instance.j2
+  when: (current_feature.turbo_lite | default(false))|bool == false  
+
+
+
+- name: 🚀 TURBONOMIC - Create Turbonomic Lite Instance
+  kubernetes.core.k8s:
+    state: present
+    namespace: turbonomic
+    template: ./templates/turbonomic/turbo-instance_lite.j2
+  when: (current_feature.turbo_lite | default(false))|bool == true  
   
+
 
 - name: 🕦 TURBONOMIC - Wait for 120 seconds
   shell: sleep 120
@@ -149,7 +176,7 @@
 - name: 🕦 TURBONOMIC - Wait for >85 pods in namespace turbonomic
   shell: oc get po -n turbonomic |grep "1/"| wc -l
   register: kubectl_num_pods
-  until: kubectl_num_pods.stdout|int > 85
+  until: kubectl_num_pods.stdout|int > 80
   retries: 500
   delay: 15
 

@@ -111,50 +111,60 @@
 # INITIALIZATION
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Placeholder for customization
-- name: (001/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
+- name: (001/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
   include_tasks: 00_init-custom-hook.yaml
 
 # Initialize Logging
-- name: (002/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
+- name: (002/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
     
-- name: (003/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
+- name: (003/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
   include_tasks: 02_init-checks.yaml
  
-- name: (004/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
+- name: (004/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
-- name: (005/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
+- name: (005/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
   include_tasks: 03_init-initialization.yaml
 
 
-- name: (006/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
+- name: (006/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/05_init-get-storage-class.yaml"
 
 
-
-
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-# INSTALL CONCERT
+# INSTALL CONCERT PREREQUISITES
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (007/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+- name: (007/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
   include_tasks: 05_concert-prerequisites.yaml
-      
-- name: (008/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+ 
+
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL CONCERT RESILIENCE AND PROTECT
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"      
+- name: (009/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
   include_tasks: 10_concert-install.yaml
+
+ 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"
+# INSTALL CONCERT PLATFORM ITOM
+# ---------------------------------------------------------------------------------------------------------------------------------------------------"      
+# - name: (008/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Platform ITOM
+#   include_tasks: 20_concert-platform-install.yaml
 
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # POSTINSTALL TASKS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (009/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+- name: (010/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
   when: (global_config.create_ocp_items | default(true))|bool == true  
 
 
-- name: (010/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+- name: (011/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
 
 
@@ -228,7 +238,7 @@
   args:
     executable: /bin/bash
 
-- name: (012/010) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
+- name: (012/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1

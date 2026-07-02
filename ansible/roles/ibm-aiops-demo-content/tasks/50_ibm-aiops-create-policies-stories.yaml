@@ -398,7 +398,7 @@
 
 
 
-    export POLICY_FILE="./templates/policies/metric-threshold-policy_1.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/metric-threshold-policy_1.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
@@ -410,7 +410,7 @@
 
     echo $result
 
-    export POLICY_FILE="./templates/policies/metric-threshold-policy_2.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/metric-threshold-policy_2.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
@@ -422,7 +422,7 @@
 
     echo $result
 
-    export POLICY_FILE="./templates/policies/metric-threshold-policy_3.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/metric-threshold-policy_3.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
@@ -434,7 +434,7 @@
 
     echo $result
 
-    export POLICY_FILE="./templates/policies/metric-threshold-policy_4.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/metric-threshold-policy_4.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
@@ -446,7 +446,7 @@
 
     echo $result
 
-    export POLICY_FILE="./templates/policies/metric-threshold-policy_5.json"
+    export POLICY_FILE="{{role_path}}/templates/policies/metric-threshold-policy_5.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
@@ -461,12 +461,14 @@
   register: POLICY_RESULT
   args:
     executable: /bin/bash
+  when: (current_feature.threshold_metrics | default(false))|bool == true  
+ 
 
 
 - name: 🟣 OUTPUT
   debug: 
     var: POLICY_RESULT.stdout_lines
-    verbosity: 1
+    #verbosity: 1
 
 
 

@@ -159,7 +159,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM AIOps Flink Connectors
+        text: IBM Concert Operate Flink Connectors
     EOF
   ignore_errors: true
   args:
@@ -184,7 +184,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM AIOps Flink Policies
+        text: IBM Concert Operate Flink Policies
     EOF
   ignore_errors: true
   args:
@@ -208,7 +208,7 @@
         href: >-
           https://$appURL
         location: ApplicationMenu
-        text: IBM AIOps Spark
+        text: IBM Concert Operate Spark
     EOF
   ignore_errors: true
   args:

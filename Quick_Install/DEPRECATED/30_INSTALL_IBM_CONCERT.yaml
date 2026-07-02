@@ -11,7 +11,7 @@
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
 #  Installing IBM IT Automation Solutoions
 #
-#  IBM Instana
+#  IBM Concert
 #
 #  ©2026 nikh@ch.ibm.com
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -21,18 +21,19 @@
 # Get a Cluster from TechZone: https://techzone.ibm.com/collection/tech-zone-certified-base-images/journey-base-open-shift
 #   Type:               OpenShift Cluster (OCP-V) - IBM Cloud
 #   Worker node count:  4
-#   Flavour:            32 vCPU x 128 GB ❗ 
+#   Flavour:            16x64 ❗ 
 #   OpenShift Version:  4.18
 #   Storage:            300GB ephemeral storage
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Installs:
 #
-#  - IBM Instana
-#  - IBM Instana Demo Content
+#  - IBM Concert
+#  - IBM Concert Demo Content
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 ---
+
 apiVersion: v1                     
 kind: Namespace
 metadata:
@@ -41,10 +42,12 @@ metadata:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-install-configuration-instana
+  name: ibm-install-configuration-concert
   namespace: ibm-installer
 immutable: false
 data:
+  ENTITLED_REGISTRY_KEY: >-
+    <REGISTRY_TOKEN>
   INSTALLATION_CONFIG.yaml: >+
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
@@ -60,11 +63,7 @@ data:
       global_password: CHANGEME
 
 
-      # Available Names: Adam, Aajla, AIOPS, Alicent, Amy, Anakin, Angus, Arya, Austin, Barney, Bart, Batman, Bear, Bob, Bono, Bran, Brienne, Cara, Cassian, Cersei, Cersei1, Chewbacca, CP4AIOPS, Curt, Daenerys, Daffy, Darth, Demo, Dexter, 
-      # Dilbert, Edge, Finn, Fred, Freddie, Grogu, Groot, Hagrid, Han, Harley, Harry, Hodor, Hofstadter, Howard, Hulk, James, Jimmy, John, Joker, Jyn, King, Kirk, Kurt, Lando, Leia, Larry, Lemmy, Liam, Luke, Nightking, 
-      # Obiwan, Padme, Paul, Penny, Picard, Prince, Raj, Rey, Robin, Robot1, Robot2, Robot3, Robot4, Robot5, Ron, Sabine, Sansa, Sheldon, Sherlock, Slash, Spiderman, Spock, Strange, Superman, 
-      # Tormund, Tyrion, Walker, Watson, Wedge
-      environment_name: Bear
+      environment_name: Demo
       cloud_platform: existing-ocp
       # Set this value to True to accept all licenses
       accept_all_licenses: False
@@ -77,8 +76,8 @@ data:
       # --------------------------------------------------------------------------------------------------------------------------------------
       entitled_registry: cp.icr.io
       entitled_registry_user: cp
-      catalog_image: icr.io/cpopen/ibm-aiops-catalog:latest
-      current_supported_aiops_version: v4.10
+      catalog_image: icr.io/cpopen/ibm-operator-catalog:latest
+      current_supported_aiops_version: v4.7
 
       # --------------------------------------------------------------------------------------------------------------------------------------
       # Notifications and Cards
@@ -93,7 +92,11 @@ data:
       position_final_ocp_notification: BannerTop
 
 
-
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Passwords and Licenses
+      # --------------------------------------------------------------------------------------------------------------------------------------
+      # Set this value to True to accept all licenses
+      accept_all_licenses: False
 
 
     # *************************************************************************************************************************************************
@@ -120,7 +123,6 @@ data:
 
 
 
-
     #*************************************************************************************************************************************************
     #--------------------------------------------------------------------------------------------------------------------------------------
     # IBM IT AUTOMATION - INSTALLATION Configuration
@@ -130,68 +132,58 @@ data:
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
-    # IBM INSTANA
+    # IBM CONCERT
     # --------------------------------------------------------------------------------------------------------------------------------------
    
-    - project: ibm-instana
+    - project: ibm-concert
       instances:
-
-      - name: ibm-instana
-        kind: IBMInstana
+      - name: ibm-concert
+        kind: IBMConcert
         install: true
-
-        # ---------------------------------------------------------------------
-        # INSTANA LICENSE
-        sales_key: 'NONE'
-        agent_key: 'NONE'
-
-        # ---------------------------------------------------------------------
-        # INSTANA ADMIN LOGIN
-        # Admin User Name
-        instana_admin_user: "admin@instana.local"
-        #instana_admin_user: "demo"
-        # Admin User Password (OVERRIDES GLOBAL PASSWORD)
-        #instana_admin_pass: 'CHANGEME'
         
         # ---------------------------------------------------------------------
-        # INSTALL INSTANA AGENT
-        install_agent: true
+        # CONCERT REGISTRY
+        prod_registry: cp.icr.io/cp
+        prod_user: cp
 
-        # --------------------------------------------------------------------------------------------------------------------------------------
-        # INTEGRATIONS
-        integrate_ibmaiops: true
-        #integrate_turbonomic: true
-        
         # --------------------------------------------------------------------------------------------------------------------------------------
         # Storage Classes Override for this Instance (see comment below)
         # --------------------------------------------------------------------------------------------------------------------------------------
         #storage_class_file: automatic
         #storage_class_block: automatic
 
-        # ---------------------------------------------------------------------
-        # INSTANA PARAMETERS
-        # Check Version here https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/infrastructure/kubectl/
-        instana_version: 1.4.0
-        # Can be large, medium (default), small 
-        instana_size: medium
-        # Can be 1 or 3 (default is 3) 
-        instana_backend_scale: 3 
-        instana_beeinstana_mirrors: 2  # Set to 1 for single node installations
 
-
-
-      - name: ibm-instana-demo-content
-        kind: IBMInstanaDemoContent
-        install: true
+      - name: ibm-concert-demo-content
+        kind: IBMConcertDemoContent
+        install: false
 
         # ---------------------------------------------------------------------
-        # Install Demo Applications
+        # DEMO CONTENT
+        install_demo_content: true
         install_demoapps: true
 
         # ---------------------------------------------------------------------
         # Create a custom app to show links to all installed IT Automation Products
-        create_home_ui: false
+        create_home_ui: true
         
+
+        # ---------------------------------------------------------------------
+        # LDAP
+        install_ldap: true
+        # ldap domain
+        ldap_domain: ibm.com
+        # ldap base
+        ldap_base: dc=ibm,dc=com
+        # LDAP Admin Password (OVERRIDES GLOBAL PASSWORD)
+        #ldap_admin_password: CHANGEME
+        # LDAP Password for all Users (OVERRIDES GLOBAL PASSWORD)
+        #ldap_user_password: CHANGEME
+        # ldap namespace
+        ldap_namespace: openldap
+        # Integrate AIOps Login with OpenLDAP 
+        ldap_register: true
+        # Integrate OpenShift Login with OpenLDAP
+        integrate_ocp_openldap: true
 
 
 
@@ -206,7 +198,8 @@ data:
 
 
 
-
+# export PROJECT_INSTANCE=ibm-concert
+# /tmp/concert/ibm-concert/ibm-concert-manage.sh get-concert-instance-details
 
 
 
@@ -253,22 +246,27 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ibm-install-instana
+  name: ibm-install-concert
   namespace: ibm-installer
-  labels:
-   aiops-type: data-load-job
 spec:
 
   template:
     metadata:
       labels:
-        app: ibm-installer
+        app: ibm-concert
     spec:
       serviceAccount: ibm-installer-admin
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:4.13.0
+          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
           imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+            runAsUser: 0
+            capabilities:
+              add: 
+              - ALL
           resources:
             requests:
               memory: "64Mi"
@@ -285,7 +283,7 @@ spec:
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
               echo "                                                                                                                                                   "
-              echo " 🚀 Install IBM Instana                                                                                                                                                  "
+              echo " 🚀 Install IBM Concert                                                                                                                                                  "
               echo "                                                                                                                                                   "
               echo "***************************************************************************************************************************************************"
               echo "***************************************************************************************************************************************************"
@@ -333,10 +331,11 @@ spec:
               # echo ""
               # echo ""
 
+
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Launching Ansible Playbook"
               export ANSIBLE_LOG_PATH=/tmp/ansible.log
-              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=NOTNEEDED
+              ansible-playbook ./ansible/ibm-itautomation-products-install.yaml -e "config_file_path=/tmp/config-file/INSTALLATION_CONFIG.yaml" -e cp_entitlement_key=$ENTITLED_REGISTRY_KEY
               echo ""
               echo ""
 
@@ -360,30 +359,12 @@ spec:
           - name: INSTALL_REPO
             valueFrom:
               configMapKeyRef:
-                name: ibm-install-configuration-instana
+                name: ibm-install-configuration-concert
                 key: INSTALL_REPO
-          - name: TURBO_LICENSE
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-install-configuration-instana
-                key: TURBO_LICENSE
-                optional: true
-          - name: INSTANA_SALES_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-install-configuration-instana
-                key: INSTANA_SALES_KEY
-                optional: true
-          - name: INSTANA_AGENT_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: ibm-install-configuration-instana
-                key: INSTANA_AGENT_KEY
-                optional: true
           - name: ENTITLED_REGISTRY_KEY
             valueFrom:
               configMapKeyRef:
-                name: ibm-install-configuration-instana
+                name: ibm-install-configuration-concert
                 key: ENTITLED_REGISTRY_KEY
                 optional: true
           volumeMounts:
@@ -392,7 +373,7 @@ spec:
       volumes:
         - name: config-file
           configMap:
-            name: ibm-install-configuration-instana
+            name: ibm-install-configuration-concert
             items:
             - key: INSTALLATION_CONFIG.yaml
               path: INSTALLATION_CONFIG.yaml

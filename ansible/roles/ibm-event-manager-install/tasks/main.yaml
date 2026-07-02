@@ -178,7 +178,8 @@
   shell: |
     export EVTMGR_NAMESPACE=$(oc get po -A|grep noi-operator |awk '{print$1}')
     oc delete ConsoleNotification ibm-aiops-notification-main-noi>/dev/null 2>/dev/null
-    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
+    oc delete ConsoleNotification ibm-aiops-notification-status>/dev/null 2>/dev/null    
+    export AIOPS_NAMESPACE=$(oc get po -A|grep aiops-orchestrator-controller |awk '{print$1}')
     export appURL=$(oc get route -n $EVTMGR_NAMESPACE  evtmanager-ibm-hdm-common-ui -o jsonpath={.spec.host})|| true
     export DEMO_PWD=$(kubectl get secret evtmanager-icpadmin-secret -o json -n ibm-evtmgr| grep ICP_ADMIN_PASSWORD  | cut -d : -f2 | cut -d '"' -f2 | base64 -d;echo)
     cat <<EOF | oc apply -f -

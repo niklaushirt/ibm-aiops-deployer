@@ -823,7 +823,7 @@ def addExternalLinksToIncident(request):
         print ('    Checking Incidents')
         print ('    ---------------------------------------------------------------------------------------------'  )
         for i in responseJSON.get('stories'):
-            if 'assignedToIndividual' in i['state'] or '"state": "unassigned"' in responseStr:
+            if 'resolved' not in i['state'] and 'closed' not in i['state'] :
                 print(i['title'])
                 print(i['state'])
 

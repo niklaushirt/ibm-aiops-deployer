@@ -35,4 +35,4 @@ RUN ls -al
 
 
 # start server
-CMD ["gunicorn", "demoui.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "300", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "info", "--capture-output", "--enable-stdio-inheritance"]
+CMD ["gunicorn", "demoui.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "300", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "info", "--capture-output", "--enable-stdio-inheritance", "--preload"]
