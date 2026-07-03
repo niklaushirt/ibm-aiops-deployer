@@ -324,8 +324,10 @@ data:
         # Create a valid ingress certificate when on ITZ
         create_valid_ingress_itz: true
 
-        # Create Policy for Story Creation
+        # Create Policy for Incident Creation
         create_incident_policy: true
+        # Holdoff time for Policy for Incident Creation in seconds (default: 45 seconds)
+        holdoff_incident_policy: 45
 
         # Create Policies for Metric Threshold Violations
         threshold_metrics: false

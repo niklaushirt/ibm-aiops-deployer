@@ -49,6 +49,8 @@
       IRISCART_78_DRIFT_ENABLED: "true"
       AIOPS_CHAT_ASSISTANT: enabled
       AIOPS_GENERATIVE_AI: enabled
+      ENABLE_SHARED_ALERT_CONTEXT_MENU: enabled
+      AIOPS_SRE_AGENT: enabled
       METRIC_STATIC_THRESHOLD_ENABLE: "true"
     kind: ConfigMap
     metadata:
