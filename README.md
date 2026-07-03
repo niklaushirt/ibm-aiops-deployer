@@ -568,6 +568,7 @@ This installation contains:
 
 > - **IBM Concert platform**
 > - **IBM Concert Optimize (Turbonomic) either Full or Lite**
+> - **IBM Concert platform integration with Keycloak for SSO (optional)**
 > - **Demo Applications**
 >   - RobotShop Demo App
 >   - SockShop Demo App
