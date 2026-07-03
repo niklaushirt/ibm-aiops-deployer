@@ -9,7 +9,7 @@
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------------------------------------------------"
-#  Installing IBM IT Automation Solutoions
+#  Installing IBM IT Automation Solutions
 #
 #  IBM Concert platform
 #
@@ -132,7 +132,14 @@ data:
     ibmitautomation:
 
     # --------------------------------------------------------------------------------------------------------------------------------------
-    # IBM CONCERT
+    # IBM CONCERT PLATFORM INSTALLATION
+    # --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # IBM CONCERT OPTIMIZE (TURBO - Prerequisite for IBM CONCERT platform)
     # --------------------------------------------------------------------------------------------------------------------------------------
 
     - project: ibm-turbonomic
@@ -162,8 +169,6 @@ data:
         # ---------------------------------------------------------------------
         # Turbo License (must be base64 encoded)
         turbo_license: NONE
-
-
 
         # ---------------------------------------------------------------------
         # Create Demo User
@@ -199,12 +204,60 @@ data:
 
 
 
+
+    # --------------------------------------------------------------------------------------------------------------------------------------
+    # IBM CONCERT platform
+    # --------------------------------------------------------------------------------------------------------------------------------------
+
     - project: ibm-concert
       instances:
       - name: ibm-concert
         kind: IBMConcert
         install: true
-        
+
+        # ---------------------------------------------------------------------
+        # CONCERT SETTINGS
+        concert_user: admin
+
+        # ---------------------------------------------------------------------
+        # CONCERT AI FEATURES - Configure AI Features (WatsonX)
+        # See her https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform
+        enable_WatsonX: false
+        watsonx_url: https://us-south.ml.cloud.ibm.com
+        watsonx_projectid: CHANGEME
+        watsonx_token: CHANGEME
+
+        # ---------------------------------------------------------------------
+        # INSTALL MODULES
+
+        # INSTALL_CONCERT: Set as true if Concert should be installed
+        install_concert: true
+
+        # INSTALL_DATAAPPS: Set as true if Data Apps should be installed
+        install_dataapps: true
+
+        # INSTALL_WORKFLOWS: Set as true if Concert Workflows should be installed
+        install_workflows: true
+
+        # INSTALL_SECURECODER: Set to true if Secure Coder should be installed
+        install_secure_coder: true
+
+        # Set to true to enable Concert buddy deployment
+        enable_buddy: true
+
+        # Integrate Concert with ITOM and TurboLite
+        integrate_itom_turboLite: true
+
+        # Integrate Concert with Keycloak for SSO
+        integrate_keycloak: false
+
+        # Configure platform AI agents
+        registerAgents: false
+
+        # INSTALL_EKS: Set as True if installing on EKS
+        install_eks: false
+
+
         # ---------------------------------------------------------------------
         # CONCERT REGISTRY
         prod_registry: cp.icr.io/cp
@@ -223,42 +276,6 @@ data:
         # ---------------------------------------------------------------------
         # CONTAINER RUNTIME
         docker_exe: podman 
-
-        # ---------------------------------------------------------------------
-        # INSTALL MODULES
-        # INSTALL_CONCERT: Set as true if Concert should be installed
-        install_concert: true
-
-        # INSTALL_DATAAPPS: Set as true if Data Apps should be installed
-        install_dataapps: true
-
-        # INSTALL_WORKFLOWS: Set as true if Concert Workflows should be installed
-        install_workflows: true
-
-        # INSTALL_SECURECODER: Set to true if Secure Coder should be installed
-        # Secure Coder integrates with Mend for security and vulnerability scanning 
-        install_secure_coder: true
-
-        # Set to true to enable Concert buddy deployment
-        enable_buddy: true
-
-        # INSTALL_EKS: Set as True if installing on EKS
-        install_eks: false
-
-        # Integrate Concert with ITOM and TurboLite
-        integrate_itom_turboLite: true
-
-        # Configure platform AI agents
-        registerAgents: true
-
-        # Configure AI Features (WatsonX)
-        # See here https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform
-        enableWatsonX: false
-        watsonx_url: https://us-south.ml.cloud.ibm.com
-        watsonx_projectid: CHANGEME
-        watsonx_token: CHANGEME
-
-
 
 
         # --------------------------------------------------------------------------------------------------------------------------------------

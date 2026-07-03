@@ -583,13 +583,17 @@ This installation contains:
 
 1. In the the OpenShift Web UI click on the `+` sign in the right upper corner
 1. Copy and paste the content from [this file](./Quick_Install/05_INSTALL_IBM_CONCERT_PLATFORM_EXPERIMENTAL.yaml)
-1. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 49 - the Entitlement key from https://myibm.ibm.com)
-1. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 62, ❗ do NOT use the "-" character and do NOT leave empty ❗)
-1. In `turbo_license` (line 164) provide your licence for Concert Optimize/Turbonomic in base64 (run `cat turbo.lic|base64`)
-1. If you want a full Concert Optimize/Turbonomic installed, set `turbo_lite` (line 147) `True`
-1. If you want AI features enbaled, set `enableWatsonX` to `True` (line 255) and provide your `watsonx_projectid` and `watsonx_token`
-1. Accept the license by setting `accept_all_licenses` to `True` (line 68)
+1. Accept the license by setting `accept_all_licenses` to `True` (line 69)
+1. Replace `<REGISTRY_TOKEN>` at the top of the file with your entitlement key from step 1.1.2 (line 50 - the Entitlement key from https://myibm.ibm.com)
+1. Replace the default Password `global_password: CHANGEME` with a Password of your choice (line 63, ❗ do NOT use the "-" character and do NOT leave empty ❗)
+1. If you want a full Concert Optimize/Turbonomic installed, set `turbo_lite` (line 154) `True`
+1. In `turbo_license` (line 171) provide your licence for Concert Optimize/Turbonomic in base64 (run `cat turbo.lic|base64`)
+1. If you want AI features enbaled, set `enable_WatsonX` to `True` (line 225) and provide your `watsonx_projectid` and `watsonx_token`
+1. If you want to integrate Concert with Keycloak for SSO, set `integrate_keycloak` to `True` (line 252) (the SSO user will be the same as for the standalone)
+1. If you want configure platform AI agents, set `registerAgents` to `True` (line 255)
 1. Click `Create`
+
+> #### If you need the Keycloak Credentials to connect and manage users, search for `Keycloak Credentials` in the installation Log.
 
 > #### ❗ If you get a ClusterRoleBinding already exists, just ignore it
 >
