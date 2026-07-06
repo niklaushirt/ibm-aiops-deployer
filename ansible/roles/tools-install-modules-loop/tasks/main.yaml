@@ -103,3 +103,10 @@
   include_role:
     name: elk-install
   when: current_feature.kind=="ELK" and current_feature.install|bool == true
+
+
+
+- name: tools-install-modules-loop 🌡   CHECK for - MAS Stack
+  include_role:
+    name: ibm-mas
+  when: current_feature.kind=="IBMMAS" and current_feature.install|bool == true
