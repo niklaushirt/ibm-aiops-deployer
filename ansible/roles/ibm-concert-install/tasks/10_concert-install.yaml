@@ -780,7 +780,7 @@
 
 
     api_val=$(echo -n "$WATSONX_API_KEY" | base64 -w0)
-    proj_val=$(echo -n "$WATSONX_PROJECT_ID" | base64 -w0)
+    proj_val=$(echo -n "$WATSONX_API_PROJECT_ID" | base64 -w0)
     url_val=$(echo -n "$WATSONX_API_URL" | base64 -w0)
     user_val=$(echo -n "$WATSONX_USERNAME" | base64 -w0)
 
