@@ -450,7 +450,7 @@
 
     # https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-platform-ai-agents
     export CONCERT_HUB_NAMESPACE="ibm-concert-hub"
-    export HUB_ROUTE=$(oc get route kc -o jsonpath={.spec.host} -n $CONCERT_HUB_NAMESPACE)
+    export HUB_ROUTE=$(oc get route solis-hub -o jsonpath={.spec.host} -n $CONCERT_HUB_NAMESPACE)
 
     export AGENT_CARD_REGISTRATION_URL="https://$HUB_ROUTE/platform_hub/ai/registry/agent-cards/submit"
 
