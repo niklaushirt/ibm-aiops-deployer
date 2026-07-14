@@ -1,0 +1,107 @@
+
+# *************************************************************************************************************************************************
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Turbonomic
+# --------------------------------------------------------------------------------------------------------------------------------------
+# *************************************************************************************************************************************************
+
+# --------------------------------------------------------------------------------------------------------------------------------------
+# Install Turbonomic
+# --------------------------------------------------------------------------------------------------------------------------------------
+
+- name: 🛰️  START - INSTALL MAS
+  debug: 
+    msg="{{ lookup('pipe','date +%d.%m.%Y---%H:%M:%S') }}"
+
+
+- name: Log
+  shell: |
+    export MESSAGE="Installing MAS"
+    export currentDate=$(date +%Y-%m-%d_%H:%M)
+    echo "---------------------------------------------------------------------------------------------------------------------------------------------------" >> ../install_{{current_feature.kind}}.log
+    echo $currentDate" - "$MESSAGE  >> ../install_{{current_feature.kind}}.log
+  ignore_errors: true
+
+- name: 📣 OCP CONSOLE - Create Openshift NOTIFICATION
+  shell: |
+    cat <<EOF | oc apply -f -
+    apiVersion: console.openshift.io/v1
+    kind: ConsoleNotification
+    metadata:
+      name: ibm-aiops-notification-status
+    spec:
+      backgroundColor: '#ffd500'
+      color: '#000'
+      location: {{global_config.position_ocp_notifications | default("BannerTop")}}
+      text: 'Installing {{current_feature.kind}} - Prerequisites'    
+    EOF
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  when: (global_config.create_ocp_notifications | default(true))|bool == true  
+
+
+
+
+- name: 🚀 MAS - Create MAS Prerequisites
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Install UV"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Install the latest version of mas-cli"
+    uv tool install mas-cli
+  
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+- name: 🚀 MAS - Install MAS Manage
+  shell: |
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " 🚀 Install UV"
+    mas-cli install \
+        --mas-catalog-version {{current_feature.mas-catalog-version}} \
+        --mas-instance-id {{current_feature.mas-instance-id}}  \
+        --mas-workspace-id {{current_feature.mas-workspace-id}}  \
+        --mas-workspace-name "{{current_feature.mas-workspace-name}} "
+        \
+        --superuser-username {{current_feature.superuser-username}}  \
+        --superuser-password '{{global_config.global_password }}' \
+        \
+        --mas-channel {{current_feature.mas-channel}} \
+        \
+        --ibm-entitlement-key '{{ cp_entitlement_key }}' \
+        --license-file /tmp/entitlement.lic \
+        --contact-email {{current_feature.contact-email}}  \
+        --contact-firstname {{current_feature.contact-firstname}}  \
+        --contact-lastname {{current_feature.contact-lastname}}  \
+        \
+        --storage-rwo {{ STORAGE_CLASS_LARGE_BLOCK }} \
+        --storage-rwx {{ STORAGE_CLASS_LARGE_FILE }} \
+        --storage-pipeline {{ STORAGE_CLASS_LARGE_FILE }} \
+        --storage-accessmode ReadWriteMany \
+        \
+        --accept-license --no-confirm
+  register: output_string
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+
+- name: 🟣  OUTPUT
+  debug: 
+    var: output_string.stdout_lines
+    #verbosity: 1
+
+
+
+
