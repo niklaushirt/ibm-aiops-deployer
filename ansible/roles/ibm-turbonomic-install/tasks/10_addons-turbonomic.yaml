@@ -81,6 +81,52 @@
 
 
 
+
+
+- name: 👩‍💻 TURBONOMIC - Get Concert Hub URL
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        CONSOLE_URL="https://"$CONSOLE_PATH
+        API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+        BASE_URL=${CONSOLE_PATH/console-openshift-console.apps./}
+        HUB_URL="https://solis-hub-ibm-concert-hub.apps."$BASE_URL
+        echo ${HUB_URL}
+  ignore_errors: true
+  register: HUB_URL
+
+
+- name: 👩‍💻 DEMO USER - Set Get Concert Hub URL {{ HUB_URL.stdout }} 
+  set_fact: HUB_URL={{ HUB_URL.stdout }} 
+
+
+
+- name: 👩‍💻 TURBONOMIC - Install Ping
+  shell: |
+        apt update
+        apt-get install -y iputils-ping
+  ignore_errors: true
+  register: HOST_IP
+
+
+
+- name: 👩‍💻 TURBONOMIC - Get External Cluster IP
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        EXT_IP=$(ping $CONSOLE_PATH -c 1 -q | grep -m1 "("| awk '{print $3}' | sed "s/[(]//" | sed "s/[)]//" | sed "s/[:]//")
+
+        echo ${EXT_IP}
+  ignore_errors: true
+  register: HOST_IP
+
+
+- name: 👩‍💻 DEMO USER - Set External Cluster IP {{ HOST_IP.stdout }} 
+  set_fact: HOST_IP={{ HOST_IP.stdout }} 
+
+
+
+
+
+
 - name: 🚀 TURBONOMIC - Create Turbonomic Operator Group
   kubernetes.core.k8s:
     state: present
