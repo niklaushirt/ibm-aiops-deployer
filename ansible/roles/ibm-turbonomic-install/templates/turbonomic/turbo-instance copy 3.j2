@@ -1,20 +1,13 @@
+---
 apiVersion: charts.helm.k8s.io/v1
 kind: Xl
 metadata:
   name: xl-release
-  namespace: turbonomic
 spec:
-
+  # Global settings
   global:
-    customImageNames: false
     repository: icr.io/cpopen/turbonomic
-    storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
-    storageSelector: false
     tag: {{ current_feature.turbo_version }}
-    securityContext:
-      fsGroup: {{ FS_GROUP }}
-    turboLite:
-      enabled: false
     # externalIP: 10.0.2.15
     # externalDbIP: 10.0.2.15
     # externalTimescaleDBIP: 10.0.2.15
@@ -24,6 +17,10 @@ spec:
     productList: turbonomic
     telemetry:
       enabled: false
+    storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
+    storageSelector: false
+    securityContext:
+      fsGroup: {{ FS_GROUP }}
   # Concert Gateway Service
   solisgateway:
     enabled: false
@@ -54,10 +51,10 @@ spec:
             - gw #PLATFORM_GW_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
-    enabled: true
+    enabled: false
+
+  # Properties Configuration
   properties:
-    extractor:
-      grafanaAdminPassword: vmturbo
     api:
       basePrefixUrl: /turbonomic
       headerAuthenticationEnabled: true
@@ -84,128 +81,111 @@ spec:
       oauth2:
         audience: CONCERT
       solisEnabled: false
-
-
-  nginx:
-    nginxIsPrimaryIngress: false
-    httpsRedirect: true
-    insecureHttpOnly: false
-    concertHubUrl: hub #HUB_URL
+  # Ingress Configuration
   nginxingress:
     enabled: true
+  nginx:
+    httpsRedirect: true
+    nginxIsPrimaryIngress: false
+    insecureHttpOnly: false
+    concertHubUrl: HUB_URL
   openshiftingress:
-    enabled: true
-  tomcat:
-    enabled: true
+    enabled: false
   grafana:
-    adminPassword: vmturbo
-    enabled: true
+    enabled: false
+    adminPassword: passwordPlaceholder
     grafana.ini:
       database:
-        password: vmturbo
+        # Store data in sqlite3 (no persistence across restarts) by default.
+        # To persist, uncomment:
         type: postgres
-
-
-  servicenow:
-    enabled: true
-  websphere:
-    enabled: true
-  jvm:
-    enabled: true
+        password: passwordPlaceholder
+  # Component selector - Probes
   actionscript:
     enabled: true
-  xen:
-    enabled: false
-  mysql:
-    enabled: true
-  ibmcloud:
-    enabled: true
-  postgres:
-    enabled: false
-  timescaledb:
-    enabled: true
-  extractor:
-    enabled: true
-  reporting:
-    enabled: true
-  powervm:
-    enabled: true
-  netapp:
-    enabled: true
-  hyperflex:
-    enabled: true
-  ucs:
-    enabled: true
-  udt:
-    enabled: true
-  kafka:
-    persistence:
-      size: 30Gi
-  mssql:
-    enabled: true
-  rsyslog:
-    persistence:
-      size: 30Gi
-  nutanix:
-    enabled: true
-  weblogic:
-    enabled: false
-  prometheus:
-    enabled: false
-  hyperv:
-    enabled: true
-  vcenter:
-    enabled: true
-  hpe3par:
-    enabled: true
-  oneview:
-    enabled: true
-  vmax:
-    enabled: true
-  instana:
-    enabled: true
-  azure:
-    enabled: true
   actionstream-kafka:
-    enabled: false
-  scaleio:
-    enabled: false
-  kubeturbo:
-    enabled: true
-  wmi:
-    enabled: true
-  newrelic:
-    enabled: true
-  gcp:
     enabled: true
   appdynamics:
     enabled: true
-  vmm:
+  aws:
     enabled: true
-  webhook:
+  azure:
     enabled: true
-  jboss:
-    enabled: true
-  pure:
-    enabled: true
-  prometurbo:
-    enabled: true
-  ibmstorage-flashsystem:
-    enabled: true
-  horizon:
-    enabled: true
-  appinsights:
+  datadog:
     enabled: true
   dynatrace:
     enabled: true
-  aws:
+  gcp:
     enabled: true
-  db:
-    persistence:
-      size: 30Gi
-  snmp:
+  ibmcloud:
+    enabled: true
+  instana:
+    enabled: true
+  hpe3par:
+    enabled: false
+  horizon:
+    enabled: true
+  hyperflex:
+    enabled: true
+  hyperv:
+    enabled: true
+  ibmstorage-flashsystem:
+    enabled: true
+  jvm:
+    enabled: true
+  kubeturbo:
+    enabled: true
+  metrics-processor:
+    enabled: true
+  mssql:
+    enabled: true
+  mysql:
+    enabled: true
+  netapp:
+    enabled: true
+  newrelic:
+    enabled: true
+  nutanix:
+    enabled: true
+  oneview:
+    enabled: true
+  oci:
     enabled: true
   oracle:
     enabled: true
-  sustainability:
+  powervm:
+    enabled: true
+  prometheus:
+    enabled: true
+  prometheus-mysql-exporter:
+    enabled: false
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: true
+  scaleio:
+    enabled: true
+  servicenow:
+    enabled: true
+  snmp:
+    enabled: true
+  tomcat:
+    enabled: true
+  ucs:
+    enabled: true
+  vcenter:
+    enabled: true
+  vmax:
+    enabled: true
+  vmm:
+    enabled: true
+  wmi:
+    enabled: true
+  udt:
+    enabled: true
+  websphere:
+    enabled: true
+  weblogic:
+    enabled: true
+  xen:
     enabled: true
