@@ -104,6 +104,27 @@
 
 
 
+
+- name: 👩‍💻 TURBONOMIC - Get Concert Gateway Host
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        CONSOLE_URL="https://"$CONSOLE_PATH
+        API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+        BASE_URL=${CONSOLE_PATH/console-openshift-console.apps./}
+        PLATFORM_GW_HOST="solis-hub-ibm-concert-hub.apps."$BASE_URL
+        echo ${PLATFORM_GW_HOST}
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  register: PLATFORM_GW_HOST
+
+
+- name: 👩‍💻 DEMO USER - Set Get Concert Gateway Host {{ PLATFORM_GW_HOST.stdout }} 
+  set_fact: PLATFORM_GW_HOST={{ PLATFORM_GW_HOST.stdout }} 
+
+
+
+ 
 - name: 👩‍💻 TURBONOMIC - Install Ping
   shell: |
         apt update

@@ -43,7 +43,7 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
       hosts:
-        - host: {{ HOST_IP }} #PLATFORM_GW_HOST
+        - host: {{ PLATFORM_GW_HOST }} #PLATFORM_GW_HOST
           paths:
             - path: /
               pathType: Prefix
@@ -51,7 +51,7 @@ spec:
       tls:
         - secretName: nginx-ingressgateway-certs
           hosts:
-            - {{ HOST_IP }} #PLATFORM_GW_HOST
+            - {{ PLATFORM_GW_HOST }} #PLATFORM_GW_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
     enabled: true
