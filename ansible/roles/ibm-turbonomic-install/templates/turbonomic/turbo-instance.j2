@@ -15,9 +15,9 @@ spec:
       fsGroup: {{ FS_GROUP }}
     turboLite:
       enabled: false
-    # externalIP: 10.0.2.15
-    # externalDbIP: 10.0.2.15
-    # externalTimescaleDBIP: 10.0.2.15
+    externalIP: {{ HOST_IP }}
+    externalDbIP: {{ HOST_IP }}
+    externalTimescaleDBIP: {{ HOST_IP }}
     enableExternalSecrets: false
     pullPolicy: IfNotPresent
     # Concert Requirements
@@ -29,7 +29,7 @@ spec:
     enabled: false
   concert-gateway:
     enabled: true
-    hubURL: hub #HUB_URL
+    hubURL: {{ HUB_URL }} #HUB_URL
     service:
       type: LoadBalancer
     ingress:
@@ -43,7 +43,7 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
         nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
       hosts:
-        - host: gw #PLATFORM_GW_HOST
+        - host: {{ HOST_IP }} #PLATFORM_GW_HOST
           paths:
             - path: /
               pathType: Prefix
@@ -51,7 +51,7 @@ spec:
       tls:
         - secretName: nginx-ingressgateway-certs
           hosts:
-            - gw #PLATFORM_GW_HOST
+            - {{ HOST_IP }} #PLATFORM_GW_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
     enabled: true
@@ -90,7 +90,7 @@ spec:
     nginxIsPrimaryIngress: false
     httpsRedirect: true
     insecureHttpOnly: false
-    concertHubUrl: hub #HUB_URL
+    concertHubUrl: {{ HUB_URL }} #HUB_URL
   nginxingress:
     enabled: true
   openshiftingress:
