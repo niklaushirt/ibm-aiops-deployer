@@ -73,6 +73,8 @@
   shell: |
         oc get ns turbonomic -o json | jq -r '.metadata.annotations["openshift.io/sa.scc.uid-range"] | split("/")[0]'
   ignore_errors: true
+  args:
+    executable: /bin/bash
   register: FS_GROUP
 
 
@@ -92,6 +94,8 @@
         HUB_URL="https://solis-hub-ibm-concert-hub.apps."$BASE_URL
         echo ${HUB_URL}
   ignore_errors: true
+  args:
+    executable: /bin/bash
   register: HUB_URL
 
 
@@ -105,6 +109,8 @@
         apt update
         apt-get install -y iputils-ping
   ignore_errors: true
+  args:
+    executable: /bin/bash
   register: HOST_IP
 
 
