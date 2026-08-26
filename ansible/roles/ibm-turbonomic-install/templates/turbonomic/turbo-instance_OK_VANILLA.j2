@@ -22,10 +22,6 @@ spec:
     storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
     storageSelector: false
     tag: {{ current_feature.turbo_version }}
-    securityContext:
-      fsGroup: {{ FS_GROUP }}
-    turboLite:
-      enabled: false
   tomcat:
     enabled: true
   grafana:
