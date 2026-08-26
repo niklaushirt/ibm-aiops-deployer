@@ -22,6 +22,11 @@ spec:
     storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
     storageSelector: false
     tag: {{ current_feature.turbo_version }}
+    securityContext:
+      fsGroup: {{ FS_GROUP }}
+    turboLite:
+      enabled: false
+    productList: turbonomic
   tomcat:
     enabled: true
   grafana:
@@ -34,6 +39,8 @@ spec:
   properties:
     extractor:
       grafanaAdminPassword: vmturbo
+  ibmcloud:
+    enabled: true
   postgres:
     enabled: false
   timescaledb:
