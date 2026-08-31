@@ -93,7 +93,7 @@
                 "description": {
                   "$template": "{{ alert.summary }}"
                 },
-                "holdoffSec": {{current_feature.holdoff_incident_policy | default(45) }},
+                "holdoffSec": 45,
                 "notification": [],
                 "assignment": {
                   "owner": "demo",
@@ -111,3 +111,4 @@
     ]
   }
 }
+

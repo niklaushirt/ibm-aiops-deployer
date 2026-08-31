@@ -1,48 +1,57 @@
+---
 apiVersion: charts.helm.k8s.io/v1
 kind: Xl
 metadata:
   name: xl-release
-  namespace: turbonomic
 spec:
-  servicenow:
-    enabled: true
-  websphere:
-    enabled: true
-  jvm:
-    enabled: true
-  actionscript:
-    enabled: true
-  xen:
-    enabled: false
-  mysql:
-    enabled: true
+  # Global settings
   global:
-    customImageNames: false
     repository: icr.io/cpopen/turbonomic
-    storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
-    storageSelector: false
     tag: {{ current_feature.turbo_version }}
-    securityContext:
-      fsGroup: {{ FS_GROUP }}
-    turboLite:
-      enabled: false
-    productList: turbonomic
-
-
+    # externalIP: 10.0.2.15
+    # externalDbIP: 10.0.2.15
+    # externalTimescaleDBIP: 10.0.2.15
+    enableExternalSecrets: false
+    pullPolicy: IfNotPresent
     # Concert Requirements
     productList: turbonomic
     telemetry:
       enabled: false
+    storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
+    storageSelector: false
+    securityContext:
+      fsGroup: {{ FS_GROUP }}
   # Concert Gateway Service
   solisgateway:
     enabled: false
   concert-gateway:
-    enabled: false
-    hubURL: {{ HUB_URL }}
-
+    enabled: true
+    hubURL: hub #HUB_URL
+    service:
+      type: LoadBalancer
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      hosts:
+        - host: gw #PLATFORM_GW_HOST
+          paths:
+            - path: /
+              pathType: Prefix
+              port: 443
+      tls:
+        - secretName: nginx-ingressgateway-certs
+          hosts:
+            - gw #PLATFORM_GW_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
-    enabled: true
+    enabled: false
 
   # Properties Configuration
   properties:
@@ -51,7 +60,7 @@ spec:
       headerAuthenticationEnabled: true
       requestHeaderSize: '20000'
       vendor_latest_version: false
-      vendor_public_key_url: 'https://concert-gateway.turbonomic.svc.cluster.local/gw/auth/jwtcert'
+      vendor_public_key_url: 'https://concert-gateway.NAMESPACE.svc.cluster.local/gw/auth/jwtcert'
       vendor_public_key_skip_ssl_verification: true
       vendor_request_jwt_cookie: ibm-platform-session
       vendor_request_jwt_token: X-Auth-Token
@@ -79,111 +88,104 @@ spec:
     httpsRedirect: true
     nginxIsPrimaryIngress: false
     insecureHttpOnly: false
-    concertHubUrl: {{ HUB_URL }}
+    concertHubUrl: HUB_URL
   openshiftingress:
-    enabled: true
-
-
-  tomcat:
-    enabled: true
+    enabled: false
   grafana:
-    adminPassword: vmturbo
-    enabled: true
+    enabled: false
+    adminPassword: passwordPlaceholder
     grafana.ini:
       database:
-        password: vmturbo
+        # Store data in sqlite3 (no persistence across restarts) by default.
+        # To persist, uncomment:
         type: postgres
-  properties:
-    extractor:
-      grafanaAdminPassword: vmturbo
-  ibmcloud:
-    enabled: true
-  postgres:
-    enabled: false
-  timescaledb:
-    enabled: true
-  extractor:
-    enabled: true
-  reporting:
-    enabled: true
-  powervm:
-    enabled: true
-  netapp:
-    enabled: true
-  hyperflex:
-    enabled: true
-  ucs:
-    enabled: true
-  udt:
-    enabled: true
-  kafka:
-    persistence:
-      size: 30Gi
-  mssql:
-    enabled: true
-  rsyslog:
-    persistence:
-      size: 30Gi
-  nutanix:
-    enabled: true
-  weblogic:
-    enabled: false
-  prometheus:
-    enabled: false
-  hyperv:
-    enabled: true
-  vcenter:
-    enabled: true
-  hpe3par:
-    enabled: true
-  oneview:
-    enabled: true
-  vmax:
-    enabled: true
-  instana:
-    enabled: true
-  azure:
+        password: passwordPlaceholder
+  # Component selector - Probes
+  actionscript:
     enabled: true
   actionstream-kafka:
-    enabled: false
-  scaleio:
-    enabled: false
-  kubeturbo:
-    enabled: true
-  wmi:
-    enabled: true
-  newrelic:
-    enabled: true
-  gcp:
     enabled: true
   appdynamics:
     enabled: true
-  vmm:
+  aws:
     enabled: true
-  webhook:
+  azure:
     enabled: true
-  jboss:
-    enabled: true
-  pure:
-    enabled: true
-  prometurbo:
-    enabled: true
-  ibmstorage-flashsystem:
-    enabled: true
-  horizon:
-    enabled: true
-  appinsights:
+  datadog:
     enabled: true
   dynatrace:
     enabled: true
-  aws:
+  gcp:
     enabled: true
-  db:
-    persistence:
-      size: 30Gi
-  snmp:
+  ibmcloud:
+    enabled: true
+  instana:
+    enabled: true
+  hpe3par:
+    enabled: false
+  horizon:
+    enabled: true
+  hyperflex:
+    enabled: true
+  hyperv:
+    enabled: true
+  ibmstorage-flashsystem:
+    enabled: true
+  jvm:
+    enabled: true
+  kubeturbo:
+    enabled: true
+  metrics-processor:
+    enabled: true
+  mssql:
+    enabled: true
+  mysql:
+    enabled: true
+  netapp:
+    enabled: true
+  newrelic:
+    enabled: true
+  nutanix:
+    enabled: true
+  oneview:
+    enabled: true
+  oci:
     enabled: true
   oracle:
     enabled: true
-  sustainability:
+  powervm:
+    enabled: true
+  prometheus:
+    enabled: true
+  prometheus-mysql-exporter:
+    enabled: false
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: true
+  scaleio:
+    enabled: true
+  servicenow:
+    enabled: true
+  snmp:
+    enabled: true
+  tomcat:
+    enabled: true
+  ucs:
+    enabled: true
+  vcenter:
+    enabled: true
+  vmax:
+    enabled: true
+  vmm:
+    enabled: true
+  wmi:
+    enabled: true
+  udt:
+    enabled: true
+  websphere:
+    enabled: true
+  weblogic:
+    enabled: true
+  xen:
     enabled: true

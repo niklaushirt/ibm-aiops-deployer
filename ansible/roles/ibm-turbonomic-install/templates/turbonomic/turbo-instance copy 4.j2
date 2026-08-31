@@ -26,6 +26,13 @@ spec:
       fsGroup: {{ FS_GROUP }}
     turboLite:
       enabled: false
+    productList: turbonomic
+
+  nginx:
+    nginxIsPrimaryIngress: false
+    httpsRedirect: false
+  nginxingress:
+    enabled: true
   tomcat:
     enabled: true
   grafana:
@@ -38,6 +45,8 @@ spec:
   properties:
     extractor:
       grafanaAdminPassword: vmturbo
+  ibmcloud:
+    enabled: true
   postgres:
     enabled: false
   timescaledb:
@@ -119,11 +128,6 @@ spec:
   aws:
     enabled: true
   openshiftingress:
-    enabled: true
-  nginx:
-    nginxIsPrimaryIngress: false
-    httpsRedirect: false
-  nginxingress:
     enabled: true
   db:
     persistence:

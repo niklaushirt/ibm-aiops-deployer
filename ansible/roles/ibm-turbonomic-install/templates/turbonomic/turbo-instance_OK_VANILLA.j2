@@ -26,6 +26,7 @@ spec:
       fsGroup: {{ FS_GROUP }}
     turboLite:
       enabled: false
+    productList: turbonomic
   tomcat:
     enabled: true
   grafana:
@@ -38,6 +39,8 @@ spec:
   properties:
     extractor:
       grafanaAdminPassword: vmturbo
+  ibmcloud:
+    enabled: true
   postgres:
     enabled: false
   timescaledb:

@@ -4,19 +4,26 @@ metadata:
   name: xl-release
   namespace: turbonomic
 spec:
-  servicenow:
-    enabled: true
-  websphere:
-    enabled: true
-  jvm:
-    enabled: true
-  actionscript:
-    enabled: true
-  xen:
-    enabled: false
-  mysql:
+spec:
+  turboai:
     enabled: true
   global:
+    turboai:
+      config:
+        env.parameters:
+          env_name: on-prem
+          feedback.enabled.override: false
+          flags.a2a_enabled.override: true
+          flags.intent.action_execution_flow.override: true
+          flags.intent_identification.override: true
+          mcp.api.host: mcp-turbo-api
+          mcp.api.max_connection_retries: "3"
+          mcp.api.port: "8000"
+          mcp.api.timeout: "30.0"
+          mcp.api.transport: streamable-http
+        watsonx.host: <watsonx-runtime-host>
+        watsonx.project_id: <watsonx-project-id>
+
     customImageNames: false
     repository: icr.io/cpopen/turbonomic
     storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
@@ -26,9 +33,11 @@ spec:
       fsGroup: {{ FS_GROUP }}
     turboLite:
       enabled: false
-    productList: turbonomic
-
-
+    # externalIP: {{ HOST_IP }}
+    # externalDbIP: {{ HOST_IP }}
+    # externalTimescaleDBIP: {{ HOST_IP }}
+    enableExternalSecrets: false
+    pullPolicy: IfNotPresent
     # Concert Requirements
     productList: turbonomic
     telemetry:
@@ -37,21 +46,42 @@ spec:
   solisgateway:
     enabled: false
   concert-gateway:
-    enabled: false
-    hubURL: {{ HUB_URL }}
-
+    enabled: true
+    hubURL: {{ HUB_URL }} #HUB_URL
+    service:
+      type: LoadBalancer
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      hosts:
+        - host: {{ PLATFORM_GW_HOST }} #PLATFORM_GW_HOST
+          paths:
+            - path: /
+              pathType: Prefix
+              port: 443
+      tls:
+        - secretName: nginx-ingressgateway-certs
+          hosts:
+            - {{ PLATFORM_GW_HOST }} #PLATFORM_GW_HOST
   # UI Configuration (disabled - Concert provides the UI)
   ui:
     enabled: true
-
-  # Properties Configuration
   properties:
+    extractor:
+      grafanaAdminPassword: vmturbo
     api:
       basePrefixUrl: /turbonomic
       headerAuthenticationEnabled: true
       requestHeaderSize: '20000'
       vendor_latest_version: false
-      vendor_public_key_url: 'https://concert-gateway.turbonomic.svc.cluster.local/gw/auth/jwtcert'
+      vendor_public_key_url: 'https://concert-gateway.NAMESPACE.svc.cluster.local/gw/auth/jwtcert'
       vendor_public_key_skip_ssl_verification: true
       vendor_request_jwt_cookie: ibm-platform-session
       vendor_request_jwt_token: X-Auth-Token
@@ -72,18 +102,17 @@ spec:
       oauth2:
         audience: CONCERT
       solisEnabled: false
-  # Ingress Configuration
+
+
+  nginx:
+    nginxIsPrimaryIngress: false
+    httpsRedirect: true
+    insecureHttpOnly: false
+    concertHubUrl: {{ HUB_URL }} #HUB_URL
   nginxingress:
     enabled: true
-  nginx:
-    httpsRedirect: true
-    nginxIsPrimaryIngress: false
-    insecureHttpOnly: false
-    concertHubUrl: {{ HUB_URL }}
   openshiftingress:
     enabled: true
-
-
   tomcat:
     enabled: true
   grafana:
@@ -93,9 +122,20 @@ spec:
       database:
         password: vmturbo
         type: postgres
-  properties:
-    extractor:
-      grafanaAdminPassword: vmturbo
+
+
+  servicenow:
+    enabled: true
+  websphere:
+    enabled: true
+  jvm:
+    enabled: true
+  actionscript:
+    enabled: true
+  xen:
+    enabled: false
+  mysql:
+    enabled: true
   ibmcloud:
     enabled: true
   postgres:

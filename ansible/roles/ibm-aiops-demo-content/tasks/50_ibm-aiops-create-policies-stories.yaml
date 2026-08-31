@@ -92,6 +92,11 @@
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
+
 
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
@@ -118,6 +123,13 @@
     cp $POLICY_FILE /tmp/incident_policy.json
 
 
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
+
+
+
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
       -H 'content-type: application/json' \
@@ -141,6 +153,11 @@
     export POLICY_FILE="{{role_path}}/templates/policies/incident-creation-policy-acme.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
+
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
 
 
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
@@ -167,6 +184,11 @@
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
 
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
+
 
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
       -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
@@ -191,6 +213,11 @@
     export POLICY_FILE="{{role_path}}/templates/policies/incident-creation-policy-tube.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
+
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
 
 
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \
@@ -217,6 +244,11 @@
     export POLICY_FILE="{{role_path}}/templates/policies/incident-creation-policy-catchall.json"
     echo $POLICY_FILE
     cp $POLICY_FILE /tmp/incident_policy.json
+
+    export HOLDOFF_INCIDENT_POLICY={{current_feature.holdoff_incident_policy | default(45) }}
+    # export HOLDOFF_INCIDENT_POLICY=55
+    sed -i -e "s/\"holdoffSec\"\: 45,/\"holdoffSec\"\: $HOLDOFF_INCIDENT_POLICY,/g" /tmp/incident_policy.json
+    cat /tmp/incident_policy.json
 
 
     export result=$(curl -XGET -k -s "https://$POLICY_ROUTE/policyregistry.ibm-netcool-prod.aiops.io/v1alpha/system/cfd95b7e-3bc7-4006-a4a8-a73a79c71255/"  \

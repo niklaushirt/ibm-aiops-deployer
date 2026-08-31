@@ -73,11 +73,84 @@
   shell: |
         oc get ns turbonomic -o json | jq -r '.metadata.annotations["openshift.io/sa.scc.uid-range"] | split("/")[0]'
   ignore_errors: true
+  args:
+    executable: /bin/bash
   register: FS_GROUP
 
 
 - name: 👩‍💻 DEMO USER - Set FS Group from Namespace {{ FS_GROUP.stdout }} 
   set_fact: FS_GROUP={{ FS_GROUP.stdout }} 
+
+
+
+
+
+- name: 👩‍💻 TURBONOMIC - Get Concert Hub URL
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        CONSOLE_URL="https://"$CONSOLE_PATH
+        API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+        BASE_URL=${CONSOLE_PATH/console-openshift-console.apps./}
+        HUB_URL="https://solis-hub-ibm-concert-hub.apps."$BASE_URL
+        echo ${HUB_URL}
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  register: HUB_URL
+
+
+- name: 👩‍💻 DEMO USER - Set Get Concert Hub URL {{ HUB_URL.stdout }} 
+  set_fact: HUB_URL={{ HUB_URL.stdout }} 
+
+
+
+
+- name: 👩‍💻 TURBONOMIC - Get Concert Gateway Host
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        CONSOLE_URL="https://"$CONSOLE_PATH
+        API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+        BASE_URL=${CONSOLE_PATH/console-openshift-console.apps./}
+        PLATFORM_GW_HOST="solis-hub-ibm-concert-hub.apps."$BASE_URL
+        echo ${PLATFORM_GW_HOST}
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  register: PLATFORM_GW_HOST
+
+
+- name: 👩‍💻 DEMO USER - Set Get Concert Gateway Host {{ PLATFORM_GW_HOST.stdout }} 
+  set_fact: PLATFORM_GW_HOST={{ PLATFORM_GW_HOST.stdout }} 
+
+
+
+ 
+- name: 👩‍💻 TURBONOMIC - Install Ping
+  shell: |
+        apt update
+        apt-get install -y iputils-ping
+  ignore_errors: true
+  args:
+    executable: /bin/bash
+  register: HOST_IP
+
+
+
+- name: 👩‍💻 TURBONOMIC - Get External Cluster IP
+  shell: |
+        CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+        EXT_IP=$(ping $CONSOLE_PATH -c 1 -q | grep -m1 "("| awk '{print $3}' | sed "s/[(]//" | sed "s/[)]//" | sed "s/[:]//")
+
+        echo ${EXT_IP}
+  ignore_errors: true
+  register: HOST_IP
+
+
+- name: 👩‍💻 DEMO USER - Set External Cluster IP {{ HOST_IP.stdout }} 
+  set_fact: HOST_IP={{ HOST_IP.stdout }} 
+
+
+
 
 
 
@@ -180,9 +253,8 @@
   retries: 500
   delay: 15
 
-
 - name: 🕦 TURBONOMIC - Wait for turbonomic to become ready
-  shell: oc get po -n turbonomic | grep -v Running |grep -v Completed|grep -v Error|grep -v prometheus-server |grep -v postgres-0| grep -c ""
+  shell: oc get po -n turbonomic | grep -v Running |grep -v Completed|grep -v Error|grep -v prometheus-server |grep -v concert-gateway |grep -v postgres-0| grep -c ""
   register: kubectl_get_pods
   until: kubectl_get_pods.stdout == "1"
   retries: 500
