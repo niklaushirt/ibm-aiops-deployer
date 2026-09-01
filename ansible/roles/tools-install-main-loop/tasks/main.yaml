@@ -116,7 +116,7 @@
 
 
 # Get default storage classes for current OpenShift cluster
-- name: Get OpenShift storage classes to use for {{ current_ibm_feature.project }} and storage name {{ current_ibm_feature.openshift_storage_name }}
+- name: Get OpenShift storage classes to use for {{ current_ibm_feature.project }} 
   include_role: 
     name: tools-get-openshift-storage
   vars:
