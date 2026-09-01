@@ -148,7 +148,7 @@ data:
       - name: ibm-turbonomic
         kind: IBMTurbonomic
         install: true
-        turbo_version: 8.20.2
+        turbo_version: 8.20.6
 
         # Only install Turbo Lite (no additional add-ons) if set to true - as Concert platform Backend
         turbo_lite: true
@@ -252,7 +252,7 @@ data:
         integrate_keycloak: false
 
         # Configure platform AI agents
-        registerAgents: false
+        registerAgents: true
 
         # INSTALL_EKS: Set as True if installing on EKS
         install_eks: false
@@ -266,7 +266,7 @@ data:
 
         # ---------------------------------------------------------------------
         # CONCERT VERSION - check https://github.com/IBM/Concert/releases
-        concert_version: v3.0.0
+        concert_version: v3.0.1.1
 
         # ---------------------------------------------------------------------
         # PROJECT SETTINGS

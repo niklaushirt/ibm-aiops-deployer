@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Major changes
 
 - Revamp for Concert Operate 5.1.9 (former CP4AIOps)
-- Experimental installation script for IBM Concert Platform
+- Experimental installation script for IBM Concert Platform 3.0.1.1
 
 ## [510.0.2] - 2026-07-02
 
