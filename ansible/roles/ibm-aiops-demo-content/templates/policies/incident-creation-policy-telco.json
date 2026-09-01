@@ -97,7 +97,7 @@
                 "notification": [],
                 "assignment": {
                   "owner": "demo",
-                  "team": "All users"
+                  "team": "All Users"
                 },
                 "addRelatedAlerts": {
                   "update": false
