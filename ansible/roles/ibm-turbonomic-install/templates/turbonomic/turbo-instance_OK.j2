@@ -16,8 +16,6 @@ spec:
     enabled: false
   mysql:
     enabled: true
-  mcp-turbo-api:
-    enabled: true
   global:
     customImageNames: false
     repository: icr.io/cpopen/turbonomic
@@ -35,24 +33,11 @@ spec:
     productList: turbonomic
     telemetry:
       enabled: false
-    turboai:
-      config:
-        env.parameters:
-          mcp.api.transport: streamable-http
-          feedback.enabled.override: false
-          flags.intent.action_execution_flow.override: true
-          flags.intent.action_summarization.override: true
-          mcp.api.max_connection_retries: '3'
-          mcp.api.port: '8000'
-          flags.intent.action_summarization.preview: true
-          flags.a2a_enabled.override: true
-          mcp.api.host: mcp-turbo-api
-          mcp.api.timeout: '30.0'
   # Concert Gateway Service
   solisgateway:
     enabled: false
   concert-gateway:
-    enabled: true
+    enabled: false
     hubURL: {{ HUB_URL }}
 
   # UI Configuration (disabled - Concert provides the UI)
