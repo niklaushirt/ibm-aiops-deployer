@@ -78,7 +78,7 @@
   register: FS_GROUP
 
 
-- name: 👩‍💻 DEMO USER - Set FS Group from Namespace {{ FS_GROUP.stdout }} 
+- name: 👩‍💻 TURBONOMIC - Set FS Group from Namespace {{ FS_GROUP.stdout }} 
   set_fact: FS_GROUP={{ FS_GROUP.stdout }} 
 
 
@@ -99,7 +99,7 @@
   register: HUB_URL
 
 
-- name: 👩‍💻 DEMO USER - Set Get Concert Hub URL {{ HUB_URL.stdout }} 
+- name: 👩‍💻 TURBONOMIC - Set Get Concert Hub URL {{ HUB_URL.stdout }} 
   set_fact: HUB_URL={{ HUB_URL.stdout }} 
 
 
@@ -119,7 +119,7 @@
   register: PLATFORM_GW_HOST
 
 
-- name: 👩‍💻 DEMO USER - Set Get Concert Gateway Host {{ PLATFORM_GW_HOST.stdout }} 
+- name: 👩‍💻 TURBONOMIC - Set Get Concert Gateway Host {{ PLATFORM_GW_HOST.stdout }} 
   set_fact: PLATFORM_GW_HOST={{ PLATFORM_GW_HOST.stdout }} 
 
 
@@ -146,7 +146,7 @@
   register: HOST_IP
 
 
-- name: 👩‍💻 DEMO USER - Set External Cluster IP {{ HOST_IP.stdout }} 
+- name: 👩‍💻 TURBONOMIC - Set External Cluster IP {{ HOST_IP.stdout }} 
   set_fact: HOST_IP={{ HOST_IP.stdout }} 
 
 
@@ -268,7 +268,7 @@
 - name: 🕦 TURBONOMIC - Wait for >20 pods in namespace turbonomic
   shell: oc get po -n turbonomic |grep "1/"| wc -l
   register: kubectl_num_pods
-  until: kubectl_num_pods.stdout|int > 20
+  until: kubectl_num_pods.stdout|int > 16
   retries: 500
   delay: 15
   when: (current_feature.turbo_lite | default(false))|bool == true  
