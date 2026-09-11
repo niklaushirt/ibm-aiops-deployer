@@ -155,10 +155,8 @@ Techzone interface changest constantly. Below steps are indicative but should ge
 1. Select Openshift Version
    - Select: **4.19 or 4.21** (or up to 4.22 if available)
 
-   ![K8s CNI](./doc/pics/roks07.png)
-
 1. Select the Cluster Size
-   - Worker node count: **4** or **3**
+   - Worker node count: **4** or **3** depending on the Product you're installing
    - Flavour: **32 vCPU X 128 GB** ❗
 
 1. Click `Save`
@@ -176,6 +174,14 @@ Techzone interface changest constantly. Below steps are indicative but should ge
 You can get the entitlement key (registry pull token) from [https://myibm.ibm.com/products-services/containerlibrary](https://myibm.ibm.com/products-services/containerlibrary).
 
 This allows the images to be pulled from the IBM Container Registry.
+
+### 1.1.3 Get your WatsonX credentials if you need AI in Concert platform
+
+You can get the credentials from [https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform](https://www.ibm.com/docs/en/concert-platform?topic=guide-configuring-watsonxai-concert-platform).
+
+### 1.1.4 Get your Bob credentials if you need AI in Concert platform
+
+You can get the credentials from [https://bob.ibm.com/admin/apikeys](https://bob.ibm.com/admin/apikeys).
 
 <div style="page-break-after: always;"></div>
 
