@@ -4,7 +4,20 @@ metadata:
   name: xl-release
   namespace: turbonomic
 spec:
-  concert-turbo:
+  servicenow:
+    enabled: true
+  websphere:
+    enabled: true
+  ibmcloud:
+    enabled: true
+  jvm:
+    enabled: true
+  actionscript:
+    enabled: true
+  xen:
+    enabled: false
+  enabled: true
+  mysql:
     enabled: true
   global:
     turboai:
@@ -18,31 +31,82 @@ spec:
           mcp.api.port: '8000'
           mcp.api.timeout: '30.0'
           mcp.api.transport: streamable-http
-        watsonx.host: 'https://us-south.ml.cloud.ibm.com'
-        watsonx.project_id: 00000000-0000-0000-0000-000000000000
+        watsonx.host: '{{current_feature.watsonx_url  | default('https://us-south.ml.cloud.ibm.com')}}'
+        watsonx.project_id: {{current_feature.watsonx_projectid  | default('00000000-0000-0000-0000-000000000000')}}
     storageClassName: {{ STORAGE_CLASS_LARGE_BLOCK }}
     repository: icr.io/cpopen/turbonomic
     turboLite:
-      enabled: true
+      enabled: false
     productList: turbonomic
     securityContext:
       fsGroup: {{ FS_GROUP }}
     telemetry:
       enabled: false
     storageSelector: false
-    storageSelector: false
     tag: {{ current_feature.turbo_version }}
     customImageNames: false
+  tomcat:
+    enabled: true
+  grafana:
+    adminPassword: vmturbo
+    enabled: true
+    grafana.ini:
+      database:
+        password: vmturbo
+        type: postgres
+  extractor:
+    enabled: true
+  netapp:
+    enabled: true
+  hyperflex:
+    enabled: true
+  ucs:
+    enabled: true
+  udt:
+    enabled: true
   turboai:
+    enabled: true
+  kafka:
+    persistence:
+      size: 30Gi
+  sustainability:
+    enabled: true
+  mssql:
     enabled: true
   rsyslog:
     persistence:
       size: 30Gi
+  nutanix:
+    enabled: true
+  weblogic:
+    enabled: false
+  prometheus:
+    enabled: false
   solisgateway:
     enabled: false
+  hyperv:
+    enabled: true
+  vcenter:
+    enabled: true
+  hpe3par:
+    enabled: true
+  oneview:
+    enabled: true
+  vmax:
+    enabled: true
   instana:
     enabled: true
+  reporting:
+    enabled: true
+  azure:
+    enabled: true
+  actionstream-kafka:
+    enabled: false
+  scaleio:
+    enabled: false
   kubeturbo:
+    enabled: true
+  wmi:
     enabled: true
   properties:
     api:
@@ -73,24 +137,58 @@ spec:
       oauth2:
         audience: CONCERT
       solisEnabled: false
+  newrelic:
+    enabled: true
   ui:
+    enabled: true
+  gcp:
+    enabled: true
+  appdynamics:
+    enabled: true
+  vmm:
+    enabled: true
+  webhook:
+    enabled: true
+  jboss:
     enabled: true
   mcp-turbo-api:
     enabled: true
+  pure:
+    enabled: true
+  prometurbo:
+    enabled: true
+  ibmstorage-flashsystem:
+    enabled: true
+  postgres:
+    enabled: false
   nginx:
     concertHubUrl: '{{ HUB_URL }}'
     httpsRedirect: true
     insecureHttpOnly: false
-    nginxIsPrimaryIngress: true
+    nginxIsPrimaryIngress: false
+  horizon:
+    enabled: true
   nginxingress:
+    enabled: true
+  timescaledb:
+    enabled: true
+  appinsights:
+    enabled: true
+  powervm:
+    enabled: true
+  dynatrace:
     enabled: true
   concert-gateway:
     enabled: true
     hubURL: '{{ HUB_URL }}'
+  aws:
+    enabled: true
   openshiftingress:
     enabled: true
   db:
     persistence:
       size: 30Gi
-
-
+  snmp:
+    enabled: true
+  oracle:
+    enabled: true

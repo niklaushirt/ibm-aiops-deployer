@@ -401,18 +401,18 @@
       }'"
 
 
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    echo " ✅ Register Turbo with Platform"
-    echo "------------------------------------------------------------------------------------------------------------------------------"
-    # Concert Observe: instana
-    # Concert Optimize: turbonomic
-    # Concert Protect and Concert Resilience: concert
-    # Workflows: workflows
-    # Data Apps: dataapps
+    # echo "------------------------------------------------------------------------------------------------------------------------------"
+    # echo " ✅ Register Turbo with Platform"
+    # echo "------------------------------------------------------------------------------------------------------------------------------"
+    # # Concert Observe: instana
+    # # Concert Optimize: turbonomic
+    # # Concert Protect and Concert Resilience: concert
+    # # Workflows: workflows
+    # # Data Apps: dataapps
 
 
-    kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- ls -al /tmp/ibm-concert/concert-hub/bin/
-    kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- /tmp/ibm-concert/concert-hub/bin/manage-product.sh --action=add --deployment-type=k8s --product-id=turbonomic --instance-url=https://$TURBO_URL --namespace={{ current_ibm_feature.project }}-hub --restart-hub=true
+    # kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- ls -al /tmp/ibm-concert/concert-hub/bin/
+    # kubectl exec -it $(kubectl get pods -n ibm-installer | grep "ibm-install-concert" | awk '{print $1}') -n ibm-installer -- /tmp/ibm-concert/concert-hub/bin/manage-product.sh --action=add --deployment-type=k8s --product-id=turbonomic --instance-url=https://$TURBO_URL --namespace={{ current_ibm_feature.project }}-hub --restart-hub=true
 
 
     echo "------------------------------------------------------------------------------------------------------------------------------"

@@ -135,32 +135,40 @@ Basically:
 Techzone interface changest constantly. Below steps are indicative but should get you to a working cluster.
 
 1. Get a temporary cluster from **Techzone**
-   - OpenShift Cluster OCPv IBM Cloud from this collection (https://techzone.ibm.com/collection/69c6c2db1bdc18e8109d08ed)
+   - **OpenShift Cluster OCPv IBM Cloud** from this collection (https://techzone.ibm.com/collection/69c6c2db1bdc18e8109d08ed)
 
-   - 4x worker nodes with **32 CPU / 128 GB** ❗
+   - 4x worker nodes with **32 CPU / 128 GB** ❗ for Operate/AIOps
+   - 43 worker nodes with **32 CPU / 128 GB** ❗ for Concert platform
 
    You **might** get away with less if you don't install some components but no guarantee.
 
-1. Create a cluster for `Practice/Self Education` or `Test` if you don't have an Opportunity Number (Screenshots are slightly outdated and are different for the different TechZone offerings but the basic choices remain the same)
+1. Provide a Name and Description
 
-   ![K8s CNI](./doc/pics/roks05.png)
+1. Select `Demo` (you'll need an opportunity number) or `Test` if you don't have an Opportunity Number
 
-1. Select your preferred Geograpy
+1. Select your preferred Region
 
-1. Select the maximum end date that fits your needs (you can extend the duration once after creation)
+1. Select the maximum end date that fits your needs (should already be selected)
 
-   ![K8s CNI](./doc/pics/roks03.png)
+1. Click `Customize`
 
 1. Select Openshift Version
-   - Select: **4.18 or 4.19** (or up to 4.22 if available)
+   - Select: **4.19 or 4.21** (or up to 4.22 if available)
 
    ![K8s CNI](./doc/pics/roks07.png)
 
 1. Select the Cluster Size
-   - Worker node count: **4**
+   - Worker node count: **4** or **3**
    - Flavour: **32 vCPU X 128 GB** ❗
 
+1. Click `Save`
+
+1. Click `Review`
+
+1. Select `I agree...`
+
 1. Click `Submit`
+
 1. Once the cluster is provisioned, don't forget to extend it as needed.
 
 ### 1.1.2 Get the entitlement key (registry pull token)
