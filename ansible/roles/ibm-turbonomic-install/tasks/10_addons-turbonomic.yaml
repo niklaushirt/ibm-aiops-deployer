@@ -256,12 +256,23 @@
   when: (global_config.create_ocp_notifications | default(true))|bool == true  
 
 
-- name: 🕦 TURBONOMIC - Wait for >85 pods in namespace turbonomic
+- name: 🕦 TURBONOMIC - Wait for >80 pods in namespace turbonomic
   shell: oc get po -n turbonomic |grep "1/"| wc -l
   register: kubectl_num_pods
   until: kubectl_num_pods.stdout|int > 80
   retries: 500
   delay: 15
+  when: (current_feature.turbo_lite | default(false))|bool == false  
+
+
+- name: 🕦 TURBONOMIC - Wait for >20 pods in namespace turbonomic
+  shell: oc get po -n turbonomic |grep "1/"| wc -l
+  register: kubectl_num_pods
+  until: kubectl_num_pods.stdout|int > 20
+  retries: 500
+  delay: 15
+  when: (current_feature.turbo_lite | default(false))|bool == true  
+
 
 - name: 🕦 TURBONOMIC - Wait for turbonomic to become ready
   shell: oc get po -n turbonomic | grep -v Running |grep -v Completed|grep -v Error|grep -v prometheus-server |grep -v concert-gateway |grep -v postgres-0| grep -c ""
