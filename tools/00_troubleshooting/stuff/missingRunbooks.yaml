@@ -177,8 +177,8 @@ data:
         # TOPOLOGY
         # Install DemoApps Application
         install_demoapps: false
-        # RobotShop interface color (classic/white)
-        robotshop_color: white
+        # RobotShop interface color (Classic RobotShop: classic/white - AI enabled RobotShop: darkgreen/darkblue/lightblue)
+        robotshop_color: darkgreen
         # Install DemoApps K8s Observer
         install_demoapps_observer: false
         # Create Topology

@@ -293,6 +293,9 @@ data:
         # DEMO CONTENT
         install_demo_content: false
         install_demoapps: true
+        # RobotShop interface color (Classic RobotShop: classic/white - AI enabled RobotShop: darkgreen/darkblue/lightblue)
+        robotshop_color: darkgreen
+
         # ---------------------------------------------------------------------
         # Create a custom app to show links to all installed IT Automation Products
         create_home_ui: false

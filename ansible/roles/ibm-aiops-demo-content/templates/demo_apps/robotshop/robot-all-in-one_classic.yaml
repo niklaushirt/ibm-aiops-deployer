@@ -1,23 +1,9 @@
-
-
-
 ---
 apiVersion: v1                     
 kind: Namespace
 metadata:
   name: robot-shop
 ---
-
-kind: Secret
-apiVersion: v1
-metadata:
-  name: watsonx-credentials
-  namespace: robot-shop
-data:
-  api-key: SUZfWU9VX1JFUE9SVF9USElTX0FTX0FfTEVBS0VEX1NFQ1JFVF9ZT1VfQVJFX1RIRV9XT1JTVF9TRUNVUklUWV9SRVNFUkNIRVJfSU5fSElTVE9SWQ
-  project-id: SUZfWU9VX1JFUE9SVF9USElTX0FTX0FfTEVBS0VEX1NFQ1JFVF9ZT1VfQVJFX1RIRV9XT1JTVF9TRUNVUklUWV9SRVNFUkNIRVJfSU5fSElTVE9SWQ
-type: Opaque
-
 ---
 # Source: robot-shop/templates/web-service.yaml
 apiVersion: route.openshift.io/v1
@@ -47,7 +33,6 @@ spec:
     insecureEdgeTerminationPolicy: Allow
   wildcardPolicy: None
 
-
 ---
 # Source: robot-shop/templates/serviceaccount.yaml
 apiVersion: v1
@@ -69,42 +54,14 @@ subjects:
 - kind: ServiceAccount
   name: robot-shop
   namespace: robot-shop
----
-# Source: robot-shop/templates/clusterrolebinding.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: robot-shop-defaul
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: robot-shop
 
-
----
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: robot-shop-quota
-  namespace: robot-shop
-spec:
-  hard:
-    limits.cpu: 4
-    requests.cpu: 2
-    limits.memory: 5Gi
-    requests.memory: 3Gi
-    pods: 20
 ---
 # Source: robot-shop/templates/cart-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: cart
   namespace: robot-shop
+  name: cart
 spec:
   ports:
   - name: http
@@ -117,10 +74,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
+    app: robot-shop
     service: catalogue
   name: catalogue
-  namespace: robot-shop
 spec:
   ports:
   - name: http
@@ -128,25 +86,6 @@ spec:
     targetPort: 8080
   selector:
     service: catalogue
----
-# Source: robot-shop/templates/checkout-recommendations-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: checkout-recommendations
-  namespace: robot-shop
-  labels:
-    service: checkout-recommendations
-    demo: memory-leak
-spec:
-  ports:
-  - name: http
-    port: 8080
-    targetPort: 8080
-  selector:
-    service: checkout-recommendations
-
-# Made with Bob
 ---
 # Source: robot-shop/templates/dispatch-service.yaml
 # dispatch just listens to a message queue
@@ -154,9 +93,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dispatch
   namespace: robot-shop
+  name: dispatch
   labels:
+    app: robot-shop
     service: dispatch
 spec:
   clusterIP: None
@@ -167,32 +107,15 @@ spec:
   selector:
     service: dispatch
 ---
-# Source: robot-shop/templates/load-gen-controller-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: load-gen-controller
-  namespace: robot-shop
-  labels:
-    service: load-gen-controller
-spec:
-  ports:
-  - name: http
-    port: 8080
-    targetPort: 8080
-  selector:
-    service: load-gen-controller
-
-# Made with Bob
----
 # Source: robot-shop/templates/mongodb-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
+    app: robot-shop
     service: mongodb
   name: mongodb
-  namespace: robot-shop
 spec:
   ports:
   - name: mongo
@@ -205,10 +128,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
+    app: robot-shop
     service: mysql
   name: mysql
-  namespace: robot-shop
 spec:
   ports:
   - name: mysql
@@ -221,9 +145,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment
   namespace: robot-shop
+  name: payment
   labels:
+    app: robot-shop
     service: payment
 spec:
   ports:
@@ -237,9 +162,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
   namespace: robot-shop
+  name: rabbitmq
   labels:
+    app: robot-shop
     service: rabbitmq
 spec:
   ports:
@@ -259,9 +185,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ratings
   namespace: robot-shop
+  name: ratings
   labels:
+    app: robot-shop
     service: ratings
 spec:
   ports:
@@ -275,10 +202,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: robot-shop
   labels:
+    app: robot-shop
     service: redis
   name: redis
-  namespace: robot-shop
 spec:
   ports:
   - name: redis
@@ -291,9 +219,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipping
   namespace: robot-shop
+  name: shipping
   labels:
+    app: robot-shop
     service: shipping
 spec:
   ports:
@@ -307,9 +236,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user
   namespace: robot-shop
+  name: user
   labels:
+    app: robot-shop
     service: user
 spec:
   ports:
@@ -323,9 +253,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
   namespace: robot-shop
+  name: web
   labels:
+    app: robot-shop
     service: web
 spec:
   ports:
@@ -335,32 +266,37 @@ spec:
   selector:
     service: web
   
-  type: LoadBalancer
+  type: NodePort
 ---
 # Source: robot-shop/templates/cart-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cart
   namespace: robot-shop
+  name: cart
   labels:
+    app: robot-shop
+    version: v1
     service: cart
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: cart
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: cart
     spec:
-      
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: cart
-        image: robotshop/rs-cart:latest
+        image: quay.io/niklaushirt/rs-cart:1.0
         imagePullPolicy: IfNotPresent
         # agent networking access
         env:
@@ -382,32 +318,39 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalogue
   namespace: robot-shop
+  name: catalogue
   labels:
+    app: robot-shop
+    version: v1
     service: catalogue
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: catalogue
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: catalogue
     spec:
-      
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: catalogue
-        image: robotshop/rs-catalogue:latest
+        image: quay.io/niklaushirt/rs-catalogue:1.0
         imagePullPolicy: IfNotPresent
         env:
           - name: INSTANA_AGENT_HOST
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
+          - name: MONGO_URL
+            value: mongodb://mongodb:27017/catalogue
         ports:
         - containerPort: 8080
         resources:
@@ -419,108 +362,36 @@ spec:
             memory: 50Mi
       restartPolicy: Always
 ---
-# Source: robot-shop/templates/checkout-recommendations-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: checkout-recommendations
-  namespace: robot-shop
-  labels:
-    service: checkout-recommendations
-    demo: memory-leak
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      service: checkout-recommendations
-  template:
-    metadata:
-      labels:
-        service: checkout-recommendations
-        demo: memory-leak
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
-    spec:
-      containers:
-      - name: checkout-recommendations
-        image: quay.io/arthurdm-quay/rs-checkout-recommendations:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8080
-        env:
-        - name: INSTANA_AGENT_HOST
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
-        - name: WATSONX_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: watsonx-credentials
-              key: api-key
-        - name: WATSONX_PROJECT_ID
-          valueFrom:
-            secretKeyRef:
-              name: watsonx-credentials
-              key: project-id
-        - name: WATSONX_URL
-          value: https://us-south.ml.cloud.ibm.com
-        - name: CATALOGUE_HOST
-          value: catalogue
-        - name: CART_HOST
-          value: cart
-        - name: RATINGS_HOST
-          value: ratings
-        # ⚠️ MEMORY LEAK DEMO: No memory limits set intentionally
-        # This allows the unbounded cache to grow until OOM
-        # In production, you would set limits like:
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 200m
-            memory: 256Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 5
-
-# Made with Bob
----
 # Source: robot-shop/templates/dispatch-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dispatch
   namespace: robot-shop
+  name: dispatch
   labels:
+    app: robot-shop
+    version: v1
     service: dispatch
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: dispatch
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: dispatch
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: dispatch
-        image: robotshop/rs-dispatch:latest
+        image: quay.io/niklaushirt/rs-dispatch:1.0
         imagePullPolicy: IfNotPresent
         env:
           # agent networking access
@@ -536,88 +407,37 @@ spec:
             cpu: 100m
             memory: 50Mi
       restartPolicy: Always
-# ---
-# # Source: robot-shop/templates/load-gen-controller-deployment.yaml
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: load-gen-controller
-#   namespace: robot-shop
-#   labels:
-#     service: load-gen-controller
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       service: load-gen-controller
-#   template:
-#     metadata:
-#       labels:
-#         service: load-gen-controller
-#     spec:
-      
-#       imagePullSecrets:
-#         - name: dockerhub-secret
-#       containers:
-#       - name: load-gen-controller
-#         image: robotshop/rs-load-gen-controller:latest
-#         imagePullPolicy: IfNotPresent
-#         env:
-#         - name: NAMESPACE
-#           valueFrom:
-#             fieldRef:
-#               fieldPath: metadata.namespace
-#         - name: LOAD_GEN_IMAGE
-#           value: robotshop/rs-load:latest
-#         ports:
-#         - containerPort: 8080
-#         resources:
-#           limits:
-#             cpu: 200m
-#             memory: 256Mi
-#           requests:
-#             cpu: 100m
-#             memory: 128Mi
-#         livenessProbe:
-#           httpGet:
-#             path: /health
-#             port: 8080
-#           initialDelaySeconds: 10
-#           periodSeconds: 10
-#         readinessProbe:
-#           httpGet:
-#             path: /health
-#             port: 8080
-#           initialDelaySeconds: 5
-#           periodSeconds: 5
-#       restartPolicy: Always
-
-# Made with Bob
 ---
 # Source: robot-shop/templates/mongodb-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
   namespace: robot-shop
+  name: mongodb
   labels:
+    app: robot-shop
+    version: v1
     service: mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: mongodb
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: mongodb
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: mongodb
-        image: robotshop/rs-mongodb:latest
+        image: quay.io/niklaushirt/rs-mongodb:1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 27017
@@ -634,26 +454,32 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
   namespace: robot-shop
+  name: mysql
   labels:
+    app: robot-shop
+    version: v1
     service: mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: mysql
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: mysql
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: mysql
-        image: robotshop/rs-mysql-db:latest
+        image: quay.io/niklaushirt/rs-mysql-db:1.0
         imagePullPolicy: IfNotPresent
         # added for Istio
         securityContext:
@@ -674,29 +500,35 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment
   namespace: robot-shop
+  name: payment
   labels:
+    app: robot-shop
+    version: v1
     service: payment
     stage: prod
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: payment
       stage: prod
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: payment
         stage: prod
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: payment
-        image: robotshop/rs-payment:latest
+        image: quay.io/niklaushirt/rs-payment:1.0
         imagePullPolicy: IfNotPresent
         # agent networking access
         env:
@@ -719,26 +551,32 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
   namespace: robot-shop
+  name: rabbitmq
   labels:
+    app: robot-shop
+    version: v1
     service: rabbitmq
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: rabbitmq
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: rabbitmq
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: rabbitmq
-        image: rabbitmq:3.7-management-alpine
+        image: quay.io/niklaushirt/rabbitmq:robotshop
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5672
@@ -746,7 +584,7 @@ spec:
         resources:
           limits:
             cpu: 200m
-            memory: 512Mi
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 256Mi
@@ -756,115 +594,152 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ratings
   namespace: robot-shop
+  name: ratings
   labels:
+    app: robot-shop
+    version: v2
     service: ratings
+    stage: prod
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v2
       service: ratings
+      stage: prod
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v2
         service: ratings
+        stage: prod
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: ratings
-        image: robotshop/rs-ratings:latest
+        image: quay.io/niklaushirt/rs-ratings:1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         resources:
           limits:
             cpu: 200m
-            memory: 100Mi
+            memory: 500Mi
           requests:
             cpu: 100m
             memory: 50Mi
-        readinessProbe:
-          httpGet:
-            path: /_health
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: 30
-          successThreshold: 1
+        # readinessProbe:
+        #   httpGet:
+        #     path: /_health
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+        #   failureThreshold: 30
+        #   successThreshold: 1
+        env:
+        - name: PDO_URL
+          value: mysql:host=mysql;dbname=ratings;charset=utf8mb4
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/shipping-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shipping
   namespace: robot-shop
+  name: shipping
   labels:
+    app: robot-shop
+    version: v1
     service: shipping
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: shipping
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: shipping
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: shipping
-        image: robotshop/rs-shipping:latest
+        image: quay.io/niklaushirt/rs-shipping:1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         # it's Java it needs lots of memory
         resources:
           limits:
-            cpu: 200m
-            memory: 1000Mi
+            cpu: 1600m
+            memory: 6000Mi
           requests:
-            cpu: 100m
+            cpu: 1200m
             memory: 500Mi
         readinessProbe:
           httpGet:
             path: /health
             port: 8080
-          initialDelaySeconds: 5
+          initialDelaySeconds: 50
           periodSeconds: 5
-          failureThreshold: 30
+          failureThreshold: 300
           successThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 50
+          timeoutSeconds: 1
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 300
+        env:
+          - name: JAVA_OPTS
+            value: '-Xmx1g'
       restartPolicy: Always
 ---
 # Source: robot-shop/templates/user-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user
   namespace: robot-shop
+  name: user
   labels:
+    app: robot-shop
+    version: v1
     service: user
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: user
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: user
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: user
-        image: robotshop/rs-user:latest
+        image: quay.io/niklaushirt/rs-user:1.0
         imagePullPolicy: IfNotPresent
         env:
           # agent networking access
@@ -872,6 +747,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
+          - name: MONGO_URL
+            value: mongodb://mongodb:27017/users
         ports:
         - containerPort: 8080
         resources:
@@ -887,45 +764,38 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
   namespace: robot-shop
+  name: web
   labels:
+    app: robot-shop
+    version: v1
     service: web
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: web
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: web
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: web
-        #image: quay.io/arthurdm-quay/rs-web:latest
-        image: quay.io/niklaushirt/itom/rs-web:latest
-        imagePullPolicy: Always
+        image: quay.io/niklaushirt/rs-web:white
+        imagePullPolicy: IfNotPresent
         env:
-        - name: CATALOGUE_HOST
-          value: catalogue
-        - name: USER_HOST
-          value: user
-        - name: CART_HOST
-          value: cart
-        - name: SHIPPING_HOST
-          value: shipping
-        - name: PAYMENT_HOST
-          value: payment
-        - name: RATINGS_HOST
-          value: ratings
-        - name: CHECKOUT_RECOMMENDATIONS_HOST
-          value: checkout-recommendations
-        - name: LOAD_GEN_CONTROLLER_HOST
-          value: load-gen-controller
+        - name: INSTANA_EUM_KEY
+          value: xxxxxxxxx
+        - name: INSTANA_EUM_REPORTING_URL
+          value: https://eum-eu-west-1.instana.io        
         ports:
         - containerPort: 8080
         resources:
@@ -941,27 +811,33 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: robot-shop
   labels:
+    app: robot-shop
+    version: v1
     service: redis
   name: redis
-  namespace: robot-shop
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app: robot-shop
+      version: v1
       service: redis
   serviceName: redis
   template:
     metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
       labels:
+        app: robot-shop
+        version: v1
         service: redis
     spec:
       
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
       - name: redis
-        image: redis:4.0.6
+        image: quay.io/niklaushirt/redis:robotshop
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379
@@ -975,145 +851,13 @@ spec:
           requests:
             cpu: 100m
             memory: 50Mi
-      volumes:
-        - name: data
-          emptyDir: {}
       restartPolicy: Always
-
-
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: robot-shop-load-gen
-rules:
-- apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  - pods/log
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: robot-shop-load-gen
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: robot-shop-load-gen
-subjects:
-- kind: ServiceAccount
-  name: robot-shop
-  namespace: robot-shop
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: load
-#   namespace: robot-shop
-#   labels:
-#     service: load
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       service: load
-#   template:
-#     metadata:
-#       labels:
-#         service: load
-#     spec:
-#       containers:
-#       - name: load
-#         env:
-#           - name: HOST
-#             value: "http://web:8080/"
-#           # 🚨 AGGRESSIVE LOAD: Increased clients to trigger OOM within 2 minutes
-#           - name: NUM_CLIENTS
-#             value: "50"
-#           - name: RUN_TIME
-#             value: "2m"
-#           - name: SILENT
-#             value: "0"
-#           - name: ERROR
-#             value: "0"
-#         image: robotshop/rs-load:latest
-#         resources:
-#           limits:
-#             cpu: 200m
-#             memory: 200Mi
-#           requests:
-#             cpu: 100m
-#             memory: 100Mi
-
-
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: load-gen-controller
-  namespace: robot-shop
-  labels:
-    service: load-gen-controller
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      service: load-gen-controller
-  template:
-    metadata:
-      labels:
-        service: load-gen-controller
-    spec:
-      serviceAccountName: robot-shop
-      containers:
-      - name: load-gen-controller
-        image: quay.io/arthurdm-quay/itom/rs-load-gen-controller:latest
-        imagePullPolicy: Always
-        env:
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: LOAD_GEN_IMAGE
-          value: quay.io/arthurdm-quay/itom/rs-load:latest
-        ports:
-        - containerPort: 8080
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        
         resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
           requests:
-            cpu: 100m
-            memory: 128Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
-      restartPolicy: Always
+            storage: 1Gi
