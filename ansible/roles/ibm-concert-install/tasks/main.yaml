@@ -111,32 +111,32 @@
 # INITIALIZATION
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # Placeholder for customization
-- name: (001/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
+- name: (001/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Custom Hook
   include_tasks: 00_init-custom-hook.yaml
 
 # Initialize Logging
-- name: (002/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
+- name: (002/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialize Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/01_init-logging.yaml"
     
-- name: (003/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
+- name: (003/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization Checks
   include_tasks: 02_init-checks.yaml
  
-- name: (004/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
+- name: (004/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Start Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/90-log-start.yaml"
 
 # Run Prerequisites
-- name: (005/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
+- name: (005/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Initialization of the Installation
   include_tasks: 03_init-initialization.yaml
 
 
-- name: (006/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
+- name: (006/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Get Storage Classes
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/05_init-get-storage-class.yaml"
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CONCERT PREREQUISITES
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (007/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
+- name: (007/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Prerequisites 
   include_tasks: 05_concert-prerequisites.yaml
  
 
@@ -144,14 +144,14 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CONCERT RESILIENCE AND PROTECT
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"      
-- name: (009/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
+- name: (009/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert  
   include_tasks: 10_concert-install.yaml
 
  
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # INSTALL CONCERT PLATFORM ITOM
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"      
-# - name: (008/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Platform ITOM
+# - name: (008/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 Install IBM Concert Platform ITOM
 #   include_tasks: 20_concert-platform-install.yaml
 
 
@@ -159,12 +159,12 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # POSTINSTALL TASKS
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
-- name: (010/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
+- name: (010/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  Create Demo UI Openshift WebConsole Additional Menu Item
   include_tasks: 91_addons-concert-create-ocp-tools-menu.yaml
   when: (global_config.create_ocp_items | default(true))|bool == true  
 
 
-- name: (011/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
+- name: (011/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡 End Logging
   include_tasks: "{{role_path}}/../ibm-install-global/tasks/91-log-end.yaml"
 
 
@@ -230,15 +230,92 @@
     export OCP_URL=$(oc get Infrastructure cluster -o jsonpath={.status.apiServerURL})
     export OCP_TOKEN=$(oc create token -n ibm-installer ibm-installer-admin --duration=999999999s)
     #export OCP_TOKEN=$(oc -n openshift-authentication get secret $(oc get secret -n openshift-authentication |grep -m1 oauth-openshift-token|awk '{print$1}') -o jsonpath='{.data.token}'|base64 --decode)
-    echo "            🌏 URL:               $OCP_URL"
-    echo "            🫅 User:              kubeadmin"
-    echo "            🔐 Token:             $OCP_TOKEN"
+    echo "  🌏 URL:         $OCP_URL"
+    echo "  🫅 User:        kubeadmin"
+    echo "  🔐 Token:       $OCP_TOKEN"
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ LOGINS FOR RESILIENCE"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    oc create serviceaccount -n default demo-admin-concert>/dev/null 2>/dev/null
+    oc create clusterrolebinding demo-admin-concert --clusterrole=cluster-admin --serviceaccount=default:demo-admin-concert>/dev/null 2>/dev/null
+    API_TOKEN=$(oc create token -n default demo-admin-concert --duration=999999999s)
+
+    CONSOLE_PATH=$(oc get route -n openshift-console console -o jsonpath={.spec.host})
+    CONSOLE_URL="https://"$CONSOLE_PATH
+    API_URL=${CONSOLE_URL/console-openshift-console.apps/api}:6443
+
+    echo ""
+    echo "  🌏 API URL  :   $API_URL"
+    echo "  🔐 API TOKEN:   $API_TOKEN"
+
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+    echo ""
+
+
+
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+    echo " ✅ CHECK WATSONX CREDENTIALS"
+    echo "------------------------------------------------------------------------------------------------------------------------------"
+
+    API_KEY=TBoOYAo_7XAowaX_U6HO-PZGdcN-X6ixH_Y6PseQwZ9m
+
+    RESPONSE=$(curl -s -X POST \
+    https://iam.cloud.ibm.com/identity/token \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=$API_KEY")
+
+    #echo "$RESPONSE" | jq
+
+    if echo "$RESPONSE" | jq -e '.errorMessage' > /dev/null 2>&1; then
+      echo ""
+      echo "    🔴🔴🔴🔴🔴🔴 WATSONX TOKEN INVALID - Error returned from IAM. You won't be able to access the WatsonX services in Concert platform."
+      echo ""
+      exit 1
+    else
+      echo ""
+      echo "    ✅ Successfully retrieved IAM token. You can access the WatsonX services in Concert platform."
+      echo ""
+    fi
+
+    echo "  ------------------------------------------------------------------------------------------------------------------------------"
+    echo "  🛠️ Available Projects:"
+
+    IAM_TOKEN=$(echo "$RESPONSE" | jq -r .access_token)
+
+
+    curl -s \
+    -H "Authorization: Bearer $IAM_TOKEN" \
+    "https://api.dataplatform.cloud.ibm.com/v2/projects?limit=100" | jq -r '.resources[] | "     - " + .entity.name + " - " + .metadata.guid'
+    
+    echo ""
+    echo ""
+    echo ""
+
+
+
+
+
+
   register: output_string
   ignore_errors: true
   args:
     executable: /bin/bash
 
-- name: (012/011) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
+- name: (012/012) - 🟡🟡🟡🟡🟡🟡🟡🟡🟡  IBM Concert LOGINS
   debug: 
     var: output_string.stdout_lines
     #verbosity: 1
