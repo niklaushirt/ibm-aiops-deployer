@@ -271,7 +271,7 @@
     echo " ✅ CHECK WATSONX CREDENTIALS"
     echo "------------------------------------------------------------------------------------------------------------------------------"
 
-    API_KEY=TBoOYAo_7XAowaX_U6HO-PZGdcN-X6ixH_Y6PseQwZ9m
+    API_KEY={{current_feature.watsonx_token  | default('changeme')}}
 
     RESPONSE=$(curl -s -X POST \
     https://iam.cloud.ibm.com/identity/token \
