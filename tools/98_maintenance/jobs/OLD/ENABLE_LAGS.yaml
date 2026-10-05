@@ -70,7 +70,7 @@ spec:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+          image: quay.io/niklaushirt/ibm-concert-tools:1.0.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -270,8 +270,8 @@ spec:
               echo "***************************************************************************************************************************************************"
               echo "   🛠️   Create Analysis Definiton: Log Anomaly Golden Signals"
               export FILE_NAME=create-analysis-LAGS.graphql
-              export FILE_PATH="./ansible/roles/ibm-aiops-demo-content/templates/training/training-definitions/"
-              ./ansible/roles/ibm-aiops-demo-content/templates/training/scripts/execute-graphql.sh
+              export FILE_PATH="./ansible/roles/ibm-concert-deployer-demo-content/templates/training/training-definitions/"
+              ./ansible/roles/ibm-concert-deployer-demo-content/templates/training/scripts/execute-graphql.sh
 
 
               export GS_DEPLOYMENT=""

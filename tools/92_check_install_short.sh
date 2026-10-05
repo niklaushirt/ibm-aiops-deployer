@@ -501,8 +501,8 @@ EOF
                   echo "      ***************************************************************************************************************************************************"
                   echo "      🛠️   RERUN - MetricAnomaly"
                   export FILE_NAME=run-analysis-METRIC.graphql
-                  export FILE_PATH="/ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/training-definitions/"
-                  /ibm-aiops-deployer/ansible/roles/ibm-aiops-demo-content/templates/training/scripts/execute-graphql.sh
+                  export FILE_PATH="/ibm-aiops-deployer/ansible/roles/ibm-concert-deployer-demo-content/templates/training/training-definitions/"
+                  /ibm-aiops-deployer/ansible/roles/ibm-concert-deployer-demo-content/templates/training/scripts/execute-graphql.sh
 
 
 

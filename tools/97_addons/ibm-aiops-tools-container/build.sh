@@ -20,5 +20,5 @@ export CONT_VERSION=2.0
 docker buildx build --platform linux/amd64 -t quay.io/niklaushirt/ibm-aiops-tools:$CONT_VERSION --load .
 docker push quay.io/niklaushirt/ibm-aiops-tools:$CONT_VERSION
 
-podman tag quay.io/niklaushirt/ibm-aiops-tools:5.1.0 quay.io/niklaushirt/ibm-aiops-tools:5.1.0
-podman push quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+podman tag quay.io/niklaushirt/ibm-concert-tools:1.0.0 quay.io/niklaushirt/ibm-concert-tools:1.0.0
+podman push quay.io/niklaushirt/ibm-concert-tools:1.0.0
