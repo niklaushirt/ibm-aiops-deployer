@@ -3,7 +3,7 @@
 
 # ❗ This Repository has been deprected.
 
-❗ The new one is here: [IBM Concert platform Installer](https://github.com/niklaushirt/ibm-concert-deployer/pull/7)
+❗ The new one is here: [IBM Concert platform Installer](https://github.com/niklaushirt/ibm-concert-deployer)
 
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
 
