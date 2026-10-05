@@ -1,5 +1,9 @@
 <center> <h1>🐣 IBM IT Automation - Demo-in-a-Box</h1> </center>
 
+
+# ❗ This Repository has been deprected.
+# ❗ The new one is here: [IBM Concert platform Installer](https://github.com/niklaushirt/ibm-concert-deployer/pull/7)
+
 ![K8s CNI](./doc/pics/CP4AIOPS_SCREEN.gif)
 
 <center> <h2>Demo Environment Installation 🚀</h2> </center>

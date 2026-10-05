@@ -19,8 +19,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-
-apiVersion: v1                     
+apiVersion: v1
 kind: Namespace
 metadata:
   name: ibm-installer
@@ -63,14 +62,14 @@ metadata:
   name: ibm-aiops-delete-instana
   namespace: ibm-installer
   labels:
-   aiops-type: data-load-job
+    aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+          image: quay.io/niklaushirt/ibm-concert-tools:1.0.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -101,8 +100,8 @@ spec:
               echo ""
               echo ""
 
-              
-              
+
+
               oc scale deployment  -n instana-operator instana-operator --replicas=0
 
               oc delete agents.instana.io -n instana-agent instana-agent
@@ -155,7 +154,7 @@ spec:
               oc delete zookeeperclusters  -n instana-datastores --all  &
 
               oc delete clickhouseinstallations -n instana-datastores --all
-              
+
               oc delete ns instana-datastores &
               oc delete ns instana-agent &
               oc delete ns instana-operator & 
@@ -177,15 +176,14 @@ spec:
                 sleep 1000
               done
 
-
           env:
-          - name: INSTALL_REPO
-            value : "https://github.com/niklaushirt/ibm-aiops-deployer.git"
-          - name: CONFIG
-            #value : "./configs/ibm-aiops-roks-aimanager-all-34.yaml"
-            value : "./configs/xxxx.yaml"
-            # The pull token for cp.icr.com from https://myibm.ibm.com/products-services/containerlibrary
-          - name: ENTITLED_REGISTRY_KEY
-            value : "<REGISTRY_TOKEN>"
+            - name: INSTALL_REPO
+              value: "https://github.com/niklaushirt/ibm-aiops-deployer.git"
+            - name: CONFIG
+              #value : "./configs/ibm-aiops-roks-aimanager-all-34.yaml"
+              value: "./configs/xxxx.yaml"
+              # The pull token for cp.icr.com from https://myibm.ibm.com/products-services/containerlibrary
+            - name: ENTITLED_REGISTRY_KEY
+              value: "<REGISTRY_TOKEN>"
       restartPolicy: Never
   backoffLimit: 500

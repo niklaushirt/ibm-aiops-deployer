@@ -19,8 +19,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-
-apiVersion: v1                     
+apiVersion: v1
 kind: Namespace
 metadata:
   name: ibm-installer
@@ -63,14 +62,14 @@ metadata:
   name: ibm-aiops-install-hack
   namespace: ibm-installer
   labels:
-   aiops-type: data-load-job
+    aiops-type: data-load-job
 spec:
   serviceAccount: ibm-installer-admin
   template:
     spec:
       containers:
         - name: install
-          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+          image: quay.io/niklaushirt/ibm-concert-tools:1.0.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:

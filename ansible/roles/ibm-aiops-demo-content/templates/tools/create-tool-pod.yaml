@@ -19,8 +19,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-
-apiVersion: v1                     
+apiVersion: v1
 kind: Namespace
 metadata:
   name: ibm-installer
@@ -57,7 +56,6 @@ subjects:
     name: default
     namespace: ibm-installer
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -76,7 +74,7 @@ spec:
     spec:
       containers:
         - name: tools
-          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+          image: quay.io/niklaushirt/ibm-concert-tools:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -103,7 +101,7 @@ spec:
               echo "  ⏳ INSTALLATION START TIMESTAMP: $(date)"
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
-    
+
 
               echo "------------------------------------------------------------------------------------------------------------------------------"
               echo " 🚀 Getting Installation source from GitHub"
@@ -138,7 +136,6 @@ spec:
   paused: false
 
 ---
-
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #     ________  __  ___   __________    ___         __                        __  _
@@ -160,7 +157,6 @@ spec:
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 # ---------------------------------------------------------------------------------------------------------------------------------------------------"
 
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -178,13 +174,12 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
-  
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  ibm-aiops-metrics-config
+  name: ibm-aiops-metrics-config
   namespace: ibm-aiops-demo-ui
 data:
   INTERVAL_SECONDS: "10"
@@ -216,7 +211,7 @@ data:
     cfd95b7e-3bc7-4006-a4a8-a73a79c71255,2b109fd5-8184-3866-918d-970007b57835,dSwitch-5-vm-network-port-1,TransactionsPerSecond,TransactionsPerSecond,110,50
     cfd95b7e-3bc7-4006-a4a8-a73a79c71255,c73fb9e0-bdf4-3e65-b4bb-45926325c269,dcwest1-switch023,TransactionsPerSecond,TransactionsPerSecond,120,30
     cfd95b7e-3bc7-4006-a4a8-a73a79c71255,8755be37-a078-3f8d-9d18-5b9a07c34748,dcwest1-switch025,TransactionsPerSecond,TransactionsPerSecond,140,30
-    
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -237,7 +232,7 @@ spec:
       serviceAccount: ibm-aiops-demo-ui-admin
       containers:
         - name: tools
-          image: quay.io/niklaushirt/ibm-aiops-tools:5.1.0
+          image: quay.io/niklaushirt/ibm-concert-tools:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -263,7 +258,7 @@ spec:
               echo "  ⏳ INSTALLATION START TIMESTAMP: $(date)"
               echo ""
               echo "------------------------------------------------------------------------------------------------------------------------------"
-  
+
 
               declare -a MY_RES_IDS=($METRIC_DEFINITION)
 
@@ -371,14 +366,13 @@ spec:
               echo " ✅ INITIALIZATION - WAITING FOREVER"
               echo "*****************************************************************************************************************************"
 
-           
+
               while true
               do
                 sleep 1000
               done
           envFrom:
-          - configMapRef:
-              name:  ibm-aiops-metrics-config
+            - configMapRef:
+                name: ibm-aiops-metrics-config
       imagePullSecrets: []
   paused: false
-

@@ -198,13 +198,13 @@
     STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
 
 
-    # ----- Concert Secure Coder Configuration -----
+    # ----- Concert Secure Coder Configuration (DEPRECATED) -----
 
-    # Set to true to enable Concert buddy deployment
-    ENABLE_BUDDY={{ current_feature.enable_buddy  | default(false) }}
-    # Storage class (required if ENABLE_BUDDY is set to true)- pass the storage class name for Concert
-    FILE_STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
-    INSTALL_SECURECODER={{ current_feature.install_secure_coder | default(false) }}
+    # # Set to true to enable Concert buddy deployment
+    # ENABLE_BUDDY={{ current_feature.enable_buddy  | default(false) }}
+    # # Storage class (required if ENABLE_BUDDY is set to true)- pass the storage class name for Concert
+    # FILE_STORAGE_CLASS_CONCERT={{ STORAGE_CLASS_FILE }}
+    INSTALL_SECURECODER=false
 
 
     # ----- Data Apps Configuration -----
